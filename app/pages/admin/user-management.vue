@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   title: 'User Management',
-  drawerIndex: 0,
+  drawerIndex: 1,
   icon: 'mdi-account-cog-outline',
 })
 </script>

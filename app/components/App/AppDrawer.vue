@@ -18,7 +18,9 @@ const rail = computed(() => !drawerState.value && !mobile.value)
 routes.sort((a, b) => (a.meta?.drawerIndex ?? 99) - (b.meta?.drawerIndex ?? 98))
 
 const { session } = useUserSession()
-
+const home = computed<RouteRecordRaw>(() => ({
+  name: 'home'
+}))
 const userRoles = computed(() => {
   const profile = session.value?.profile
   if (!profile || typeof profile !== 'object') {
@@ -68,7 +70,7 @@ drawerState.value = lgAndUp.value && width.value !== 1280
   >
     <template #prepend>
       <v-list>
-        <v-list-item class="pa-1" @click="router.push('/')">
+        <v-list-item class="pa-1" :to="home">
           <template #prepend>
             <v-icon
               icon="custom:vitify-nuxt"
