@@ -19,7 +19,7 @@ const headers: DataTableHeader[] = [
   { title: 'Nom', key: 'lastName' },
   { title: 'Adresse e-mail', key: 'email' },
   { title: 'Statut', key: 'enabled' },
-  { title: 'Actions', key: 'actions', sortable: false, align: 'end', width: 150 },
+  { title: '', key: 'actions', sortable: false, align: 'end', width: 150 },
 ]
 
 const { data, pending, error, refresh } = await useFetch<User[]>('/api/v1/user')
