@@ -4,7 +4,14 @@ import { useStorage } from '@vueuse/core'
 import { aliases } from 'vuetify/iconsets/mdi'
 import { watch } from 'vue'
 import { createVueI18nAdapter } from 'vuetify/locale/adapters/vue-i18n'
+import type { NuxtApp } from 'nuxt/app'
 import { ar, de, en, es, fr, it, ru, zhHans } from 'vuetify/locale'
+
+type VueI18nInstance = Parameters<typeof createVueI18nAdapter>[0]['i18n']
+
+const resolveVueI18nInstance = (nuxtApp: NuxtApp): VueI18nInstance | undefined =>
+  (nuxtApp as NuxtApp & { _nuxtI18n?: { vueI18n?: VueI18nInstance } })._nuxtI18n
+    ?.vueI18n
 
 const vuetifyLocales: Record<string, Record<string, unknown>> = {
   ar,
@@ -90,9 +97,11 @@ export default defineNuxtPlugin((nuxtApp) => {
       },
     }
 
-    if (i18n) {
+    const vueI18n = resolveVueI18nInstance(nuxtApp)
+
+    if (vueI18n) {
       vuetifyOptions.locale = {
-        adapter: createVueI18nAdapter({ i18n }),
+        adapter: createVueI18nAdapter({ i18n: vueI18n }),
       }
     }
   })
