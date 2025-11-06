@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mergeProps } from 'vue'
+import { mergeProps, ref, watch } from 'vue'
 
 const theme = useTheme()
 const drawer = useState('drawer')
@@ -21,11 +21,36 @@ const isDark = computed({
     theme.change(v ? 'dark' : 'light')
   },
 })
-const { loggedIn, clear, user } = useUserSession()
+const { loggedIn, clear, user, session } = useUserSession()
+const profileCache = useAuthProfileCache()
+const credentialsDialog = ref(false)
+
+const handleLogout = async () => {
+  await clear()
+  profileCache.value = null
+  Notify.success('Déconnexion réussie')
+}
+
+watch(
+  () => session.value?.profile,
+  (profile) => {
+    if (profile) {
+      profileCache.value = profile
+    }
+  },
+  { immediate: true },
+)
+
+watch(loggedIn, (value) => {
+  if (!value) {
+    profileCache.value = null
+  }
+})
 </script>
 
 <template>
   <v-app-bar flat>
+    <AuthCredentialsDialog v-model="credentialsDialog" />
     <v-app-bar-nav-icon @click="drawer = !drawer" />
     <v-breadcrumbs :items="breadcrumbs" />
     <v-spacer />
@@ -71,10 +96,16 @@ const { loggedIn, clear, user } = useUserSession()
           href="/api/auth/github"
         />
         <v-list-item
+          v-if="!loggedIn"
+          title="Connexion"
+          prepend-icon="mdi-lock"
+          @click="credentialsDialog = true"
+        />
+        <v-list-item
           v-else
           title="Logout"
           prepend-icon="mdi-logout"
-          @click="clear"
+          @click="handleLogout"
         />
       </v-list>
     </v-menu>
