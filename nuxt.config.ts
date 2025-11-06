@@ -1,5 +1,8 @@
 import { aliases } from 'vuetify/iconsets/mdi'
 import { defineNuxtConfig } from 'nuxt/config'
+import { fileURLToPath } from 'node:url'
+
+const projectRoot = fileURLToPath(new URL('./', import.meta.url))
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -69,7 +72,17 @@ export default defineNuxtConfig({
     ],
   },
   vite: {
+    resolve: {
+      alias: {
+        i18n: projectRoot,
+      },
+    },
     build: { sourcemap: false },
+  },
+  nitro: {
+    alias: {
+      i18n: projectRoot,
+    },
   },
   i18n: {
     lazy: true,
