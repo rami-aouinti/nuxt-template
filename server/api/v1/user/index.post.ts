@@ -1,5 +1,5 @@
 import type { User, UserPayload } from '~/types/user'
-import { broWorldRequest } from '~/server/utils/broWorldApi'
+import { broWorldRequest } from '~~/server/utils/broWorldApi'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<UserPayload>(event)

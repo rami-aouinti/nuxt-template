@@ -1,6 +1,6 @@
 import { getRouterParam } from 'h3'
 import type { User } from '~/types/user'
-import { broWorldRequest } from '~/server/utils/broWorldApi'
+import { broWorldRequest } from '~~/server/utils/broWorldApi'
 
 export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id')
