@@ -103,12 +103,7 @@ const formatPublishedAt = (publishedAt: string) =>
           </v-alert>
 
           <v-row v-if="pending">
-            <v-col
-              v-for="index in 3"
-              :key="index"
-              cols="12"
-              class="pb-6"
-            >
+            <v-col v-for="index in 3" :key="index" cols="12" class="pb-6">
               <v-skeleton-loader
                 type="heading, paragraph, actions"
                 elevation="2"
@@ -150,7 +145,10 @@ const formatPublishedAt = (publishedAt: string) =>
 
                   <v-card-text>
                     <p class="text-body-1 mb-4">
-                      {{ post.summary || 'Aucun résumé disponible pour cet article.' }}
+                      {{
+                        post.summary ||
+                        'Aucun résumé disponible pour cet article.'
+                      }}
                     </p>
                     <v-divider class="mb-4" />
                     <div class="d-flex flex-wrap align-center">

@@ -37,9 +37,9 @@ export default defineEventHandler(async (event) => {
     if (error instanceof AxiosError) {
       const message =
         (error.response?.data &&
-          typeof error.response.data === 'object' &&
-          'message' in error.response.data &&
-          typeof error.response.data.message === 'string'
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data &&
+        typeof error.response.data.message === 'string'
           ? error.response.data.message
           : null) ||
         error.response?.statusText ||
@@ -55,7 +55,9 @@ export default defineEventHandler(async (event) => {
     throw createError({
       statusCode: 500,
       statusMessage: 'Authentication failed',
-      data: { message: 'Unable to authenticate with the provided credentials.' },
+      data: {
+        message: 'Unable to authenticate with the provided credentials.',
+      },
     })
   }
 })

@@ -16,8 +16,8 @@ const errorMessage = ref('')
 const { fetch } = useUserSession()
 const profileCache = useAuthProfileCache()
 
-const canSubmit = computed(
-  () => Boolean(credentials.username && credentials.password && !loading.value),
+const canSubmit = computed(() =>
+  Boolean(credentials.username && credentials.password && !loading.value),
 )
 
 function resetState() {
@@ -52,12 +52,11 @@ async function submit() {
     if (error instanceof AxiosError) {
       const responseMessage =
         (error.response?.data &&
-          typeof error.response.data === 'object' &&
-          'message' in error.response.data &&
-          typeof error.response.data.message === 'string'
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data &&
+        typeof error.response.data.message === 'string'
           ? error.response.data.message
-          : null) ||
-        error.response?.statusText
+          : null) || error.response?.statusText
 
       errorMessage.value = responseMessage || "Échec de l'authentification"
     } else if (error instanceof Error) {
@@ -83,7 +82,8 @@ function close() {
       <v-card-title class="text-wrap">Connexion par identifiants</v-card-title>
       <v-card-text>
         <p class="text-body-2 text-medium-emphasis mb-4">
-          Saisissez votre nom d'utilisateur et votre mot de passe pour vous connecter.
+          Saisissez votre nom d'utilisateur et votre mot de passe pour vous
+          connecter.
         </p>
         <v-alert
           v-if="errorMessage"

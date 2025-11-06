@@ -8,6 +8,5 @@ definePageMeta({
   <v-container
     fluid
     class="d-flex align-items-center justify-center fill-height"
-  >
-  </v-container>
+  />
 </template>

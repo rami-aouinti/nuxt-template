@@ -40,14 +40,11 @@ async function request<T>(
   } catch (error) {
     if (error instanceof FetchError && error.response) {
       const response = error.response as FetchResponse<T>
-      throw new AxiosError<T>(
-        error.message,
-        {
-          status: response.status,
-          statusText: response.statusText ?? '',
-          data: (response._data as T | undefined) ?? null,
-        },
-      )
+      throw new AxiosError<T>(error.message, {
+        status: response.status,
+        statusText: response.statusText ?? '',
+        data: (response._data as T | undefined) ?? null,
+      })
     }
     throw new AxiosError<T>(
       error instanceof Error ? error.message : 'Request failed',
@@ -58,11 +55,7 @@ async function request<T>(
 type AxiosBody = BodyInit | Record<string, any> | null | undefined
 
 export const axios = {
-  post<T>(
-    url: string,
-    data?: AxiosBody,
-    options: FetchOptions<'json'> = {},
-  ) {
+  post<T>(url: string, data?: AxiosBody, options: FetchOptions<'json'> = {}) {
     return request<T>(url, {
       ...options,
       method: 'POST',
