@@ -1,4 +1,5 @@
 import type { AuthProfile } from '~/types/auth'
+import { persistProfileState } from '~/server/utils/cache/profile'
 
 const textDecoder = new TextDecoder()
 
@@ -136,6 +137,7 @@ export default defineEventHandler(async (event) => {
   }
 
   await setUserSession(event, sessionPayload as any)
+  await persistProfileState(event, updatedProfile)
 
   return updatedProfile
 })

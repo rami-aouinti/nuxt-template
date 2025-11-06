@@ -6,6 +6,11 @@ import { resolve } from 'node:path'
 const projectRoot = fileURLToPath(new URL('./', import.meta.url))
 const localeDirectory = resolve(projectRoot, 'app/i18n/locales')
 
+function toPositiveInteger(value: string | undefined, fallback: number) {
+  const parsed = Number.parseInt(value ?? '', 10)
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
+}
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -126,6 +131,17 @@ export default defineNuxtConfig({
     session: {
       name: 'nuxt-session',
       password: '',
+    },
+    redis: {
+      url: process.env.REDIS_URL || '',
+      profileTtl: toPositiveInteger(process.env.REDIS_PROFILE_TTL, 60 * 60),
+    },
+    profileCookie: {
+      name: process.env.PROFILE_COOKIE_NAME || 'bro_profile',
+      maxAge: toPositiveInteger(
+        process.env.PROFILE_COOKIE_MAX_AGE,
+        60 * 60 * 24 * 30,
+      ),
     },
   },
   compatibilityDate: '2024-08-05',
