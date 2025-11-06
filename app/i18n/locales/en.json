@@ -37,5 +37,8 @@
     "loginSuccess": "Signed in successfully",
     "logoutSuccess": "Signed out successfully",
     "guest": "User"
+  },
+  "$vuetify": {
+    "close": "Close"
   }
 }
