@@ -24,7 +24,17 @@ const headers: DataTableHeader[] = [
 
 const { data, pending, error, refresh } = await useFetch<User[]>('/api/v1/user')
 
+type UserGroup = {
+  id: string
+  name: string
+  description?: string | null
+}
+
+const { data: userGroupsData, refresh: refreshUserGroups } =
+  await useFetch<UserGroup[]>('/api/v1/user_group')
+
 const items = computed<User[]>(() => data.value ?? [])
+const userGroups = computed<UserGroup[]>(() => userGroupsData.value ?? [])
 
 type UserFormState = {
   username: string
@@ -64,6 +74,22 @@ const deleteLoading = ref(false)
 const viewUser = ref<User | null>(null)
 const editingUser = ref<User | null>(null)
 const deletingUser = ref<User | null>(null)
+const userGroupsLoading = ref(false)
+const userGroupsError = ref('')
+const viewUserGroups = ref<UserGroup[]>([])
+const groupActionLoading = ref(false)
+const attachDialog = ref(false)
+const attachError = ref('')
+const attachForm = reactive({ groupId: '' })
+
+const availableGroupsForUser = computed(() => {
+  if (!viewUser.value) {
+    return [] as UserGroup[]
+  }
+
+  const existingIds = new Set(viewUserGroups.value.map((group) => group.id))
+  return userGroups.value.filter((group) => !existingIds.has(group.id))
+})
 
 const canSubmit = computed(() => {
   const hasBasics =
@@ -267,6 +293,7 @@ function openView(user: User) {
   viewError.value = ''
   viewUser.value = { ...user }
   loadUserDetails(user.id)
+  loadUserGroups(user.id)
 }
 
 async function loadUserDetails(id: string) {
@@ -284,12 +311,100 @@ async function loadUserDetails(id: string) {
   }
 }
 
+async function loadUserGroups(id: string) {
+  userGroupsLoading.value = true
+  userGroupsError.value = ''
+  try {
+    viewUserGroups.value = await $fetch<UserGroup[]>(
+      `/api/v1/user/${id}/groups`,
+    )
+  } catch (error) {
+    userGroupsError.value = extractRequestError(
+      error,
+      "Impossible de récupérer les groupes de l'utilisateur.",
+    )
+    Notify.error(userGroupsError.value)
+  } finally {
+    userGroupsLoading.value = false
+  }
+}
+
 function closeView() {
   if (viewLoading.value) {
     return
   }
 
   viewDialog.value = false
+}
+
+function openAttachDialog() {
+  attachForm.groupId = ''
+  attachError.value = ''
+  attachDialog.value = true
+}
+
+function closeAttachDialog() {
+  if (groupActionLoading.value) {
+    return
+  }
+
+  attachDialog.value = false
+}
+
+async function submitAttach() {
+  if (!viewUser.value || !attachForm.groupId) {
+    attachError.value = 'Sélectionnez un groupe pour associer cet utilisateur.'
+    Notify.error(attachError.value)
+    return
+  }
+
+  groupActionLoading.value = true
+  attachError.value = ''
+  try {
+    await $fetch(
+      `/api/v1/user/${viewUser.value.id}/group/${attachForm.groupId}`,
+      {
+        method: 'POST',
+      },
+    )
+    Notify.success('Groupe associé à l’utilisateur avec succès')
+    attachDialog.value = false
+    await Promise.all([loadUserGroups(viewUser.value.id), refreshUserGroups()])
+  } catch (error) {
+    attachError.value = extractRequestError(
+      error,
+      "Impossible d'associer ce groupe à l'utilisateur.",
+    )
+    Notify.error(attachError.value)
+  } finally {
+    groupActionLoading.value = false
+  }
+}
+
+async function detachGroup(groupId: string) {
+  if (!viewUser.value) {
+    return
+  }
+
+  groupActionLoading.value = true
+  try {
+    await $fetch(
+      `/api/v1/user/${viewUser.value.id}/group/${groupId}`,
+      {
+        method: 'DELETE',
+      },
+    )
+    Notify.success('Groupe dissocié de l’utilisateur')
+    await Promise.all([loadUserGroups(viewUser.value.id), refreshUserGroups()])
+  } catch (error) {
+    const message = extractRequestError(
+      error,
+      "Impossible de dissocier ce groupe de l'utilisateur.",
+    )
+    Notify.error(message)
+  } finally {
+    groupActionLoading.value = false
+  }
 }
 
 function openDelete(user: User) {
@@ -359,6 +474,21 @@ watch(viewDialog, (value) => {
     viewLoading.value = false
     viewError.value = ''
     viewUser.value = null
+    userGroupsLoading.value = false
+    userGroupsError.value = ''
+    viewUserGroups.value = []
+    groupActionLoading.value = false
+    attachDialog.value = false
+    attachError.value = ''
+    attachForm.groupId = ''
+  }
+})
+
+watch(attachDialog, (value) => {
+  if (!value) {
+    groupActionLoading.value = false
+    attachError.value = ''
+    attachForm.groupId = ''
   }
 })
 </script>
@@ -784,6 +914,58 @@ watch(viewDialog, (value) => {
                   {{ viewUser.enabled ? 'Actif' : 'Inactif' }}
                 </v-chip>
               </div>
+              <div>
+                <div
+                  class="d-flex align-center justify-space-between mb-2"
+                  style="gap: 12px"
+                >
+                  <span class="text-caption text-medium-emphasis">Groupes</span>
+                  <v-btn
+                    size="small"
+                    color="primary"
+                    variant="tonal"
+                    prepend-icon="mdi-account-group"
+                    :disabled="groupActionLoading"
+                    @click="openAttachDialog"
+                  >
+                    Associer un groupe
+                  </v-btn>
+                </div>
+                <v-progress-linear
+                  v-if="userGroupsLoading"
+                  color="primary"
+                  indeterminate
+                  class="mb-2"
+                />
+                <v-alert
+                  v-else-if="userGroupsError"
+                  type="error"
+                  variant="tonal"
+                  class="mb-2"
+                >
+                  {{ userGroupsError }}
+                </v-alert>
+                <div
+                  v-else-if="viewUserGroups.length > 0"
+                  class="d-flex flex-wrap"
+                  style="gap: 8px"
+                >
+                  <v-chip
+                    v-for="group in viewUserGroups"
+                    :key="group.id"
+                    color="primary"
+                    variant="tonal"
+                    closable
+                    :disabled="groupActionLoading"
+                    @click:close="detachGroup(group.id)"
+                  >
+                    {{ group.name }}
+                  </v-chip>
+                </div>
+                <div v-else class="text-body-2 text-medium-emphasis">
+                  Aucun groupe associé.
+                </div>
+              </div>
             </div>
           </template>
           <div v-else-if="!viewLoading" class="text-body-2 text-medium-emphasis">
@@ -794,6 +976,48 @@ watch(viewDialog, (value) => {
           <v-spacer />
           <v-btn variant="text" :disabled="viewLoading" @click="closeView">
             Fermer
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="attachDialog" max-width="480">
+      <v-card>
+        <v-card-title>Associer un groupe</v-card-title>
+        <v-card-text>
+          <v-alert
+            v-if="attachError"
+            type="error"
+            variant="tonal"
+            class="mb-4"
+          >
+            {{ attachError }}
+          </v-alert>
+          <v-select
+            v-model="attachForm.groupId"
+            :items="availableGroupsForUser"
+            item-title="name"
+            item-value="id"
+            label="Groupe"
+            :disabled="groupActionLoading || userGroupsLoading"
+            :loading="userGroupsLoading"
+            density="comfortable"
+            placeholder="Sélectionnez un groupe"
+            clearable
+          />
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn variant="text" :disabled="groupActionLoading" @click="closeAttachDialog">
+            Annuler
+          </v-btn>
+          <v-btn
+            color="primary"
+            :disabled="groupActionLoading || !attachForm.groupId"
+            :loading="groupActionLoading"
+            @click="submitAttach"
+          >
+            Associer
           </v-btn>
         </v-card-actions>
       </v-card>
