@@ -32,7 +32,38 @@ const profileCache = useAuthProfileCache()
 const credentialsDialog = ref(false)
 const controlChevronSize = 18
 
-type LanguageItem = LocaleObject & { to: string };
+type LanguageItem = LocaleObject & { to: string; flag?: string };
+
+const toFlagEmoji = (code?: string) => {
+  if (!code || !/^[A-Z]{2}$/.test(code)) {
+    return undefined
+  }
+
+  return Array.from(code).reduce((emoji, char) => {
+    const base = 0x1f1e6
+    const offset = char.charCodeAt(0) - 65
+    return `${emoji}${String.fromCodePoint(base + offset)}`
+  }, '')
+}
+
+const extractFlagCode = (language: LocaleObject) => {
+  const iconCountry = language.icon?.split(' ').pop()
+  if (iconCountry && /^[a-zA-Z]{2}$/.test(iconCountry)) {
+    return iconCountry.toUpperCase()
+  }
+
+  const isoCountry = language.iso?.split('-').pop()
+  if (isoCountry && /^[a-zA-Z]{2}$/.test(isoCountry)) {
+    return isoCountry.toUpperCase()
+  }
+
+  const codeCountry = language.code.split('-').pop()
+  if (codeCountry && /^[a-zA-Z]{2}$/.test(codeCountry)) {
+    return codeCountry.toUpperCase()
+  }
+
+  return undefined
+}
 
 const languageItems = computed<LanguageItem[]>(() => {
   const availableLocales = (locales.value ?? []) as LocaleObject[];
@@ -40,6 +71,7 @@ const languageItems = computed<LanguageItem[]>(() => {
   return availableLocales.map((language) => ({
     ...language,
     to: switchLocalePath(language.code) ?? localePath('/'),
+    flag: toFlagEmoji(extractFlagCode(language)),
   }));
 });
 
@@ -141,23 +173,20 @@ watch(loggedIn, (value) => {
           type="button"
           v-bind="props"
         >
-                <span
-                  v-if="currentLanguage?.icon"
-                  class="dock-navbar__language-flag"
-                  aria-hidden="true"
-                >
-                  <span
-                    class="fi"
-                    :class="currentLanguage.icon"
-                  />
-                </span>
+          <span
+            v-if="currentLanguage?.flag"
+            class="dock-navbar__language-flag"
+            aria-hidden="true"
+          >
+            {{ currentLanguage.flag }}
+          </span>
           <span
             v-else
             class="dock-navbar__language-code"
             aria-hidden="true"
           >
-                  {{ currentLanguage?.code?.toUpperCase() }}
-                </span>
+            {{ currentLanguage?.code?.toUpperCase() }}
+          </span>
           <v-icon
             icon="mdi-menu-down"
             :size="controlChevronSize"
@@ -178,8 +207,8 @@ watch(loggedIn, (value) => {
           tag="li"
           class="dock-navbar__language-list-item"
           :class="{
-                  'dock-navbar__language-list-item--active': language.code === locale,
-                }"
+            'dock-navbar__language-list-item--active': language.code === locale,
+          }"
         >
           <NuxtLink
             :to="language.to"
@@ -187,6 +216,13 @@ watch(loggedIn, (value) => {
           >
             <div class="dock-navbar__language-item">
               <div class="dock-navbar__language-info">
+                <span
+                  v-if="language.flag"
+                  class="dock-navbar__language-flag dock-navbar__language-flag--item"
+                  aria-hidden="true"
+                >
+                  {{ language.flag }}
+                </span>
                 <span class="dock-navbar__language-name">{{ language.name }}</span>
               </div>
               <v-icon
@@ -202,3 +238,42 @@ watch(loggedIn, (value) => {
     </v-menu>
   </v-app-bar>
 </template>
+
+<style scoped>
+.dock-navbar__language-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+}
+
+.dock-navbar__language-flag {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.dock-navbar__language-flag--item {
+  margin-right: 0.5rem;
+  font-size: 1rem;
+}
+
+.dock-navbar__language-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dock-navbar__language-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dock-navbar__language-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+</style>
