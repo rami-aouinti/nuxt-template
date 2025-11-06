@@ -18,9 +18,6 @@ const headers: DataTableHeader[] = [
   { title: 'Prénom', key: 'firstName' },
   { title: 'Nom', key: 'lastName' },
   { title: 'Adresse e-mail', key: 'email' },
-  { title: 'Langue', key: 'language' },
-  { title: 'Locale', key: 'locale' },
-  { title: 'Fuseau horaire', key: 'timezone' },
   { title: 'Statut', key: 'enabled' },
   { title: 'Actions', key: 'actions', sortable: false, align: 'end', width: 150 },
 ]
@@ -157,8 +154,8 @@ function buildPayload(): UserPayload {
   }
 
   const optionalFields: Array<
-    'firstName' | 'lastName' | 'language' | 'locale' | 'timezone'
-  > = ['firstName', 'lastName', 'language', 'locale', 'timezone']
+    'firstName' | 'lastName'
+  > = ['firstName', 'lastName']
 
   for (const field of optionalFields) {
     const value = form[field].trim()
