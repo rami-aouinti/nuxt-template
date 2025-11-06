@@ -32,6 +32,7 @@ const computedSubtitle = computed(
     :persistent="props.persistent"
     :scrim="props.scrim"
     class="app-loader"
+    location="center"
   >
     <div class="app-loader__container">
       <div class="app-loader__icon">
@@ -53,6 +54,13 @@ const computedSubtitle = computed(
 <style scoped>
 .app-loader :deep(.v-overlay__scrim) {
   backdrop-filter: blur(6px);
+}
+
+.app-loader :deep(.v-overlay__content) {
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .app-loader__container {
