@@ -288,7 +288,12 @@ async function submitEdit() {
   }
 }
 
-function openView(user: User) {
+function openView(user?: User | null) {
+  if (!user || !user.id) {
+    Notify.error("Impossible d'ouvrir les détails de cet utilisateur.")
+    return
+  }
+
   viewDialog.value = true
   viewError.value = ''
   viewUser.value = { ...user }
