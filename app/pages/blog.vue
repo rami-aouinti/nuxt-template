@@ -27,6 +27,7 @@ interface BlogPost {
   reactions_count?: number
   totalComments?: number
   user: BlogPostUser
+  url?: string | null
 }
 
 interface BlogPostResponse {
