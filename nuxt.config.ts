@@ -1,8 +1,10 @@
 import { aliases } from 'vuetify/iconsets/mdi'
 import { defineNuxtConfig } from 'nuxt/config'
 import { fileURLToPath } from 'node:url'
+import { resolve } from 'node:path'
 
 const projectRoot = fileURLToPath(new URL('./', import.meta.url))
+const localeDirectory = resolve(projectRoot, 'app/i18n/locales')
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -86,7 +88,7 @@ export default defineNuxtConfig({
   },
   i18n: {
     lazy: true,
-    langDir: "app/i18n/locales/",
+    langDir: localeDirectory,
     defaultLocale: "en",
     strategy: "prefix_except_default",
     detectBrowserLanguage: {
