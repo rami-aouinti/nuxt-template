@@ -73,7 +73,7 @@ export default defineNuxtConfig({
   },
   i18n: {
     lazy: true,
-    langDir: "locales/",
+    langDir: "app/i18n/locales/",
     defaultLocale: "en",
     strategy: "prefix_except_default",
     detectBrowserLanguage: {
@@ -90,11 +90,18 @@ export default defineNuxtConfig({
       { code: "it", name: "Italian", iso: "it-IT", icon: "fi-it it", file: "it.json" },
       { code: "es", name: "Spanish", iso: "es-ES", icon: "fi-es es", file: "es.json" },
       { code: "ru", name: "Russian", iso: "ru-RU", icon: "fi-ru ru", file: "ru.json" },
+      {
+        code: "zh-cn",
+        name: "简体中文",
+        iso: "zh-CN",
+        icon: "fi-cn cn",
+        file: "zh-cn.json",
+      },
     ],
     bundle: {
       optimizeTranslationDirective: false,
     },
-    vueI18n: "./i18n/i18n.config.ts",
+    vueI18n: "./app/i18n/i18n.config.ts",
   },
   runtimeConfig: {
     github: {

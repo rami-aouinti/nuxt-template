@@ -1,0 +1,41 @@
+{
+  "app": {
+    "title": "Vitify Admin",
+    "description": "基于 Vuetify 3 和 Nuxt 3 的后台模板",
+    "brand": {
+      "name": "Bro World",
+      "highlight": "World"
+    },
+    "footer": {
+      "copyright": "© {year} Bro World",
+      "craftedBy": "Bro World"
+    },
+    "loader": {
+      "title": "加载中",
+      "subtitle": "请稍候…"
+    }
+  },
+  "navigation": {
+    "home": "首页",
+    "admin": "管理",
+    "dashboard": "仪表盘",
+    "userManagement": "用户管理",
+    "users": "用户",
+    "roles": "角色",
+    "userGroups": "用户组",
+    "apiKeys": "API 密钥",
+    "profile": "个人资料",
+    "blog": "博客",
+    "language": "切换语言"
+  },
+  "auth": {
+    "profile": "个人资料",
+    "login": "登录",
+    "loginWithGithub": "使用 GitHub 登录",
+    "loginWithCredentials": "使用账号登录",
+    "logout": "退出登录",
+    "loginSuccess": "登录成功",
+    "logoutSuccess": "退出成功",
+    "guest": "访客"
+  }
+}

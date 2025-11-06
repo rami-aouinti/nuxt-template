@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
 const props = withDefaults(
   defineProps<{
     modelValue?: boolean
@@ -9,11 +11,18 @@ const props = withDefaults(
   }>(),
   {
     modelValue: false,
-    title: 'Chargement en cours',
-    subtitle: 'Merci de patienter un instant…',
+    title: '',
+    subtitle: '',
     persistent: true,
     scrim: 'rgba(16, 16, 29, 0.78)',
   },
+)
+
+const { t } = useI18n()
+
+const computedTitle = computed(() => props.title || t('app.loader.title'))
+const computedSubtitle = computed(
+  () => props.subtitle || t('app.loader.subtitle'),
 )
 </script>
 
@@ -30,10 +39,10 @@ const props = withDefaults(
       </div>
       <div class="app-loader__content text-center">
         <h2 class="text-h5 font-weight-medium mb-1">
-          {{ props.title }}
+          {{ computedTitle }}
         </h2>
         <p class="text-body-2 text-medium-emphasis mb-4">
-          {{ props.subtitle }}
+          {{ computedSubtitle }}
         </p>
         <slot />
       </div>

@@ -1,15 +1,20 @@
 <script setup lang="ts">
-import { mergeProps, ref, watch } from 'vue'
+import { mergeProps, ref, watch, computed } from 'vue'
 import { useTheme } from 'vuetify'
+import type { LocaleObject } from '#i18n'
+import { Notify } from '~/stores/notification'
 
 const theme = useTheme()
 const drawer = useState('drawer')
 const route = useRoute()
+const { t, locale, locales } = useI18n()
+const localePath = useLocalePath()
+const switchLocalePath = useSwitchLocalePath()
 const breadcrumbs = computed(() => {
   return route!.matched
     .filter((item) => item.meta && item.meta.title)
     .map((r) => ({
-      title: r.meta.title!,
+      title: t(String(r.meta.title!)),
       disabled: r.path === route.path || false,
       to: r.path,
     }))
@@ -25,6 +30,7 @@ const isDark = computed({
 const { loggedIn, clear, user, session } = useUserSession()
 const profileCache = useAuthProfileCache()
 const credentialsDialog = ref(false)
+const controlChevronSize = 18
 
 type LanguageItem = LocaleObject & { to: string };
 
@@ -33,7 +39,7 @@ const languageItems = computed<LanguageItem[]>(() => {
 
   return availableLocales.map((language) => ({
     ...language,
-    to: switchLocalePath(language.code) ?? localePath("/"),
+    to: switchLocalePath(language.code) ?? localePath('/'),
   }));
 });
 
@@ -46,7 +52,7 @@ const hasLanguageMenu = computed(() => languageItems.value.length > 0);
 const handleLogout = async () => {
   await clear()
   profileCache.value = null
-  Notify.success('Déconnexion réussie')
+  Notify.success(t('auth.logoutSuccess'))
 }
 
 watch(
@@ -94,34 +100,34 @@ watch(loggedIn, (value) => {
               </v-avatar>
             </v-btn>
           </template>
-          <span>{{ loggedIn ? user!.login : 'User' }}</span>
+          <span>{{ loggedIn ? user!.login : t('auth.guest') }}</span>
         </v-tooltip>
       </template>
       <v-list>
-        <v-list-item
-          v-if="loggedIn"
-          title="Profile"
-          prepend-icon="mdi-face"
-          to="/profile"
-        />
-        <v-list-item
-          v-if="!loggedIn"
-          title="Login"
-          prepend-icon="mdi-github"
-          href="/api/auth/github"
-        />
-        <v-list-item
-          v-if="!loggedIn"
-          title="Connexion"
-          prepend-icon="mdi-lock"
-          @click="credentialsDialog = true"
-        />
-        <v-list-item
-          v-else
-          title="Logout"
-          prepend-icon="mdi-logout"
-          @click="handleLogout"
-        />
+          <v-list-item
+            v-if="loggedIn"
+            :title="t('auth.profile')"
+            prepend-icon="mdi-face"
+            to="/profile"
+          />
+          <v-list-item
+            v-if="!loggedIn"
+            :title="t('auth.loginWithGithub')"
+            prepend-icon="mdi-github"
+            href="/api/auth/github"
+          />
+          <v-list-item
+            v-if="!loggedIn"
+            :title="t('auth.loginWithCredentials')"
+            prepend-icon="mdi-lock"
+            @click="credentialsDialog = true"
+          />
+          <v-list-item
+            v-else
+            :title="t('auth.logout')"
+            prepend-icon="mdi-logout"
+            @click="handleLogout"
+          />
       </v-list>
     </v-menu>
     <v-menu
