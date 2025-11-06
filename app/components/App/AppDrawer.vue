@@ -20,9 +20,8 @@ const rail = computed(() => !drawerState.value && !mobile.value)
 routes.sort((a, b) => (a.meta?.drawerIndex ?? 99) - (b.meta?.drawerIndex ?? 98))
 
 const { session } = useUserSession()
-const home = computed<RouteRecordRaw>(() => ({
-  name: 'home'
-}))
+const localePath = useLocalePath()
+const home = computed(() => localePath('home') ?? '/')
 const userRoles = computed(() => {
   const profile = session.value?.profile
   if (!profile || typeof profile !== 'object') {

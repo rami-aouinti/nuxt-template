@@ -2,7 +2,11 @@
   <div />
 </template>
 <script setup lang="ts">
-definePageMeta({
-  redirect: 'home',
-})
+const localePath = useLocalePath()
+
+const redirectTarget = localePath('home')
+
+if (redirectTarget) {
+  await navigateTo(redirectTarget)
+}
 </script>
