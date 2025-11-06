@@ -30,6 +30,7 @@ useSeoMeta({
     <v-main>
       <NuxtPage />
     </v-main>
+    <AppRouteLoader />
     <AppFooter />
   </v-app>
 </template>
