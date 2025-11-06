@@ -1,10 +1,27 @@
 import { aliases } from 'vuetify/iconsets/mdi'
 import { defineNuxtConfig } from 'nuxt/config'
+import { createHash } from 'node:crypto'
 import { fileURLToPath } from 'node:url'
 import { resolve } from 'node:path'
 
 const projectRoot = fileURLToPath(new URL('./', import.meta.url))
 const localeDirectory = resolve(projectRoot, 'app/i18n/locales')
+
+function resolveSessionPassword() {
+  const rawPassword =
+    process.env.NUXT_SESSION_PASSWORD ||
+    process.env.SESSION_PASSWORD ||
+    process.env.SESSION_SECRET ||
+    ''
+
+  if (!rawPassword) {
+    return 'nuxt-template-development-session-secret-change-me'
+  }
+
+  return rawPassword.length >= 32
+    ? rawPassword
+    : createHash('sha256').update(rawPassword).digest('hex')
+}
 
 function toPositiveInteger(value: string | undefined, fallback: number) {
   const parsed = Number.parseInt(value ?? '', 10)
@@ -130,7 +147,7 @@ export default defineNuxtConfig({
     },
     session: {
       name: 'nuxt-session',
-      password: '',
+      password: resolveSessionPassword(),
     },
     redis: {
       url: process.env.REDIS_URL || '',
