@@ -2,7 +2,7 @@
 import type { DataTableHeader } from 'vuetify'
 
 definePageMeta({
-  title: 'Roles',
+  title: 'navigation.roles',
   icon: 'mdi-shield-key-outline',
   drawerIndex: 3,
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],

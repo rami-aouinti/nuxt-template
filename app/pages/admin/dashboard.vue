@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   icon: 'mdi-monitor-dashboard',
-  title: 'Dashboard',
+  title: 'navigation.dashboard',
   drawerIndex: 0,
 })
 const stats = ref([

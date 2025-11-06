@@ -1,0 +1,41 @@
+{
+  "app": {
+    "title": "Vitify Admin",
+    "description": "Vuetify 3 + Nuxt 3, modèle d'administration opinioné",
+    "brand": {
+      "name": "Bro World",
+      "highlight": "World"
+    },
+    "footer": {
+      "copyright": "© {year} Bro World",
+      "craftedBy": "Bro World"
+    },
+    "loader": {
+      "title": "Chargement",
+      "subtitle": "Merci de patienter un instant…"
+    }
+  },
+  "navigation": {
+    "home": "Accueil",
+    "admin": "Administration",
+    "dashboard": "Tableau de bord",
+    "userManagement": "Gestion des utilisateurs",
+    "users": "Utilisateurs",
+    "roles": "Rôles",
+    "userGroups": "Groupes d'utilisateurs",
+    "apiKeys": "Clés API",
+    "profile": "Profil",
+    "blog": "Blog",
+    "language": "Changer de langue"
+  },
+  "auth": {
+    "profile": "Profil",
+    "login": "Connexion",
+    "loginWithGithub": "Se connecter avec GitHub",
+    "loginWithCredentials": "Se connecter avec ses identifiants",
+    "logout": "Déconnexion",
+    "loginSuccess": "Connexion réussie",
+    "logoutSuccess": "Déconnexion réussie",
+    "guest": "Utilisateur"
+  }
+}

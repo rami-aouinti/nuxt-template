@@ -5,7 +5,7 @@ import type { AuthProfile } from '~/types/auth'
 import { Notify } from '~/stores/notification'
 
 definePageMeta({
-  title: 'Profile',
+  title: 'navigation.profile',
   middleware: 'auth',
 })
 

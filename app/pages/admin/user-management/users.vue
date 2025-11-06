@@ -5,7 +5,7 @@ import type { User, UserPayload } from '~/types/user'
 import { Notify } from '~/stores/notification'
 
 definePageMeta({
-  title: 'Users',
+  title: 'navigation.users',
   icon: 'mdi-account-multiple-outline',
   drawerIndex: 1,
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],

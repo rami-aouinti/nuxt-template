@@ -1,0 +1,41 @@
+{
+  "app": {
+    "title": "Vitify Admin",
+    "description": "قالب إدارة متكامل بـ Vuetify 3 و Nuxt 3",
+    "brand": {
+      "name": "عالم برو",
+      "highlight": "برو"
+    },
+    "footer": {
+      "copyright": "© {year} عالم برو",
+      "craftedBy": "عالم برو"
+    },
+    "loader": {
+      "title": "جارٍ التحميل",
+      "subtitle": "يرجى الانتظار للحظات…"
+    }
+  },
+  "navigation": {
+    "home": "الرئيسية",
+    "admin": "الإدارة",
+    "dashboard": "لوحة التحكم",
+    "userManagement": "إدارة المستخدمين",
+    "users": "المستخدمون",
+    "roles": "الأدوار",
+    "userGroups": "مجموعات المستخدمين",
+    "apiKeys": "مفاتيح API",
+    "profile": "الملف الشخصي",
+    "blog": "المدونة",
+    "language": "تغيير اللغة"
+  },
+  "auth": {
+    "profile": "الملف الشخصي",
+    "login": "تسجيل الدخول",
+    "loginWithGithub": "تسجيل الدخول عبر GitHub",
+    "loginWithCredentials": "تسجيل الدخول بالبيانات",
+    "logout": "تسجيل الخروج",
+    "loginSuccess": "تم تسجيل الدخول بنجاح",
+    "logoutSuccess": "تم تسجيل الخروج بنجاح",
+    "guest": "مستخدم"
+  }
+}

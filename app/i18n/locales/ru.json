@@ -1,0 +1,41 @@
+{
+  "app": {
+    "title": "Vitify Admin",
+    "description": "Vuetify 3 + Nuxt 3, продвинутая админ-шаблон",
+    "brand": {
+      "name": "Bro World",
+      "highlight": "World"
+    },
+    "footer": {
+      "copyright": "© {year} Bro World",
+      "craftedBy": "Bro World"
+    },
+    "loader": {
+      "title": "Загрузка",
+      "subtitle": "Пожалуйста, подождите…"
+    }
+  },
+  "navigation": {
+    "home": "Главная",
+    "admin": "Администрирование",
+    "dashboard": "Панель",
+    "userManagement": "Управление пользователями",
+    "users": "Пользователи",
+    "roles": "Роли",
+    "userGroups": "Группы пользователей",
+    "apiKeys": "API-ключи",
+    "profile": "Профиль",
+    "blog": "Блог",
+    "language": "Сменить язык"
+  },
+  "auth": {
+    "profile": "Профиль",
+    "login": "Войти",
+    "loginWithGithub": "Войти через GitHub",
+    "loginWithCredentials": "Войти по учетным данным",
+    "logout": "Выйти",
+    "loginSuccess": "Вход выполнен успешно",
+    "logoutSuccess": "Вы вышли из системы",
+    "guest": "Пользователь"
+  }
+}

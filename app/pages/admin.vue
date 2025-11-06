@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  title: 'Administration',
+  title: 'navigation.admin',
   icon: 'mdi-shield-account',
   drawerIndex: 6,
   middleware: 'admin',
