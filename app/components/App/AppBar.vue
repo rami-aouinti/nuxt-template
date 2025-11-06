@@ -26,6 +26,23 @@ const { loggedIn, clear, user, session } = useUserSession()
 const profileCache = useAuthProfileCache()
 const credentialsDialog = ref(false)
 
+type LanguageItem = LocaleObject & { to: string };
+
+const languageItems = computed<LanguageItem[]>(() => {
+  const availableLocales = (locales.value ?? []) as LocaleObject[];
+
+  return availableLocales.map((language) => ({
+    ...language,
+    to: switchLocalePath(language.code) ?? localePath("/"),
+  }));
+});
+
+const currentLanguage = computed(() =>
+  languageItems.value.find((language) => language.code === locale.value),
+);
+
+const hasLanguageMenu = computed(() => languageItems.value.length > 0);
+
 const handleLogout = async () => {
   await clear()
   profileCache.value = null
@@ -105,6 +122,76 @@ watch(loggedIn, (value) => {
           prepend-icon="mdi-logout"
           @click="handleLogout"
         />
+      </v-list>
+    </v-menu>
+    <v-menu
+      v-if="hasLanguageMenu"
+      transition="fade-transition"
+      :offset="[0, 12]"
+    >
+      <template #activator="{ props }">
+        <button
+          class="dock-navbar__language-button"
+          type="button"
+          v-bind="props"
+        >
+                <span
+                  v-if="currentLanguage?.icon"
+                  class="dock-navbar__language-flag"
+                  aria-hidden="true"
+                >
+                  <span
+                    class="fi"
+                    :class="currentLanguage.icon"
+                  />
+                </span>
+          <span
+            v-else
+            class="dock-navbar__language-code"
+            aria-hidden="true"
+          >
+                  {{ currentLanguage?.code?.toUpperCase() }}
+                </span>
+          <v-icon
+            icon="mdi-menu-down"
+            :size="controlChevronSize"
+            class="dock-navbar__language-icon"
+          />
+          <span class="sr-only">{{ t("navigation.language") }}</span>
+        </button>
+      </template>
+
+      <v-list
+        class="dock-navbar__language-list"
+        density="compact"
+        tag="ul"
+      >
+        <v-list-item
+          v-for="language in languageItems"
+          :key="language.code"
+          tag="li"
+          class="dock-navbar__language-list-item"
+          :class="{
+                  'dock-navbar__language-list-item--active': language.code === locale,
+                }"
+        >
+          <NuxtLink
+            :to="language.to"
+            class="dock-navbar__language-link"
+          >
+            <div class="dock-navbar__language-item">
+              <div class="dock-navbar__language-info">
+                <span class="dock-navbar__language-name">{{ language.name }}</span>
+              </div>
+              <v-icon
+                v-if="language.code === locale"
+                icon="mdi-check"
+                :size="controlChevronSize"
+                class="dock-navbar__language-check"
+              />
+            </div>
+          </NuxtLink>
+        </v-list-item>
       </v-list>
     </v-menu>
   </v-app-bar>
