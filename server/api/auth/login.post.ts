@@ -30,7 +30,20 @@ export default defineEventHandler(async (event) => {
           'https://bro-world-space.com/img/person.png',
       },
       token: data.token,
-      profile: data.profile,
+      profile:  {
+        username: data.profile.username,
+        firstName: data.profile.firstName,
+        lastName: data.profile.lastName,
+        email: data.profile.email,
+        enabled: data.profile.enabled,
+        roles: data.profile.roles,
+        title: data.profile.profile.title,
+        phone: data.profile.profile.phone,
+        birthday: data.profile.profile.birthday,
+        gender: data.profile.profile.gender,
+        description: data.profile.profile.description,
+        address: data.profile.profile.address
+      },
     })
 
     await persistProfileState(event, data.profile)

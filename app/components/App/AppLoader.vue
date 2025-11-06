@@ -63,7 +63,7 @@ const computedSubtitle = computed(
   gap: 18px;
   padding: 32px 40px;
   border-radius: 24px;
-  background: linear-gradient(135deg, rgba(48, 63, 159, 0.9), rgba(25, 118, 210, 0.85));
+  background: var(--v-theme-primary);
   box-shadow: 0 24px 48px rgba(7, 14, 34, 0.45);
   min-width: min(90vw, 360px);
   color: white;
