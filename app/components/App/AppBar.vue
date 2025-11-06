@@ -187,12 +187,6 @@ watch(loggedIn, (value) => {
           >
             {{ currentLanguage?.code?.toUpperCase() }}
           </span>
-          <v-icon
-            icon="mdi-menu-down"
-            :size="controlChevronSize"
-            class="dock-navbar__language-icon"
-          />
-          <span class="sr-only">{{ t("navigation.language") }}</span>
         </button>
       </template>
 

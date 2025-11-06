@@ -30,6 +30,11 @@ type UserGroup = {
   description?: string | null
 }
 
+type Group = {
+  id: string
+  name: string
+}
+
 const { data: userGroupsData, refresh: refreshUserGroups } =
   await useFetch<UserGroup[]>('/api/v1/user_group')
 
@@ -76,7 +81,7 @@ const editingUser = ref<User | null>(null)
 const deletingUser = ref<User | null>(null)
 const userGroupsLoading = ref(false)
 const userGroupsError = ref('')
-const viewUserGroups = ref<UserGroup[]>([])
+const viewUserGroups = ref<Group[]>([])
 const groupActionLoading = ref(false)
 const attachDialog = ref(false)
 const attachError = ref('')
@@ -289,6 +294,7 @@ async function submitEdit() {
 }
 
 function openView(user?: User | null) {
+  console.log(user)
   if (!user || !user.id) {
     Notify.error("Impossible d'ouvrir les détails de cet utilisateur.")
     return
@@ -298,7 +304,7 @@ function openView(user?: User | null) {
   viewError.value = ''
   viewUser.value = { ...user }
   loadUserDetails(user.id)
-  loadUserGroups(user.id)
+  //loadUserGroups(user.id)
 }
 
 async function loadUserDetails(id: string) {
@@ -320,7 +326,7 @@ async function loadUserGroups(id: string) {
   userGroupsLoading.value = true
   userGroupsError.value = ''
   try {
-    viewUserGroups.value = await $fetch<UserGroup[]>(
+    viewUserGroups.value = await $fetch<Group[]>(
       `/api/v1/user/${id}/groups`,
     )
   } catch (error) {
@@ -584,7 +590,7 @@ watch(attachDialog, (value) => {
                     variant="text"
                     color="primary"
                     :title="`Afficher ${item.raw?.username ?? ''}`"
-                    @click="openView(item.raw)"
+                    @click="openView(item)"
                   >
                     <v-icon icon="mdi-eye-outline" />
                   </v-btn>
@@ -593,7 +599,7 @@ watch(attachDialog, (value) => {
                     variant="text"
                     color="warning"
                     :title="`Modifier ${item.raw?.username ?? ''}`"
-                    @click="openEdit(item.raw)"
+                    @click="openEdit(item)"
                   >
                     <v-icon icon="mdi-pencil-outline" />
                   </v-btn>
@@ -602,7 +608,7 @@ watch(attachDialog, (value) => {
                     variant="text"
                     color="error"
                     :title="`Supprimer ${item.raw?.username ?? ''}`"
-                    @click="openDelete(item.raw)"
+                    @click="openDelete(item)"
                   >
                     <v-icon icon="mdi-delete-outline" />
                   </v-btn>

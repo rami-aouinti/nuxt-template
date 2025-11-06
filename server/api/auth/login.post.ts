@@ -1,6 +1,6 @@
 import { axios, AxiosError } from '~/utils/axios'
 import type { LoginResponse } from '~/types/auth'
-import { persistProfileState } from '~/server/utils/cache/profile'
+import { persistProfileState } from '../../utils/cache/profile'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<{ username?: string; password?: string }>(event)

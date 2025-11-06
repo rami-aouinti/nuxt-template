@@ -71,7 +71,6 @@ const deletingKey = ref<ApiKey | null>(null)
 
 const defaultFormState = (): ApiKeyFormState => ({
   description: '',
-  token: '',
 })
 
 const form = reactive<ApiKeyFormState>(defaultFormState())
@@ -79,7 +78,6 @@ const form = reactive<ApiKeyFormState>(defaultFormState())
 const canSubmitCreate = computed(
   () =>
     form.description.trim().length > 0 &&
-    form.token.trim().length > 0 &&
     !actionLoading.value,
 )
 
@@ -104,7 +102,6 @@ function resetForm() {
 
 function populateForm(key: ApiKey) {
   form.description = key.description ?? ''
-  form.token = key.token ?? ''
 }
 
 function ensureFormValid(requireToken: boolean) {
@@ -114,18 +111,12 @@ function ensureFormValid(requireToken: boolean) {
     return false
   }
 
-  if (requireToken && !form.token.trim()) {
-    formError.value = 'Le token est obligatoire.'
-    return false
-  }
-
   return true
 }
 
 function buildCreatePayload() {
   return {
     description: form.description.trim(),
-    token: form.token.trim(),
   }
 }
 
@@ -607,13 +598,6 @@ watch(deleteDialog, (value) => {
             <v-text-field
               v-model="form.description"
               label="Description"
-              :disabled="actionLoading"
-              autocomplete="off"
-              required
-            />
-            <v-text-field
-              v-model="form.token"
-              label="Token"
               :disabled="actionLoading"
               autocomplete="off"
               required

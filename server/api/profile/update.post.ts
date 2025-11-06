@@ -1,5 +1,5 @@
 import type { AuthProfile } from '~/types/auth'
-import { persistProfileState } from '~/server/utils/cache/profile'
+import { persistProfileState } from '../../utils/cache/profile'
 
 const textDecoder = new TextDecoder()
 
