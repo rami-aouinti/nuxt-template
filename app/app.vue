@@ -47,10 +47,14 @@ useSeoMeta(() => ({
     <AppDrawer />
     <AppBar />
     <v-main>
-      <transition name="route-view" mode="out-in">
-        <NuxtPage v-if="!routeLoading" key="route" />
-        <AppRouteLoader v-else key="loader" />
-      </transition>
+      <div class="route-container">
+        <NuxtPage
+          v-show="!routeLoading"
+          :key="route.fullPath"
+          class="route-container__page"
+        />
+        <AppRouteLoader v-if="routeLoading" class="route-container__loader" />
+      </div>
     </v-main>
     <AppFooter />
   </v-app>
@@ -72,13 +76,23 @@ useSeoMeta(() => ({
   transition-property: padding;
 }
 
-.route-view-enter-active,
-.route-view-leave-active {
-  transition: opacity 0.2s ease;
+.route-container {
+  position: relative;
+  display: flex;
+  height: 100%;
 }
 
-.route-view-enter-from,
-.route-view-leave-to {
-  opacity: 0;
+.route-container__page {
+  flex: 1;
 }
+
+.route-container__loader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* reuse transition defined in AppRouteLoader */
 </style>
