@@ -31,8 +31,27 @@ const items = computed(() => data.value ?? [])
     <v-row>
       <v-col>
         <v-card>
+          <client-only>
+            <teleport to="#app-bar">
+              <v-text-field
+                v-model="search"
+                prepend-inner-icon="mdi-magnify"
+                label="Search"
+                single-line
+                hide-details
+                density="compact"
+                class="mr-2"
+                rounded="xl"
+                flat
+                icon-color
+                glow
+                variant="solo"
+                style="width: 250px"
+              />
+            </teleport>
+          </client-only>
           <v-card-title class="d-flex align-center justify-space-between">
-            <span class="text-h6">Utilisateurs</span>
+            <span class="text-h6">Users</span>
             <v-btn
               icon="mdi-refresh"
               variant="text"
@@ -40,26 +59,8 @@ const items = computed(() => data.value ?? [])
               @click="refresh()"
             />
           </v-card-title>
-          <v-card-subtitle>
-            Liste des utilisateurs fournie par l'API interne.
-          </v-card-subtitle>
           <v-divider />
           <v-card-text>
-            <v-row class="mb-4" align="center">
-              <v-col cols="12" md="4">
-                <v-text-field
-                  v-model="search"
-                  label="Rechercher"
-                  prepend-inner-icon="mdi-magnify"
-                  hide-details
-                  density="comfortable"
-                  variant="solo"
-                  flat
-                  clearable
-                />
-              </v-col>
-              <v-spacer />
-            </v-row>
             <v-alert v-if="error" type="error" variant="tonal" class="mb-4">
               Une erreur est survenue lors du chargement des utilisateurs.
             </v-alert>

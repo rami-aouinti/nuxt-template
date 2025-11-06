@@ -9,6 +9,7 @@ definePageMeta({
 })
 
 const tab = ref<'v1' | 'v2'>('v1')
+const search = ref('')
 
 const headers: DataTableHeader[] = [
   { title: 'Description', key: 'description' },
@@ -36,6 +37,25 @@ const {
     <v-row>
       <v-col>
         <v-card>
+          <client-only>
+            <teleport to="#app-bar">
+              <v-text-field
+                v-model="search"
+                prepend-inner-icon="mdi-magnify"
+                label="Search"
+                single-line
+                hide-details
+                density="compact"
+                class="mr-2"
+                rounded="xl"
+                flat
+                icon-color
+                glow
+                variant="solo"
+                style="width: 250px"
+              />
+            </teleport>
+          </client-only>
           <v-card-title class="d-flex align-center justify-space-between">
             <span class="text-h6">Clés API</span>
             <v-btn-toggle
@@ -49,9 +69,6 @@ const {
               <v-btn value="v2">API v2</v-btn>
             </v-btn-toggle>
           </v-card-title>
-          <v-card-subtitle>
-            Gestion des clés d'accès aux services internes.
-          </v-card-subtitle>
           <v-divider />
           <v-card-text>
             <v-window v-model="tab">
@@ -71,6 +88,7 @@ const {
                   :headers="headers"
                   :items="apiKeysV1 ?? []"
                   :loading="pendingV1"
+                  :search="search"
                   item-value="id"
                   class="elevation-0"
                 />
@@ -91,6 +109,7 @@ const {
                   :headers="headers"
                   :items="apiKeysV2 ?? []"
                   :loading="pendingV2"
+                  :search="search"
                   item-value="id"
                   class="elevation-0"
                 />
