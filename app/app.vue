@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const theme = useTheme()
 const { t, locale } = useI18n()
+const routeLoading = useRouteLoading()
 provide(
   THEME_KEY,
   computed(() => (theme.current.value.dark ? 'dark' : undefined)),
@@ -46,9 +47,15 @@ useSeoMeta(() => ({
     <AppDrawer />
     <AppBar />
     <v-main>
-      <NuxtPage />
+      <div class="route-container">
+        <NuxtPage
+          v-show="!routeLoading"
+          :key="route.fullPath"
+          class="route-container__page"
+        />
+        <AppRouteLoader v-if="routeLoading" class="route-container__loader" />
+      </div>
     </v-main>
-    <AppRouteLoader />
     <AppFooter />
   </v-app>
 </template>
@@ -68,4 +75,24 @@ useSeoMeta(() => ({
   overflow-y: auto;
   transition-property: padding;
 }
+
+.route-container {
+  position: relative;
+  display: flex;
+  height: 100%;
+}
+
+.route-container__page {
+  flex: 1;
+}
+
+.route-container__loader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* reuse transition defined in AppRouteLoader */
 </style>
