@@ -5,6 +5,12 @@ export type AuthProfile = Record<string, unknown> & {
   firstName?: string | null
   lastName?: string | null
   photo?: string | null
+  title?: string | null
+  description?: string | null
+  gender?: string | null
+  phone?: string | null
+  address?: string | null
+  birthday?: string | null
   roles?: string[]
 }
 
