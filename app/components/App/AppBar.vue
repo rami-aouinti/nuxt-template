@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { mergeProps, ref, watch } from 'vue'
+import { useTheme } from 'vuetify'
 
 const theme = useTheme()
 const drawer = useState('drawer')
@@ -65,15 +66,6 @@ watch(loggedIn, (value) => {
       true-icon="mdi-weather-night"
       class="opacity-80"
     />
-    <v-btn
-      icon
-      href="https://github.com/kingyue737/vitify-nuxt"
-      size="small"
-      class="ml-2"
-      target="_blank"
-    >
-      <v-icon size="30" icon="mdi-github" />
-    </v-btn>
     <v-menu location="bottom">
       <template #activator="{ props: menu }">
         <v-tooltip location="bottom">
@@ -89,6 +81,12 @@ watch(loggedIn, (value) => {
         </v-tooltip>
       </template>
       <v-list>
+        <v-list-item
+          v-if="loggedIn"
+          title="Profile"
+          prepend-icon="mdi-face"
+          to="/profile"
+        />
         <v-list-item
           v-if="!loggedIn"
           title="Login"
