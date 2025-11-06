@@ -1,6 +1,5 @@
 import type { H3Event } from 'h3'
 import { FetchError, type FetchOptions } from 'ofetch'
-import { getUserSession } from '#auth-utils'
 
 const BASE_URL = 'https://bro-world.org/api/v1'
 
