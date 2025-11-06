@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
+import { FetchError } from 'ofetch'
 import type { AuthProfile } from '~/types/auth'
+import { Notify } from '~/stores/notification'
 
 definePageMeta({
   title: 'Profile',
   middleware: 'auth',
 })
 
-const { session, user } = useUserSession()
+const { session, user, fetch: refreshSession } = useUserSession()
 const profileCache = useAuthProfileCache()
 
 const profile = computed<AuthProfile | null>(() => {
@@ -75,10 +77,332 @@ const roles = computed(() => {
     )
     .map((role) => role.trim())
 })
+
+type ProfileForm = {
+  firstName: string
+  lastName: string
+  title: string
+  description: string
+  gender: string
+  phone: string
+  address: string
+  birthday: string
+}
+
+const editDialog = ref(false)
+const isSaving = ref(false)
+const formError = ref('')
+const photoFiles = ref<File[] | File | null>(null)
+const selectedFile = ref<File | null>(null)
+
+const form = reactive<ProfileForm>({
+  firstName: '',
+  lastName: '',
+  title: '',
+  description: '',
+  gender: '',
+  phone: '',
+  address: '',
+  birthday: '',
+})
+
+function getProfileStringValue(current: AuthProfile | null, key: string) {
+  if (!current) return ''
+  const value = current[key as keyof AuthProfile]
+  return typeof value === 'string' ? value : ''
+}
+
+function formatDateForInput(value: unknown) {
+  if (!value) return ''
+  if (value instanceof Date && !Number.isNaN(value.getTime())) {
+    return value.toISOString().slice(0, 10)
+  }
+
+  if (typeof value === 'string') {
+    const trimmed = value.trim()
+    if (!trimmed) return ''
+    if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+      return trimmed
+    }
+    const date = new Date(trimmed)
+    if (!Number.isNaN(date.getTime())) {
+      return date.toISOString().slice(0, 10)
+    }
+  }
+
+  return ''
+}
+
+function formatDateForDisplay(value: unknown) {
+  if (!value) return ''
+  const dateValue =
+    value instanceof Date ? value : new Date(String(value).trim())
+  if (!Number.isNaN(dateValue.getTime())) {
+    return dateValue.toLocaleDateString(undefined, {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    })
+  }
+  return typeof value === 'string' ? value : ''
+}
+
+function resetFormFromProfile(current: AuthProfile | null) {
+  form.firstName = getProfileStringValue(current, 'firstName')
+  form.lastName = getProfileStringValue(current, 'lastName')
+  form.title = getProfileStringValue(current, 'title')
+  form.description = getProfileStringValue(current, 'description')
+  form.gender = getProfileStringValue(current, 'gender')
+  form.phone = getProfileStringValue(current, 'phone')
+  form.address = getProfileStringValue(current, 'address')
+  form.birthday = formatDateForInput(getProfileStringValue(current, 'birthday'))
+}
+
+watch(
+  profile,
+  (value) => {
+    resetFormFromProfile(value)
+  },
+  { immediate: true },
+)
+
+watch(photoFiles, (files) => {
+  if (Array.isArray(files)) {
+    selectedFile.value = files[0] ?? null
+  } else if (typeof File !== 'undefined' && files instanceof File) {
+    selectedFile.value = files
+  } else {
+    selectedFile.value = null
+  }
+})
+
+watch(editDialog, (value) => {
+  if (!value) {
+    formError.value = ''
+    photoFiles.value = null
+    selectedFile.value = null
+    resetFormFromProfile(profile.value)
+  }
+})
+
+const hasChanges = computed(() => {
+  if (!profile.value) return false
+  const current = profile.value
+
+  const fields: (keyof ProfileForm)[] = [
+    'firstName',
+    'lastName',
+    'title',
+    'description',
+    'gender',
+    'phone',
+    'address',
+  ]
+
+  for (const field of fields) {
+    const profileValue = getProfileStringValue(current, field)
+    if (form[field] !== profileValue) {
+      return true
+    }
+  }
+
+  const originalBirthday = formatDateForInput(
+    getProfileStringValue(current, 'birthday'),
+  )
+  if ((form.birthday || '') !== originalBirthday) {
+    return true
+  }
+
+  if (selectedFile.value) {
+    return true
+  }
+
+  return false
+})
+
+const formattedBirthday = computed(() =>
+  formatDateForDisplay(getProfileStringValue(profile.value, 'birthday')),
+)
+
+async function submit() {
+  if (!profile.value || !hasChanges.value || isSaving.value) {
+    return
+  }
+
+  isSaving.value = true
+  formError.value = ''
+
+  try {
+    const formData = new FormData()
+    const fields: (keyof ProfileForm)[] = [
+      'firstName',
+      'lastName',
+      'title',
+      'description',
+      'gender',
+      'phone',
+      'address',
+    ]
+
+    for (const field of fields) {
+      formData.append(field, form[field])
+    }
+
+    if (form.birthday && form.birthday.trim().length > 0) {
+      formData.append('birthday', form.birthday)
+    }
+
+    if (selectedFile.value) {
+      formData.append('file', selectedFile.value)
+    }
+
+    const updatedProfile = await $fetch<AuthProfile>('/api/profile/update', {
+      method: 'POST',
+      body: formData,
+    })
+
+    profileCache.value = updatedProfile
+    await refreshSession()
+    Notify.success('Profil mis à jour avec succès')
+    editDialog.value = false
+  } catch (error) {
+    let message = 'La mise à jour du profil a échoué.'
+
+    if (error instanceof FetchError) {
+      const data = error.data as Record<string, unknown> | undefined
+      if (data?.message && typeof data.message === 'string') {
+        message = data.message
+      } else if (typeof error.message === 'string' && error.message) {
+        message = error.message
+      }
+    } else if (error instanceof Error && error.message) {
+      message = error.message
+    }
+
+    formError.value = message
+    Notify.error(message)
+  } finally {
+    isSaving.value = false
+  }
+}
 </script>
 
 <template>
   <v-container fluid class="py-8">
+    <v-dialog v-model="editDialog" max-width="640">
+      <v-card>
+        <v-card-title class="text-wrap">Modifier le profil</v-card-title>
+        <v-divider />
+        <v-card-text>
+          <p class="text-body-2 text-medium-emphasis mb-4">
+            Mettez à jour vos informations personnelles afin de conserver un
+            profil à jour sur la plateforme.
+          </p>
+          <v-alert
+            v-if="formError"
+            type="error"
+            variant="tonal"
+            class="mb-4"
+            density="compact"
+          >
+            {{ formError }}
+          </v-alert>
+          <v-form @submit.prevent="submit">
+            <v-row dense>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="form.firstName"
+                  label="Prénom"
+                  autocomplete="given-name"
+                  :disabled="isSaving"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="form.lastName"
+                  label="Nom"
+                  autocomplete="family-name"
+                  :disabled="isSaving"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="form.title"
+                  label="Intitulé de poste"
+                  :disabled="isSaving"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="form.gender"
+                  label="Genre"
+                  :disabled="isSaving"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="form.phone"
+                  label="Téléphone"
+                  type="tel"
+                  autocomplete="tel"
+                  :disabled="isSaving"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="form.address"
+                  label="Adresse"
+                  autocomplete="street-address"
+                  :disabled="isSaving"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="form.birthday"
+                  label="Date de naissance"
+                  type="date"
+                  :disabled="isSaving"
+                />
+              </v-col>
+              <v-col cols="12">
+                <v-textarea
+                  v-model="form.description"
+                  label="Description"
+                  auto-grow
+                  rows="3"
+                  :disabled="isSaving"
+                />
+              </v-col>
+              <v-col cols="12">
+                <v-file-input
+                  v-model="photoFiles"
+                  label="Photo de profil"
+                  accept="image/*"
+                  prepend-icon="mdi-camera"
+                  clearable
+                  show-size
+                  :disabled="isSaving"
+                />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn variant="text" :disabled="isSaving" @click="editDialog = false">
+            Annuler
+          </v-btn>
+          <v-btn
+            color="primary"
+            :disabled="!hasChanges || isSaving"
+            :loading="isSaving"
+            @click="submit"
+          >
+            Enregistrer
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-row justify="center">
       <v-col cols="12" lg="10">
         <v-alert v-if="!profile" type="info" variant="tonal" class="ma-auto">
@@ -111,6 +435,12 @@ const roles = computed(() => {
                   <div class="text-body-2 text-medium-emphasis">
                     @{{ profile.username }}
                   </div>
+                  <div
+                    v-if="profile.title"
+                    class="text-body-2 text-medium-emphasis mt-1"
+                  >
+                    {{ profile.title }}
+                  </div>
                 </v-col>
               </v-row>
 
@@ -141,7 +471,19 @@ const roles = computed(() => {
             <v-row>
               <v-col cols="12">
                 <v-card elevation="2">
-                  <v-card-title>Informations personnelles</v-card-title>
+                  <v-card-title class="d-flex align-center gap-4">
+                    <span>Informations personnelles</span>
+                    <v-spacer />
+                    <v-btn
+                      color="primary"
+                      variant="text"
+                      prepend-icon="mdi-pencil"
+                      :disabled="isSaving"
+                      @click="editDialog = true"
+                    >
+                      Modifier
+                    </v-btn>
+                  </v-card-title>
                   <v-divider />
                   <v-card-text>
                     <v-row>
@@ -173,6 +515,65 @@ const roles = computed(() => {
                         </div>
                         <div class="text-subtitle-2 font-weight-medium">
                           {{ profile.email }}
+                        </div>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+
+              <v-col cols="12">
+                <v-card elevation="2">
+                  <v-card-title>Détails du profil</v-card-title>
+                  <v-divider />
+                  <v-card-text>
+                    <v-row>
+                      <v-col cols="12" sm="6">
+                        <div class="text-caption text-medium-emphasis">
+                          Intitulé de poste
+                        </div>
+                        <div class="text-subtitle-2 font-weight-medium">
+                          {{ profile.title || '—' }}
+                        </div>
+                      </v-col>
+                      <v-col cols="12" sm="6">
+                        <div class="text-caption text-medium-emphasis">
+                          Genre
+                        </div>
+                        <div class="text-subtitle-2 font-weight-medium">
+                          {{ profile.gender || '—' }}
+                        </div>
+                      </v-col>
+                      <v-col cols="12" sm="6">
+                        <div class="text-caption text-medium-emphasis">
+                          Téléphone
+                        </div>
+                        <div class="text-subtitle-2 font-weight-medium">
+                          {{ profile.phone || '—' }}
+                        </div>
+                      </v-col>
+                      <v-col cols="12" sm="6">
+                        <div class="text-caption text-medium-emphasis">
+                          Adresse
+                        </div>
+                        <div class="text-subtitle-2 font-weight-medium">
+                          {{ profile.address || '—' }}
+                        </div>
+                      </v-col>
+                      <v-col cols="12" sm="6">
+                        <div class="text-caption text-medium-emphasis">
+                          Date de naissance
+                        </div>
+                        <div class="text-subtitle-2 font-weight-medium">
+                          {{ formattedBirthday || '—' }}
+                        </div>
+                      </v-col>
+                      <v-col cols="12">
+                        <div class="text-caption text-medium-emphasis">
+                          Description
+                        </div>
+                        <div class="text-body-2">
+                          {{ profile.description || '—' }}
                         </div>
                       </v-col>
                     </v-row>
