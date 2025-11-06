@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { computed, toRef } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
 
 const { item } = defineProps<{
   item: RouteRecordRaw
 }>()
+const { t } = useI18n()
 const { session } = useUserSession()
 
 const userRoles = computed(() => {
@@ -49,7 +51,15 @@ const visibleChildren = computed(() =>
 const visibleChildrenNum = computed(() => visibleChildren.value?.length || 0)
 const isItem = computed(() => !item.children || visibleChildrenNum.value <= 1)
 const isVisible = computed(() => hasRouteAccess(item))
-const title = toRef(() => item.meta?.title)
+const titleKey = toRef(() => item.meta?.title)
+const translatedTitle = computed(() => {
+  const key = titleKey.value
+  if (!key) {
+    return ''
+  }
+
+  return t(String(key))
+})
 const icon = toRef(() => item.meta?.icon)
 // @ts-expect-error unknown type miss match
 const to = computed<RouteRecordRaw>(() => ({
@@ -68,7 +78,7 @@ const isActive = computed(() => {
     :to="to"
     :prepend-icon="icon"
     active-class="text-primary"
-    :title="title"
+    :title="translatedTitle"
   />
   <v-list-group
     v-else-if="isVisible && icon"
@@ -76,7 +86,7 @@ const isActive = computed(() => {
     color="primary"
   >
     <template #activator="{ props: vProps }">
-      <v-list-item :title="title" v-bind="vProps" :active="isActive" />
+      <v-list-item :title="translatedTitle" v-bind="vProps" :active="isActive" />
     </template>
     <AppDrawerItem
       v-for="child in visibleChildren"

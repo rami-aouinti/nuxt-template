@@ -3,7 +3,7 @@ import { computed } from 'vue'
 
 definePageMeta({
   icon: 'mdi-home',
-  title: 'Blog',
+  title: 'navigation.blog',
   drawerIndex: 1,
 })
 

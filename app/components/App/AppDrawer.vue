@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
 
 const router = useRouter()
@@ -6,6 +7,7 @@ const routes = router.getRoutes().filter((r) => r.path.lastIndexOf('/') === 0)
 const drawerState = useState('drawer', () => true)
 
 const { mobile, lgAndUp, width } = useDisplay()
+const { t } = useI18n()
 const drawer = computed({
   get() {
     return drawerState.value || !mobile.value
@@ -59,6 +61,33 @@ const hasRouteAccess = (route: RouteRecordRaw) => {
 const availableRoutes = computed(() => routes.filter((route) => hasRouteAccess(route)))
 
 drawerState.value = lgAndUp.value && width.value !== 1280
+
+const brandTitle = computed(() => t('app.brand.name'))
+const brandHighlight = computed(() => t('app.brand.highlight'))
+const brandTitleParts = computed(() => {
+  const title = brandTitle.value
+  const highlight = brandHighlight.value
+
+  if (!highlight) {
+    return { before: title, highlight: '', after: '' }
+  }
+
+  const index = title.indexOf(highlight)
+  if (index === -1) {
+    return { before: title, highlight: '', after: '' }
+  }
+
+  return {
+    before: title.slice(0, index),
+    highlight,
+    after: title.slice(index + highlight.length),
+  }
+})
+
+const footerCopyright = computed(() =>
+  t('app.footer.copyright', { year: new Date().getFullYear() }),
+)
+const footerBrand = computed(() => t('app.footer.craftedBy'))
 </script>
 
 <template>
@@ -83,7 +112,11 @@ drawerState.value = lgAndUp.value && width.value !== 1280
             class="text-h5 font-weight-bold"
             style="line-height: 2rem"
           >
-            Bro <span class="text-primary">World</span>
+            <span>{{ brandTitleParts.before }}</span>
+            <span v-if="brandTitleParts.highlight" class="text-primary">
+              {{ brandTitleParts.highlight }}
+            </span>
+            <span>{{ brandTitleParts.after }}</span>
           </v-list-item-title>
         </v-list-item>
       </v-list>
@@ -99,12 +132,12 @@ drawerState.value = lgAndUp.value && width.value !== 1280
     <template #append>
       <v-list-item class="drawer-footer px-0 d-flex flex-column justify-center">
         <div class="text-caption pt-6 pt-md-0 text-center text-no-wrap">
-          &copy; Copyright 2025
+          {{ footerCopyright }}
           <a
             href="https://github.com/rami-aouinti"
             class="font-weight-bold text-primary"
             target="_blank"
-            >Bro World</a
+            >{{ footerBrand }}</a
           >
         </div>
       </v-list-item>
