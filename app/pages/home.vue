@@ -46,15 +46,19 @@ const testimonials = [
     class="home-page pa-0"
   >
     <section class="hero py-16">
+      <div class="hero__decor hero__decor--one" />
+      <div class="hero__decor hero__decor--two" />
+      <div class="hero__decor hero__decor--three" />
       <v-container class="px-6 px-md-12 text-center text-md-start">
         <v-row
           align="center"
           justify="space-between"
-          class="g-8"
+          class="g-8 hero__grid"
         >
           <v-col
             cols="12"
             md="6"
+            class="hero__content"
           >
             <span class="hero__badge">Nuxt Template</span>
             <h1 class="text-h3 text-md-h1 font-weight-bold mt-6 mb-4">
@@ -64,18 +68,18 @@ const testimonials = [
               Construisez rapidement des interfaces élégantes grâce à une base Nuxt + Vuetify
               structurée, modulable et soigneusement conçue pour répondre aux attentes actuelles.
             </p>
-            <div class="d-flex flex-column flex-sm-row gap-4">
+            <div class="d-flex flex-column flex-sm-row gap-4 hero__actions">
               <v-btn
                 color="primary"
                 size="x-large"
-                class="px-8"
+                class="px-8 hero__cta"
               >
                 Commencer maintenant
               </v-btn>
               <v-btn
                 size="x-large"
                 variant="outlined"
-                class="px-8"
+                class="px-8 hero__cta hero__cta--ghost"
               >
                 Voir la démo
               </v-btn>
@@ -85,7 +89,7 @@ const testimonials = [
             cols="12"
             md="5"
           >
-            <v-card class="hero-card mx-auto">
+            <v-card class="hero-card mx-auto floating-card">
               <v-card-text class="pa-8">
                 <h2 class="text-h5 text-md-h4 font-weight-medium mb-4">
                   Design raffiné, code structuré
@@ -130,19 +134,22 @@ const testimonials = [
             Des composants soignés, un thème harmonieux et des pratiques modernes prêtes à l’emploi.
           </p>
         </div>
-        <v-row class="g-6">
+        <v-row class="g-6 feature-grid">
           <v-col
-            v-for="feature in features"
+            v-for="(feature, index) in features"
             :key="feature.title"
             cols="12"
             md="4"
           >
-            <v-card class="feature-card h-100">
+            <v-card
+              class="feature-card h-100"
+              :style="{ '--index': index }"
+            >
               <v-card-text class="pa-8">
                 <v-avatar
                   color="primary"
                   size="56"
-                  class="mb-6"
+                  class="mb-6 avatar-glow"
                 >
                   <v-icon size="32">
                     {{ feature.icon }}
@@ -163,7 +170,7 @@ const testimonials = [
 
     <section class="testimonials py-16">
       <v-container class="px-6 px-md-12">
-        <v-row class="g-6">
+        <v-row class="g-6 testimonial-grid">
           <v-col
             cols="12"
             md="5"
@@ -183,12 +190,15 @@ const testimonials = [
           >
             <v-row class="g-4">
               <v-col
-                v-for="testimonial in testimonials"
+                v-for="(testimonial, index) in testimonials"
                 :key="testimonial.name"
                 cols="12"
                 sm="6"
               >
-                <v-card class="testimonial-card h-100">
+                <v-card
+                  class="testimonial-card h-100"
+                  :style="{ '--index': index }"
+                >
                   <v-card-text class="pa-6">
                     <p class="text-body-2 mb-6">
                       {{ testimonial.quote }}
@@ -214,13 +224,92 @@ const testimonials = [
 
 <style scoped>
 .home-page {
+  position: relative;
   background: linear-gradient(180deg, rgba(33, 150, 243, 0.08), rgba(25, 118, 210, 0.12));
+  overflow: hidden;
   color: rgb(var(--v-theme-on-surface));
 }
 
 .hero {
   position: relative;
   overflow: hidden;
+}
+
+.hero__grid {
+  position: relative;
+  z-index: 1;
+}
+
+.hero__content {
+  animation: fadeSlideUp 0.8s ease forwards;
+  animation-delay: 0.1s;
+  opacity: 0;
+}
+
+.hero__actions {
+  gap: 1.25rem;
+}
+
+.hero__cta {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero__cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.25), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hero__cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(33, 150, 243, 0.24);
+}
+
+.hero__cta:hover::after {
+  opacity: 1;
+}
+
+.hero__cta--ghost {
+  border-width: 2px;
+}
+
+.hero__decor {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(0);
+  opacity: 0.85;
+  animation: pulseGlow 10s ease-in-out infinite;
+}
+
+.hero__decor--one {
+  width: 420px;
+  height: 420px;
+  top: -120px;
+  right: -160px;
+  background: radial-gradient(circle, rgba(33, 150, 243, 0.32) 0%, rgba(33, 150, 243, 0) 65%);
+}
+
+.hero__decor--two {
+  width: 300px;
+  height: 300px;
+  bottom: 30px;
+  left: -140px;
+  background: radial-gradient(circle, rgba(0, 188, 212, 0.28) 0%, rgba(0, 188, 212, 0) 70%);
+  animation-delay: 1.2s;
+}
+
+.hero__decor--three {
+  width: 220px;
+  height: 220px;
+  top: 160px;
+  right: 20%;
+  background: radial-gradient(circle, rgba(156, 39, 176, 0.25) 0%, rgba(156, 39, 176, 0) 70%);
+  animation-delay: 2.4s;
 }
 
 .hero::after {
@@ -237,6 +326,9 @@ const testimonials = [
   border-radius: 24px;
   backdrop-filter: blur(12px);
   background: rgba(255, 255, 255, 0.85);
+  animation: fadeScale 0.9s ease forwards;
+  opacity: 0;
+  animation-delay: 0.25s;
 }
 
 .hero__badge {
@@ -266,6 +358,9 @@ const testimonials = [
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(10px);
+  animation: fadeSlideUp 0.7s ease forwards;
+  opacity: 0;
+  animation-delay: calc(0.12s * var(--index));
 }
 
 .feature-card:hover,
@@ -274,8 +369,40 @@ const testimonials = [
   box-shadow: 0 16px 40px rgba(25, 118, 210, 0.16);
 }
 
+.feature-grid,
+.testimonial-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.avatar-glow {
+  box-shadow: 0 15px 45px rgba(33, 150, 243, 0.25);
+  animation: float 6s ease-in-out infinite;
+}
+
+.floating-card {
+  position: relative;
+  animation: floatY 8s ease-in-out infinite 1.2s;
+}
+
+.testimonial-card {
+  animation: fadeSlideUp 0.7s ease forwards;
+  opacity: 0;
+  animation-delay: calc(0.18s + 0.12s * var(--index));
+}
+
 .testimonials {
   background: rgba(255, 255, 255, 0.6);
+  position: relative;
+}
+
+.testimonials::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(33, 150, 243, 0.08), rgba(156, 39, 176, 0.08));
+  opacity: 0.9;
+  z-index: 0;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -292,6 +419,70 @@ const testimonials = [
 
   .testimonials {
     background: rgba(18, 18, 18, 0.65);
+    color: rgba(255, 255, 255, 0.86);
+  }
+
+  .testimonials::before {
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.12), rgba(156, 39, 176, 0.12));
+  }
+}
+
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate3d(0, -6px, 0);
+  }
+
+  50% {
+    transform: translate3d(0, 6px, 0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes floatY {
+  0%,
+  100% {
+    top: 0;
+  }
+
+  50% {
+    top: -10px;
   }
 }
 </style>
