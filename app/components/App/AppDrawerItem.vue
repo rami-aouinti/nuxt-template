@@ -6,6 +6,7 @@ const { item } = defineProps<{
   item: RouteRecordRaw
 }>()
 const { t } = useI18n()
+const localePath = useLocalePath()
 const { session } = useUserSession()
 
 const userRoles = computed(() => {
@@ -75,7 +76,7 @@ const isActive = computed(() => {
 <template>
   <v-list-item
     v-if="isVisible && isItem && icon && hasTarget"
-    :to="to"
+    :to="localePath(to)"
     :prepend-icon="icon"
     active-class="text-primary"
     :title="translatedTitle"

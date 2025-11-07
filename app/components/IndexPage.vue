@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
-
+const localePath = useLocalePath()
 const items = computed(() =>
   route.matched
     ?.filter((v) => v.path === route.path)[0]
@@ -10,7 +10,7 @@ const items = computed(() =>
     )
     .map((c) => ({
       title: c.meta?.title,
-      to: c.name ? c : `${route.path}/${c.path}`,
+      to: localePath(c.name) ? c : `${route.path}/${c.path}`,
       prependIcon: c.meta?.icon,
       subtitle: c.meta?.subtitle,
     })),
