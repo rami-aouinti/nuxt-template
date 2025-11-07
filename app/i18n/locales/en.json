@@ -199,7 +199,8 @@
     },
     "placeholders": {
       "selectGroup": "Select a group",
-      "selectUser": "Select a user"
+      "selectUser": "Select a user",
+      "selectWorkplace": "Select a workplace"
     }
   },
   "profile": {
@@ -545,8 +546,37 @@
       "title": "Configurations",
       "subtitle": "View and audit configuration entries",
       "searchPlaceholder": "Search configurations",
+      "actions": {
+        "new": "New configuration"
+      },
       "alerts": {
         "loadFailed": "Unable to load configurations."
+      },
+      "dialogs": {
+        "create": {
+          "title": "Create configuration",
+          "submit": "Create configuration"
+        }
+      },
+      "fields": {
+        "key": "Configuration key",
+        "contextKey": "Context key",
+        "contextId": "Context ID",
+        "value": "Configuration value",
+        "valueHint": "Enter plain text or valid JSON.",
+        "flags": "Flags",
+        "flagsHint": "Provide comma-separated values.",
+        "workplace": "Workplace"
+      },
+      "errors": {
+        "keyRequired": "A configuration key is required.",
+        "contextKeyRequired": "A context key is required.",
+        "valueRequired": "A configuration value is required.",
+        "createFailed": "Unable to create the configuration.",
+        "workplaceLoadFailed": "Unable to load workplaces."
+      },
+      "notifications": {
+        "createSuccess": "Configuration created successfully."
       },
       "table": {
         "title": "Configurations",

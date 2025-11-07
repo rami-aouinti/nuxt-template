@@ -1,7 +1,14 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import type { DataTableHeader } from 'vuetify'
-import type { Configuration } from '~/types/configuration'
+import type {
+  Configuration,
+  ConfigurationPayload,
+  ConfigurationValue,
+} from '~/types/configuration'
+import type { Workplace } from '~/types/workplace'
+import { useAdminStore } from '~/stores/admin'
+import { Notify } from '~/stores/notification'
 
 definePageMeta({
   title: 'configurationManagement.configurations.title',
@@ -12,6 +19,7 @@ definePageMeta({
 })
 
 const { t, locale } = useI18n()
+const adminStore = useAdminStore()
 
 const headers = import.meta.server ? useRequestHeaders(['cookie', 'authorization']) : undefined
 
@@ -62,6 +70,12 @@ const [
     transform: extractCount,
   }),
 ])
+
+try {
+  await adminStore.fetchWorkplaces()
+} catch (workplaceError) {
+  console.error('Failed to load workplaces for configuration form', workplaceError)
+}
 
 const search = ref('')
 
@@ -187,6 +201,231 @@ const subtitle = computed(() =>
 const refreshAll = async () => {
   await Promise.all([refresh(), refreshCount()])
 }
+
+const createDialog = ref(false)
+const createLoading = ref(false)
+const createError = ref('')
+
+type ConfigurationForm = {
+  configurationKey: string
+  contextKey: string
+  contextId: string
+  workplaceId: string | null
+  configurationValue: string
+  flags: string
+}
+
+const form = reactive<ConfigurationForm>({
+  configurationKey: '',
+  contextKey: '',
+  contextId: '',
+  workplaceId: '',
+  configurationValue: '',
+  flags: '',
+})
+
+const workplaces = computed<Workplace[]>(() => adminStore.workplaces.value ?? [])
+
+const workplaceOptions = computed(() =>
+  workplaces.value.map((workplace) => ({
+    title: workplace.name,
+    value: workplace.id,
+    subtitle: workplace.slug,
+  })),
+)
+
+function extractRequestError(error: unknown, fallback: string) {
+  if (error && typeof error === 'object') {
+    const withData = error as { data?: unknown; message?: unknown }
+
+    if (withData.data && typeof withData.data === 'object') {
+      const data = withData.data as Record<string, unknown>
+
+      if (
+        'message' in data &&
+        typeof data.message === 'string' &&
+        data.message.trim().length > 0
+      ) {
+        return data.message
+      }
+
+      if (
+        'error' in data &&
+        typeof data.error === 'string' &&
+        data.error.trim().length > 0
+      ) {
+        return data.error
+      }
+    }
+
+    if (
+      typeof withData.message === 'string' &&
+      withData.message.trim().length > 0
+    ) {
+      return withData.message
+    }
+  }
+
+  if (error instanceof Error && error.message.trim().length > 0) {
+    return error.message
+  }
+
+  if (typeof error === 'string' && error.trim().length > 0) {
+    return error
+  }
+
+  return fallback
+}
+
+const workplaceError = computed(() => {
+  const errorValue = adminStore.workplacesError.value
+  if (!errorValue) {
+    return ''
+  }
+  return extractRequestError(
+    errorValue,
+    t('configurationManagement.configurations.errors.workplaceLoadFailed'),
+  )
+})
+
+function resetForm() {
+  form.configurationKey = ''
+  form.contextKey = ''
+  form.contextId = ''
+  form.workplaceId = ''
+  form.configurationValue = ''
+  form.flags = ''
+}
+
+watch(createDialog, (value) => {
+  if (!value) {
+    createLoading.value = false
+    createError.value = ''
+    resetForm()
+  }
+})
+
+function parseConfigurationValue(input: string): ConfigurationValue {
+  const trimmed = input.trim()
+  if (!trimmed) {
+    return ''
+  }
+
+  if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+    try {
+      return JSON.parse(trimmed)
+    } catch (error) {
+      console.warn('Failed to parse configuration value as JSON', error)
+      return input
+    }
+  }
+
+  if (/^-?\d+(\.\d+)?$/.test(trimmed)) {
+    const numeric = Number(trimmed)
+    if (!Number.isNaN(numeric)) {
+      return numeric
+    }
+  }
+
+  if (/^(true|false|null)$/i.test(trimmed)) {
+    try {
+      return JSON.parse(trimmed.toLowerCase())
+    } catch (error) {
+      console.warn('Failed to parse boolean/null configuration value', error)
+      return trimmed
+    }
+  }
+
+  return input
+}
+
+async function openCreate() {
+  createError.value = ''
+  createDialog.value = true
+
+  try {
+    await adminStore.fetchWorkplaces()
+  } catch (error) {
+    console.error('Failed to refresh workplaces list', error)
+  }
+}
+
+async function submitCreate() {
+  createError.value = ''
+
+  const configurationKey = form.configurationKey.trim()
+  if (!configurationKey) {
+    createError.value = t('configurationManagement.configurations.errors.keyRequired')
+    Notify.error(createError.value)
+    return
+  }
+
+  const contextKey = form.contextKey.trim()
+  if (!contextKey) {
+    createError.value = t(
+      'configurationManagement.configurations.errors.contextKeyRequired',
+    )
+    Notify.error(createError.value)
+    return
+  }
+
+  if (!form.configurationValue.trim()) {
+    createError.value = t(
+      'configurationManagement.configurations.errors.valueRequired',
+    )
+    Notify.error(createError.value)
+    return
+  }
+
+  const payload: ConfigurationPayload = {
+    configurationKey,
+    contextKey,
+    configurationValue: parseConfigurationValue(form.configurationValue),
+  }
+
+  const contextId = form.contextId.trim()
+  if (contextId) {
+    payload.contextId = contextId
+  }
+
+  const workplaceId = (form.workplaceId ?? '').toString().trim()
+  if (workplaceId) {
+    payload.workplaceId = workplaceId
+  }
+
+  const flags = form.flags
+    .split(',')
+    .map((flag) => flag.trim())
+    .filter((flag) => flag.length > 0)
+
+  if (flags.length > 0) {
+    payload.flags = flags
+  }
+
+  createLoading.value = true
+
+  try {
+    await $fetch('/api/v1/configuration', {
+      method: 'POST',
+      body: payload,
+    })
+
+    Notify.success(
+      t('configurationManagement.configurations.notifications.createSuccess'),
+    )
+
+    createDialog.value = false
+    await refreshAll()
+  } catch (error) {
+    createError.value = extractRequestError(
+      error,
+      t('configurationManagement.configurations.errors.createFailed'),
+    )
+    Notify.error(createError.value)
+  } finally {
+    createLoading.value = false
+  }
+}
 </script>
 
 <template>
@@ -204,10 +443,123 @@ const refreshAll = async () => {
       @update:search="(value) => (search.value = value)"
       @refresh="refreshAll"
     >
+      <template #header-actions>
+        <v-btn
+          color="primary"
+          prepend-icon="mdi-plus"
+          :disabled="loading"
+          @click="openCreate"
+        >
+          {{ t('configurationManagement.configurations.actions.new') }}
+        </v-btn>
+      </template>
       <template #item.valuePreview="{ item }">
         <span class="text-body-2 text-mono">{{ item.valuePreview }}</span>
       </template>
     </AdminDataTable>
+
+    <v-dialog v-model="createDialog" max-width="640">
+      <v-card>
+        <v-card-title>
+          {{ t('configurationManagement.configurations.dialogs.create.title') }}
+        </v-card-title>
+        <v-card-text>
+          <v-alert
+            v-if="createError"
+            type="error"
+            variant="tonal"
+            class="mb-4"
+          >
+            {{ createError }}
+          </v-alert>
+
+          <v-form @submit.prevent="submitCreate">
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  v-model="form.configurationKey"
+                  :label="t('configurationManagement.configurations.fields.key')"
+                  :disabled="createLoading"
+                  required
+                  autocomplete="off"
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model="form.contextKey"
+                  :label="t('configurationManagement.configurations.fields.contextKey')"
+                  :disabled="createLoading"
+                  required
+                  autocomplete="off"
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model="form.contextId"
+                  :label="t('configurationManagement.configurations.fields.contextId')"
+                  :disabled="createLoading"
+                  autocomplete="off"
+                />
+              </v-col>
+              <v-col cols="12">
+                <v-select
+                  v-model="form.workplaceId"
+                  :items="workplaceOptions"
+                  item-title="title"
+                  item-value="value"
+                  :label="t('configurationManagement.configurations.fields.workplace')"
+                  :placeholder="t('common.placeholders.selectWorkplace')"
+                  :loading="adminStore.workplacesPending"
+                  :disabled="createLoading"
+                  :error-messages="workplaceError ? [workplaceError] : []"
+                  clearable
+                />
+              </v-col>
+              <v-col cols="12">
+                <v-textarea
+                  v-model="form.configurationValue"
+                  :label="t('configurationManagement.configurations.fields.value')"
+                  :hint="t('configurationManagement.configurations.fields.valueHint')"
+                  persistent-hint
+                  :disabled="createLoading"
+                  auto-grow
+                  rows="3"
+                />
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  v-model="form.flags"
+                  :label="t('configurationManagement.configurations.fields.flags')"
+                  :hint="t('configurationManagement.configurations.fields.flagsHint')"
+                  persistent-hint
+                  :disabled="createLoading"
+                  autocomplete="off"
+                />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="justify-end">
+          <v-btn
+            variant="text"
+            :disabled="createLoading"
+            @click="createDialog = false"
+          >
+            {{ t('common.actions.cancel') }}
+          </v-btn>
+          <v-btn
+            color="primary"
+            :loading="createLoading"
+            :disabled="createLoading"
+            @click="submitCreate"
+          >
+            {{
+              t('configurationManagement.configurations.dialogs.create.submit')
+            }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 

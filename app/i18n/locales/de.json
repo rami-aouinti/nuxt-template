@@ -199,7 +199,8 @@
     },
     "placeholders": {
       "selectGroup": "Gruppe auswählen",
-      "selectUser": "Benutzer auswählen"
+      "selectUser": "Benutzer auswählen",
+      "selectWorkplace": "Arbeitsbereich auswählen"
     }
   },
   "profile": {
@@ -545,8 +546,37 @@
       "title": "Konfigurationen",
       "subtitle": "Konfigurationseinträge anzeigen und überwachen",
       "searchPlaceholder": "Konfigurationen suchen",
+      "actions": {
+        "new": "Neue Konfiguration"
+      },
       "alerts": {
         "loadFailed": "Konfigurationen konnten nicht geladen werden."
+      },
+      "dialogs": {
+        "create": {
+          "title": "Konfiguration erstellen",
+          "submit": "Konfiguration erstellen"
+        }
+      },
+      "fields": {
+        "key": "Konfigurationsschlüssel",
+        "contextKey": "Kontextschlüssel",
+        "contextId": "Kontext-ID",
+        "value": "Konfigurationswert",
+        "valueHint": "Geben Sie Klartext oder gültiges JSON ein.",
+        "flags": "Kennzeichen",
+        "flagsHint": "Geben Sie kommagetrennte Werte ein.",
+        "workplace": "Arbeitsbereich"
+      },
+      "errors": {
+        "keyRequired": "Ein Konfigurationsschlüssel ist erforderlich.",
+        "contextKeyRequired": "Ein Kontextschlüssel ist erforderlich.",
+        "valueRequired": "Ein Konfigurationswert ist erforderlich.",
+        "createFailed": "Die Konfiguration kann nicht erstellt werden.",
+        "workplaceLoadFailed": "Arbeitsbereiche können nicht geladen werden."
+      },
+      "notifications": {
+        "createSuccess": "Konfiguration erfolgreich erstellt."
       },
       "table": {
         "title": "Konfigurationen",
