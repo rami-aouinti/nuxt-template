@@ -1,26 +1,31 @@
 <script setup lang="ts">
+import { useAttrs } from 'vue'
+
+defineOptions({
+  inheritAttrs: false,
+})
+
+const attrs = useAttrs()
 const routeLoading = useRouteLoading()
 </script>
 
 <template>
-  <ClientOnly>
-    <transition name="fade-loader" mode="out-in">
-      <div v-if="routeLoading" class="app-route-loader">
-        <AppLoader
-          :model-value="routeLoading"
-          title="Navigation en cours"
-          subtitle="Nous préparons la prochaine page pour vous."
-        >
-          <div class="d-flex flex-column align-center ga-2">
-            <v-chip variant="elevated" color="white" class="text-primary text-subtitle-2">
-              <v-icon icon="mdi-compass" start />
-              Votre tableau de bord arrive…
-            </v-chip>
-          </div>
-        </AppLoader>
-      </div>
-    </transition>
-  </ClientOnly>
+  <transition name="fade-loader" mode="out-in">
+    <div v-if="routeLoading" class="app-route-loader" v-bind="attrs">
+      <AppLoader
+        :model-value="routeLoading"
+        title="Navigation en cours"
+        subtitle="Nous préparons la prochaine page pour vous."
+      >
+        <div class="d-flex flex-column align-center ga-2">
+          <v-chip variant="elevated" color="white" class="text-primary text-subtitle-2">
+            <v-icon icon="mdi-compass" start />
+            Votre tableau de bord arrive…
+          </v-chip>
+        </div>
+      </AppLoader>
+    </div>
+  </transition>
 </template>
 
 <style scoped>
