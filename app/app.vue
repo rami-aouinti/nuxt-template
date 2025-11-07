@@ -48,11 +48,9 @@ useSeoMeta(() => ({
     <AppBar />
     <v-main>
       <div class="route-container">
-        <NuxtPage
-          v-show="!routeLoading"
-          :key="route.fullPath"
-          class="route-container__page"
-        />
+        <div v-show="!routeLoading" class="route-container__page">
+          <NuxtPage :key="route.fullPath" />
+        </div>
         <AppRouteLoader v-if="routeLoading" class="route-container__loader" />
       </div>
     </v-main>
