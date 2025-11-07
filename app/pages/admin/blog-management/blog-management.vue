@@ -20,9 +20,20 @@ definePageMeta({
 
 const { t, locale } = useI18n()
 
-const headers = import.meta.server
-  ? useRequestHeaders(['cookie', 'authorization'])
-  : undefined
+const headers = computed<DataTableHeader[]>(() => [
+  { title: t('admin.blogManagement.blogs.table.title'), key: 'title', minWidth: 200 },
+  { title: t('admin.blogManagement.blogs.table.subtitle'), key: 'subtitle', minWidth: 260 },
+  { title: t('admin.blogManagement.blogs.table.author'), key: 'author', minWidth: 180 },
+  { title: t('admin.blogManagement.blogs.table.teams'), key: 'teams', minWidth: 200 },
+  { title: t('admin.blogManagement.blogs.table.createdAt'), key: 'createdAt', minWidth: 180 },
+  { title: t('admin.blogManagement.blogs.table.updatedAt'), key: 'updatedAt', minWidth: 180 },
+  {
+    title: t('admin.blogManagement.blogs.table.visibility'),
+    key: 'visible',
+    align: 'end',
+    minWidth: 140,
+  },
+])
 
 interface BlogRow {
   id: string
@@ -97,21 +108,6 @@ const errorMessage = computed(() => {
     t('common.unexpectedError')
   )
 })
-
-const headers = computed<DataTableHeader[]>(() => [
-  { title: t('admin.blogManagement.blogs.table.title'), key: 'title', minWidth: 200 },
-  { title: t('admin.blogManagement.blogs.table.subtitle'), key: 'subtitle', minWidth: 260 },
-  { title: t('admin.blogManagement.blogs.table.author'), key: 'author', minWidth: 180 },
-  { title: t('admin.blogManagement.blogs.table.teams'), key: 'teams', minWidth: 200 },
-  { title: t('admin.blogManagement.blogs.table.createdAt'), key: 'createdAt', minWidth: 180 },
-  { title: t('admin.blogManagement.blogs.table.updatedAt'), key: 'updatedAt', minWidth: 180 },
-  {
-    title: t('admin.blogManagement.blogs.table.visibility'),
-    key: 'visible',
-    align: 'end',
-    minWidth: 140,
-  },
-])
 
 const dateFormatter = computed(
   () =>

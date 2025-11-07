@@ -22,9 +22,30 @@ definePageMeta({
 
 const { t, locale } = useI18n()
 
-const headers = import.meta.server
-  ? useRequestHeaders(['cookie', 'authorization'])
-  : undefined
+const headers = computed<DataTableHeader[]>(() => [
+  { title: t('admin.blogManagement.comments.table.author'), key: 'author', minWidth: 180 },
+  { title: t('admin.blogManagement.comments.table.post'), key: 'post', minWidth: 220 },
+  { title: t('admin.blogManagement.comments.table.content'), key: 'content', minWidth: 320 },
+  { title: t('admin.blogManagement.comments.table.publishedAt'), key: 'publishedAt', minWidth: 180 },
+  {
+    title: t('admin.blogManagement.comments.table.likes'),
+    key: 'likes',
+    align: 'end',
+    width: 120,
+  },
+  {
+    title: t('admin.blogManagement.comments.table.replies'),
+    key: 'replies',
+    align: 'end',
+    width: 120,
+  },
+  {
+    title: t('admin.blogManagement.comments.table.visibility'),
+    key: 'visible',
+    align: 'end',
+    minWidth: 140,
+  },
+])
 
 interface CommentRow {
   id: string
@@ -118,31 +139,6 @@ const errorMessage = computed(() => {
     t('common.unexpectedError')
   )
 })
-
-const headers = computed<DataTableHeader[]>(() => [
-  { title: t('admin.blogManagement.comments.table.author'), key: 'author', minWidth: 180 },
-  { title: t('admin.blogManagement.comments.table.post'), key: 'post', minWidth: 220 },
-  { title: t('admin.blogManagement.comments.table.content'), key: 'content', minWidth: 320 },
-  { title: t('admin.blogManagement.comments.table.publishedAt'), key: 'publishedAt', minWidth: 180 },
-  {
-    title: t('admin.blogManagement.comments.table.likes'),
-    key: 'likes',
-    align: 'end',
-    width: 120,
-  },
-  {
-    title: t('admin.blogManagement.comments.table.replies'),
-    key: 'replies',
-    align: 'end',
-    width: 120,
-  },
-  {
-    title: t('admin.blogManagement.comments.table.visibility'),
-    key: 'visible',
-    align: 'end',
-    minWidth: 140,
-  },
-])
 
 const dateFormatter = computed(
   () =>

@@ -23,9 +23,32 @@ definePageMeta({
 
 const { t, locale } = useI18n()
 
-const headers = import.meta.server
-  ? useRequestHeaders(['cookie', 'authorization'])
-  : undefined
+const headers = computed<DataTableHeader[]>(() => [
+  { title: t('admin.blogManagement.posts.table.title'), key: 'title', minWidth: 220 },
+  { title: t('admin.blogManagement.posts.table.blog'), key: 'blog', minWidth: 180 },
+  { title: t('admin.blogManagement.posts.table.author'), key: 'author', minWidth: 180 },
+  { title: t('admin.blogManagement.posts.table.publishedAt'), key: 'publishedAt', minWidth: 180 },
+  { title: t('admin.blogManagement.posts.table.url'), key: 'url', minWidth: 220 },
+  { title: t('admin.blogManagement.posts.table.tags'), key: 'tags', minWidth: 200 },
+  {
+    title: t('admin.blogManagement.posts.table.comments'),
+    key: 'commentCount',
+    align: 'end',
+    width: 120,
+  },
+  {
+    title: t('admin.blogManagement.posts.table.likes'),
+    key: 'likeCount',
+    align: 'end',
+    width: 120,
+  },
+  {
+    title: t('admin.blogManagement.posts.table.visibility'),
+    key: 'visible',
+    align: 'end',
+    minWidth: 140,
+  },
+])
 
 interface PostRow {
   id: string
@@ -125,33 +148,6 @@ const errorMessage = computed(() => {
     t('common.unexpectedError')
   )
 })
-
-const headers = computed<DataTableHeader[]>(() => [
-  { title: t('admin.blogManagement.posts.table.title'), key: 'title', minWidth: 220 },
-  { title: t('admin.blogManagement.posts.table.blog'), key: 'blog', minWidth: 180 },
-  { title: t('admin.blogManagement.posts.table.author'), key: 'author', minWidth: 180 },
-  { title: t('admin.blogManagement.posts.table.publishedAt'), key: 'publishedAt', minWidth: 180 },
-  { title: t('admin.blogManagement.posts.table.url'), key: 'url', minWidth: 220 },
-  { title: t('admin.blogManagement.posts.table.tags'), key: 'tags', minWidth: 200 },
-  {
-    title: t('admin.blogManagement.posts.table.comments'),
-    key: 'commentCount',
-    align: 'end',
-    width: 120,
-  },
-  {
-    title: t('admin.blogManagement.posts.table.likes'),
-    key: 'likeCount',
-    align: 'end',
-    width: 120,
-  },
-  {
-    title: t('admin.blogManagement.posts.table.visibility'),
-    key: 'visible',
-    align: 'end',
-    minWidth: 140,
-  },
-])
 
 const dateFormatter = computed(
   () =>

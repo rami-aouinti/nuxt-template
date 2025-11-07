@@ -17,11 +17,28 @@ definePageMeta({
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 
-const { t, locale } = useI18n()
 
-const headers = import.meta.server
-  ? useRequestHeaders(['cookie', 'authorization'])
-  : undefined
+const headers = computed<DataTableHeader[]>(() => [
+  { title: t('admin.blogManagement.tags.table.name'), key: 'name', minWidth: 160 },
+  { title: t('admin.blogManagement.tags.table.description'), key: 'description', minWidth: 280 },
+  { title: t('admin.blogManagement.tags.table.color'), key: 'color', minWidth: 150 },
+  {
+    title: t('admin.blogManagement.tags.table.usage'),
+    key: 'usage',
+    align: 'end',
+    width: 120,
+  },
+  { title: t('admin.blogManagement.tags.table.createdAt'), key: 'createdAt', minWidth: 180 },
+  { title: t('admin.blogManagement.tags.table.updatedAt'), key: 'updatedAt', minWidth: 180 },
+  {
+    title: t('admin.blogManagement.tags.table.visibility'),
+    key: 'visible',
+    align: 'end',
+    minWidth: 140,
+  },
+])
+
+const { t, locale } = useI18n()
 
 interface TagRow {
   id: string
@@ -103,26 +120,6 @@ const errorMessage = computed(() => {
     t('common.unexpectedError')
   )
 })
-
-const headers = computed<DataTableHeader[]>(() => [
-  { title: t('admin.blogManagement.tags.table.name'), key: 'name', minWidth: 160 },
-  { title: t('admin.blogManagement.tags.table.description'), key: 'description', minWidth: 280 },
-  { title: t('admin.blogManagement.tags.table.color'), key: 'color', minWidth: 150 },
-  {
-    title: t('admin.blogManagement.tags.table.usage'),
-    key: 'usage',
-    align: 'end',
-    width: 120,
-  },
-  { title: t('admin.blogManagement.tags.table.createdAt'), key: 'createdAt', minWidth: 180 },
-  { title: t('admin.blogManagement.tags.table.updatedAt'), key: 'updatedAt', minWidth: 180 },
-  {
-    title: t('admin.blogManagement.tags.table.visibility'),
-    key: 'visible',
-    align: 'end',
-    minWidth: 140,
-  },
-])
 
 const dateFormatter = computed(
   () =>
