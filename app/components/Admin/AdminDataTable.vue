@@ -99,6 +99,47 @@ const computedItemsPerPageOptions = computed<ItemsPerPageOption[]>(
   () => props.itemsPerPageOptions ?? defaultItemsPerPageOptions,
 )
 
+const skeletonRowCount = computed(() => {
+  if (!loading.value) {
+    return 0
+  }
+
+  const itemCount = Array.isArray(items.value) ? items.value.length : 0
+  if (itemCount > 0) {
+    return Math.min(itemCount, 6)
+  }
+
+  const firstPositiveOption = computedItemsPerPageOptions.value.find((option) => {
+    const value = typeof option === 'number' ? option : option.value
+    return typeof value === 'number' && value > 0
+  })
+
+  const fallbackValue =
+    typeof firstPositiveOption === 'number'
+      ? firstPositiveOption
+      : firstPositiveOption?.value
+
+  const safeFallback =
+    typeof fallbackValue === 'number' && fallbackValue > 0 ? fallbackValue : 6
+
+  return Math.min(safeFallback, 6)
+})
+
+function getHeaderKey(header: DataTableHeader, index: number) {
+  const possibleKey =
+    (header as Record<string, unknown>).key ??
+    (header as Record<string, unknown>).value ??
+    (typeof (header as Record<string, unknown>).title === 'string'
+      ? (header as Record<string, unknown>).title
+      : undefined)
+
+  if (typeof possibleKey === 'string' || typeof possibleKey === 'number') {
+    return possibleKey
+  }
+
+  return `col-${index}`
+}
+
 const toolbarStyle = computed(() => ({
   '--admin-table-color': `var(--v-theme-${props.color})`,
 }))
@@ -212,6 +253,19 @@ function refresh() {
       hover
       rounded="0"
     >
+      <template #loading="{ isActive }">
+        <tbody v-if="isActive" class="admin-data-table__skeleton-body">
+          <tr v-for="rowIndex in skeletonRowCount" :key="`skeleton-row-${rowIndex}`">
+            <td
+              v-for="(header, headerIndex) in headers"
+              :key="`skeleton-cell-${rowIndex}-${getHeaderKey(header, headerIndex)}`"
+            >
+              <v-skeleton-loader class="admin-data-table__skeleton" type="text" />
+            </td>
+          </tr>
+        </tbody>
+      </template>
+
       <template
         v-for="slotName in dataTableSlots"
         #[slotName]="slotProps"
@@ -317,6 +371,22 @@ function refresh() {
 
 :deep(.v-data-table__wrapper) {
   padding: 0 16px 8px;
+}
+
+.admin-data-table__skeleton-body td {
+  padding: 16px;
+}
+
+.admin-data-table__skeleton-body tr:not(:last-child) td {
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--v-theme-outline-variant) 55%, transparent);
+}
+
+.admin-data-table__skeleton {
+  display: block;
+  width: 100%;
+  height: 18px;
+  border-radius: 999px;
 }
 
 @media (max-width: 600px) {
