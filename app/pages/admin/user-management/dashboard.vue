@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {computed} from "vue";
+import { computed } from 'vue'
+import { useAdminStore } from '~/stores/admin'
 
 definePageMeta({
   icon: 'mdi-monitor-dashboard',
@@ -7,46 +8,17 @@ definePageMeta({
   drawerIndex: 0,
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
+
 const { t } = useI18n()
+const adminStore = useAdminStore()
 
-const headers = process.server ? useRequestHeaders(['cookie', 'authorization']) : undefined;
-
-const extractCount = (d: any): number => {
-  if (typeof d === 'number') return d;
-  if (!d || typeof d !== 'object') return 0;
-  if (typeof d.count === 'number') return d.count;
-  if (typeof d.total === 'number') return d.total;
-  if (typeof d["hydra:totalItems"] === 'number') return d["hydra:totalItems"];
-// Sometimes wrapped e.g. { data: { count: 5 } }
-  if (d.data) return extractCount(d.data);
-  return 0;
-};
-
-const fetchCount = (url: string, key: string) =>
-  useFetch<number>(url, {
-    key,
-    headers,
-    credentials: 'include',
-    transform: extractCount,
-  });
-
-const [
-  { data: userCount },
-  { data: userGroupCount },
-  { data: roleCount },
-  { data: apiKeyCount },
-] = await Promise.all([
-  fetchCount('/api/v1/user/count', 'user-count'),
-  fetchCount('/api/v1/user_group/count', 'user-group-count'),
-  fetchCount('/api/v1/role/count', 'role-count'),
-  fetchCount('/api/v1/api_key/count', 'api-key-count'),
-]);
+await adminStore.fetchAllCounts()
 
 const stats = computed(() => [
   {
     icon: 'mdi-account-multiple-outline',
     title: t('navigation.users'),
-    value: userCount.value ?? 0,
+    value: adminStore.userCount.value ?? 0,
     url: '/admin/user-management/users',
     color: 'primary',
     caption: t('admin.metrics.users'),
@@ -54,7 +26,7 @@ const stats = computed(() => [
   {
     icon: 'mdi-shield-key-outline',
     title: t('navigation.roles'),
-    value: roleCount.value ?? 0,
+    value: adminStore.roleCount.value ?? 0,
     url: '/admin/user-management/roles',
     color: 'primary',
     caption: t('admin.metrics.roles'),
@@ -62,7 +34,7 @@ const stats = computed(() => [
   {
     icon: 'mdi-account-group-outline',
     title: t('navigation.userGroups'),
-    value: userGroupCount.value ?? 0,
+    value: adminStore.userGroupCount.value ?? 0,
     url: '/admin/user-management/user-groups',
     color: 'primary',
     caption: t('admin.metrics.groups'),
@@ -70,11 +42,11 @@ const stats = computed(() => [
   {
     icon: 'mdi-key-outline',
     title: t('navigation.apiKeys'),
-    value: apiKeyCount.value ?? 0,
+    value: adminStore.apiKeyCount.value ?? 0,
     url: '/admin/user-management/api-keys',
     color: 'primary',
     caption: t('admin.metrics.apiKeys'),
-  }
+  },
 ])
 </script>
 
