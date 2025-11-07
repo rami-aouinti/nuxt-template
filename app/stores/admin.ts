@@ -4,6 +4,7 @@ import type { User } from '~/types/user'
 import type { UserGroup } from '~/types/userGroup'
 import type { Role } from '~/types/role'
 import type { ApiKey } from '~/types/apiKey'
+import type { Workplace } from '~/types/workplace'
 
 type ApiVersion = 'v1' | 'v2'
 
@@ -109,6 +110,7 @@ export const useAdminStore = defineStore('admin', () => {
 
   const users = createCache<User[]>('/api/v1/user')
   const userGroups = createCache<UserGroup[]>('/api/v1/user_group')
+  const workplaces = createCache<Workplace[]>('/api/v1/workplace')
   const roles = createCache<Role[]>('/api/v1/role')
   const apiKeysByVersion: Record<ApiVersion, CacheEntry<ApiKey[]>> = {
     v1: createCache<ApiKey[]>('/api/v1/api_key'),
@@ -117,6 +119,7 @@ export const useAdminStore = defineStore('admin', () => {
 
   const userCount = createCache<number>('/api/v1/user/count')
   const userGroupCount = createCache<number>('/api/v1/user_group/count')
+  const workplaceCount = createCache<number>('/api/v1/workplace/count')
   const roleCount = createCache<number>('/api/v1/role/count')
   const apiKeyCount = createCache<number>('/api/v1/api_key/count')
 
@@ -124,6 +127,7 @@ export const useAdminStore = defineStore('admin', () => {
     Promise.all([
       userCount.fetch(options),
       userGroupCount.fetch(options),
+      workplaceCount.fetch(options),
       roleCount.fetch(options),
       apiKeyCount.fetch(options),
     ])
@@ -132,6 +136,7 @@ export const useAdminStore = defineStore('admin', () => {
     Promise.all([
       userCount.refresh(),
       userGroupCount.refresh(),
+      workplaceCount.refresh(),
       roleCount.refresh(),
       apiKeyCount.refresh(),
     ])
@@ -147,9 +152,11 @@ export const useAdminStore = defineStore('admin', () => {
   function clearAll() {
     users.clear()
     userGroups.clear()
+    workplaces.clear()
     roles.clear()
     userCount.clear()
     userGroupCount.clear()
+    workplaceCount.clear()
     roleCount.clear()
     apiKeyCount.clear()
     for (const version of Object.keys(apiKeysByVersion) as ApiVersion[]) {
@@ -169,6 +176,12 @@ export const useAdminStore = defineStore('admin', () => {
     userGroupsError: userGroups.error,
     fetchUserGroups: userGroups.fetch,
     refreshUserGroups: userGroups.refresh,
+
+    workplaces: workplaces.data,
+    workplacesPending: workplaces.pending,
+    workplacesError: workplaces.error,
+    fetchWorkplaces: workplaces.fetch,
+    refreshWorkplaces: workplaces.refresh,
 
     roles: roles.data,
     rolesPending: roles.pending,
@@ -191,6 +204,12 @@ export const useAdminStore = defineStore('admin', () => {
     userGroupCountError: userGroupCount.error,
     fetchUserGroupCount: userGroupCount.fetch,
     refreshUserGroupCount: userGroupCount.refresh,
+
+    workplaceCount: workplaceCount.data,
+    workplaceCountPending: workplaceCount.pending,
+    workplaceCountError: workplaceCount.error,
+    fetchWorkplaceCount: workplaceCount.fetch,
+    refreshWorkplaceCount: workplaceCount.refresh,
 
     roleCount: roleCount.data,
     roleCountPending: roleCount.pending,
