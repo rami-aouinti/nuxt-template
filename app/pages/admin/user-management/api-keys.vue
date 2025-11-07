@@ -43,19 +43,27 @@ await Promise.all([
   adminStore.fetchApiKeys('v2'),
 ])
 
-const pendingV1 = computed(() => apiKeysByVersion.value.v1.pending.value)
-const errorV1 = computed(() => apiKeysByVersion.value.v1.error.value)
+const pendingV1 = computed(
+  () => apiKeysByVersion.value?.v1?.pending.value ?? false,
+)
+const errorV1 = computed(
+  () => apiKeysByVersion.value?.v1?.error.value ?? null,
+)
 const refreshV1 = () => adminStore.refreshApiKeys('v1')
 
-const pendingV2 = computed(() => apiKeysByVersion.value.v2.pending.value)
-const errorV2 = computed(() => apiKeysByVersion.value.v2.error.value)
+const pendingV2 = computed(
+  () => apiKeysByVersion.value?.v2?.pending.value ?? false,
+)
+const errorV2 = computed(
+  () => apiKeysByVersion.value?.v2?.error.value ?? null,
+)
 const refreshV2 = () => adminStore.refreshApiKeys('v2')
 
 const itemsV1 = computed<ApiKey[]>(
-  () => apiKeysByVersion.value.v1.data.value ?? [],
+  () => apiKeysByVersion.value?.v1?.data.value ?? [],
 )
 const itemsV2 = computed<ApiKey[]>(
-  () => apiKeysByVersion.value.v2.data.value ?? [],
+  () => apiKeysByVersion.value?.v2?.data.value ?? [],
 )
 
 const currentVersion = computed(() => tab.value)
