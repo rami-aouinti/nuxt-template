@@ -6,7 +6,7 @@ import { useAdminStore } from '~/stores/admin'
 definePageMeta({
   title: 'navigation.roles',
   icon: 'mdi-shield-key-outline',
-  drawerIndex: 3,
+  drawerIndex: 4,
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 

@@ -9,7 +9,7 @@ definePageMeta({
 })
 const { t } = useI18n()
 
-const headers = process.server ? useRequestHeaders(['cookie', 'authorization']) : undefined;
+const headers = import.meta.server ? useRequestHeaders(['cookie', 'authorization']) : undefined;
 
 const extractCount = (d: any): number => {
   if (typeof d === 'number') return d;
@@ -33,11 +33,13 @@ const fetchCount = (url: string, key: string) =>
 const [
   { data: userCount },
   { data: userGroupCount },
+  { data: workplaceCount },
   { data: roleCount },
   { data: apiKeyCount },
 ] = await Promise.all([
   fetchCount('/api/v1/user/count', 'user-count'),
   fetchCount('/api/v1/user_group/count', 'user-group-count'),
+  fetchCount('/api/v1/workplace/count', 'workplace-count'),
   fetchCount('/api/v1/role/count', 'role-count'),
   fetchCount('/api/v1/api_key/count', 'api-key-count'),
 ]);
@@ -66,6 +68,14 @@ const stats = computed(() => [
     url: '/admin/user-management/user-groups',
     color: 'primary',
     caption: t('admin.metrics.groups'),
+  },
+  {
+    icon: 'mdi-office-building',
+    title: t('navigation.workplaces'),
+    value: workplaceCount.value ?? 0,
+    url: '/admin/user-management/workplaces',
+    color: 'primary',
+    caption: t('admin.metrics.workplaces'),
   },
   {
     icon: 'mdi-key-outline',

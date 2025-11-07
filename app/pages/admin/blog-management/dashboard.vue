@@ -9,7 +9,7 @@ definePageMeta({
 })
 const { t } = useI18n()
 
-const headers = process.server ? useRequestHeaders(['cookie', 'authorization']) : undefined;
+const headers = import.meta.server ? useRequestHeaders(['cookie', 'authorization']) : undefined;
 
 const extractCount = (d: any): number => {
   if (typeof d === 'number') return d;
