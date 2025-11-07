@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { computed, reactive, ref, watch } from 'vue'
 import type { DataTableHeader } from 'vuetify'
 import { useAdminStore } from '~/stores/admin'
@@ -14,6 +15,12 @@ definePageMeta({
 
 const { t } = useI18n()
 const adminStore = useAdminStore()
+const {
+  users: usersRef,
+  usersPending: pending,
+  usersError: error,
+  userGroups: userGroupsRef,
+} = storeToRefs(adminStore)
 
 await Promise.all([
   adminStore.fetchUsers(),
@@ -31,8 +38,6 @@ const headers = computed<DataTableHeader[]>(() => [
   { title: '', key: 'actions', sortable: false, align: 'end', width: 150 },
 ])
 
-const pending = adminStore.usersPending
-const error = adminStore.usersError
 const tableError = computed(() =>
   error.value ? t('userManagement.users.alerts.loadFailed') : null,
 )
@@ -51,10 +56,8 @@ type Group = {
 
 const refreshUserGroups = () => adminStore.refreshUserGroups()
 
-const items = computed<User[]>(() => adminStore.users.value ?? [])
-const userGroups = computed<UserGroup[]>(
-  () => adminStore.userGroups.value ?? [],
-)
+const items = computed<User[]>(() => usersRef.value ?? [])
+const userGroups = computed<UserGroup[]>(() => userGroupsRef.value ?? [])
 
 type UserFormState = {
   username: string
@@ -522,11 +525,11 @@ watch(attachDialog, (value) => {
     <v-row>
       <v-col>
         <AdminDataTable
+          v-model:search="search"
           :headers="headers"
           :items="items"
           :loading="pending"
           :error="tableError"
-          v-model:search="search"
           :title="t('userManagement.users.cardTitle')"
           :subtitle="t('navigation.userManagement')"
           item-value="id"
