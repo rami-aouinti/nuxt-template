@@ -102,6 +102,67 @@
     "blogManagement": {
       "placeholders": {
         "underConstruction": "Cette section est en cours de construction."
+      },
+      "common": {
+        "none": "Aucun",
+        "visibility": {
+          "visible": "Visible",
+          "hidden": "Masqué"
+        }
+      },
+      "blogs": {
+        "title": "Blogs",
+        "subtitle": "Vue d'ensemble des blogs disponibles et de leurs équipes.",
+        "table": {
+          "title": "Titre",
+          "subtitle": "Sous-titre",
+          "author": "Auteur",
+          "teams": "Équipes",
+          "createdAt": "Créé le",
+          "updatedAt": "Mis à jour le",
+          "visibility": "Visibilité"
+        }
+      },
+      "posts": {
+        "title": "Articles",
+        "subtitle": "Articles récents publiés sur l'ensemble des blogs.",
+        "table": {
+          "title": "Titre",
+          "blog": "Blog",
+          "author": "Auteur",
+          "publishedAt": "Publié le",
+          "url": "URL",
+          "tags": "Étiquettes",
+          "comments": "Commentaires",
+          "likes": "Mentions j'aime",
+          "visibility": "Visibilité"
+        }
+      },
+      "comments": {
+        "title": "Commentaires",
+        "subtitle": "Derniers retours partagés par les lecteurs.",
+        "table": {
+          "author": "Auteur",
+          "post": "Article",
+          "content": "Contenu",
+          "publishedAt": "Publié le",
+          "likes": "Mentions j'aime",
+          "replies": "Réponses",
+          "visibility": "Visibilité"
+        }
+      },
+      "tags": {
+        "title": "Étiquettes",
+        "subtitle": "Taxonomie utilisée pour organiser les articles du blog.",
+        "table": {
+          "name": "Nom",
+          "description": "Description",
+          "color": "Couleur",
+          "usage": "Utilisation",
+          "createdAt": "Créé le",
+          "updatedAt": "Mis à jour le",
+          "visibility": "Visibilité"
+        }
       }
     },
       "workplaces": "Number of workplaces",
