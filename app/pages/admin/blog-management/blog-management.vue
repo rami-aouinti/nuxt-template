@@ -1,8 +1,15 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import type { DataTableHeader } from 'vuetify'
-
+import type { Blog } from '~/types/blog'
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
+import {
+  normalizeCollection,
+  pickString,
+  resolveStringList,
+  resolveUserName,
+  resolveVisibilityFlag,
+} from '~/utils/blog/admin'
 
 definePageMeta({
   title: 'navigation.blogs',
@@ -13,47 +20,83 @@ definePageMeta({
 
 const { t, locale } = useI18n()
 
+const headers = import.meta.server
+  ? useRequestHeaders(['cookie', 'authorization'])
+  : undefined
+
 interface BlogRow {
+  id: string
   title: string
   subtitle?: string | null
   author: string
   teams: string[]
-  createdAt: string
-  updatedAt: string
+  createdAt: string | null
+  updatedAt: string | null
   visible: boolean
 }
 
 const search = ref('')
 
-const blogs = ref<BlogRow[]>([
-  {
-    title: 'Tech Insights',
-    subtitle: 'Exploring architecture, tooling, and developer culture.',
-    author: 'Rami Aouinti',
-    teams: ['Engineering', 'Platform'],
-    createdAt: '2023-08-15T09:24:00Z',
-    updatedAt: '2024-04-12T13:15:00Z',
-    visible: true,
-  },
-  {
-    title: 'Product Pulse',
-    subtitle: 'Stories from our product and design squads.',
-    author: 'Julia Hoffmann',
-    teams: ['Product', 'Design'],
-    createdAt: '2023-11-02T11:05:00Z',
-    updatedAt: '2024-03-28T08:40:00Z',
-    visible: true,
-  },
-  {
-    title: 'Community Chronicles',
-    subtitle: 'Highlights from partners, customers, and open source.',
-    author: 'Imran Malik',
-    teams: ['Developer Relations'],
-    createdAt: '2022-05-22T14:12:00Z',
-    updatedAt: '2024-01-19T17:22:00Z',
-    visible: false,
-  },
-])
+const {
+  data: rawBlogs,
+  pending,
+  error,
+  refresh,
+} = await useFetch<Blog[]>('/api/blog/v1/blog', {
+  key: 'admin-blog-list',
+  headers,
+  credentials: 'include',
+  transform: (data) => normalizeCollection<Blog>(data),
+})
+
+const blogs = computed<BlogRow[]>(() => {
+  const entries = rawBlogs.value ?? []
+
+  return entries.map((blog, index) => {
+    const identifier =
+      pickString(blog?.id, blog?.uuid, blog?.slug, blog?.name) ?? `blog-${index}`
+    const title =
+      pickString(blog?.title, blog?.name, blog?.slug) ||
+      t('admin.blogManagement.common.none')
+    const subtitle = pickString(blog?.subtitle, blog?.description)
+    const author =
+      resolveUserName(blog?.owner ?? blog?.user ?? blog?.author) ??
+      t('admin.blogManagement.common.none')
+    const teamsSource =
+      blog?.teams ?? blog?.categories ?? blog?.groups ?? []
+    const teams = resolveStringList(teamsSource, ['name', 'title', 'label', 'slug'])
+    const createdAt = pickString(blog?.createdAt, blog?.created_at)
+    const updatedAt = pickString(blog?.updatedAt, blog?.updated_at)
+    const visible = resolveVisibilityFlag(blog ?? null)
+
+    return {
+      id: identifier,
+      title,
+      subtitle: subtitle ?? null,
+      author,
+      teams,
+      createdAt: createdAt ?? null,
+      updatedAt: updatedAt ?? null,
+      visible,
+    }
+  })
+})
+
+const errorMessage = computed(() => {
+  if (!error.value) {
+    return null
+  }
+
+  const err = error.value as
+    | { data?: { message?: string }; message?: string }
+    | null
+
+  return (
+    (err?.data && typeof err.data.message === 'string' && err.data.message) ||
+    (typeof err?.message === 'string' ? err.message : null) ||
+    t('common.unexpectedError')
+  )
+})
 
 const headers = computed<DataTableHeader[]>(() => [
   { title: t('admin.blogManagement.blogs.table.title'), key: 'title', minWidth: 200 },
@@ -98,9 +141,12 @@ function formatDate(value: string | number | Date | null | undefined) {
       v-model:search="search"
       :headers="headers"
       :items="blogs"
+      :loading="pending"
+      :error="errorMessage"
       :title="t('admin.blogManagement.blogs.title')"
       :subtitle="t('admin.blogManagement.blogs.subtitle')"
       color="primary"
+      @refresh="refresh"
     >
       <template #[`item.subtitle`]="{ value }">
         {{ value || t('admin.blogManagement.common.none') }}
