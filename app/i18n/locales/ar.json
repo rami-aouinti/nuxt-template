@@ -20,6 +20,8 @@
     "admin": "الإدارة",
     "dashboard": "لوحة التحكم",
     "userManagement": "إدارة المستخدمين",
+    "settingManagement": "إدارة الإعدادات",
+    "blogManagement": "إدارة المدونة",
     "users": "المستخدمون",
     "roles": "الأدوار",
     "userGroups": "مجموعات المستخدمين",

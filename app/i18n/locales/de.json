@@ -20,6 +20,8 @@
     "admin": "Administration",
     "dashboard": "Dashboard",
     "userManagement": "Benutzerverwaltung",
+    "settingManagement": "Einstellungsverwaltung",
+    "blogManagement": "Blogverwaltung",
     "users": "Benutzer",
     "roles": "Rollen",
     "userGroups": "Benutzergruppen",
