@@ -1,18 +1,18 @@
 {
   "app": {
     "title": "Vitify Admin",
-    "description": "قالب إدارة متكامل بـ Vuetify 3 و Nuxt 3",
+    "description": "قالب إدارة برأي يعتمد على Vuetify 3 و Nuxt 3",
     "brand": {
-      "name": "عالم برو",
-      "highlight": "برو"
+      "name": "Bro World",
+      "highlight": "World"
     },
     "footer": {
-      "copyright": "© {year} عالم برو",
-      "craftedBy": "عالم برو"
+      "copyright": "© {year} Bro World",
+      "craftedBy": "Bro World"
     },
     "loader": {
       "title": "جارٍ التحميل",
-      "subtitle": "يرجى الانتظار للحظات…"
+      "subtitle": "يرجى الانتظار لحظة…"
     }
   },
   "navigation": {
@@ -28,42 +28,138 @@
     "blog": "المدونة",
     "language": "تغيير اللغة"
   },
+  "blog": {
+    "title": "المدونة",
+    "description": "ابق على اطلاع بآخر أخبار Bro World.",
+    "actions": {
+      "refresh": "تحديث",
+      "read": "قراءة المقال"
+    },
+    "alerts": {
+      "loadFailed": "حدث خطأ أثناء تحميل المقالات. يرجى المحاولة مرة أخرى."
+    },
+    "meta": {
+      "author": "بقلم {author} • {date}"
+    },
+    "placeholders": {
+      "noSummary": "لا يتوفر ملخص لهذا المقال."
+    },
+    "stats": {
+      "reactions": "{count} تفاعلات",
+      "comments": "{count} تعليقات"
+    },
+    "empty": {
+      "title": "لا توجد مقالات منشورة بعد",
+      "description": "عد لاحقًا لاكتشاف المنشورات القادمة."
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "stats": {
+        "bandwidth": {
+          "title": "عرض النطاق",
+          "caption": "الصاعد: {up}، الهابط: {down}"
+        },
+        "submissions": {
+          "title": "الإرسالات",
+          "caption": "صغير جدًا وساذج جدًا"
+        },
+        "requests": {
+          "title": "الطلبات",
+          "caption": "الحد: {limit}"
+        },
+        "messages": {
+          "title": "الرسائل",
+          "caption": "التحذيرات: {warnings}، الأخطاء: {errors}"
+        },
+        "github": {
+          "title": "نجوم GitHub",
+          "caption": "واجهة البرمجة لم تستجب"
+        },
+        "totalFee": {
+          "title": "الرسوم الإجمالية",
+          "caption": "الحد الأعلى: {limit}"
+        }
+      }
+    },
+    "metrics": {
+      "users": "عدد المستخدمين",
+      "roles": "عدد الأدوار",
+      "groups": "عدد المجموعات",
+      "apiKeys": "عدد مفاتيح API"
+    }
+  },
   "auth": {
     "profile": "الملف الشخصي",
     "login": "تسجيل الدخول",
-    "loginWithGithub": "تسجيل الدخول عبر GitHub",
-    "loginWithCredentials": "تسجيل الدخول بالبيانات",
+    "loginWithGithub": "تسجيل الدخول باستخدام GitHub",
+    "loginWithCredentials": "تسجيل الدخول عبر بيانات الاعتماد",
     "logout": "تسجيل الخروج",
     "loginSuccess": "تم تسجيل الدخول بنجاح",
     "logoutSuccess": "تم تسجيل الخروج بنجاح",
     "loginRequired": "يجب تسجيل الدخول للوصول إلى هذه الصفحة.",
-    "adminOnly": "الدخول مخصص للمسؤولين فقط.",
-    "loginFailed": "فشل في المصادقة.",
+    "adminOnly": "الوصول مخصص للمسؤولين فقط.",
+    "loginFailed": "فشلت عملية المصادقة.",
     "guest": "مستخدم"
   },
   "common": {
     "unexpectedError": "حدث خطأ غير متوقع.",
     "actions": {
-      "cancel": "Cancel",
-      "create": "Create",
-      "save": "Save",
-      "close": "Close",
-      "delete": "Delete",
-      "link": "Link"
+      "cancel": "إلغاء",
+      "create": "إنشاء",
+      "save": "حفظ",
+      "edit": "تحرير",
+      "close": "إغلاق",
+      "delete": "حذف",
+      "link": "ربط"
     },
     "labels": {
-      "search": "Search",
-      "group": "Group",
-      "user": "User"
+      "search": "بحث",
+      "group": "مجموعة",
+      "user": "مستخدم"
     },
     "placeholders": {
-      "selectGroup": "Select a group",
-      "selectUser": "Select a user"
+      "selectGroup": "اختر مجموعة",
+      "selectUser": "اختر مستخدمًا"
     }
   },
   "profile": {
     "updateSuccess": "تم تحديث الملف الشخصي بنجاح.",
-    "updateFailed": "فشل تحديث الملف الشخصي."
+    "updateFailed": "فشل تحديث الملف الشخصي.",
+    "page": {
+      "edit": {
+        "title": "تحرير الملف الشخصي",
+        "description": "حدّث معلوماتك الشخصية للحفاظ على ملفك الشخصي محدثًا على المنصة."
+      },
+      "alerts": {
+        "emptyProfile": "لا تتوفر بيانات للملف الشخصي. سجّل الدخول للاطلاع على معلوماتك."
+      },
+      "avatar": {
+        "alt": "صورة الملف الشخصي"
+      }
+    },
+    "fields": {
+      "title": "المسمى الوظيفي",
+      "gender": "النوع",
+      "phone": "رقم الهاتف",
+      "address": "العنوان",
+      "birthday": "تاريخ الميلاد",
+      "description": "الوصف",
+      "photo": "صورة الملف الشخصي",
+      "userId": "معرّف المستخدم"
+    },
+    "sections": {
+      "personalInfo": {
+        "title": "معلومات شخصية"
+      },
+      "details": {
+        "title": "تفاصيل الملف الشخصي"
+      },
+      "roles": {
+        "title": "الأدوار",
+        "empty": "لا توجد أدوار مخصّصة بعد."
+      }
+    }
   },
   "userManagement": {
     "users": {
@@ -71,93 +167,93 @@
         "createSuccess": "تم إنشاء المستخدم بنجاح.",
         "updateSuccess": "تم تحديث المستخدم بنجاح.",
         "attachSuccess": "تم ربط المجموعة بالمستخدم بنجاح.",
-        "detachSuccess": "تم فصل المجموعة عن المستخدم.",
+        "detachSuccess": "تم فك ارتباط المجموعة عن المستخدم.",
         "deleteSuccess": "تم حذف المستخدم بنجاح."
       },
       "errors": {
         "usernameEmailRequired": "اسم المستخدم والبريد الإلكتروني مطلوبان.",
-        "passwordRequired": "كلمة المرور مطلوبة لإنشاء مستخدم جديد.",
-        "createFailed": "تعذر إنشاء المستخدم.",
-        "updateFailed": "تعذر تحديث المستخدم.",
-        "openView": "تعذر فتح تفاصيل هذا المستخدم.",
-        "loadDetails": "تعذر جلب تفاصيل المستخدم.",
-        "loadGroups": "تعذر جلب مجموعات المستخدم.",
-        "selectGroup": "اختر مجموعة لربط هذا المستخدم بها.",
-        "attachFailed": "تعذر ربط هذه المجموعة بالمستخدم.",
-        "detachFailed": "تعذر فصل هذه المجموعة عن المستخدم.",
-        "deleteFailed": "تعذر حذف المستخدم."
+        "passwordRequired": "يجب إدخال كلمة مرور لإنشاء مستخدم جديد.",
+        "createFailed": "تعذّر إنشاء المستخدم.",
+        "updateFailed": "تعذّر تحديث المستخدم.",
+        "openView": "تعذّر فتح تفاصيل هذا المستخدم.",
+        "loadDetails": "تعذّر جلب تفاصيل المستخدم.",
+        "loadGroups": "تعذّر جلب مجموعات المستخدم.",
+        "selectGroup": "اختر مجموعة لربط هذا المستخدم.",
+        "attachFailed": "تعذّر ربط هذه المجموعة بالمستخدم.",
+        "detachFailed": "تعذّر فك ارتباط هذه المجموعة بالمستخدم.",
+        "deleteFailed": "تعذّر حذف المستخدم."
       },
       "table": {
-        "username": "Username",
-        "firstName": "First name",
-        "lastName": "Last name",
-        "email": "Email address",
-        "status": "Status"
+        "username": "اسم المستخدم",
+        "firstName": "الاسم الأول",
+        "lastName": "اسم العائلة",
+        "email": "البريد الإلكتروني",
+        "status": "الحالة"
       },
       "status": {
-        "active": "Active",
-        "inactive": "Inactive"
+        "active": "نشط",
+        "inactive": "غير نشط"
       },
-      "cardTitle": "User management",
+      "cardTitle": "إدارة المستخدمين",
       "actions": {
-        "new": "New user",
-        "viewTooltip": "View {username}",
-        "editTooltip": "Edit {username}",
-        "deleteTooltip": "Delete {username}"
+        "new": "مستخدم جديد",
+        "viewTooltip": "عرض {username}",
+        "editTooltip": "تحرير {username}",
+        "deleteTooltip": "حذف {username}"
       },
       "alerts": {
-        "loadFailed": "Failed to load users."
+        "loadFailed": "تعذّر تحميل المستخدمين."
       },
       "fields": {
-        "username": "Username",
-        "email": "Email address",
-        "firstName": "First name",
-        "lastName": "Last name",
-        "language": "Language",
-        "locale": "Locale",
-        "timezone": "Time zone",
-        "password": "Password",
-        "newPassword": "New password (optional)",
-        "enabled": "Active user",
-        "status": "Status"
+        "username": "اسم المستخدم",
+        "email": "البريد الإلكتروني",
+        "firstName": "الاسم الأول",
+        "lastName": "اسم العائلة",
+        "language": "اللغة",
+        "locale": "الإعدادات المحلية",
+        "timezone": "المنطقة الزمنية",
+        "password": "كلمة المرور",
+        "newPassword": "كلمة مرور جديدة (اختياري)",
+        "enabled": "مستخدم نشط",
+        "status": "الحالة"
       },
       "hints": {
-        "keepPassword": "Leave blank to keep the current password."
+        "keepPassword": "اتركه فارغًا للاحتفاظ بكلمة المرور الحالية."
       },
       "labels": {
-        "userFallback": "this user"
+        "userFallback": "هذا المستخدم"
       },
       "dialogs": {
         "create": {
-          "title": "Create user"
+          "title": "إنشاء مستخدم"
         },
         "edit": {
-          "title": "Edit {username}"
+          "title": "تحرير {username}"
         },
         "view": {
-          "title": "User details"
+          "title": "تفاصيل المستخدم"
         },
         "attachGroup": {
-          "title": "Link a group"
+          "title": "ربط مجموعة"
         },
         "delete": {
-          "title": "Delete user",
-          "warningPrefix": "This action cannot be undone. Do you really want to delete",
-          "warningSuffix": "?"
+          "title": "حذف المستخدم",
+          "warningPrefix": "لا يمكن التراجع عن هذا الإجراء. هل ترغب حقًا في حذف",
+          "warningSuffix": "؟"
         }
       },
       "details": {
         "groups": {
-          "title": "Groups",
+          "title": "المجموعات",
           "actions": {
-            "link": "Link a group"
+            "link": "ربط مجموعة"
           },
-          "empty": "No groups linked."
+          "empty": "لا توجد مجموعات مرتبطة."
         },
-        "empty": "No user selected."
+        "empty": "لم يتم اختيار أي مستخدم."
       },
       "logs": {
-        "openDetail": "Opening user detail dialog"
+        "openDetail": "فتح مربع حوار تفاصيل المستخدم"
       }
     },
     "groups": {
@@ -166,175 +262,145 @@
         "updateSuccess": "تم تحديث مجموعة المستخدمين بنجاح.",
         "deleteSuccess": "تم حذف مجموعة المستخدمين بنجاح.",
         "attachSuccess": "تم ربط المستخدم بالمجموعة.",
-        "detachSuccess": "تم فصل المستخدم عن المجموعة."
+        "detachSuccess": "تم فك ارتباط المستخدم بالمجموعة."
       },
       "errors": {
         "nameRequired": "اسم المجموعة مطلوب.",
-        "createFailed": "تعذر إنشاء مجموعة المستخدمين.",
-        "updateFailed": "تعذر تحديث مجموعة المستخدمين.",
-        "loadDetails": "تعذر تحميل تفاصيل مجموعة المستخدمين.",
-        "loadUsers": "تعذر جلب مستخدمي هذه المجموعة.",
+        "createFailed": "تعذّر إنشاء مجموعة المستخدمين.",
+        "updateFailed": "تعذّر تحديث مجموعة المستخدمين.",
+        "loadDetails": "تعذّر تحميل تفاصيل مجموعة المستخدمين.",
+        "loadUsers": "تعذّر جلب مستخدمي المجموعة.",
         "selectUser": "اختر مستخدمًا لربطه بهذه المجموعة.",
-        "attachFailed": "تعذر ربط هذا المستخدم بالمجموعة.",
-        "detachFailed": "تعذر فصل هذا المستخدم عن المجموعة.",
-        "deleteFailed": "تعذر حذف مجموعة المستخدمين هذه."
+        "attachFailed": "تعذّر ربط هذا المستخدم بالمجموعة.",
+        "detachFailed": "تعذّر فك ارتباط هذا المستخدم بالمجموعة.",
+        "deleteFailed": "تعذّر حذف مجموعة المستخدمين."
       },
       "table": {
-        "name": "Name",
-        "id": "Identifier",
-        "actions": "Actions"
+        "name": "الاسم",
+        "id": "المعرّف",
+        "actions": "الإجراءات"
       },
-      "cardTitle": "User groups",
+      "cardTitle": "مجموعات المستخدمين",
       "actions": {
-        "new": "New group",
-        "viewTooltip": "View {name}",
-        "editTooltip": "Edit {name}",
-        "deleteTooltip": "Delete {name}"
+        "new": "مجموعة جديدة",
+        "viewTooltip": "عرض {name}",
+        "editTooltip": "تحرير {name}",
+        "deleteTooltip": "حذف {name}"
       },
       "alerts": {
-        "loadFailed": "Failed to load user groups."
+        "loadFailed": "تعذّر تحميل مجموعات المستخدمين."
       },
       "fields": {
-        "name": "Group name",
-        "description": "Description",
-        "id": "Identifier"
+        "name": "اسم المجموعة",
+        "description": "الوصف",
+        "id": "المعرّف"
       },
       "labels": {
-        "groupFallback": "this group"
+        "groupFallback": "هذه المجموعة"
       },
       "dialogs": {
         "create": {
-          "title": "Create user group"
+          "title": "إنشاء مجموعة مستخدمين"
         },
         "edit": {
-          "title": "Edit user group"
+          "title": "تحرير مجموعة مستخدمين"
         },
         "view": {
-          "title": "User group details"
+          "title": "تفاصيل مجموعة المستخدمين"
         },
         "attachUser": {
-          "title": "Link a user"
+          "title": "ربط مستخدم"
         },
         "delete": {
-          "title": "Delete user group",
-          "warningPrefix": "This action cannot be undone. Do you really want to delete",
-          "warningSuffix": "?"
+          "title": "حذف مجموعة مستخدمين",
+          "warningPrefix": "لا يمكن التراجع عن هذا الإجراء. هل ترغب حقًا في حذف",
+          "warningSuffix": "؟"
         }
       },
       "details": {
         "users": {
-          "title": "Users",
+          "title": "المستخدمون",
           "actions": {
-            "link": "Link a user"
+            "link": "ربط مستخدم"
           },
-          "empty": "No users linked."
+          "empty": "لا يوجد مستخدمون مرتبطون."
         },
-        "empty": "No group selected."
+        "empty": "لم يتم اختيار أي مجموعة."
       }
     },
     "apiKeys": {
       "labels": {
-        "v1": "واجهة برمجة التطبيقات v1",
-        "v2": "واجهة برمجة التطبيقات v2",
-        "keyFallback": "this API key"
+        "v1": "API v1",
+        "v2": "API v2",
+        "keyFallback": "مفتاح API هذا"
       },
       "notifications": {
-        "createSuccess": "تم إنشاء مفتاح واجهة برمجة التطبيقات بنجاح ({version}).",
-        "updateSuccess": "تم تحديث مفتاح واجهة برمجة التطبيقات بنجاح ({version}).",
-        "deleteSuccess": "تم حذف مفتاح واجهة برمجة التطبيقات ({version})."
+        "createSuccess": "تم إنشاء مفتاح API بنجاح ({version}).",
+        "updateSuccess": "تم تحديث مفتاح API بنجاح ({version}).",
+        "deleteSuccess": "تم حذف مفتاح API ({version})."
       },
       "errors": {
         "descriptionRequired": "الوصف مطلوب.",
-        "createFailed": "تعذر إنشاء مفتاح واجهة برمجة التطبيقات.",
-        "updateFailed": "تعذر تحديث مفتاح واجهة برمجة التطبيقات.",
-        "loadDetails": "تعذر تحميل تفاصيل مفتاح واجهة برمجة التطبيقات.",
-        "deleteFailed": "تعذر حذف مفتاح واجهة برمجة التطبيقات.",
-        "partialUpdateRequired": "يرجى تعبئة حقل واحد على الأقل لتحديث مفتاح واجهة برمجة التطبيقات."
+        "createFailed": "تعذّر إنشاء مفتاح API.",
+        "updateFailed": "تعذّر تحديث مفتاح API.",
+        "loadDetails": "تعذّر تحميل تفاصيل مفتاح API.",
+        "deleteFailed": "تعذّر حذف مفتاح API.",
+        "partialUpdateRequired": "يرجى توفير حقل واحد على الأقل لتحديث مفتاح API."
       },
-      "cardTitle": "API keys",
+      "cardTitle": "مفاتيح API",
       "table": {
-        "description": "Description",
-        "token": "Token",
-        "id": "Identifier",
-        "actions": "Actions"
+        "description": "الوصف",
+        "token": "الرمز",
+        "id": "المعرّف",
+        "actions": "الإجراءات"
       },
       "actions": {
-        "new": "New API key ({version})",
-        "viewTooltip": "View {description}",
-        "editTooltip": "Edit {description}",
-        "deleteTooltip": "Delete {description}"
+        "new": "مفتاح API جديد ({version})",
+        "viewTooltip": "عرض {description}",
+        "editTooltip": "تحرير {description}",
+        "deleteTooltip": "حذف {description}"
       },
       "alerts": {
-        "loadFailed": "Failed to load {version} API keys."
+        "loadFailed": "تعذّر تحميل مفاتيح API الخاصة بـ {version}."
       },
       "fields": {
-        "description": "Description",
-        "token": "Token",
-        "id": "Identifier"
+        "description": "الوصف",
+        "token": "الرمز",
+        "id": "المعرّف"
       },
       "hints": {
-        "keepToken": "Leave blank to keep the current token (PATCH only)."
+        "keepToken": "اتركه فارغًا للاحتفاظ بالرمز الحالي (لعمليات PATCH فقط)."
       },
       "dialogs": {
         "create": {
-          "title": "Create API key ({version})"
+          "title": "إنشاء مفتاح API ({version})"
         },
         "edit": {
-          "title": "Edit API key ({version})"
+          "title": "تحرير مفتاح API ({version})"
         },
         "view": {
-          "title": "API key details ({version})",
-          "empty": "No API key selected."
+          "title": "تفاصيل مفتاح API ({version})",
+          "empty": "لم يتم اختيار أي مفتاح API."
         },
         "delete": {
-          "title": "Delete API key",
-          "warningPrefix": "Are you sure you want to delete this API key",
-          "warningSuffix": "?"
+          "title": "حذف مفتاح API",
+          "warningPrefix": "هل أنت متأكد أنك تريد حذف مفتاح API هذا",
+          "warningSuffix": "؟"
         }
       }
     },
     "roles": {
       "table": {
-        "id": "Role ID",
-        "description": "Description"
+        "id": "معرّف الدور",
+        "description": "الوصف"
       },
-      "cardTitle": "Roles",
+      "cardTitle": "الأدوار",
       "alerts": {
-        "loadFailed": "Failed to load roles."
+        "loadFailed": "تعذّر تحميل الأدوار."
       }
     }
   },
   "$vuetify": {
     "close": "إغلاق"
-  },
-  "admin": {
-    "dashboard": {
-      "stats": {
-        "bandwidth": {
-          "title": "Bandwidth",
-          "caption": "Up: {up}, Down: {down}"
-        },
-        "submissions": {
-          "title": "Submissions",
-          "caption": "Too young, too naive"
-        },
-        "requests": {
-          "title": "Requests",
-          "caption": "Limit: {limit}"
-        },
-        "messages": {
-          "title": "Messages",
-          "caption": "Warnings: {warnings}, errors: {errors}"
-        },
-        "github": {
-          "title": "GitHub stars",
-          "caption": "API did not respond"
-        },
-        "totalFee": {
-          "title": "Total fee",
-          "caption": "Upper limit: {limit}"
-        }
-      }
-    }
   }
 }

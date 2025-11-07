@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type {Count} from "~/types/count";
 import {computed} from "vue";
 
 definePageMeta({
@@ -49,7 +48,7 @@ const stats = computed(() => [
     value: userCount.value ?? 0,
     url: '/admin/user-management/users',
     color: 'primary',
-    caption: 'Number of users',
+    caption: t('admin.metrics.users'),
   },
   {
     icon: 'mdi-shield-key-outline',
@@ -57,7 +56,7 @@ const stats = computed(() => [
     value: roleCount.value ?? 0,
     url: '/admin/user-management/roles',
     color: 'primary',
-    caption: 'Number of roles',
+    caption: t('admin.metrics.roles'),
   },
   {
     icon: 'mdi-account-group-outline',
@@ -65,7 +64,7 @@ const stats = computed(() => [
     value: userGroupCount.value ?? 0,
     url: '/admin/user-management/user-groups',
     color: 'primary',
-    caption: 'Number of groups',
+    caption: t('admin.metrics.groups'),
   },
   {
     icon: 'mdi-key-outline',
@@ -73,7 +72,7 @@ const stats = computed(() => [
     value: apiKeyCount.value ?? 0,
     url: '/admin/user-management/api-keys',
     color: 'primary',
-    caption: 'Number of api keys',
+    caption: t('admin.metrics.apiKeys'),
   }
 ])
 </script>

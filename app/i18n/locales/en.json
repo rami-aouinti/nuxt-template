@@ -28,6 +28,31 @@
     "blog": "Blog",
     "language": "Change language"
   },
+  "blog": {
+    "title": "Blog",
+    "description": "Stay up to date with the latest Bro World news.",
+    "actions": {
+      "refresh": "Refresh",
+      "read": "Read the article"
+    },
+    "alerts": {
+      "loadFailed": "An error occurred while loading the articles. Please try again."
+    },
+    "meta": {
+      "author": "By {author} • {date}"
+    },
+    "placeholders": {
+      "noSummary": "No summary is available for this article."
+    },
+    "stats": {
+      "reactions": "{count} reactions",
+      "comments": "{count} comments"
+    },
+    "empty": {
+      "title": "No articles published yet",
+      "description": "Please check back later for upcoming posts."
+    }
+  },
   "admin": {
     "dashboard": {
       "stats": {
@@ -56,6 +81,12 @@
           "caption": "Upper limit: {limit}"
         }
       }
+    },
+    "metrics": {
+      "users": "Number of users",
+      "roles": "Number of roles",
+      "groups": "Number of groups",
+      "apiKeys": "Number of API keys"
     }
   },
   "auth": {
@@ -77,6 +108,7 @@
       "cancel": "Cancel",
       "create": "Create",
       "save": "Save",
+      "edit": "Edit",
       "close": "Close",
       "delete": "Delete",
       "link": "Link"
@@ -93,7 +125,41 @@
   },
   "profile": {
     "updateSuccess": "Profile updated successfully.",
-    "updateFailed": "Profile update failed."
+    "updateFailed": "Profile update failed.",
+    "page": {
+      "edit": {
+        "title": "Edit profile",
+        "description": "Update your personal information to keep your profile up to date on the platform."
+      },
+      "alerts": {
+        "emptyProfile": "No profile data is available. Sign in to view your information."
+      },
+      "avatar": {
+        "alt": "Profile photo"
+      }
+    },
+    "fields": {
+      "title": "Job title",
+      "gender": "Gender",
+      "phone": "Phone number",
+      "address": "Address",
+      "birthday": "Date of birth",
+      "description": "Description",
+      "photo": "Profile photo",
+      "userId": "User identifier"
+    },
+    "sections": {
+      "personalInfo": {
+        "title": "Personal information"
+      },
+      "details": {
+        "title": "Profile details"
+      },
+      "roles": {
+        "title": "Roles",
+        "empty": "No roles assigned yet."
+      }
+    }
   },
   "userManagement": {
     "users": {

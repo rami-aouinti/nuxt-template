@@ -28,6 +28,67 @@
     "blog": "Blog",
     "language": "Cambia lingua"
   },
+  "blog": {
+    "title": "Blog",
+    "description": "Rimani aggiornato sulle ultime novità di Bro World.",
+    "actions": {
+      "refresh": "Aggiorna",
+      "read": "Leggi l'articolo"
+    },
+    "alerts": {
+      "loadFailed": "Si è verificato un errore durante il caricamento degli articoli. Riprova."
+    },
+    "meta": {
+      "author": "Di {author} • {date}"
+    },
+    "placeholders": {
+      "noSummary": "Non è disponibile un riepilogo per questo articolo."
+    },
+    "stats": {
+      "reactions": "{count} reazioni",
+      "comments": "{count} commenti"
+    },
+    "empty": {
+      "title": "Nessun articolo pubblicato al momento",
+      "description": "Torna più tardi per scoprire i prossimi contenuti."
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "stats": {
+        "bandwidth": {
+          "title": "Larghezza di banda",
+          "caption": "In upload: {up}, in download: {down}"
+        },
+        "submissions": {
+          "title": "Invii",
+          "caption": "Troppo giovane, troppo ingenuo"
+        },
+        "requests": {
+          "title": "Richieste",
+          "caption": "Limite: {limit}"
+        },
+        "messages": {
+          "title": "Messaggi",
+          "caption": "Avvisi: {warnings}, errori: {errors}"
+        },
+        "github": {
+          "title": "Stelle GitHub",
+          "caption": "L'API non ha risposto"
+        },
+        "totalFee": {
+          "title": "Costo totale",
+          "caption": "Limite massimo: {limit}"
+        }
+      }
+    },
+    "metrics": {
+      "users": "Numero di utenti",
+      "roles": "Numero di ruoli",
+      "groups": "Numero di gruppi",
+      "apiKeys": "Numero di chiavi API"
+    }
+  },
   "auth": {
     "profile": "Profilo",
     "login": "Accedi",
@@ -44,26 +105,61 @@
   "common": {
     "unexpectedError": "Si è verificato un errore imprevisto.",
     "actions": {
-      "cancel": "Cancel",
-      "create": "Create",
-      "save": "Save",
-      "close": "Close",
-      "delete": "Delete",
-      "link": "Link"
+      "cancel": "Annulla",
+      "create": "Crea",
+      "save": "Salva",
+      "edit": "Modifica",
+      "close": "Chiudi",
+      "delete": "Elimina",
+      "link": "Collega"
     },
     "labels": {
-      "search": "Search",
-      "group": "Group",
-      "user": "User"
+      "search": "Cerca",
+      "group": "Gruppo",
+      "user": "Utente"
     },
     "placeholders": {
-      "selectGroup": "Select a group",
-      "selectUser": "Select a user"
+      "selectGroup": "Seleziona un gruppo",
+      "selectUser": "Seleziona un utente"
     }
   },
   "profile": {
     "updateSuccess": "Profilo aggiornato con successo.",
-    "updateFailed": "Aggiornamento del profilo non riuscito."
+    "updateFailed": "Aggiornamento del profilo non riuscito.",
+    "page": {
+      "edit": {
+        "title": "Modifica profilo",
+        "description": "Aggiorna le tue informazioni personali per mantenere il profilo sempre aggiornato sulla piattaforma."
+      },
+      "alerts": {
+        "emptyProfile": "Nessun dato del profilo disponibile. Accedi per visualizzare le tue informazioni."
+      },
+      "avatar": {
+        "alt": "Foto profilo"
+      }
+    },
+    "fields": {
+      "title": "Titolo professionale",
+      "gender": "Genere",
+      "phone": "Telefono",
+      "address": "Indirizzo",
+      "birthday": "Data di nascita",
+      "description": "Descrizione",
+      "photo": "Foto profilo",
+      "userId": "Identificativo utente"
+    },
+    "sections": {
+      "personalInfo": {
+        "title": "Informazioni personali"
+      },
+      "details": {
+        "title": "Dettagli del profilo"
+      },
+      "roles": {
+        "title": "Ruoli",
+        "empty": "Nessun ruolo assegnato al momento."
+      }
+    }
   },
   "userManagement": {
     "users": {
@@ -75,7 +171,7 @@
         "deleteSuccess": "Utente eliminato con successo."
       },
       "errors": {
-        "usernameEmailRequired": "Nome utente ed e-mail sono obbligatori.",
+        "usernameEmailRequired": "Nome utente ed email sono obbligatori.",
         "passwordRequired": "È necessaria una password per creare un nuovo utente.",
         "createFailed": "Impossibile creare l'utente.",
         "updateFailed": "Impossibile aggiornare l'utente.",
@@ -88,253 +184,223 @@
         "deleteFailed": "Impossibile eliminare l'utente."
       },
       "table": {
-        "username": "Username",
-        "firstName": "First name",
-        "lastName": "Last name",
-        "email": "Email address",
-        "status": "Status"
+        "username": "Nome utente",
+        "firstName": "Nome",
+        "lastName": "Cognome",
+        "email": "Indirizzo email",
+        "status": "Stato"
       },
       "status": {
-        "active": "Active",
-        "inactive": "Inactive"
+        "active": "Attivo",
+        "inactive": "Inattivo"
       },
-      "cardTitle": "User management",
+      "cardTitle": "Gestione utenti",
       "actions": {
-        "new": "New user",
-        "viewTooltip": "View {username}",
-        "editTooltip": "Edit {username}",
-        "deleteTooltip": "Delete {username}"
+        "new": "Nuovo utente",
+        "viewTooltip": "Visualizza {username}",
+        "editTooltip": "Modifica {username}",
+        "deleteTooltip": "Elimina {username}"
       },
       "alerts": {
-        "loadFailed": "Failed to load users."
+        "loadFailed": "Impossibile caricare gli utenti."
       },
       "fields": {
-        "username": "Username",
-        "email": "Email address",
-        "firstName": "First name",
-        "lastName": "Last name",
-        "language": "Language",
-        "locale": "Locale",
-        "timezone": "Time zone",
+        "username": "Nome utente",
+        "email": "Indirizzo email",
+        "firstName": "Nome",
+        "lastName": "Cognome",
+        "language": "Lingua",
+        "locale": "Localizzazione",
+        "timezone": "Fuso orario",
         "password": "Password",
-        "newPassword": "New password (optional)",
-        "enabled": "Active user",
-        "status": "Status"
+        "newPassword": "Nuova password (opzionale)",
+        "enabled": "Utente attivo",
+        "status": "Stato"
       },
       "hints": {
-        "keepPassword": "Leave blank to keep the current password."
+        "keepPassword": "Lascia vuoto per mantenere la password attuale."
       },
       "labels": {
-        "userFallback": "this user"
+        "userFallback": "questo utente"
       },
       "dialogs": {
         "create": {
-          "title": "Create user"
+          "title": "Crea utente"
         },
         "edit": {
-          "title": "Edit {username}"
+          "title": "Modifica {username}"
         },
         "view": {
-          "title": "User details"
+          "title": "Dettagli utente"
         },
         "attachGroup": {
-          "title": "Link a group"
+          "title": "Collega un gruppo"
         },
         "delete": {
-          "title": "Delete user",
-          "warningPrefix": "This action cannot be undone. Do you really want to delete",
+          "title": "Elimina utente",
+          "warningPrefix": "Questa azione non può essere annullata. Vuoi davvero eliminare",
           "warningSuffix": "?"
         }
       },
       "details": {
         "groups": {
-          "title": "Groups",
+          "title": "Gruppi",
           "actions": {
-            "link": "Link a group"
+            "link": "Collega un gruppo"
           },
-          "empty": "No groups linked."
+          "empty": "Nessun gruppo collegato."
         },
-        "empty": "No user selected."
+        "empty": "Nessun utente selezionato."
       },
       "logs": {
-        "openDetail": "Opening user detail dialog"
+        "openDetail": "Apertura finestra dei dettagli utente"
       }
     },
     "groups": {
       "notifications": {
-        "createSuccess": "Gruppo di utenti creato con successo.",
-        "updateSuccess": "Gruppo di utenti aggiornato con successo.",
-        "deleteSuccess": "Gruppo di utenti eliminato con successo.",
-        "attachSuccess": "Utente associato al gruppo.",
+        "createSuccess": "Gruppo utenti creato correttamente.",
+        "updateSuccess": "Gruppo utenti aggiornato correttamente.",
+        "deleteSuccess": "Gruppo utenti eliminato correttamente.",
+        "attachSuccess": "Utente collegato al gruppo.",
         "detachSuccess": "Utente scollegato dal gruppo."
       },
       "errors": {
-        "nameRequired": "Il nome del gruppo è obbligatorio.",
-        "createFailed": "Impossibile creare il gruppo di utenti.",
-        "updateFailed": "Impossibile aggiornare il gruppo di utenti.",
-        "loadDetails": "Impossibile caricare i dettagli del gruppo di utenti.",
-        "loadUsers": "Impossibile recuperare gli utenti di questo gruppo.",
-        "selectUser": "Seleziona un utente da associare a questo gruppo.",
-        "attachFailed": "Impossibile associare questo utente al gruppo.",
+        "nameRequired": "È necessario un nome per il gruppo.",
+        "createFailed": "Impossibile creare il gruppo utenti.",
+        "updateFailed": "Impossibile aggiornare il gruppo utenti.",
+        "loadDetails": "Impossibile caricare i dettagli del gruppo utenti.",
+        "loadUsers": "Impossibile recuperare gli utenti del gruppo.",
+        "selectUser": "Seleziona un utente da collegare a questo gruppo.",
+        "attachFailed": "Impossibile collegare questo utente al gruppo.",
         "detachFailed": "Impossibile scollegare questo utente dal gruppo.",
-        "deleteFailed": "Impossibile eliminare questo gruppo di utenti."
+        "deleteFailed": "Impossibile eliminare questo gruppo utenti."
       },
       "table": {
-        "name": "Name",
-        "id": "Identifier",
-        "actions": "Actions"
+        "name": "Nome",
+        "id": "Identificativo",
+        "actions": "Azioni"
       },
-      "cardTitle": "User groups",
+      "cardTitle": "Gruppi utenti",
       "actions": {
-        "new": "New group",
-        "viewTooltip": "View {name}",
-        "editTooltip": "Edit {name}",
-        "deleteTooltip": "Delete {name}"
+        "new": "Nuovo gruppo",
+        "viewTooltip": "Visualizza {name}",
+        "editTooltip": "Modifica {name}",
+        "deleteTooltip": "Elimina {name}"
       },
       "alerts": {
-        "loadFailed": "Failed to load user groups."
+        "loadFailed": "Impossibile caricare i gruppi utenti."
       },
       "fields": {
-        "name": "Group name",
-        "description": "Description",
-        "id": "Identifier"
+        "name": "Nome del gruppo",
+        "description": "Descrizione",
+        "id": "Identificativo"
       },
       "labels": {
-        "groupFallback": "this group"
+        "groupFallback": "questo gruppo"
       },
       "dialogs": {
         "create": {
-          "title": "Create user group"
+          "title": "Crea gruppo utenti"
         },
         "edit": {
-          "title": "Edit user group"
+          "title": "Modifica gruppo utenti"
         },
         "view": {
-          "title": "User group details"
+          "title": "Dettagli del gruppo utenti"
         },
         "attachUser": {
-          "title": "Link a user"
+          "title": "Collega un utente"
         },
         "delete": {
-          "title": "Delete user group",
-          "warningPrefix": "This action cannot be undone. Do you really want to delete",
+          "title": "Elimina gruppo utenti",
+          "warningPrefix": "Questa azione non può essere annullata. Vuoi davvero eliminare",
           "warningSuffix": "?"
         }
       },
       "details": {
         "users": {
-          "title": "Users",
+          "title": "Utenti",
           "actions": {
-            "link": "Link a user"
+            "link": "Collega un utente"
           },
-          "empty": "No users linked."
+          "empty": "Nessun utente collegato."
         },
-        "empty": "No group selected."
+        "empty": "Nessun gruppo selezionato."
       }
     },
     "apiKeys": {
       "labels": {
         "v1": "API v1",
         "v2": "API v2",
-        "keyFallback": "this API key"
+        "keyFallback": "questa chiave API"
       },
       "notifications": {
-        "createSuccess": "Chiave API creata con successo ({version}).",
-        "updateSuccess": "Chiave API aggiornata con successo ({version}).",
+        "createSuccess": "Chiave API creata correttamente ({version}).",
+        "updateSuccess": "Chiave API aggiornata correttamente ({version}).",
         "deleteSuccess": "Chiave API eliminata ({version})."
       },
       "errors": {
-        "descriptionRequired": "La descrizione è obbligatoria.",
+        "descriptionRequired": "È necessaria una descrizione.",
         "createFailed": "Impossibile creare la chiave API.",
         "updateFailed": "Impossibile aggiornare la chiave API.",
         "loadDetails": "Impossibile caricare i dettagli della chiave API.",
         "deleteFailed": "Impossibile eliminare la chiave API.",
-        "partialUpdateRequired": "Compila almeno un campo per aggiornare la chiave API."
+        "partialUpdateRequired": "Fornisci almeno un campo per aggiornare la chiave API."
       },
-      "cardTitle": "API keys",
+      "cardTitle": "Chiavi API",
       "table": {
-        "description": "Description",
+        "description": "Descrizione",
         "token": "Token",
-        "id": "Identifier",
-        "actions": "Actions"
+        "id": "Identificativo",
+        "actions": "Azioni"
       },
       "actions": {
-        "new": "New API key ({version})",
-        "viewTooltip": "View {description}",
-        "editTooltip": "Edit {description}",
-        "deleteTooltip": "Delete {description}"
+        "new": "Nuova chiave API ({version})",
+        "viewTooltip": "Visualizza {description}",
+        "editTooltip": "Modifica {description}",
+        "deleteTooltip": "Elimina {description}"
       },
       "alerts": {
-        "loadFailed": "Failed to load {version} API keys."
+        "loadFailed": "Impossibile caricare le chiavi API {version}."
       },
       "fields": {
-        "description": "Description",
+        "description": "Descrizione",
         "token": "Token",
-        "id": "Identifier"
+        "id": "Identificativo"
       },
       "hints": {
-        "keepToken": "Leave blank to keep the current token (PATCH only)."
+        "keepToken": "Lascia vuoto per mantenere il token attuale (solo PATCH)."
       },
       "dialogs": {
         "create": {
-          "title": "Create API key ({version})"
+          "title": "Crea chiave API ({version})"
         },
         "edit": {
-          "title": "Edit API key ({version})"
+          "title": "Modifica chiave API ({version})"
         },
         "view": {
-          "title": "API key details ({version})",
-          "empty": "No API key selected."
+          "title": "Dettagli della chiave API ({version})",
+          "empty": "Nessuna chiave API selezionata."
         },
         "delete": {
-          "title": "Delete API key",
-          "warningPrefix": "Are you sure you want to delete this API key",
+          "title": "Elimina chiave API",
+          "warningPrefix": "Vuoi davvero eliminare questa chiave API",
           "warningSuffix": "?"
         }
       }
     },
     "roles": {
       "table": {
-        "id": "Role ID",
-        "description": "Description"
+        "id": "ID ruolo",
+        "description": "Descrizione"
       },
-      "cardTitle": "Roles",
+      "cardTitle": "Ruoli",
       "alerts": {
-        "loadFailed": "Failed to load roles."
+        "loadFailed": "Impossibile caricare i ruoli."
       }
     }
   },
   "$vuetify": {
     "close": "Chiudi"
-  },
-  "admin": {
-    "dashboard": {
-      "stats": {
-        "bandwidth": {
-          "title": "Bandwidth",
-          "caption": "Up: {up}, Down: {down}"
-        },
-        "submissions": {
-          "title": "Submissions",
-          "caption": "Too young, too naive"
-        },
-        "requests": {
-          "title": "Requests",
-          "caption": "Limit: {limit}"
-        },
-        "messages": {
-          "title": "Messages",
-          "caption": "Warnings: {warnings}, errors: {errors}"
-        },
-        "github": {
-          "title": "GitHub stars",
-          "caption": "API did not respond"
-        },
-        "totalFee": {
-          "title": "Total fee",
-          "caption": "Upper limit: {limit}"
-        }
-      }
-    }
   }
 }

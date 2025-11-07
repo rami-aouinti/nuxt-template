@@ -7,6 +7,8 @@ definePageMeta({
   drawerIndex: 1,
 })
 
+const { t, locale } = useI18n()
+
 const BLOG_POSTS_ENDPOINT = 'https://blog.bro-world.org/public/post'
 
 interface BlogPostUser {
@@ -62,7 +64,7 @@ const getAuthorName = (user: BlogPostUser) => {
 const getAuthorAvatar = (user: BlogPostUser) => user.photo || undefined
 
 const formatPublishedAt = (publishedAt: string) =>
-  new Intl.DateTimeFormat('fr-FR', {
+  new Intl.DateTimeFormat(locale.value, {
     dateStyle: 'long',
     timeStyle: 'short',
   }).format(new Date(publishedAt))
@@ -75,9 +77,11 @@ const formatPublishedAt = (publishedAt: string) =>
         <v-sheet class="pa-6" elevation="0" rounded="xl" color="transparent">
           <div class="d-flex align-center justify-space-between mb-6">
             <div>
-              <h1 class="text-h4 text-h3-md font-weight-bold mb-1">Blog</h1>
+              <h1 class="text-h4 text-h3-md font-weight-bold mb-1">
+                {{ t('blog.title') }}
+              </h1>
               <p class="text-medium-emphasis mb-0">
-                Retrouvez les dernières actualités de Bro World.
+                {{ t('blog.description') }}
               </p>
             </div>
             <v-btn
@@ -87,7 +91,7 @@ const formatPublishedAt = (publishedAt: string) =>
               :loading="pending"
               @click="refresh"
             >
-              Actualiser
+              {{ t('blog.actions.refresh') }}
             </v-btn>
           </div>
 
@@ -99,8 +103,7 @@ const formatPublishedAt = (publishedAt: string) =>
             border="start"
             prominent
           >
-            Une erreur est survenue lors du chargement des articles. Veuillez
-            réessayer.
+            {{ t('blog.alerts.loadFailed') }}
           </v-alert>
 
           <v-row v-if="pending">
@@ -139,8 +142,12 @@ const formatPublishedAt = (publishedAt: string) =>
                       {{ post.title }}
                     </v-card-title>
                     <v-card-subtitle class="text-body-2 text-medium-emphasis">
-                      Par {{ getAuthorName(post.user) }} •
-                      {{ formatPublishedAt(post.publishedAt) }}
+                      {{
+                        t('blog.meta.author', {
+                          author: getAuthorName(post.user),
+                          date: formatPublishedAt(post.publishedAt),
+                        })
+                      }}
                     </v-card-subtitle>
                   </v-card-item>
 
@@ -148,7 +155,7 @@ const formatPublishedAt = (publishedAt: string) =>
                     <p class="text-body-1 mb-4">
                       {{
                         post.summary ||
-                        'Aucun résumé disponible pour cet article.'
+                        t('blog.placeholders.noSummary')
                       }}
                     </p>
                     <v-divider class="mb-4" />
@@ -157,13 +164,21 @@ const formatPublishedAt = (publishedAt: string) =>
                         class="d-flex align-center text-medium-emphasis mr-6 mb-2"
                       >
                         <v-icon icon="mdi-thumb-up-outline" class="mr-1" />
-                        {{ post.reactions_count ?? 0 }} réactions
+                        {{
+                          t('blog.stats.reactions', {
+                            count: post.reactions_count ?? 0,
+                          })
+                        }}
                       </div>
                       <div
                         class="d-flex align-center text-medium-emphasis mr-6 mb-2"
                       >
                         <v-icon icon="mdi-comment-text-outline" class="mr-1" />
-                        {{ post.totalComments ?? 0 }} commentaires
+                        {{
+                          t('blog.stats.comments', {
+                            count: post.totalComments ?? 0,
+                          })
+                        }}
                       </div>
                     </div>
                   </v-card-text>
@@ -177,7 +192,7 @@ const formatPublishedAt = (publishedAt: string) =>
                       variant="text"
                       append-icon="mdi-open-in-new"
                     >
-                      Lire l'article
+                      {{ t('blog.actions.read') }}
                     </v-btn>
                   </v-card-actions>
                 </v-card>
@@ -191,9 +206,9 @@ const formatPublishedAt = (publishedAt: string) =>
               rounded="xl"
             >
               <v-icon icon="mdi-post-outline" size="64" class="mb-4" />
-              <h2 class="text-h5 mb-2">Aucun article publié pour le moment</h2>
+              <h2 class="text-h5 mb-2">{{ t('blog.empty.title') }}</h2>
               <p class="text-medium-emphasis mb-0">
-                Revenez plus tard pour découvrir les prochaines publications.
+                {{ t('blog.empty.description') }}
               </p>
             </v-sheet>
           </template>

@@ -292,12 +292,13 @@ async function submit() {
   <v-container fluid class="py-8">
     <v-dialog v-model="editDialog" max-width="640">
       <v-card>
-        <v-card-title class="text-wrap">Modifier le profil</v-card-title>
+        <v-card-title class="text-wrap">
+          {{ t('profile.page.edit.title') }}
+        </v-card-title>
         <v-divider />
         <v-card-text>
           <p class="text-body-2 text-medium-emphasis mb-4">
-            Mettez à jour vos informations personnelles afin de conserver un
-            profil à jour sur la plateforme.
+            {{ t('profile.page.edit.description') }}
           </p>
           <v-alert
             v-if="formError"
@@ -313,7 +314,7 @@ async function submit() {
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="form.firstName"
-                  label="Prénom"
+                  :label="t('userManagement.users.fields.firstName')"
                   autocomplete="given-name"
                   :disabled="isSaving"
                 />
@@ -321,7 +322,7 @@ async function submit() {
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="form.lastName"
-                  label="Nom"
+                  :label="t('userManagement.users.fields.lastName')"
                   autocomplete="family-name"
                   :disabled="isSaving"
                 />
@@ -329,21 +330,21 @@ async function submit() {
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="form.title"
-                  label="Intitulé de poste"
+                  :label="t('profile.fields.title')"
                   :disabled="isSaving"
                 />
               </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="form.gender"
-                  label="Genre"
+                  :label="t('profile.fields.gender')"
                   :disabled="isSaving"
                 />
               </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="form.phone"
-                  label="Téléphone"
+                  :label="t('profile.fields.phone')"
                   type="tel"
                   autocomplete="tel"
                   :disabled="isSaving"
@@ -352,7 +353,7 @@ async function submit() {
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="form.address"
-                  label="Adresse"
+                  :label="t('profile.fields.address')"
                   autocomplete="street-address"
                   :disabled="isSaving"
                 />
@@ -360,7 +361,7 @@ async function submit() {
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="form.birthday"
-                  label="Date de naissance"
+                  :label="t('profile.fields.birthday')"
                   type="date"
                   :disabled="isSaving"
                 />
@@ -368,7 +369,7 @@ async function submit() {
               <v-col cols="12">
                 <v-textarea
                   v-model="form.description"
-                  label="Description"
+                  :label="t('profile.fields.description')"
                   auto-grow
                   rows="3"
                   :disabled="isSaving"
@@ -377,7 +378,7 @@ async function submit() {
               <v-col cols="12">
                 <v-file-input
                   v-model="photoFiles"
-                  label="Photo de profil"
+                  :label="t('profile.fields.photo')"
                   accept="image/*"
                   prepend-icon="mdi-camera"
                   clearable
@@ -391,7 +392,7 @@ async function submit() {
         <v-card-actions>
           <v-spacer />
           <v-btn variant="text" :disabled="isSaving" @click="editDialog = false">
-            Annuler
+            {{ t('common.actions.cancel') }}
           </v-btn>
           <v-btn
             color="primary"
@@ -399,7 +400,7 @@ async function submit() {
             :loading="isSaving"
             @click="submit"
           >
-            Enregistrer
+            {{ t('common.actions.save') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -407,8 +408,7 @@ async function submit() {
     <v-row justify="center">
       <v-col cols="12" lg="10">
         <v-alert v-if="!profile" type="info" variant="tonal" class="ma-auto">
-          Aucune donnée de profil disponible. Connectez-vous pour consulter vos
-          informations.
+          {{ t('profile.page.alerts.emptyProfile') }}
         </v-alert>
 
         <v-row v-else align="stretch">
@@ -420,7 +420,7 @@ async function submit() {
                     <v-img
                       v-if="avatarUrl"
                       :src="avatarUrl"
-                      alt="Photo de profil"
+                      :alt="t('profile.page.avatar.alt')"
                     />
                     <span
                       v-else
@@ -450,7 +450,7 @@ async function submit() {
               <div class="d-flex flex-column" style="row-gap: 12px">
                 <div>
                   <div class="text-caption text-medium-emphasis">
-                    Identifiant utilisateur
+                    {{ t('profile.fields.userId') }}
                   </div>
                   <div class="text-subtitle-2 font-weight-medium">
                     {{ profile.id }}
@@ -458,7 +458,7 @@ async function submit() {
                 </div>
                 <div>
                   <div class="text-caption text-medium-emphasis">
-                    Adresse e-mail
+                    {{ t('userManagement.users.fields.email') }}
                   </div>
                   <div class="text-subtitle-2 font-weight-medium">
                     {{ profile.email }}
@@ -473,7 +473,7 @@ async function submit() {
               <v-col cols="12">
                 <v-card elevation="2">
                   <v-card-title class="d-flex align-center gap-4">
-                    <span>Informations personnelles</span>
+                    <span>{{ t('profile.sections.personalInfo.title') }}</span>
                     <v-spacer />
                     <v-btn
                       color="primary"
@@ -482,7 +482,7 @@ async function submit() {
                       :disabled="isSaving"
                       @click="editDialog = true"
                     >
-                      Modifier
+                      {{ t('common.actions.edit') }}
                     </v-btn>
                   </v-card-title>
                   <v-divider />
@@ -490,21 +490,23 @@ async function submit() {
                     <v-row>
                       <v-col cols="12" sm="6">
                         <div class="text-caption text-medium-emphasis">
-                          Prénom
+                          {{ t('userManagement.users.fields.firstName') }}
                         </div>
                         <div class="text-subtitle-2 font-weight-medium">
                           {{ profile.firstName || '—' }}
                         </div>
                       </v-col>
                       <v-col cols="12" sm="6">
-                        <div class="text-caption text-medium-emphasis">Nom</div>
+                        <div class="text-caption text-medium-emphasis">
+                          {{ t('userManagement.users.fields.lastName') }}
+                        </div>
                         <div class="text-subtitle-2 font-weight-medium">
                           {{ profile.lastName || '—' }}
                         </div>
                       </v-col>
                       <v-col cols="12" sm="6">
                         <div class="text-caption text-medium-emphasis">
-                          Nom d'utilisateur
+                          {{ t('userManagement.users.fields.username') }}
                         </div>
                         <div class="text-subtitle-2 font-weight-medium">
                           {{ profile.username }}
@@ -512,7 +514,7 @@ async function submit() {
                       </v-col>
                       <v-col cols="12" sm="6">
                         <div class="text-caption text-medium-emphasis">
-                          Adresse e-mail
+                          {{ t('userManagement.users.fields.email') }}
                         </div>
                         <div class="text-subtitle-2 font-weight-medium">
                           {{ profile.email }}
@@ -525,13 +527,15 @@ async function submit() {
 
               <v-col cols="12">
                 <v-card elevation="2">
-                  <v-card-title>Détails du profil</v-card-title>
+                  <v-card-title>
+                    {{ t('profile.sections.details.title') }}
+                  </v-card-title>
                   <v-divider />
                   <v-card-text>
                     <v-row>
                       <v-col cols="12" sm="6">
                         <div class="text-caption text-medium-emphasis">
-                          Intitulé de poste
+                          {{ t('profile.fields.title') }}
                         </div>
                         <div class="text-subtitle-2 font-weight-medium">
                           {{ profile.title || '—' }}
@@ -539,7 +543,7 @@ async function submit() {
                       </v-col>
                       <v-col cols="12" sm="6">
                         <div class="text-caption text-medium-emphasis">
-                          Genre
+                          {{ t('profile.fields.gender') }}
                         </div>
                         <div class="text-subtitle-2 font-weight-medium">
                           {{ profile.gender || '—' }}
@@ -547,7 +551,7 @@ async function submit() {
                       </v-col>
                       <v-col cols="12" sm="6">
                         <div class="text-caption text-medium-emphasis">
-                          Téléphone
+                          {{ t('profile.fields.phone') }}
                         </div>
                         <div class="text-subtitle-2 font-weight-medium">
                           {{ profile.phone || '—' }}
@@ -555,7 +559,7 @@ async function submit() {
                       </v-col>
                       <v-col cols="12" sm="6">
                         <div class="text-caption text-medium-emphasis">
-                          Adresse
+                          {{ t('profile.fields.address') }}
                         </div>
                         <div class="text-subtitle-2 font-weight-medium">
                           {{ profile.address || '—' }}
@@ -563,7 +567,7 @@ async function submit() {
                       </v-col>
                       <v-col cols="12" sm="6">
                         <div class="text-caption text-medium-emphasis">
-                          Date de naissance
+                          {{ t('profile.fields.birthday') }}
                         </div>
                         <div class="text-subtitle-2 font-weight-medium">
                           {{ formattedBirthday || '—' }}
@@ -571,7 +575,7 @@ async function submit() {
                       </v-col>
                       <v-col cols="12">
                         <div class="text-caption text-medium-emphasis">
-                          Description
+                          {{ t('profile.fields.description') }}
                         </div>
                         <div class="text-body-2">
                           {{ profile.description || '—' }}
@@ -584,7 +588,9 @@ async function submit() {
 
               <v-col cols="12">
                 <v-card elevation="2">
-                  <v-card-title>Rôles</v-card-title>
+                  <v-card-title>
+                    {{ t('profile.sections.roles.title') }}
+                  </v-card-title>
                   <v-divider />
                   <v-card-text>
                     <div
@@ -603,7 +609,7 @@ async function submit() {
                       </v-chip>
                     </div>
                     <p v-else class="text-body-2 text-medium-emphasis mb-0">
-                      Aucun rôle attribué pour le moment.
+                      {{ t('profile.sections.roles.empty') }}
                     </p>
                   </v-card-text>
                 </v-card>
