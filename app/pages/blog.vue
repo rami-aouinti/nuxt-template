@@ -69,7 +69,7 @@ const formatPublishedAt = (publishedAt: string) =>
 </script>
 
 <template>
-  <v-container fluid class="py-10">
+  <v-container fluid>
     <v-row class="justify-center">
       <v-col cols="12" md="10" lg="8">
         <v-sheet class="pa-6" elevation="0" rounded="xl" color="transparent">
