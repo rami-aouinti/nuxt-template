@@ -22,6 +22,10 @@
     "userManagement": "User Management",
     "settingManagement": "Setting Management",
     "blogManagement": "Blog Management",
+    "blogs": "Blogs",
+    "posts": "Posts",
+    "comments": "Comments",
+    "tags": "Tags",
     "users": "Users",
     "roles": "Roles",
     "userGroups": "User Groups",
@@ -89,6 +93,16 @@
       "users": "Number of users",
       "roles": "Number of roles",
       "groups": "Number of groups",
+      "apiKeys": "Number of API keys",
+      "blogs": "Number of blogs",
+      "posts": "Number of posts",
+      "comments": "Number of comments",
+      "tags": "Number of tags"
+    },
+    "blogManagement": {
+      "placeholders": {
+        "underConstruction": "This section is under construction."
+      }
       "workplaces": "Number of workplaces",
       "apiKeys": "Number of API keys"
     }

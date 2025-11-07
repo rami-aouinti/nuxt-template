@@ -22,6 +22,10 @@
     "userManagement": "إدارة المستخدمين",
     "settingManagement": "إدارة الإعدادات",
     "blogManagement": "إدارة المدونة",
+    "blogs": "المدونات",
+    "posts": "المقالات",
+    "comments": "التعليقات",
+    "tags": "الوسوم",
     "users": "المستخدمون",
     "roles": "الأدوار",
     "userGroups": "مجموعات المستخدمين",
@@ -89,6 +93,16 @@
       "users": "عدد المستخدمين",
       "roles": "عدد الأدوار",
       "groups": "عدد المجموعات",
+      "apiKeys": "عدد مفاتيح API",
+      "blogs": "عدد المدونات",
+      "posts": "عدد المقالات",
+      "comments": "عدد التعليقات",
+      "tags": "عدد الوسوم"
+    },
+    "blogManagement": {
+      "placeholders": {
+        "underConstruction": "هذا القسم قيد التطوير."
+      }
       "workplaces": "Number of workplaces",
       "apiKeys": "عدد مفاتيح API"
     }
