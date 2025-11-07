@@ -28,6 +28,31 @@
     "blog": "Blog",
     "language": "Changer de langue"
   },
+  "blog": {
+    "title": "Blog",
+    "description": "Restez informé des dernières actualités de Bro World.",
+    "actions": {
+      "refresh": "Actualiser",
+      "read": "Lire l’article"
+    },
+    "alerts": {
+      "loadFailed": "Une erreur est survenue lors du chargement des articles. Veuillez réessayer."
+    },
+    "meta": {
+      "author": "Par {author} • {date}"
+    },
+    "placeholders": {
+      "noSummary": "Aucun résumé n’est disponible pour cet article."
+    },
+    "stats": {
+      "reactions": "{count} réactions",
+      "comments": "{count} commentaires"
+    },
+    "empty": {
+      "title": "Aucun article publié pour le moment",
+      "description": "Revenez plus tard pour découvrir les prochaines publications."
+    }
+  },
   "admin": {
     "dashboard": {
       "stats": {
@@ -56,6 +81,12 @@
           "caption": "Plafond : {limit}"
         }
       }
+    },
+    "metrics": {
+      "users": "Nombre d’utilisateurs",
+      "roles": "Nombre de rôles",
+      "groups": "Nombre de groupes",
+      "apiKeys": "Nombre de clés API"
     }
   },
   "auth": {
@@ -77,6 +108,7 @@
       "cancel": "Annuler",
       "create": "Créer",
       "save": "Enregistrer",
+      "edit": "Modifier",
       "close": "Fermer",
       "delete": "Supprimer",
       "link": "Associer"
@@ -93,7 +125,41 @@
   },
   "profile": {
     "updateSuccess": "Profil mis à jour avec succès.",
-    "updateFailed": "La mise à jour du profil a échoué."
+    "updateFailed": "La mise à jour du profil a échoué.",
+    "page": {
+      "edit": {
+        "title": "Modifier le profil",
+        "description": "Mettez à jour vos informations personnelles afin de conserver un profil à jour sur la plateforme."
+      },
+      "alerts": {
+        "emptyProfile": "Aucune donnée de profil disponible. Connectez-vous pour consulter vos informations."
+      },
+      "avatar": {
+        "alt": "Photo de profil"
+      }
+    },
+    "fields": {
+      "title": "Intitulé de poste",
+      "gender": "Genre",
+      "phone": "Téléphone",
+      "address": "Adresse",
+      "birthday": "Date de naissance",
+      "description": "Description",
+      "photo": "Photo de profil",
+      "userId": "Identifiant utilisateur"
+    },
+    "sections": {
+      "personalInfo": {
+        "title": "Informations personnelles"
+      },
+      "details": {
+        "title": "Détails du profil"
+      },
+      "roles": {
+        "title": "Rôles",
+        "empty": "Aucun rôle attribué pour le moment."
+      }
+    }
   },
   "userManagement": {
     "users": {

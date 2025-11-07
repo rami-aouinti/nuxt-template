@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "Vitify Admin",
-    "description": "Vuetify 3 + Nuxt 3, продвинутая админ-шаблон",
+    "description": "Шаблон административной панели на Vuetify 3 и Nuxt 3",
     "brand": {
       "name": "Bro World",
       "highlight": "World"
@@ -18,52 +18,148 @@
   "navigation": {
     "home": "Главная",
     "admin": "Администрирование",
-    "dashboard": "Панель",
+    "dashboard": "Дашборд",
     "userManagement": "Управление пользователями",
     "users": "Пользователи",
     "roles": "Роли",
     "userGroups": "Группы пользователей",
-    "apiKeys": "API-ключи",
+    "apiKeys": "Ключи API",
     "profile": "Профиль",
     "blog": "Блог",
     "language": "Сменить язык"
+  },
+  "blog": {
+    "title": "Блог",
+    "description": "Будьте в курсе последних новостей Bro World.",
+    "actions": {
+      "refresh": "Обновить",
+      "read": "Читать статью"
+    },
+    "alerts": {
+      "loadFailed": "Произошла ошибка при загрузке статей. Пожалуйста, попробуйте ещё раз."
+    },
+    "meta": {
+      "author": "Автор {author} • {date}"
+    },
+    "placeholders": {
+      "noSummary": "Для этой статьи нет краткого содержания."
+    },
+    "stats": {
+      "reactions": "{count} реакций",
+      "comments": "{count} комментариев"
+    },
+    "empty": {
+      "title": "Статьи пока не опубликованы",
+      "description": "Загляните позже, чтобы увидеть новые публикации."
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "stats": {
+        "bandwidth": {
+          "title": "Пропускная способность",
+          "caption": "Исходящий: {up}, входящий: {down}"
+        },
+        "submissions": {
+          "title": "Отправки",
+          "caption": "Слишком юн, слишком наивен"
+        },
+        "requests": {
+          "title": "Запросы",
+          "caption": "Лимит: {limit}"
+        },
+        "messages": {
+          "title": "Сообщения",
+          "caption": "Предупреждения: {warnings}, ошибки: {errors}"
+        },
+        "github": {
+          "title": "Звёзды GitHub",
+          "caption": "API не ответил"
+        },
+        "totalFee": {
+          "title": "Общая комиссия",
+          "caption": "Верхний предел: {limit}"
+        }
+      }
+    },
+    "metrics": {
+      "users": "Количество пользователей",
+      "roles": "Количество ролей",
+      "groups": "Количество групп",
+      "apiKeys": "Количество ключей API"
+    }
   },
   "auth": {
     "profile": "Профиль",
     "login": "Войти",
     "loginWithGithub": "Войти через GitHub",
-    "loginWithCredentials": "Войти по учетным данным",
+    "loginWithCredentials": "Войти по учётным данным",
     "logout": "Выйти",
     "loginSuccess": "Вход выполнен успешно",
-    "logoutSuccess": "Вы вышли из системы",
-    "loginRequired": "Вы должны войти, чтобы получить доступ к этой странице.",
+    "logoutSuccess": "Выход выполнен успешно",
+    "loginRequired": "Необходимо войти, чтобы получить доступ к этой странице.",
     "adminOnly": "Доступ только для администраторов.",
-    "loginFailed": "Не удалось выполнить аутентификацию.",
+    "loginFailed": "Ошибка аутентификации.",
     "guest": "Пользователь"
   },
   "common": {
     "unexpectedError": "Произошла непредвиденная ошибка.",
     "actions": {
-      "cancel": "Cancel",
-      "create": "Create",
-      "save": "Save",
-      "close": "Close",
-      "delete": "Delete",
-      "link": "Link"
+      "cancel": "Отмена",
+      "create": "Создать",
+      "save": "Сохранить",
+      "edit": "Редактировать",
+      "close": "Закрыть",
+      "delete": "Удалить",
+      "link": "Связать"
     },
     "labels": {
-      "search": "Search",
-      "group": "Group",
-      "user": "User"
+      "search": "Поиск",
+      "group": "Группа",
+      "user": "Пользователь"
     },
     "placeholders": {
-      "selectGroup": "Select a group",
-      "selectUser": "Select a user"
+      "selectGroup": "Выберите группу",
+      "selectUser": "Выберите пользователя"
     }
   },
   "profile": {
     "updateSuccess": "Профиль успешно обновлён.",
-    "updateFailed": "Не удалось обновить профиль."
+    "updateFailed": "Не удалось обновить профиль.",
+    "page": {
+      "edit": {
+        "title": "Редактирование профиля",
+        "description": "Обновите личную информацию, чтобы поддерживать актуальность профиля на платформе."
+      },
+      "alerts": {
+        "emptyProfile": "Данные профиля недоступны. Войдите, чтобы просмотреть информацию."
+      },
+      "avatar": {
+        "alt": "Фото профиля"
+      }
+    },
+    "fields": {
+      "title": "Должность",
+      "gender": "Пол",
+      "phone": "Телефон",
+      "address": "Адрес",
+      "birthday": "Дата рождения",
+      "description": "Описание",
+      "photo": "Фото профиля",
+      "userId": "Идентификатор пользователя"
+    },
+    "sections": {
+      "personalInfo": {
+        "title": "Личная информация"
+      },
+      "details": {
+        "title": "Детали профиля"
+      },
+      "roles": {
+        "title": "Роли",
+        "empty": "Роли ещё не назначены."
+      }
+    }
   },
   "userManagement": {
     "users": {
@@ -75,89 +171,89 @@
         "deleteSuccess": "Пользователь успешно удалён."
       },
       "errors": {
-        "usernameEmailRequired": "Необходимо указать имя пользователя и e-mail.",
+        "usernameEmailRequired": "Требуются имя пользователя и электронная почта.",
         "passwordRequired": "Для создания нового пользователя требуется пароль.",
         "createFailed": "Не удалось создать пользователя.",
         "updateFailed": "Не удалось обновить пользователя.",
         "openView": "Не удалось открыть детали этого пользователя.",
         "loadDetails": "Не удалось получить детали пользователя.",
         "loadGroups": "Не удалось получить группы пользователя.",
-        "selectGroup": "Выберите группу, чтобы связать с этим пользователем.",
+        "selectGroup": "Выберите группу, чтобы привязать этого пользователя.",
         "attachFailed": "Не удалось привязать эту группу к пользователю.",
         "detachFailed": "Не удалось отвязать эту группу от пользователя.",
         "deleteFailed": "Не удалось удалить пользователя."
       },
       "table": {
-        "username": "Username",
-        "firstName": "First name",
-        "lastName": "Last name",
-        "email": "Email address",
-        "status": "Status"
+        "username": "Имя пользователя",
+        "firstName": "Имя",
+        "lastName": "Фамилия",
+        "email": "Электронная почта",
+        "status": "Статус"
       },
       "status": {
-        "active": "Active",
-        "inactive": "Inactive"
+        "active": "Активен",
+        "inactive": "Неактивен"
       },
-      "cardTitle": "User management",
+      "cardTitle": "Управление пользователями",
       "actions": {
-        "new": "New user",
-        "viewTooltip": "View {username}",
-        "editTooltip": "Edit {username}",
-        "deleteTooltip": "Delete {username}"
+        "new": "Новый пользователь",
+        "viewTooltip": "Просмотреть {username}",
+        "editTooltip": "Редактировать {username}",
+        "deleteTooltip": "Удалить {username}"
       },
       "alerts": {
-        "loadFailed": "Failed to load users."
+        "loadFailed": "Не удалось загрузить пользователей."
       },
       "fields": {
-        "username": "Username",
-        "email": "Email address",
-        "firstName": "First name",
-        "lastName": "Last name",
-        "language": "Language",
-        "locale": "Locale",
-        "timezone": "Time zone",
-        "password": "Password",
-        "newPassword": "New password (optional)",
-        "enabled": "Active user",
-        "status": "Status"
+        "username": "Имя пользователя",
+        "email": "Электронная почта",
+        "firstName": "Имя",
+        "lastName": "Фамилия",
+        "language": "Язык",
+        "locale": "Локаль",
+        "timezone": "Часовой пояс",
+        "password": "Пароль",
+        "newPassword": "Новый пароль (необязательно)",
+        "enabled": "Активный пользователь",
+        "status": "Статус"
       },
       "hints": {
-        "keepPassword": "Leave blank to keep the current password."
+        "keepPassword": "Оставьте поле пустым, чтобы сохранить текущий пароль."
       },
       "labels": {
-        "userFallback": "this user"
+        "userFallback": "этого пользователя"
       },
       "dialogs": {
         "create": {
-          "title": "Create user"
+          "title": "Создать пользователя"
         },
         "edit": {
-          "title": "Edit {username}"
+          "title": "Редактировать {username}"
         },
         "view": {
-          "title": "User details"
+          "title": "Детали пользователя"
         },
         "attachGroup": {
-          "title": "Link a group"
+          "title": "Привязать группу"
         },
         "delete": {
-          "title": "Delete user",
-          "warningPrefix": "This action cannot be undone. Do you really want to delete",
+          "title": "Удалить пользователя",
+          "warningPrefix": "Это действие нельзя отменить. Вы действительно хотите удалить",
           "warningSuffix": "?"
         }
       },
       "details": {
         "groups": {
-          "title": "Groups",
+          "title": "Группы",
           "actions": {
-            "link": "Link a group"
+            "link": "Привязать группу"
           },
-          "empty": "No groups linked."
+          "empty": "Нет привязанных групп."
         },
-        "empty": "No user selected."
+        "empty": "Пользователь не выбран."
       },
       "logs": {
-        "openDetail": "Opening user detail dialog"
+        "openDetail": "Открытие диалога деталей пользователя"
       }
     },
     "groups": {
@@ -169,172 +265,142 @@
         "detachSuccess": "Пользователь отвязан от группы."
       },
       "errors": {
-        "nameRequired": "Необходимо указать название группы.",
+        "nameRequired": "Требуется название группы.",
         "createFailed": "Не удалось создать группу пользователей.",
         "updateFailed": "Не удалось обновить группу пользователей.",
         "loadDetails": "Не удалось загрузить детали группы пользователей.",
-        "loadUsers": "Не удалось получить пользователей этой группы.",
-        "selectUser": "Выберите пользователя для привязки к этой группе.",
+        "loadUsers": "Не удалось получить пользователей группы.",
+        "selectUser": "Выберите пользователя, чтобы привязать его к этой группе.",
         "attachFailed": "Не удалось привязать этого пользователя к группе.",
         "detachFailed": "Не удалось отвязать этого пользователя от группы.",
-        "deleteFailed": "Не удалось удалить эту группу пользователей."
+        "deleteFailed": "Не удалось удалить группу пользователей."
       },
       "table": {
-        "name": "Name",
-        "id": "Identifier",
-        "actions": "Actions"
+        "name": "Название",
+        "id": "Идентификатор",
+        "actions": "Действия"
       },
-      "cardTitle": "User groups",
+      "cardTitle": "Группы пользователей",
       "actions": {
-        "new": "New group",
-        "viewTooltip": "View {name}",
-        "editTooltip": "Edit {name}",
-        "deleteTooltip": "Delete {name}"
+        "new": "Новая группа",
+        "viewTooltip": "Просмотреть {name}",
+        "editTooltip": "Редактировать {name}",
+        "deleteTooltip": "Удалить {name}"
       },
       "alerts": {
-        "loadFailed": "Failed to load user groups."
+        "loadFailed": "Не удалось загрузить группы пользователей."
       },
       "fields": {
-        "name": "Group name",
-        "description": "Description",
-        "id": "Identifier"
+        "name": "Название группы",
+        "description": "Описание",
+        "id": "Идентификатор"
       },
       "labels": {
-        "groupFallback": "this group"
+        "groupFallback": "эту группу"
       },
       "dialogs": {
         "create": {
-          "title": "Create user group"
+          "title": "Создать группу пользователей"
         },
         "edit": {
-          "title": "Edit user group"
+          "title": "Редактировать группу пользователей"
         },
         "view": {
-          "title": "User group details"
+          "title": "Детали группы пользователей"
         },
         "attachUser": {
-          "title": "Link a user"
+          "title": "Привязать пользователя"
         },
         "delete": {
-          "title": "Delete user group",
-          "warningPrefix": "This action cannot be undone. Do you really want to delete",
+          "title": "Удалить группу пользователей",
+          "warningPrefix": "Это действие нельзя отменить. Вы действительно хотите удалить",
           "warningSuffix": "?"
         }
       },
       "details": {
         "users": {
-          "title": "Users",
+          "title": "Пользователи",
           "actions": {
-            "link": "Link a user"
+            "link": "Привязать пользователя"
           },
-          "empty": "No users linked."
+          "empty": "Нет привязанных пользователей."
         },
-        "empty": "No group selected."
+        "empty": "Группа не выбрана."
       }
     },
     "apiKeys": {
       "labels": {
         "v1": "API v1",
         "v2": "API v2",
-        "keyFallback": "this API key"
+        "keyFallback": "этот ключ API"
       },
       "notifications": {
-        "createSuccess": "API-ключ успешно создан ({version}).",
-        "updateSuccess": "API-ключ успешно обновлён ({version}).",
-        "deleteSuccess": "API-ключ удалён ({version})."
+        "createSuccess": "Ключ API успешно создан ({version}).",
+        "updateSuccess": "Ключ API успешно обновлён ({version}).",
+        "deleteSuccess": "Ключ API удалён ({version})."
       },
       "errors": {
-        "descriptionRequired": "Описание обязательно.",
-        "createFailed": "Не удалось создать API-ключ.",
-        "updateFailed": "Не удалось обновить API-ключ.",
-        "loadDetails": "Не удалось загрузить детали API-ключа.",
-        "deleteFailed": "Не удалось удалить API-ключ.",
-        "partialUpdateRequired": "Укажите хотя бы одно поле, чтобы обновить API-ключ."
+        "descriptionRequired": "Требуется описание.",
+        "createFailed": "Не удалось создать ключ API.",
+        "updateFailed": "Не удалось обновить ключ API.",
+        "loadDetails": "Не удалось загрузить детали ключа API.",
+        "deleteFailed": "Не удалось удалить ключ API.",
+        "partialUpdateRequired": "Укажите хотя бы одно поле для обновления ключа API."
       },
-      "cardTitle": "API keys",
+      "cardTitle": "Ключи API",
       "table": {
-        "description": "Description",
-        "token": "Token",
-        "id": "Identifier",
-        "actions": "Actions"
+        "description": "Описание",
+        "token": "Токен",
+        "id": "Идентификатор",
+        "actions": "Действия"
       },
       "actions": {
-        "new": "New API key ({version})",
-        "viewTooltip": "View {description}",
-        "editTooltip": "Edit {description}",
-        "deleteTooltip": "Delete {description}"
+        "new": "Новый ключ API ({version})",
+        "viewTooltip": "Просмотреть {description}",
+        "editTooltip": "Редактировать {description}",
+        "deleteTooltip": "Удалить {description}"
       },
       "alerts": {
-        "loadFailed": "Failed to load {version} API keys."
+        "loadFailed": "Не удалось загрузить ключи API версии {version}."
       },
       "fields": {
-        "description": "Description",
-        "token": "Token",
-        "id": "Identifier"
+        "description": "Описание",
+        "token": "Токен",
+        "id": "Идентификатор"
       },
       "hints": {
-        "keepToken": "Leave blank to keep the current token (PATCH only)."
+        "keepToken": "Оставьте поле пустым, чтобы сохранить текущий токен (только для PATCH)."
       },
       "dialogs": {
         "create": {
-          "title": "Create API key ({version})"
+          "title": "Создать ключ API ({version})"
         },
         "edit": {
-          "title": "Edit API key ({version})"
+          "title": "Редактировать ключ API ({version})"
         },
         "view": {
-          "title": "API key details ({version})",
-          "empty": "No API key selected."
+          "title": "Детали ключа API ({version})",
+          "empty": "Ключ API не выбран."
         },
         "delete": {
-          "title": "Delete API key",
-          "warningPrefix": "Are you sure you want to delete this API key",
+          "title": "Удалить ключ API",
+          "warningPrefix": "Вы действительно хотите удалить этот ключ API",
           "warningSuffix": "?"
         }
       }
     },
     "roles": {
       "table": {
-        "id": "Role ID",
-        "description": "Description"
+        "id": "ID роли",
+        "description": "Описание"
       },
-      "cardTitle": "Roles",
+      "cardTitle": "Роли",
       "alerts": {
-        "loadFailed": "Failed to load roles."
+        "loadFailed": "Не удалось загрузить роли."
       }
     }
   },
   "$vuetify": {
     "close": "Закрыть"
-  },
-  "admin": {
-    "dashboard": {
-      "stats": {
-        "bandwidth": {
-          "title": "Bandwidth",
-          "caption": "Up: {up}, Down: {down}"
-        },
-        "submissions": {
-          "title": "Submissions",
-          "caption": "Too young, too naive"
-        },
-        "requests": {
-          "title": "Requests",
-          "caption": "Limit: {limit}"
-        },
-        "messages": {
-          "title": "Messages",
-          "caption": "Warnings: {warnings}, errors: {errors}"
-        },
-        "github": {
-          "title": "GitHub stars",
-          "caption": "API did not respond"
-        },
-        "totalFee": {
-          "title": "Total fee",
-          "caption": "Upper limit: {limit}"
-        }
-      }
-    }
   }
 }
