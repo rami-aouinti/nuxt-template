@@ -193,6 +193,7 @@
       "link": "Associer"
     },
     "labels": {
+      "all": "Tous",
       "search": "Rechercher",
       "group": "Groupe",
       "user": "Utilisateur"

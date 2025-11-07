@@ -193,6 +193,7 @@
       "link": "Verknüpfen"
     },
     "labels": {
+      "all": "Alle",
       "search": "Suchen",
       "group": "Gruppe",
       "user": "Benutzer"

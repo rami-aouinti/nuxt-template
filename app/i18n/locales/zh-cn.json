@@ -193,6 +193,7 @@
       "link": "关联"
     },
     "labels": {
+      "all": "全部",
       "search": "搜索",
       "group": "群组",
       "user": "用户"
