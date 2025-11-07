@@ -1,5 +1,3 @@
-import { createApiRequest } from './apiClient'
-
 const BASE_URL = 'https://bro-world.org/api/v1'
 const DEFAULT_ERROR_MESSAGE = "Requête à l'API Bro World échouée"
 

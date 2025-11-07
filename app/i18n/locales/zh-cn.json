@@ -102,6 +102,67 @@
     "blogManagement": {
       "placeholders": {
         "underConstruction": "该部分正在建设中。"
+      },
+      "common": {
+        "none": "无",
+        "visibility": {
+          "visible": "可见",
+          "hidden": "隐藏"
+        }
+      },
+      "blogs": {
+        "title": "博客",
+        "subtitle": "查看可用博客及其所属团队。",
+        "table": {
+          "title": "标题",
+          "subtitle": "副标题",
+          "author": "作者",
+          "teams": "团队",
+          "createdAt": "创建时间",
+          "updatedAt": "更新时间",
+          "visibility": "可见性"
+        }
+      },
+      "posts": {
+        "title": "文章",
+        "subtitle": "所有博客的最新文章。",
+        "table": {
+          "title": "标题",
+          "blog": "博客",
+          "author": "作者",
+          "publishedAt": "发布时间",
+          "url": "链接",
+          "tags": "标签",
+          "comments": "评论",
+          "likes": "点赞数",
+          "visibility": "可见性"
+        }
+      },
+      "comments": {
+        "title": "评论",
+        "subtitle": "读者分享的最新评论。",
+        "table": {
+          "author": "作者",
+          "post": "文章",
+          "content": "内容",
+          "publishedAt": "发布时间",
+          "likes": "点赞数",
+          "replies": "回复数",
+          "visibility": "可见性"
+        }
+      },
+      "tags": {
+        "title": "标签",
+        "subtitle": "用于组织博客文章的分类。",
+        "table": {
+          "name": "名称",
+          "description": "描述",
+          "color": "颜色",
+          "usage": "使用次数",
+          "createdAt": "创建时间",
+          "updatedAt": "更新时间",
+          "visibility": "可见性"
+        }
       }
     },
       "workplaces": "Number of workplaces",

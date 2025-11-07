@@ -102,6 +102,67 @@
     "blogManagement": {
       "placeholders": {
         "underConstruction": "هذا القسم قيد التطوير."
+      },
+      "common": {
+        "none": "لا يوجد",
+        "visibility": {
+          "visible": "مرئي",
+          "hidden": "مخفي"
+        }
+      },
+      "blogs": {
+        "title": "المدونات",
+        "subtitle": "نظرة عامة على المدونات المتاحة والفرق المسؤولة عنها.",
+        "table": {
+          "title": "العنوان",
+          "subtitle": "العنوان الفرعي",
+          "author": "الكاتب",
+          "teams": "الفرق",
+          "createdAt": "تاريخ الإنشاء",
+          "updatedAt": "تاريخ التحديث",
+          "visibility": "الحالة"
+        }
+      },
+      "posts": {
+        "title": "المقالات",
+        "subtitle": "أحدث المقالات المنشورة عبر جميع المدونات.",
+        "table": {
+          "title": "العنوان",
+          "blog": "المدونة",
+          "author": "الكاتب",
+          "publishedAt": "تاريخ النشر",
+          "url": "الرابط",
+          "tags": "الوسوم",
+          "comments": "التعليقات",
+          "likes": "الإعجابات",
+          "visibility": "الحالة"
+        }
+      },
+      "comments": {
+        "title": "التعليقات",
+        "subtitle": "أحدث الآراء التي شاركها القرّاء.",
+        "table": {
+          "author": "الكاتب",
+          "post": "المقال",
+          "content": "المحتوى",
+          "publishedAt": "تاريخ النشر",
+          "likes": "الإعجابات",
+          "replies": "الردود",
+          "visibility": "الحالة"
+        }
+      },
+      "tags": {
+        "title": "الوسوم",
+        "subtitle": "التصنيف المستخدم لتنظيم مقالات المدونة.",
+        "table": {
+          "name": "الاسم",
+          "description": "الوصف",
+          "color": "اللون",
+          "usage": "عدد الاستخدامات",
+          "createdAt": "تاريخ الإنشاء",
+          "updatedAt": "تاريخ التحديث",
+          "visibility": "الحالة"
+        }
       }
     },
       "workplaces": "Number of workplaces",

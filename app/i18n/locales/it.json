@@ -102,6 +102,67 @@
     "blogManagement": {
       "placeholders": {
         "underConstruction": "Questa sezione è in fase di costruzione."
+      },
+      "common": {
+        "none": "Nessuno",
+        "visibility": {
+          "visible": "Visibile",
+          "hidden": "Nascosto"
+        }
+      },
+      "blogs": {
+        "title": "Blog",
+        "subtitle": "Panoramica dei blog disponibili e dei rispettivi team.",
+        "table": {
+          "title": "Titolo",
+          "subtitle": "Sottotitolo",
+          "author": "Autore",
+          "teams": "Team",
+          "createdAt": "Creato il",
+          "updatedAt": "Aggiornato il",
+          "visibility": "Visibilità"
+        }
+      },
+      "posts": {
+        "title": "Articoli",
+        "subtitle": "Articoli recenti pubblicati su tutti i blog.",
+        "table": {
+          "title": "Titolo",
+          "blog": "Blog",
+          "author": "Autore",
+          "publishedAt": "Pubblicato il",
+          "url": "URL",
+          "tags": "Tag",
+          "comments": "Commenti",
+          "likes": "Mi piace",
+          "visibility": "Visibilità"
+        }
+      },
+      "comments": {
+        "title": "Commenti",
+        "subtitle": "Ultimi feedback condivisi dai lettori.",
+        "table": {
+          "author": "Autore",
+          "post": "Articolo",
+          "content": "Contenuto",
+          "publishedAt": "Pubblicato il",
+          "likes": "Mi piace",
+          "replies": "Risposte",
+          "visibility": "Visibilità"
+        }
+      },
+      "tags": {
+        "title": "Tag",
+        "subtitle": "Tassonomia utilizzata per organizzare gli articoli del blog.",
+        "table": {
+          "name": "Nome",
+          "description": "Descrizione",
+          "color": "Colore",
+          "usage": "Utilizzo",
+          "createdAt": "Creato il",
+          "updatedAt": "Aggiornato il",
+          "visibility": "Visibilità"
+        }
       }
     },
       "workplaces": "Number of workplaces",

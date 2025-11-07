@@ -102,6 +102,67 @@
     "blogManagement": {
       "placeholders": {
         "underConstruction": "Этот раздел находится в разработке."
+      },
+      "common": {
+        "none": "Нет",
+        "visibility": {
+          "visible": "Отображается",
+          "hidden": "Скрыт"
+        }
+      },
+      "blogs": {
+        "title": "Блоги",
+        "subtitle": "Обзор доступных блогов и команд, которые их ведут.",
+        "table": {
+          "title": "Название",
+          "subtitle": "Подзаголовок",
+          "author": "Автор",
+          "teams": "Команды",
+          "createdAt": "Создан",
+          "updatedAt": "Обновлён",
+          "visibility": "Статус"
+        }
+      },
+      "posts": {
+        "title": "Публикации",
+        "subtitle": "Последние публикации во всех блогах.",
+        "table": {
+          "title": "Название",
+          "blog": "Блог",
+          "author": "Автор",
+          "publishedAt": "Опубликовано",
+          "url": "Ссылка",
+          "tags": "Теги",
+          "comments": "Комментарии",
+          "likes": "Лайки",
+          "visibility": "Статус"
+        }
+      },
+      "comments": {
+        "title": "Комментарии",
+        "subtitle": "Последняя обратная связь от читателей.",
+        "table": {
+          "author": "Автор",
+          "post": "Публикация",
+          "content": "Содержание",
+          "publishedAt": "Опубликовано",
+          "likes": "Лайки",
+          "replies": "Ответы",
+          "visibility": "Статус"
+        }
+      },
+      "tags": {
+        "title": "Теги",
+        "subtitle": "Таксономия для организации записей блога.",
+        "table": {
+          "name": "Название",
+          "description": "Описание",
+          "color": "Цвет",
+          "usage": "Использований",
+          "createdAt": "Создан",
+          "updatedAt": "Обновлён",
+          "visibility": "Статус"
+        }
       }
     },
       "workplaces": "Number of workplaces",

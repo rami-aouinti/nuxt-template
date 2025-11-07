@@ -102,6 +102,67 @@
     "blogManagement": {
       "placeholders": {
         "underConstruction": "This section is under construction."
+      },
+      "common": {
+        "none": "None",
+        "visibility": {
+          "visible": "Visible",
+          "hidden": "Hidden"
+        }
+      },
+      "blogs": {
+        "title": "Blogs",
+        "subtitle": "Overview of the available blogs and their teams.",
+        "table": {
+          "title": "Title",
+          "subtitle": "Subtitle",
+          "author": "Author",
+          "teams": "Teams",
+          "createdAt": "Created",
+          "updatedAt": "Updated",
+          "visibility": "Visibility"
+        }
+      },
+      "posts": {
+        "title": "Posts",
+        "subtitle": "Recent posts published across all blogs.",
+        "table": {
+          "title": "Title",
+          "blog": "Blog",
+          "author": "Author",
+          "publishedAt": "Published",
+          "url": "URL",
+          "tags": "Tags",
+          "comments": "Comments",
+          "likes": "Likes",
+          "visibility": "Visibility"
+        }
+      },
+      "comments": {
+        "title": "Comments",
+        "subtitle": "Latest feedback shared by readers.",
+        "table": {
+          "author": "Author",
+          "post": "Post",
+          "content": "Content",
+          "publishedAt": "Published",
+          "likes": "Likes",
+          "replies": "Replies",
+          "visibility": "Visibility"
+        }
+      },
+      "tags": {
+        "title": "Tags",
+        "subtitle": "Taxonomy used to organise blog posts.",
+        "table": {
+          "name": "Name",
+          "description": "Description",
+          "color": "Color",
+          "usage": "Usage",
+          "createdAt": "Created",
+          "updatedAt": "Updated",
+          "visibility": "Visibility"
+        }
       }
     },
       "workplaces": "Number of workplaces",

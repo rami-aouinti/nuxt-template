@@ -102,6 +102,67 @@
     "blogManagement": {
       "placeholders": {
         "underConstruction": "Dieser Bereich befindet sich in Arbeit."
+      },
+      "common": {
+        "none": "Keine",
+        "visibility": {
+          "visible": "Sichtbar",
+          "hidden": "Ausgeblendet"
+        }
+      },
+      "blogs": {
+        "title": "Blogs",
+        "subtitle": "Übersicht über die verfügbaren Blogs und ihre Teams.",
+        "table": {
+          "title": "Titel",
+          "subtitle": "Untertitel",
+          "author": "Autor",
+          "teams": "Teams",
+          "createdAt": "Erstellt am",
+          "updatedAt": "Aktualisiert am",
+          "visibility": "Sichtbarkeit"
+        }
+      },
+      "posts": {
+        "title": "Beiträge",
+        "subtitle": "Aktuelle Beiträge aus allen Blogs.",
+        "table": {
+          "title": "Titel",
+          "blog": "Blog",
+          "author": "Autor",
+          "publishedAt": "Veröffentlicht am",
+          "url": "URL",
+          "tags": "Tags",
+          "comments": "Kommentare",
+          "likes": "Likes",
+          "visibility": "Sichtbarkeit"
+        }
+      },
+      "comments": {
+        "title": "Kommentare",
+        "subtitle": "Aktuelles Feedback der Leser:innen.",
+        "table": {
+          "author": "Autor",
+          "post": "Beitrag",
+          "content": "Inhalt",
+          "publishedAt": "Veröffentlicht am",
+          "likes": "Likes",
+          "replies": "Antworten",
+          "visibility": "Sichtbarkeit"
+        }
+      },
+      "tags": {
+        "title": "Tags",
+        "subtitle": "Taxonomie zur Organisation der Blogbeiträge.",
+        "table": {
+          "name": "Name",
+          "description": "Beschreibung",
+          "color": "Farbe",
+          "usage": "Verwendung",
+          "createdAt": "Erstellt am",
+          "updatedAt": "Aktualisiert am",
+          "visibility": "Sichtbarkeit"
+        }
       }
     },
       "workplaces": "Number of workplaces",
