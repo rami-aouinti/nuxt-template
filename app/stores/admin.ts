@@ -5,6 +5,7 @@ import type { UserGroup } from '~/types/userGroup'
 import type { Role } from '~/types/role'
 import type { ApiKey } from '~/types/apiKey'
 import type { Workplace } from '~/types/workplace'
+import type { Count } from '~/types/count'
 
 type ApiVersion = 'v1' | 'v2'
 
@@ -40,18 +41,25 @@ export const useAdminStore = defineStore('admin', () => {
     ? useRequestHeaders(['cookie', 'authorization'])
     : undefined
 
-  function createCache<T>(url: string): CacheEntry<T> {
-    const data = ref<T | null>(null)
+  type CacheTransform<TInput, TOutput> = (value: TInput) => TOutput
+
+  function createCache<TInput, TOutput = TInput>(
+    url: string,
+    cacheOptions: { transform?: CacheTransform<TInput, TOutput> } = {},
+  ): CacheEntry<TOutput> {
+    const data = ref<TOutput | null>(null)
     const pending = ref(false)
     const error = ref<Error | null>(null)
     const fetchedAt = ref<number | null>(null)
-    let inflight: Promise<T | null> | null = null
+    let inflight: Promise<TOutput | null> | null = null
 
-    const fetch = async (options: FetchOptions = {}): Promise<T | null> => {
-      const ttl = options.ttl ?? DEFAULT_TTL
+    const fetch = async (
+      fetchOptions: FetchOptions = {},
+    ): Promise<TOutput | null> => {
+      const ttl = fetchOptions.ttl ?? DEFAULT_TTL
       const now = Date.now()
       const shouldFetch =
-        options.force ||
+        fetchOptions.force ||
         !data.value ||
         !fetchedAt.value ||
         now - fetchedAt.value > ttl
@@ -69,13 +77,16 @@ export const useAdminStore = defineStore('admin', () => {
         error.value = null
 
         try {
-          const result = await $fetch<T>(url, {
+          const result = await $fetch<TInput>(url, {
             headers: requestHeaders,
             credentials: 'include',
           })
-          data.value = result
+          const transformed = cacheOptions.transform
+            ? cacheOptions.transform(result)
+            : ((result as unknown) as TOutput)
+          data.value = transformed
           fetchedAt.value = Date.now()
-          return result
+          return transformed
         } catch (err) {
           const wrapped = toError(err)
           error.value = wrapped
@@ -117,11 +128,26 @@ export const useAdminStore = defineStore('admin', () => {
     v2: createCache<ApiKey[]>('/api/v2/api_key'),
   }
 
-  const userCount = createCache<number>('/api/v1/user/count')
-  const userGroupCount = createCache<number>('/api/v1/user_group/count')
-  const workplaceCount = createCache<number>('/api/v1/workplace/count')
-  const roleCount = createCache<number>('/api/v1/role/count')
-  const apiKeyCount = createCache<number>('/api/v1/api_key/count')
+  const parseCount = ({ count }: Count) => Number.parseInt(count, 10) || 0
+
+  const userCount = createCache<Count, number>('/api/v1/user/count', {
+    transform: parseCount,
+  })
+  const userGroupCount = createCache<Count, number>(
+    '/api/v1/user_group/count',
+    { transform: parseCount },
+  )
+  const workplaceCount = createCache<Count, number>(
+    '/api/v1/workplace/count',
+    { transform: parseCount },
+  )
+  const roleCount = createCache<Count, number>('/api/v1/role/count', {
+    transform: parseCount,
+  })
+  const apiKeyCount = createCache<Count, number>(
+    '/api/v1/api_key/count',
+    { transform: parseCount },
+  )
 
   const fetchAllCounts = (options?: FetchOptions) =>
     Promise.all([
