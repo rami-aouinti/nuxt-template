@@ -22,7 +22,7 @@ definePageMeta({
 
 const { t, locale } = useI18n()
 
-const headers = computed<DataTableHeader[]>(() => [
+const tableHeaders = computed<DataTableHeader[]>(() => [
   { title: t('admin.blogManagement.comments.table.author'), key: 'author', minWidth: 180 },
   { title: t('admin.blogManagement.comments.table.post'), key: 'post', minWidth: 220 },
   { title: t('admin.blogManagement.comments.table.content'), key: 'content', minWidth: 320 },
@@ -67,7 +67,6 @@ const {
   refresh,
 } = await useFetch<BlogComment[]>('/api/blog/v1/comment', {
   key: 'admin-comment-list',
-  headers,
   credentials: 'include',
   transform: (data) => normalizeCollection<BlogComment>(data),
 })
@@ -194,7 +193,7 @@ function formatNumber(value: number | string | null | undefined) {
   <v-container fluid class="py-6">
     <AdminDataTable
       v-model:search="search"
-      :headers="headers"
+      :headers="tableHeaders"
       :items="comments"
       :loading="pending"
       :error="errorMessage"

@@ -20,7 +20,7 @@ definePageMeta({
 
 const { t, locale } = useI18n()
 
-const headers = computed<DataTableHeader[]>(() => [
+const tableHeaders = computed<DataTableHeader[]>(() => [
   { title: t('admin.blogManagement.blogs.table.title'), key: 'title', minWidth: 200 },
   { title: t('admin.blogManagement.blogs.table.subtitle'), key: 'subtitle', minWidth: 260 },
   { title: t('admin.blogManagement.blogs.table.author'), key: 'author', minWidth: 180 },
@@ -55,7 +55,6 @@ const {
   refresh,
 } = await useFetch<Blog[]>('/api/blog/v1/blog', {
   key: 'admin-blog-list',
-  headers,
   credentials: 'include',
   transform: (data) => normalizeCollection<Blog>(data),
 })
@@ -135,7 +134,7 @@ function formatDate(value: string | number | Date | null | undefined) {
   <v-container fluid class="py-6">
     <AdminDataTable
       v-model:search="search"
-      :headers="headers"
+      :headers="tableHeaders"
       :items="blogs"
       :loading="pending"
       :error="errorMessage"

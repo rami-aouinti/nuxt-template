@@ -17,8 +17,9 @@ definePageMeta({
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 
+const { t, locale } = useI18n()
 
-const headers = computed<DataTableHeader[]>(() => [
+const tableHeaders = computed<DataTableHeader[]>(() => [
   { title: t('admin.blogManagement.tags.table.name'), key: 'name', minWidth: 160 },
   { title: t('admin.blogManagement.tags.table.description'), key: 'description', minWidth: 280 },
   { title: t('admin.blogManagement.tags.table.color'), key: 'color', minWidth: 150 },
@@ -37,8 +38,6 @@ const headers = computed<DataTableHeader[]>(() => [
     minWidth: 140,
   },
 ])
-
-const { t, locale } = useI18n()
 
 interface TagRow {
   id: string
@@ -60,7 +59,6 @@ const {
   refresh,
 } = await useFetch<BlogTag[]>('/api/blog/v1/tag', {
   key: 'admin-tag-list',
-  headers,
   credentials: 'include',
   transform: (data) => normalizeCollection<BlogTag>(data),
 })
@@ -164,7 +162,7 @@ function formatNumber(value: number | string | null | undefined) {
   <v-container fluid class="py-6">
     <AdminDataTable
       v-model:search="search"
-      :headers="headers"
+      :headers="tableHeaders"
       :items="tags"
       :loading="pending"
       :error="errorMessage"
