@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import type { DataTableHeader } from 'vuetify'
-
+import type { BlogTag } from '~/types/blogTag'
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
+import {
+  normalizeCollection,
+  pickString,
+  resolveFirstAvailableNumber,
+  resolveVisibilityFlag,
+} from '~/utils/blog/admin'
 
 definePageMeta({
   title: 'navigation.tags',
@@ -13,47 +19,90 @@ definePageMeta({
 
 const { t, locale } = useI18n()
 
+const headers = import.meta.server
+  ? useRequestHeaders(['cookie', 'authorization'])
+  : undefined
+
 interface TagRow {
+  id: string
   name: string
-  description: string
-  color: string
+  description: string | null
+  color: string | null
   usage: number
-  createdAt: string
-  updatedAt: string
+  createdAt: string | null
+  updatedAt: string | null
   visible: boolean
 }
 
 const search = ref('')
 
-const tags = ref<TagRow[]>([
-  {
-    name: 'Architecture',
-    description: 'Articles covering system and software architecture decisions.',
-    color: '#6366F1',
-    usage: 18,
-    createdAt: '2022-09-12T10:15:00Z',
-    updatedAt: '2024-03-01T08:22:00Z',
-    visible: true,
-  },
-  {
-    name: 'Product',
-    description: 'Product discovery, roadmaps, and release notes.',
-    color: '#22C55E',
-    usage: 24,
-    createdAt: '2023-01-05T08:00:00Z',
-    updatedAt: '2024-04-18T12:40:00Z',
-    visible: true,
-  },
-  {
-    name: 'Community',
-    description: 'Highlights and stories from our global community.',
-    color: '#F97316',
-    usage: 9,
-    createdAt: '2021-11-22T14:45:00Z',
-    updatedAt: '2024-02-07T17:10:00Z',
-    visible: false,
-  },
-])
+const {
+  data: rawTags,
+  pending,
+  error,
+  refresh,
+} = await useFetch<BlogTag[]>('/api/blog/v1/tag', {
+  key: 'admin-tag-list',
+  headers,
+  credentials: 'include',
+  transform: (data) => normalizeCollection<BlogTag>(data),
+})
+
+const tags = computed<TagRow[]>(() => {
+  const entries = rawTags.value ?? []
+
+  return entries.map((tag, index) => {
+    const identifier =
+      pickString(tag?.id, tag?.uuid, tag?.name, tag?.label) ?? `tag-${index}`
+    const name =
+      pickString(tag?.name, tag?.title, tag?.label) ||
+      t('admin.blogManagement.common.none')
+    const description = pickString(tag?.description, tag?.summary)
+    const color = pickString(tag?.color, tag?.hex, tag?.hexColor, tag?.hex_color)
+    const usage = resolveFirstAvailableNumber(
+      [
+        tag?.usage,
+        tag?.usageCount,
+        tag?.count,
+        tag?.total,
+        tag?.posts,
+        tag?.postCount,
+        tag?.post_count,
+      ],
+      0,
+    )
+    const createdAt = pickString(tag?.createdAt, tag?.created_at)
+    const updatedAt = pickString(tag?.updatedAt, tag?.updated_at)
+    const visible = resolveVisibilityFlag(tag ?? null)
+
+    return {
+      id: identifier,
+      name,
+      description: description ?? null,
+      color: color ?? null,
+      usage,
+      createdAt: createdAt ?? null,
+      updatedAt: updatedAt ?? null,
+      visible,
+    }
+  })
+})
+
+const errorMessage = computed(() => {
+  if (!error.value) {
+    return null
+  }
+
+  const err = error.value as
+    | { data?: { message?: string }; message?: string }
+    | null
+
+  return (
+    (err?.data && typeof err.data.message === 'string' && err.data.message) ||
+    (typeof err?.message === 'string' ? err.message : null) ||
+    t('common.unexpectedError')
+  )
+})
 
 const headers = computed<DataTableHeader[]>(() => [
   { title: t('admin.blogManagement.tags.table.name'), key: 'name', minWidth: 160 },
@@ -120,9 +169,12 @@ function formatNumber(value: number | string | null | undefined) {
       v-model:search="search"
       :headers="headers"
       :items="tags"
+      :loading="pending"
+      :error="errorMessage"
       :title="t('admin.blogManagement.tags.title')"
       :subtitle="t('admin.blogManagement.tags.subtitle')"
       color="primary"
+      @refresh="refresh"
     >
       <template #[`item.color`]="{ value }">
         <template v-if="value">

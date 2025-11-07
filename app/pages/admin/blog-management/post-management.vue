@@ -1,8 +1,18 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import type { DataTableHeader } from 'vuetify'
-
+import type { Blog } from '~/types/blog'
+import type { BlogPost } from '~/types/blogPost'
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
+import {
+  normalizeCollection,
+  pickString,
+  resolveFirstAvailableNumber,
+  resolvePostUrl,
+  resolveStringList,
+  resolveUserName,
+  resolveVisibilityFlag,
+} from '~/utils/blog/admin'
 
 definePageMeta({
   title: 'navigation.posts',
@@ -13,12 +23,17 @@ definePageMeta({
 
 const { t, locale } = useI18n()
 
+const headers = import.meta.server
+  ? useRequestHeaders(['cookie', 'authorization'])
+  : undefined
+
 interface PostRow {
+  id: string
   title: string
   blog: string
   author: string
-  publishedAt: string
-  url: string
+  publishedAt: string | null
+  url: string | null
   tags: string[]
   commentCount: number
   likeCount: number
@@ -27,41 +42,89 @@ interface PostRow {
 
 const search = ref('')
 
-const posts = ref<PostRow[]>([
-  {
-    title: 'Understanding Domain Events',
-    blog: 'Tech Insights',
-    author: 'Rami Aouinti',
-    publishedAt: '2024-05-12T14:30:00Z',
-    url: 'https://example.com/domain-events',
-    tags: ['Architecture', 'PHP'],
-    commentCount: 12,
-    likeCount: 54,
-    visible: true,
-  },
-  {
-    title: 'Designing Product Narratives',
-    blog: 'Product Pulse',
-    author: 'Julia Hoffmann',
-    publishedAt: '2024-04-28T09:10:00Z',
-    url: 'https://example.com/product-narratives',
-    tags: ['Product', 'Design'],
-    commentCount: 5,
-    likeCount: 31,
-    visible: true,
-  },
-  {
-    title: 'Building Stronger Communities Online',
-    blog: 'Community Chronicles',
-    author: 'Imran Malik',
-    publishedAt: '2024-02-16T18:45:00Z',
-    url: 'https://example.com/communities-online',
-    tags: ['Community', 'Guides'],
-    commentCount: 3,
-    likeCount: 18,
-    visible: false,
-  },
-])
+const {
+  data: rawPosts,
+  pending,
+  error,
+  refresh,
+} = await useFetch<BlogPost[]>('/api/blog/v1/post', {
+  key: 'admin-post-list',
+  headers,
+  credentials: 'include',
+  transform: (data) => normalizeCollection<BlogPost>(data),
+})
+
+const posts = computed<PostRow[]>(() => {
+  const entries = rawPosts.value ?? []
+
+  return entries.map((post, index) => {
+    const identifier =
+      pickString(post?.id, post?.uuid, post?.slug, post?.identifier) ??
+      `post-${index}`
+    const title =
+      pickString(post?.title, post?.name, post?.slug) ||
+      t('admin.blogManagement.common.none')
+    const blogRelation = post?.blog as Blog | undefined
+    const blogName =
+      pickString(
+        post?.blogTitle,
+        post?.blogName,
+        blogRelation?.title,
+        blogRelation?.name,
+      ) || t('admin.blogManagement.common.none')
+    const author =
+      resolveUserName(post?.user ?? post?.author) ??
+      t('admin.blogManagement.common.none')
+    const publishedAt = pickString(
+      post?.publishedAt,
+      post?.published_at,
+      post?.createdAt,
+      post?.created_at,
+    )
+    const url = resolvePostUrl(post ?? null)
+    const tagsSource =
+      post?.tags ?? post?.tagList ?? post?.tagNames ?? post?.categories ?? []
+    const tags = resolveStringList(tagsSource, ['name', 'title', 'label', 'value'])
+    const commentCount = resolveFirstAvailableNumber(
+      [post?.commentCount, post?.commentsCount, post?.totalComments, post?.comments],
+      0,
+    )
+    const likeCount = resolveFirstAvailableNumber(
+      [post?.likeCount, post?.likesCount, post?.likes, post?.reactionsCount],
+      0,
+    )
+    const visible = resolveVisibilityFlag(post ?? null)
+
+    return {
+      id: identifier,
+      title,
+      blog: blogName,
+      author,
+      publishedAt: publishedAt ?? null,
+      url,
+      tags,
+      commentCount,
+      likeCount,
+      visible,
+    }
+  })
+})
+
+const errorMessage = computed(() => {
+  if (!error.value) {
+    return null
+  }
+
+  const err = error.value as
+    | { data?: { message?: string }; message?: string }
+    | null
+
+  return (
+    (err?.data && typeof err.data.message === 'string' && err.data.message) ||
+    (typeof err?.message === 'string' ? err.message : null) ||
+    t('common.unexpectedError')
+  )
+})
 
 const headers = computed<DataTableHeader[]>(() => [
   { title: t('admin.blogManagement.posts.table.title'), key: 'title', minWidth: 220 },
@@ -135,23 +198,31 @@ function formatNumber(value: number | string | null | undefined) {
       v-model:search="search"
       :headers="headers"
       :items="posts"
+      :loading="pending"
+      :error="errorMessage"
       :title="t('admin.blogManagement.posts.title')"
       :subtitle="t('admin.blogManagement.posts.subtitle')"
       color="primary"
+      @refresh="refresh"
     >
       <template #[`item.publishedAt`]="{ value }">
         {{ formatDate(value) }}
       </template>
 
       <template #[`item.url`]="{ value }">
-        <a
-          :href="value"
-          class="text-primary"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {{ value }}
-        </a>
+        <template v-if="value">
+          <a
+            :href="value"
+            class="text-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ value }}
+          </a>
+        </template>
+        <span v-else class="text-medium-emphasis">
+          {{ t('admin.blogManagement.common.none') }}
+        </span>
       </template>
 
       <template #[`item.tags`]="{ value }">

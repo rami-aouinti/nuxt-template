@@ -1,8 +1,17 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import type { DataTableHeader } from 'vuetify'
-
+import type { BlogComment } from '~/types/blogComment'
+import type { BlogPost } from '~/types/blogPost'
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
+import {
+  normalizeCollection,
+  pickString,
+  resolveFirstAvailableNumber,
+  resolvePostTitle,
+  resolveUserName,
+  resolveVisibilityFlag,
+} from '~/utils/blog/admin'
 
 definePageMeta({
   title: 'navigation.comments',
@@ -13,11 +22,16 @@ definePageMeta({
 
 const { t, locale } = useI18n()
 
+const headers = import.meta.server
+  ? useRequestHeaders(['cookie', 'authorization'])
+  : undefined
+
 interface CommentRow {
+  id: string
   author: string
   post: string
-  content: string
-  publishedAt: string
+  content: string | null
+  publishedAt: string | null
   likes: number
   replies: number
   visible: boolean
@@ -25,38 +39,85 @@ interface CommentRow {
 
 const search = ref('')
 
-const comments = ref<CommentRow[]>([
-  {
-    author: 'Sara Lang',
-    post: 'Understanding Domain Events',
-    content:
-      'Great breakdown of domain events and their lifecycle. The diagrams made it much easier to explain to our team.',
-    publishedAt: '2024-05-13T09:20:00Z',
-    likes: 8,
-    replies: 2,
-    visible: true,
-  },
-  {
-    author: 'Leonard Böhm',
-    post: 'Designing Product Narratives',
-    content:
-      'We used this storytelling structure for our last release and it resonated so well with stakeholders. Thanks for sharing!',
-    publishedAt: '2024-05-02T16:45:00Z',
-    likes: 5,
-    replies: 1,
-    visible: true,
-  },
-  {
-    author: 'Maya Chen',
-    post: 'Building Stronger Communities Online',
-    content:
-      'Could you elaborate on how you moderate long-running discussion threads? We are looking for best practices.',
-    publishedAt: '2024-03-18T11:05:00Z',
-    likes: 2,
-    replies: 0,
-    visible: false,
-  },
-])
+const {
+  data: rawComments,
+  pending,
+  error,
+  refresh,
+} = await useFetch<BlogComment[]>('/api/blog/v1/comment', {
+  key: 'admin-comment-list',
+  headers,
+  credentials: 'include',
+  transform: (data) => normalizeCollection<BlogComment>(data),
+})
+
+const comments = computed<CommentRow[]>(() => {
+  const entries = rawComments.value ?? []
+
+  return entries.map((comment, index) => {
+    const identifier =
+      pickString(comment?.id, comment?.uuid) ?? `comment-${index}`
+    const author =
+      resolveUserName(comment?.user ?? comment?.author) ??
+      t('admin.blogManagement.common.none')
+    const relatedPost =
+      (comment?.post ??
+        comment?.article ??
+        comment?.entry ??
+        comment?.target) as BlogPost | undefined
+    const postTitle =
+      pickString(
+        comment?.postTitle,
+        comment?.post_title,
+        resolvePostTitle(relatedPost),
+      ) || t('admin.blogManagement.common.none')
+    const content =
+      pickString(comment?.content, comment?.body, comment?.message, comment?.text) ??
+      null
+    const publishedAt = pickString(
+      comment?.publishedAt,
+      comment?.published_at,
+      comment?.createdAt,
+      comment?.created_at,
+    )
+    const likes = resolveFirstAvailableNumber(
+      [comment?.likes, comment?.likeCount, comment?.likesCount, comment?.reactionsCount],
+      0,
+    )
+    const replies = resolveFirstAvailableNumber(
+      [comment?.replies, comment?.replyCount, comment?.repliesCount, comment?.replies_count],
+      0,
+    )
+    const visible = resolveVisibilityFlag(comment ?? null)
+
+    return {
+      id: identifier,
+      author,
+      post: postTitle,
+      content,
+      publishedAt: publishedAt ?? null,
+      likes,
+      replies,
+      visible,
+    }
+  })
+})
+
+const errorMessage = computed(() => {
+  if (!error.value) {
+    return null
+  }
+
+  const err = error.value as
+    | { data?: { message?: string }; message?: string }
+    | null
+
+  return (
+    (err?.data && typeof err.data.message === 'string' && err.data.message) ||
+    (typeof err?.message === 'string' ? err.message : null) ||
+    t('common.unexpectedError')
+  )
+})
 
 const headers = computed<DataTableHeader[]>(() => [
   { title: t('admin.blogManagement.comments.table.author'), key: 'author', minWidth: 180 },
@@ -139,9 +200,12 @@ function formatNumber(value: number | string | null | undefined) {
       v-model:search="search"
       :headers="headers"
       :items="comments"
+      :loading="pending"
+      :error="errorMessage"
       :title="t('admin.blogManagement.comments.title')"
       :subtitle="t('admin.blogManagement.comments.subtitle')"
       color="primary"
+      @refresh="refresh"
     >
       <template #[`item.content`]="{ value }">
         <span class="text-body-2">{{ truncateContent(value) }}</span>
