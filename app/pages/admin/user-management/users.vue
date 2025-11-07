@@ -33,6 +33,9 @@ const headers = computed<DataTableHeader[]>(() => [
 
 const pending = adminStore.usersPending
 const error = adminStore.usersError
+const tableError = computed(() =>
+  error.value ? t('userManagement.users.alerts.loadFailed') : null,
+)
 const refresh = () => adminStore.refreshUsers()
 
 type UserGroup = {
@@ -518,137 +521,101 @@ watch(attachDialog, (value) => {
   <v-container fluid>
     <v-row>
       <v-col>
-        <v-card>
-          <client-only>
-            <teleport to="#app-bar">
-              <v-text-field
-                v-model="search"
-                prepend-inner-icon="mdi-magnify"
-                :label="t('common.labels.search')"
-                single-line
-                hide-details
-                density="compact"
-                class="mr-2"
-                rounded="xl"
-                flat
-                icon-color
-                glow
-                variant="solo"
-                style="width: 250px"
-              />
-            </teleport>
-          </client-only>
-          <v-card-title
-            class="d-flex align-center justify-space-between flex-wrap"
-            style="gap: 12px"
-          >
-            <span class="text-h6">{{ t('userManagement.users.cardTitle') }}</span>
-            <div class="d-flex align-center" style="gap: 8px">
+        <AdminDataTable
+          :headers="headers"
+          :items="items"
+          :loading="pending"
+          :error="tableError"
+          v-model:search="search"
+          :title="t('userManagement.users.cardTitle')"
+          :subtitle="t('navigation.userManagement')"
+          item-value="id"
+          @refresh="refresh()"
+        >
+          <template #header-actions>
+            <v-btn
+              color="primary"
+              prepend-icon="mdi-plus"
+              :disabled="pending"
+              @click="openCreate"
+            >
+              {{ t('userManagement.users.actions.new') }}
+            </v-btn>
+          </template>
+          <template #item.firstName="{ value }">
+            {{ value || '—' }}
+          </template>
+          <template #item.lastName="{ value }">
+            {{ value || '—' }}
+          </template>
+          <template #item.language="{ value }">
+            {{ value || '—' }}
+          </template>
+          <template #item.locale="{ value }">
+            {{ value || '—' }}
+          </template>
+          <template #item.timezone="{ value }">
+            {{ value || '—' }}
+          </template>
+          <template #item.enabled="{ value }">
+            <v-chip :color="value ? 'success' : 'grey'" size="small" label>
+              {{
+                value
+                  ? t('userManagement.users.status.active')
+                  : t('userManagement.users.status.inactive')
+              }}
+            </v-chip>
+          </template>
+          <template #item.actions="{ item }">
+            <div class="d-flex align-center justify-end" style="gap: 4px">
               <v-btn
+                icon
+                variant="text"
                 color="primary"
-                prepend-icon="mdi-plus"
-                :disabled="pending"
-                @click="openCreate"
+                :title="
+                  t('userManagement.users.actions.viewTooltip', {
+                    username:
+                      item.raw?.username ??
+                      t('userManagement.users.labels.userFallback'),
+                  })
+                "
+                @click="openView(item)"
               >
-                {{ t('userManagement.users.actions.new') }}
+                <v-icon icon="mdi-eye-outline" />
               </v-btn>
               <v-btn
-                icon="mdi-refresh"
+                icon
                 variant="text"
-                :loading="pending"
-                @click="refresh()"
-              />
+                color="warning"
+                :title="
+                  t('userManagement.users.actions.editTooltip', {
+                    username:
+                      item.raw?.username ??
+                      t('userManagement.users.labels.userFallback'),
+                  })
+                "
+                @click="openEdit(item)"
+              >
+                <v-icon icon="mdi-pencil-outline" />
+              </v-btn>
+              <v-btn
+                icon
+                variant="text"
+                color="error"
+                :title="
+                  t('userManagement.users.actions.deleteTooltip', {
+                    username:
+                      item.raw?.username ??
+                      t('userManagement.users.labels.userFallback'),
+                  })
+                "
+                @click="openDelete(item)"
+              >
+                <v-icon icon="mdi-delete-outline" />
+              </v-btn>
             </div>
-          </v-card-title>
-          <v-divider />
-          <v-card-text>
-            <v-alert v-if="error" type="error" variant="tonal" class="mb-4">
-              {{ t('userManagement.users.alerts.loadFailed') }}
-            </v-alert>
-            <v-data-table
-              :headers="headers"
-              :items="items"
-              :loading="pending"
-              :search="search"
-              item-value="id"
-              class="elevation-0"
-            >
-              <template #item.firstName="{ value }">
-                {{ value || '—' }}
-              </template>
-              <template #item.lastName="{ value }">
-                {{ value || '—' }}
-              </template>
-              <template #item.language="{ value }">
-                {{ value || '—' }}
-              </template>
-              <template #item.locale="{ value }">
-                {{ value || '—' }}
-              </template>
-              <template #item.timezone="{ value }">
-                {{ value || '—' }}
-              </template>
-              <template #item.enabled="{ value }">
-                <v-chip :color="value ? 'success' : 'grey'" size="small" label>
-                  {{
-                    value
-                      ? t('userManagement.users.status.active')
-                      : t('userManagement.users.status.inactive')
-                  }}
-                </v-chip>
-              </template>
-              <template #item.actions="{ item }">
-                <div class="d-flex align-center justify-end" style="gap: 4px">
-                  <v-btn
-                    icon
-                    variant="text"
-                    color="primary"
-                    :title="
-                      t('userManagement.users.actions.viewTooltip', {
-                        username:
-                          item.raw?.username ??
-                          t('userManagement.users.labels.userFallback'),
-                      })
-                    "
-                    @click="openView(item)"
-                  >
-                    <v-icon icon="mdi-eye-outline" />
-                  </v-btn>
-                  <v-btn
-                    icon
-                    variant="text"
-                    color="warning"
-                    :title="
-                      t('userManagement.users.actions.editTooltip', {
-                        username:
-                          item.raw?.username ??
-                          t('userManagement.users.labels.userFallback'),
-                      })
-                    "
-                    @click="openEdit(item)"
-                  >
-                    <v-icon icon="mdi-pencil-outline" />
-                  </v-btn>
-                  <v-btn
-                    icon
-                    variant="text"
-                    color="error"
-                    :title="
-                      t('userManagement.users.actions.deleteTooltip', {
-                        username:
-                          item.raw?.username ??
-                          t('userManagement.users.labels.userFallback'),
-                      })
-                    "
-                    @click="openDelete(item)"
-                  >
-                    <v-icon icon="mdi-delete-outline" />
-                  </v-btn>
-                </div>
-              </template>
-            </v-data-table>
-          </v-card-text>
-        </v-card>
+          </template>
+        </AdminDataTable>
       </v-col>
     </v-row>
 
