@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, type Ref } from 'vue'
+import { normalizeRequestHeaders } from '~/utils/headers'
 import type { User } from '~/types/user'
 import type { UserGroup } from '~/types/userGroup'
 import type { Role } from '~/types/role'
@@ -38,7 +39,7 @@ function toError(error: unknown): Error {
 
 export const useAdminStore = defineStore('admin', () => {
   const requestHeaders = import.meta.server
-    ? useRequestHeaders(['cookie', 'authorization'])
+    ? normalizeRequestHeaders(useRequestHeaders(['cookie', 'authorization']))
     : undefined
 
   type CacheTransform<TInput, TOutput> = (value: TInput) => TOutput

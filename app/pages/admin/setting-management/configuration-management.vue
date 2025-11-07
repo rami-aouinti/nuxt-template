@@ -9,6 +9,7 @@ import type {
 import type { Workplace } from '~/types/workplace'
 import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
+import { normalizeRequestHeaders } from '~/utils/headers'
 
 definePageMeta({
   title: 'configurationManagement.configurations.title',
@@ -21,7 +22,9 @@ definePageMeta({
 const { t, locale } = useI18n()
 const adminStore = useAdminStore()
 
-const headers = import.meta.server ? useRequestHeaders(['cookie', 'authorization']) : undefined
+const headers = import.meta.server
+  ? normalizeRequestHeaders(useRequestHeaders(['cookie', 'authorization']))
+  : undefined
 
 const normalizeCollection = <T,>(input: unknown): T[] => {
   if (Array.isArray(input)) {
