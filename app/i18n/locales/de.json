@@ -29,6 +29,7 @@
     "users": "Benutzer",
     "roles": "Rollen",
     "userGroups": "Benutzergruppen",
+    "workplaces": "Workplaces",
     "apiKeys": "API-Schlüssel",
     "profile": "Profil",
     "blog": "Blog",
@@ -102,6 +103,8 @@
       "placeholders": {
         "underConstruction": "Dieser Bereich befindet sich in Arbeit."
       }
+      "workplaces": "Number of workplaces",
+      "apiKeys": "Anzahl der API-Schlüssel"
     }
   },
   "auth": {
@@ -341,6 +344,63 @@
           "empty": "Keine Benutzer verknüpft."
         },
         "empty": "Keine Gruppe ausgewählt."
+      }
+    },
+    "workplaces": {
+      "notifications": {
+        "createSuccess": "Workplace created successfully.",
+        "updateSuccess": "Workplace updated successfully.",
+        "deleteSuccess": "Workplace deleted successfully."
+      },
+      "errors": {
+        "nameRequired": "A workplace name is required.",
+        "createFailed": "Unable to create the workplace.",
+        "updateFailed": "Unable to update the workplace.",
+        "loadDetails": "Unable to load the workplace details.",
+        "deleteFailed": "Unable to delete the workplace."
+      },
+      "table": {
+        "name": "Name",
+        "slug": "Slug",
+        "id": "Identifier",
+        "actions": "Actions"
+      },
+      "cardTitle": "Workplaces",
+      "actions": {
+        "new": "New workplace",
+        "viewTooltip": "View {name}",
+        "editTooltip": "Edit {name}",
+        "deleteTooltip": "Delete {name}"
+      },
+      "alerts": {
+        "loadFailed": "Failed to load workplaces."
+      },
+      "fields": {
+        "name": "Workplace name",
+        "slug": "Slug",
+        "id": "Identifier"
+      },
+      "labels": {
+        "workplaceFallback": "this workplace"
+      },
+      "dialogs": {
+        "create": {
+          "title": "Create workplace"
+        },
+        "edit": {
+          "title": "Edit workplace"
+        },
+        "view": {
+          "title": "Workplace details"
+        },
+        "delete": {
+          "title": "Delete workplace",
+          "warningPrefix": "This action cannot be undone. Do you really want to delete",
+          "warningSuffix": "?"
+        }
+      },
+      "details": {
+        "empty": "No workplace selected."
       }
     },
     "apiKeys": {
