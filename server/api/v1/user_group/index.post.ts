@@ -1,12 +1,13 @@
-import { broWorldRequest } from '~~/server/utils/broWorldApi'
-import type {UserGroup, UserGroupPayload} from "~/types/userGroup";
+import { requestWithJsonBody } from '~~/server/utils/crud'
+import type { UserGroup, UserGroupPayload } from '~/types/userGroup'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<UserGroupPayload>(event)
 
-  return await broWorldRequest<UserGroup>(event, '/user_group', {
-    method: 'POST',
+  return await requestWithJsonBody<UserGroup, UserGroupPayload>(
+    event,
+    '/user_group',
+    'POST',
     body,
-    headers: { 'Content-Type': 'application/json' },
-  })
+  )
 })
