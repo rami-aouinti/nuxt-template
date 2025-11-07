@@ -2,7 +2,7 @@
 definePageMeta({
   title: 'navigation.blogManagement',
   drawerIndex: 2,
-  icon: 'mdi-account-cog-outline',
+  icon: 'mdi-blogger',
 })
 </script>
 <template>

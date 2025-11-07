@@ -5,6 +5,7 @@ definePageMeta({
   icon: 'mdi-monitor-dashboard',
   title: 'navigation.dashboard',
   drawerIndex: 0,
+  roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 const { t } = useI18n()
 

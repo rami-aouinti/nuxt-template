@@ -2,7 +2,7 @@
 definePageMeta({
   title: 'navigation.settingManagement',
   drawerIndex: 0,
-  icon: 'mdi-account-cog-outline',
+  icon: 'mdi-settings-outline',
 })
 </script>
 <template>

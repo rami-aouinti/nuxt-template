@@ -123,7 +123,7 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
     <v-list nav density="compact">
       <AppDrawerItem
         v-for="route in availableRoutes"
-        :key="route.name"
+        :key="localePath(route.name)"
         :item="route"
       />
     </v-list>
