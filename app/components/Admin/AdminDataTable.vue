@@ -107,8 +107,7 @@ const hasToolbarContent = computed(
   () =>
     Boolean(props.title) ||
     Boolean(props.subtitle) ||
-    Boolean(slots['header-actions']) ||
-    Boolean(props.showSearch),
+    Boolean(slots['header-actions']),
 )
 
 const dataTableSlots = computed(() => {
@@ -156,17 +155,6 @@ function refresh() {
       </div>
       <div class="admin-data-table__toolbar-actions">
         <slot name="header-actions" />
-        <v-text-field
-          v-if="showSearch"
-          v-model="localSearch"
-          class="admin-data-table__search"
-          density="comfortable"
-          hide-details
-          prepend-inner-icon="mdi-magnify"
-          rounded="lg"
-          variant="outlined"
-          :placeholder="computedSearchPlaceholder"
-        />
         <v-btn
           v-if="refreshable"
           class="admin-data-table__refresh"
@@ -180,6 +168,26 @@ function refresh() {
     </div>
 
     <slot name="toolbar" />
+
+    <client-only v-if="showSearch">
+      <teleport to="#app-bar">
+        <v-text-field
+          v-model="localSearch"
+          class="mr-2"
+          prepend-inner-icon="mdi-magnify"
+          :label="computedSearchPlaceholder"
+          single-line
+          hide-details
+          density="compact"
+          rounded="xl"
+          flat
+          icon-color
+          glow
+          variant="solo"
+          style="width: 250px"
+        />
+      </teleport>
+    </client-only>
 
     <v-expand-transition>
       <v-alert
@@ -275,13 +283,6 @@ function refresh() {
   align-items: center;
   justify-content: flex-end;
   gap: 12px;
-}
-
-.admin-data-table__search {
-  max-width: 240px;
-  min-width: 200px;
-  background-color: color-mix(in srgb, #fff 85%, var(--admin-table-color) 15%);
-  border-radius: 14px;
 }
 
 .admin-data-table__refresh {

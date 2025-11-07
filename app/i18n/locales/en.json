@@ -22,9 +22,14 @@
     "userManagement": "User Management",
     "settingManagement": "Setting Management",
     "blogManagement": "Blog Management",
+    "blogs": "Blogs",
+    "posts": "Posts",
+    "comments": "Comments",
+    "tags": "Tags",
     "users": "Users",
     "roles": "Roles",
     "userGroups": "User Groups",
+    "workplaces": "Workplaces",
     "apiKeys": "API Keys",
     "profile": "Profile",
     "blog": "Blog",
@@ -88,8 +93,19 @@
       "users": "Number of users",
       "roles": "Number of roles",
       "groups": "Number of groups",
+      "apiKeys": "Number of API keys",
+      "blogs": "Number of blogs",
+      "posts": "Number of posts",
+      "comments": "Number of comments",
+      "tags": "Number of tags"
+    },
+    "blogManagement": {
+      "placeholders": {
+        "underConstruction": "This section is under construction."
+      }
+    },
+      "workplaces": "Number of workplaces",
       "apiKeys": "Number of API keys"
-    }
   },
   "auth": {
     "profile": "Profile",
@@ -328,6 +344,63 @@
           "empty": "No users linked."
         },
         "empty": "No group selected."
+      }
+    },
+    "workplaces": {
+      "notifications": {
+        "createSuccess": "Workplace created successfully.",
+        "updateSuccess": "Workplace updated successfully.",
+        "deleteSuccess": "Workplace deleted successfully."
+      },
+      "errors": {
+        "nameRequired": "A workplace name is required.",
+        "createFailed": "Unable to create the workplace.",
+        "updateFailed": "Unable to update the workplace.",
+        "loadDetails": "Unable to load the workplace details.",
+        "deleteFailed": "Unable to delete the workplace."
+      },
+      "table": {
+        "name": "Name",
+        "slug": "Slug",
+        "id": "Identifier",
+        "actions": "Actions"
+      },
+      "cardTitle": "Workplaces",
+      "actions": {
+        "new": "New workplace",
+        "viewTooltip": "View {name}",
+        "editTooltip": "Edit {name}",
+        "deleteTooltip": "Delete {name}"
+      },
+      "alerts": {
+        "loadFailed": "Failed to load workplaces."
+      },
+      "fields": {
+        "name": "Workplace name",
+        "slug": "Slug",
+        "id": "Identifier"
+      },
+      "labels": {
+        "workplaceFallback": "this workplace"
+      },
+      "dialogs": {
+        "create": {
+          "title": "Create workplace"
+        },
+        "edit": {
+          "title": "Edit workplace"
+        },
+        "view": {
+          "title": "Workplace details"
+        },
+        "delete": {
+          "title": "Delete workplace",
+          "warningPrefix": "This action cannot be undone. Do you really want to delete",
+          "warningSuffix": "?"
+        }
+      },
+      "details": {
+        "empty": "No workplace selected."
       }
     },
     "apiKeys": {

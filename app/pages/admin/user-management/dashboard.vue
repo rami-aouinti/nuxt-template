@@ -40,6 +40,14 @@ const stats = computed(() => [
     caption: t('admin.metrics.groups'),
   },
   {
+    icon: 'mdi-office-building',
+    title: t('navigation.workplaces'),
+    value: adminStore.workplaceCount.value ?? 0,
+    url: '/admin/user-management/workplaces',
+    color: 'primary',
+    caption: t('admin.metrics.workplaces'),
+  },
+  {
     icon: 'mdi-key-outline',
     title: t('navigation.apiKeys'),
     value: adminStore.apiKeyCount.value ?? 0,

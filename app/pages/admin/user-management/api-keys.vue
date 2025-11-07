@@ -13,7 +13,7 @@ type ApiKeyFormState = {
 definePageMeta({
   title: 'navigation.apiKeys',
   icon: 'mdi-key-outline',
-  drawerIndex: 4,
+  drawerIndex: 5,
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 
@@ -56,6 +56,14 @@ const itemsV2 = computed<ApiKey[]>(
   () => adminStore.apiKeysByVersion.v2.data.value ?? [],
 )
 
+const currentVersion = computed(() => tab.value)
+const currentItems = computed<ApiKey[]>(() =>
+  currentVersion.value === 'v1' ? itemsV1.value : itemsV2.value,
+)
+const currentPending = computed(() =>
+  currentVersion.value === 'v1' ? pendingV1.value : pendingV2.value,
+)
+
 const actionVersion = ref<ApiVersion>('v1')
 
 const createDialog = ref(false)
@@ -92,6 +100,21 @@ const versionLabels = computed<Record<ApiVersion, string>>(() => ({
   v2: t('userManagement.apiKeys.labels.v2'),
 }))
 
+const tableError = computed(() => {
+  const version = currentVersion.value
+  const error = version === 'v1' ? errorV1.value : errorV2.value
+  if (!error) {
+    return null
+  }
+  return t('userManagement.apiKeys.alerts.loadFailed', {
+    version: versionLabels.value[version],
+  })
+})
+
+const currentVersionLabel = computed(
+  () => versionLabels.value[currentVersion.value],
+)
+
 const fetchContext: Record<
   ApiVersion,
   {
@@ -100,6 +123,10 @@ const fetchContext: Record<
 > = {
   v1: { refresh: refreshV1 },
   v2: { refresh: refreshV2 },
+}
+
+function refreshCurrent() {
+  fetchContext[currentVersion.value].refresh()
 }
 
 function resetForm() {
@@ -426,221 +453,93 @@ watch(deleteDialog, (value) => {
   <v-container fluid>
     <v-row>
       <v-col>
-        <v-card>
-          <client-only>
-            <teleport to="#app-bar">
-              <v-text-field
-                v-model="search"
-                prepend-inner-icon="mdi-magnify"
-                :label="t('common.labels.search')"
-                single-line
-                hide-details
+        <AdminDataTable
+          v-model:search="search"
+          :headers="headers"
+          :items="currentItems"
+          :loading="currentPending"
+          :error="tableError"
+          :title="t('userManagement.apiKeys.cardTitle')"
+          :subtitle="t('navigation.userManagement')"
+          item-value="id"
+          @refresh="refreshCurrent"
+        >
+          <template #header-actions>
+            <div class="d-flex align-center flex-wrap" style="gap: 8px">
+              <v-btn-toggle
+                v-model="tab"
+                variant="text"
+                divided
                 density="compact"
-                class="mr-2"
-                rounded="xl"
-                flat
-                icon-color
-                glow
-                variant="solo"
-                style="width: 250px"
-              />
-            </teleport>
-          </client-only>
-          <v-card-title class="d-flex align-center justify-space-between">
-            <span class="text-h6">{{ t('userManagement.apiKeys.cardTitle') }}</span>
-            <v-btn-toggle
-              v-model="tab"
-              variant="text"
-              divided
-              density="compact"
-              color="primary"
-            >
-              <v-btn value="v1">{{ versionLabels.v1 }}</v-btn>
-              <v-btn value="v2">{{ versionLabels.v2 }}</v-btn>
-            </v-btn-toggle>
-          </v-card-title>
-          <v-divider />
-          <v-card-text>
-            <v-window v-model="tab">
-              <v-window-item value="v1">
-                <v-alert v-if="errorV1" type="error" variant="tonal" class="mb-4">
-                  {{ t('userManagement.apiKeys.alerts.loadFailed', {
-                    version: versionLabels.v1,
-                  }) }}
-                </v-alert>
-                <div
-                  class="d-flex justify-end align-center mb-2 flex-wrap"
-                  style="gap: 8px"
-                >
-                  <v-btn
-                    color="primary"
-                    prepend-icon="mdi-plus"
-                    :disabled="pendingV1"
-                    @click="openCreate('v1')"
-                  >
-                    {{
-                      t('userManagement.apiKeys.actions.new', {
-                        version: versionLabels.v1,
-                      })
-                    }}
-                  </v-btn>
-                  <v-btn
-                    icon="mdi-refresh"
-                    variant="text"
-                    :loading="pendingV1"
-                    @click="refreshV1()"
-                  />
-                </div>
-                <v-data-table
-                  :headers="headers"
-                  :items="itemsV1"
-                  :loading="pendingV1"
-                  :search="search"
-                  item-value="id"
-                  class="elevation-0"
-                >
-                  <template #item.actions="{ item }">
-                    <div class="d-flex align-center justify-end" style="gap: 4px">
-                      <v-btn
-                        icon
-                        variant="text"
-                        color="primary"
-                        :title="
-                          t('userManagement.apiKeys.actions.viewTooltip', {
-                            description:
-                              item.raw?.description ??
-                              t('userManagement.apiKeys.labels.keyFallback'),
-                          })
-                        "
-                        @click="openView('v1', item.raw)"
-                      >
-                        <v-icon icon="mdi-eye-outline" />
-                      </v-btn>
-                      <v-btn
-                        icon
-                        variant="text"
-                        color="warning"
-                        :title="
-                          t('userManagement.apiKeys.actions.editTooltip', {
-                            description:
-                              item.raw?.description ??
-                              t('userManagement.apiKeys.labels.keyFallback'),
-                          })
-                        "
-                        @click="openEdit('v1', item.raw)"
-                      >
-                        <v-icon icon="mdi-pencil-outline" />
-                      </v-btn>
-                      <v-btn
-                        icon
-                        variant="text"
-                        color="error"
-                        :title="
-                          t('userManagement.apiKeys.actions.deleteTooltip', {
-                            description:
-                              item.raw?.description ??
-                              t('userManagement.apiKeys.labels.keyFallback'),
-                          })
-                        "
-                        @click="openDelete('v1', item.raw)"
-                      >
-                        <v-icon icon="mdi-delete-outline" />
-                      </v-btn>
-                    </div>
-                  </template>
-                </v-data-table>
-              </v-window-item>
-              <v-window-item value="v2">
-                <v-alert v-if="errorV2" type="error" variant="tonal" class="mb-4">
-                  {{ t('userManagement.apiKeys.alerts.loadFailed', {
-                    version: versionLabels.v2,
-                  }) }}
-                </v-alert>
-                <div
-                  class="d-flex justify-end align-center mb-2 flex-wrap"
-                  style="gap: 8px"
-                >
-                  <v-btn
-                    color="primary"
-                    prepend-icon="mdi-plus"
-                    :disabled="pendingV2"
-                    @click="openCreate('v2')"
-                  >
-                    {{
-                      t('userManagement.apiKeys.actions.new', {
-                        version: versionLabels.v2,
-                      })
-                    }}
-                  </v-btn>
-                  <v-btn
-                    icon="mdi-refresh"
-                    variant="text"
-                    :loading="pendingV2"
-                    @click="refreshV2()"
-                  />
-                </div>
-                <v-data-table
-                  :headers="headers"
-                  :items="itemsV2"
-                  :loading="pendingV2"
-                  :search="search"
-                  item-value="id"
-                  class="elevation-0"
-                >
-                  <template #item.actions="{ item }">
-                    <div class="d-flex align-center justify-end" style="gap: 4px">
-                      <v-btn
-                        icon
-                        variant="text"
-                        color="primary"
-                        :title="
-                          t('userManagement.apiKeys.actions.viewTooltip', {
-                            description:
-                              item.raw?.description ??
-                              t('userManagement.apiKeys.labels.keyFallback'),
-                          })
-                        "
-                        @click="openView('v2', item.raw)"
-                      >
-                        <v-icon icon="mdi-eye-outline" />
-                      </v-btn>
-                      <v-btn
-                        icon
-                        variant="text"
-                        color="warning"
-                        :title="
-                          t('userManagement.apiKeys.actions.editTooltip', {
-                            description:
-                              item.raw?.description ??
-                              t('userManagement.apiKeys.labels.keyFallback'),
-                          })
-                        "
-                        @click="openEdit('v2', item.raw)"
-                      >
-                        <v-icon icon="mdi-pencil-outline" />
-                      </v-btn>
-                      <v-btn
-                        icon
-                        variant="text"
-                        color="error"
-                        :title="
-                          t('userManagement.apiKeys.actions.deleteTooltip', {
-                            description:
-                              item.raw?.description ??
-                              t('userManagement.apiKeys.labels.keyFallback'),
-                          })
-                        "
-                        @click="openDelete('v2', item.raw)"
-                      >
-                        <v-icon icon="mdi-delete-outline" />
-                      </v-btn>
-                    </div>
-                  </template>
-                </v-data-table>
-              </v-window-item>
-            </v-window>
-          </v-card-text>
-        </v-card>
+                color="primary"
+              >
+                <v-btn value="v1">{{ versionLabels.v1 }}</v-btn>
+                <v-btn value="v2">{{ versionLabels.v2 }}</v-btn>
+              </v-btn-toggle>
+              <v-btn
+                color="primary"
+                prepend-icon="mdi-plus"
+                :disabled="currentPending"
+                @click="openCreate(tab)"
+              >
+                {{
+                  t('userManagement.apiKeys.actions.new', {
+                    version: currentVersionLabel,
+                  })
+                }}
+              </v-btn>
+            </div>
+          </template>
+          <template #item.actions="{ item }">
+            <div class="d-flex align-center justify-end" style="gap: 4px">
+              <v-btn
+                icon
+                variant="text"
+                color="primary"
+                :title="
+                  t('userManagement.apiKeys.actions.viewTooltip', {
+                    description:
+                      item.raw?.description ??
+                      t('userManagement.apiKeys.labels.keyFallback'),
+                  })
+                "
+                @click="openView(tab, item.raw)"
+              >
+                <v-icon icon="mdi-eye-outline" />
+              </v-btn>
+              <v-btn
+                icon
+                variant="text"
+                color="warning"
+                :title="
+                  t('userManagement.apiKeys.actions.editTooltip', {
+                    description:
+                      item.raw?.description ??
+                      t('userManagement.apiKeys.labels.keyFallback'),
+                  })
+                "
+                @click="openEdit(tab, item.raw)"
+              >
+                <v-icon icon="mdi-pencil-outline" />
+              </v-btn>
+              <v-btn
+                icon
+                variant="text"
+                color="error"
+                :title="
+                  t('userManagement.apiKeys.actions.deleteTooltip', {
+                    description:
+                      item.raw?.description ??
+                      t('userManagement.apiKeys.labels.keyFallback'),
+                  })
+                "
+                @click="openDelete(tab, item.raw)"
+              >
+                <v-icon icon="mdi-delete-outline" />
+              </v-btn>
+            </div>
+          </template>
+        </AdminDataTable>
       </v-col>
     </v-row>
     <v-dialog v-model="createDialog" max-width="520">
