@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { normalizeRequestHeaders } from '~/utils/headers'
 
 definePageMeta({
   icon: 'mdi-monitor-dashboard',
@@ -9,7 +10,9 @@ definePageMeta({
 })
 const { t } = useI18n()
 
-const headers = import.meta.server ? useRequestHeaders(['cookie', 'authorization']) : undefined;
+const headers = import.meta.server
+  ? normalizeRequestHeaders(useRequestHeaders(['cookie', 'authorization']))
+  : undefined
 
 const extractCount = (d: any): number => {
   if (typeof d === 'number') return d
