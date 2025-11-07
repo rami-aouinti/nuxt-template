@@ -13,7 +13,7 @@ definePageMeta({
 
 const { t } = useI18n()
 const adminStore = useAdminStore()
-const { roles, rolesPending, rolesError } = storeToRefs(adminStore)
+const {roles, rolesPending, rolesError} = storeToRefs(adminStore)
 
 await adminStore.fetchRoles()
 

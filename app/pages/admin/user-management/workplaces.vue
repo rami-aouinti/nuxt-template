@@ -4,6 +4,7 @@ import type { DataTableHeader } from 'vuetify'
 import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
 import type { Workplace, WorkplacePayload } from '~/types/workplace'
+import {storeToRefs} from "pinia";
 
 definePageMeta({
   title: 'navigation.workplaces',
@@ -14,6 +15,7 @@ definePageMeta({
 
 const { t } = useI18n()
 const adminStore = useAdminStore()
+const { workplaces, workplacesPending, workplacesError } = storeToRefs(adminStore)
 
 await adminStore.fetchWorkplaces()
 
@@ -36,7 +38,7 @@ const pending = adminStore.workplacesPending
 const error = adminStore.workplacesError
 const refresh = () => adminStore.refreshWorkplaces()
 
-const items = computed<Workplace[]>(() => adminStore.workplaces.value ?? [])
+const items = computed(() => workplaces.value ?? [])
 
 const form = reactive<WorkplacePayload>({ name: '' })
 const formError = ref('')
@@ -333,68 +335,36 @@ watch(deleteDialog, (value) => {
     <v-row>
       <v-col>
         <v-card>
-          <client-only>
-            <teleport to="#app-bar">
-              <v-text-field
-                v-model="search"
-                prepend-inner-icon="mdi-magnify"
-                :label="t('common.labels.search')"
-                single-line
-                hide-details
-                density="compact"
-                class="mr-2"
-                rounded="xl"
-                flat
-                icon-color
-                glow
-                variant="solo"
-                style="width: 250px"
-              />
-            </teleport>
-          </client-only>
-          <v-card-title
-            class="d-flex align-center justify-space-between flex-wrap"
-            style="gap: 12px"
-          >
-            <span class="text-h6">{{ t('userManagement.workplaces.cardTitle') }}</span>
-            <div class="d-flex align-center" style="gap: 8px">
-              <v-btn
-                color="primary"
-                prepend-icon="mdi-plus"
-                :disabled="pending"
-                @click="openCreate"
-              >
-                {{ t('userManagement.workplaces.actions.new') }}
-              </v-btn>
-              <v-btn
-                icon="mdi-refresh"
-                variant="text"
-                :loading="pending"
-                @click="refresh()"
-              />
-            </div>
-          </v-card-title>
-          <v-divider />
           <v-card-text>
-            <v-alert v-if="error" type="error" variant="tonal" class="mb-4">
-              {{ t('userManagement.workplaces.alerts.loadFailed') }}
-            </v-alert>
-            <v-data-table
+            <AdminDataTable
+              v-model:search="search"
               :headers="headers"
               :items="items"
               :loading="pending"
-              :search="search"
+              :error="tableError"
+              :title="t('userManagement.workplaces.cardTitle')"
+              :subtitle="t('userManagement.workplaces.cardTitle')"
               item-value="id"
-              class="elevation-0"
+              @refresh="refresh()"
             >
-              <template #item.name="{ item }">
-                {{ item.raw?.name || '—' }}
+              <template #header-actions>
+                <v-btn
+                  color="primary"
+                  prepend-icon="mdi-plus"
+                  :disabled="pending"
+                  @click="openCreate"
+                >
+                  {{ t('userManagement.workplaces.actions.new') }}
+                </v-btn>
               </template>
-              <template #item.slug="{ item }">
-                {{ item.raw?.slug || '—' }}
+              <template #item.name="{ value }">
+                {{ value || '—' }}
               </template>
-              <template #item.id="{ item }">
-                {{ item.raw?.id || '—' }}
+              <template #item.slug="{ value }">
+                {{ value || '—' }}
+              </template>
+              <template #item.id="{ value }">
+                {{ value || '—' }}
               </template>
               <template #item.actions="{ item }">
                 <div class="d-flex align-center justify-end" style="gap: 4px">
@@ -407,7 +377,7 @@ watch(deleteDialog, (value) => {
                         name: getWorkplaceLabel(item.raw),
                       })
                     "
-                    @click="openView(item.raw)"
+                    @click="openView(item)"
                   >
                     <v-icon icon="mdi-eye-outline" />
                   </v-btn>
@@ -420,7 +390,7 @@ watch(deleteDialog, (value) => {
                         name: getWorkplaceLabel(item.raw),
                       })
                     "
-                    @click="openEdit(item.raw)"
+                    @click="openEdit(item)"
                   >
                     <v-icon icon="mdi-pencil-outline" />
                   </v-btn>
@@ -430,16 +400,16 @@ watch(deleteDialog, (value) => {
                     color="error"
                     :title="
                       t('userManagement.workplaces.actions.deleteTooltip', {
-                        name: getWorkplaceLabel(item.raw),
+                        name: getWorkplaceLabel(item),
                       })
                     "
-                    @click="openDelete(item.raw)"
+                    @click="openDelete(item)"
                   >
                     <v-icon icon="mdi-delete-outline" />
                   </v-btn>
                 </div>
               </template>
-            </v-data-table>
+            </AdminDataTable>
           </v-card-text>
         </v-card>
       </v-col>
