@@ -1,23 +1,15 @@
-import { getRouterParam } from 'h3'
 import type { UserGroup, UserGroupPayload } from '~/types/userGroup'
-import { broWorldRequest } from '~~/server/utils/broWorldApi'
+import { requestWithJsonBody, requireEntityId } from '~~/server/utils/crud'
 
 export default defineEventHandler(async (event) => {
-  const id = getRouterParam(event, 'id')
-
-  if (!id) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Bad Request',
-      data: { message: "Identifiant d'utilisateur manquant" },
-    })
-  }
+  const id = requireEntityId(event, "du groupe d'utilisateurs")
 
   const body = await readBody<UserGroupPayload>(event)
 
-  return await broWorldRequest<UserGroup>(event, `/user_group/${id}`, {
-    method: 'PUT',
+  return await requestWithJsonBody<UserGroup, UserGroupPayload>(
+    event,
+    `/user_group/${id}`,
+    'PUT',
     body,
-    headers: { 'Content-Type': 'application/json' },
-  })
+  )
 })

@@ -1,23 +1,10 @@
-import { getRouterParam } from 'h3'
 import type { Role, RolePayload } from '~/types/role'
-import { broWorldRequest } from '~~/server/utils/broWorldApi'
+import { requestWithJsonBody, requireEntityId } from '~~/server/utils/crud'
 
 export default defineEventHandler(async (event) => {
-  const id = getRouterParam(event, 'id')
-
-  if (!id) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Bad Request',
-      data: { message: "Identifiant d'utilisateur manquant" },
-    })
-  }
+  const id = requireEntityId(event, 'du rôle')
 
   const body = await readBody<RolePayload>(event)
 
-  return await broWorldRequest<Role>(event, `/role/${id}`, {
-    method: 'PUT',
-    body,
-    headers: { 'Content-Type': 'application/json' },
-  })
+  return await requestWithJsonBody<Role, RolePayload>(event, `/role/${id}`, 'PUT', body)
 })

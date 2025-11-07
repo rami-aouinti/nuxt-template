@@ -1,12 +1,8 @@
-import { broWorldRequest } from '~~/server/utils/broWorldApi'
-import type {ApiKey, ApiKeyPayload} from "~/types/apiKey";
+import { requestWithJsonBody } from '~~/server/utils/crud'
+import type { ApiKey, ApiKeyPayload } from '~/types/apiKey'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<ApiKeyPayload>(event)
 
-  return await broWorldRequest<ApiKey>(event, '/api_key', {
-    method: 'POST',
-    body,
-    headers: { 'Content-Type': 'application/json' },
-  })
+  return await requestWithJsonBody<ApiKey, ApiKeyPayload>(event, '/api_key', 'POST', body)
 })
