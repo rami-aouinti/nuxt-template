@@ -289,7 +289,7 @@ async function submit() {
 </script>
 
 <template>
-  <v-container fluid class="py-8">
+  <v-container fluid>
     <v-dialog v-model="editDialog" max-width="640">
       <v-card>
         <v-card-title class="text-wrap">
@@ -406,7 +406,7 @@ async function submit() {
       </v-card>
     </v-dialog>
     <v-row justify="center">
-      <v-col cols="12" lg="10">
+      <v-col cols="12">
         <v-alert v-if="!profile" type="info" variant="tonal" class="ma-auto">
           {{ t('profile.page.alerts.emptyProfile') }}
         </v-alert>
