@@ -103,9 +103,9 @@
       "placeholders": {
         "underConstruction": "该部分正在建设中。"
       }
+    },
       "workplaces": "Number of workplaces",
       "apiKeys": "API 密钥数量"
-    }
   },
   "auth": {
     "profile": "个人资料",

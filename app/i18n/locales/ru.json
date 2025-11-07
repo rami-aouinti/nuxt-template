@@ -103,9 +103,9 @@
       "placeholders": {
         "underConstruction": "Этот раздел находится в разработке."
       }
+    },
       "workplaces": "Number of workplaces",
       "apiKeys": "Количество ключей API"
-    }
   },
   "auth": {
     "profile": "Профиль",

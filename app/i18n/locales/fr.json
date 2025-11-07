@@ -103,9 +103,9 @@
       "placeholders": {
         "underConstruction": "Cette section est en cours de construction."
       }
+    },
       "workplaces": "Number of workplaces",
       "apiKeys": "Nombre de clés API"
-    }
   },
   "auth": {
     "profile": "Profil",

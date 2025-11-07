@@ -103,9 +103,9 @@
       "placeholders": {
         "underConstruction": "هذا القسم قيد التطوير."
       }
+    },
       "workplaces": "Number of workplaces",
       "apiKeys": "عدد مفاتيح API"
-    }
   },
   "auth": {
     "profile": "الملف الشخصي",
