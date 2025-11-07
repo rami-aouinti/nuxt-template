@@ -20,6 +20,8 @@
     "admin": "管理",
     "dashboard": "仪表盘",
     "userManagement": "用户管理",
+    "settingManagement": "设置管理",
+    "blogManagement": "博客管理",
     "users": "用户",
     "roles": "角色",
     "userGroups": "用户群组",
