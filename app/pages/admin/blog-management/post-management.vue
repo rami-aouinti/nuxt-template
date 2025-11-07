@@ -23,7 +23,7 @@ definePageMeta({
 
 const { t, locale } = useI18n()
 
-const headers = computed<DataTableHeader[]>(() => [
+const tableHeaders = computed<DataTableHeader[]>(() => [
   { title: t('admin.blogManagement.posts.table.title'), key: 'title', minWidth: 220 },
   { title: t('admin.blogManagement.posts.table.blog'), key: 'blog', minWidth: 180 },
   { title: t('admin.blogManagement.posts.table.author'), key: 'author', minWidth: 180 },
@@ -72,7 +72,6 @@ const {
   refresh,
 } = await useFetch<BlogPost[]>('/api/blog/v1/post', {
   key: 'admin-post-list',
-  headers,
   credentials: 'include',
   transform: (data) => normalizeCollection<BlogPost>(data),
 })
@@ -192,7 +191,7 @@ function formatNumber(value: number | string | null | undefined) {
   <v-container fluid class="py-6">
     <AdminDataTable
       v-model:search="search"
-      :headers="headers"
+      :headers="tableHeaders"
       :items="posts"
       :loading="pending"
       :error="errorMessage"
