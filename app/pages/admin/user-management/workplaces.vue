@@ -387,6 +387,15 @@ watch(deleteDialog, (value) => {
               item-value="id"
               class="elevation-0"
             >
+              <template #item.name="{ item }">
+                {{ item.raw?.name || '—' }}
+              </template>
+              <template #item.slug="{ item }">
+                {{ item.raw?.slug || '—' }}
+              </template>
+              <template #item.id="{ item }">
+                {{ item.raw?.id || '—' }}
+              </template>
               <template #item.actions="{ item }">
                 <div class="d-flex align-center justify-end" style="gap: 4px">
                   <v-btn
