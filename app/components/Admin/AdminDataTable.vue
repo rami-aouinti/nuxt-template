@@ -85,18 +85,18 @@ const hasError = computed(() => computedError.value.length > 0)
 
 const dataTableDensity = computed(() => (props.dense ? 'compact' : 'comfortable'))
 
-const defaultItemsPerPageOptions: ItemsPerPageOption[] = [
+const defaultItemsPerPageOptions = computed<ItemsPerPageOption[]>(() => [
   10,
   25,
   50,
   {
-    title: 'All',
+    title: t('common.labels.all'),
     value: -1,
   },
-]
+])
 
 const computedItemsPerPageOptions = computed<ItemsPerPageOption[]>(
-  () => props.itemsPerPageOptions ?? defaultItemsPerPageOptions,
+  () => props.itemsPerPageOptions ?? defaultItemsPerPageOptions.value,
 )
 
 const skeletonRowCount = computed(() => {

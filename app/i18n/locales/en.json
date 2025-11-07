@@ -193,6 +193,7 @@
       "link": "Link"
     },
     "labels": {
+      "all": "All",
       "search": "Search",
       "group": "Group",
       "user": "User"

@@ -193,6 +193,7 @@
       "link": "Vincular"
     },
     "labels": {
+      "all": "Todos",
       "search": "Buscar",
       "group": "Grupo",
       "user": "Usuario"
