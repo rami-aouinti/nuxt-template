@@ -1,27 +1,40 @@
 export default defineNuxtPlugin((nuxtApp) => {
   const loading = useRouteLoading()
+  let isHydrating = true
+
+  const setLoading = (value: boolean) => {
+    if (isHydrating && value) {
+      return
+    }
+
+    loading.value = value
+  }
+
+  nuxtApp.hook('app:mounted', () => {
+    isHydrating = false
+  })
 
   nuxtApp.hook('page:start', () => {
-    loading.value = true
+    setLoading(true)
   })
 
   nuxtApp.hook('page:finish', () => {
-    loading.value = false
+    setLoading(false)
   })
 
   nuxtApp.hook('page:error', () => {
-    loading.value = false
+    setLoading(false)
   })
 
   nuxtApp.hook('page:loading:start', () => {
-    loading.value = true
+    setLoading(true)
   })
 
   nuxtApp.hook('page:loading:end', () => {
-    loading.value = false
+    setLoading(false)
   })
 
   nuxtApp.hook('page:loading:error', () => {
-    loading.value = false
+    setLoading(false)
   })
 })
