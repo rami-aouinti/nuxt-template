@@ -26,11 +26,17 @@ const { t } = useI18n()
 
 const search = ref('')
 
-const headers: DataTableHeader[] = [
-  { title: 'Nom', key: 'name' },
-  { title: 'Identifiant', key: 'id' },
-  { title: 'Actions', key: 'actions', sortable: false, align: 'end', width: 150 },
-]
+const headers = computed<DataTableHeader[]>(() => [
+  { title: t('userManagement.groups.table.name'), key: 'name' },
+  { title: t('userManagement.groups.table.id'), key: 'id' },
+  {
+    title: t('userManagement.groups.table.actions'),
+    key: 'actions',
+    sortable: false,
+    align: 'end',
+    width: 150,
+  },
+])
 
 const { data, pending, error, refresh } = await useFetch<UserGroup[]>(
   '/api/v1/user_group',
@@ -474,7 +480,7 @@ watch(attachUserDialog, (value) => {
               <v-text-field
                 v-model="search"
                 prepend-inner-icon="mdi-magnify"
-                label="Rechercher"
+                :label="t('common.labels.search')"
                 single-line
                 hide-details
                 density="compact"
@@ -492,7 +498,7 @@ watch(attachUserDialog, (value) => {
             class="d-flex align-center justify-space-between flex-wrap"
             style="gap: 12px"
           >
-            <span class="text-h6">Groupes d'utilisateurs</span>
+            <span class="text-h6">{{ t('userManagement.groups.cardTitle') }}</span>
             <div class="d-flex align-center" style="gap: 8px">
               <v-btn
                 color="primary"
@@ -500,7 +506,7 @@ watch(attachUserDialog, (value) => {
                 :disabled="pending"
                 @click="openCreate"
               >
-                Nouveau groupe
+                {{ t('userManagement.groups.actions.new') }}
               </v-btn>
               <v-btn
                 icon="mdi-refresh"
@@ -513,7 +519,7 @@ watch(attachUserDialog, (value) => {
           <v-divider />
           <v-card-text>
             <v-alert v-if="error" type="error" variant="tonal" class="mb-4">
-              Impossible de récupérer les groupes d'utilisateurs.
+              {{ t('userManagement.groups.alerts.loadFailed') }}
             </v-alert>
             <v-data-table
               :headers="headers"
@@ -532,7 +538,13 @@ watch(attachUserDialog, (value) => {
                     icon
                     variant="text"
                     color="primary"
-                    :title="`Afficher ${item.raw?.name ?? ''}`"
+                    :title="
+                      t('userManagement.groups.actions.viewTooltip', {
+                        name:
+                          item.raw?.name ??
+                          t('userManagement.groups.labels.groupFallback'),
+                      })
+                    "
                     @click="openView(item.raw)"
                   >
                     <v-icon icon="mdi-eye-outline" />
@@ -541,7 +553,13 @@ watch(attachUserDialog, (value) => {
                     icon
                     variant="text"
                     color="warning"
-                    :title="`Modifier ${item.raw?.name ?? ''}`"
+                    :title="
+                      t('userManagement.groups.actions.editTooltip', {
+                        name:
+                          item.raw?.name ??
+                          t('userManagement.groups.labels.groupFallback'),
+                      })
+                    "
                     @click="openEdit(item.raw)"
                   >
                     <v-icon icon="mdi-pencil-outline" />
@@ -550,7 +568,13 @@ watch(attachUserDialog, (value) => {
                     icon
                     variant="text"
                     color="error"
-                    :title="`Supprimer ${item.raw?.name ?? ''}`"
+                    :title="
+                      t('userManagement.groups.actions.deleteTooltip', {
+                        name:
+                          item.raw?.name ??
+                          t('userManagement.groups.labels.groupFallback'),
+                      })
+                    "
                     @click="openDelete(item.raw)"
                   >
                     <v-icon icon="mdi-delete-outline" />
@@ -565,7 +589,7 @@ watch(attachUserDialog, (value) => {
 
     <v-dialog v-model="createDialog" max-width="540">
       <v-card>
-        <v-card-title>Créer un groupe d'utilisateurs</v-card-title>
+        <v-card-title>{{ t('userManagement.groups.dialogs.create.title') }}</v-card-title>
         <v-card-text>
           <v-alert
             v-if="formError"
@@ -578,14 +602,14 @@ watch(attachUserDialog, (value) => {
           <v-form @submit.prevent="submitCreate">
             <v-text-field
               v-model="form.name"
-              label="Nom du groupe"
+              :label="t('userManagement.groups.fields.name')"
               :disabled="actionLoading"
               required
               autocomplete="off"
             />
             <v-textarea
               v-model="form.description"
-              label="Description"
+              :label="t('userManagement.groups.fields.description')"
               :disabled="actionLoading"
               auto-grow
               rows="3"
@@ -596,7 +620,7 @@ watch(attachUserDialog, (value) => {
         <v-card-actions>
           <v-spacer />
           <v-btn variant="text" :disabled="actionLoading" @click="closeCreate">
-            Annuler
+            {{ t('common.actions.cancel') }}
           </v-btn>
           <v-btn
             color="primary"
@@ -604,7 +628,7 @@ watch(attachUserDialog, (value) => {
             :loading="actionLoading"
             @click="submitCreate"
           >
-            Créer
+            {{ t('common.actions.create') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -612,7 +636,7 @@ watch(attachUserDialog, (value) => {
 
     <v-dialog v-model="editDialog" max-width="540">
       <v-card>
-        <v-card-title>Modifier le groupe d'utilisateurs</v-card-title>
+        <v-card-title>{{ t('userManagement.groups.dialogs.edit.title') }}</v-card-title>
         <v-card-text>
           <v-alert
             v-if="formError"
@@ -625,14 +649,14 @@ watch(attachUserDialog, (value) => {
           <v-form @submit.prevent="submitEdit">
             <v-text-field
               v-model="form.name"
-              label="Nom du groupe"
+              :label="t('userManagement.groups.fields.name')"
               :disabled="actionLoading"
               required
               autocomplete="off"
             />
             <v-textarea
               v-model="form.description"
-              label="Description"
+              :label="t('userManagement.groups.fields.description')"
               :disabled="actionLoading"
               auto-grow
               rows="3"
@@ -643,7 +667,7 @@ watch(attachUserDialog, (value) => {
         <v-card-actions>
           <v-spacer />
           <v-btn variant="text" :disabled="actionLoading" @click="closeEdit">
-            Annuler
+            {{ t('common.actions.cancel') }}
           </v-btn>
           <v-btn
             color="primary"
@@ -651,7 +675,7 @@ watch(attachUserDialog, (value) => {
             :loading="actionLoading"
             @click="submitEdit"
           >
-            Enregistrer
+            {{ t('common.actions.save') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -659,7 +683,7 @@ watch(attachUserDialog, (value) => {
 
     <v-dialog v-model="viewDialog" max-width="560">
       <v-card>
-        <v-card-title>Détails du groupe d'utilisateurs</v-card-title>
+        <v-card-title>{{ t('userManagement.groups.dialogs.view.title') }}</v-card-title>
         <v-card-text>
           <v-progress-linear
             v-if="viewLoading"
@@ -678,19 +702,25 @@ watch(attachUserDialog, (value) => {
           <template v-if="viewingGroup && !viewLoading">
             <div class="d-flex flex-column" style="row-gap: 12px">
               <div>
-                <div class="text-caption text-medium-emphasis">Nom</div>
+                <div class="text-caption text-medium-emphasis">
+                  {{ t('userManagement.groups.fields.name') }}
+                </div>
                 <div class="text-body-1 font-weight-medium">
                   {{ viewingGroup.name }}
                 </div>
               </div>
               <div>
-                <div class="text-caption text-medium-emphasis">Identifiant</div>
+                <div class="text-caption text-medium-emphasis">
+                  {{ t('userManagement.groups.fields.id') }}
+                </div>
                 <div class="text-body-2 font-weight-medium">
                   {{ viewingGroup.id }}
                 </div>
               </div>
               <div>
-                <div class="text-caption text-medium-emphasis">Description</div>
+                <div class="text-caption text-medium-emphasis">
+                  {{ t('userManagement.groups.fields.description') }}
+                </div>
                 <div class="text-body-2 font-weight-medium">
                   {{ viewingGroup.description || '—' }}
                 </div>
@@ -700,7 +730,9 @@ watch(attachUserDialog, (value) => {
                   class="d-flex align-center justify-space-between mb-2"
                   style="gap: 12px"
                 >
-                  <span class="text-caption text-medium-emphasis">Utilisateurs</span>
+                  <span class="text-caption text-medium-emphasis">
+                    {{ t('userManagement.groups.details.users.title') }}
+                  </span>
                   <v-btn
                     size="small"
                     color="primary"
@@ -709,7 +741,7 @@ watch(attachUserDialog, (value) => {
                     :disabled="userActionLoading"
                     @click="openAttachUserDialog"
                   >
-                    Associer un utilisateur
+                    {{ t('userManagement.groups.details.users.actions.link') }}
                   </v-btn>
                 </div>
                 <v-progress-linear
@@ -749,19 +781,19 @@ watch(attachUserDialog, (value) => {
                   </v-list-item>
                 </v-list>
                 <div v-else class="text-body-2 text-medium-emphasis">
-                  Aucun utilisateur associé.
+                  {{ t('userManagement.groups.details.users.empty') }}
                 </div>
               </div>
             </div>
           </template>
           <div v-else-if="!viewLoading" class="text-body-2 text-medium-emphasis">
-            Aucun groupe sélectionné.
+            {{ t('userManagement.groups.details.empty') }}
           </div>
         </v-card-text>
         <v-card-actions>
           <v-spacer />
           <v-btn variant="text" :disabled="viewLoading" @click="closeView">
-            Fermer
+            {{ t('common.actions.close') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -769,7 +801,7 @@ watch(attachUserDialog, (value) => {
 
     <v-dialog v-model="attachUserDialog" max-width="520">
       <v-card>
-        <v-card-title>Associer un utilisateur</v-card-title>
+        <v-card-title>{{ t('userManagement.groups.dialogs.attachUser.title') }}</v-card-title>
         <v-card-text>
           <v-alert
             v-if="attachUserError"
@@ -784,11 +816,11 @@ watch(attachUserDialog, (value) => {
             :items="availableUsersForGroup"
             item-title="username"
             item-value="id"
-            label="Utilisateur"
+            :label="t('common.labels.user')"
             :disabled="userActionLoading || groupUsersLoading"
             :loading="groupUsersLoading"
             density="comfortable"
-            placeholder="Sélectionnez un utilisateur"
+            :placeholder="t('common.placeholders.selectUser')"
             clearable
           />
         </v-card-text>
@@ -799,7 +831,7 @@ watch(attachUserDialog, (value) => {
             :disabled="userActionLoading"
             @click="closeAttachUserDialog"
           >
-            Annuler
+            {{ t('common.actions.cancel') }}
           </v-btn>
           <v-btn
             color="primary"
@@ -807,7 +839,7 @@ watch(attachUserDialog, (value) => {
             :loading="userActionLoading"
             @click="submitAttachUser"
           >
-            Associer
+            {{ t('common.actions.link') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -815,11 +847,17 @@ watch(attachUserDialog, (value) => {
 
     <v-dialog v-model="deleteDialog" max-width="520">
       <v-card>
-        <v-card-title>Supprimer le groupe d'utilisateurs</v-card-title>
+        <v-card-title>{{ t('userManagement.groups.dialogs.delete.title') }}</v-card-title>
         <v-card-text>
           <v-alert type="warning" variant="tonal" class="mb-4">
-            Cette action est irréversible. Voulez-vous vraiment supprimer
-            <strong>{{ deletingGroup?.name ?? 'ce groupe' }}</strong> ?
+            {{ t('userManagement.groups.dialogs.delete.warningPrefix') }}
+            <strong>
+              {{
+                deletingGroup?.name ??
+                  t('userManagement.groups.labels.groupFallback')
+              }}
+            </strong>
+            {{ t('userManagement.groups.dialogs.delete.warningSuffix') }}
           </v-alert>
           <v-alert
             v-if="deleteError"
@@ -833,7 +871,7 @@ watch(attachUserDialog, (value) => {
         <v-card-actions>
           <v-spacer />
           <v-btn variant="text" :disabled="deleteLoading" @click="closeDelete">
-            Annuler
+            {{ t('common.actions.cancel') }}
           </v-btn>
           <v-btn
             color="error"
@@ -841,7 +879,7 @@ watch(attachUserDialog, (value) => {
             :disabled="!deletingGroup"
             @click="confirmDelete"
           >
-            Supprimer
+            {{ t('common.actions.delete') }}
           </v-btn>
         </v-card-actions>
       </v-card>

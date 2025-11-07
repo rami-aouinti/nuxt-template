@@ -8,10 +8,12 @@ definePageMeta({
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 
-const headers: DataTableHeader[] = [
-  { title: 'Role ID', key: 'id' },
-  { title: 'Description', key: 'description' },
-]
+const { t } = useI18n()
+
+const headers = computed<DataTableHeader[]>(() => [
+  { title: t('userManagement.roles.table.id'), key: 'id' },
+  { title: t('userManagement.roles.table.description'), key: 'description' },
+])
 const search = ref('')
 
 const { data, pending, error, refresh } = await useFetch('/api/v1/role')
@@ -29,7 +31,7 @@ const items = computed(() => data.value ?? [])
               <v-text-field
                 v-model="search"
                 prepend-inner-icon="mdi-magnify"
-                label="Search"
+                :label="t('common.labels.search')"
                 single-line
                 hide-details
                 density="compact"
@@ -44,7 +46,7 @@ const items = computed(() => data.value ?? [])
             </teleport>
           </client-only>
           <v-card-title class="d-flex align-center justify-space-between">
-            <span class="text-h6">Rôles</span>
+            <span class="text-h6">{{ t('userManagement.roles.cardTitle') }}</span>
             <v-btn
               icon="mdi-refresh"
               variant="text"
@@ -55,7 +57,7 @@ const items = computed(() => data.value ?? [])
           <v-divider />
           <v-card-text>
             <v-alert v-if="error" type="error" variant="tonal" class="mb-4">
-              Échec du chargement des rôles.
+              {{ t('userManagement.roles.alerts.loadFailed') }}
             </v-alert>
             <v-data-table
               :headers="headers"

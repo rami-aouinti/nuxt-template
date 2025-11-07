@@ -15,14 +15,14 @@ const { t } = useI18n()
 
 const search = ref('')
 
-const headers: DataTableHeader[] = [
-  { title: "Nom d'utilisateur", key: 'username' },
-  { title: 'Prénom', key: 'firstName' },
-  { title: 'Nom', key: 'lastName' },
-  { title: 'Adresse e-mail', key: 'email' },
-  { title: 'Statut', key: 'enabled' },
+const headers = computed<DataTableHeader[]>(() => [
+  { title: t('userManagement.users.table.username'), key: 'username' },
+  { title: t('userManagement.users.table.firstName'), key: 'firstName' },
+  { title: t('userManagement.users.table.lastName'), key: 'lastName' },
+  { title: t('userManagement.users.table.email'), key: 'email' },
+  { title: t('userManagement.users.table.status'), key: 'enabled' },
   { title: '', key: 'actions', sortable: false, align: 'end', width: 150 },
-]
+])
 
 const { data, pending, error, refresh } = await useFetch<User[]>('/api/v1/user')
 
@@ -294,7 +294,7 @@ async function submitEdit() {
 }
 
 function openView(user?: User | null) {
-  console.debug('Opening user detail dialog', user)
+  console.debug(t('userManagement.users.logs.openDetail'), user)
   if (!user || !user.id) {
     Notify.error(t('userManagement.users.errors.openView'))
     return
@@ -514,7 +514,7 @@ watch(attachDialog, (value) => {
               <v-text-field
                 v-model="search"
                 prepend-inner-icon="mdi-magnify"
-                label="Rechercher"
+                :label="t('common.labels.search')"
                 single-line
                 hide-details
                 density="compact"
@@ -532,7 +532,7 @@ watch(attachDialog, (value) => {
             class="d-flex align-center justify-space-between flex-wrap"
             style="gap: 12px"
           >
-            <span class="text-h6">Gestion des utilisateurs</span>
+            <span class="text-h6">{{ t('userManagement.users.cardTitle') }}</span>
             <div class="d-flex align-center" style="gap: 8px">
               <v-btn
                 color="primary"
@@ -540,7 +540,7 @@ watch(attachDialog, (value) => {
                 :disabled="pending"
                 @click="openCreate"
               >
-                Nouvel utilisateur
+                {{ t('userManagement.users.actions.new') }}
               </v-btn>
               <v-btn
                 icon="mdi-refresh"
@@ -553,7 +553,7 @@ watch(attachDialog, (value) => {
           <v-divider />
           <v-card-text>
             <v-alert v-if="error" type="error" variant="tonal" class="mb-4">
-              Une erreur est survenue lors du chargement des utilisateurs.
+              {{ t('userManagement.users.alerts.loadFailed') }}
             </v-alert>
             <v-data-table
               :headers="headers"
@@ -580,7 +580,11 @@ watch(attachDialog, (value) => {
               </template>
               <template #item.enabled="{ value }">
                 <v-chip :color="value ? 'success' : 'grey'" size="small" label>
-                  {{ value ? 'Actif' : 'Inactif' }}
+                  {{
+                    value
+                      ? t('userManagement.users.status.active')
+                      : t('userManagement.users.status.inactive')
+                  }}
                 </v-chip>
               </template>
               <template #item.actions="{ item }">
@@ -589,7 +593,13 @@ watch(attachDialog, (value) => {
                     icon
                     variant="text"
                     color="primary"
-                    :title="`Afficher ${item.raw?.username ?? ''}`"
+                    :title="
+                      t('userManagement.users.actions.viewTooltip', {
+                        username:
+                          item.raw?.username ??
+                          t('userManagement.users.labels.userFallback'),
+                      })
+                    "
                     @click="openView(item)"
                   >
                     <v-icon icon="mdi-eye-outline" />
@@ -598,7 +608,13 @@ watch(attachDialog, (value) => {
                     icon
                     variant="text"
                     color="warning"
-                    :title="`Modifier ${item.raw?.username ?? ''}`"
+                    :title="
+                      t('userManagement.users.actions.editTooltip', {
+                        username:
+                          item.raw?.username ??
+                          t('userManagement.users.labels.userFallback'),
+                      })
+                    "
                     @click="openEdit(item)"
                   >
                     <v-icon icon="mdi-pencil-outline" />
@@ -607,7 +623,13 @@ watch(attachDialog, (value) => {
                     icon
                     variant="text"
                     color="error"
-                    :title="`Supprimer ${item.raw?.username ?? ''}`"
+                    :title="
+                      t('userManagement.users.actions.deleteTooltip', {
+                        username:
+                          item.raw?.username ??
+                          t('userManagement.users.labels.userFallback'),
+                      })
+                    "
                     @click="openDelete(item)"
                   >
                     <v-icon icon="mdi-delete-outline" />
@@ -622,7 +644,7 @@ watch(attachDialog, (value) => {
 
     <v-dialog v-model="createDialog" max-width="640">
       <v-card>
-        <v-card-title>Créer un utilisateur</v-card-title>
+        <v-card-title>{{ t('userManagement.users.dialogs.create.title') }}</v-card-title>
         <v-card-text>
           <v-alert
             v-if="formError"
@@ -637,7 +659,7 @@ watch(attachDialog, (value) => {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.username"
-                  label="Nom d'utilisateur"
+                  :label="t('userManagement.users.fields.username')"
                   required
                   :disabled="actionLoading"
                   autocomplete="off"
@@ -646,7 +668,7 @@ watch(attachDialog, (value) => {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.email"
-                  label="Adresse e-mail"
+                  :label="t('userManagement.users.fields.email')"
                   type="email"
                   required
                   :disabled="actionLoading"
@@ -656,7 +678,7 @@ watch(attachDialog, (value) => {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.firstName"
-                  label="Prénom"
+                  :label="t('userManagement.users.fields.firstName')"
                   :disabled="actionLoading"
                   autocomplete="off"
                 />
@@ -664,7 +686,7 @@ watch(attachDialog, (value) => {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.lastName"
-                  label="Nom"
+                  :label="t('userManagement.users.fields.lastName')"
                   :disabled="actionLoading"
                   autocomplete="off"
                 />
@@ -672,7 +694,7 @@ watch(attachDialog, (value) => {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.language"
-                  label="Langue"
+                  :label="t('userManagement.users.fields.language')"
                   :disabled="actionLoading"
                   autocomplete="off"
                 />
@@ -680,7 +702,7 @@ watch(attachDialog, (value) => {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.locale"
-                  label="Locale"
+                  :label="t('userManagement.users.fields.locale')"
                   :disabled="actionLoading"
                   autocomplete="off"
                 />
@@ -688,7 +710,7 @@ watch(attachDialog, (value) => {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.timezone"
-                  label="Fuseau horaire"
+                  :label="t('userManagement.users.fields.timezone')"
                   :disabled="actionLoading"
                   autocomplete="off"
                 />
@@ -696,7 +718,7 @@ watch(attachDialog, (value) => {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.password"
-                  label="Mot de passe"
+                  :label="t('userManagement.users.fields.password')"
                   type="password"
                   required
                   :disabled="actionLoading"
@@ -709,7 +731,7 @@ watch(attachDialog, (value) => {
                   :disabled="actionLoading"
                   inset
                   color="primary"
-                  label="Utilisateur actif"
+                  :label="t('userManagement.users.fields.enabled')"
                 />
               </v-col>
             </v-row>
@@ -718,7 +740,7 @@ watch(attachDialog, (value) => {
         <v-card-actions>
           <v-spacer />
           <v-btn variant="text" :disabled="actionLoading" @click="closeCreate">
-            Annuler
+            {{ t('common.actions.cancel') }}
           </v-btn>
           <v-btn
             color="primary"
@@ -726,7 +748,7 @@ watch(attachDialog, (value) => {
             :disabled="!canSubmit"
             @click="submitCreate"
           >
-            Créer
+            {{ t('common.actions.create') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -735,7 +757,13 @@ watch(attachDialog, (value) => {
     <v-dialog v-model="editDialog" max-width="640">
       <v-card>
         <v-card-title>
-          Modifier {{ editingUser?.username ?? "l'utilisateur" }}
+          {{
+            t('userManagement.users.dialogs.edit.title', {
+              username:
+                editingUser?.username ??
+                t('userManagement.users.labels.userFallback'),
+            })
+          }}
         </v-card-title>
         <v-card-text>
           <v-alert
@@ -751,7 +779,7 @@ watch(attachDialog, (value) => {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.username"
-                  label="Nom d'utilisateur"
+                  :label="t('userManagement.users.fields.username')"
                   required
                   :disabled="actionLoading"
                   autocomplete="off"
@@ -760,7 +788,7 @@ watch(attachDialog, (value) => {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.email"
-                  label="Adresse e-mail"
+                  :label="t('userManagement.users.fields.email')"
                   type="email"
                   required
                   :disabled="actionLoading"
@@ -770,7 +798,7 @@ watch(attachDialog, (value) => {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.firstName"
-                  label="Prénom"
+                  :label="t('userManagement.users.fields.firstName')"
                   :disabled="actionLoading"
                   autocomplete="off"
                 />
@@ -778,7 +806,7 @@ watch(attachDialog, (value) => {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.lastName"
-                  label="Nom"
+                  :label="t('userManagement.users.fields.lastName')"
                   :disabled="actionLoading"
                   autocomplete="off"
                 />
@@ -786,7 +814,7 @@ watch(attachDialog, (value) => {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.language"
-                  label="Langue"
+                  :label="t('userManagement.users.fields.language')"
                   :disabled="actionLoading"
                   autocomplete="off"
                 />
@@ -794,7 +822,7 @@ watch(attachDialog, (value) => {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.locale"
-                  label="Locale"
+                  :label="t('userManagement.users.fields.locale')"
                   :disabled="actionLoading"
                   autocomplete="off"
                 />
@@ -802,7 +830,7 @@ watch(attachDialog, (value) => {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.timezone"
-                  label="Fuseau horaire"
+                  :label="t('userManagement.users.fields.timezone')"
                   :disabled="actionLoading"
                   autocomplete="off"
                 />
@@ -810,11 +838,11 @@ watch(attachDialog, (value) => {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.password"
-                  label="Nouveau mot de passe (optionnel)"
+                  :label="t('userManagement.users.fields.newPassword')"
                   type="password"
                   :disabled="actionLoading"
                   autocomplete="new-password"
-                  hint="Laissez vide pour conserver le mot de passe actuel"
+                  :hint="t('userManagement.users.hints.keepPassword')"
                   persistent-hint
                 />
               </v-col>
@@ -824,7 +852,7 @@ watch(attachDialog, (value) => {
                   :disabled="actionLoading"
                   inset
                   color="primary"
-                  label="Utilisateur actif"
+                  :label="t('userManagement.users.fields.enabled')"
                 />
               </v-col>
             </v-row>
@@ -833,7 +861,7 @@ watch(attachDialog, (value) => {
         <v-card-actions>
           <v-spacer />
           <v-btn variant="text" :disabled="actionLoading" @click="closeEdit">
-            Annuler
+            {{ t('common.actions.cancel') }}
           </v-btn>
           <v-btn
             color="primary"
@@ -841,7 +869,7 @@ watch(attachDialog, (value) => {
             :disabled="!canSubmit"
             @click="submitEdit"
           >
-            Enregistrer
+            {{ t('common.actions.save') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -849,7 +877,7 @@ watch(attachDialog, (value) => {
 
     <v-dialog v-model="viewDialog" max-width="520">
       <v-card>
-        <v-card-title>Détails de l'utilisateur</v-card-title>
+        <v-card-title>{{ t('userManagement.users.dialogs.view.title') }}</v-card-title>
         <v-card-text>
           <v-progress-linear
             v-if="viewLoading"
@@ -869,7 +897,7 @@ watch(attachDialog, (value) => {
             <div class="d-flex flex-column" style="row-gap: 12px">
               <div>
                 <div class="text-caption text-medium-emphasis">
-                  Nom d'utilisateur
+                  {{ t('userManagement.users.fields.username') }}
                 </div>
                 <div class="text-body-1 font-weight-medium">
                   {{ viewUser.username }}
@@ -877,13 +905,17 @@ watch(attachDialog, (value) => {
               </div>
               <div class="d-flex flex-wrap" style="gap: 16px">
                 <div>
-                  <div class="text-caption text-medium-emphasis">Prénom</div>
+                  <div class="text-caption text-medium-emphasis">
+                    {{ t('userManagement.users.fields.firstName') }}
+                  </div>
                   <div class="text-body-2 font-weight-medium">
                     {{ viewUser.firstName || '—' }}
                   </div>
                 </div>
                 <div>
-                  <div class="text-caption text-medium-emphasis">Nom</div>
+                  <div class="text-caption text-medium-emphasis">
+                    {{ t('userManagement.users.fields.lastName') }}
+                  </div>
                   <div class="text-body-2 font-weight-medium">
                     {{ viewUser.lastName || '—' }}
                   </div>
@@ -891,7 +923,7 @@ watch(attachDialog, (value) => {
               </div>
               <div>
                 <div class="text-caption text-medium-emphasis">
-                  Adresse e-mail
+                  {{ t('userManagement.users.fields.email') }}
                 </div>
                 <div class="text-body-2 font-weight-medium">
                   {{ viewUser.email }}
@@ -899,20 +931,24 @@ watch(attachDialog, (value) => {
               </div>
               <div class="d-flex flex-wrap" style="gap: 16px">
                 <div>
-                  <div class="text-caption text-medium-emphasis">Langue</div>
+                  <div class="text-caption text-medium-emphasis">
+                    {{ t('userManagement.users.fields.language') }}
+                  </div>
                   <div class="text-body-2 font-weight-medium">
                     {{ viewUser.language || '—' }}
                   </div>
                 </div>
                 <div>
-                  <div class="text-caption text-medium-emphasis">Locale</div>
+                  <div class="text-caption text-medium-emphasis">
+                    {{ t('userManagement.users.fields.locale') }}
+                  </div>
                   <div class="text-body-2 font-weight-medium">
                     {{ viewUser.locale || '—' }}
                   </div>
                 </div>
                 <div>
                   <div class="text-caption text-medium-emphasis">
-                    Fuseau horaire
+                    {{ t('userManagement.users.fields.timezone') }}
                   </div>
                   <div class="text-body-2 font-weight-medium">
                     {{ viewUser.timezone || '—' }}
@@ -920,9 +956,15 @@ watch(attachDialog, (value) => {
                 </div>
               </div>
               <div>
-                <div class="text-caption text-medium-emphasis">Statut</div>
+                <div class="text-caption text-medium-emphasis">
+                  {{ t('userManagement.users.fields.status') }}
+                </div>
                 <v-chip :color="viewUser.enabled ? 'success' : 'grey'" size="small" label>
-                  {{ viewUser.enabled ? 'Actif' : 'Inactif' }}
+                  {{
+                    viewUser.enabled
+                      ? t('userManagement.users.status.active')
+                      : t('userManagement.users.status.inactive')
+                  }}
                 </v-chip>
               </div>
               <div>
@@ -930,7 +972,9 @@ watch(attachDialog, (value) => {
                   class="d-flex align-center justify-space-between mb-2"
                   style="gap: 12px"
                 >
-                  <span class="text-caption text-medium-emphasis">Groupes</span>
+                  <span class="text-caption text-medium-emphasis">
+                    {{ t('userManagement.users.details.groups.title') }}
+                  </span>
                   <v-btn
                     size="small"
                     color="primary"
@@ -939,7 +983,7 @@ watch(attachDialog, (value) => {
                     :disabled="groupActionLoading"
                     @click="openAttachDialog"
                   >
-                    Associer un groupe
+                    {{ t('userManagement.users.details.groups.actions.link') }}
                   </v-btn>
                 </div>
                 <v-progress-linear
@@ -974,19 +1018,19 @@ watch(attachDialog, (value) => {
                   </v-chip>
                 </div>
                 <div v-else class="text-body-2 text-medium-emphasis">
-                  Aucun groupe associé.
+                  {{ t('userManagement.users.details.groups.empty') }}
                 </div>
               </div>
             </div>
           </template>
           <div v-else-if="!viewLoading" class="text-body-2 text-medium-emphasis">
-            Aucun utilisateur sélectionné.
+            {{ t('userManagement.users.details.empty') }}
           </div>
         </v-card-text>
         <v-card-actions>
           <v-spacer />
           <v-btn variant="text" :disabled="viewLoading" @click="closeView">
-            Fermer
+            {{ t('common.actions.close') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -994,7 +1038,7 @@ watch(attachDialog, (value) => {
 
     <v-dialog v-model="attachDialog" max-width="480">
       <v-card>
-        <v-card-title>Associer un groupe</v-card-title>
+        <v-card-title>{{ t('userManagement.users.dialogs.attachGroup.title') }}</v-card-title>
         <v-card-text>
           <v-alert
             v-if="attachError"
@@ -1009,18 +1053,18 @@ watch(attachDialog, (value) => {
             :items="availableGroupsForUser"
             item-title="name"
             item-value="id"
-            label="Groupe"
+            :label="t('common.labels.group')"
             :disabled="groupActionLoading || userGroupsLoading"
             :loading="userGroupsLoading"
             density="comfortable"
-            placeholder="Sélectionnez un groupe"
+            :placeholder="t('common.placeholders.selectGroup')"
             clearable
           />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
           <v-btn variant="text" :disabled="groupActionLoading" @click="closeAttachDialog">
-            Annuler
+            {{ t('common.actions.cancel') }}
           </v-btn>
           <v-btn
             color="primary"
@@ -1028,7 +1072,7 @@ watch(attachDialog, (value) => {
             :loading="groupActionLoading"
             @click="submitAttach"
           >
-            Associer
+            {{ t('common.actions.link') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -1036,12 +1080,17 @@ watch(attachDialog, (value) => {
 
     <v-dialog v-model="deleteDialog" max-width="480">
       <v-card>
-        <v-card-title>Supprimer un utilisateur</v-card-title>
+        <v-card-title>{{ t('userManagement.users.dialogs.delete.title') }}</v-card-title>
         <v-card-text>
           <v-alert type="warning" variant="tonal" class="mb-4">
-            Cette action est irréversible. Voulez-vous vraiment supprimer
-            <strong>{{ deletingUser?.username ?? 'cet utilisateur' }}</strong>
-            ?
+            {{ t('userManagement.users.dialogs.delete.warningPrefix') }}
+            <strong>
+              {{
+                deletingUser?.username ??
+                  t('userManagement.users.labels.userFallback')
+              }}
+            </strong>
+            {{ t('userManagement.users.dialogs.delete.warningSuffix') }}
           </v-alert>
           <v-alert
             v-if="deleteError"
@@ -1055,7 +1104,7 @@ watch(attachDialog, (value) => {
         <v-card-actions>
           <v-spacer />
           <v-btn variant="text" :disabled="deleteLoading" @click="closeDelete">
-            Annuler
+            {{ t('common.actions.cancel') }}
           </v-btn>
           <v-btn
             color="error"
@@ -1063,7 +1112,7 @@ watch(attachDialog, (value) => {
             :disabled="!deletingUser"
             @click="confirmDelete"
           >
-            Supprimer
+            {{ t('common.actions.delete') }}
           </v-btn>
         </v-card-actions>
       </v-card>

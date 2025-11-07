@@ -4,50 +4,55 @@ definePageMeta({
   title: 'navigation.dashboard',
   drawerIndex: 0,
 })
-const stats = ref([
+const { t } = useI18n()
+
+const stats = computed(() => [
   {
     icon: 'mdi-web',
-    title: 'Bandwidth',
+    title: t('admin.dashboard.stats.bandwidth.title'),
     value: 23,
     unit: 'GB',
     color: 'primary',
-    caption: 'Up: 13, Down: 10',
+    caption: t('admin.dashboard.stats.bandwidth.caption', { up: 13, down: 10 }),
   },
   {
     icon: 'mdi-rss',
-    title: 'Submissions',
+    title: t('admin.dashboard.stats.submissions.title'),
     value: 108,
     color: 'primary',
-    caption: 'Too young, too naive',
+    caption: t('admin.dashboard.stats.submissions.caption'),
   },
   {
     icon: 'mdi-send',
-    title: 'Requests',
+    title: t('admin.dashboard.stats.requests.title'),
     value: 1238,
     color: 'warning',
-    caption: 'Limit: 1320',
+    caption: t('admin.dashboard.stats.requests.caption', { limit: 1320 }),
   },
   {
     icon: 'mdi-bell',
-    title: 'Messages',
+    title: t('admin.dashboard.stats.messages.title'),
     value: 9042,
     color: 'primary',
-    caption: 'Warnings: 300, erros: 47',
+    caption: t('admin.dashboard.stats.messages.caption', {
+      warnings: 300,
+      errors: 47,
+    }),
   },
   {
     icon: 'mdi-github',
-    title: 'Github Stars',
+    title: t('admin.dashboard.stats.github.title'),
     value: NaN,
     color: 'grey',
-    caption: 'API has no response',
+    caption: t('admin.dashboard.stats.github.caption'),
   },
   {
     icon: 'mdi-currency-cny',
-    title: 'Total Fee',
+    title: t('admin.dashboard.stats.totalFee.title'),
     value: 2300,
     unit: '￥',
     color: 'error',
-    caption: 'Upper Limit: 2000 ￥',
+    caption: t('admin.dashboard.stats.totalFee.caption', { limit: '2000 ￥' }),
   },
 ])
 </script>

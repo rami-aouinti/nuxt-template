@@ -42,7 +42,24 @@
     "guest": "访客"
   },
   "common": {
-    "unexpectedError": "发生意外错误。"
+    "unexpectedError": "发生意外错误。",
+    "actions": {
+      "cancel": "Cancel",
+      "create": "Create",
+      "save": "Save",
+      "close": "Close",
+      "delete": "Delete",
+      "link": "Link"
+    },
+    "labels": {
+      "search": "Search",
+      "group": "Group",
+      "user": "User"
+    },
+    "placeholders": {
+      "selectGroup": "Select a group",
+      "selectUser": "Select a user"
+    }
   },
   "profile": {
     "updateSuccess": "个人资料更新成功。",
@@ -69,6 +86,78 @@
         "attachFailed": "无法将该组关联到用户。",
         "detachFailed": "无法取消该组与用户的关联。",
         "deleteFailed": "无法删除用户。"
+      },
+      "table": {
+        "username": "Username",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "email": "Email address",
+        "status": "Status"
+      },
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "cardTitle": "User management",
+      "actions": {
+        "new": "New user",
+        "viewTooltip": "View {username}",
+        "editTooltip": "Edit {username}",
+        "deleteTooltip": "Delete {username}"
+      },
+      "alerts": {
+        "loadFailed": "Failed to load users."
+      },
+      "fields": {
+        "username": "Username",
+        "email": "Email address",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "language": "Language",
+        "locale": "Locale",
+        "timezone": "Time zone",
+        "password": "Password",
+        "newPassword": "New password (optional)",
+        "enabled": "Active user",
+        "status": "Status"
+      },
+      "hints": {
+        "keepPassword": "Leave blank to keep the current password."
+      },
+      "labels": {
+        "userFallback": "this user"
+      },
+      "dialogs": {
+        "create": {
+          "title": "Create user"
+        },
+        "edit": {
+          "title": "Edit {username}"
+        },
+        "view": {
+          "title": "User details"
+        },
+        "attachGroup": {
+          "title": "Link a group"
+        },
+        "delete": {
+          "title": "Delete user",
+          "warningPrefix": "This action cannot be undone. Do you really want to delete",
+          "warningSuffix": "?"
+        }
+      },
+      "details": {
+        "groups": {
+          "title": "Groups",
+          "actions": {
+            "link": "Link a group"
+          },
+          "empty": "No groups linked."
+        },
+        "empty": "No user selected."
+      },
+      "logs": {
+        "openDetail": "Opening user detail dialog"
       }
     },
     "groups": {
@@ -89,12 +178,65 @@
         "attachFailed": "无法将该用户关联到该组。",
         "detachFailed": "无法将该用户从该组移除。",
         "deleteFailed": "无法删除该用户组。"
+      },
+      "table": {
+        "name": "Name",
+        "id": "Identifier",
+        "actions": "Actions"
+      },
+      "cardTitle": "User groups",
+      "actions": {
+        "new": "New group",
+        "viewTooltip": "View {name}",
+        "editTooltip": "Edit {name}",
+        "deleteTooltip": "Delete {name}"
+      },
+      "alerts": {
+        "loadFailed": "Failed to load user groups."
+      },
+      "fields": {
+        "name": "Group name",
+        "description": "Description",
+        "id": "Identifier"
+      },
+      "labels": {
+        "groupFallback": "this group"
+      },
+      "dialogs": {
+        "create": {
+          "title": "Create user group"
+        },
+        "edit": {
+          "title": "Edit user group"
+        },
+        "view": {
+          "title": "User group details"
+        },
+        "attachUser": {
+          "title": "Link a user"
+        },
+        "delete": {
+          "title": "Delete user group",
+          "warningPrefix": "This action cannot be undone. Do you really want to delete",
+          "warningSuffix": "?"
+        }
+      },
+      "details": {
+        "users": {
+          "title": "Users",
+          "actions": {
+            "link": "Link a user"
+          },
+          "empty": "No users linked."
+        },
+        "empty": "No group selected."
       }
     },
     "apiKeys": {
       "labels": {
         "v1": "API v1",
-        "v2": "API v2"
+        "v2": "API v2",
+        "keyFallback": "this API key"
       },
       "notifications": {
         "createSuccess": "API 密钥创建成功（{version}）。",
@@ -108,10 +250,91 @@
         "loadDetails": "无法加载 API 密钥详情。",
         "deleteFailed": "无法删除 API 密钥。",
         "partialUpdateRequired": "请至少填写一个字段以更新 API 密钥。"
+      },
+      "cardTitle": "API keys",
+      "table": {
+        "description": "Description",
+        "token": "Token",
+        "id": "Identifier",
+        "actions": "Actions"
+      },
+      "actions": {
+        "new": "New API key ({version})",
+        "viewTooltip": "View {description}",
+        "editTooltip": "Edit {description}",
+        "deleteTooltip": "Delete {description}"
+      },
+      "alerts": {
+        "loadFailed": "Failed to load {version} API keys."
+      },
+      "fields": {
+        "description": "Description",
+        "token": "Token",
+        "id": "Identifier"
+      },
+      "hints": {
+        "keepToken": "Leave blank to keep the current token (PATCH only)."
+      },
+      "dialogs": {
+        "create": {
+          "title": "Create API key ({version})"
+        },
+        "edit": {
+          "title": "Edit API key ({version})"
+        },
+        "view": {
+          "title": "API key details ({version})",
+          "empty": "No API key selected."
+        },
+        "delete": {
+          "title": "Delete API key",
+          "warningPrefix": "Are you sure you want to delete this API key",
+          "warningSuffix": "?"
+        }
+      }
+    },
+    "roles": {
+      "table": {
+        "id": "Role ID",
+        "description": "Description"
+      },
+      "cardTitle": "Roles",
+      "alerts": {
+        "loadFailed": "Failed to load roles."
       }
     }
   },
   "$vuetify": {
     "close": "关闭"
+  },
+  "admin": {
+    "dashboard": {
+      "stats": {
+        "bandwidth": {
+          "title": "Bandwidth",
+          "caption": "Up: {up}, Down: {down}"
+        },
+        "submissions": {
+          "title": "Submissions",
+          "caption": "Too young, too naive"
+        },
+        "requests": {
+          "title": "Requests",
+          "caption": "Limit: {limit}"
+        },
+        "messages": {
+          "title": "Messages",
+          "caption": "Warnings: {warnings}, errors: {errors}"
+        },
+        "github": {
+          "title": "GitHub stars",
+          "caption": "API did not respond"
+        },
+        "totalFee": {
+          "title": "Total fee",
+          "caption": "Upper limit: {limit}"
+        }
+      }
+    }
   }
 }
