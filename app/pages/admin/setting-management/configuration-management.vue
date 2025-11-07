@@ -227,7 +227,9 @@ const form = reactive<ConfigurationForm>({
   flags: '',
 })
 
-const workplaces = computed<Workplace[]>(() => adminStore.workplaces.value ?? [])
+const workplaces = computed<Workplace[]>(
+  () => adminStore.workplaces?.value ?? [],
+)
 
 const workplaceOptions = computed(() =>
   workplaces.value.map((workplace) => ({
@@ -281,7 +283,7 @@ function extractRequestError(error: unknown, fallback: string) {
 }
 
 const workplaceError = computed(() => {
-  const errorValue = adminStore.workplacesError.value
+  const errorValue = adminStore.workplacesError?.value
   if (!errorValue) {
     return ''
   }
