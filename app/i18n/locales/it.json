@@ -199,7 +199,8 @@
     },
     "placeholders": {
       "selectGroup": "Seleziona un gruppo",
-      "selectUser": "Seleziona un utente"
+      "selectUser": "Seleziona un utente",
+      "selectWorkplace": "Seleziona un workspace"
     }
   },
   "profile": {
@@ -545,8 +546,37 @@
       "title": "Configurazioni",
       "subtitle": "Visualizza e monitora le voci di configurazione",
       "searchPlaceholder": "Cerca configurazioni",
+      "actions": {
+        "new": "Nuova configurazione"
+      },
       "alerts": {
         "loadFailed": "Impossibile caricare le configurazioni."
+      },
+      "dialogs": {
+        "create": {
+          "title": "Crea configurazione",
+          "submit": "Crea configurazione"
+        }
+      },
+      "fields": {
+        "key": "Chiave di configurazione",
+        "contextKey": "Chiave di contesto",
+        "contextId": "ID contesto",
+        "value": "Valore di configurazione",
+        "valueHint": "Inserisci testo semplice o JSON valido.",
+        "flags": "Indicatori",
+        "flagsHint": "Fornisci valori separati da virgole.",
+        "workplace": "Workspace"
+      },
+      "errors": {
+        "keyRequired": "È richiesta una chiave di configurazione.",
+        "contextKeyRequired": "È richiesta una chiave di contesto.",
+        "valueRequired": "È richiesto un valore di configurazione.",
+        "createFailed": "Impossibile creare la configurazione.",
+        "workplaceLoadFailed": "Impossibile caricare i workspace."
+      },
+      "notifications": {
+        "createSuccess": "Configurazione creata con successo."
       },
       "table": {
         "title": "Configurazioni",

@@ -199,7 +199,8 @@
     },
     "placeholders": {
       "selectGroup": "اختر مجموعة",
-      "selectUser": "اختر مستخدمًا"
+      "selectUser": "اختر مستخدمًا",
+      "selectWorkplace": "اختر مساحة عمل"
     }
   },
   "profile": {
@@ -545,8 +546,37 @@
       "title": "الإعدادات",
       "subtitle": "عرض ومتابعة سجلات الإعدادات",
       "searchPlaceholder": "ابحث في الإعدادات",
+      "actions": {
+        "new": "تكوين جديد"
+      },
       "alerts": {
         "loadFailed": "تعذر تحميل الإعدادات."
+      },
+      "dialogs": {
+        "create": {
+          "title": "إنشاء تكوين",
+          "submit": "إنشاء التكوين"
+        }
+      },
+      "fields": {
+        "key": "مفتاح التكوين",
+        "contextKey": "مفتاح السياق",
+        "contextId": "معرّف السياق",
+        "value": "قيمة التكوين",
+        "valueHint": "أدخل نصًا عاديًا أو JSON صالحًا.",
+        "flags": "السمات",
+        "flagsHint": "أدخل القيم مفصولة بفواصل.",
+        "workplace": "مساحة العمل"
+      },
+      "errors": {
+        "keyRequired": "مطلوب مفتاح التكوين.",
+        "contextKeyRequired": "مطلوب مفتاح السياق.",
+        "valueRequired": "مطلوب قيمة التكوين.",
+        "createFailed": "تعذر إنشاء التكوين.",
+        "workplaceLoadFailed": "تعذر تحميل مساحات العمل."
+      },
+      "notifications": {
+        "createSuccess": "تم إنشاء التكوين بنجاح."
       },
       "table": {
         "title": "الإعدادات",

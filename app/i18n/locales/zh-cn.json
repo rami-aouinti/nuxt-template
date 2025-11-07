@@ -199,7 +199,8 @@
     },
     "placeholders": {
       "selectGroup": "请选择群组",
-      "selectUser": "请选择用户"
+      "selectUser": "请选择用户",
+      "selectWorkplace": "请选择工作区"
     }
   },
   "profile": {
@@ -545,8 +546,37 @@
       "title": "配置项",
       "subtitle": "查看并监控配置条目",
       "searchPlaceholder": "搜索配置",
+      "actions": {
+        "new": "新增配置"
+      },
       "alerts": {
         "loadFailed": "无法加载配置。"
+      },
+      "dialogs": {
+        "create": {
+          "title": "创建配置",
+          "submit": "创建配置"
+        }
+      },
+      "fields": {
+        "key": "配置键",
+        "contextKey": "上下文键",
+        "contextId": "上下文 ID",
+        "value": "配置值",
+        "valueHint": "请输入纯文本或有效的 JSON。",
+        "flags": "标记",
+        "flagsHint": "请提供以逗号分隔的值。",
+        "workplace": "工作区"
+      },
+      "errors": {
+        "keyRequired": "需要配置键。",
+        "contextKeyRequired": "需要上下文键。",
+        "valueRequired": "需要配置值。",
+        "createFailed": "无法创建配置。",
+        "workplaceLoadFailed": "无法加载工作区。"
+      },
+      "notifications": {
+        "createSuccess": "配置创建成功。"
       },
       "table": {
         "title": "配置项",
