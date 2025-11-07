@@ -2,6 +2,7 @@ import type { H3Event } from 'h3'
 import { FetchError, type FetchOptions } from 'ofetch'
 
 const BASE_URL = 'https://bro-world.org/api/v1'
+const DEFAULT_ERROR_MESSAGE = "Requête à l'API Bro World échouée"
 
 type HeadersInput = FetchOptions<'json'>['headers']
 
@@ -50,48 +51,55 @@ function extractErrorMessage(data: unknown): string | null {
   return null
 }
 
-export async function broWorldRequest<T>(
-  event: H3Event,
-  path: string,
-  options: FetchOptions<'json'> = {},
-): Promise<T> {
-  const session = await getUserSession(event)
-  const token = session?.token
-  const { headers: providedHeaders, ...restOptions } = options
+export function createBroWorldRequest(
+  baseUrl: string,
+  defaultErrorMessage = DEFAULT_ERROR_MESSAGE,
+) {
+  return async function broWorldRequest<T>(
+    event: H3Event,
+    path: string,
+    options: FetchOptions<'json'> = {},
+  ): Promise<T> {
+    const session = await getUserSession(event)
+    const token = session?.token
+    const { headers: providedHeaders, ...restOptions } = options
 
-  const headers = normalizeHeaders(providedHeaders)
-  if (token) {
-    headers.Authorization = `Bearer ${token}`
-  }
-
-  try {
-    return await $fetch<T>(`${BASE_URL}${path}`, {
-      ...restOptions,
-      headers,
-    })
-  } catch (error) {
-    if (error instanceof FetchError && error.response) {
-      const message =
-        extractErrorMessage(error.data) ||
-        error.response.statusText ||
-        "Requête à l'API Bro World échouée"
-
-      throw createError({
-        statusCode: error.response.status,
-        statusMessage: error.response.statusText || 'API request failed',
-        data: { message },
-      })
+    const headers = normalizeHeaders(providedHeaders)
+    if (token) {
+      headers.Authorization = `Bearer ${token}`
     }
 
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'API request failed',
-      data: {
-        message:
-          error instanceof Error
-            ? error.message
-            : "Requête à l'API Bro World échouée",
-      },
-    })
+    try {
+      return await $fetch<T>(`${baseUrl}${path}`, {
+        ...restOptions,
+        headers,
+      })
+    } catch (error) {
+      if (error instanceof FetchError && error.response) {
+        const message =
+          extractErrorMessage(error.data) ||
+          error.response.statusText ||
+          defaultErrorMessage
+
+        throw createError({
+          statusCode: error.response.status,
+          statusMessage: error.response.statusText || 'API request failed',
+          data: { message },
+        })
+      }
+
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'API request failed',
+        data: {
+          message:
+            error instanceof Error
+              ? error.message
+              : defaultErrorMessage,
+        },
+      })
+    }
   }
 }
+
+export const broWorldRequest = createBroWorldRequest(BASE_URL)

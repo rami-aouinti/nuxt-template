@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed} from "vue";
+import { computed } from 'vue'
 
 definePageMeta({
   icon: 'mdi-monitor-dashboard',
@@ -9,17 +9,35 @@ definePageMeta({
 })
 const { t } = useI18n()
 
-const headers = process.server ? useRequestHeaders(['cookie', 'authorization']) : undefined;
+const headers = import.meta.server
+  ? useRequestHeaders(['cookie', 'authorization'])
+  : undefined
 
 const extractCount = (d: any): number => {
-  if (typeof d === 'number') return d;
-  if (!d || typeof d !== 'object') return 0;
-  if (typeof d.count === 'number') return d.count;
-  if (typeof d.total === 'number') return d.total;
-  if (typeof d["hydra:totalItems"] === 'number') return d["hydra:totalItems"];
-  if (d.data) return extractCount(d.data);
-  return 0;
-};
+  if (typeof d === 'number') return d
+  if (typeof d === 'string') {
+    const parsed = Number(d)
+    return Number.isFinite(parsed) ? parsed : 0
+  }
+  if (!d || typeof d !== 'object') return 0
+  if (typeof d.count === 'number') return d.count
+  if (typeof d.count === 'string') {
+    const parsed = Number(d.count)
+    if (Number.isFinite(parsed)) return parsed
+  }
+  if (typeof d.total === 'number') return d.total
+  if (typeof d.total === 'string') {
+    const parsed = Number(d.total)
+    if (Number.isFinite(parsed)) return parsed
+  }
+  if (typeof d['hydra:totalItems'] === 'number') return d['hydra:totalItems']
+  if (typeof d['hydra:totalItems'] === 'string') {
+    const parsed = Number(d['hydra:totalItems'])
+    if (Number.isFinite(parsed)) return parsed
+  }
+  if (d.data) return extractCount(d.data)
+  return 0
+}
 
 const fetchCount = (url: string, key: string) =>
   useFetch<number>(url, {
@@ -27,53 +45,53 @@ const fetchCount = (url: string, key: string) =>
     headers,
     credentials: 'include',
     transform: extractCount,
-  });
+  })
 
 const [
-  { data: userCount },
-  { data: userGroupCount },
-  { data: roleCount },
-  { data: apiKeyCount },
+  { data: blogCount },
+  { data: postCount },
+  { data: commentCount },
+  { data: tagCount },
 ] = await Promise.all([
-  fetchCount('/api/v1/user/count', 'user-count'),
-  fetchCount('/api/v1/user_group/count', 'user-group-count'),
-  fetchCount('/api/v1/role/count', 'role-count'),
-  fetchCount('/api/v1/api_key/count', 'api-key-count'),
-]);
+  fetchCount('/api/blog/v1/blog/count', 'blog-count'),
+  fetchCount('/api/blog/v1/post/count', 'post-count'),
+  fetchCount('/api/blog/v1/comment/count', 'comment-count'),
+  fetchCount('/api/blog/v1/tag/count', 'tag-count'),
+])
 
 const stats = computed(() => [
   {
-    icon: 'mdi-account-multiple-outline',
-    title: t('navigation.users'),
-    value: userCount.value ?? 0,
-    url: '/admin/user-management/users',
+    icon: 'mdi-notebook-outline',
+    title: t('navigation.blogs'),
+    value: blogCount.value ?? 0,
+    url: '/admin/blog-management/blog-management',
     color: 'primary',
-    caption: t('admin.metrics.users'),
+    caption: t('admin.metrics.blogs'),
   },
   {
-    icon: 'mdi-shield-key-outline',
-    title: t('navigation.roles'),
-    value: roleCount.value ?? 0,
-    url: '/admin/user-management/roles',
+    icon: 'mdi-post-outline',
+    title: t('navigation.posts'),
+    value: postCount.value ?? 0,
+    url: '/admin/blog-management/post-management',
     color: 'primary',
-    caption: t('admin.metrics.roles'),
+    caption: t('admin.metrics.posts'),
   },
   {
-    icon: 'mdi-account-group-outline',
-    title: t('navigation.userGroups'),
-    value: userGroupCount.value ?? 0,
-    url: '/admin/user-management/user-groups',
+    icon: 'mdi-comment-text-outline',
+    title: t('navigation.comments'),
+    value: commentCount.value ?? 0,
+    url: '/admin/blog-management/comment-management',
     color: 'primary',
-    caption: t('admin.metrics.groups'),
+    caption: t('admin.metrics.comments'),
   },
   {
-    icon: 'mdi-key-outline',
-    title: t('navigation.apiKeys'),
-    value: apiKeyCount.value ?? 0,
-    url: '/admin/user-management/api-keys',
+    icon: 'mdi-tag-multiple-outline',
+    title: t('navigation.tags'),
+    value: tagCount.value ?? 0,
+    url: '/admin/blog-management/tag-management',
     color: 'primary',
-    caption: t('admin.metrics.apiKeys'),
-  }
+    caption: t('admin.metrics.tags'),
+  },
 ])
 </script>
 

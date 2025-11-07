@@ -22,6 +22,10 @@
     "userManagement": "Gestion des utilisateurs",
     "settingManagement": "Gestion des paramètres",
     "blogManagement": "Gestion du blog",
+    "blogs": "Blogs",
+    "posts": "Articles",
+    "comments": "Commentaires",
+    "tags": "Étiquettes",
     "users": "Utilisateurs",
     "roles": "Rôles",
     "userGroups": "Groupes d'utilisateurs",
@@ -88,7 +92,16 @@
       "users": "Nombre d’utilisateurs",
       "roles": "Nombre de rôles",
       "groups": "Nombre de groupes",
-      "apiKeys": "Nombre de clés API"
+      "apiKeys": "Nombre de clés API",
+      "blogs": "Nombre de blogs",
+      "posts": "Nombre d’articles",
+      "comments": "Nombre de commentaires",
+      "tags": "Nombre d’étiquettes"
+    },
+    "blogManagement": {
+      "placeholders": {
+        "underConstruction": "Cette section est en cours de construction."
+      }
     }
   },
   "auth": {

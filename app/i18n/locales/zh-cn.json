@@ -22,6 +22,10 @@
     "userManagement": "用户管理",
     "settingManagement": "设置管理",
     "blogManagement": "博客管理",
+    "blogs": "博客列表",
+    "posts": "文章",
+    "comments": "评论",
+    "tags": "标签",
     "users": "用户",
     "roles": "角色",
     "userGroups": "用户群组",
@@ -88,7 +92,16 @@
       "users": "用户数量",
       "roles": "角色数量",
       "groups": "群组数量",
-      "apiKeys": "API 密钥数量"
+      "apiKeys": "API 密钥数量",
+      "blogs": "博客数量",
+      "posts": "文章数量",
+      "comments": "评论数量",
+      "tags": "标签数量"
+    },
+    "blogManagement": {
+      "placeholders": {
+        "underConstruction": "该部分正在建设中。"
+      }
     }
   },
   "auth": {
