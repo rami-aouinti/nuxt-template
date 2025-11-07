@@ -6,10 +6,13 @@ export default defineNuxtRouteMiddleware(() => {
       ? nuxtApp.$i18n.t.bind(nuxtApp.$i18n)
       : fallbackTranslate
   const { loggedIn, session } = useUserSession()
+  const localePath = useLocalePath()
+
+  const redirectToHome = () => navigateTo(localePath('/'))
 
   if (!loggedIn.value) {
     Notify.error(t('auth.loginRequired'))
-    return navigateTo('/')
+    return redirectToHome()
   }
 
   const profile = session.value?.profile
@@ -30,6 +33,6 @@ export default defineNuxtRouteMiddleware(() => {
 
   if (!hasAdminAccess) {
     Notify.error(t('auth.adminOnly'))
-    return navigateTo('/')
+    return redirectToHome()
   }
 })

@@ -13,11 +13,23 @@ const switchLocalePath = useSwitchLocalePath()
 const breadcrumbs = computed(() => {
   return route!.matched
     .filter((item) => item.meta && item.meta.title)
-    .map((r) => ({
-      title: t(String(r.meta.title!)),
-      disabled: r.path === route.path || false,
-      to: r.path,
-    }))
+    .map((r) => {
+      const routeName = typeof r.name === 'string' ? r.name : undefined
+      const localizedPath =
+        routeName != null
+          ? localePath({
+              name: routeName,
+              params: route.params,
+              query: route.query,
+            })
+          : route.path
+
+      return {
+        title: t(String(r.meta.title!)),
+        disabled: localizedPath === route.path || false,
+        to: localizedPath,
+      }
+    })
 })
 const isDark = computed({
   get() {
@@ -140,7 +152,7 @@ watch(loggedIn, (value) => {
             v-if="loggedIn"
             :title="t('auth.profile')"
             prepend-icon="mdi-face"
-            to="/profile"
+            :to="localePath('profile')"
           />
           <v-list-item
             v-if="!loggedIn"

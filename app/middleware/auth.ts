@@ -6,9 +6,10 @@ export default defineNuxtRouteMiddleware(() => {
       ? nuxtApp.$i18n.t.bind(nuxtApp.$i18n)
       : fallbackTranslate
   const { loggedIn } = useUserSession()
+  const localePath = useLocalePath()
 
   if (!loggedIn.value) {
     Notify.error(t('auth.loginRequired'))
-    return navigateTo('/')
+    return navigateTo(localePath('/'))
   }
 })

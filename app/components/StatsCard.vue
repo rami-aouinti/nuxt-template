@@ -1,5 +1,7 @@
 <script setup lang="ts">
-withDefaults(
+import { computed, toRefs } from 'vue'
+
+const props = withDefaults(
   defineProps<{
     icon: string
     iconClass?: string
@@ -17,6 +19,11 @@ withDefaults(
     formatter: (v: number) => v.toString(),
   },
 )
+
+const localePath = useLocalePath()
+const localizedUrl = computed(() => localePath(props.url))
+
+const { icon, iconClass, color, title, value, unit, formatter } = toRefs(props)
 </script>
 
 <template>
@@ -29,12 +36,15 @@ withDefaults(
       :icon="icon"
     />
     <div class="card-title ml-auto text-right">
-      <NuxtLink :class="`text-${color}`" :to="url"
-                class="d-block text-decoration-none">
-      <span
-        class="card-title--name font-weight-bold"
-        v-text="title"
-      />
+      <NuxtLink
+        :class="`text-${color}`"
+        :to="localizedUrl"
+        class="d-block text-decoration-none"
+      >
+        <span
+          class="card-title--name font-weight-bold"
+          v-text="title"
+        />
 
         <h3
           class="font-weight-regular d-inline-block ml-2"
