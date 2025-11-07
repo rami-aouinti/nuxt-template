@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
 import type { DataTableHeader } from 'vuetify'
-import type { User } from '~/types/user'
+import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
+import type { User } from '~/types/user'
 
 definePageMeta({
   title: 'navigation.userGroups',
@@ -23,6 +24,12 @@ type UserGroupPayload = {
 }
 
 const { t } = useI18n()
+const adminStore = useAdminStore()
+
+await Promise.all([
+  adminStore.fetchUserGroups(),
+  adminStore.fetchUsers(),
+])
 
 const search = ref('')
 
@@ -38,11 +45,11 @@ const headers = computed<DataTableHeader[]>(() => [
   },
 ])
 
-const { data, pending, error, refresh } = await useFetch<UserGroup[]>(
-  '/api/v1/user_group',
-)
+const pending = adminStore.userGroupsPending
+const error = adminStore.userGroupsError
+const refresh = () => adminStore.refreshUserGroups()
 
-const items = computed<UserGroup[]>(() => data.value ?? [])
+const items = computed<UserGroup[]>(() => adminStore.userGroups.value ?? [])
 
 const form = reactive({
   name: '',
@@ -71,11 +78,9 @@ const attachUserDialog = ref(false)
 const attachUserError = ref('')
 const attachUserForm = reactive({ userId: '' })
 
-const { data: usersData, refresh: refreshUsers } = await useFetch<User[]>(
-  '/api/v1/user',
-)
+const refreshUsers = () => adminStore.refreshUsers()
 
-const allUsers = computed<User[]>(() => usersData.value ?? [])
+const allUsers = computed<User[]>(() => adminStore.users.value ?? [])
 
 const availableUsersForGroup = computed(() => {
   if (!viewingGroup.value) {

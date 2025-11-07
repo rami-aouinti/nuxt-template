@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
 import type { DataTableHeader } from 'vuetify'
-import type { User, UserPayload } from '~/types/user'
+import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
+import type { User, UserPayload } from '~/types/user'
 
 definePageMeta({
   title: 'navigation.users',
@@ -12,6 +13,12 @@ definePageMeta({
 })
 
 const { t } = useI18n()
+const adminStore = useAdminStore()
+
+await Promise.all([
+  adminStore.fetchUsers(),
+  adminStore.fetchUserGroups(),
+])
 
 const search = ref('')
 
@@ -24,7 +31,9 @@ const headers = computed<DataTableHeader[]>(() => [
   { title: '', key: 'actions', sortable: false, align: 'end', width: 150 },
 ])
 
-const { data, pending, error, refresh } = await useFetch<User[]>('/api/v1/user')
+const pending = adminStore.usersPending
+const error = adminStore.usersError
+const refresh = () => adminStore.refreshUsers()
 
 type UserGroup = {
   id: string
@@ -37,11 +46,12 @@ type Group = {
   name: string
 }
 
-const { data: userGroupsData, refresh: refreshUserGroups } =
-  await useFetch<UserGroup[]>('/api/v1/user_group')
+const refreshUserGroups = () => adminStore.refreshUserGroups()
 
-const items = computed<User[]>(() => data.value ?? [])
-const userGroups = computed<UserGroup[]>(() => userGroupsData.value ?? [])
+const items = computed<User[]>(() => adminStore.users.value ?? [])
+const userGroups = computed<UserGroup[]>(
+  () => adminStore.userGroups.value ?? [],
+)
 
 type UserFormState = {
   username: string

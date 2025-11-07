@@ -1,15 +1,9 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
 import type { DataTableHeader } from 'vuetify'
+import { useAdminStore, type ApiVersion } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
-
-type ApiVersion = 'v1' | 'v2'
-
-type ApiKey = {
-  id: string
-  token: string
-  description: string
-}
+import type { ApiKey } from '~/types/apiKey'
 
 type ApiKeyFormState = {
   description: string
@@ -24,6 +18,7 @@ definePageMeta({
 })
 
 const { t } = useI18n()
+const adminStore = useAdminStore()
 
 const tab = ref<ApiVersion>('v1')
 const search = ref('')
@@ -41,22 +36,25 @@ const headers = computed<DataTableHeader[]>(() => [
   },
 ])
 
-const {
-  data: apiKeysV1,
-  pending: pendingV1,
-  error: errorV1,
-  refresh: refreshV1,
-} = await useFetch<ApiKey[]>('/api/v1/api_key')
+await Promise.all([
+  adminStore.fetchApiKeys('v1'),
+  adminStore.fetchApiKeys('v2'),
+])
 
-const {
-  data: apiKeysV2,
-  pending: pendingV2,
-  error: errorV2,
-  refresh: refreshV2,
-} = await useFetch<ApiKey[]>('/api/v2/api_key')
+const pendingV1 = adminStore.apiKeysByVersion.v1.pending
+const errorV1 = adminStore.apiKeysByVersion.v1.error
+const refreshV1 = () => adminStore.refreshApiKeys('v1')
 
-const itemsV1 = computed<ApiKey[]>(() => apiKeysV1.value ?? [])
-const itemsV2 = computed<ApiKey[]>(() => apiKeysV2.value ?? [])
+const pendingV2 = adminStore.apiKeysByVersion.v2.pending
+const errorV2 = adminStore.apiKeysByVersion.v2.error
+const refreshV2 = () => adminStore.refreshApiKeys('v2')
+
+const itemsV1 = computed<ApiKey[]>(
+  () => adminStore.apiKeysByVersion.v1.data.value ?? [],
+)
+const itemsV2 = computed<ApiKey[]>(
+  () => adminStore.apiKeysByVersion.v2.data.value ?? [],
+)
 
 const actionVersion = ref<ApiVersion>('v1')
 

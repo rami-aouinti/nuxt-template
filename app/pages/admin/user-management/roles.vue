@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import type { DataTableHeader } from 'vuetify'
+import { useAdminStore } from '~/stores/admin'
 
 definePageMeta({
   title: 'navigation.roles',
@@ -9,6 +11,9 @@ definePageMeta({
 })
 
 const { t } = useI18n()
+const adminStore = useAdminStore()
+
+await adminStore.fetchRoles()
 
 const headers = computed<DataTableHeader[]>(() => [
   { title: t('userManagement.roles.table.id'), key: 'id' },
@@ -16,9 +21,11 @@ const headers = computed<DataTableHeader[]>(() => [
 ])
 const search = ref('')
 
-const { data, pending, error, refresh } = await useFetch('/api/v1/role')
+const pending = adminStore.rolesPending
+const error = adminStore.rolesError
+const refresh = () => adminStore.refreshRoles()
 
-const items = computed(() => data.value ?? [])
+const items = computed(() => adminStore.roles.value ?? [])
 </script>
 
 <template>
