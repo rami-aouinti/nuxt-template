@@ -36,7 +36,80 @@
     "logout": "Logout",
     "loginSuccess": "Signed in successfully",
     "logoutSuccess": "Signed out successfully",
+    "loginRequired": "You must be logged in to access this page.",
+    "adminOnly": "Administrator access required.",
+    "loginFailed": "Authentication failed.",
     "guest": "User"
+  },
+  "common": {
+    "unexpectedError": "An unexpected error occurred."
+  },
+  "profile": {
+    "updateSuccess": "Profile updated successfully.",
+    "updateFailed": "Profile update failed."
+  },
+  "userManagement": {
+    "users": {
+      "notifications": {
+        "createSuccess": "User created successfully.",
+        "updateSuccess": "User updated successfully.",
+        "attachSuccess": "Group linked to the user successfully.",
+        "detachSuccess": "Group unlinked from the user.",
+        "deleteSuccess": "User deleted successfully."
+      },
+      "errors": {
+        "usernameEmailRequired": "Username and email are required.",
+        "passwordRequired": "A password is required to create a new user.",
+        "createFailed": "Unable to create the user.",
+        "updateFailed": "Unable to update the user.",
+        "openView": "Unable to open this user's details.",
+        "loadDetails": "Unable to retrieve the user's details.",
+        "loadGroups": "Unable to retrieve the user's groups.",
+        "selectGroup": "Select a group to link this user.",
+        "attachFailed": "Unable to link this group to the user.",
+        "detachFailed": "Unable to unlink this group from the user.",
+        "deleteFailed": "Unable to delete the user."
+      }
+    },
+    "groups": {
+      "notifications": {
+        "createSuccess": "User group created successfully.",
+        "updateSuccess": "User group updated successfully.",
+        "deleteSuccess": "User group deleted successfully.",
+        "attachSuccess": "User linked to the group.",
+        "detachSuccess": "User unlinked from the group."
+      },
+      "errors": {
+        "nameRequired": "A group name is required.",
+        "createFailed": "Unable to create the user group.",
+        "updateFailed": "Unable to update the user group.",
+        "loadDetails": "Unable to load the user group details.",
+        "loadUsers": "Unable to retrieve the group's users.",
+        "selectUser": "Select a user to link to this group.",
+        "attachFailed": "Unable to link this user to the group.",
+        "detachFailed": "Unable to unlink this user from the group.",
+        "deleteFailed": "Unable to delete this user group."
+      }
+    },
+    "apiKeys": {
+      "labels": {
+        "v1": "API v1",
+        "v2": "API v2"
+      },
+      "notifications": {
+        "createSuccess": "API key created successfully ({version}).",
+        "updateSuccess": "API key updated successfully ({version}).",
+        "deleteSuccess": "API key deleted ({version})."
+      },
+      "errors": {
+        "descriptionRequired": "A description is required.",
+        "createFailed": "Unable to create the API key.",
+        "updateFailed": "Unable to update the API key.",
+        "loadDetails": "Unable to load the API key details.",
+        "deleteFailed": "Unable to delete the API key.",
+        "partialUpdateRequired": "Provide at least one field to update the API key."
+      }
+    }
   },
   "$vuetify": {
     "close": "Close"

@@ -5,6 +5,8 @@ import type { LoginResponse } from '~/types/auth'
 
 const model = defineModel<boolean>({ required: true })
 
+const { t } = useI18n()
+
 const credentials = reactive({
   username: '',
   password: '',
@@ -46,7 +48,7 @@ async function submit() {
     })
     profileCache.value = data.profile
     await fetch()
-    Notify.success('Connexion réussie')
+    Notify.success(t('auth.loginSuccess'))
     model.value = false
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -58,11 +60,11 @@ async function submit() {
           ? error.response.data.message
           : null) || error.response?.statusText
 
-      errorMessage.value = responseMessage || "Échec de l'authentification"
+      errorMessage.value = responseMessage || t('auth.loginFailed')
     } else if (error instanceof Error) {
       errorMessage.value = error.message
     } else {
-      errorMessage.value = "Une erreur inattendue s'est produite"
+      errorMessage.value = t('common.unexpectedError')
     }
     Notify.error(errorMessage.value)
   } finally {

@@ -36,6 +36,82 @@
     "logout": "Esci",
     "loginSuccess": "Accesso effettuato con successo",
     "logoutSuccess": "Disconnessione effettuata",
+    "loginRequired": "Devi effettuare l'accesso per accedere a questa pagina.",
+    "adminOnly": "Accesso riservato agli amministratori.",
+    "loginFailed": "Autenticazione non riuscita.",
     "guest": "Utente"
+  },
+  "common": {
+    "unexpectedError": "Si è verificato un errore imprevisto."
+  },
+  "profile": {
+    "updateSuccess": "Profilo aggiornato con successo.",
+    "updateFailed": "Aggiornamento del profilo non riuscito."
+  },
+  "userManagement": {
+    "users": {
+      "notifications": {
+        "createSuccess": "Utente creato con successo.",
+        "updateSuccess": "Utente aggiornato con successo.",
+        "attachSuccess": "Gruppo associato all'utente con successo.",
+        "detachSuccess": "Gruppo scollegato dall'utente.",
+        "deleteSuccess": "Utente eliminato con successo."
+      },
+      "errors": {
+        "usernameEmailRequired": "Nome utente ed e-mail sono obbligatori.",
+        "passwordRequired": "È necessaria una password per creare un nuovo utente.",
+        "createFailed": "Impossibile creare l'utente.",
+        "updateFailed": "Impossibile aggiornare l'utente.",
+        "openView": "Impossibile aprire i dettagli di questo utente.",
+        "loadDetails": "Impossibile recuperare i dettagli dell'utente.",
+        "loadGroups": "Impossibile recuperare i gruppi dell'utente.",
+        "selectGroup": "Seleziona un gruppo per associare questo utente.",
+        "attachFailed": "Impossibile associare questo gruppo all'utente.",
+        "detachFailed": "Impossibile scollegare questo gruppo dall'utente.",
+        "deleteFailed": "Impossibile eliminare l'utente."
+      }
+    },
+    "groups": {
+      "notifications": {
+        "createSuccess": "Gruppo di utenti creato con successo.",
+        "updateSuccess": "Gruppo di utenti aggiornato con successo.",
+        "deleteSuccess": "Gruppo di utenti eliminato con successo.",
+        "attachSuccess": "Utente associato al gruppo.",
+        "detachSuccess": "Utente scollegato dal gruppo."
+      },
+      "errors": {
+        "nameRequired": "Il nome del gruppo è obbligatorio.",
+        "createFailed": "Impossibile creare il gruppo di utenti.",
+        "updateFailed": "Impossibile aggiornare il gruppo di utenti.",
+        "loadDetails": "Impossibile caricare i dettagli del gruppo di utenti.",
+        "loadUsers": "Impossibile recuperare gli utenti di questo gruppo.",
+        "selectUser": "Seleziona un utente da associare a questo gruppo.",
+        "attachFailed": "Impossibile associare questo utente al gruppo.",
+        "detachFailed": "Impossibile scollegare questo utente dal gruppo.",
+        "deleteFailed": "Impossibile eliminare questo gruppo di utenti."
+      }
+    },
+    "apiKeys": {
+      "labels": {
+        "v1": "API v1",
+        "v2": "API v2"
+      },
+      "notifications": {
+        "createSuccess": "Chiave API creata con successo ({version}).",
+        "updateSuccess": "Chiave API aggiornata con successo ({version}).",
+        "deleteSuccess": "Chiave API eliminata ({version})."
+      },
+      "errors": {
+        "descriptionRequired": "La descrizione è obbligatoria.",
+        "createFailed": "Impossibile creare la chiave API.",
+        "updateFailed": "Impossibile aggiornare la chiave API.",
+        "loadDetails": "Impossibile caricare i dettagli della chiave API.",
+        "deleteFailed": "Impossibile eliminare la chiave API.",
+        "partialUpdateRequired": "Compila almeno un campo per aggiornare la chiave API."
+      }
+    }
+  },
+  "$vuetify": {
+    "close": "Chiudi"
   }
 }

@@ -9,6 +9,7 @@ definePageMeta({
   middleware: 'auth',
 })
 
+const { t } = useI18n()
 const { session, user, fetch: refreshSession } = useUserSession()
 const profileCache = useAuthProfileCache()
 
@@ -263,10 +264,10 @@ async function submit() {
 
     profileCache.value = updatedProfile
     await refreshSession()
-    Notify.success('Profil mis à jour avec succès')
+    Notify.success(t('profile.updateSuccess'))
     editDialog.value = false
   } catch (error) {
-    let message = 'La mise à jour du profil a échoué.'
+    let message = t('profile.updateFailed')
 
     if (error instanceof FetchError) {
       const data = error.data as Record<string, unknown> | undefined

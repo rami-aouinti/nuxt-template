@@ -11,6 +11,8 @@ definePageMeta({
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 
+const { t } = useI18n()
+
 const search = ref('')
 
 const headers: DataTableHeader[] = [
@@ -124,13 +126,11 @@ function populateForm(user: User) {
 function ensureFormValid(requirePassword: boolean) {
   formError.value = ''
   if (!form.username.trim() || !form.email.trim()) {
-    formError.value =
-      "Les champs Nom d'utilisateur et Adresse e-mail sont obligatoires."
+    formError.value = t('userManagement.users.errors.usernameEmailRequired')
     return false
   }
   if (requirePassword && !form.password.trim()) {
-    formError.value =
-      'Un mot de passe est requis pour créer un nouvel utilisateur.'
+    formError.value = t('userManagement.users.errors.passwordRequired')
     return false
   }
   return true
@@ -231,14 +231,14 @@ async function submitCreate() {
       method: 'POST',
       body: buildPayload(),
     })
-    Notify.success('Utilisateur créé avec succès')
+    Notify.success(t('userManagement.users.notifications.createSuccess'))
     createDialog.value = false
     resetForm()
     await refresh()
   } catch (error) {
     formError.value = extractRequestError(
       error,
-      "Impossible de créer l'utilisateur.",
+      t('userManagement.users.errors.createFailed'),
     )
     Notify.error(formError.value)
   } finally {
@@ -279,13 +279,13 @@ async function submitEdit() {
       method: 'PUT',
       body: buildPayload(),
     })
-    Notify.success('Utilisateur mis à jour avec succès')
+    Notify.success(t('userManagement.users.notifications.updateSuccess'))
     editDialog.value = false
     await refresh()
   } catch (error) {
     formError.value = extractRequestError(
       error,
-      "Impossible de mettre à jour l'utilisateur.",
+      t('userManagement.users.errors.updateFailed'),
     )
     Notify.error(formError.value)
   } finally {
@@ -294,9 +294,9 @@ async function submitEdit() {
 }
 
 function openView(user?: User | null) {
-  console.log(user)
+  console.debug('Opening user detail dialog', user)
   if (!user || !user.id) {
-    Notify.error("Impossible d'ouvrir les détails de cet utilisateur.")
+    Notify.error(t('userManagement.users.errors.openView'))
     return
   }
 
@@ -314,7 +314,7 @@ async function loadUserDetails(id: string) {
   } catch (error) {
     viewError.value = extractRequestError(
       error,
-      "Impossible de récupérer les détails de l'utilisateur.",
+      t('userManagement.users.errors.loadDetails'),
     )
     Notify.error(viewError.value)
   } finally {
@@ -332,7 +332,7 @@ async function loadUserGroups(id: string) {
   } catch (error) {
     userGroupsError.value = extractRequestError(
       error,
-      "Impossible de récupérer les groupes de l'utilisateur.",
+      t('userManagement.users.errors.loadGroups'),
     )
     Notify.error(userGroupsError.value)
   } finally {
@@ -364,7 +364,7 @@ function closeAttachDialog() {
 
 async function submitAttach() {
   if (!viewUser.value || !attachForm.groupId) {
-    attachError.value = 'Sélectionnez un groupe pour associer cet utilisateur.'
+    attachError.value = t('userManagement.users.errors.selectGroup')
     Notify.error(attachError.value)
     return
   }
@@ -378,13 +378,13 @@ async function submitAttach() {
         method: 'POST',
       },
     )
-    Notify.success('Groupe associé à l’utilisateur avec succès')
+    Notify.success(t('userManagement.users.notifications.attachSuccess'))
     attachDialog.value = false
     await Promise.all([loadUserGroups(viewUser.value.id), refreshUserGroups()])
   } catch (error) {
     attachError.value = extractRequestError(
       error,
-      "Impossible d'associer ce groupe à l'utilisateur.",
+      t('userManagement.users.errors.attachFailed'),
     )
     Notify.error(attachError.value)
   } finally {
@@ -405,12 +405,12 @@ async function detachGroup(groupId: string) {
         method: 'DELETE',
       },
     )
-    Notify.success('Groupe dissocié de l’utilisateur')
+    Notify.success(t('userManagement.users.notifications.detachSuccess'))
     await Promise.all([loadUserGroups(viewUser.value.id), refreshUserGroups()])
   } catch (error) {
     const message = extractRequestError(
       error,
-      "Impossible de dissocier ce groupe de l'utilisateur.",
+      t('userManagement.users.errors.detachFailed'),
     )
     Notify.error(message)
   } finally {
@@ -441,13 +441,13 @@ async function confirmDelete() {
   deleteLoading.value = true
   try {
     await $fetch(`/api/v1/user/${deletingUser.value.id}`, { method: 'DELETE' })
-    Notify.success('Utilisateur supprimé avec succès')
+    Notify.success(t('userManagement.users.notifications.deleteSuccess'))
     deleteDialog.value = false
     await refresh()
   } catch (error) {
     deleteError.value = extractRequestError(
       error,
-      "Impossible de supprimer l'utilisateur.",
+      t('userManagement.users.errors.deleteFailed'),
     )
     Notify.error(deleteError.value)
   } finally {

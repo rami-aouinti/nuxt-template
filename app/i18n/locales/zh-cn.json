@@ -36,6 +36,82 @@
     "logout": "退出登录",
     "loginSuccess": "登录成功",
     "logoutSuccess": "退出成功",
+    "loginRequired": "您必须登录才能访问此页面。",
+    "adminOnly": "仅限管理员访问。",
+    "loginFailed": "身份验证失败。",
     "guest": "访客"
+  },
+  "common": {
+    "unexpectedError": "发生意外错误。"
+  },
+  "profile": {
+    "updateSuccess": "个人资料更新成功。",
+    "updateFailed": "个人资料更新失败。"
+  },
+  "userManagement": {
+    "users": {
+      "notifications": {
+        "createSuccess": "用户创建成功。",
+        "updateSuccess": "用户更新成功。",
+        "attachSuccess": "已成功将该组关联到用户。",
+        "detachSuccess": "已取消用户的组关联。",
+        "deleteSuccess": "用户删除成功。"
+      },
+      "errors": {
+        "usernameEmailRequired": "必须填写用户名和电子邮件。",
+        "passwordRequired": "创建新用户需要密码。",
+        "createFailed": "无法创建用户。",
+        "updateFailed": "无法更新用户。",
+        "openView": "无法打开该用户的详细信息。",
+        "loadDetails": "无法获取该用户的详细信息。",
+        "loadGroups": "无法获取该用户的组。",
+        "selectGroup": "请选择一个组以关联该用户。",
+        "attachFailed": "无法将该组关联到用户。",
+        "detachFailed": "无法取消该组与用户的关联。",
+        "deleteFailed": "无法删除用户。"
+      }
+    },
+    "groups": {
+      "notifications": {
+        "createSuccess": "用户组创建成功。",
+        "updateSuccess": "用户组更新成功。",
+        "deleteSuccess": "用户组删除成功。",
+        "attachSuccess": "已将用户关联到该组。",
+        "detachSuccess": "已将用户从该组移除。"
+      },
+      "errors": {
+        "nameRequired": "必须填写组名。",
+        "createFailed": "无法创建用户组。",
+        "updateFailed": "无法更新用户组。",
+        "loadDetails": "无法加载用户组详情。",
+        "loadUsers": "无法获取该组的用户。",
+        "selectUser": "请选择要关联到该组的用户。",
+        "attachFailed": "无法将该用户关联到该组。",
+        "detachFailed": "无法将该用户从该组移除。",
+        "deleteFailed": "无法删除该用户组。"
+      }
+    },
+    "apiKeys": {
+      "labels": {
+        "v1": "API v1",
+        "v2": "API v2"
+      },
+      "notifications": {
+        "createSuccess": "API 密钥创建成功（{version}）。",
+        "updateSuccess": "API 密钥更新成功（{version}）。",
+        "deleteSuccess": "API 密钥已删除（{version}）。"
+      },
+      "errors": {
+        "descriptionRequired": "描述为必填项。",
+        "createFailed": "无法创建 API 密钥。",
+        "updateFailed": "无法更新 API 密钥。",
+        "loadDetails": "无法加载 API 密钥详情。",
+        "deleteFailed": "无法删除 API 密钥。",
+        "partialUpdateRequired": "请至少填写一个字段以更新 API 密钥。"
+      }
+    }
+  },
+  "$vuetify": {
+    "close": "关闭"
   }
 }
