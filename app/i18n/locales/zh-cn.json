@@ -402,6 +402,31 @@
       }
     }
   },
+  "configurationManagement": {
+    "metrics": {
+      "configurations": "配置数量",
+      "configurationsCaption": "有效的配置条目"
+    },
+    "configurations": {
+      "title": "配置项",
+      "subtitle": "查看并监控配置条目",
+      "searchPlaceholder": "搜索配置",
+      "alerts": {
+        "loadFailed": "无法加载配置。"
+      },
+      "table": {
+        "title": "配置项",
+        "subtitle": "{count} 条配置",
+        "key": "键",
+        "contextKey": "上下文键",
+        "contextId": "上下文 ID",
+        "value": "值",
+        "flags": "标记",
+        "noFlags": "无标记",
+        "updatedAt": "更新时间"
+      }
+    }
+  },
   "$vuetify": {
     "close": "关闭"
   }

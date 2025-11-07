@@ -402,6 +402,31 @@
       }
     }
   },
+  "configurationManagement": {
+    "metrics": {
+      "configurations": "Nombre de configurations",
+      "configurationsCaption": "Entrées de configuration actives"
+    },
+    "configurations": {
+      "title": "Configurations",
+      "subtitle": "Consulter et superviser les entrées de configuration",
+      "searchPlaceholder": "Rechercher des configurations",
+      "alerts": {
+        "loadFailed": "Impossible de charger les configurations."
+      },
+      "table": {
+        "title": "Configurations",
+        "subtitle": "{count} configurations",
+        "key": "Clé",
+        "contextKey": "Clé de contexte",
+        "contextId": "Identifiant de contexte",
+        "value": "Valeur",
+        "flags": "Indicateurs",
+        "noFlags": "Aucun indicateur",
+        "updatedAt": "Mis à jour le"
+      }
+    }
+  },
   "$vuetify": {
     "close": "Fermer"
   }

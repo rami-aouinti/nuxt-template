@@ -402,6 +402,31 @@
       }
     }
   },
+  "configurationManagement": {
+    "metrics": {
+      "configurations": "Количество конфигураций",
+      "configurationsCaption": "Активные записи конфигураций"
+    },
+    "configurations": {
+      "title": "Конфигурации",
+      "subtitle": "Просмотр и контроль записей конфигураций",
+      "searchPlaceholder": "Поиск конфигураций",
+      "alerts": {
+        "loadFailed": "Не удалось загрузить конфигурации."
+      },
+      "table": {
+        "title": "Конфигурации",
+        "subtitle": "{count} конфигураций",
+        "key": "Ключ",
+        "contextKey": "Ключ контекста",
+        "contextId": "Идентификатор контекста",
+        "value": "Значение",
+        "flags": "Флаги",
+        "noFlags": "Нет флагов",
+        "updatedAt": "Обновлено"
+      }
+    }
+  },
   "$vuetify": {
     "close": "Закрыть"
   }
