@@ -36,6 +36,82 @@
     "logout": "Abmelden",
     "loginSuccess": "Erfolgreich angemeldet",
     "logoutSuccess": "Erfolgreich abgemeldet",
+    "loginRequired": "Sie müssen angemeldet sein, um auf diese Seite zuzugreifen.",
+    "adminOnly": "Nur Administratoren haben Zugriff.",
+    "loginFailed": "Authentifizierung fehlgeschlagen.",
     "guest": "Benutzer"
+  },
+  "common": {
+    "unexpectedError": "Ein unerwarteter Fehler ist aufgetreten."
+  },
+  "profile": {
+    "updateSuccess": "Profil erfolgreich aktualisiert.",
+    "updateFailed": "Profilaktualisierung fehlgeschlagen."
+  },
+  "userManagement": {
+    "users": {
+      "notifications": {
+        "createSuccess": "Benutzer erfolgreich erstellt.",
+        "updateSuccess": "Benutzer erfolgreich aktualisiert.",
+        "attachSuccess": "Gruppe wurde dem Benutzer erfolgreich zugeordnet.",
+        "detachSuccess": "Gruppe wurde vom Benutzer getrennt.",
+        "deleteSuccess": "Benutzer erfolgreich gelöscht."
+      },
+      "errors": {
+        "usernameEmailRequired": "Benutzername und E-Mail sind erforderlich.",
+        "passwordRequired": "Für einen neuen Benutzer ist ein Passwort erforderlich.",
+        "createFailed": "Benutzer konnte nicht erstellt werden.",
+        "updateFailed": "Benutzer konnte nicht aktualisiert werden.",
+        "openView": "Details dieses Benutzers konnten nicht geöffnet werden.",
+        "loadDetails": "Details des Benutzers konnten nicht abgerufen werden.",
+        "loadGroups": "Benutzergruppen konnten nicht abgerufen werden.",
+        "selectGroup": "Wählen Sie eine Gruppe aus, um diesen Benutzer zu verknüpfen.",
+        "attachFailed": "Diese Gruppe konnte nicht dem Benutzer zugeordnet werden.",
+        "detachFailed": "Diese Gruppe konnte nicht vom Benutzer getrennt werden.",
+        "deleteFailed": "Benutzer konnte nicht gelöscht werden."
+      }
+    },
+    "groups": {
+      "notifications": {
+        "createSuccess": "Benutzergruppe erfolgreich erstellt.",
+        "updateSuccess": "Benutzergruppe erfolgreich aktualisiert.",
+        "deleteSuccess": "Benutzergruppe erfolgreich gelöscht.",
+        "attachSuccess": "Benutzer wurde der Gruppe zugeordnet.",
+        "detachSuccess": "Benutzer wurde von der Gruppe getrennt."
+      },
+      "errors": {
+        "nameRequired": "Ein Gruppenname ist erforderlich.",
+        "createFailed": "Benutzergruppe konnte nicht erstellt werden.",
+        "updateFailed": "Benutzergruppe konnte nicht aktualisiert werden.",
+        "loadDetails": "Details der Benutzergruppe konnten nicht geladen werden.",
+        "loadUsers": "Benutzer dieser Gruppe konnten nicht abgerufen werden.",
+        "selectUser": "Wählen Sie einen Benutzer aus, um ihn mit dieser Gruppe zu verknüpfen.",
+        "attachFailed": "Benutzer konnte nicht der Gruppe zugeordnet werden.",
+        "detachFailed": "Benutzer konnte nicht von der Gruppe getrennt werden.",
+        "deleteFailed": "Diese Benutzergruppe konnte nicht gelöscht werden."
+      }
+    },
+    "apiKeys": {
+      "labels": {
+        "v1": "API v1",
+        "v2": "API v2"
+      },
+      "notifications": {
+        "createSuccess": "API-Schlüssel erfolgreich erstellt ({version}).",
+        "updateSuccess": "API-Schlüssel erfolgreich aktualisiert ({version}).",
+        "deleteSuccess": "API-Schlüssel gelöscht ({version})."
+      },
+      "errors": {
+        "descriptionRequired": "Eine Beschreibung ist erforderlich.",
+        "createFailed": "API-Schlüssel konnte nicht erstellt werden.",
+        "updateFailed": "API-Schlüssel konnte nicht aktualisiert werden.",
+        "loadDetails": "Details des API-Schlüssels konnten nicht geladen werden.",
+        "deleteFailed": "API-Schlüssel konnte nicht gelöscht werden.",
+        "partialUpdateRequired": "Geben Sie mindestens ein Feld an, um den API-Schlüssel zu aktualisieren."
+      }
+    }
+  },
+  "$vuetify": {
+    "close": "Schließen"
   }
 }

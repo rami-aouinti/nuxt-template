@@ -23,6 +23,8 @@ definePageMeta({
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 
+const { t } = useI18n()
+
 const tab = ref<ApiVersion>('v1')
 const search = ref('')
 
@@ -81,10 +83,10 @@ const canSubmitCreate = computed(
     !actionLoading.value,
 )
 
-const versionLabels: Record<ApiVersion, string> = {
-  v1: 'API v1',
-  v2: 'API v2',
-}
+const versionLabels = computed<Record<ApiVersion, string>>(() => ({
+  v1: t('userManagement.apiKeys.labels.v1'),
+  v2: t('userManagement.apiKeys.labels.v2'),
+}))
 
 const fetchContext: Record<
   ApiVersion,
@@ -104,10 +106,10 @@ function populateForm(key: ApiKey) {
   form.description = key.description ?? ''
 }
 
-function ensureFormValid(requireToken: boolean) {
+function ensureFormValid() {
   formError.value = ''
   if (!form.description.trim()) {
-    formError.value = 'La description est obligatoire.'
+    formError.value = t('userManagement.apiKeys.errors.descriptionRequired')
     return false
   }
 
@@ -127,7 +129,7 @@ function buildUpdatePayload(method: 'PUT' | 'PATCH') {
   const token = form.token.trim()
 
   if (method === 'PUT') {
-    if (!ensureFormValid(true)) {
+    if (!ensureFormValid()) {
       return null
     }
     payload.description = description
@@ -143,8 +145,7 @@ function buildUpdatePayload(method: 'PUT' | 'PATCH') {
   }
 
   if (Object.keys(payload).length === 0) {
-    formError.value =
-      'Renseignez au moins un champ pour mettre à jour la clé API.'
+    formError.value = t('userManagement.apiKeys.errors.partialUpdateRequired')
     return null
   }
 
@@ -173,7 +174,7 @@ function closeCreate() {
 async function submitCreate() {
   const version = actionVersion.value
 
-  if (!ensureFormValid(true)) {
+  if (!ensureFormValid()) {
     if (formError.value) {
       Notify.error(formError.value)
     }
@@ -186,14 +187,18 @@ async function submitCreate() {
       method: 'POST',
       body: buildCreatePayload(),
     })
-    Notify.success(`Clé API créée avec succès (${versionLabels[version]})`)
+    Notify.success(
+      t('userManagement.apiKeys.notifications.createSuccess', {
+        version: versionLabels.value[version],
+      }),
+    )
     createDialog.value = false
     resetForm()
     await fetchContext[version].refresh()
   } catch (error) {
     formError.value = extractRequestError(
       error,
-      'Impossible de créer la clé API.',
+      t('userManagement.apiKeys.errors.createFailed'),
     )
     Notify.error(formError.value)
   } finally {
@@ -241,14 +246,16 @@ async function submitEdit() {
       body: payload,
     })
     Notify.success(
-      `Clé API mise à jour avec succès (${versionLabels[version]})`,
+      t('userManagement.apiKeys.notifications.updateSuccess', {
+        version: versionLabels.value[version],
+      }),
     )
     editDialog.value = false
     await fetchContext[version].refresh()
   } catch (error) {
     formError.value = extractRequestError(
       error,
-      'Impossible de mettre à jour la clé API.',
+      t('userManagement.apiKeys.errors.updateFailed'),
     )
     Notify.error(formError.value)
   } finally {
@@ -271,7 +278,7 @@ async function loadApiKeyDetails(version: ApiVersion, id: string) {
   } catch (error) {
     viewError.value = extractRequestError(
       error,
-      'Impossible de charger les détails de la clé API.',
+      t('userManagement.apiKeys.errors.loadDetails'),
     )
     Notify.error(viewError.value)
   } finally {
@@ -315,13 +322,17 @@ async function confirmDelete() {
     await $fetch(`/api/${version}/api_key/${deletingKey.value.id}`, {
       method: 'DELETE',
     })
-    Notify.success(`Clé API supprimée (${versionLabels[version]})`)
+    Notify.success(
+      t('userManagement.apiKeys.notifications.deleteSuccess', {
+        version: versionLabels.value[version],
+      }),
+    )
     deleteDialog.value = false
     await fetchContext[version].refresh()
   } catch (error) {
     deleteError.value = extractRequestError(
       error,
-      'Impossible de supprimer la clé API.',
+      t('userManagement.apiKeys.errors.deleteFailed'),
     )
     Notify.error(deleteError.value)
   } finally {

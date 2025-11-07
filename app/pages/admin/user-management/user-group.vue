@@ -22,6 +22,8 @@ type UserGroupPayload = {
   description?: string
 }
 
+const { t } = useI18n()
+
 const search = ref('')
 
 const headers: DataTableHeader[] = [
@@ -101,7 +103,7 @@ function populateForm(group: UserGroup) {
 function ensureFormValid() {
   formError.value = ''
   if (!form.name.trim()) {
-    formError.value = 'Le nom du groupe est obligatoire.'
+    formError.value = t('userManagement.groups.errors.nameRequired')
     return false
   }
   return true
@@ -191,14 +193,14 @@ async function submitCreate() {
       method: 'POST',
       body: buildPayload(),
     })
-    Notify.success("Groupe d'utilisateurs créé avec succès")
+    Notify.success(t('userManagement.groups.notifications.createSuccess'))
     createDialog.value = false
     resetForm()
     await refresh()
   } catch (error) {
     formError.value = extractRequestError(
       error,
-      "Impossible de créer le groupe d'utilisateurs.",
+      t('userManagement.groups.errors.createFailed'),
     )
     Notify.error(formError.value)
   } finally {
@@ -239,13 +241,13 @@ async function submitEdit() {
       method: 'PUT',
       body: buildPayload(),
     })
-    Notify.success("Groupe d'utilisateurs mis à jour")
+    Notify.success(t('userManagement.groups.notifications.updateSuccess'))
     editDialog.value = false
     await refresh()
   } catch (error) {
     formError.value = extractRequestError(
       error,
-      "Impossible de mettre à jour le groupe d'utilisateurs.",
+      t('userManagement.groups.errors.updateFailed'),
     )
     Notify.error(formError.value)
   } finally {
@@ -268,7 +270,7 @@ async function loadGroupDetails(id: string) {
   } catch (error) {
     viewError.value = extractRequestError(
       error,
-      "Impossible de charger les détails du groupe d'utilisateurs.",
+      t('userManagement.groups.errors.loadDetails'),
     )
     Notify.error(viewError.value)
   } finally {
@@ -286,7 +288,7 @@ async function loadGroupUsers(id: string) {
   } catch (error) {
     groupUsersError.value = extractRequestError(
       error,
-      "Impossible de récupérer les utilisateurs de ce groupe.",
+      t('userManagement.groups.errors.loadUsers'),
     )
     Notify.error(groupUsersError.value)
   } finally {
@@ -327,13 +329,13 @@ async function confirmDelete() {
     await $fetch(`/api/v1/user_group/${deletingGroup.value.id}`, {
       method: 'DELETE',
     })
-    Notify.success("Groupe d'utilisateurs supprimé")
+    Notify.success(t('userManagement.groups.notifications.deleteSuccess'))
     deleteDialog.value = false
     await refresh()
   } catch (error) {
     deleteError.value = extractRequestError(
       error,
-      "Impossible de supprimer ce groupe d'utilisateurs.",
+      t('userManagement.groups.errors.deleteFailed'),
     )
     Notify.error(deleteError.value)
   } finally {
@@ -357,8 +359,7 @@ function closeAttachUserDialog() {
 
 async function submitAttachUser() {
   if (!viewingGroup.value || !attachUserForm.userId) {
-    attachUserError.value =
-      'Sélectionnez un utilisateur à associer à ce groupe.'
+    attachUserError.value = t('userManagement.groups.errors.selectUser')
     Notify.error(attachUserError.value)
     return
   }
@@ -370,7 +371,7 @@ async function submitAttachUser() {
       `/api/v1/user_group/${viewingGroup.value.id}/user/${attachUserForm.userId}`,
       { method: 'POST' },
     )
-    Notify.success("Utilisateur associé au groupe")
+    Notify.success(t('userManagement.groups.notifications.attachSuccess'))
     attachUserDialog.value = false
     await Promise.all([
       loadGroupUsers(viewingGroup.value.id),
@@ -379,7 +380,7 @@ async function submitAttachUser() {
   } catch (error) {
     attachUserError.value = extractRequestError(
       error,
-      "Impossible d'associer cet utilisateur au groupe.",
+      t('userManagement.groups.errors.attachFailed'),
     )
     Notify.error(attachUserError.value)
   } finally {
@@ -398,7 +399,7 @@ async function detachUser(userId: string) {
       `/api/v1/user_group/${viewingGroup.value.id}/user/${userId}`,
       { method: 'DELETE' },
     )
-    Notify.success("Utilisateur dissocié du groupe")
+    Notify.success(t('userManagement.groups.notifications.detachSuccess'))
     await Promise.all([
       loadGroupUsers(viewingGroup.value.id),
       refreshUsers(),
@@ -406,7 +407,7 @@ async function detachUser(userId: string) {
   } catch (error) {
     const message = extractRequestError(
       error,
-      "Impossible de dissocier cet utilisateur du groupe.",
+      t('userManagement.groups.errors.detachFailed'),
     )
     Notify.error(message)
   } finally {

@@ -1,8 +1,9 @@
 export default defineNuxtRouteMiddleware(() => {
+  const { t } = useI18n()
   const { loggedIn, session } = useUserSession()
 
   if (!loggedIn.value) {
-    Notify.error('Vous devez être connecté pour accéder à cette page')
+    Notify.error(t('auth.loginRequired'))
     return navigateTo('/')
   }
 
@@ -23,7 +24,7 @@ export default defineNuxtRouteMiddleware(() => {
   )
 
   if (!hasAdminAccess) {
-    Notify.error("Accès réservé aux administrateurs")
+    Notify.error(t('auth.adminOnly'))
     return navigateTo('/')
   }
 })

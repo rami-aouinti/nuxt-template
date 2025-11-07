@@ -36,6 +36,82 @@
     "logout": "Cerrar sesión",
     "loginSuccess": "Inicio de sesión correcto",
     "logoutSuccess": "Cierre de sesión correcto",
+    "loginRequired": "Debes iniciar sesión para acceder a esta página.",
+    "adminOnly": "Acceso restringido a administradores.",
+    "loginFailed": "Error de autenticación.",
     "guest": "Usuario"
+  },
+  "common": {
+    "unexpectedError": "Se produjo un error inesperado."
+  },
+  "profile": {
+    "updateSuccess": "Perfil actualizado correctamente.",
+    "updateFailed": "La actualización del perfil falló."
+  },
+  "userManagement": {
+    "users": {
+      "notifications": {
+        "createSuccess": "Usuario creado correctamente.",
+        "updateSuccess": "Usuario actualizado correctamente.",
+        "attachSuccess": "Grupo vinculado al usuario correctamente.",
+        "detachSuccess": "Grupo desvinculado del usuario.",
+        "deleteSuccess": "Usuario eliminado correctamente."
+      },
+      "errors": {
+        "usernameEmailRequired": "Se requieren el nombre de usuario y el correo electrónico.",
+        "passwordRequired": "Se requiere una contraseña para crear un nuevo usuario.",
+        "createFailed": "No se pudo crear el usuario.",
+        "updateFailed": "No se pudo actualizar el usuario.",
+        "openView": "No se pudieron abrir los detalles de este usuario.",
+        "loadDetails": "No se pudieron recuperar los detalles del usuario.",
+        "loadGroups": "No se pudieron recuperar los grupos del usuario.",
+        "selectGroup": "Selecciona un grupo para vincular este usuario.",
+        "attachFailed": "No se pudo vincular este grupo al usuario.",
+        "detachFailed": "No se pudo desvincular este grupo del usuario.",
+        "deleteFailed": "No se pudo eliminar el usuario."
+      }
+    },
+    "groups": {
+      "notifications": {
+        "createSuccess": "Grupo de usuarios creado correctamente.",
+        "updateSuccess": "Grupo de usuarios actualizado correctamente.",
+        "deleteSuccess": "Grupo de usuarios eliminado correctamente.",
+        "attachSuccess": "Usuario vinculado al grupo.",
+        "detachSuccess": "Usuario desvinculado del grupo."
+      },
+      "errors": {
+        "nameRequired": "El nombre del grupo es obligatorio.",
+        "createFailed": "No se pudo crear el grupo de usuarios.",
+        "updateFailed": "No se pudo actualizar el grupo de usuarios.",
+        "loadDetails": "No se pudieron cargar los detalles del grupo de usuarios.",
+        "loadUsers": "No se pudieron recuperar los usuarios de este grupo.",
+        "selectUser": "Selecciona un usuario para vincular a este grupo.",
+        "attachFailed": "No se pudo vincular este usuario al grupo.",
+        "detachFailed": "No se pudo desvincular este usuario del grupo.",
+        "deleteFailed": "No se pudo eliminar este grupo de usuarios."
+      }
+    },
+    "apiKeys": {
+      "labels": {
+        "v1": "API v1",
+        "v2": "API v2"
+      },
+      "notifications": {
+        "createSuccess": "Clave API creada correctamente ({version}).",
+        "updateSuccess": "Clave API actualizada correctamente ({version}).",
+        "deleteSuccess": "Clave API eliminada ({version})."
+      },
+      "errors": {
+        "descriptionRequired": "La descripción es obligatoria.",
+        "createFailed": "No se pudo crear la clave API.",
+        "updateFailed": "No se pudo actualizar la clave API.",
+        "loadDetails": "No se pudieron cargar los detalles de la clave API.",
+        "deleteFailed": "No se pudo eliminar la clave API.",
+        "partialUpdateRequired": "Proporciona al menos un campo para actualizar la clave API."
+      }
+    }
+  },
+  "$vuetify": {
+    "close": "Cerrar"
   }
 }
