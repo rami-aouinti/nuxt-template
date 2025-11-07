@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
-import { storeToRefs } from 'pinia'
 import type { DataTableHeader } from 'vuetify'
 import { useAdminStore, type ApiVersion } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
@@ -20,7 +19,11 @@ definePageMeta({
 
 const { t } = useI18n()
 const adminStore = useAdminStore()
-const { apiKeysByVersion } = storeToRefs(adminStore)
+const apiKeysByVersion = computed(() => adminStore.apiKeysByVersion)
+
+function getVersionEntry(version: ApiVersion) {
+  return apiKeysByVersion.value?.[version]
+}
 
 const tab = ref<ApiVersion>('v1')
 const search = ref('')
@@ -44,26 +47,26 @@ await Promise.all([
 ])
 
 const pendingV1 = computed(
-  () => apiKeysByVersion.value?.v1?.pending?.value ?? false,
+  () => getVersionEntry('v1')?.pending?.value ?? false,
 )
 const errorV1 = computed(
-  () => apiKeysByVersion.value?.v1?.error?.value ?? null,
+  () => getVersionEntry('v1')?.error?.value ?? null,
 )
 const refreshV1 = () => adminStore.refreshApiKeys('v1')
 
 const pendingV2 = computed(
-  () => apiKeysByVersion.value?.v2?.pending?.value ?? false,
+  () => getVersionEntry('v2')?.pending?.value ?? false,
 )
 const errorV2 = computed(
-  () => apiKeysByVersion.value?.v2?.error?.value ?? null,
+  () => getVersionEntry('v2')?.error?.value ?? null,
 )
 const refreshV2 = () => adminStore.refreshApiKeys('v2')
 
 const itemsV1 = computed<ApiKey[]>(
-  () => apiKeysByVersion.value?.v1?.data?.value ?? [],
+  () => getVersionEntry('v1')?.data?.value ?? [],
 )
 const itemsV2 = computed<ApiKey[]>(
-  () => apiKeysByVersion.value?.v2?.data?.value ?? [],
+  () => getVersionEntry('v2')?.data?.value ?? [],
 )
 
 const currentVersion = computed(() => tab.value)
