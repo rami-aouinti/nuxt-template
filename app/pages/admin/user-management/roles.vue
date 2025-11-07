@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import type { DataTableHeader } from 'vuetify'
 import { useAdminStore } from '~/stores/admin'
 
@@ -12,6 +13,7 @@ definePageMeta({
 
 const { t } = useI18n()
 const adminStore = useAdminStore()
+const { roles, rolesPending, rolesError } = storeToRefs(adminStore)
 
 await adminStore.fetchRoles()
 
@@ -21,11 +23,11 @@ const headers = computed<DataTableHeader[]>(() => [
 ])
 const search = ref('')
 
-const pending = adminStore.rolesPending
-const error = adminStore.rolesError
+const pending = rolesPending
+const error = rolesError
 const refresh = () => adminStore.refreshRoles()
 
-const items = computed(() => adminStore.roles.value ?? [])
+const items = computed(() => roles.value ?? [])
 const tableError = computed(() =>
   error.value ? t('userManagement.roles.alerts.loadFailed') : null,
 )

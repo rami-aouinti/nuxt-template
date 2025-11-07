@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import type { DataTableHeader } from 'vuetify'
 import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
@@ -25,6 +26,8 @@ type UserGroupPayload = {
 
 const { t } = useI18n()
 const adminStore = useAdminStore()
+const { userGroups, userGroupsPending, userGroupsError, users } =
+  storeToRefs(adminStore)
 
 await Promise.all([
   adminStore.fetchUserGroups(),
@@ -45,11 +48,11 @@ const headers = computed<DataTableHeader[]>(() => [
   },
 ])
 
-const pending = adminStore.userGroupsPending
-const error = adminStore.userGroupsError
+const pending = userGroupsPending
+const error = userGroupsError
 const refresh = () => adminStore.refreshUserGroups()
 
-const items = computed<UserGroup[]>(() => adminStore.userGroups.value ?? [])
+const items = computed<UserGroup[]>(() => userGroups.value ?? [])
 const tableError = computed(() =>
   error.value ? t('userManagement.groups.alerts.loadFailed') : null,
 )
@@ -83,7 +86,7 @@ const attachUserForm = reactive({ userId: '' })
 
 const refreshUsers = () => adminStore.refreshUsers()
 
-const allUsers = computed<User[]>(() => adminStore.users.value ?? [])
+const allUsers = computed<User[]>(() => users.value ?? [])
 
 const availableUsersForGroup = computed(() => {
   if (!viewingGroup.value) {

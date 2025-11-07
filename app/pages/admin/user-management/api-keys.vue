@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import type { DataTableHeader } from 'vuetify'
 import { useAdminStore, type ApiVersion } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
@@ -19,6 +20,7 @@ definePageMeta({
 
 const { t } = useI18n()
 const adminStore = useAdminStore()
+const { apiKeysByVersion } = storeToRefs(adminStore)
 
 const tab = ref<ApiVersion>('v1')
 const search = ref('')
@@ -41,19 +43,19 @@ await Promise.all([
   adminStore.fetchApiKeys('v2'),
 ])
 
-const pendingV1 = adminStore.apiKeysByVersion.v1.pending
-const errorV1 = adminStore.apiKeysByVersion.v1.error
+const pendingV1 = computed(() => apiKeysByVersion.value.v1.pending.value)
+const errorV1 = computed(() => apiKeysByVersion.value.v1.error.value)
 const refreshV1 = () => adminStore.refreshApiKeys('v1')
 
-const pendingV2 = adminStore.apiKeysByVersion.v2.pending
-const errorV2 = adminStore.apiKeysByVersion.v2.error
+const pendingV2 = computed(() => apiKeysByVersion.value.v2.pending.value)
+const errorV2 = computed(() => apiKeysByVersion.value.v2.error.value)
 const refreshV2 = () => adminStore.refreshApiKeys('v2')
 
 const itemsV1 = computed<ApiKey[]>(
-  () => adminStore.apiKeysByVersion.v1.data.value ?? [],
+  () => apiKeysByVersion.value.v1.data.value ?? [],
 )
 const itemsV2 = computed<ApiKey[]>(
-  () => adminStore.apiKeysByVersion.v2.data.value ?? [],
+  () => apiKeysByVersion.value.v2.data.value ?? [],
 )
 
 const currentVersion = computed(() => tab.value)
@@ -85,6 +87,7 @@ const deletingKey = ref<ApiKey | null>(null)
 
 const defaultFormState = (): ApiKeyFormState => ({
   description: '',
+  token: '',
 })
 
 const form = reactive<ApiKeyFormState>(defaultFormState())
