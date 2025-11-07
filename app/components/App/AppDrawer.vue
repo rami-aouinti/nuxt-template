@@ -59,7 +59,7 @@ const hasRouteAccess = (route: RouteRecordRaw) => {
 
 const availableRoutes = computed(() => routes.filter((route) => hasRouteAccess(route)))
 
-drawerState.value = lgAndUp.value && width.value !== 1280
+drawerState.value = lgAndUp.value && width.value >= 1280
 
 const brandTitle = computed(() => t('app.brand.name'))
 const brandHighlight = computed(() => t('app.brand.highlight'))
