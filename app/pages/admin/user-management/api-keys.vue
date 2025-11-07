@@ -28,12 +28,18 @@ const { t } = useI18n()
 const tab = ref<ApiVersion>('v1')
 const search = ref('')
 
-const headers: DataTableHeader[] = [
-  { title: 'Description', key: 'description' },
-  { title: 'Token', key: 'token' },
-  { title: 'Identifiant', key: 'id' },
-  { title: 'Actions', key: 'actions', sortable: false, align: 'end', width: 150 },
-]
+const headers = computed<DataTableHeader[]>(() => [
+  { title: t('userManagement.apiKeys.table.description'), key: 'description' },
+  { title: t('userManagement.apiKeys.table.token'), key: 'token' },
+  { title: t('userManagement.apiKeys.table.id'), key: 'id' },
+  {
+    title: t('userManagement.apiKeys.table.actions'),
+    key: 'actions',
+    sortable: false,
+    align: 'end',
+    width: 150,
+  },
+])
 
 const {
   data: apiKeysV1,
@@ -428,7 +434,7 @@ watch(deleteDialog, (value) => {
               <v-text-field
                 v-model="search"
                 prepend-inner-icon="mdi-magnify"
-                label="Search"
+                :label="t('common.labels.search')"
                 single-line
                 hide-details
                 density="compact"
@@ -443,7 +449,7 @@ watch(deleteDialog, (value) => {
             </teleport>
           </client-only>
           <v-card-title class="d-flex align-center justify-space-between">
-            <span class="text-h6">Clés API</span>
+            <span class="text-h6">{{ t('userManagement.apiKeys.cardTitle') }}</span>
             <v-btn-toggle
               v-model="tab"
               variant="text"
@@ -451,8 +457,8 @@ watch(deleteDialog, (value) => {
               density="compact"
               color="primary"
             >
-              <v-btn value="v1">API v1</v-btn>
-              <v-btn value="v2">API v2</v-btn>
+              <v-btn value="v1">{{ versionLabels.v1 }}</v-btn>
+              <v-btn value="v2">{{ versionLabels.v2 }}</v-btn>
             </v-btn-toggle>
           </v-card-title>
           <v-divider />
@@ -460,7 +466,9 @@ watch(deleteDialog, (value) => {
             <v-window v-model="tab">
               <v-window-item value="v1">
                 <v-alert v-if="errorV1" type="error" variant="tonal" class="mb-4">
-                  Les clés de l'API v1 n'ont pas pu être chargées.
+                  {{ t('userManagement.apiKeys.alerts.loadFailed', {
+                    version: versionLabels.v1,
+                  }) }}
                 </v-alert>
                 <div
                   class="d-flex justify-end align-center mb-2 flex-wrap"
@@ -472,7 +480,11 @@ watch(deleteDialog, (value) => {
                     :disabled="pendingV1"
                     @click="openCreate('v1')"
                   >
-                    Nouvelle clé API
+                    {{
+                      t('userManagement.apiKeys.actions.new', {
+                        version: versionLabels.v1,
+                      })
+                    }}
                   </v-btn>
                   <v-btn
                     icon="mdi-refresh"
@@ -495,7 +507,13 @@ watch(deleteDialog, (value) => {
                         icon
                         variant="text"
                         color="primary"
-                        :title="`Afficher ${item.raw?.description ?? ''}`"
+                        :title="
+                          t('userManagement.apiKeys.actions.viewTooltip', {
+                            description:
+                              item.raw?.description ??
+                              t('userManagement.apiKeys.labels.keyFallback'),
+                          })
+                        "
                         @click="openView('v1', item.raw)"
                       >
                         <v-icon icon="mdi-eye-outline" />
@@ -504,7 +522,13 @@ watch(deleteDialog, (value) => {
                         icon
                         variant="text"
                         color="warning"
-                        :title="`Modifier ${item.raw?.description ?? ''}`"
+                        :title="
+                          t('userManagement.apiKeys.actions.editTooltip', {
+                            description:
+                              item.raw?.description ??
+                              t('userManagement.apiKeys.labels.keyFallback'),
+                          })
+                        "
                         @click="openEdit('v1', item.raw)"
                       >
                         <v-icon icon="mdi-pencil-outline" />
@@ -513,7 +537,13 @@ watch(deleteDialog, (value) => {
                         icon
                         variant="text"
                         color="error"
-                        :title="`Supprimer ${item.raw?.description ?? ''}`"
+                        :title="
+                          t('userManagement.apiKeys.actions.deleteTooltip', {
+                            description:
+                              item.raw?.description ??
+                              t('userManagement.apiKeys.labels.keyFallback'),
+                          })
+                        "
                         @click="openDelete('v1', item.raw)"
                       >
                         <v-icon icon="mdi-delete-outline" />
@@ -524,7 +554,9 @@ watch(deleteDialog, (value) => {
               </v-window-item>
               <v-window-item value="v2">
                 <v-alert v-if="errorV2" type="error" variant="tonal" class="mb-4">
-                  Les clés de l'API v2 n'ont pas pu être chargées.
+                  {{ t('userManagement.apiKeys.alerts.loadFailed', {
+                    version: versionLabels.v2,
+                  }) }}
                 </v-alert>
                 <div
                   class="d-flex justify-end align-center mb-2 flex-wrap"
@@ -536,7 +568,11 @@ watch(deleteDialog, (value) => {
                     :disabled="pendingV2"
                     @click="openCreate('v2')"
                   >
-                    Nouvelle clé API
+                    {{
+                      t('userManagement.apiKeys.actions.new', {
+                        version: versionLabels.v2,
+                      })
+                    }}
                   </v-btn>
                   <v-btn
                     icon="mdi-refresh"
@@ -559,7 +595,13 @@ watch(deleteDialog, (value) => {
                         icon
                         variant="text"
                         color="primary"
-                        :title="`Afficher ${item.raw?.description ?? ''}`"
+                        :title="
+                          t('userManagement.apiKeys.actions.viewTooltip', {
+                            description:
+                              item.raw?.description ??
+                              t('userManagement.apiKeys.labels.keyFallback'),
+                          })
+                        "
                         @click="openView('v2', item.raw)"
                       >
                         <v-icon icon="mdi-eye-outline" />
@@ -568,7 +610,13 @@ watch(deleteDialog, (value) => {
                         icon
                         variant="text"
                         color="warning"
-                        :title="`Modifier ${item.raw?.description ?? ''}`"
+                        :title="
+                          t('userManagement.apiKeys.actions.editTooltip', {
+                            description:
+                              item.raw?.description ??
+                              t('userManagement.apiKeys.labels.keyFallback'),
+                          })
+                        "
                         @click="openEdit('v2', item.raw)"
                       >
                         <v-icon icon="mdi-pencil-outline" />
@@ -577,7 +625,13 @@ watch(deleteDialog, (value) => {
                         icon
                         variant="text"
                         color="error"
-                        :title="`Supprimer ${item.raw?.description ?? ''}`"
+                        :title="
+                          t('userManagement.apiKeys.actions.deleteTooltip', {
+                            description:
+                              item.raw?.description ??
+                              t('userManagement.apiKeys.labels.keyFallback'),
+                          })
+                        "
                         @click="openDelete('v2', item.raw)"
                       >
                         <v-icon icon="mdi-delete-outline" />
@@ -594,7 +648,11 @@ watch(deleteDialog, (value) => {
     <v-dialog v-model="createDialog" max-width="520">
       <v-card>
         <v-card-title>
-          Créer une clé API ({{ versionLabels[actionVersion] }})
+          {{
+            t('userManagement.apiKeys.dialogs.create.title', {
+              version: versionLabels[actionVersion],
+            })
+          }}
         </v-card-title>
         <v-card-text>
           <v-alert
@@ -608,7 +666,7 @@ watch(deleteDialog, (value) => {
           <v-form @submit.prevent="submitCreate">
             <v-text-field
               v-model="form.description"
-              label="Description"
+              :label="t('userManagement.apiKeys.fields.description')"
               :disabled="actionLoading"
               autocomplete="off"
               required
@@ -618,7 +676,7 @@ watch(deleteDialog, (value) => {
         <v-card-actions>
           <v-spacer />
           <v-btn variant="text" :disabled="actionLoading" @click="closeCreate">
-            Annuler
+            {{ t('common.actions.cancel') }}
           </v-btn>
           <v-btn
             color="primary"
@@ -626,7 +684,7 @@ watch(deleteDialog, (value) => {
             :disabled="!canSubmitCreate"
             @click="submitCreate"
           >
-            Créer
+            {{ t('common.actions.create') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -635,7 +693,11 @@ watch(deleteDialog, (value) => {
     <v-dialog v-model="editDialog" max-width="520">
       <v-card>
         <v-card-title>
-          Modifier la clé API ({{ versionLabels[actionVersion] }})
+          {{
+            t('userManagement.apiKeys.dialogs.edit.title', {
+              version: versionLabels[actionVersion],
+            })
+          }}
         </v-card-title>
         <v-card-text>
           <v-alert
@@ -663,18 +725,18 @@ watch(deleteDialog, (value) => {
           <v-form @submit.prevent="submitEdit">
             <v-text-field
               v-model="form.description"
-              label="Description"
+              :label="t('userManagement.apiKeys.fields.description')"
               :disabled="actionLoading"
               autocomplete="off"
               required
             />
             <v-text-field
               v-model="form.token"
-              label="Token"
+              :label="t('userManagement.apiKeys.fields.token')"
               :disabled="actionLoading"
               autocomplete="off"
               :required="editMethod === 'PUT'"
-              hint="Laissez vide pour ne pas modifier (PATCH seulement)."
+              :hint="t('userManagement.apiKeys.hints.keepToken')"
               persistent-hint
             />
           </v-form>
@@ -682,7 +744,7 @@ watch(deleteDialog, (value) => {
         <v-card-actions>
           <v-spacer />
           <v-btn variant="text" :disabled="actionLoading" @click="closeEdit">
-            Annuler
+            {{ t('common.actions.cancel') }}
           </v-btn>
           <v-btn
             color="primary"
@@ -690,7 +752,7 @@ watch(deleteDialog, (value) => {
             :disabled="actionLoading"
             @click="submitEdit"
           >
-            Enregistrer
+            {{ t('common.actions.save') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -699,7 +761,11 @@ watch(deleteDialog, (value) => {
     <v-dialog v-model="viewDialog" max-width="500">
       <v-card>
         <v-card-title>
-          Détails de la clé API ({{ versionLabels[actionVersion] }})
+          {{
+            t('userManagement.apiKeys.dialogs.view.title', {
+              version: versionLabels[actionVersion],
+            })
+          }}
         </v-card-title>
         <v-card-text>
           <v-progress-linear
@@ -719,19 +785,25 @@ watch(deleteDialog, (value) => {
           <template v-if="viewingKey && !viewLoading">
             <div class="d-flex flex-column" style="row-gap: 12px">
               <div>
-                <div class="text-caption text-medium-emphasis">Identifiant</div>
+                <div class="text-caption text-medium-emphasis">
+                  {{ t('userManagement.apiKeys.fields.id') }}
+                </div>
                 <div class="text-body-2 font-weight-medium">
                   {{ viewingKey.id }}
                 </div>
               </div>
               <div>
-                <div class="text-caption text-medium-emphasis">Description</div>
+                <div class="text-caption text-medium-emphasis">
+                  {{ t('userManagement.apiKeys.fields.description') }}
+                </div>
                 <div class="text-body-2 font-weight-medium">
                   {{ viewingKey.description }}
                 </div>
               </div>
               <div>
-                <div class="text-caption text-medium-emphasis">Token</div>
+                <div class="text-caption text-medium-emphasis">
+                  {{ t('userManagement.apiKeys.fields.token') }}
+                </div>
                 <div class="text-body-2 font-weight-medium">
                   {{ viewingKey.token }}
                 </div>
@@ -739,13 +811,13 @@ watch(deleteDialog, (value) => {
             </div>
           </template>
           <div v-else-if="!viewLoading" class="text-body-2 text-medium-emphasis">
-            Aucune clé API sélectionnée.
+            {{ t('userManagement.apiKeys.dialogs.view.empty') }}
           </div>
         </v-card-text>
         <v-card-actions>
           <v-spacer />
           <v-btn variant="text" :disabled="viewLoading" @click="closeView">
-            Fermer
+            {{ t('common.actions.close') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -753,7 +825,7 @@ watch(deleteDialog, (value) => {
 
     <v-dialog v-model="deleteDialog" max-width="480">
       <v-card>
-        <v-card-title>Supprimer la clé API</v-card-title>
+        <v-card-title>{{ t('userManagement.apiKeys.dialogs.delete.title') }}</v-card-title>
         <v-card-text>
           <v-alert
             v-if="deleteError"
@@ -764,14 +836,20 @@ watch(deleteDialog, (value) => {
             {{ deleteError }}
           </v-alert>
           <p class="text-body-2">
-            Êtes-vous sûr de vouloir supprimer cette clé API
-            <strong>{{ deletingKey?.description }}</strong> ?
+            {{ t('userManagement.apiKeys.dialogs.delete.warningPrefix') }}
+            <strong>
+              {{
+                deletingKey?.description ??
+                  t('userManagement.apiKeys.labels.keyFallback')
+              }}
+            </strong>
+            {{ t('userManagement.apiKeys.dialogs.delete.warningSuffix') }}
           </p>
         </v-card-text>
         <v-card-actions>
           <v-spacer />
           <v-btn variant="text" :disabled="deleteLoading" @click="closeDelete">
-            Annuler
+            {{ t('common.actions.cancel') }}
           </v-btn>
           <v-btn
             color="error"
@@ -779,7 +857,7 @@ watch(deleteDialog, (value) => {
             :disabled="deleteLoading"
             @click="confirmDelete"
           >
-            Supprimer
+            {{ t('common.actions.delete') }}
           </v-btn>
         </v-card-actions>
       </v-card>

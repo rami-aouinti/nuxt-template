@@ -28,6 +28,36 @@
     "blog": "Blog",
     "language": "Changer de langue"
   },
+  "admin": {
+    "dashboard": {
+      "stats": {
+        "bandwidth": {
+          "title": "Bande passante",
+          "caption": "Montée : {up}, Descente : {down}"
+        },
+        "submissions": {
+          "title": "Soumissions",
+          "caption": "Trop jeune, trop naïf"
+        },
+        "requests": {
+          "title": "Requêtes",
+          "caption": "Limite : {limit}"
+        },
+        "messages": {
+          "title": "Messages",
+          "caption": "Avertissements : {warnings}, erreurs : {errors}"
+        },
+        "github": {
+          "title": "Étoiles GitHub",
+          "caption": "L'API n'a pas répondu"
+        },
+        "totalFee": {
+          "title": "Montant total",
+          "caption": "Plafond : {limit}"
+        }
+      }
+    }
+  },
   "auth": {
     "profile": "Profil",
     "login": "Connexion",
@@ -42,7 +72,24 @@
     "guest": "Utilisateur"
   },
   "common": {
-    "unexpectedError": "Une erreur inattendue s'est produite."
+    "unexpectedError": "Une erreur inattendue s'est produite.",
+    "actions": {
+      "cancel": "Annuler",
+      "create": "Créer",
+      "save": "Enregistrer",
+      "close": "Fermer",
+      "delete": "Supprimer",
+      "link": "Associer"
+    },
+    "labels": {
+      "search": "Rechercher",
+      "group": "Groupe",
+      "user": "Utilisateur"
+    },
+    "placeholders": {
+      "selectGroup": "Sélectionnez un groupe",
+      "selectUser": "Sélectionnez un utilisateur"
+    }
   },
   "profile": {
     "updateSuccess": "Profil mis à jour avec succès.",
@@ -69,6 +116,78 @@
         "attachFailed": "Impossible d'associer ce groupe à l'utilisateur.",
         "detachFailed": "Impossible de dissocier ce groupe de l'utilisateur.",
         "deleteFailed": "Impossible de supprimer l'utilisateur."
+      },
+      "table": {
+        "username": "Nom d'utilisateur",
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "email": "Adresse e-mail",
+        "status": "Statut"
+      },
+      "status": {
+        "active": "Actif",
+        "inactive": "Inactif"
+      },
+      "cardTitle": "Gestion des utilisateurs",
+      "actions": {
+        "new": "Nouvel utilisateur",
+        "viewTooltip": "Afficher {username}",
+        "editTooltip": "Modifier {username}",
+        "deleteTooltip": "Supprimer {username}"
+      },
+      "alerts": {
+        "loadFailed": "Une erreur est survenue lors du chargement des utilisateurs."
+      },
+      "fields": {
+        "username": "Nom d'utilisateur",
+        "email": "Adresse e-mail",
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "language": "Langue",
+        "locale": "Locale",
+        "timezone": "Fuseau horaire",
+        "password": "Mot de passe",
+        "newPassword": "Nouveau mot de passe (optionnel)",
+        "enabled": "Utilisateur actif",
+        "status": "Statut"
+      },
+      "hints": {
+        "keepPassword": "Laissez vide pour conserver le mot de passe actuel."
+      },
+      "labels": {
+        "userFallback": "cet utilisateur"
+      },
+      "dialogs": {
+        "create": {
+          "title": "Créer un utilisateur"
+        },
+        "edit": {
+          "title": "Modifier {username}"
+        },
+        "view": {
+          "title": "Détails de l'utilisateur"
+        },
+        "attachGroup": {
+          "title": "Associer un groupe"
+        },
+        "delete": {
+          "title": "Supprimer un utilisateur",
+          "warningPrefix": "Cette action est irréversible. Voulez-vous vraiment supprimer",
+          "warningSuffix": " ?"
+        }
+      },
+      "details": {
+        "groups": {
+          "title": "Groupes",
+          "actions": {
+            "link": "Associer un groupe"
+          },
+          "empty": "Aucun groupe associé."
+        },
+        "empty": "Aucun utilisateur sélectionné."
+      },
+      "logs": {
+        "openDetail": "Ouverture de la fenêtre de détails de l'utilisateur"
       }
     },
     "groups": {
@@ -89,12 +208,65 @@
         "attachFailed": "Impossible d'associer cet utilisateur au groupe.",
         "detachFailed": "Impossible de dissocier cet utilisateur du groupe.",
         "deleteFailed": "Impossible de supprimer ce groupe d'utilisateurs."
+      },
+      "table": {
+        "name": "Nom",
+        "id": "Identifiant",
+        "actions": "Actions"
+      },
+      "cardTitle": "Groupes d'utilisateurs",
+      "actions": {
+        "new": "Nouveau groupe",
+        "viewTooltip": "Afficher {name}",
+        "editTooltip": "Modifier {name}",
+        "deleteTooltip": "Supprimer {name}"
+      },
+      "alerts": {
+        "loadFailed": "Impossible de récupérer les groupes d'utilisateurs."
+      },
+      "fields": {
+        "name": "Nom du groupe",
+        "description": "Description",
+        "id": "Identifiant"
+      },
+      "labels": {
+        "groupFallback": "ce groupe"
+      },
+      "dialogs": {
+        "create": {
+          "title": "Créer un groupe d'utilisateurs"
+        },
+        "edit": {
+          "title": "Modifier le groupe d'utilisateurs"
+        },
+        "view": {
+          "title": "Détails du groupe d'utilisateurs"
+        },
+        "attachUser": {
+          "title": "Associer un utilisateur"
+        },
+        "delete": {
+          "title": "Supprimer le groupe d'utilisateurs",
+          "warningPrefix": "Cette action est irréversible. Voulez-vous vraiment supprimer",
+          "warningSuffix": " ?"
+        }
+      },
+      "details": {
+        "users": {
+          "title": "Utilisateurs",
+          "actions": {
+            "link": "Associer un utilisateur"
+          },
+          "empty": "Aucun utilisateur associé."
+        },
+        "empty": "Aucun groupe sélectionné."
       }
     },
     "apiKeys": {
       "labels": {
         "v1": "API v1",
-        "v2": "API v2"
+        "v2": "API v2",
+        "keyFallback": "cette clé API"
       },
       "notifications": {
         "createSuccess": "Clé API créée avec succès ({version}).",
@@ -108,6 +280,57 @@
         "loadDetails": "Impossible de charger les détails de la clé API.",
         "deleteFailed": "Impossible de supprimer la clé API.",
         "partialUpdateRequired": "Renseignez au moins un champ pour mettre à jour la clé API."
+      },
+      "cardTitle": "Clés API",
+      "table": {
+        "description": "Description",
+        "token": "Jeton",
+        "id": "Identifiant",
+        "actions": "Actions"
+      },
+      "actions": {
+        "new": "Nouvelle clé API ({version})",
+        "viewTooltip": "Afficher {description}",
+        "editTooltip": "Modifier {description}",
+        "deleteTooltip": "Supprimer {description}"
+      },
+      "alerts": {
+        "loadFailed": "Impossible de charger les clés {version}."
+      },
+      "fields": {
+        "description": "Description",
+        "token": "Jeton",
+        "id": "Identifiant"
+      },
+      "hints": {
+        "keepToken": "Laissez vide pour ne pas modifier le jeton (PATCH uniquement)."
+      },
+      "dialogs": {
+        "create": {
+          "title": "Créer une clé API ({version})"
+        },
+        "edit": {
+          "title": "Modifier la clé API ({version})"
+        },
+        "view": {
+          "title": "Détails de la clé API ({version})",
+          "empty": "Aucune clé API sélectionnée."
+        },
+        "delete": {
+          "title": "Supprimer la clé API",
+          "warningPrefix": "Êtes-vous sûr de vouloir supprimer cette clé API",
+          "warningSuffix": " ?"
+        }
+      }
+    },
+    "roles": {
+      "table": {
+        "id": "Identifiant du rôle",
+        "description": "Description"
+      },
+      "cardTitle": "Rôles",
+      "alerts": {
+        "loadFailed": "Échec du chargement des rôles."
       }
     }
   },
