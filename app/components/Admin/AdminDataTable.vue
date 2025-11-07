@@ -40,7 +40,7 @@ const props = withDefaults(
 const emit = defineEmits<{
   (event: 'update:search', value: string): void
   (event: 'refresh'): void
-}>
+}>()
 
 const slots = useSlots()
 const attrs = useAttrs()
