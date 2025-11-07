@@ -5,6 +5,7 @@ withDefaults(
     iconClass?: string
     color: string
     title: string
+    url: string
     value?: number | null
     unit?: string
     formatter?: (v: number) => string
@@ -28,18 +29,21 @@ withDefaults(
       :icon="icon"
     />
     <div class="card-title ml-auto text-right">
+      <NuxtLink :class="`text-${color}`" :to="url"
+                class="d-block text-decoration-none">
       <span
         class="card-title--name font-weight-bold"
-        :class="`text-${color}`"
         v-text="title"
       />
-      <h3
-        class="font-weight-regular d-inline-block ml-2"
-        style="font-size: 18px"
-      >
-        {{ value != null ? formatter(value) : '' }}
-        <small v-if="unit">{{ unit }}</small>
-      </h3>
+
+        <h3
+          class="font-weight-regular d-inline-block ml-2"
+          style="font-size: 18px"
+        >
+          {{ value != null ? formatter(value) : '' }}
+          <small v-if="unit">{{ unit }}</small>
+        </h3>
+      </NuxtLink>
       <v-divider />
     </div>
     <div class="v-alert__border" :class="`text-${color}`" />

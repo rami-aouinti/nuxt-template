@@ -7,7 +7,7 @@ const option: ECOption = {
     splitNumber: 8,
     splitArea: {
       areaStyle: {
-        color: 'rgba(127,95,132,.3)',
+        color: 'rgba(var(--v-theme-primary), 0.12)',
         opacity: 1,
         shadowBlur: 45,
         shadowColor: 'rgba(0,0,0,.5)',
