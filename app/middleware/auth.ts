@@ -1,5 +1,10 @@
 export default defineNuxtRouteMiddleware(() => {
-  const { t } = useI18n()
+  const nuxtApp = useNuxtApp()
+  const fallbackTranslate = (key: string): string => key
+  const t =
+    typeof nuxtApp.$i18n?.t === 'function'
+      ? nuxtApp.$i18n.t.bind(nuxtApp.$i18n)
+      : fallbackTranslate
   const { loggedIn } = useUserSession()
 
   if (!loggedIn.value) {
