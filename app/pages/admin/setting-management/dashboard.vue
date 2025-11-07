@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed} from "vue";
+import { computed } from 'vue'
 
 definePageMeta({
   icon: 'mdi-monitor-dashboard',
@@ -12,79 +12,34 @@ const { t } = useI18n()
 const headers = import.meta.server ? useRequestHeaders(['cookie', 'authorization']) : undefined;
 
 const extractCount = (d: any): number => {
-  if (typeof d === 'number') return d;
-  if (!d || typeof d !== 'object') return 0;
-  if (typeof d.count === 'number') return d.count;
-  if (typeof d.total === 'number') return d.total;
-  if (typeof d["hydra:totalItems"] === 'number') return d["hydra:totalItems"];
-// Sometimes wrapped e.g. { data: { count: 5 } }
-  if (d.data) return extractCount(d.data);
-  return 0;
-};
+  if (typeof d === 'number') return d
+  if (!d || typeof d !== 'object') return 0
+  if (typeof d.count === 'number') return d.count
+  if (typeof d.total === 'number') return d.total
+  if (typeof d['hydra:totalItems'] === 'number') return d['hydra:totalItems']
+  if (d.data) return extractCount(d.data)
+  return 0
+}
 
-const fetchCount = (url: string, key: string) =>
-  useFetch<number>(url, {
-    key,
+const { data: configurationCount } = await useFetch<number>(
+  '/api/v1/configuration/count',
+  {
+    key: 'configuration-count',
     headers,
     credentials: 'include',
     transform: extractCount,
-  });
-
-const [
-  { data: userCount },
-  { data: userGroupCount },
-  { data: workplaceCount },
-  { data: roleCount },
-  { data: apiKeyCount },
-] = await Promise.all([
-  fetchCount('/api/v1/user/count', 'user-count'),
-  fetchCount('/api/v1/user_group/count', 'user-group-count'),
-  fetchCount('/api/v1/workplace/count', 'workplace-count'),
-  fetchCount('/api/v1/role/count', 'role-count'),
-  fetchCount('/api/v1/api_key/count', 'api-key-count'),
-]);
+  },
+)
 
 const stats = computed(() => [
   {
-    icon: 'mdi-account-multiple-outline',
-    title: t('navigation.users'),
-    value: userCount.value ?? 0,
-    url: '/admin/user-management/users',
+    icon: 'mdi-cog-outline',
+    title: t('configurationManagement.metrics.configurations'),
+    value: configurationCount.value ?? 0,
+    url: '/admin/setting-management/configuration-management',
     color: 'primary',
-    caption: t('admin.metrics.users'),
+    caption: t('configurationManagement.metrics.configurationsCaption'),
   },
-  {
-    icon: 'mdi-shield-key-outline',
-    title: t('navigation.roles'),
-    value: roleCount.value ?? 0,
-    url: '/admin/user-management/roles',
-    color: 'primary',
-    caption: t('admin.metrics.roles'),
-  },
-  {
-    icon: 'mdi-account-group-outline',
-    title: t('navigation.userGroups'),
-    value: userGroupCount.value ?? 0,
-    url: '/admin/user-management/user-groups',
-    color: 'primary',
-    caption: t('admin.metrics.groups'),
-  },
-  {
-    icon: 'mdi-office-building',
-    title: t('navigation.workplaces'),
-    value: workplaceCount.value ?? 0,
-    url: '/admin/user-management/workplaces',
-    color: 'primary',
-    caption: t('admin.metrics.workplaces'),
-  },
-  {
-    icon: 'mdi-key-outline',
-    title: t('navigation.apiKeys'),
-    value: apiKeyCount.value ?? 0,
-    url: '/admin/user-management/api-keys',
-    color: 'primary',
-    caption: t('admin.metrics.apiKeys'),
-  }
 ])
 </script>
 

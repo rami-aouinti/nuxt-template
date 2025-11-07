@@ -475,6 +475,31 @@
       }
     }
   },
+  "configurationManagement": {
+    "metrics": {
+      "configurations": "Anzahl der Konfigurationen",
+      "configurationsCaption": "Aktive Konfigurationseinträge"
+    },
+    "configurations": {
+      "title": "Konfigurationen",
+      "subtitle": "Konfigurationseinträge anzeigen und überwachen",
+      "searchPlaceholder": "Konfigurationen suchen",
+      "alerts": {
+        "loadFailed": "Konfigurationen konnten nicht geladen werden."
+      },
+      "table": {
+        "title": "Konfigurationen",
+        "subtitle": "{count} Konfigurationen",
+        "key": "Schlüssel",
+        "contextKey": "Kontextschlüssel",
+        "contextId": "Kontext-ID",
+        "value": "Wert",
+        "flags": "Flags",
+        "noFlags": "Keine Flags",
+        "updatedAt": "Aktualisiert am"
+      }
+    }
+  },
   "$vuetify": {
     "close": "Schließen"
   }

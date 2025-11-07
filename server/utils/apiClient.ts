@@ -1,9 +1,15 @@
-import { createApiRequest } from './apiClient'
+import type { H3Event } from 'h3'
+import { FetchError, type FetchOptions } from 'ofetch'
 
-const BASE_URL = 'https://bro-world.org/api/v1'
-const DEFAULT_ERROR_MESSAGE = "Requête à l'API Bro World échouée"
+export type HeadersInput = FetchOptions<'json'>['headers']
 
-type HeadersInput = FetchOptions<'json'>['headers']
+type ApiRequestOptions = FetchOptions<'json'>
+
+type ApiRequest<T> = (
+  event: H3Event,
+  path: string,
+  options?: ApiRequestOptions,
+) => Promise<T>
 
 function normalizeHeaders(headers?: HeadersInput): Record<string, string> {
   const normalized: Record<string, string> = {}
@@ -39,25 +45,24 @@ function extractErrorMessage(data: unknown): string | null {
   }
 
   if (typeof data === 'object') {
-    if ('message' in data && typeof data.message === 'string') {
-      return data.message
+    if ('message' in data && typeof (data as { message?: unknown }).message === 'string') {
+      return (data as { message: string }).message
     }
-    if ('error' in data && typeof data.error === 'string') {
-      return data.error
+    if ('error' in data && typeof (data as { error?: unknown }).error === 'string') {
+      return (data as { error: string }).error
     }
   }
 
   return null
 }
 
-export function createBroWorldRequest(
-  baseUrl: string,
-  defaultErrorMessage = DEFAULT_ERROR_MESSAGE,
-) {
-  return async function broWorldRequest<T>(
+export function createApiRequest(baseUrl: string): ApiRequest<unknown>
+export function createApiRequest<T>(baseUrl: string): ApiRequest<T>
+export function createApiRequest<T>(baseUrl: string): ApiRequest<T> {
+  return async function apiRequest(
     event: H3Event,
     path: string,
-    options: FetchOptions<'json'> = {},
+    options: ApiRequestOptions = {},
   ): Promise<T> {
     const session = await getUserSession(event)
     const token = session?.token
@@ -78,7 +83,7 @@ export function createBroWorldRequest(
         const message =
           extractErrorMessage(error.data) ||
           error.response.statusText ||
-          defaultErrorMessage
+          "Requête à l'API Bro World échouée"
 
         throw createError({
           statusCode: error.response.status,
@@ -94,11 +99,37 @@ export function createBroWorldRequest(
           message:
             error instanceof Error
               ? error.message
-              : defaultErrorMessage,
+              : "Requête à l'API Bro World échouée",
         },
       })
     }
   }
 }
 
-export const broWorldRequest = createBroWorldRequest(BASE_URL)
+export function buildQueryString(query: Record<string, unknown> | undefined): string {
+  if (!query) {
+    return ''
+  }
+
+  const searchParams = new URLSearchParams()
+
+  for (const [key, value] of Object.entries(query)) {
+    if (value == null) {
+      continue
+    }
+
+    if (Array.isArray(value)) {
+      for (const element of value) {
+        if (element != null) {
+          searchParams.append(key, String(element))
+        }
+      }
+      continue
+    }
+
+    searchParams.append(key, String(value))
+  }
+
+  const queryString = searchParams.toString()
+  return queryString ? `?${queryString}` : ''
+}

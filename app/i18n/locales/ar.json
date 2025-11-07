@@ -475,6 +475,31 @@
       }
     }
   },
+  "configurationManagement": {
+    "metrics": {
+      "configurations": "عدد الإعدادات",
+      "configurationsCaption": "سجلات الإعدادات النشطة"
+    },
+    "configurations": {
+      "title": "الإعدادات",
+      "subtitle": "عرض ومتابعة سجلات الإعدادات",
+      "searchPlaceholder": "ابحث في الإعدادات",
+      "alerts": {
+        "loadFailed": "تعذر تحميل الإعدادات."
+      },
+      "table": {
+        "title": "الإعدادات",
+        "subtitle": "{count} إعدادات",
+        "key": "المفتاح",
+        "contextKey": "مفتاح السياق",
+        "contextId": "معرّف السياق",
+        "value": "القيمة",
+        "flags": "السمات",
+        "noFlags": "لا سمات",
+        "updatedAt": "آخر تحديث"
+      }
+    }
+  },
   "$vuetify": {
     "close": "إغلاق"
   }
