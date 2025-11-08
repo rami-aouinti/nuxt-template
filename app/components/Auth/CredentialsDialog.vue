@@ -15,6 +15,27 @@ const credentials = reactive({
 const loading = ref(false)
 const errorMessage = ref('')
 
+const oauthProviders = [
+  {
+    key: 'github',
+    icon: 'mdi-github',
+    href: '/api/auth/github',
+    translationKey: 'auth.loginWithGithub',
+  },
+  {
+    key: 'google',
+    icon: 'mdi-google',
+    href: '/api/auth/google',
+    translationKey: 'auth.loginWithGoogle',
+  },
+  {
+    key: 'facebook',
+    icon: 'mdi-facebook',
+    href: '/api/auth/facebook',
+    translationKey: 'auth.loginWithFacebook',
+  },
+] as const
+
 const { fetch } = useUserSession()
 const profileCache = useAuthProfileCache()
 
@@ -81,11 +102,34 @@ function close() {
 <template>
   <v-dialog v-model="model" max-width="420" persistent>
     <v-card>
-      <v-card-title class="text-wrap">Connexion par identifiants</v-card-title>
+      <v-card-title class="text-wrap">{{ t('auth.login') }}</v-card-title>
       <v-card-text>
         <p class="text-body-2 text-medium-emphasis mb-4">
-          Saisissez votre nom d'utilisateur et votre mot de passe pour vous
-          connecter.
+          {{ t('auth.oauthSignInPrompt') }}
+        </p>
+        <div class="d-flex flex-column" style="gap: 12px">
+          <v-btn
+            v-for="provider in oauthProviders"
+            :key="provider.key"
+            block
+            variant="outlined"
+            color="primary"
+            size="large"
+            class="text-none"
+            :href="provider.href"
+            rel="external"
+            :aria-label="t(provider.translationKey)"
+            :disabled="loading"
+          >
+            <template #prepend>
+              <v-icon :icon="provider.icon" />
+            </template>
+            {{ t(provider.translationKey) }}
+          </v-btn>
+        </div>
+        <v-divider class="my-4" />
+        <p class="text-body-2 text-medium-emphasis mb-4">
+          {{ t('auth.credentialsSignInPrompt') }}
         </p>
         <v-alert
           v-if="errorMessage"

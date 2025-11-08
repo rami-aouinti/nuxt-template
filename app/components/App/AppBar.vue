@@ -212,6 +212,16 @@ watch(loggedIn, (value) => {
               href="/api/auth/github"
             />
             <v-list-item
+              :title="t('auth.loginWithGoogle')"
+              prepend-icon="mdi-google"
+              href="/api/auth/google"
+            />
+            <v-list-item
+              :title="t('auth.loginWithFacebook')"
+              prepend-icon="mdi-facebook"
+              href="/api/auth/facebook"
+            />
+            <v-list-item
               :title="t('auth.loginWithCredentials')"
               prepend-icon="mdi-lock"
               @click="credentialsDialog = true"

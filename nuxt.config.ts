@@ -7,6 +7,10 @@ import { resolve } from 'node:path'
 const projectRoot = fileURLToPath(new URL('./', import.meta.url))
 const localeDirectory = resolve(projectRoot, 'app/i18n/locales')
 
+function createOAuthConfig() {
+  return { clientId: '', clientSecret: '' }
+}
+
 function resolveSessionPassword() {
   const rawPassword =
     process.env.NUXT_SESSION_PASSWORD ||
@@ -141,9 +145,10 @@ export default defineNuxtConfig({
     vueI18n: "./app/i18n/i18n.config.ts",
   },
   runtimeConfig: {
-    github: {
-      clientId: '',
-      clientSecret: '',
+    oauth: {
+      github: createOAuthConfig(),
+      google: createOAuthConfig(),
+      facebook: createOAuthConfig(),
     },
     session: {
       name: 'nuxt-session',
