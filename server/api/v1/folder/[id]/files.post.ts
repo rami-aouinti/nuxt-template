@@ -1,6 +1,7 @@
 import type { MultiPartData } from 'h3'
 
 import { broWorldRequest } from '~~/server/utils/broWorldApi'
+import { invalidateWorkspaceFolders } from '~~/server/utils/cache/workspace'
 import { requireEntityId } from '~~/server/utils/crud'
 import type { WorkspaceFile } from '~/types/workspace'
 
@@ -56,8 +57,12 @@ export default defineEventHandler(async (event) => {
 
   const formData = toFormData(multipart)
 
-  return await broWorldRequest<WorkspaceFile>(event, `/folder/${folderId}/files`, {
+  const file = await broWorldRequest<WorkspaceFile>(event, `/folder/${folderId}/files`, {
     method: 'POST',
     body: formData,
   })
+
+  await invalidateWorkspaceFolders(event)
+
+  return file
 })

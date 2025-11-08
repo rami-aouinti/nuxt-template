@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { FetchError } from 'ofetch'
+import { storeToRefs } from 'pinia'
 import { Notify } from '~/stores/notification'
 import type {
   CreateWorkspaceFolderPayload,
@@ -8,6 +9,7 @@ import type {
   WorkspaceFile,
   WorkspaceFolder,
 } from '~/types/workspace'
+import { useWorkspaceStore } from '~/stores/workspace'
 
 const WORKSPACE_BASE_URL = 'https://bro-world.org'
 
@@ -20,12 +22,10 @@ definePageMeta({
 
 const { t } = useI18n()
 
-const folders = ref<WorkspaceFolder[]>([])
-const isLoading = ref(true)
-const loadError = ref('')
+const workspaceStore = useWorkspaceStore()
+const { folders, isLoading, loadError, selectedFolderId, isReloading } =
+  storeToRefs(workspaceStore)
 const selectedIds = ref<string[]>([])
-const selectedFolderId = ref<string | null>(null)
-const isReloading = ref(false)
 
 const createDialog = ref(false)
 const createError = ref('')
@@ -210,20 +210,20 @@ async function loadFolders(options: { selectId?: string | null } = {}) {
 
   try {
     const result = await $fetch<WorkspaceFolder[]>('/api/v1/folder')
-    folders.value = Array.isArray(result) ? result : []
+    workspaceStore.setFolders(Array.isArray(result) ? result : [])
 
     if (folders.value.length === 0) {
-      selectedFolderId.value = null
+      workspaceStore.selectFolder(null)
       return
     }
 
     if (targetSelection && folderIndex.value.has(targetSelection)) {
-      selectedFolderId.value = targetSelection
+      workspaceStore.selectFolder(targetSelection)
       return
     }
 
     const firstFolder = folders.value[0]
-    selectedFolderId.value = firstFolder ? firstFolder.id : null
+    workspaceStore.selectFolder(firstFolder ? firstFolder.id : null)
   } catch (error) {
     loadError.value = resolveErrorMessage(
       error,

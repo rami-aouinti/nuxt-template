@@ -18,7 +18,6 @@ const PRIVATE_COMMENTS_ENDPOINT = 'https://blog.bro-world.org/v1/platform/commen
 const PUBLIC_BLOGS_ENDPOINT = 'https://blog.bro-world.org/public/blog'
 const PROFILE_BLOGS_ENDPOINT = 'https://blog.bro-world.org/v1/profile/blog'
 const PRIVATE_BLOGS_ENDPOINT = 'https://blog.bro-world.org/v1/platform/blog'
-const PROFILE_POSTS_ENDPOINT = 'https://blog.bro-world.org/v1/profile/post'
 
 export const BLOG_POSTS_DEFAULT_LIMIT = 10
 
@@ -349,11 +348,12 @@ export const useBlogApi = () => {
     page: number,
     limit: number,
   ): Promise<BlogPostListResponse> => {
-    const headers = getAuthHeaders(true)
+    if (!isAuthenticated.value) {
+      throw new AuthenticationRequiredError()
+    }
 
-    return await $fetch<BlogPostListResponse>(PROFILE_POSTS_ENDPOINT, {
+    return await $fetch<BlogPostListResponse>('/api/profile/posts', {
       params: { page, limit },
-      headers,
     })
   }
 

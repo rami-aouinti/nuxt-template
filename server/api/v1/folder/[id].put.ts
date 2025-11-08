@@ -1,4 +1,5 @@
 import { requestWithJsonBody, requireEntityId } from '~~/server/utils/crud'
+import { invalidateWorkspaceFolders } from '~~/server/utils/cache/workspace'
 import type {
   UpdateWorkspaceFolderPayload,
   WorkspaceFolder,
@@ -33,10 +34,14 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  return await requestWithJsonBody<WorkspaceFolder, UpdateWorkspaceFolderPayload>(
+  const folder = await requestWithJsonBody<WorkspaceFolder, UpdateWorkspaceFolderPayload>(
     event,
     `/folder/${id}`,
     'PUT',
     payload,
   )
+
+  await invalidateWorkspaceFolders(event)
+
+  return folder
 })

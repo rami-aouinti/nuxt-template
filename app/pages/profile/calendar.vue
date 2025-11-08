@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import type { ProfileEvent, UpsertProfileEventPayload } from '~/types/events'
 import { Notify } from '~/stores/notification'
+import { useProfileEventsStore } from '~/stores/profile-events'
 
 definePageMeta({
   title: 'navigation.profileCalendar',
@@ -10,9 +12,8 @@ definePageMeta({
 
 const { t, locale } = useI18n()
 
-const events = ref<ProfileEvent[]>([])
-const isLoading = ref(false)
-const loadError = ref('')
+const profileEventsStore = useProfileEventsStore()
+const { events, isLoading, error: loadError } = storeToRefs(profileEventsStore)
 const focus = ref(formatDate(new Date()))
 const calendarType = ref<'month' | 'week' | 'day'>('month')
 const isDialogOpen = ref(false)
@@ -177,28 +178,12 @@ function extractErrorMessage(error: unknown) {
   return t('profile.calendar.notifications.genericError')
 }
 
-function normalizeEvent(event: ProfileEvent): ProfileEvent {
-  const start = new Date(event.start)
-  const safeStart = Number.isNaN(start.getTime())
-    ? new Date()
-    : start
-  const end = event.end ? new Date(event.end) : safeStart
-  const safeEnd = Number.isNaN(end.getTime()) ? safeStart : end
-
-  return {
-    ...event,
-    start: safeStart.toISOString(),
-    end: safeEnd.toISOString(),
-    allDay: Boolean(event.allDay),
-  }
-}
-
 async function loadEvents() {
   isLoading.value = true
   loadError.value = ''
   try {
     const response = await $fetch<ProfileEvent[]>('/api/profile/events')
-    events.value = response.map(normalizeEvent)
+    profileEventsStore.setEvents(response)
   } catch (error) {
     const message = extractErrorMessage(error)
     loadError.value = message
@@ -333,14 +318,11 @@ async function submitEvent() {
       body: payload,
     })
 
-    const normalized = normalizeEvent(response)
     if (editingEvent.value) {
-      events.value = events.value.map((existing) =>
-        existing.id === normalized.id ? normalized : existing,
-      )
+      profileEventsStore.upsertEvent(response)
       Notify.success(t('profile.calendar.notifications.updated'))
     } else {
-      events.value = [...events.value, normalized]
+      profileEventsStore.upsertEvent(response)
       Notify.success(t('profile.calendar.notifications.created'))
     }
 
@@ -371,9 +353,9 @@ async function confirmDelete() {
       body: { id: eventToDelete.value.id },
     })
 
-    events.value = events.value.filter(
-      (event) => event.id !== eventToDelete.value?.id,
-    )
+    if (eventToDelete.value?.id) {
+      profileEventsStore.removeEvent(eventToDelete.value.id)
+    }
     Notify.success(t('profile.calendar.notifications.deleted'))
     isDeleteDialogOpen.value = false
     eventToDelete.value = null

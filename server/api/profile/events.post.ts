@@ -1,5 +1,6 @@
 import type { ProfileEvent, UpsertProfileEventPayload } from '~/types/events'
 import { broWorldRequest } from '~~/server/utils/broWorldApi'
+import { invalidateProfileEvents } from '~~/server/utils/cache/profile-events'
 
 export default defineEventHandler(async (event) => {
   await requireUserSession(event)
@@ -35,8 +36,12 @@ export default defineEventHandler(async (event) => {
     start,
   }
 
-  return broWorldRequest<ProfileEvent>(event, '/profile/events', {
+  const response = await broWorldRequest<ProfileEvent>(event, '/profile/events', {
     method: 'POST',
     body: payload,
   })
+
+  await invalidateProfileEvents(event)
+
+  return response
 })
