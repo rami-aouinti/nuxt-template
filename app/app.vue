@@ -49,7 +49,13 @@ useSeoMeta(() => ({
     <v-main>
       <div class="route-container">
         <div v-show="!routeLoading" class="route-container__page">
-          <NuxtPage :key="route.fullPath" />
+          <div class="page-surface">
+            <span class="floating-shape floating-shape--one" />
+            <span class="floating-shape floating-shape--two" />
+            <div class="page-surface__inner">
+              <NuxtPage :key="route.fullPath" />
+            </div>
+          </div>
         </div>
         <AppRouteLoader v-if="routeLoading" class="route-container__loader" />
       </div>
