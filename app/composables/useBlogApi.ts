@@ -80,13 +80,31 @@ export const useBlogApi = () => {
   ): Promise<BlogCommentListResponse> => {
     const headers = getAuthHeaders(true)
 
-    return await $fetch<BlogCommentListResponse>(
+    const response = await $fetch<BlogCommentListResponse | BlogComment[] | null>(
       `${PRIVATE_POSTS_ENDPOINT}/${postId}/comments`,
       {
         params: { page, limit },
         headers,
       },
     )
+
+    if (Array.isArray(response)) {
+      return {
+        data: response,
+        page,
+        limit,
+        count: response.length,
+      }
+    }
+
+    const data = Array.isArray(response?.data) ? response.data : []
+
+    return {
+      data,
+      page: typeof response?.page === 'number' ? response.page : page,
+      limit: typeof response?.limit === 'number' ? response.limit : limit,
+      count: typeof response?.count === 'number' ? response.count : data.length,
+    }
   }
 
   const createComment = async (
