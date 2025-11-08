@@ -1,7 +1,6 @@
 .page-surface {
   position: relative;
   min-height: calc(100vh - 96px);
-  padding-block: clamp(48px, 8vw, 96px);
   --page-surface-background: radial-gradient(
       circle at top right,
       rgba(var(--v-theme-primary), 0.18),
