@@ -62,6 +62,16 @@
   "blog": {
     "title": "Blog",
     "description": "Bleibe über die neuesten Neuigkeiten von Bro World auf dem Laufenden.",
+    "sidebar": {
+      "myBlogsTitle": "My blogs",
+      "myBlogsEmpty": "You are not subscribed to any blogs yet.",
+      "publicBlogsTitle": "Public blogs",
+      "publicBlogsEmpty": "No public blogs are available right now.",
+      "loginToManage": "Sign in to manage your blogs and posts.",
+      "createBlog": "Create a blog",
+      "createPost": "Create a post",
+      "noBlogs": "You need at least one blog before creating a post."
+    },
     "actions": {
       "refresh": "Aktualisieren",
       "read": "Artikel lesen",
@@ -96,6 +106,17 @@
         "title": "Titel",
         "summary": "Zusammenfassung",
         "content": "Inhalt"
+      },
+      "createBlog": {
+        "title": "Blog title",
+        "subtitle": "Subtitle"
+      },
+      "createPost": {
+        "blog": "Blog",
+        "title": "Post title",
+        "summary": "Summary",
+        "content": "Content",
+        "url": "External URL"
       }
     },
     "notifications": {
@@ -106,7 +127,9 @@
       "commentLiked": "Reaktion zum Kommentar hinzugefügt.",
       "commentUnliked": "Reaktion vom Kommentar entfernt.",
       "postUpdated": "Beitrag erfolgreich aktualisiert.",
-      "postDeleted": "Beitrag erfolgreich gelöscht."
+      "postDeleted": "Beitrag erfolgreich gelöscht.",
+      "blogCreated": "Blog created successfully.",
+      "postCreated": "Post created successfully."
     },
     "errors": {
       "authenticationRequired": "Sie müssen angemeldet sein, um diese Aktion auszuführen.",
@@ -114,7 +137,10 @@
       "commentFailed": "Der Kommentar konnte nicht veröffentlicht werden.",
       "likeFailed": "Die Reaktion konnte nicht aktualisiert werden.",
       "updateFailed": "Der Beitrag konnte nicht aktualisiert werden.",
-      "deleteFailed": "Der Beitrag konnte nicht gelöscht werden."
+      "deleteFailed": "Der Beitrag konnte nicht gelöscht werden.",
+      "createBlogFailed": "Unable to create the blog.",
+      "createPostFailed": "Unable to create the post.",
+      "loadBlogsFailed": "Unable to load the list of blogs."
     },
     "prompts": {
       "loginToComment": "Melden Sie sich an, um alle Kommentare zu sehen und an der Diskussion teilzunehmen."

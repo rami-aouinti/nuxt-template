@@ -13,6 +13,7 @@ import type {
   BlogPost,
   BlogPostViewModel,
   BlogPostUser,
+  BlogSummary,
 } from '~/types/blog'
 import { Notify } from '~/stores/notification'
 
@@ -31,6 +32,8 @@ const currentUsername = computed(
 
 const {
   fetchPosts,
+  fetchPublicBlogs,
+  fetchUserBlogs,
   fetchComments,
   createComment,
   replyToComment,
@@ -40,6 +43,8 @@ const {
   dislikeComment,
   updatePost,
   deletePost,
+  createBlog,
+  createPost,
 } = useBlogApi()
 
 const posts = ref<BlogPostViewModel[]>([])
@@ -54,8 +59,44 @@ const isLoadingMore = ref(false)
 const postsError = ref<string | null>(null)
 const loadMoreTrigger = ref<HTMLElement | null>(null)
 
+const publicBlogs = ref<BlogSummary[]>([])
+const publicBlogsLoading = ref(false)
+const publicBlogsError = ref<string | null>(null)
+
+const myBlogs = ref<BlogSummary[]>([])
+const myBlogsLoading = ref(false)
+const myBlogsError = ref<string | null>(null)
+
+const createBlogDialog = reactive({
+  open: false,
+  loading: false,
+  form: {
+    title: '',
+    subtitle: '',
+  },
+})
+
+const createPostDialog = reactive({
+  open: false,
+  loading: false,
+  form: {
+    blogId: '',
+    title: '',
+    summary: '',
+    content: '',
+    url: '',
+  },
+})
+
 const hasMore = computed(
   () => posts.value.length < pagination.total && posts.value.length > 0,
+)
+
+const myBlogsOptions = computed(() =>
+  myBlogs.value.map((blog) => ({
+    value: blog.id,
+    title: blog.title,
+  })),
 )
 
 let activeRequest = 0
@@ -189,6 +230,143 @@ function ensureAuthenticated(showNotification = true) {
   }
 
   return true
+}
+
+async function loadPublicBlogList() {
+  publicBlogsLoading.value = true
+  publicBlogsError.value = null
+
+  try {
+    publicBlogs.value = await fetchPublicBlogs()
+  } catch (error) {
+    publicBlogsError.value = extractErrorMessage(
+      error,
+      t('blog.errors.loadBlogsFailed'),
+    )
+  } finally {
+    publicBlogsLoading.value = false
+  }
+}
+
+async function loadMyBlogList() {
+  if (!loggedIn.value) {
+    myBlogs.value = []
+    return
+  }
+
+  myBlogsLoading.value = true
+  myBlogsError.value = null
+
+  try {
+    myBlogs.value = await fetchUserBlogs()
+  } catch (error) {
+    myBlogsError.value = extractErrorMessage(
+      error,
+      t('blog.errors.loadBlogsFailed'),
+    )
+  } finally {
+    myBlogsLoading.value = false
+  }
+}
+
+function resetCreateBlogForm() {
+  createBlogDialog.form.title = ''
+  createBlogDialog.form.subtitle = ''
+}
+
+function resetCreatePostForm() {
+  createPostDialog.form.blogId = myBlogs.value[0]?.id ?? ''
+  createPostDialog.form.title = ''
+  createPostDialog.form.summary = ''
+  createPostDialog.form.content = ''
+  createPostDialog.form.url = ''
+}
+
+function openCreateBlogDialog() {
+  if (!ensureAuthenticated()) return
+
+  resetCreateBlogForm()
+  createBlogDialog.open = true
+}
+
+async function submitCreateBlog() {
+  if (!ensureAuthenticated()) return
+
+  const title = createBlogDialog.form.title.trim()
+  const subtitle = createBlogDialog.form.subtitle.trim()
+
+  if (!title.length) {
+    Notify.warning(t('blog.errors.createBlogFailed'))
+    return
+  }
+
+  createBlogDialog.loading = true
+
+  try {
+    const created = await createBlog({
+      title,
+      blogSubtitle: subtitle.length ? subtitle : null,
+    })
+
+    myBlogs.value = [created, ...myBlogs.value.filter((blog) => blog.id !== created.id)]
+    Notify.success(t('blog.notifications.blogCreated'))
+    createBlogDialog.open = false
+    resetCreateBlogForm()
+  } catch (error) {
+    Notify.error(extractErrorMessage(error, t('blog.errors.createBlogFailed')))
+  } finally {
+    createBlogDialog.loading = false
+  }
+}
+
+function openCreatePostDialog() {
+  if (!ensureAuthenticated()) return
+
+  if (!myBlogs.value.length) {
+    Notify.warning(t('blog.sidebar.noBlogs'))
+    return
+  }
+
+  resetCreatePostForm()
+  createPostDialog.open = true
+}
+
+async function submitCreatePost() {
+  if (!ensureAuthenticated()) return
+
+  const blogId = createPostDialog.form.blogId
+  const title = createPostDialog.form.title.trim()
+  const summary = createPostDialog.form.summary.trim()
+  const content = createPostDialog.form.content.trim()
+  const url = createPostDialog.form.url.trim()
+
+  if (!blogId || !title.length) {
+    Notify.warning(t('blog.errors.createPostFailed'))
+    return
+  }
+
+  createPostDialog.loading = true
+
+  try {
+    const created = await createPost({
+      blog: blogId,
+      title,
+      summary: summary.length ? summary : null,
+      content: content.length ? content : null,
+      url: url.length ? url : null,
+    })
+
+    const newPost = createPostViewModel(created)
+    posts.value = [newPost, ...posts.value.filter((post) => post.id !== newPost.id)]
+    pagination.total += 1
+    Notify.success(t('blog.notifications.postCreated'))
+    createPostDialog.open = false
+    resetCreatePostForm()
+  } catch (error) {
+    Notify.error(extractErrorMessage(error, t('blog.errors.createPostFailed')))
+  } finally {
+    createPostDialog.loading = false
+  }
 }
 
 async function loadComments(post: BlogPostViewModel) {
@@ -450,10 +628,43 @@ function toggleCommentsVisibility(post: BlogPostViewModel) {
 }
 
 watch(
+  () => myBlogs.value.map((blog) => blog.id),
+  (ids) => {
+    if (!ids.length) {
+      createPostDialog.form.blogId = ''
+      return
+    }
+
+    if (!ids.includes(createPostDialog.form.blogId)) {
+      createPostDialog.form.blogId = ids[0]
+    }
+  },
+)
+
+watch(
+  () => createPostDialog.open,
+  (open) => {
+    if (open && myBlogs.value.length && !createPostDialog.form.blogId) {
+      createPostDialog.form.blogId = myBlogs.value[0].id
+    }
+  },
+)
+
+watch(
   () => loggedIn.value,
   (value) => {
     if (value === previousLoggedIn) return
     previousLoggedIn = value
+
+    if (value) {
+      void loadMyBlogList()
+    } else {
+      myBlogs.value = []
+      myBlogsError.value = null
+      createBlogDialog.open = false
+      createPostDialog.open = false
+    }
+
     void refreshPosts()
   },
 )
@@ -470,13 +681,19 @@ if (import.meta.client) {
   )
 }
 
+await loadPublicBlogList()
+
+if (loggedIn.value) {
+  await loadMyBlogList()
+}
+
 await loadPosts(1, { replace: true })
 </script>
 
 <template>
   <v-container fluid>
     <v-row class="justify-center">
-      <v-col cols="12" md="10" lg="8">
+      <v-col cols="12" md="11" lg="10" xl="9">
         <v-sheet class="pa-6" elevation="0" rounded="xl" color="transparent">
           <div class="d-flex align-center justify-space-between mb-6">
             <div>
@@ -497,304 +714,538 @@ await loadPosts(1, { replace: true })
               {{ t('blog.actions.refresh') }}
             </v-btn>
           </div>
+          <v-row class="gy-6">
+            <v-col cols="12" lg="8" xl="9">
+              <v-alert
+                v-if="postsError"
+                type="error"
+                variant="tonal"
+                class="mb-6"
+                border="start"
+                prominent
+              >
+                {{ postsError }}
+              </v-alert>
 
-          <v-alert
-            v-if="postsError"
-            type="error"
-            variant="tonal"
-            class="mb-6"
-            border="start"
-            prominent
-          >
-            {{ postsError }}
-          </v-alert>
+              <v-row v-if="isInitialLoading">
+                <v-col v-for="index in 3" :key="index" cols="12" class="pb-6">
+                  <v-skeleton-loader
+                    type="heading, paragraph, actions"
+                    elevation="2"
+                    class="rounded-xl"
+                  />
+                </v-col>
+              </v-row>
 
-          <v-row v-if="isInitialLoading">
-            <v-col v-for="index in 3" :key="index" cols="12" class="pb-6">
-              <v-skeleton-loader
-                type="heading, paragraph, actions"
-                elevation="2"
-                class="rounded-xl"
-              />
+              <template v-else>
+                <v-row v-if="posts.length">
+                  <v-col
+                    v-for="post in posts"
+                    :key="post.id"
+                    cols="12"
+                    class="pb-6"
+                  >
+                    <v-card class="rounded-xl" elevation="2">
+                      <v-card-item>
+                        <template #prepend>
+                          <v-avatar size="48">
+                            <v-img
+                              :src="getAuthorAvatar(post.user)"
+                              :alt="getAuthorName(post.user)"
+                            >
+                              <template #error>
+                                <v-icon icon="mdi-account-circle" size="48" />
+                              </template>
+                            </v-img>
+                          </v-avatar>
+                        </template>
+                        <v-card-title class="text-h5 text-wrap">
+                          {{ post.title }}
+                        </v-card-title>
+                        <v-card-subtitle class="text-body-2 text-medium-emphasis">
+                          {{
+                            t('blog.meta.author', {
+                              author: getAuthorName(post.user),
+                              date: formatPublishedAt(post.publishedAt),
+                            })
+                          }}
+                        </v-card-subtitle>
+                      </v-card-item>
+
+                      <v-card-text>
+                        <p class="text-body-1 mb-4">
+                          {{ post.summary || t('blog.placeholders.noSummary') }}
+                        </p>
+                        <v-divider class="mb-4" />
+                        <div class="d-flex flex-wrap align-center">
+                          <div class="d-flex align-center text-medium-emphasis mr-6 mb-2">
+                            <v-icon icon="mdi-thumb-up-outline" class="mr-1" />
+                            {{
+                              t('blog.stats.reactions', {
+                                count: post.reactions_count ?? 0,
+                              })
+                            }}
+                          </div>
+                          <div class="d-flex align-center text-medium-emphasis mr-6 mb-2">
+                            <v-icon icon="mdi-comment-text-outline" class="mr-1" />
+                            {{
+                              t('blog.stats.comments', {
+                                count: post.totalComments ?? 0,
+                              })
+                            }}
+                          </div>
+                        </div>
+                      </v-card-text>
+
+                      <v-card-actions class="pt-0 pb-4 px-4 flex-wrap">
+                        <v-btn
+                          :href="post.url || undefined"
+                          :disabled="!post.url"
+                          target="_blank"
+                          color="primary"
+                          variant="text"
+                          append-icon="mdi-open-in-new"
+                        >
+                          {{ t('blog.actions.read') }}
+                        </v-btn>
+                        <v-btn
+                          variant="text"
+                          color="primary"
+                          :loading="post.ui.likeLoading"
+                          @click="togglePostReaction(post)"
+                        >
+                          <v-icon
+                            :icon="post.isReacted ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
+                            class="mr-2"
+                          />
+                          {{
+                            post.isReacted
+                              ? t('blog.actions.unlike')
+                              : t('blog.actions.like')
+                          }}
+                        </v-btn>
+                        <v-btn
+                          variant="text"
+                          color="primary"
+                          :loading="post.ui.commentsLoading"
+                          @click="toggleCommentsVisibility(post)"
+                        >
+                          <v-icon
+                            :icon="post.ui.commentsVisible
+                              ? 'mdi-comment-off-outline'
+                              : 'mdi-comment-text-outline'"
+                            class="mr-2"
+                          />
+                          {{
+                            post.ui.commentsVisible
+                              ? t('blog.actions.hideComments')
+                              : t('blog.actions.showComments')
+                          }}
+                        </v-btn>
+                        <v-spacer />
+                        <v-btn
+                          v-if="canEditPost(post)"
+                          variant="text"
+                          color="primary"
+                          prepend-icon="mdi-pencil"
+                          @click="openEditDialog(post)"
+                        >
+                          {{ t('common.actions.edit') }}
+                        </v-btn>
+                        <v-btn
+                          v-if="canEditPost(post)"
+                          variant="text"
+                          color="error"
+                          prepend-icon="mdi-delete"
+                          :loading="post.ui.deleteLoading"
+                          @click="confirmDeletePost(post)"
+                        >
+                          {{ t('common.actions.delete') }}
+                        </v-btn>
+                      </v-card-actions>
+
+                      <v-expand-transition>
+                        <div v-if="post.ui.commentsVisible" class="px-4 pb-4">
+                          <v-alert
+                            v-if="!loggedIn"
+                            type="info"
+                            variant="tonal"
+                            class="mb-4"
+                            density="comfortable"
+                          >
+                            {{ t('blog.prompts.loginToComment') }}
+                          </v-alert>
+
+                          <v-alert
+                            v-if="post.ui.commentsError"
+                            type="error"
+                            variant="tonal"
+                            class="mb-4"
+                            density="comfortable"
+                          >
+                            {{ post.ui.commentsError }}
+                          </v-alert>
+
+                          <div v-if="loggedIn" class="mb-4">
+                            <v-textarea
+                              v-model="post.ui.commentContent"
+                              :label="t('blog.forms.commentPlaceholder')"
+                              auto-grow
+                              rows="2"
+                              variant="outlined"
+                              :disabled="post.ui.commentLoading"
+                            />
+                            <div class="d-flex justify-end mt-2">
+                              <v-btn
+                                color="primary"
+                                :loading="post.ui.commentLoading"
+                                :disabled="
+                                  post.ui.commentLoading ||
+                                  !post.ui.commentContent.trim().length
+                                "
+                                @click="submitPostComment(post)"
+                              >
+                                {{ t('blog.actions.addComment') }}
+                              </v-btn>
+                            </div>
+                          </div>
+
+                          <BlogCommentThread
+                            v-if="post.comments.length"
+                            :comments="post.comments"
+                            :format-author="getAuthorName"
+                            :format-date="formatPublishedAt"
+                            :can-interact="loggedIn"
+                            @toggle-like="(comment) =>
+                              toggleCommentReaction(post, comment)"
+                            @submit-reply="(comment) =>
+                              submitCommentReply(post, comment)"
+                          />
+
+                          <v-sheet
+                            v-else
+                            class="py-8 px-4 text-center rounded-lg"
+                            variant="tonal"
+                            color="surface"
+                          >
+                            <v-icon icon="mdi-comment-outline" size="48" class="mb-3" />
+                            <h3 class="text-h6 mb-1">
+                              {{ t('blog.emptyComments.title') }}
+                            </h3>
+                            <p class="text-body-2 mb-0 text-medium-emphasis">
+                              {{ t('blog.emptyComments.description') }}
+                            </p>
+                          </v-sheet>
+                        </div>
+                      </v-expand-transition>
+
+                      <v-dialog
+                        v-model="post.ui.editDialog"
+                        max-width="640"
+                        persistent
+                      >
+                        <v-card>
+                          <v-card-title>{{ t('blog.dialogs.editTitle') }}</v-card-title>
+                          <v-card-text>
+                            <v-text-field
+                              v-model="post.ui.editForm.title"
+                              :label="t('blog.forms.edit.title')"
+                              :disabled="post.ui.editForm.loading"
+                              required
+                            />
+                            <v-text-field
+                              v-model="post.ui.editForm.summary"
+                              :label="t('blog.forms.edit.summary')"
+                              :disabled="post.ui.editForm.loading"
+                            />
+                            <v-textarea
+                              v-model="post.ui.editForm.content"
+                              :label="t('blog.forms.edit.content')"
+                              :disabled="post.ui.editForm.loading"
+                              rows="6"
+                              auto-grow
+                            />
+                          </v-card-text>
+                          <v-card-actions>
+                            <v-spacer />
+                            <v-btn
+                              variant="text"
+                              :disabled="post.ui.editForm.loading"
+                              @click="post.ui.editDialog = false"
+                            >
+                              {{ t('common.actions.cancel') }}
+                            </v-btn>
+                            <v-btn
+                              color="primary"
+                              :loading="post.ui.editForm.loading"
+                              :disabled="!post.ui.editForm.title.trim().length"
+                              @click="submitEdit(post)"
+                            >
+                              {{ t('common.actions.save') }}
+                            </v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      </v-dialog>
+                    </v-card>
+                  </v-col>
+                </v-row>
+
+                <v-sheet
+                  v-else
+                  class="d-flex flex-column align-center justify-center py-16 text-center"
+                  elevation="1"
+                  rounded="xl"
+                >
+                  <v-icon icon="mdi-post-outline" size="64" class="mb-4" />
+                  <h2 class="text-h5 mb-2">{{ t('blog.empty.title') }}</h2>
+                  <p class="text-medium-emphasis mb-0">
+                    {{ t('blog.empty.description') }}
+                  </p>
+                </v-sheet>
+              </template>
+
+              <div class="d-flex justify-center py-4">
+                <v-progress-circular
+                  v-if="isLoadingMore"
+                  indeterminate
+                  color="primary"
+                />
+              </div>
+
+              <div v-show="hasMore" ref="loadMoreTrigger" class="blog-infinite-trigger" />
+            </v-col>
+
+            <v-col cols="12" lg="4" xl="3">
+              <v-card class="rounded-xl mb-6" elevation="2">
+                <v-card-title class="text-h6">
+                  {{ t('blog.sidebar.myBlogsTitle') }}
+                </v-card-title>
+                <v-divider />
+                <v-card-text>
+                  <v-alert
+                    v-if="!loggedIn"
+                    type="info"
+                    variant="tonal"
+                    density="comfortable"
+                  >
+                    {{ t('blog.sidebar.loginToManage') }}
+                  </v-alert>
+
+                  <template v-else>
+                    <v-skeleton-loader
+                      v-if="myBlogsLoading"
+                      type="list-item-two-line@3"
+                      class="rounded"
+                    />
+
+                    <v-alert
+                      v-else-if="myBlogsError"
+                      type="error"
+                      variant="tonal"
+                      density="comfortable"
+                    >
+                      {{ myBlogsError }}
+                    </v-alert>
+
+                    <v-list v-else-if="myBlogs.length" density="compact" lines="two">
+                      <v-list-item v-for="blog in myBlogs" :key="blog.id">
+                        <template #prepend>
+                          <v-avatar size="32" class="mr-3">
+                            <v-img :src="blog.logo || undefined" :alt="blog.title">
+                              <template #error>
+                                <v-icon icon="mdi-rss" />
+                              </template>
+                            </v-img>
+                          </v-avatar>
+                        </template>
+                        <v-list-item-title>{{ blog.title }}</v-list-item-title>
+                        <v-list-item-subtitle v-if="blog.blogSubtitle">
+                          {{ blog.blogSubtitle }}
+                        </v-list-item-subtitle>
+                      </v-list-item>
+                    </v-list>
+
+                    <p v-else class="text-body-2 text-medium-emphasis mb-0">
+                      {{ t('blog.sidebar.myBlogsEmpty') }}
+                    </p>
+                  </template>
+                </v-card-text>
+                <v-card-actions class="d-flex flex-column gap-2 px-4 pb-4">
+                  <v-btn
+                    block
+                    color="primary"
+                    variant="flat"
+                    prepend-icon="mdi-plus"
+                    :disabled="!loggedIn"
+                    @click="openCreateBlogDialog"
+                  >
+                    {{ t('blog.sidebar.createBlog') }}
+                  </v-btn>
+                  <v-btn
+                    block
+                    color="primary"
+                    variant="tonal"
+                    prepend-icon="mdi-note-plus"
+                    :disabled="!loggedIn || !myBlogs.length"
+                    @click="openCreatePostDialog"
+                  >
+                    {{ t('blog.sidebar.createPost') }}
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+
+              <v-card class="rounded-xl" elevation="2">
+                <v-card-title class="text-h6">
+                  {{ t('blog.sidebar.publicBlogsTitle') }}
+                </v-card-title>
+                <v-divider />
+                <v-card-text>
+                  <v-skeleton-loader
+                    v-if="publicBlogsLoading"
+                    type="list-item-two-line@3"
+                    class="rounded"
+                  />
+
+                  <v-alert
+                    v-else-if="publicBlogsError"
+                    type="error"
+                    variant="tonal"
+                    density="comfortable"
+                  >
+                    {{ publicBlogsError }}
+                  </v-alert>
+
+                  <v-list v-else-if="publicBlogs.length" density="compact" lines="two">
+                    <v-list-item v-for="blog in publicBlogs" :key="blog.id">
+                      <template #prepend>
+                        <v-avatar size="32" class="mr-3">
+                          <v-img :src="blog.logo || undefined" :alt="blog.title">
+                            <template #error>
+                              <v-icon icon="mdi-rss" />
+                            </template>
+                          </v-img>
+                        </v-avatar>
+                      </template>
+                      <v-list-item-title>{{ blog.title }}</v-list-item-title>
+                      <v-list-item-subtitle v-if="blog.blogSubtitle">
+                        {{ blog.blogSubtitle }}
+                      </v-list-item-subtitle>
+                    </v-list-item>
+                  </v-list>
+
+                  <p v-else class="text-body-2 text-medium-emphasis mb-0">
+                    {{ t('blog.sidebar.publicBlogsEmpty') }}
+                  </p>
+                </v-card-text>
+              </v-card>
             </v-col>
           </v-row>
 
-          <template v-else>
-            <v-row v-if="posts.length">
-              <v-col
-                v-for="post in posts"
-                :key="post.id"
-                cols="12"
-                class="pb-6"
-              >
-                <v-card class="rounded-xl" elevation="2">
-                  <v-card-item>
-                    <template #prepend>
-                      <v-avatar size="48">
-                        <v-img
-                          :src="getAuthorAvatar(post.user)"
-                          :alt="getAuthorName(post.user)"
-                        >
-                          <template #error>
-                            <v-icon icon="mdi-account-circle" size="48" />
-                          </template>
-                        </v-img>
-                      </v-avatar>
-                    </template>
-                    <v-card-title class="text-h5 text-wrap">
-                      {{ post.title }}
-                    </v-card-title>
-                    <v-card-subtitle class="text-body-2 text-medium-emphasis">
-                      {{
-                        t('blog.meta.author', {
-                          author: getAuthorName(post.user),
-                          date: formatPublishedAt(post.publishedAt),
-                        })
-                      }}
-                    </v-card-subtitle>
-                  </v-card-item>
+          <v-dialog
+            v-model="createBlogDialog.open"
+            max-width="520"
+            persistent
+          >
+            <v-card>
+              <v-card-title>{{ t('blog.sidebar.createBlog') }}</v-card-title>
+              <v-card-text>
+                <v-text-field
+                  v-model="createBlogDialog.form.title"
+                  :label="t('blog.forms.createBlog.title')"
+                  :disabled="createBlogDialog.loading"
+                  required
+                />
+                <v-text-field
+                  v-model="createBlogDialog.form.subtitle"
+                  :label="t('blog.forms.createBlog.subtitle')"
+                  :disabled="createBlogDialog.loading"
+                />
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer />
+                <v-btn
+                  variant="text"
+                  :disabled="createBlogDialog.loading"
+                  @click="createBlogDialog.open = false"
+                >
+                  {{ t('common.actions.cancel') }}
+                </v-btn>
+                <v-btn
+                  color="primary"
+                  :loading="createBlogDialog.loading"
+                  :disabled="!createBlogDialog.form.title.trim().length"
+                  @click="submitCreateBlog"
+                >
+                  {{ t('common.actions.create') }}
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
 
-                  <v-card-text>
-                    <p class="text-body-1 mb-4">
-                      {{ post.summary || t('blog.placeholders.noSummary') }}
-                    </p>
-                    <v-divider class="mb-4" />
-                    <div class="d-flex flex-wrap align-center">
-                      <div class="d-flex align-center text-medium-emphasis mr-6 mb-2">
-                        <v-icon icon="mdi-thumb-up-outline" class="mr-1" />
-                        {{
-                          t('blog.stats.reactions', {
-                            count: post.reactions_count ?? 0,
-                          })
-                        }}
-                      </div>
-                      <div class="d-flex align-center text-medium-emphasis mr-6 mb-2">
-                        <v-icon icon="mdi-comment-text-outline" class="mr-1" />
-                        {{
-                          t('blog.stats.comments', {
-                            count: post.totalComments ?? 0,
-                          })
-                        }}
-                      </div>
-                    </div>
-                  </v-card-text>
-
-                  <v-card-actions class="pt-0 pb-4 px-4 flex-wrap">
-                    <v-btn
-                      :href="post.url || undefined"
-                      :disabled="!post.url"
-                      target="_blank"
-                      color="primary"
-                      variant="text"
-                      append-icon="mdi-open-in-new"
-                    >
-                      {{ t('blog.actions.read') }}
-                    </v-btn>
-                    <v-btn
-                      variant="text"
-                      color="primary"
-                      :loading="post.ui.likeLoading"
-                      @click="togglePostReaction(post)"
-                    >
-                      <v-icon
-                        :icon="post.isReacted ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
-                        class="mr-2"
-                      />
-                      {{
-                        post.isReacted
-                          ? t('blog.actions.unlike')
-                          : t('blog.actions.like')
-                      }}
-                    </v-btn>
-                    <v-btn
-                      variant="text"
-                      color="primary"
-                      :loading="post.ui.commentsLoading"
-                      @click="toggleCommentsVisibility(post)"
-                    >
-                      <v-icon
-                        :icon="post.ui.commentsVisible
-                          ? 'mdi-comment-off-outline'
-                          : 'mdi-comment-text-outline'"
-                        class="mr-2"
-                      />
-                      {{
-                        post.ui.commentsVisible
-                          ? t('blog.actions.hideComments')
-                          : t('blog.actions.showComments')
-                      }}
-                    </v-btn>
-                    <v-spacer />
-                    <v-btn
-                      v-if="canEditPost(post)"
-                      variant="text"
-                      color="primary"
-                      prepend-icon="mdi-pencil"
-                      @click="openEditDialog(post)"
-                    >
-                      {{ t('common.actions.edit') }}
-                    </v-btn>
-                    <v-btn
-                      v-if="canEditPost(post)"
-                      variant="text"
-                      color="error"
-                      prepend-icon="mdi-delete"
-                      :loading="post.ui.deleteLoading"
-                      @click="confirmDeletePost(post)"
-                    >
-                      {{ t('common.actions.delete') }}
-                    </v-btn>
-                  </v-card-actions>
-
-                  <v-expand-transition>
-                    <div v-if="post.ui.commentsVisible" class="px-4 pb-4">
-                      <v-alert
-                        v-if="!loggedIn"
-                        type="info"
-                        variant="tonal"
-                        class="mb-4"
-                        density="comfortable"
-                      >
-                        {{ t('blog.prompts.loginToComment') }}
-                      </v-alert>
-
-                      <v-alert
-                        v-if="post.ui.commentsError"
-                        type="error"
-                        variant="tonal"
-                        class="mb-4"
-                        density="comfortable"
-                      >
-                        {{ post.ui.commentsError }}
-                      </v-alert>
-
-                      <div v-if="loggedIn" class="mb-4">
-                        <v-textarea
-                          v-model="post.ui.commentContent"
-                          :label="t('blog.forms.commentPlaceholder')"
-                          auto-grow
-                          rows="2"
-                          variant="outlined"
-                          :disabled="post.ui.commentLoading"
-                        />
-                        <div class="d-flex justify-end mt-2">
-                          <v-btn
-                            color="primary"
-                            :loading="post.ui.commentLoading"
-                            :disabled="
-                              post.ui.commentLoading ||
-                              !post.ui.commentContent.trim().length
-                            "
-                            @click="submitPostComment(post)"
-                          >
-                            {{ t('blog.actions.addComment') }}
-                          </v-btn>
-                        </div>
-                      </div>
-
-                      <BlogCommentThread
-                        v-if="post.comments.length"
-                        :comments="post.comments"
-                        :format-author="getAuthorName"
-                        :format-date="formatPublishedAt"
-                        :can-interact="loggedIn"
-                        @toggle-like="(comment) =>
-                          toggleCommentReaction(post, comment)"
-                        @submit-reply="(comment) =>
-                          submitCommentReply(post, comment)"
-                      />
-
-                      <v-sheet
-                        v-else
-                        class="py-8 px-4 text-center rounded-lg"
-                        variant="tonal"
-                        color="surface"
-                      >
-                        <v-icon icon="mdi-comment-outline" size="48" class="mb-3" />
-                        <h3 class="text-h6 mb-1">
-                          {{ t('blog.emptyComments.title') }}
-                        </h3>
-                        <p class="text-body-2 mb-0 text-medium-emphasis">
-                          {{ t('blog.emptyComments.description') }}
-                        </p>
-                      </v-sheet>
-                    </div>
-                  </v-expand-transition>
-
-                  <v-dialog
-                    v-model="post.ui.editDialog"
-                    max-width="640"
-                    persistent
-                  >
-                    <v-card>
-                      <v-card-title>{{ t('blog.dialogs.editTitle') }}</v-card-title>
-                      <v-card-text>
-                        <v-text-field
-                          v-model="post.ui.editForm.title"
-                          :label="t('blog.forms.edit.title')"
-                          :disabled="post.ui.editForm.loading"
-                          required
-                        />
-                        <v-text-field
-                          v-model="post.ui.editForm.summary"
-                          :label="t('blog.forms.edit.summary')"
-                          :disabled="post.ui.editForm.loading"
-                        />
-                        <v-textarea
-                          v-model="post.ui.editForm.content"
-                          :label="t('blog.forms.edit.content')"
-                          :disabled="post.ui.editForm.loading"
-                          rows="6"
-                          auto-grow
-                        />
-                      </v-card-text>
-                      <v-card-actions>
-                        <v-spacer />
-                        <v-btn
-                          variant="text"
-                          :disabled="post.ui.editForm.loading"
-                          @click="post.ui.editDialog = false"
-                        >
-                          {{ t('common.actions.cancel') }}
-                        </v-btn>
-                        <v-btn
-                          color="primary"
-                          :loading="post.ui.editForm.loading"
-                          :disabled="!post.ui.editForm.title.trim().length"
-                          @click="submitEdit(post)"
-                        >
-                          {{ t('common.actions.save') }}
-                        </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
-                </v-card>
-              </v-col>
-            </v-row>
-
-            <v-sheet
-              v-else
-              class="d-flex flex-column align-center justify-center py-16 text-center"
-              elevation="1"
-              rounded="xl"
-            >
-              <v-icon icon="mdi-post-outline" size="64" class="mb-4" />
-              <h2 class="text-h5 mb-2">{{ t('blog.empty.title') }}</h2>
-              <p class="text-medium-emphasis mb-0">
-                {{ t('blog.empty.description') }}
-              </p>
-            </v-sheet>
-          </template>
-
-          <div class="d-flex justify-center py-4">
-            <v-progress-circular
-              v-if="isLoadingMore"
-              indeterminate
-              color="primary"
-            />
-          </div>
-
-          <div v-show="hasMore" ref="loadMoreTrigger" class="blog-infinite-trigger" />
+          <v-dialog
+            v-model="createPostDialog.open"
+            max-width="640"
+            persistent
+          >
+            <v-card>
+              <v-card-title>{{ t('blog.sidebar.createPost') }}</v-card-title>
+              <v-card-text>
+                <v-select
+                  v-model="createPostDialog.form.blogId"
+                  :items="myBlogsOptions"
+                  item-title="title"
+                  item-value="value"
+                  :label="t('blog.forms.createPost.blog')"
+                  :disabled="createPostDialog.loading"
+                />
+                <v-text-field
+                  v-model="createPostDialog.form.title"
+                  :label="t('blog.forms.createPost.title')"
+                  :disabled="createPostDialog.loading"
+                  required
+                />
+                <v-text-field
+                  v-model="createPostDialog.form.summary"
+                  :label="t('blog.forms.createPost.summary')"
+                  :disabled="createPostDialog.loading"
+                />
+                <v-textarea
+                  v-model="createPostDialog.form.content"
+                  :label="t('blog.forms.createPost.content')"
+                  :disabled="createPostDialog.loading"
+                  rows="6"
+                  auto-grow
+                />
+                <v-text-field
+                  v-model="createPostDialog.form.url"
+                  :label="t('blog.forms.createPost.url')"
+                  :disabled="createPostDialog.loading"
+                  type="url"
+                />
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer />
+                <v-btn
+                  variant="text"
+                  :disabled="createPostDialog.loading"
+                  @click="createPostDialog.open = false"
+                >
+                  {{ t('common.actions.cancel') }}
+                </v-btn>
+                <v-btn
+                  color="primary"
+                  :loading="createPostDialog.loading"
+                  :disabled="
+                    !createPostDialog.form.title.trim().length ||
+                    !createPostDialog.form.blogId
+                  "
+                  @click="submitCreatePost"
+                >
+                  {{ t('common.actions.create') }}
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-sheet>
       </v-col>
     </v-row>
