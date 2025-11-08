@@ -974,24 +974,24 @@
     },
     "about": {
       "title": "关于 Bro World",
-      "subtitle": "了解 Bro World 平台的使命、愿景与背后的团队。",
+      "subtitle": "了解 Bro World 如何凭借现代技术栈带来无缝协作体验。",
       "sections": {
-        "mission": {
-          "title": "我们的使命",
-          "description": "我们提供灵活的工具，帮助团队提升协作、透明度和创新能力。"
+        "frontend": {
+          "title": "前端体验",
+          "description": "Nuxt 3、Vue 3、TypeScript 与 Vuetify 3 打造兼具可访问性与高性能的界面，适配所有设备。"
         },
-        "team": {
-          "title": "团队介绍",
-          "description": "我们是一支由设计师、工程师和故事讲述者组成的多元团队，共同致力于打造令人愉悦的体验。"
+        "backend": {
+          "title": "后端基础",
+          "description": "Node.js 服务负责自动化、数据处理以及 PostgreSQL 持久化，为平台提供稳固支撑。"
         },
-        "values": {
-          "title": "核心价值",
-          "description": "我们在所有工作中都重视信任、可及性和持续学习。"
+        "api": {
+          "title": "Symfony 微服务",
+          "description": "基于 Symfony 的解耦 API 微服务向合作伙伴与集成提供安全的 REST 与 GraphQL 接口。"
         }
       },
       "callToAction": {
-        "title": "加入我们",
-        "description": "想加入团队？请通过联系表单与我们取得联系，开启交流。"
+        "title": "与 Bro World 共建",
+        "description": "想扩展平台或集成您的工具？欢迎联系我们，一起规划下一项能力。"
       }
     },
     "contact": {

@@ -861,24 +861,24 @@
     },
     "about": {
       "title": "About Bro World",
-      "subtitle": "Get to know the mission, vision, and people who build the Bro World platform.",
+      "subtitle": "Discover how Bro World delivers seamless collaboration through its modern technical stack.",
       "sections": {
-        "mission": {
-          "title": "Our mission",
-          "description": "We empower teams with flexible tools that encourage collaboration, transparency, and innovation."
+        "frontend": {
+          "title": "Frontend experience",
+          "description": "Nuxt 3, Vue 3, TypeScript, and Vuetify 3 power an accessible interface that feels fast on every device."
         },
-        "team": {
-          "title": "Meet the team",
-          "description": "A diverse group of designers, engineers, and storytellers united by a passion for delightful experiences."
+        "backend": {
+          "title": "Backend foundation",
+          "description": "Node.js services coordinate automation, data processing, and PostgreSQL persistence behind the scenes."
         },
-        "values": {
-          "title": "Core values",
-          "description": "We prioritize trust, accessibility, and continuous learning in everything we create."
+        "api": {
+          "title": "Symfony microservices",
+          "description": "Decoupled Symfony API microservices expose secure REST and GraphQL endpoints for partners and integrations."
         }
       },
       "callToAction": {
-        "title": "Work with us",
-        "description": "Interested in joining the team? Reach out through the contact form to start the conversation."
+        "title": "Build with Bro World",
+        "description": "Want to extend the platform or integrate your tools? Reach out and let's collaborate on the next feature."
       }
     },
     "contact": {
