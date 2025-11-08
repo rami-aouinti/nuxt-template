@@ -1792,8 +1792,8 @@ a.facebook-post-card__author-link:focus-visible {
 .facebook-post-card__stats-left,
 .facebook-post-card__stats-right {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: end;
+  gap: 5px;
 }
 
 .facebook-post-card__reaction-icons {

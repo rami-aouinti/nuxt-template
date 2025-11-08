@@ -83,36 +83,36 @@ const toggleReply = (comment: BlogCommentViewModel) => {
                   {{ formatDate(comment.publishedAt) }}
                 </p>
               </div>
-              <div class="d-flex align-center">
-                <v-btn
-                  v-if="canInteract"
-                  variant="text"
-                  size="small"
-                  :loading="comment.ui.likeLoading"
-                  class="mr-2"
-                  @click="emit('toggle-like', comment)"
-                >
-                  <v-icon
-                    :icon="comment.isReacted ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
-                    class="mr-1"
-                  />
-                  {{ comment.reactions_count ?? comment.likes_count ?? 0 }}
-                </v-btn>
-                <v-btn
-                  v-if="canInteract"
-                  variant="text"
-                  size="small"
-                  :disabled="comment.ui.replyLoading"
-                  @click="toggleReply(comment)"
-                >
-                  <v-icon icon="mdi-reply" class="mr-1" />
-                  {{ t('blog.actions.reply') }}
-                </v-btn>
-              </div>
             </div>
             <p class="text-body-2 mb-0">
               {{ comment.content }}
             </p>
+            <div class="d-flex align-center pa-3">
+              <v-btn
+                v-if="canInteract"
+                variant="text"
+                size="small"
+                :loading="comment.ui.likeLoading"
+                class="mr-2"
+                @click="emit('toggle-like', comment)"
+              >
+                <v-icon
+                  :icon="comment.isReacted ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
+                  class="mr-1"
+                />
+                {{ comment.reactions_count ?? comment.likes_count ?? 0 }}
+              </v-btn>
+              <v-btn
+                v-if="canInteract"
+                variant="text"
+                size="small"
+                :disabled="comment.ui.replyLoading"
+                @click="toggleReply(comment)"
+              >
+                <v-icon icon="mdi-message" class="mr-1" />
+                {{ comment?.comments?.length }}
+              </v-btn>
+            </div>
           </div>
         </div>
       </v-sheet>
