@@ -994,7 +994,7 @@
       },
       "details": {
         "title": "联系方式",
-        "description": "发送邮件至 support@example.com 或通过控制面板提交工单，我们会在一个工作日内回复。"
+        "description": "发送邮件至 {email} 或通过控制面板提交工单，我们会在一个工作日内回复。"
       }
     }
   }

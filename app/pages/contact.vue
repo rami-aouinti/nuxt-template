@@ -7,6 +7,8 @@ definePageMeta({
 
 const { t } = useI18n()
 
+const supportEmail = 'support@example.com'
+
 const sections = computed(() => [
   {
     icon: 'mdi-headset',
@@ -27,7 +29,7 @@ const sections = computed(() => [
 
 const details = computed(() => ({
   title: t('pages.contact.details.title'),
-  description: t('pages.contact.details.description'),
+  description: t('pages.contact.details.description', { email: supportEmail }),
 }))
 </script>
 

@@ -994,7 +994,7 @@
       },
       "details": {
         "title": "Come contattarci",
-        "description": "Invia una e-mail a support@example.com oppure apri un ticket dal tuo pannello. Rispondiamo entro un giorno lavorativo."
+        "description": "Invia una e-mail a {email} oppure apri un ticket dal tuo pannello. Rispondiamo entro un giorno lavorativo."
       }
     }
   }

@@ -881,7 +881,7 @@
       },
       "details": {
         "title": "How to reach us",
-        "description": "Send an email to support@example.com or open a support ticket from your dashboard. We respond within one business day."
+        "description": "Send an email to {email} or open a support ticket from your dashboard. We respond within one business day."
       }
     }
   },
