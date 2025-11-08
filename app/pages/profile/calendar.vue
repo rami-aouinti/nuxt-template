@@ -40,15 +40,20 @@ const form = reactive({
 })
 
 const calendarEvents = computed(() =>
-  events.value.map((event) => ({
-    ...event,
-    title: event.title,
-    start: event.start,
-    end: event.end ?? event.start,
-    color: event.color ?? 'primary',
-    allDay: Boolean(event.allDay),
-    data: event,
-  })),
+  events.value.map((event) => {
+    const start = toCalendarDate(event.start) ?? new Date()
+    const end = toCalendarDate(event.end ?? event.start) ?? start
+
+    return {
+      ...event,
+      title: event.title,
+      start,
+      end,
+      color: event.color ?? 'primary',
+      allDay: Boolean(event.allDay),
+      data: event,
+    }
+  }),
 )
 
 const sortedEvents = computed(() =>
@@ -140,6 +145,16 @@ function parseDateTime(date: string, time: string) {
   const safeTime = time && /\d{2}:\d{2}/.test(time) ? time : '00:00'
   const isoString = `${date}T${safeTime}`
   const parsed = new Date(isoString)
+  return Number.isNaN(parsed.getTime()) ? null : parsed
+}
+
+function toCalendarDate(value: string | null | undefined) {
+  if (!value) {
+    return null
+  }
+
+  const parsed = new Date(value)
+
   return Number.isNaN(parsed.getTime()) ? null : parsed
 }
 
