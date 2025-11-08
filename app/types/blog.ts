@@ -33,6 +33,15 @@ export interface BlogComment {
   comments_preview?: BlogComment[]
 }
 
+export interface BlogSummary {
+  id: string
+  title: string
+  blogSubtitle?: string | null
+  logo?: string | null
+  author: string
+  teams?: string[] | null
+}
+
 export interface BlogPost {
   id: string
   title: string
@@ -48,6 +57,7 @@ export interface BlogPost {
   user: BlogPostUser
   reactions_preview?: BlogReactionPreview[]
   comments_preview?: BlogComment[]
+  blog?: BlogSummary | null
 }
 
 export interface BlogListResponse<T> {
@@ -60,6 +70,8 @@ export interface BlogListResponse<T> {
 export type BlogPostListResponse = BlogListResponse<BlogPost>
 export type BlogCommentListResponse = BlogListResponse<BlogComment>
 
+export type BlogSummaryListResponse = BlogSummary[]
+
 export interface BlogCommentPayload {
   content: string
 }
@@ -68,6 +80,20 @@ export interface BlogPostUpdatePayload {
   title?: string
   summary?: string | null
   content?: string | null
+}
+
+export interface BlogCreatePayload {
+  title: string
+  blogSubtitle?: string | null
+  teams?: string[] | null
+}
+
+export interface BlogPostCreatePayload {
+  title: string
+  summary?: string | null
+  content?: string | null
+  url?: string | null
+  blog: string
 }
 
 export interface BlogCommentUiState {

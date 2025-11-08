@@ -3,14 +3,21 @@ import type {
   BlogComment,
   BlogCommentListResponse,
   BlogCommentPayload,
+  BlogCreatePayload,
   BlogPost,
+  BlogPostCreatePayload,
   BlogPostListResponse,
   BlogPostUpdatePayload,
+  BlogSummary,
+  BlogSummaryListResponse,
 } from '~/types/blog'
 
 const PUBLIC_POSTS_ENDPOINT = 'https://blog.bro-world.org/public/post'
 const PRIVATE_POSTS_ENDPOINT = 'https://blog.bro-world.org/v1/platform/post'
 const PRIVATE_COMMENTS_ENDPOINT = 'https://blog.bro-world.org/v1/platform/comment'
+const PUBLIC_BLOGS_ENDPOINT = 'https://blog.bro-world.org/public/blog'
+const PROFILE_BLOGS_ENDPOINT = 'https://blog.bro-world.org/v1/profile/blog'
+const PRIVATE_BLOGS_ENDPOINT = 'https://blog.bro-world.org/v1/platform/blog'
 
 export const BLOG_POSTS_DEFAULT_LIMIT = 10
 
@@ -51,6 +58,17 @@ export const useBlogApi = () => {
 
     return await $fetch<BlogPostListResponse>(endpoint, {
       params: { page, limit },
+      headers,
+    })
+  }
+
+  const fetchPublicBlogs = async (): Promise<BlogSummaryListResponse> =>
+    await $fetch<BlogSummaryListResponse>(PUBLIC_BLOGS_ENDPOINT)
+
+  const fetchUserBlogs = async (): Promise<BlogSummaryListResponse> => {
+    const headers = getAuthHeaders(true)
+
+    return await $fetch<BlogSummaryListResponse>(PROFILE_BLOGS_ENDPOINT, {
       headers,
     })
   }
@@ -161,9 +179,31 @@ export const useBlogApi = () => {
     })
   }
 
+  const createBlog = async (payload: BlogCreatePayload): Promise<BlogSummary> => {
+    const headers = getAuthHeaders(true)
+
+    return await $fetch<BlogSummary>(PRIVATE_BLOGS_ENDPOINT, {
+      method: 'POST',
+      body: payload,
+      headers,
+    })
+  }
+
+  const createPost = async (payload: BlogPostCreatePayload): Promise<BlogPost> => {
+    const headers = getAuthHeaders(true)
+
+    return await $fetch<BlogPost>(PRIVATE_POSTS_ENDPOINT, {
+      method: 'POST',
+      body: payload,
+      headers,
+    })
+  }
+
   return {
     isAuthenticated,
     fetchPosts,
+    fetchPublicBlogs,
+    fetchUserBlogs,
     fetchComments,
     createComment,
     replyToComment,
@@ -173,5 +213,7 @@ export const useBlogApi = () => {
     dislikeComment,
     updatePost,
     deletePost,
+    createBlog,
+    createPost,
   }
 }

@@ -62,6 +62,16 @@
   "blog": {
     "title": "Blog",
     "description": "Stay up to date with the latest Bro World news.",
+    "sidebar": {
+      "myBlogsTitle": "My blogs",
+      "myBlogsEmpty": "You are not subscribed to any blogs yet.",
+      "publicBlogsTitle": "Public blogs",
+      "publicBlogsEmpty": "No public blogs are available right now.",
+      "loginToManage": "Sign in to manage your blogs and posts.",
+      "createBlog": "Create a blog",
+      "createPost": "Create a post",
+      "noBlogs": "You need at least one blog before creating a post."
+    },
     "actions": {
       "refresh": "Refresh",
       "read": "Read the article",
@@ -96,6 +106,17 @@
         "title": "Title",
         "summary": "Summary",
         "content": "Content"
+      },
+      "createBlog": {
+        "title": "Blog title",
+        "subtitle": "Subtitle"
+      },
+      "createPost": {
+        "blog": "Blog",
+        "title": "Post title",
+        "summary": "Summary",
+        "content": "Content",
+        "url": "External URL"
       }
     },
     "notifications": {
@@ -106,7 +127,9 @@
       "commentLiked": "Reaction added to the comment.",
       "commentUnliked": "Reaction removed from the comment.",
       "postUpdated": "Post updated successfully.",
-      "postDeleted": "Post deleted successfully."
+      "postDeleted": "Post deleted successfully.",
+      "blogCreated": "Blog created successfully.",
+      "postCreated": "Post created successfully."
     },
     "errors": {
       "authenticationRequired": "You need to be signed in to perform this action.",
@@ -114,7 +137,10 @@
       "commentFailed": "Unable to publish the comment.",
       "likeFailed": "Unable to update the reaction.",
       "updateFailed": "Unable to update the post.",
-      "deleteFailed": "Unable to delete the post."
+      "deleteFailed": "Unable to delete the post.",
+      "createBlogFailed": "Unable to create the blog.",
+      "createPostFailed": "Unable to create the post.",
+      "loadBlogsFailed": "Unable to load the list of blogs."
     },
     "prompts": {
       "loginToComment": "Sign in to view all comments and participate in the discussion."
