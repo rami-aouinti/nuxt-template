@@ -953,6 +953,15 @@
     "help": {
       "title": "مركز المساعدة",
       "subtitle": "اعثر على الإجابات بسرعة من خلال الوثائق المختارة والأسئلة الشائعة ونقاشات المجتمع.",
+      "explanation": {
+        "title": "What is Bro World?",
+        "description": "Bro World centralizes your team's communication, knowledge, and workflows so you can stay focused on delivering value.",
+        "highlights": {
+          "workspace": "Organize projects, documents, and discussions in dedicated workspaces for each initiative.",
+          "collaboration": "Collaborate in real time with shared notes, integrated messaging, and timely notifications.",
+          "support": "Monitor progress from interactive dashboards and reach our team whenever you need guidance."
+        }
+      },
       "sections": {
         "guides": {
           "title": "أدلة المنتج",
@@ -965,6 +974,23 @@
         "community": {
           "title": "منتدى المجتمع",
           "description": "شارك في النقاشات مع بقية الأعضاء، تبادل النصائح، وصوّت على الميزات المقترحة."
+        }
+      },
+      "questions": {
+        "title": "Common questions",
+        "items": {
+          "accountAccess": {
+            "question": "How do I access my account?",
+            "answer": "Sign in with the email you used to register. If you run into issues, reset your password from the login page or reach out to support."
+          },
+          "inviteTeam": {
+            "question": "Can I invite my teammates?",
+            "answer": "Yes. Open your workspace settings, choose \"Members,\" and send invitations by email to collaborate instantly."
+          },
+          "getSupport": {
+            "question": "Where can I get more help?",
+            "answer": "Browse the guides above for step-by-step tutorials or contact us directly and we will follow up with tailored assistance."
+          }
         }
       },
       "contact": {
