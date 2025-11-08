@@ -44,7 +44,11 @@ const profileCache = useAuthProfileCache()
 const credentialsDialog = ref(false)
 const controlChevronSize = 18
 
-type LanguageItem = LocaleObject & { to: string; flag?: string };
+type LanguageItem = LocaleObject & {
+  to: string;
+  flag?: string;
+  flagIcon?: string;
+};
 
 const toFlagEmoji = (code?: string) => {
   if (!code || !/^[A-Z]{2}$/.test(code)) {
@@ -77,14 +81,27 @@ const extractFlagCode = (language: LocaleObject) => {
   return undefined
 }
 
+const toFlagIconName = (code?: string) => {
+  if (!code || !/^[A-Z]{2}$/.test(code)) {
+    return undefined
+  }
+
+  return `circle-flags:${code.toLowerCase()}`
+}
+
 const languageItems = computed<LanguageItem[]>(() => {
   const availableLocales = (locales.value ?? []) as LocaleObject[];
 
-  return availableLocales.map((language) => ({
-    ...language,
-    to: switchLocalePath(language.code) ?? localePath('/'),
-    flag: toFlagEmoji(extractFlagCode(language)),
-  }));
+  return availableLocales.map((language) => {
+    const flagCode = extractFlagCode(language);
+
+    return {
+      ...language,
+      to: switchLocalePath(language.code) ?? localePath('/'),
+      flag: toFlagEmoji(flagCode),
+      flagIcon: toFlagIconName(flagCode),
+    };
+  });
 });
 
 const currentLanguage = computed(() =>
@@ -216,6 +233,12 @@ watch(loggedIn, (value) => {
           >
             {{ currentLanguage.flag }}
           </span>
+          <Icon
+            v-else-if="currentLanguage?.flagIcon"
+            :name="currentLanguage.flagIcon"
+            class="dock-navbar__language-flag-icon"
+            aria-hidden="true"
+          />
           <span
             v-else
             class="dock-navbar__language-code"
@@ -253,6 +276,12 @@ watch(loggedIn, (value) => {
                 >
                   {{ language.flag }}
                 </span>
+                <Icon
+                  v-else-if="language.flagIcon"
+                  :name="language.flagIcon"
+                  class="dock-navbar__language-flag-icon dock-navbar__language-flag-icon--item"
+                  aria-hidden="true"
+                />
                 <span class="dock-navbar__language-name">{{ language.name }}</span>
               </div>
               <v-icon
@@ -285,11 +314,29 @@ watch(loggedIn, (value) => {
     'Noto Color Emoji', sans-serif;
 }
 
+.dock-navbar__language-flag-icon {
+  display: inline-flex;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.dock-navbar__language-flag-icon :deep(svg) {
+  width: 100%;
+  height: 100%;
+}
+
 .dock-navbar__language-flag--item {
   margin-right: 0.5rem;
   font-size: 1rem;
   font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji', sans-serif;
+}
+
+.dock-navbar__language-flag-icon--item {
+  display: inline-flex;
+  margin-right: 0.5rem;
+  width: 1rem;
+  height: 1rem;
 }
 
 .dock-navbar__language-info {
