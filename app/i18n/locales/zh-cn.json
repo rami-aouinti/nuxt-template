@@ -35,7 +35,8 @@
     "profileCalendar": "日历",
     "blog": "博客",
     "messenger": "消息",
-    "language": "切换语言"
+    "language": "切换语言",
+    "workspace": "Workspace"
   },
   "messenger": {
     "title": "消息",
@@ -232,8 +233,8 @@
         }
       }
     },
-      "workplaces": "Number of workplaces",
-      "apiKeys": "API 密钥数量"
+    "workplaces": "Number of workplaces",
+    "apiKeys": "API 密钥数量"
   },
   "auth": {
     "profile": "个人资料",
@@ -717,5 +718,115 @@
   },
   "$vuetify": {
     "close": "关闭"
+  },
+  "workspace": {
+    "page": {
+      "title": "My workspace",
+      "subtitle": "Organize and share your personal folders and files."
+    },
+    "tree": {
+      "title": "Folders",
+      "empty": "No folders available yet.",
+      "actions": {
+        "createRoot": "Create root folder"
+      }
+    },
+    "actions": {
+      "newFolder": "New folder",
+      "uploadFile": "Upload file",
+      "renameFolder": "Rename",
+      "deleteFolder": "Delete folder",
+      "refresh": "Refresh"
+    },
+    "details": {
+      "items": {
+        "none": "No subfolders",
+        "one": "1 subfolder",
+        "other": "{count} subfolders"
+      },
+      "files": {
+        "none": "No files",
+        "one": "1 file",
+        "other": "{count} files"
+      },
+      "private": "Private",
+      "favorite": "Favorite"
+    },
+    "files": {
+      "title": "Files",
+      "empty": "No files in this folder yet.",
+      "favorite": "Favorite",
+      "sizeUnknown": "Unknown size",
+      "headers": {
+        "name": "Name",
+        "type": "Type",
+        "extension": "Extension",
+        "size": "Size",
+        "actions": "Actions"
+      },
+      "actions": {
+        "open": "Open",
+        "delete": "Delete"
+      }
+    },
+    "dialogs": {
+      "create": {
+        "title": "Create folder",
+        "subtitle": "Choose a name and optionally a parent folder."
+      },
+      "edit": {
+        "title": "Rename folder"
+      },
+      "delete": {
+        "title": "Delete folder",
+        "message": "Are you sure you want to delete this folder and all of its content?"
+      },
+      "upload": {
+        "title": "Upload file",
+        "subtitle": "Select a file to add to the current folder."
+      },
+      "deleteFile": {
+        "title": "Delete file",
+        "message": "Are you sure you want to delete this file?"
+      },
+      "fields": {
+        "name": "Folder name",
+        "parent": "Parent folder",
+        "private": "Private folder",
+        "favorite": "Mark as favorite",
+        "file": "File"
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "create": "Create",
+        "save": "Save changes",
+        "delete": "Delete",
+        "upload": "Upload"
+      }
+    },
+    "notifications": {
+      "folderCreated": "Folder created successfully.",
+      "folderUpdated": "Folder updated successfully.",
+      "folderDeleted": "Folder deleted successfully.",
+      "fileUploaded": "File uploaded successfully.",
+      "fileDeleted": "File deleted successfully."
+    },
+    "errors": {
+      "loadFolders": "Unable to load folders. Please try again.",
+      "createFolder": "Unable to create the folder.",
+      "updateFolder": "Unable to update the folder.",
+      "deleteFolder": "Unable to delete the folder.",
+      "uploadFile": "Unable to upload the file.",
+      "deleteFile": "Unable to delete the file.",
+      "noFolderSelected": "Select a folder before uploading a file."
+    },
+    "validation": {
+      "nameRequired": "Folder name is required.",
+      "fileRequired": "A file must be selected."
+    },
+    "messages": {
+      "selectFolder": "Select a folder from the list to display its content.",
+      "refreshing": "Refreshing folder content..."
+    }
   }
 }
