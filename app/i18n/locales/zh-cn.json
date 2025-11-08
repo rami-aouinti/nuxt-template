@@ -338,6 +338,30 @@
         "empty": "尚未分配角色。"
       }
     },
+    "public": {
+      "page": {
+        "title": "公开资料",
+        "description": "查看该成员分享的公开信息。"
+      },
+      "actions": {
+        "retry": "重试"
+      },
+      "errors": {
+        "load": "无法加载此资料。",
+        "notFound": "未找到此资料。"
+      },
+      "labels": {
+        "email": "电子邮箱",
+        "language": "语言",
+        "locale": "区域设置",
+        "timezone": "时区",
+        "enabled": "已启用",
+        "disabled": "已停用",
+        "friends": "好友",
+        "stories": "故事",
+        "empty": "未提供"
+      }
+    },
     "calendar": {
       "page": {
         "title": "我的日历",

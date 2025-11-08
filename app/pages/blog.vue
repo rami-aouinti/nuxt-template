@@ -556,6 +556,8 @@ async function loadComments(post: BlogPostViewModel) {
   }
 }
 
+const AUTHOR_PLACEHOLDER = '__AUTHOR__'
+
 function getAuthorName(user: BlogPostUser) {
   if (user.firstName && user.lastName) {
     return `${user.firstName} ${user.lastName}`
@@ -566,6 +568,21 @@ function getAuthorName(user: BlogPostUser) {
   }
 
   return user.username
+}
+
+function getAuthorProfileLink(user: BlogPostUser) {
+  const username = typeof user.username === 'string' ? user.username.trim() : ''
+  return username.length ? `/profile/${encodeURIComponent(username)}` : null
+}
+
+function getAuthorMetaParts(date: string) {
+  const template = t('blog.meta.author', {
+    author: AUTHOR_PLACEHOLDER,
+    date,
+  })
+
+  const [prefix = '', suffix = ''] = template.split(AUTHOR_PLACEHOLDER)
+  return { prefix, suffix }
 }
 
 function resolveBlogLink(blog: BlogSummary) {
@@ -902,7 +919,23 @@ await loadPosts(1, { replace: true })
                     <v-card class="rounded-xl" elevation="2">
                       <v-card-item>
                         <template #prepend>
-                          <v-avatar size="48">
+                          <NuxtLink
+                            v-if="getAuthorProfileLink(post.user)"
+                            :to="getAuthorProfileLink(post.user)"
+                            class="blog-post-card__avatar-link"
+                          >
+                            <v-avatar size="48">
+                              <v-img
+                                :src="getAuthorAvatar(post.user)"
+                                :alt="getAuthorName(post.user)"
+                              >
+                                <template #error>
+                                  <v-icon icon="mdi-account-circle" size="48" />
+                                </template>
+                              </v-img>
+                            </v-avatar>
+                          </NuxtLink>
+                          <v-avatar v-else size="48">
                             <v-img
                               :src="getAuthorAvatar(post.user)"
                               :alt="getAuthorName(post.user)"
@@ -921,13 +954,31 @@ await loadPosts(1, { replace: true })
                             {{ post.title }}
                           </NuxtLink>
                         </v-card-title>
-                        <v-card-subtitle class="text-body-2 text-medium-emphasis">
-                          {{
-                            t('blog.meta.author', {
-                              author: getAuthorName(post.user),
-                              date: formatPublishedAt(post.publishedAt),
-                            })
-                          }}
+                        <v-card-subtitle
+                          class="text-body-2 text-medium-emphasis d-flex flex-wrap align-center"
+                        >
+                          <span>
+                            {{
+                              getAuthorMetaParts(
+                                formatPublishedAt(post.publishedAt),
+                              ).prefix
+                            }}
+                          </span>
+                          <NuxtLink
+                            v-if="getAuthorProfileLink(post.user)"
+                            :to="getAuthorProfileLink(post.user)"
+                            class="blog-post-card__author-link mx-1"
+                          >
+                            {{ getAuthorName(post.user) }}
+                          </NuxtLink>
+                          <span v-else class="mx-1">{{ getAuthorName(post.user) }}</span>
+                          <span>
+                            {{
+                              getAuthorMetaParts(
+                                formatPublishedAt(post.publishedAt),
+                              ).suffix
+                            }}
+                          </span>
                         </v-card-subtitle>
                       </v-card-item>
 
@@ -1075,6 +1126,7 @@ await loadPosts(1, { replace: true })
                             :format-author="getAuthorName"
                             :format-date="formatPublishedAt"
                             :can-interact="loggedIn"
+                            :resolve-profile-link="getAuthorProfileLink"
                             @toggle-like="(comment) =>
                               toggleCommentReaction(post, comment)"
                             @submit-reply="(comment) =>
@@ -1447,6 +1499,20 @@ await loadPosts(1, { replace: true })
 
 .blog-post-link:hover,
 .blog-post-link:focus-visible {
+  text-decoration: underline;
+}
+
+.blog-post-card__avatar-link {
+  display: inline-flex;
+}
+
+.blog-post-card__author-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.blog-post-card__author-link:hover,
+.blog-post-card__author-link:focus-visible {
   text-decoration: underline;
 }
 
