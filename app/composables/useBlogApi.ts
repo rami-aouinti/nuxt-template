@@ -18,6 +18,7 @@ const PRIVATE_COMMENTS_ENDPOINT = 'https://blog.bro-world.org/v1/platform/commen
 const PUBLIC_BLOGS_ENDPOINT = 'https://blog.bro-world.org/public/blog'
 const PROFILE_BLOGS_ENDPOINT = 'https://blog.bro-world.org/v1/profile/blog'
 const PRIVATE_BLOGS_ENDPOINT = 'https://blog.bro-world.org/v1/platform/blog'
+const PROFILE_POSTS_ENDPOINT = 'https://blog.bro-world.org/v1/profile/post'
 
 export const BLOG_POSTS_DEFAULT_LIMIT = 10
 
@@ -49,6 +50,131 @@ export const useBlogApi = () => {
     }
   }
 
+  const isBlogPost = (value: unknown): value is BlogPost =>
+    Boolean(
+      value &&
+        typeof value === 'object' &&
+        'id' in value &&
+        'title' in value &&
+        'slug' in value &&
+        'publishedAt' in value,
+    )
+
+  const extractBlogPost = (value: unknown): BlogPost | null => {
+    if (isBlogPost(value)) {
+      return value
+    }
+
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        if (isBlogPost(item)) {
+          return item
+        }
+      }
+      return null
+    }
+
+    if (value && typeof value === 'object') {
+      const record = value as Record<string, unknown>
+
+      if ('post' in record && isBlogPost(record.post)) {
+        return record.post
+      }
+
+      if ('data' in record && Array.isArray(record.data)) {
+        for (const item of record.data) {
+          if (isBlogPost(item)) {
+            return item
+          }
+        }
+      }
+
+      if ('blog' in record) {
+        return extractBlogPost(record.blog)
+      }
+    }
+
+    return null
+  }
+
+  const extractBlogPosts = (value: unknown): BlogPost[] => {
+    if (!value) {
+      return []
+    }
+
+    if (isBlogPost(value)) {
+      return [value]
+    }
+
+    if (Array.isArray(value)) {
+      return value.filter((item): item is BlogPost => isBlogPost(item))
+    }
+
+    if (typeof value === 'object') {
+      const record = value as Record<string, unknown>
+      const potentialKeys = ['posts', 'data', 'items', 'results']
+
+      for (const key of potentialKeys) {
+        if (key in record) {
+          const nested = extractBlogPosts(record[key])
+          if (nested.length || Array.isArray(record[key])) {
+            return nested
+          }
+        }
+      }
+
+      if ('blog' in record) {
+        return extractBlogPosts(record.blog)
+      }
+    }
+
+    return []
+  }
+
+  const resolveNumeric = (value: unknown, fallback: number) => {
+    if (typeof value === 'number' && Number.isFinite(value)) {
+      return value
+    }
+
+    if (typeof value === 'string') {
+      const parsed = Number(value)
+      if (Number.isFinite(parsed)) {
+        return parsed
+      }
+    }
+
+    return fallback
+  }
+
+  const toBlogPostListResponse = (
+    value: unknown,
+    page: number,
+    limit: number,
+  ): BlogPostListResponse | null => {
+    if (value == null) {
+      return null
+    }
+
+    const data = extractBlogPosts(value)
+    const record =
+      value && typeof value === 'object' ? (value as Record<string, unknown>) : {}
+
+    const resolvedPage = resolveNumeric(record.page, page)
+    const resolvedLimit = resolveNumeric(record.limit, limit)
+    const resolvedCount = resolveNumeric(record.count, data.length)
+
+    if (!data.length && !('count' in record || 'data' in record || 'posts' in record)) {
+      return null
+    }
+
+    return {
+      data,
+      page: resolvedPage,
+      limit: resolvedLimit,
+      count: resolvedCount,
+    }
+  }
+
   const fetchPosts = async (
     page: number,
     limit: number,
@@ -57,6 +183,175 @@ export const useBlogApi = () => {
     const endpoint = headers ? PRIVATE_POSTS_ENDPOINT : PUBLIC_POSTS_ENDPOINT
 
     return await $fetch<BlogPostListResponse>(endpoint, {
+      params: { page, limit },
+      headers,
+    })
+  }
+
+  const fetchPostBySlug = async (slug: string): Promise<BlogPost> => {
+    const normalizedSlug = slug?.toString().trim()
+    if (!normalizedSlug) {
+      throw new Error('INVALID_POST_SLUG')
+    }
+
+    const headers = getAuthHeaders(false)
+    const encodedSlug = encodeURIComponent(normalizedSlug)
+    const attempts: Array<{ url: string; options?: Record<string, unknown> }> = []
+
+    if (headers) {
+      attempts.push({
+        url: `${PRIVATE_POSTS_ENDPOINT}/${encodedSlug}`,
+        options: { headers },
+      })
+      attempts.push({
+        url: `${PRIVATE_POSTS_ENDPOINT}/slug/${encodedSlug}`,
+        options: { headers },
+      })
+    }
+
+    attempts.push({ url: `${PUBLIC_POSTS_ENDPOINT}/${encodedSlug}` })
+    attempts.push({ url: `${PUBLIC_POSTS_ENDPOINT}/slug/${encodedSlug}` })
+
+    let lastError: unknown = null
+
+    for (const attempt of attempts) {
+      try {
+        const response = await $fetch<unknown>(attempt.url, attempt.options)
+        const post = extractBlogPost(response)
+        if (post) {
+          return post
+        }
+      } catch (error) {
+        lastError = error
+      }
+    }
+
+    const paramAttempts: Array<{
+      url: string
+      options: Record<string, unknown>
+    }> = []
+
+    if (headers) {
+      paramAttempts.push({
+        url: PRIVATE_POSTS_ENDPOINT,
+        options: { params: { slug: normalizedSlug, limit: 1 }, headers },
+      })
+    }
+
+    paramAttempts.push({
+      url: PUBLIC_POSTS_ENDPOINT,
+      options: { params: { slug: normalizedSlug, limit: 1 } },
+    })
+
+    for (const attempt of paramAttempts) {
+      try {
+        const response = await $fetch<unknown>(attempt.url, attempt.options)
+        const post = extractBlogPost(response)
+        if (post) {
+          return post
+        }
+      } catch (error) {
+        lastError = error
+      }
+    }
+
+    throw lastError ?? new Error('POST_NOT_FOUND')
+  }
+
+  const fetchBlogPostsBySlug = async (
+    slug: string,
+    page: number,
+    limit: number,
+  ): Promise<BlogPostListResponse> => {
+    const normalizedSlug = slug?.toString().trim()
+    if (!normalizedSlug) {
+      throw new Error('INVALID_BLOG_SLUG')
+    }
+
+    const headers = getAuthHeaders(false)
+    const encodedSlug = encodeURIComponent(normalizedSlug)
+    const attempts: Array<{ url: string; options?: Record<string, unknown> }> = []
+
+    if (headers) {
+      attempts.push({
+        url: `${PRIVATE_BLOGS_ENDPOINT}/${encodedSlug}/post`,
+        options: { params: { page, limit }, headers },
+      })
+      attempts.push({
+        url: `${PRIVATE_BLOGS_ENDPOINT}/${encodedSlug}`,
+        options: { headers },
+      })
+    }
+
+    attempts.push({
+      url: `${PUBLIC_BLOGS_ENDPOINT}/${encodedSlug}/post`,
+      options: { params: { page, limit } },
+    })
+    attempts.push({ url: `${PUBLIC_BLOGS_ENDPOINT}/${encodedSlug}` })
+
+    let lastError: unknown = null
+
+    for (const attempt of attempts) {
+      try {
+        const response = await $fetch<unknown>(attempt.url, attempt.options)
+        const normalized = toBlogPostListResponse(response, page, limit)
+        if (normalized) {
+          return normalized
+        }
+      } catch (error) {
+        lastError = error
+      }
+    }
+
+    try {
+      const aggregated: BlogPost[] = []
+      let pageNumber = 1
+      const fetchSize = Math.max(limit, BLOG_POSTS_DEFAULT_LIMIT)
+      const maxIterations = 15
+      let hasMore = true
+
+      while (hasMore && pageNumber <= maxIterations) {
+        const response = await fetchPosts(pageNumber, fetchSize)
+        const filtered = response.data.filter((post) => {
+          const summary = post.blog as BlogSummary | null | undefined
+          const postSlug = typeof summary?.slug === 'string' ? summary.slug.trim() : ''
+          return postSlug === normalizedSlug
+        })
+        aggregated.push(...filtered)
+
+        hasMore =
+          pageNumber * response.limit < response.count && response.data.length > 0
+
+        if (aggregated.length >= page * limit) {
+          break
+        }
+
+        pageNumber += 1
+      }
+
+      const start = (page - 1) * limit
+      const data = aggregated.slice(start, start + limit)
+
+      return {
+        data,
+        page,
+        limit,
+        count: aggregated.length,
+      }
+    } catch (error) {
+      lastError = error
+    }
+
+    throw lastError ?? new Error('BLOG_POSTS_NOT_FOUND')
+  }
+
+  const fetchProfilePosts = async (
+    page: number,
+    limit: number,
+  ): Promise<BlogPostListResponse> => {
+    const headers = getAuthHeaders(true)
+
+    return await $fetch<BlogPostListResponse>(PROFILE_POSTS_ENDPOINT, {
       params: { page, limit },
       headers,
     })
@@ -220,6 +515,9 @@ export const useBlogApi = () => {
   return {
     isAuthenticated,
     fetchPosts,
+    fetchPostBySlug,
+    fetchBlogPostsBySlug,
+    fetchProfilePosts,
     fetchPublicBlogs,
     fetchUserBlogs,
     fetchComments,
