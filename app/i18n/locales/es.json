@@ -821,7 +821,11 @@
       "sections": {
         "profile": {
           "title": "Preferencias del perfil",
-          "description": "Actualiza tu nombre, avatar, idioma y otros detalles que se muestran a tu equipo."
+          "description": "Actualiza tu nombre, avatar, idioma y otros detalles que se muestran a tu equipo.",
+          "fields": {
+            "displayName": "Nombre para mostrar",
+            "username": "Nombre de usuario"
+          }
         },
         "security": {
           "title": "Seguridad y privacidad",

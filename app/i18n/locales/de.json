@@ -934,7 +934,11 @@
       "sections": {
         "profile": {
           "title": "Profileinstellungen",
-          "description": "Aktualisiere deinen Namen, Avatar, deine Sprache und weitere Details, die dein Team sieht."
+          "description": "Aktualisiere deinen Namen, Avatar, deine Sprache und weitere Details, die dein Team sieht.",
+          "fields": {
+            "displayName": "Anzeigename",
+            "username": "Benutzername"
+          }
         },
         "security": {
           "title": "Sicherheit & Datenschutz",
