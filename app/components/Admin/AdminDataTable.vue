@@ -474,9 +474,9 @@ function refresh() {
 .admin-data-table {
   position: relative;
   overflow: hidden;
-  background: color-mix(in srgb, var(--v-theme-surface) 92%, transparent);
+  background: color-mix(in srgb, rgba(var(--v-theme-surface), 92%), rgba(var(--v-theme-primary), 22%));
   border: 1px solid color-mix(in srgb, var(--v-theme-outline-variant) 60%, transparent);
-  box-shadow: 0 24px 48px -28px rgb(15 23 42 / 45%);
+  box-shadow: 0 24px 48px -28px rgba(var(--v-theme-primary), 92%);
 }
 
 .admin-data-table__loader {
