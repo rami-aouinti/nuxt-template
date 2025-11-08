@@ -1,4 +1,5 @@
 import { broWorldRequest } from '~~/server/utils/broWorldApi'
+import { invalidateProfileEvents } from '~~/server/utils/cache/profile-events'
 
 interface DeletePayload {
   id?: string
@@ -21,8 +22,12 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  return broWorldRequest(event, '/profile/events', {
+  const response = await broWorldRequest(event, '/profile/events', {
     method: 'DELETE',
     body: { id },
   })
+
+  await invalidateProfileEvents(event)
+
+  return response
 })

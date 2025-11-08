@@ -1,4 +1,5 @@
 import { requestWithJsonBody } from '~~/server/utils/crud'
+import { invalidateWorkspaceFolders } from '~~/server/utils/cache/workspace'
 import type {
   CreateWorkspaceFolderPayload,
   WorkspaceFolder,
@@ -17,7 +18,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  return await requestWithJsonBody<WorkspaceFolder, CreateWorkspaceFolderPayload>(
+  const folder = await requestWithJsonBody<WorkspaceFolder, CreateWorkspaceFolderPayload>(
     event,
     '/folder',
     'POST',
@@ -26,4 +27,8 @@ export default defineEventHandler(async (event) => {
       name: body.name.trim(),
     },
   )
+
+  await invalidateWorkspaceFolders(event)
+
+  return folder
 })

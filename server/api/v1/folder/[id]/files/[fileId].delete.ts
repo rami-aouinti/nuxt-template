@@ -1,6 +1,7 @@
 import { getRouterParam } from 'h3'
 
 import { broWorldRequest } from '~~/server/utils/broWorldApi'
+import { invalidateWorkspaceFolders } from '~~/server/utils/cache/workspace'
 import { requireEntityId } from '~~/server/utils/crud'
 
 export default defineEventHandler(async (event) => {
@@ -20,6 +21,8 @@ export default defineEventHandler(async (event) => {
   await broWorldRequest<unknown>(event, `/folder/${folderId}/files/${fileId}`, {
     method: 'DELETE',
   })
+
+  await invalidateWorkspaceFolders(event)
 
   return { success: true }
 })

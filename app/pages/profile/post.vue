@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
+import { storeToRefs } from 'pinia'
 import {
   BLOG_POSTS_DEFAULT_LIMIT,
   useBlogApi,
 } from '~/composables/useBlogApi'
-import type { BlogPost, BlogPostUser } from '~/types/blog'
+import type { BlogPostUser } from '~/types/blog'
+import { useProfilePostsStore } from '~/stores/profile-posts'
 
 definePageMeta({
   title: 'navigation.profile',
@@ -16,20 +18,13 @@ const { t, locale } = useI18n()
 const { fetchProfilePosts } = useBlogApi()
 const { loggedIn } = useUserSession()
 
-const posts = ref<BlogPost[]>([])
-const pagination = reactive({
-  page: 1,
-  limit: BLOG_POSTS_DEFAULT_LIMIT,
-  total: 0,
-})
-
-const isInitialLoading = ref(false)
-const isLoadingMore = ref(false)
-const postsError = ref<string | null>(null)
+const profilePostsStore = useProfilePostsStore()
+const { posts, pagination, isInitialLoading, isLoadingMore, error: postsError } =
+  storeToRefs(profilePostsStore)
 const loadMoreTrigger = ref<HTMLElement | null>(null)
 
 const hasMore = computed(
-  () => posts.value.length < pagination.total && posts.value.length > 0,
+  () => posts.value.length < pagination.value.total && posts.value.length > 0,
 )
 
 const formatPublishedAt = (publishedAt: string) =>
@@ -63,20 +58,11 @@ async function loadPosts(
   }
 
   try {
-    const response = await fetchProfilePosts(pageNumber, pagination.limit)
-    const data = Array.isArray(response.data) ? response.data : []
-
-    if (replace) {
-      posts.value = data
-    } else {
-      const existingIds = new Set(posts.value.map((post) => post.id))
-      const merged = data.filter((post) => !existingIds.has(post.id))
-      posts.value = [...posts.value, ...merged]
-    }
-
-    pagination.page = response.page
-    pagination.limit = response.limit
-    pagination.total = response.count
+    const response = await fetchProfilePosts(
+      pageNumber,
+      pagination.value.limit || BLOG_POSTS_DEFAULT_LIMIT,
+    )
+    profilePostsStore.applyResponse(response, { replace })
   } catch (error) {
     postsError.value =
       error instanceof Error && error.message
@@ -96,7 +82,7 @@ async function loadMorePosts() {
     return
   }
 
-  await loadPosts(pagination.page + 1)
+  await loadPosts(pagination.value.page + 1)
 }
 
 if (import.meta.client) {
@@ -121,9 +107,8 @@ watch(
     if (value) {
       void loadPosts(1, { replace: true })
     } else {
-      posts.value = []
-      pagination.page = 1
-      pagination.total = 0
+      profilePostsStore.reset()
+      pagination.value.limit = BLOG_POSTS_DEFAULT_LIMIT
     }
   },
 )
