@@ -77,7 +77,7 @@ const {
   createPost,
 } = useBlogApi()
 
-const POST_EXCERPT_MAX_LENGTH = 50
+const POST_EXCERPT_MAX_LENGTH = 150
 
 const posts = ref<BlogPostViewModel[]>([])
 const pagination = reactive({
@@ -1030,7 +1030,7 @@ await loadPosts(1, { replace: true })
                       <NuxtLink
                         v-if="getAuthorProfileLink(post.user)"
                         :to="getAuthorProfileLink(post.user)"
-                        class="facebook-post-card__avatar-link"
+                        class="facebook-post-card__avatar-link text-decoration-none"
                       >
                         <v-avatar size="48">
                           <v-img
@@ -1059,7 +1059,7 @@ await loadPosts(1, { replace: true })
                         <NuxtLink
                           v-if="getAuthorProfileLink(post.user)"
                           :to="getAuthorProfileLink(post.user)"
-                          class="facebook-post-card__author-link"
+                          class="facebook-post-card__author-link text-decoration-none"
                         >
                           {{ getAuthorName(post.user) }}
                         </NuxtLink>
@@ -1079,18 +1079,30 @@ await loadPosts(1, { replace: true })
                       </div>
                     </div>
                     <v-btn
+                      v-if="canEditPost(post)"
                       icon
                       variant="text"
                       class="facebook-post-card__menu-btn"
+                      @click="openEditDialog(post)"
                     >
-                      <v-icon icon="mdi-dots-horizontal" />
+                      <v-icon icon="mdi-pencil" />
+                    </v-btn>
+                    <v-btn
+                      v-if="canEditPost(post)"
+                      icon
+                      variant="text"
+                      class="facebook-post-card__menu-btn"
+                      :loading="post.ui.deleteLoading"
+                      @click="confirmDeletePost(post)"
+                    >
+                      <v-icon icon="mdi-trash-can-outline" />
                     </v-btn>
                   </div>
 
                   <div class="facebook-post-card__body">
                     <NuxtLink
                       :to="`/post/${post.slug}`"
-                      class="facebook-post-card__title"
+                      class="facebook-post-card__title text-decoration-none"
                     >
                       {{ post.title }}
                     </NuxtLink>
@@ -1116,51 +1128,28 @@ await loadPosts(1, { replace: true })
                         </span>
                       </div>
                       <span class="facebook-post-card__stat-value">
-                        {{
-                          t('blog.stats.reactions', {
-                            count: post.reactions_count ?? 0,
-                          })
-                        }}
-                      </span>
-                    </div>
-                    <div class="facebook-post-card__stats-right">
-                      <span class="facebook-post-card__stat-value">
-                        {{
-                          t('blog.stats.comments', {
-                            count: post.totalComments ?? 0,
-                          })
-                        }}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="facebook-post-card__divider" />
-
-                  <div class="facebook-post-card__actions">
-                    <div class="facebook-post-card__actions-left">
-                      <v-btn
-                        variant="text"
-                        color="primary"
-                        class="facebook-post-card__action-btn"
-                        :class="{
+                        <v-btn
+                          variant="text"
+                          class="facebook-post-card__action-btn"
+                          :class="{
                           'facebook-post-card__action-btn--active': post.isReacted,
                         }"
-                        :loading="post.ui.likeLoading"
-                        @click="togglePostReaction(post)"
-                      >
+                          :loading="post.ui.likeLoading"
+                          @click="togglePostReaction(post)"
+                        >
                         <v-icon
                           :icon="post.isReacted ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
                           class="mr-2"
                         />
                         {{
-                          post.isReacted
-                            ? t('blog.actions.unlike')
-                            : t('blog.actions.like')
-                        }}
+                            post.reactions_count
+                          }}
                       </v-btn>
+                      </span>
+                    </div>
+                    <div class="facebook-post-card__stats-right">
                       <v-btn
                         variant="text"
-                        color="primary"
                         class="facebook-post-card__action-btn"
                         :loading="post.ui.commentsLoading"
                         @click="toggleCommentsVisibility(post)"
@@ -1172,34 +1161,8 @@ await loadPosts(1, { replace: true })
                           class="mr-2"
                         />
                         {{
-                          post.ui.commentsVisible
-                            ? t('blog.actions.hideComments')
-                            : t('blog.actions.showComments')
+                          post.totalComments
                         }}
-                      </v-btn>
-                    </div>
-                    <div
-                      v-if="canEditPost(post)"
-                      class="facebook-post-card__actions-right"
-                    >
-                      <v-btn
-                        variant="text"
-                        color="primary"
-                        prepend-icon="mdi-pencil"
-                        class="facebook-post-card__action-btn"
-                        @click="openEditDialog(post)"
-                      >
-                        {{ t('common.actions.edit') }}
-                      </v-btn>
-                      <v-btn
-                        variant="text"
-                        color="error"
-                        prepend-icon="mdi-delete"
-                        class="facebook-post-card__action-btn"
-                        :loading="post.ui.deleteLoading"
-                        @click="confirmDeletePost(post)"
-                      >
-                        {{ t('common.actions.delete') }}
                       </v-btn>
                     </div>
                   </div>
@@ -1209,7 +1172,6 @@ await loadPosts(1, { replace: true })
                       v-if="post.ui.commentsVisible"
                       class="facebook-post-card__comments-section"
                     >
-                      <div class="facebook-post-card__divider facebook-post-card__divider--spaced" />
                       <div class="facebook-post-card__comments">
                         <v-alert
                           v-if="!loggedIn"
