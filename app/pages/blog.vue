@@ -9,10 +9,12 @@ import {
 } from '~/composables/useBlogApi'
 import type {
   BlogComment,
+  BlogCommentLike,
   BlogCommentViewModel,
   BlogPost,
   BlogPostViewModel,
   BlogPostUser,
+  BlogReactionPreview,
   BlogSummary,
 } from '~/types/blog'
 import { Notify } from '~/stores/notification'
@@ -29,6 +31,31 @@ const { session, loggedIn } = useUserSession()
 const currentUsername = computed(
   () => session.value?.user?.login || session.value?.profile?.username || null,
 )
+
+const currentUserId = computed(() => {
+  const sessionValue = session.value
+  if (!sessionValue || typeof sessionValue !== 'object') {
+    return null
+  }
+
+  const profile = (sessionValue as { profile?: { id?: string | null } }).profile
+  if (profile && typeof profile === 'object') {
+    const id = (profile as { id?: string | null }).id
+    if (typeof id === 'string' && id.trim().length > 0) {
+      return id
+    }
+  }
+
+  const user = (sessionValue as { user?: { id?: string | null } }).user
+  if (user && typeof user === 'object') {
+    const id = (user as { id?: string | null }).id
+    if (typeof id === 'string' && id.trim().length > 0) {
+      return id
+    }
+  }
+
+  return null
+})
 
 const {
   fetchPosts,
@@ -102,10 +129,86 @@ const myBlogsOptions = computed(() =>
 let activeRequest = 0
 let previousLoggedIn = loggedIn.value
 
-function createCommentViewModel(comment: BlogComment): BlogCommentViewModel {
+function normalizeComment(comment: BlogComment): BlogComment {
+  const likes = Array.isArray(comment.likes)
+    ? comment.likes.filter((like): like is BlogCommentLike => {
+        if (!like || typeof like !== 'object') {
+          return false
+        }
+
+        const user = (like as { user?: BlogPostUser | null }).user
+        return Boolean(
+          user &&
+            typeof user === 'object' &&
+            'id' in user &&
+            typeof user.id === 'string' &&
+            user.id.trim().length > 0,
+        )
+      })
+    : []
+
+  const reactionsCount =
+    typeof comment.reactions_count === 'number'
+      ? comment.reactions_count
+      : typeof comment.likes_count === 'number'
+        ? comment.likes_count
+        : likes.length
+
+  const replies =
+    Array.isArray(comment.comments_preview) && comment.comments_preview.length
+      ? comment.comments_preview
+      : Array.isArray(comment.children)
+        ? comment.children
+        : []
+
+  let isReacted: BlogComment['isReacted'] = null
+  if (typeof comment.isReacted === 'string' || comment.isReacted === null) {
+    isReacted = comment.isReacted
+  } else if (typeof comment.isReacted === 'boolean') {
+    isReacted = comment.isReacted ? 'like' : null
+  }
+
+  if (!isReacted && currentUserId.value) {
+    const hasLiked = likes.some((like) => like.user.id === currentUserId.value)
+    if (hasLiked) {
+      isReacted = 'like'
+    }
+  }
+
+  const reactionsPreview: BlogReactionPreview[] =
+    Array.isArray(comment.reactions_preview) && comment.reactions_preview.length
+      ? comment.reactions_preview
+      : likes
+          .map((like) => {
+            if (!like.user) {
+              return null
+            }
+
+            return {
+              id: like.id ?? `${comment.id}-${like.user.id}`,
+              type: like.type ?? 'like',
+              user: like.user,
+            }
+          })
+          .filter((preview): preview is BlogReactionPreview => Boolean(preview))
+
   return {
     ...comment,
-    replies: (comment.comments_preview ?? []).map(createCommentViewModel),
+    reactions_count: reactionsCount,
+    likes_count:
+      typeof comment.likes_count === 'number' ? comment.likes_count : reactionsCount,
+    isReacted,
+    reactions_preview: reactionsPreview,
+    comments_preview: replies,
+  }
+}
+
+function createCommentViewModel(comment: BlogComment): BlogCommentViewModel {
+  const normalized = normalizeComment(comment)
+
+  return {
+    ...normalized,
+    replies: (normalized.comments_preview ?? []).map(createCommentViewModel),
     ui: {
       replyOpen: false,
       replyContent: '',
@@ -115,10 +218,23 @@ function createCommentViewModel(comment: BlogComment): BlogCommentViewModel {
   }
 }
 
+function resolvePostComments(post: BlogPost): BlogComment[] {
+  if (Array.isArray(post.comments_preview) && post.comments_preview.length) {
+    return post.comments_preview
+  }
+
+  const withComments = post as BlogPost & { comments?: BlogComment[] | null }
+  if (Array.isArray(withComments.comments)) {
+    return withComments.comments
+  }
+
+  return []
+}
+
 function createPostViewModel(post: BlogPost): BlogPostViewModel {
   return {
     ...post,
-    comments: (post.comments_preview ?? []).map(createCommentViewModel),
+    comments: resolvePostComments(post).map(createCommentViewModel),
     ui: {
       commentsVisible: false,
       commentsLoaded: false,

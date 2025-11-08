@@ -20,6 +20,12 @@ export interface BlogReactionPreview {
   user: BlogPostUser
 }
 
+export interface BlogCommentLike {
+  id: string
+  type?: string | null
+  user: BlogPostUser
+}
+
 export interface BlogComment {
   id: string
   content: string
@@ -31,6 +37,8 @@ export interface BlogComment {
   isReacted?: boolean | string | null
   reactions_preview?: BlogReactionPreview[]
   comments_preview?: BlogComment[]
+  likes?: BlogCommentLike[] | null
+  children?: BlogComment[] | null
 }
 
 export interface BlogSummary {
