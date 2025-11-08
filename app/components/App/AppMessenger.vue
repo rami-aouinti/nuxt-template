@@ -147,7 +147,7 @@ onBeforeUnmount(() => {
           v-bind="props"
           :disabled="!loggedIn"
           :aria-label="t('messenger.ariaLabel', { unread: unreadCount })"
-          variant="text"
+          variant="tonal"
           class="dock-navbar__action-button"
         >
           <v-badge

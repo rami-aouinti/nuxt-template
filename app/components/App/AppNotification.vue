@@ -3,6 +3,7 @@ const notificationStore = useNotificationStore()
 const { notifications } = storeToRefs(notificationStore)
 const notificationsShown = computed(() => [...notifications.value].reverse())
 const menu = ref(false)
+const { loggedIn } = useUserSession()
 function deleteNotification(id: number) {
   notificationStore.delNotification(id)
 }
@@ -23,11 +24,12 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
       <template #activator="{ props }">
         <v-btn
           v-tooltip="{ text: 'Notifications' }"
+          :disabled="!loggedIn"
           v-bind="props"
           :aria-label="
             notifications.length ? 'Notifications (new)' : 'Notifications'
           "
-          variant="text"
+          variant="tonal"
           class="dock-navbar__action-button"
         >
           <v-badge
