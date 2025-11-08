@@ -693,8 +693,8 @@ await loadPosts(1, { replace: true })
 <template>
   <v-container fluid>
     <v-row class="justify-center">
-      <v-col cols="12" md="11" lg="10" xl="9">
-        <v-sheet class="pa-6" elevation="0" rounded="xl" color="transparent">
+      <v-col cols="12">
+        <v-sheet class="pa-2" elevation="0" rounded="xl" color="transparent">
           <div class="d-flex align-center justify-space-between mb-6">
             <div>
               <h1 class="text-h4 text-h3-md font-weight-bold mb-1">
