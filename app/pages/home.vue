@@ -2221,7 +2221,7 @@ a.facebook-post-card__author-link:focus-visible {
 .facebook-post-card__stats-left,
 .facebook-post-card__stats-right {
   display: flex;
-  align-items: end;
+  align-items: center;
   gap: 5px;
 }
 
