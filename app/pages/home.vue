@@ -559,8 +559,6 @@ async function loadComments(post: BlogPostViewModel) {
   }
 }
 
-const AUTHOR_PLACEHOLDER = '__AUTHOR__'
-
 function getAuthorName(user: BlogPostUser) {
   if (user.firstName && user.lastName) {
     return `${user.firstName} ${user.lastName}`
@@ -578,16 +576,6 @@ function getAuthorProfileLink(user: BlogPostUser) {
   return username.length ? `/profile/${encodeURIComponent(username)}` : null
 }
 
-function getAuthorMetaParts(date: string) {
-  const template = t('blog.meta.author', {
-    author: AUTHOR_PLACEHOLDER,
-    date,
-  })
-
-  const [prefix = '', suffix = ''] = template.split(AUTHOR_PLACEHOLDER)
-  return { prefix, suffix }
-}
-
 function resolveBlogLink(blog: BlogSummary) {
   if (!blog) {
     return null
@@ -599,11 +587,70 @@ function resolveBlogLink(blog: BlogSummary) {
 
 const getAuthorAvatar = (user: BlogPostUser) => user.photo || undefined
 
-const formatPublishedAt = (publishedAt: string) =>
-  new Intl.DateTimeFormat(locale.value, {
+function getPostPlainContent(content: string | null | undefined) {
+  if (!content) {
+    return ''
+  }
+
+  if (typeof window !== 'undefined' && 'DOMParser' in window) {
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(content, 'text/html')
+    const text = doc.body.textContent || ''
+    return text.replace(/\s+/g, ' ').trim()
+  }
+
+  return content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
+const formatPublishedAt = (publishedAt: string) => {
+  const date = new Date(publishedAt)
+  if (Number.isNaN(date.getTime())) {
+    return publishedAt
+  }
+
+  return new Intl.DateTimeFormat(locale.value, {
     dateStyle: 'long',
     timeStyle: 'short',
-  }).format(new Date(publishedAt))
+  }).format(date)
+}
+
+const relativeTimeFormat = computed(
+  () =>
+    new Intl.RelativeTimeFormat(locale.value, {
+      numeric: 'auto',
+    }),
+)
+
+function formatRelativePublishedAt(publishedAt: string) {
+  const target = new Date(publishedAt)
+  if (Number.isNaN(target.getTime())) {
+    return formatPublishedAt(publishedAt)
+  }
+
+  const diffInSeconds = Math.round((target.getTime() - Date.now()) / 1000)
+  const thresholds: { unit: Intl.RelativeTimeFormatUnit; seconds: number }[] = [
+    { unit: 'year', seconds: 60 * 60 * 24 * 365 },
+    { unit: 'month', seconds: 60 * 60 * 24 * 30 },
+    { unit: 'week', seconds: 60 * 60 * 24 * 7 },
+    { unit: 'day', seconds: 60 * 60 * 24 },
+    { unit: 'hour', seconds: 60 * 60 },
+    { unit: 'minute', seconds: 60 },
+    { unit: 'second', seconds: 1 },
+  ]
+
+  for (const { unit, seconds } of thresholds) {
+    if (Math.abs(diffInSeconds) >= seconds || unit === 'second') {
+      if (unit === 'second' && Math.abs(diffInSeconds) < 45) {
+        return relativeTimeFormat.value.format(0, 'second')
+      }
+
+      const value = Math.round(diffInSeconds / seconds)
+      return relativeTimeFormat.value.format(value, unit)
+    }
+  }
+
+  return formatPublishedAt(publishedAt)
+}
 
 function canEditPost(post: BlogPostViewModel) {
   return loggedIn.value && post.user.username === currentUsername.value
@@ -953,13 +1000,13 @@ await loadPosts(1, { replace: true })
                 :key="post.id"
                 cols="12"
               >
-                <v-card class="blog-post-card" elevation="0">
-                  <v-card-item>
-                    <template #prepend>
+                <v-card class="facebook-post-card" elevation="0">
+                  <div class="facebook-post-card__header">
+                    <div class="facebook-post-card__avatar">
                       <NuxtLink
                         v-if="getAuthorProfileLink(post.user)"
                         :to="getAuthorProfileLink(post.user)"
-                        class="blog-post-card__avatar-link"
+                        class="facebook-post-card__avatar-link"
                       >
                         <v-avatar size="48">
                           <v-img
@@ -982,83 +1029,104 @@ await loadPosts(1, { replace: true })
                           </template>
                         </v-img>
                       </v-avatar>
-                    </template>
-                    <v-card-title class="text-h5 text-wrap">
-                      <NuxtLink
-                        :to="`/post/${post.slug}`"
-                        class="blog-post-link"
-                      >
-                        {{ post.title }}
-                      </NuxtLink>
-                    </v-card-title>
-                    <v-card-subtitle
-                      class="text-body-2 text-medium-emphasis d-flex flex-wrap align-center"
+                    </div>
+                    <div class="facebook-post-card__header-info">
+                      <div class="facebook-post-card__author">
+                        <NuxtLink
+                          v-if="getAuthorProfileLink(post.user)"
+                          :to="getAuthorProfileLink(post.user)"
+                          class="facebook-post-card__author-link"
+                        >
+                          {{ getAuthorName(post.user) }}
+                        </NuxtLink>
+                        <span v-else class="facebook-post-card__author-link">
+                          {{ getAuthorName(post.user) }}
+                        </span>
+                      </div>
+                      <div class="facebook-post-card__meta">
+                        <span>{{ formatRelativePublishedAt(post.publishedAt) }}</span>
+                        <span class="facebook-post-card__meta-separator">·</span>
+                        <v-icon
+                          icon="mdi-earth"
+                          size="14"
+                          class="facebook-post-card__meta-icon"
+                          aria-hidden="true"
+                        />
+                      </div>
+                    </div>
+                    <v-btn
+                      icon
+                      variant="text"
+                      class="facebook-post-card__menu-btn"
                     >
-                      <span>
-                        {{
-                          getAuthorMetaParts(
-                            formatPublishedAt(post.publishedAt),
-                          ).prefix
-                        }}
-                      </span>
-                      <NuxtLink
-                        v-if="getAuthorProfileLink(post.user)"
-                        :to="getAuthorProfileLink(post.user)"
-                        class="blog-post-card__author-link mx-1"
-                      >
-                        {{ getAuthorName(post.user) }}
-                      </NuxtLink>
-                      <span v-else class="mx-1">{{ getAuthorName(post.user) }}</span>
-                      <span>
-                        {{
-                          getAuthorMetaParts(
-                            formatPublishedAt(post.publishedAt),
-                          ).suffix
-                        }}
-                      </span>
-                    </v-card-subtitle>
-                  </v-card-item>
+                      <v-icon icon="mdi-dots-horizontal" />
+                    </v-btn>
+                  </div>
 
-                  <v-card-text>
-                    <p class="text-body-1 mb-4">
+                  <div class="facebook-post-card__body">
+                    <NuxtLink
+                      :to="`/post/${post.slug}`"
+                      class="facebook-post-card__title"
+                    >
+                      {{ post.title }}
+                    </NuxtLink>
+                    <p
+                      class="facebook-post-card__text"
+                      :class="{ 'facebook-post-card__text--muted': !post.summary }"
+                    >
                       {{ post.summary || t('blog.placeholders.noSummary') }}
                     </p>
-                    <v-divider class="mb-4" />
-                    <div class="blog-post-card__meta">
-                      <div class="d-flex align-center">
-                        <v-icon icon="mdi-thumb-up-outline" class="mr-1" />
+                    <p
+                      v-if="getPostPlainContent(post.content)"
+                      class="facebook-post-card__content"
+                    >
+                      {{ getPostPlainContent(post.content) }}
+                    </p>
+                  </div>
+
+                  <div class="facebook-post-card__stats">
+                    <div class="facebook-post-card__stats-left">
+                      <div class="facebook-post-card__reaction-icons">
+                        <span class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--like">
+                          <v-icon icon="mdi-thumb-up" size="14" />
+                        </span>
+                        <span class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--love">
+                          <v-icon icon="mdi-heart" size="14" />
+                        </span>
+                        <span class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--care">
+                          <v-icon icon="mdi-emoticon-excited" size="14" />
+                        </span>
+                      </div>
+                      <span class="facebook-post-card__stat-value">
                         {{
                           t('blog.stats.reactions', {
                             count: post.reactions_count ?? 0,
                           })
                         }}
-                      </div>
-                      <div class="d-flex align-center">
-                        <v-icon icon="mdi-comment-text-outline" class="mr-1" />
+                      </span>
+                    </div>
+                    <div class="facebook-post-card__stats-right">
+                      <span class="facebook-post-card__stat-value">
                         {{
                           t('blog.stats.comments', {
                             count: post.totalComments ?? 0,
                           })
                         }}
-                      </div>
+                      </span>
                     </div>
-                  </v-card-text>
+                  </div>
 
-                  <v-card-actions class="blog-post-card__actions">
-                    <div class="blog-post-card__actions-left">
-                      <v-btn
-                        :href="post.url || undefined"
-                        :disabled="!post.url"
-                        target="_blank"
-                        color="primary"
-                        variant="text"
-                        append-icon="mdi-open-in-new"
-                      >
-                        {{ t('blog.actions.read') }}
-                      </v-btn>
+                  <div class="facebook-post-card__divider" />
+
+                  <div class="facebook-post-card__actions">
+                    <div class="facebook-post-card__actions-left">
                       <v-btn
                         variant="text"
                         color="primary"
+                        class="facebook-post-card__action-btn"
+                        :class="{
+                          'facebook-post-card__action-btn--active': post.isReacted,
+                        }"
                         :loading="post.ui.likeLoading"
                         @click="togglePostReaction(post)"
                       >
@@ -1075,6 +1143,7 @@ await loadPosts(1, { replace: true })
                       <v-btn
                         variant="text"
                         color="primary"
+                        class="facebook-post-card__action-btn"
                         :loading="post.ui.commentsLoading"
                         @click="toggleCommentsVisibility(post)"
                       >
@@ -1090,12 +1159,27 @@ await loadPosts(1, { replace: true })
                             : t('blog.actions.showComments')
                         }}
                       </v-btn>
+                      <v-btn
+                        :href="post.url || undefined"
+                        :disabled="!post.url"
+                        target="_blank"
+                        variant="text"
+                        color="primary"
+                        class="facebook-post-card__action-btn"
+                      >
+                        <v-icon icon="mdi-share-variant" class="mr-2" />
+                        {{ t('blog.actions.read') }}
+                      </v-btn>
                     </div>
-                    <div v-if="canEditPost(post)" class="blog-post-card__actions-right">
+                    <div
+                      v-if="canEditPost(post)"
+                      class="facebook-post-card__actions-right"
+                    >
                       <v-btn
                         variant="text"
                         color="primary"
                         prepend-icon="mdi-pencil"
+                        class="facebook-post-card__action-btn"
                         @click="openEditDialog(post)"
                       >
                         {{ t('common.actions.edit') }}
@@ -1104,85 +1188,92 @@ await loadPosts(1, { replace: true })
                         variant="text"
                         color="error"
                         prepend-icon="mdi-delete"
+                        class="facebook-post-card__action-btn"
                         :loading="post.ui.deleteLoading"
                         @click="confirmDeletePost(post)"
                       >
                         {{ t('common.actions.delete') }}
                       </v-btn>
                     </div>
-                  </v-card-actions>
+                  </div>
 
                   <v-expand-transition>
-                    <div v-if="post.ui.commentsVisible" class="blog-post-card__comments">
-                      <v-alert
-                        v-if="!loggedIn"
-                        type="info"
-                        variant="tonal"
-                        class="mb-4"
-                        density="comfortable"
-                      >
-                        {{ t('blog.prompts.loginToComment') }}
-                      </v-alert>
+                    <div
+                      v-if="post.ui.commentsVisible"
+                      class="facebook-post-card__comments-section"
+                    >
+                      <div class="facebook-post-card__divider facebook-post-card__divider--spaced" />
+                      <div class="facebook-post-card__comments">
+                        <v-alert
+                          v-if="!loggedIn"
+                          type="info"
+                          variant="tonal"
+                          class="mb-4"
+                          density="comfortable"
+                        >
+                          {{ t('blog.prompts.loginToComment') }}
+                        </v-alert>
 
-                      <v-alert
-                        v-if="post.ui.commentsError"
-                        type="error"
-                        variant="tonal"
-                        class="mb-4"
-                        density="comfortable"
-                      >
-                        {{ post.ui.commentsError }}
-                      </v-alert>
+                        <v-alert
+                          v-if="post.ui.commentsError"
+                          type="error"
+                          variant="tonal"
+                          class="mb-4"
+                          density="comfortable"
+                        >
+                          {{ post.ui.commentsError }}
+                        </v-alert>
 
-                      <div v-if="loggedIn" class="mb-4">
-                        <v-textarea
-                          v-model="post.ui.commentContent"
-                          :label="t('blog.forms.commentPlaceholder')"
-                          auto-grow
-                          rows="2"
-                          variant="outlined"
-                          :disabled="post.ui.commentLoading"
-                        />
-                        <div class="d-flex justify-end mt-2">
-                          <v-btn
-                            color="primary"
-                            :loading="post.ui.commentLoading"
-                            :disabled="
-                              post.ui.commentLoading ||
-                              !post.ui.commentContent.trim().length
-                            "
-                            @click="submitPostComment(post)"
-                          >
-                            {{ t('blog.actions.addComment') }}
-                          </v-btn>
+                        <div v-if="loggedIn" class="mb-4">
+                          <v-textarea
+                            v-model="post.ui.commentContent"
+                            :label="t('blog.forms.commentPlaceholder')"
+                            auto-grow
+                            rows="2"
+                            variant="outlined"
+                            :disabled="post.ui.commentLoading"
+                          />
+                          <div class="d-flex justify-end mt-2">
+                            <v-btn
+                              color="primary"
+                              :loading="post.ui.commentLoading"
+                              :disabled="
+                                post.ui.commentLoading ||
+                                !post.ui.commentContent.trim().length
+                              "
+                              @click="submitPostComment(post)"
+                            >
+                              {{ t('blog.actions.addComment') }}
+                            </v-btn>
+                          </div>
                         </div>
+
+                        <BlogCommentThread
+                          v-if="post.comments.length"
+                          :comments="post.comments"
+                          :format-author="getAuthorName"
+                          :format-date="formatPublishedAt"
+                          :can-interact="loggedIn"
+                          :resolve-profile-link="getAuthorProfileLink"
+                          @toggle-like="(comment) => toggleCommentReaction(post, comment)"
+                          @submit-reply="(comment) => submitCommentReply(post, comment)"
+                        />
+
+                        <v-sheet
+                          v-else
+                          class="facebook-post-card__comments-empty"
+                          variant="tonal"
+                          color="surface"
+                        >
+                          <v-icon icon="mdi-comment-outline" size="48" class="mb-3" />
+                          <h3 class="text-h6 mb-1">
+                            {{ t('blog.emptyComments.title') }}
+                          </h3>
+                          <p class="text-body-2 mb-0 text-medium-emphasis">
+                            {{ t('blog.emptyComments.description') }}
+                          </p>
+                        </v-sheet>
                       </div>
-
-                      <BlogCommentThread
-                        v-if="post.comments.length"
-                        :comments="post.comments"
-                        :format-author="getAuthorName"
-                        :format-date="formatPublishedAt"
-                        :can-interact="loggedIn"
-                        :resolve-profile-link="getAuthorProfileLink"
-                        @toggle-like="(comment) => toggleCommentReaction(post, comment)"
-                        @submit-reply="(comment) => submitCommentReply(post, comment)"
-                      />
-
-                      <v-sheet
-                        v-else
-                        class="blog-post-card__comments-empty"
-                        variant="tonal"
-                        color="surface"
-                      >
-                        <v-icon icon="mdi-comment-outline" size="48" class="mb-3" />
-                        <h3 class="text-h6 mb-1">
-                          {{ t('blog.emptyComments.title') }}
-                        </h3>
-                        <p class="text-body-2 mb-0 text-medium-emphasis">
-                          {{ t('blog.emptyComments.description') }}
-                        </p>
-                      </v-sheet>
                     </div>
                   </v-expand-transition>
 
@@ -1581,74 +1672,234 @@ await loadPosts(1, { replace: true })
   background: var(--blog-feed-empty-background);
 }
 
-.blog-post-card {
-  border-radius: 26px;
+.facebook-post-card {
+  border-radius: 22px;
   background: var(--blog-post-card-background);
   box-shadow: var(--blog-post-card-shadow);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
   overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.blog-post-card:hover {
-  transform: translateY(-6px);
+.facebook-post-card:hover {
+  transform: translateY(-4px);
   box-shadow: var(--blog-post-card-hover-shadow);
 }
 
-.blog-post-card__meta {
+.facebook-post-card__header {
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  color: rgba(var(--v-theme-on-surface), 0.65);
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px 12px;
 }
 
-.blog-post-card__actions {
+.facebook-post-card__avatar {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.facebook-post-card__avatar-link {
+  display: inline-flex;
+  border-radius: 50%;
+}
+
+.facebook-post-card__header-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.facebook-post-card__author-link {
+  font-weight: 600;
+  color: rgb(var(--v-theme-primary));
+  text-decoration: none;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+a.facebook-post-card__author-link:hover,
+a.facebook-post-card__author-link:focus-visible {
+  text-decoration: underline;
+}
+
+.facebook-post-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: rgba(var(--v-theme-on-surface), 0.6);
+}
+
+.facebook-post-card__meta-icon {
+  color: inherit;
+}
+
+.facebook-post-card__menu-btn {
+  margin-left: auto;
+  color: rgba(var(--v-theme-on-surface), 0.5);
+}
+
+.facebook-post-card__menu-btn:hover,
+.facebook-post-card__menu-btn:focus-visible {
+  color: rgba(var(--v-theme-on-surface), 0.7);
+}
+
+.facebook-post-card__body {
+  padding: 0 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.facebook-post-card__title {
+  display: inline-block;
+  font-weight: 600;
+  color: rgba(var(--v-theme-on-surface), 0.92);
+  text-decoration: none;
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.facebook-post-card__title:hover,
+.facebook-post-card__title:focus-visible {
+  text-decoration: underline;
+}
+
+.facebook-post-card__text {
+  margin: 0;
+  color: rgba(var(--v-theme-on-surface), 0.87);
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.facebook-post-card__text--muted {
+  color: rgba(var(--v-theme-on-surface), 0.6);
+}
+
+.facebook-post-card__content {
+  color: rgba(var(--v-theme-on-surface), 0.85);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.facebook-post-card__stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 12px;
+  font-size: 0.875rem;
+  color: rgba(var(--v-theme-on-surface), 0.6);
+}
+
+.facebook-post-card__stats-left,
+.facebook-post-card__stats-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.facebook-post-card__reaction-icons {
+  display: flex;
+  align-items: center;
+}
+
+.facebook-post-card__reaction-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(var(--blog-surface-rgb), 1);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+.facebook-post-card__reaction-icon + .facebook-post-card__reaction-icon {
+  margin-left: -8px;
+}
+
+.facebook-post-card__reaction-icon--like {
+  background: #1877f2;
+}
+
+.facebook-post-card__reaction-icon--love {
+  background: #f33e58;
+}
+
+.facebook-post-card__reaction-icon--care {
+  background: #f7b125;
+}
+
+.facebook-post-card__stat-value {
+  white-space: nowrap;
+}
+
+.facebook-post-card__divider {
+  height: 1px;
+  margin: 0 20px;
+  background: rgba(var(--v-theme-on-surface), 0.08);
+}
+
+.facebook-post-card__divider--spaced {
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.facebook-post-card__actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 12px;
-  padding: 0 24px 24px;
+  padding: 8px 20px 12px;
 }
 
-.blog-post-card__actions-left,
-.blog-post-card__actions-right {
+.facebook-post-card__actions-left,
+.facebook-post-card__actions-right {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 12px;
 }
 
-.blog-post-card__comments {
-  padding: 0 24px 24px;
+.facebook-post-card__action-btn {
+  text-transform: none;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: rgba(var(--v-theme-on-surface), 0.68);
 }
 
-.blog-post-card__comments-empty {
+.facebook-post-card__action-btn--active {
+  color: rgb(var(--v-theme-primary));
+}
+
+.facebook-post-card__action-btn:hover,
+.facebook-post-card__action-btn:focus-visible {
+  background: rgba(var(--v-theme-primary), 0.08);
+}
+
+.facebook-post-card__meta-separator {
+  color: rgba(var(--v-theme-on-surface), 0.45);
+}
+
+.facebook-post-card__comments-section {
+  padding-bottom: 20px;
+}
+
+.facebook-post-card__comments {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.facebook-post-card__comments-empty {
   padding: 32px 16px;
   text-align: center;
   border-radius: 16px;
   background: var(--blog-comments-empty-background);
-}
-
-.blog-post-link {
-  color: inherit;
-  text-decoration: none;
-}
-
-.blog-post-link:hover,
-.blog-post-link:focus-visible {
-  text-decoration: underline;
-}
-
-.blog-post-card__avatar-link {
-  display: inline-flex;
-}
-
-.blog-post-card__author-link {
-  color: inherit;
-  text-decoration: none;
-}
-
-.blog-post-card__author-link:hover,
-.blog-post-card__author-link:focus-visible {
-  text-decoration: underline;
 }
 
 .blog-sidebar-column {
@@ -1677,13 +1928,13 @@ await loadPosts(1, { replace: true })
 }
 
 @media (max-width: 960px) {
-  .blog-post-card__actions {
+  .facebook-post-card__actions {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .blog-post-card__actions-left,
-  .blog-post-card__actions-right {
+  .facebook-post-card__actions-left,
+  .facebook-post-card__actions-right {
     justify-content: flex-start;
   }
 }
