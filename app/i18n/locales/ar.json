@@ -160,7 +160,20 @@
       "editTitle": "تعديل المنشور",
       "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا المنشور؟ هذا الإجراء لا يمكن التراجع عنه.",
       "shareTitle": "مشاركة المنشور",
-      "shareAudiencePublic": "عام"
+      "shareAudiencePublic": "عام",
+      "reactionsTitle": "التفاعلات",
+      "reactionsEmpty": "لا توجد تفاعلات بعد."
+    },
+    "reactions": {
+      "types": {
+        "like": "إعجاب",
+        "love": "حب",
+        "care": "رعاية",
+        "haha": "هاها",
+        "wow": "واو",
+        "sad": "حزين",
+        "angry": "غاضب"
+      }
     }
   },
   "admin": {

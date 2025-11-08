@@ -160,7 +160,20 @@
       "editTitle": "Редактирование записи",
       "deleteConfirm": "Вы уверены, что хотите удалить эту запись? Это действие нельзя отменить.",
       "shareTitle": "Поделиться записью",
-      "shareAudiencePublic": "Публично"
+      "shareAudiencePublic": "Публично",
+      "reactionsTitle": "Реакции",
+      "reactionsEmpty": "Пока нет реакций."
+    },
+    "reactions": {
+      "types": {
+        "like": "Нравится",
+        "love": "Люблю",
+        "care": "Забочусь",
+        "haha": "Хаха",
+        "wow": "Ух ты",
+        "sad": "Грущу",
+        "angry": "Злюсь"
+      }
     }
   },
   "admin": {

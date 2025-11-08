@@ -438,7 +438,7 @@ export const useBlogApi = () => {
   const likePost = async (postId: string) => {
     const headers = getAuthHeaders(true)
 
-    await $fetch(`${PRIVATE_POSTS_ENDPOINT}/${postId}/like`, {
+    await $fetch(`${PRIVATE_POSTS_ENDPOINT}/${postId}/react/like`, {
       method: 'POST',
       headers,
     })
@@ -447,7 +447,7 @@ export const useBlogApi = () => {
   const dislikePost = async (postId: string) => {
     const headers = getAuthHeaders(true)
 
-    await $fetch(`${PRIVATE_POSTS_ENDPOINT}/${postId}/dislike`, {
+    await $fetch(`${PRIVATE_POSTS_ENDPOINT}/${postId}/react/delete`, {
       method: 'POST',
       headers,
     })

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import BlogCommentThread from '~/components/Blog/CommentThread.vue'
+import BlogReactionsDialog from '~/components/Blog/ReactionsDialog.vue'
 import {
   AuthenticationRequiredError,
   useBlogApi,
@@ -15,6 +16,7 @@ import type {
   BlogReactionPreview,
   BlogSummary,
 } from '~/types/blog'
+import type { PublicProfileData } from '~/types/profile'
 import { Notify } from '~/stores/notification'
 
 definePageMeta({
@@ -26,6 +28,46 @@ definePageMeta({
 const route = useRoute()
 const { t, locale } = useI18n()
 const { session, loggedIn } = useUserSession()
+
+const currentUsername = computed(
+  () => session.value?.user?.login || session.value?.profile?.username || null,
+)
+
+const currentProfile = computed<PublicProfileData | null>(() => {
+  const profile = session.value?.profile
+  return profile && typeof profile === 'object'
+    ? (profile as PublicProfileData)
+    : null
+})
+
+const currentSessionUser = computed(
+  () =>
+    (session.value as {
+      user?: {
+        login?: string | null
+        avatar_url?: string | null
+        email?: string | null
+      }
+    } | null)?.user ?? null,
+)
+
+const currentUserAvatar = computed(() => {
+  const profilePhoto =
+    typeof currentProfile.value?.photo === 'string'
+      ? currentProfile.value.photo
+      : ''
+
+  if (profilePhoto?.length) {
+    return profilePhoto
+  }
+
+  const avatar =
+    typeof currentSessionUser.value?.avatar_url === 'string'
+      ? currentSessionUser.value.avatar_url
+      : ''
+
+  return avatar?.length ? avatar : undefined
+})
 
 const currentUserId = computed(() => {
   const sessionValue = session.value
@@ -52,6 +94,56 @@ const currentUserId = computed(() => {
   return null
 })
 
+const currentUserReactionUser = computed<BlogPostUser | null>(() => {
+  const id = currentUserId.value
+  if (!id) {
+    return null
+  }
+
+  const profile = currentProfile.value
+  if (profile) {
+    const firstName =
+      typeof profile.firstName === 'string' ? profile.firstName : undefined
+    const lastName =
+      typeof profile.lastName === 'string' ? profile.lastName : undefined
+    const username =
+      typeof profile.username === 'string' && profile.username.trim().length
+        ? profile.username
+        : currentUsername.value ?? undefined
+
+    return {
+      id,
+      firstName,
+      lastName,
+      username: username ?? t('auth.guest'),
+      email:
+        typeof profile.email === 'string' && profile.email.trim().length
+          ? profile.email
+          : undefined,
+      photo: currentUserAvatar.value,
+    }
+  }
+
+  const sessionUser = currentSessionUser.value
+  const username =
+    (typeof currentUsername.value === 'string' && currentUsername.value.length
+      ? currentUsername.value
+      : null) ??
+    (typeof sessionUser?.login === 'string' && sessionUser.login.length
+      ? sessionUser.login
+      : null)
+
+  return {
+    id,
+    username: username ?? t('auth.guest'),
+    email:
+      typeof sessionUser?.email === 'string' && sessionUser.email.trim().length
+        ? sessionUser.email
+        : undefined,
+    photo: currentUserAvatar.value,
+  }
+})
+
 const {
   fetchPostBySlug,
   fetchComments,
@@ -66,6 +158,11 @@ const {
 const post = ref<BlogPostViewModel | null>(null)
 const isLoading = ref(false)
 const postError = ref<string | null>(null)
+
+const reactionsDialog = reactive({
+  open: false,
+  items: [] as BlogReactionPreview[],
+})
 
 const slug = computed(() => {
   const value = route.params.slug
@@ -174,9 +271,92 @@ function resolvePostComments(postValue: BlogPost): BlogComment[] {
   return []
 }
 
+function normalizeReaction(
+  reaction: BlogReactionPreview | null | undefined,
+): BlogReactionPreview | null {
+  if (!reaction || typeof reaction !== 'object') {
+    return null
+  }
+
+  const user = (reaction as { user?: BlogPostUser | null }).user
+  if (!user || typeof user !== 'object') {
+    return null
+  }
+
+  const id =
+    typeof user.id === 'string' && user.id.trim().length ? user.id.trim() : null
+  if (!id) {
+    return null
+  }
+
+  const type =
+    typeof reaction.type === 'string' && reaction.type.trim().length
+      ? reaction.type.trim()
+      : 'like'
+
+  const firstName =
+    typeof user.firstName === 'string' && user.firstName.trim().length
+      ? user.firstName
+      : undefined
+  const lastName =
+    typeof user.lastName === 'string' && user.lastName.trim().length
+      ? user.lastName
+      : undefined
+  const username =
+    typeof user.username === 'string' && user.username.trim().length
+      ? user.username.trim()
+      : undefined
+  const email =
+    typeof user.email === 'string' && user.email.trim().length
+      ? user.email.trim()
+      : undefined
+  const photo =
+    typeof user.photo === 'string' && user.photo.trim().length
+      ? user.photo
+      : undefined
+
+  return {
+    id:
+      typeof reaction.id === 'string' && reaction.id.trim().length
+        ? reaction.id
+        : `${id}-${type}`,
+    type,
+    user: {
+      id,
+      firstName,
+      lastName,
+      username: username ?? email ?? id,
+      email,
+      photo,
+    },
+  }
+}
+
+function normalizeReactionsPreview(
+  reactions: BlogReactionPreview[] | null | undefined,
+): BlogReactionPreview[] {
+  if (!Array.isArray(reactions)) {
+    return []
+  }
+
+  const normalized = reactions
+    .map((reaction) => normalizeReaction(reaction))
+    .filter((reaction): reaction is BlogReactionPreview => Boolean(reaction))
+
+  const unique = new Map<string, BlogReactionPreview>()
+  for (const reaction of normalized) {
+    unique.set(reaction.user.id, reaction)
+  }
+
+  return Array.from(unique.values())
+}
+
 function createPostViewModel(postValue: BlogPost): BlogPostViewModel {
+  const reactionsPreview = normalizeReactionsPreview(postValue.reactions_preview)
+
   return {
     ...postValue,
+    reactions_preview: reactionsPreview,
     comments: resolvePostComments(postValue).map(createCommentViewModel),
     ui: {
       commentsVisible: true,
@@ -372,14 +552,39 @@ async function togglePostReaction(postValue: BlogPostViewModel) {
   const currentlyReacted = Boolean(postValue.isReacted)
 
   try {
+    const sanitizedPreview = normalizeReactionsPreview(postValue.reactions_preview)
+
     if (currentlyReacted) {
       await dislikePost(postValue.id)
       postValue.isReacted = null
       postValue.reactions_count = Math.max((postValue.reactions_count ?? 1) - 1, 0)
+
+      const currentId = currentUserId.value
+      postValue.reactions_preview = currentId
+        ? sanitizedPreview.filter((reaction) => reaction.user.id !== currentId)
+        : sanitizedPreview
     } else {
       await likePost(postValue.id)
       postValue.isReacted = 'like'
       postValue.reactions_count = (postValue.reactions_count ?? 0) + 1
+
+      const currentUser = currentUserReactionUser.value
+      if (currentUser) {
+        const filtered = sanitizedPreview.filter(
+          (reaction) => reaction.user.id !== currentUser.id,
+        )
+        const normalizedReaction = normalizeReaction({
+          id: `${postValue.id}-${currentUser.id}`,
+          type: 'like',
+          user: currentUser,
+        } as BlogReactionPreview)
+
+        postValue.reactions_preview = normalizedReaction
+          ? [normalizedReaction, ...filtered]
+          : filtered
+      } else {
+        postValue.reactions_preview = sanitizedPreview
+      }
     }
   } catch (error) {
     Notify.error(extractErrorMessage(error, t('blog.errors.reactionFailed')))
@@ -412,6 +617,11 @@ async function toggleCommentReaction(
   } finally {
     comment.ui.likeLoading = false
   }
+}
+
+function openPostReactions(postValue: BlogPostViewModel) {
+  reactionsDialog.items = normalizeReactionsPreview(postValue.reactions_preview)
+  reactionsDialog.open = true
 }
 
 async function loadPost(slugValue: string) {
@@ -569,14 +779,20 @@ watch(
               </p>
             </div>
             <div class="d-flex flex-wrap align-center mb-2">
-              <div class="d-flex align-center text-medium-emphasis mr-6 mb-2">
+              <v-btn
+                variant="text"
+                class="d-flex align-center text-medium-emphasis mr-6 mb-2 px-0"
+                @click="openPostReactions(post)"
+              >
                 <v-icon icon="mdi-thumb-up-outline" class="mr-1" />
-                {{
-                  t('blog.stats.reactions', {
-                    count: post.reactions_count ?? 0,
-                  })
-                }}
-              </div>
+                <span class="text-body-2 font-weight-medium">
+                  {{
+                    t('blog.stats.reactions', {
+                      count: post.reactions_count ?? 0,
+                    })
+                  }}
+                </span>
+              </v-btn>
               <div class="d-flex align-center text-medium-emphasis mr-6 mb-2">
                 <v-icon icon="mdi-comment-text-outline" class="mr-1" />
                 {{
@@ -701,6 +917,10 @@ watch(
         </v-sheet>
       </v-col>
     </v-row>
+    <BlogReactionsDialog
+      v-model="reactionsDialog.open"
+      :reactions="reactionsDialog.items"
+    />
   </v-container>
 </template>
 
