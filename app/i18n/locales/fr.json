@@ -336,6 +336,31 @@
       "roles": {
         "title": "Rôles",
         "empty": "Aucun rôle attribué pour le moment."
+      },
+      "settings": {
+        "title": "Préférences"
+      }
+    },
+    "settings": {
+      "allowSendEmail": {
+        "title": "Recevoir des e-mails",
+        "description": "Autoriser la plateforme à envoyer des mises à jour et des alertes par e-mail."
+      },
+      "allowNotification": {
+        "title": "Activer les notifications dans l'application",
+        "description": "Recevoir les notifications directement dans l'application."
+      },
+      "actions": {
+        "refresh": "Recharger"
+      },
+      "notifications": {
+        "updateSuccess": "Préférence mise à jour avec succès."
+      },
+      "errors": {
+        "loadFailed": "Impossible de charger vos préférences. Veuillez réessayer plus tard.",
+        "saveFailed": "Impossible d'enregistrer vos préférences. Veuillez réessayer plus tard.",
+        "metadataMissing": "Les identifiants nécessaires pour enregistrer ces préférences sont introuvables.",
+        "noConfiguration": "Aucune préférence enregistrée n'a encore été trouvée."
       }
     },
     "calendar": {

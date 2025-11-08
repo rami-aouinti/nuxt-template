@@ -336,6 +336,31 @@
       "roles": {
         "title": "Rollen",
         "empty": "Noch keine Rollen zugewiesen."
+      },
+      "settings": {
+        "title": "Einstellungen"
+      }
+    },
+    "settings": {
+      "allowSendEmail": {
+        "title": "E-Mails erhalten",
+        "description": "Der Plattform erlauben, Aktualisierungen und Hinweise per E-Mail zu senden."
+      },
+      "allowNotification": {
+        "title": "Benachrichtigungen in der App aktivieren",
+        "description": "Benachrichtigungen direkt in der Anwendung erhalten."
+      },
+      "actions": {
+        "refresh": "Aktualisieren"
+      },
+      "notifications": {
+        "updateSuccess": "Einstellung erfolgreich aktualisiert."
+      },
+      "errors": {
+        "loadFailed": "Ihre Einstellungen konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+        "saveFailed": "Ihre Einstellungen konnten nicht gespeichert werden. Bitte versuchen Sie es später erneut.",
+        "metadataMissing": "Die zum Speichern benötigten Kennungen konnten nicht ermittelt werden.",
+        "noConfiguration": "Es wurden noch keine gespeicherten Einstellungen gefunden."
       }
     },
     "calendar": {
