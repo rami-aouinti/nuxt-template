@@ -1014,6 +1014,30 @@
       "details": {
         "title": "联系方式",
         "description": "发送邮件至 {email} 或通过控制面板提交工单，我们会在一个工作日内回复。"
+      },
+      "form": {
+        "title": "给我们发送留言",
+        "description": "请告诉我们您的需求，我们会让合适的专家与您联系。",
+        "fields": {
+          "subject": "留言标题",
+          "email": "电子邮箱",
+          "message": "描述"
+        },
+        "actions": {
+          "submit": "发送留言"
+        },
+        "status": {
+          "success": "谢谢！您的留言已成功发送。",
+          "error": "出现问题，请重试发送留言。"
+        },
+        "validation": {
+          "required": "此字段为必填项。",
+          "email": "请输入有效的电子邮箱地址。"
+        }
+      },
+      "location": {
+        "title": "来科隆拜访我们",
+        "description": "欢迎前往我们位于德国科隆的办公室与团队会面。"
       }
     }
   }
