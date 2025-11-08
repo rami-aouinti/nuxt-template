@@ -27,8 +27,8 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
           :aria-label="
             notifications.length ? 'Notifications (new)' : 'Notifications'
           "
-          size="small"
           variant="text"
+          class="dock-navbar__action-button"
         >
           <v-badge
             v-if="notifications.length > 0"
@@ -85,6 +85,24 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
 </template>
 
 <style scoped>
+.dock-navbar__action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 9999px;
+}
+
+.dock-navbar__action-button :deep(.v-icon) {
+  font-size: 22px;
+}
+
+.dock-navbar__action-button :deep(.v-badge__badge) {
+  font-size: 0.7rem;
+}
+
 .notification-card {
   display: flex;
   flex-direction: column;
