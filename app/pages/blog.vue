@@ -1531,17 +1531,19 @@ await loadPosts(1, { replace: true })
 .blog-page {
   position: relative;
   z-index: 1;
-  --blog-hero-background: rgba(255, 255, 255, 0.92);
+  --blog-surface-rgb: var(--v-theme-surface);
+  --blog-surface-variant-rgb: var(--v-theme-surface-variant);
+  --blog-hero-background: rgba(var(--blog-surface-rgb), 0.92);
   --blog-hero-shadow: 0 26px 60px rgba(25, 118, 210, 0.16);
-  --blog-feed-background: rgba(255, 255, 255, 0.92);
+  --blog-feed-background: rgba(var(--blog-surface-rgb), 0.92);
   --blog-feed-shadow: 0 20px 48px rgba(25, 118, 210, 0.14);
-  --blog-sidebar-background: rgba(255, 255, 255, 0.92);
+  --blog-sidebar-background: rgba(var(--blog-surface-rgb), 0.92);
   --blog-sidebar-shadow: 0 20px 44px rgba(25, 118, 210, 0.14);
-  --blog-feed-empty-background: rgba(255, 255, 255, 0.85);
-  --blog-post-card-background: rgba(255, 255, 255, 0.96);
+  --blog-feed-empty-background: rgba(var(--blog-surface-variant-rgb), 0.28);
+  --blog-post-card-background: rgba(var(--blog-surface-rgb), 0.96);
   --blog-post-card-shadow: 0 22px 52px rgba(33, 150, 243, 0.18);
   --blog-post-card-hover-shadow: 0 30px 68px rgba(25, 118, 210, 0.25);
-  --blog-comments-empty-background: transparent;
+  --blog-comments-empty-background: rgba(var(--blog-surface-variant-rgb), 0.18);
 }
 
 .blog-hero {
@@ -1690,31 +1692,31 @@ await loadPosts(1, { replace: true })
 
 @media (prefers-color-scheme: dark) {
   .blog-page {
-    --blog-hero-background: rgba(18, 18, 18, 0.85);
+    --blog-hero-background: rgba(var(--blog-surface-rgb), 0.88);
     --blog-hero-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
-    --blog-feed-background: rgba(18, 18, 18, 0.85);
+    --blog-feed-background: rgba(var(--blog-surface-rgb), 0.88);
     --blog-feed-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
-    --blog-sidebar-background: rgba(18, 18, 18, 0.85);
+    --blog-sidebar-background: rgba(var(--blog-surface-rgb), 0.88);
     --blog-sidebar-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
-    --blog-feed-empty-background: rgba(18, 18, 18, 0.85);
-    --blog-post-card-background: rgba(18, 18, 18, 0.85);
+    --blog-feed-empty-background: rgba(var(--blog-surface-variant-rgb), 0.18);
+    --blog-post-card-background: rgba(var(--blog-surface-rgb), 0.9);
     --blog-post-card-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
     --blog-post-card-hover-shadow: 0 30px 68px rgba(0, 0, 0, 0.6);
-    --blog-comments-empty-background: rgba(30, 30, 30, 0.92);
+    --blog-comments-empty-background: rgba(var(--blog-surface-variant-rgb), 0.12);
   }
 }
 
 :global(.v-theme--dark) .blog-page {
-  --blog-hero-background: rgba(18, 18, 18, 0.85);
+  --blog-hero-background: rgba(var(--blog-surface-rgb), 0.88);
   --blog-hero-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
-  --blog-feed-background: rgba(18, 18, 18, 0.85);
+  --blog-feed-background: rgba(var(--blog-surface-rgb), 0.88);
   --blog-feed-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
-  --blog-sidebar-background: rgba(18, 18, 18, 0.85);
+  --blog-sidebar-background: rgba(var(--blog-surface-rgb), 0.88);
   --blog-sidebar-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
-  --blog-feed-empty-background: rgba(18, 18, 18, 0.85);
-  --blog-post-card-background: rgba(18, 18, 18, 0.85);
+  --blog-feed-empty-background: rgba(var(--blog-surface-variant-rgb), 0.18);
+  --blog-post-card-background: rgba(var(--blog-surface-rgb), 0.9);
   --blog-post-card-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
   --blog-post-card-hover-shadow: 0 30px 68px rgba(0, 0, 0, 0.6);
-  --blog-comments-empty-background: rgba(30, 30, 30, 0.92);
+  --blog-comments-empty-background: rgba(var(--blog-surface-variant-rgb), 0.12);
 }
 </style>
