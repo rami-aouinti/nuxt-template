@@ -32,6 +32,7 @@
     "workplaces": "Workplaces",
     "apiKeys": "API 密钥",
     "profile": "个人资料",
+    "profileCalendar": "日历",
     "blog": "博客",
     "messenger": "消息",
     "language": "切换语言"
@@ -308,6 +309,59 @@
       "roles": {
         "title": "角色",
         "empty": "尚未分配角色。"
+      }
+    },
+    "calendar": {
+      "page": {
+        "title": "我的日历",
+        "subtitle": "查看、创建并管理您的个人事件。"
+      },
+      "actions": {
+        "new": "新建事件",
+        "refresh": "刷新",
+        "delete": "删除事件"
+      },
+      "view": {
+        "month": "月",
+        "week": "周",
+        "day": "日"
+      },
+      "list": {
+        "title": "即将到来的事件",
+        "empty": "暂无计划中的事件。"
+      },
+      "dialog": {
+        "createTitle": "创建事件",
+        "editTitle": "编辑事件",
+        "submit": "创建",
+        "save": "保存",
+        "cancel": "取消"
+      },
+      "form": {
+        "title": "标题",
+        "description": "描述",
+        "location": "地点",
+        "color": "颜色",
+        "allDay": "全天",
+        "isPrivate": "私人事件",
+        "startDate": "开始日期",
+        "startTime": "开始时间",
+        "endDate": "结束日期",
+        "endTime": "结束时间"
+      },
+      "delete": {
+        "title": "删除事件",
+        "message": "确定要删除此事件吗？此操作无法撤销。"
+      },
+      "notifications": {
+        "created": "事件创建成功。",
+        "updated": "事件更新成功。",
+        "deleted": "事件删除成功。",
+        "genericError": "无法处理请求，请稍后重试。"
+      },
+      "validation": {
+        "titleRequired": "标题为必填项。",
+        "startRequired": "开始日期为必填项。"
       }
     }
   },
