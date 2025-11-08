@@ -2,6 +2,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import BlogCommentThread from '~/components/Blog/CommentThread.vue'
+import DialogConfirm from '~/components/DialogConfirm.vue'
 import {
   BLOG_POSTS_DEFAULT_LIMIT,
   AuthenticationRequiredError,
@@ -90,6 +91,7 @@ const isInitialLoading = ref(false)
 const isLoadingMore = ref(false)
 const postsError = ref<string | null>(null)
 const loadMoreTrigger = ref<HTMLElement | null>(null)
+const deleteDialog = ref<InstanceType<typeof DialogConfirm> | null>(null)
 
 const publicBlogs = ref<BlogSummary[]>([])
 const publicBlogsLoading = ref(false)
@@ -745,11 +747,16 @@ async function submitEdit(post: BlogPostViewModel) {
 async function confirmDeletePost(post: BlogPostViewModel) {
   if (!ensureAuthenticated()) return
 
-  if (import.meta.client) {
-    const confirmation = window.confirm(t('blog.dialogs.deleteConfirm'))
-    if (!confirmation) {
-      return
-    }
+  if (!import.meta.client) {
+    return
+  }
+
+  const confirmation = deleteDialog.value
+    ? await deleteDialog.value.open(t('blog.dialogs.deleteConfirm'))
+    : window.confirm(t('blog.dialogs.deleteConfirm'))
+
+  if (!confirmation) {
+    return
   }
 
   post.ui.deleteLoading = true
@@ -1581,6 +1588,7 @@ await loadPosts(1, { replace: true })
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <DialogConfirm ref="deleteDialog" />
   </v-container>
 </template>
 
