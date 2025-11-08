@@ -40,7 +40,13 @@
     "description": "ابق على اطلاع بآخر أخبار Bro World.",
     "actions": {
       "refresh": "تحديث",
-      "read": "قراءة المقال"
+      "read": "قراءة المقال",
+      "showComments": "عرض كل التعليقات",
+      "hideComments": "إخفاء التعليقات",
+      "like": "إعجاب",
+      "unlike": "إزالة التفاعل",
+      "addComment": "نشر تعليق",
+      "reply": "الرد"
     },
     "alerts": {
       "loadFailed": "حدث خطأ أثناء تحميل المقالات. يرجى المحاولة مرة أخرى."
@@ -58,6 +64,44 @@
     "empty": {
       "title": "لا توجد مقالات منشورة بعد",
       "description": "عد لاحقًا لاكتشاف المنشورات القادمة."
+    },
+    "forms": {
+      "commentPlaceholder": "شارك أفكارك...",
+      "replyPlaceholder": "اكتب ردك...",
+      "edit": {
+        "title": "العنوان",
+        "summary": "الملخص",
+        "content": "المحتوى"
+      }
+    },
+    "notifications": {
+      "commentCreated": "تم نشر التعليق بنجاح.",
+      "replyCreated": "تم نشر الرد بنجاح.",
+      "postLiked": "تمت إضافة تفاعل إلى المنشور.",
+      "postUnliked": "تمت إزالة التفاعل من المنشور.",
+      "commentLiked": "تمت إضافة تفاعل إلى التعليق.",
+      "commentUnliked": "تمت إزالة التفاعل من التعليق.",
+      "postUpdated": "تم تحديث المنشور بنجاح.",
+      "postDeleted": "تم حذف المنشور بنجاح."
+    },
+    "errors": {
+      "authenticationRequired": "يجب تسجيل الدخول للقيام بهذا الإجراء.",
+      "loadCommentsFailed": "تعذر تحميل التعليقات.",
+      "commentFailed": "تعذر نشر التعليق.",
+      "likeFailed": "تعذر تحديث التفاعل.",
+      "updateFailed": "تعذر تحديث المنشور.",
+      "deleteFailed": "تعذر حذف المنشور."
+    },
+    "prompts": {
+      "loginToComment": "سجّل الدخول لعرض جميع التعليقات والمشاركة في النقاش."
+    },
+    "emptyComments": {
+      "title": "لا توجد تعليقات بعد",
+      "description": "كن أول من يشارك رأيه."
+    },
+    "dialogs": {
+      "editTitle": "تعديل المنشور",
+      "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا المنشور؟ هذا الإجراء لا يمكن التراجع عنه."
     }
   },
   "admin": {

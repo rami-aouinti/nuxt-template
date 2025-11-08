@@ -1,60 +1,108 @@
-export interface BlogUser extends Record<string, unknown> {
-  id?: string | number
+export interface BlogPostUser {
+  id: string
   firstName?: string | null
   lastName?: string | null
-  username?: string | null
-  fullName?: string | null
+  username: string
   email?: string | null
-  name?: string | null
+  photo?: string | null
 }
 
-export interface BlogTeam extends Record<string, unknown> {
-  id?: string | number
-  name?: string | null
-  title?: string | null
-  label?: string | null
-  slug?: string | null
+export interface BlogMedia {
+  id: string
+  url: string
+  type: string
+  alt?: string | null
 }
 
-export interface Blog extends Record<string, unknown> {
-  id?: string | number
-  uuid?: string | number
-  title?: string | null
-  name?: string | null
-  subtitle?: string | null
-  description?: string | null
-  slug?: string | null
-  visibility?: string | null
-  visible?: boolean
-  isVisible?: boolean
-  isPublished?: boolean
-  published?: boolean
-  status?: string | null
-  state?: string | null
-  publishedAt?: string | null
-  published_at?: string | null
-  publicationDate?: string | null
-  publishedOn?: string | null
-  createdAt?: string | null
-  created_at?: string | null
-  updatedAt?: string | null
-  updated_at?: string | null
-  owner?: BlogUser | null
-  user?: BlogUser | null
-  author?: BlogUser | null
-  teams?: (BlogTeam | string)[] | null
-  categories?: (BlogTeam | string)[] | null
-  groups?: (BlogTeam | string)[] | null
+export interface BlogReactionPreview {
+  id: string
+  type: string
+  user: BlogPostUser
 }
 
-export interface BlogListResponse extends Record<string, unknown> {
-  data?: Blog[]
-  items?: Blog[]
-  results?: Blog[]
-  rows?: Blog[]
-  entries?: Blog[]
-  'hydra:member'?: Blog[]
-  'hydra:members'?: Blog[]
+export interface BlogComment {
+  id: string
+  content: string
+  user: BlogPostUser
+  publishedAt: string
+  reactions_count?: number
+  likes_count?: number
+  totalComments?: number
+  isReacted?: boolean | string | null
+  reactions_preview?: BlogReactionPreview[]
+  comments_preview?: BlogComment[]
 }
 
-export type BlogPayload = Record<string, unknown>
+export interface BlogPost {
+  id: string
+  title: string
+  summary?: string | null
+  content?: string | null
+  slug: string
+  publishedAt: string
+  url?: string | null
+  medias?: BlogMedia[]
+  isReacted?: boolean | string | null
+  reactions_count?: number
+  totalComments?: number
+  user: BlogPostUser
+  reactions_preview?: BlogReactionPreview[]
+  comments_preview?: BlogComment[]
+}
+
+export interface BlogListResponse<T> {
+  data: T[]
+  page: number
+  limit: number
+  count: number
+}
+
+export type BlogPostListResponse = BlogListResponse<BlogPost>
+export type BlogCommentListResponse = BlogListResponse<BlogComment>
+
+export interface BlogCommentPayload {
+  content: string
+}
+
+export interface BlogPostUpdatePayload {
+  title?: string
+  summary?: string | null
+  content?: string | null
+}
+
+export interface BlogCommentUiState {
+  replyOpen: boolean
+  replyContent: string
+  replyLoading: boolean
+  likeLoading: boolean
+}
+
+export interface BlogCommentViewModel extends BlogComment {
+  replies: BlogCommentViewModel[]
+  ui: BlogCommentUiState
+}
+
+export interface BlogPostEditFormState {
+  title: string
+  summary: string
+  content: string
+  loading: boolean
+}
+
+export interface BlogPostUiState {
+  commentsVisible: boolean
+  commentsLoaded: boolean
+  commentsLoading: boolean
+  commentsError: string | null
+  commentContent: string
+  commentLoading: boolean
+  likeLoading: boolean
+  deleteLoading: boolean
+  editDialog: boolean
+  editForm: BlogPostEditFormState
+}
+
+export interface BlogPostViewModel extends BlogPost {
+  comments: BlogCommentViewModel[]
+  ui: BlogPostUiState
+}

@@ -40,7 +40,13 @@
     "description": "Bleibe über die neuesten Neuigkeiten von Bro World auf dem Laufenden.",
     "actions": {
       "refresh": "Aktualisieren",
-      "read": "Artikel lesen"
+      "read": "Artikel lesen",
+      "showComments": "Alle Kommentare anzeigen",
+      "hideComments": "Kommentare ausblenden",
+      "like": "Gefällt mir",
+      "unlike": "Reaktion entfernen",
+      "addComment": "Kommentar veröffentlichen",
+      "reply": "Antworten"
     },
     "alerts": {
       "loadFailed": "Beim Laden der Beiträge ist ein Fehler aufgetreten. Bitte versuche es erneut."
@@ -58,6 +64,44 @@
     "empty": {
       "title": "Noch keine Beiträge veröffentlicht",
       "description": "Schau später noch einmal vorbei, um neue Beiträge zu entdecken."
+    },
+    "forms": {
+      "commentPlaceholder": "Teilen Sie Ihre Gedanken...",
+      "replyPlaceholder": "Schreiben Sie Ihre Antwort...",
+      "edit": {
+        "title": "Titel",
+        "summary": "Zusammenfassung",
+        "content": "Inhalt"
+      }
+    },
+    "notifications": {
+      "commentCreated": "Kommentar erfolgreich veröffentlicht.",
+      "replyCreated": "Antwort erfolgreich veröffentlicht.",
+      "postLiked": "Reaktion zum Beitrag hinzugefügt.",
+      "postUnliked": "Reaktion vom Beitrag entfernt.",
+      "commentLiked": "Reaktion zum Kommentar hinzugefügt.",
+      "commentUnliked": "Reaktion vom Kommentar entfernt.",
+      "postUpdated": "Beitrag erfolgreich aktualisiert.",
+      "postDeleted": "Beitrag erfolgreich gelöscht."
+    },
+    "errors": {
+      "authenticationRequired": "Sie müssen angemeldet sein, um diese Aktion auszuführen.",
+      "loadCommentsFailed": "Kommentare konnten nicht geladen werden.",
+      "commentFailed": "Der Kommentar konnte nicht veröffentlicht werden.",
+      "likeFailed": "Die Reaktion konnte nicht aktualisiert werden.",
+      "updateFailed": "Der Beitrag konnte nicht aktualisiert werden.",
+      "deleteFailed": "Der Beitrag konnte nicht gelöscht werden."
+    },
+    "prompts": {
+      "loginToComment": "Melden Sie sich an, um alle Kommentare zu sehen und an der Diskussion teilzunehmen."
+    },
+    "emptyComments": {
+      "title": "Noch keine Kommentare",
+      "description": "Seien Sie der Erste, der seine Meinung teilt."
+    },
+    "dialogs": {
+      "editTitle": "Beitrag bearbeiten",
+      "deleteConfirm": "Sind Sie sicher, dass Sie diesen Beitrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
     }
   },
   "admin": {
