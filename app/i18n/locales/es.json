@@ -158,7 +158,20 @@
       "editTitle": "Editar publicación",
       "deleteConfirm": "¿Estás seguro de que deseas eliminar esta publicación? Esta acción no se puede deshacer.",
       "shareTitle": "Compartir publicación",
-      "shareAudiencePublic": "Público"
+      "shareAudiencePublic": "Público",
+      "reactionsTitle": "Reacciones",
+      "reactionsEmpty": "Aún no hay reacciones."
+    },
+    "reactions": {
+      "types": {
+        "like": "Me gusta",
+        "love": "Me encanta",
+        "care": "Me importa",
+        "haha": "Jaja",
+        "wow": "Guau",
+        "sad": "Triste",
+        "angry": "Enfadado"
+      }
     }
   },
   "admin": {

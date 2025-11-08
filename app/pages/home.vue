@@ -2,6 +2,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import BlogCommentThread from '~/components/Blog/CommentThread.vue'
+import BlogReactionsDialog from '~/components/Blog/ReactionsDialog.vue'
 import DialogConfirm from '~/components/DialogConfirm.vue'
 import {
   BLOG_POSTS_DEFAULT_LIMIT,
@@ -129,6 +130,11 @@ const shareDialog = reactive({
   message: '',
 })
 
+const reactionsDialog = reactive({
+  open: false,
+  items: [] as BlogReactionPreview[],
+})
+
 const currentProfile = computed<PublicProfileData | null>(() => {
   const profile = session.value?.profile
   return profile && typeof profile === 'object'
@@ -139,7 +145,11 @@ const currentProfile = computed<PublicProfileData | null>(() => {
 const currentSessionUser = computed(
   () =>
     (session.value as {
-      user?: { login?: string | null; avatar_url?: string | null }
+      user?: {
+        login?: string | null
+        avatar_url?: string | null
+        email?: string | null
+      }
     } | null)?.user ?? null,
 )
 
@@ -190,6 +200,56 @@ const currentUserAvatar = computed(() => {
       : ''
 
   return avatar?.length ? avatar : undefined
+})
+
+const currentUserReactionUser = computed<BlogPostUser | null>(() => {
+  const id = currentUserId.value
+  if (!id) {
+    return null
+  }
+
+  const profile = currentProfile.value
+  if (profile) {
+    const firstName =
+      typeof profile.firstName === 'string' ? profile.firstName : undefined
+    const lastName =
+      typeof profile.lastName === 'string' ? profile.lastName : undefined
+    const username =
+      typeof profile.username === 'string' && profile.username.trim().length
+        ? profile.username
+        : currentUsername.value ?? undefined
+
+    return {
+      id,
+      firstName,
+      lastName,
+      username: username ?? t('auth.guest'),
+      email:
+        typeof profile.email === 'string' && profile.email.trim().length
+          ? profile.email
+          : undefined,
+      photo: currentUserAvatar.value,
+    }
+  }
+
+  const sessionUser = currentSessionUser.value
+  const username =
+    (typeof currentUsername.value === 'string' && currentUsername.value.length
+      ? currentUsername.value
+      : null) ??
+    (typeof sessionUser?.login === 'string' && sessionUser.login.length
+      ? sessionUser.login
+      : null)
+
+  return {
+    id,
+    username: username ?? t('auth.guest'),
+    email:
+      typeof sessionUser?.email === 'string' && sessionUser.email.trim().length
+        ? sessionUser.email
+        : undefined,
+    photo: currentUserAvatar.value,
+  }
 })
 
 const hasMore = computed(
@@ -337,9 +397,92 @@ function resolvePostComments(post: BlogPost): BlogComment[] {
   return []
 }
 
+function normalizeReaction(
+  reaction: BlogReactionPreview | null | undefined,
+): BlogReactionPreview | null {
+  if (!reaction || typeof reaction !== 'object') {
+    return null
+  }
+
+  const user = (reaction as { user?: BlogPostUser | null }).user
+  if (!user || typeof user !== 'object') {
+    return null
+  }
+
+  const id =
+    typeof user.id === 'string' && user.id.trim().length ? user.id.trim() : null
+  if (!id) {
+    return null
+  }
+
+  const type =
+    typeof reaction.type === 'string' && reaction.type.trim().length
+      ? reaction.type.trim()
+      : 'like'
+
+  const firstName =
+    typeof user.firstName === 'string' && user.firstName.trim().length
+      ? user.firstName
+      : undefined
+  const lastName =
+    typeof user.lastName === 'string' && user.lastName.trim().length
+      ? user.lastName
+      : undefined
+  const username =
+    typeof user.username === 'string' && user.username.trim().length
+      ? user.username.trim()
+      : undefined
+  const email =
+    typeof user.email === 'string' && user.email.trim().length
+      ? user.email.trim()
+      : undefined
+  const photo =
+    typeof user.photo === 'string' && user.photo.trim().length
+      ? user.photo
+      : undefined
+
+  return {
+    id:
+      typeof reaction.id === 'string' && reaction.id.trim().length
+        ? reaction.id
+        : `${id}-${type}`,
+    type,
+    user: {
+      id,
+      firstName,
+      lastName,
+      username: username ?? email ?? id,
+      email,
+      photo,
+    },
+  }
+}
+
+function normalizeReactionsPreview(
+  reactions: BlogReactionPreview[] | null | undefined,
+): BlogReactionPreview[] {
+  if (!Array.isArray(reactions)) {
+    return []
+  }
+
+  const normalized = reactions
+    .map((reaction) => normalizeReaction(reaction))
+    .filter((reaction): reaction is BlogReactionPreview => Boolean(reaction))
+
+  const unique = new Map<string, BlogReactionPreview>()
+  for (const reaction of normalized) {
+    unique.set(reaction.user.id, reaction)
+  }
+
+  return Array.from(unique.values())
+}
+
 function createPostViewModel(post: BlogPost): BlogPostViewModel {
+  const reactionsPreview = normalizeReactionsPreview(post.reactions_preview)
+
   return {
     ...post,
+    reactions_preview: reactionsPreview,
     comments: resolvePostComments(post).map(createCommentViewModel),
     ui: {
       commentsVisible: false,
@@ -848,15 +991,42 @@ async function togglePostReaction(post: BlogPostViewModel) {
 
   post.ui.likeLoading = true
   try {
+    const sanitizedPreview = normalizeReactionsPreview(post.reactions_preview)
+
     if (post.isReacted) {
       await dislikePost(post.id)
       post.isReacted = null
       post.reactions_count = Math.max((post.reactions_count ?? 1) - 1, 0)
+
+      const currentId = currentUserId.value
+      post.reactions_preview = currentId
+        ? sanitizedPreview.filter((reaction) => reaction.user.id !== currentId)
+        : sanitizedPreview
+
       Notify.info(t('blog.notifications.postUnliked'))
     } else {
       await likePost(post.id)
       post.isReacted = 'like'
       post.reactions_count = (post.reactions_count ?? 0) + 1
+
+      const currentUser = currentUserReactionUser.value
+      if (currentUser) {
+        const filtered = sanitizedPreview.filter(
+          (reaction) => reaction.user.id !== currentUser.id,
+        )
+        const normalizedReaction = normalizeReaction({
+          id: `${post.id}-${currentUser.id}`,
+          type: 'like',
+          user: currentUser,
+        } as BlogReactionPreview)
+
+        post.reactions_preview = normalizedReaction
+          ? [normalizedReaction, ...filtered]
+          : filtered
+      } else {
+        post.reactions_preview = sanitizedPreview
+      }
+
       Notify.success(t('blog.notifications.postLiked'))
     }
   } catch (error) {
@@ -864,6 +1034,11 @@ async function togglePostReaction(post: BlogPostViewModel) {
   } finally {
     post.ui.likeLoading = false
   }
+}
+
+function openPostReactions(post: BlogPostViewModel) {
+  reactionsDialog.items = normalizeReactionsPreview(post.reactions_preview)
+  reactionsDialog.open = true
 }
 
 async function toggleCommentReaction(
@@ -1230,25 +1405,36 @@ await loadPosts(1, { replace: true })
                           <v-icon icon="mdi-emoticon-excited" size="14" />
                         </span>
                       </div>
-                      <span class="facebook-post-card__stat-value">
+                      <div
+                        class="facebook-post-card__stat-value facebook-post-card__stat-value--reactions"
+                      >
                         <v-btn
                           variant="text"
                           class="facebook-post-card__action-btn"
                           :class="{
-                          'facebook-post-card__action-btn--active': post.isReacted,
-                        }"
+                            'facebook-post-card__action-btn--active': post.isReacted,
+                          }"
                           :loading="post.ui.likeLoading"
                           @click="togglePostReaction(post)"
                         >
-                        <v-icon
-                          :icon="post.isReacted ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
-                          class="mr-2"
-                        />
-                        {{
-                            post.reactions_count
+                          <v-icon
+                            :icon="post.isReacted ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
+                            class="mr-2"
+                          />
+                          {{
+                            post.isReacted
+                              ? t('blog.actions.unlike')
+                              : t('blog.actions.like')
                           }}
-                      </v-btn>
-                      </span>
+                        </v-btn>
+                        <v-btn
+                          variant="text"
+                          class="facebook-post-card__action-btn facebook-post-card__count-btn"
+                          @click="openPostReactions(post)"
+                        >
+                          {{ post.reactions_count ?? 0 }}
+                        </v-btn>
+                      </div>
                     </div>
                     <div class="facebook-post-card__stats-right">
                       <v-btn
@@ -1786,6 +1972,10 @@ await loadPosts(1, { replace: true })
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <BlogReactionsDialog
+      v-model="reactionsDialog.open"
+      :reactions="reactionsDialog.items"
+    />
     <DialogConfirm ref="deleteDialog" />
   </v-container>
 </template>
@@ -2010,6 +2200,17 @@ a.facebook-post-card__author-link:focus-visible {
 
 .facebook-post-card__stat-value {
   white-space: nowrap;
+}
+
+.facebook-post-card__stat-value--reactions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.facebook-post-card__count-btn {
+  min-width: 48px;
+  padding-inline: 10px;
 }
 
 .facebook-post-card__divider {

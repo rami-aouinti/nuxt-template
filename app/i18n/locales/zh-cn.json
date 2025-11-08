@@ -158,7 +158,20 @@
       "editTitle": "编辑文章",
       "deleteConfirm": "确定要删除此文章吗？该操作无法撤销。",
       "shareTitle": "分享文章",
-      "shareAudiencePublic": "公开"
+      "shareAudiencePublic": "公开",
+      "reactionsTitle": "反应",
+      "reactionsEmpty": "暂时还没有反应。"
+    },
+    "reactions": {
+      "types": {
+        "like": "赞",
+        "love": "爱心",
+        "care": "关怀",
+        "haha": "哈哈",
+        "wow": "哇",
+        "sad": "难过",
+        "angry": "生气"
+      }
     }
   },
   "admin": {

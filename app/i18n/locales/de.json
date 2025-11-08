@@ -158,7 +158,20 @@
       "editTitle": "Beitrag bearbeiten",
       "deleteConfirm": "Sind Sie sicher, dass Sie diesen Beitrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
       "shareTitle": "Beitrag teilen",
-      "shareAudiencePublic": "Öffentlich"
+      "shareAudiencePublic": "Öffentlich",
+      "reactionsTitle": "Reaktionen",
+      "reactionsEmpty": "Noch keine Reaktionen."
+    },
+    "reactions": {
+      "types": {
+        "like": "Gefällt mir",
+        "love": "Liebe",
+        "care": "Fürsorge",
+        "haha": "Haha",
+        "wow": "Wow",
+        "sad": "Traurig",
+        "angry": "Wütend"
+      }
     }
   },
   "admin": {

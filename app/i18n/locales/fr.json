@@ -158,7 +158,20 @@
       "editTitle": "Modifier l’article",
       "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cet article ? Cette action est irréversible.",
       "shareTitle": "Partager la publication",
-      "shareAudiencePublic": "Public"
+      "shareAudiencePublic": "Public",
+      "reactionsTitle": "Réactions",
+      "reactionsEmpty": "Aucune réaction pour le moment."
+    },
+    "reactions": {
+      "types": {
+        "like": "J'aime",
+        "love": "J'adore",
+        "care": "Soutien",
+        "haha": "Haha",
+        "wow": "Waouh",
+        "sad": "Triste",
+        "angry": "En colère"
+      }
     }
   },
   "admin": {

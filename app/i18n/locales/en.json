@@ -158,7 +158,20 @@
       "editTitle": "Edit post",
       "deleteConfirm": "Are you sure you want to delete this post? This action cannot be undone.",
       "shareTitle": "Share post",
-      "shareAudiencePublic": "Public"
+      "shareAudiencePublic": "Public",
+      "reactionsTitle": "Reactions",
+      "reactionsEmpty": "No reactions yet."
+    },
+    "reactions": {
+      "types": {
+        "like": "Like",
+        "love": "Love",
+        "care": "Care",
+        "haha": "Haha",
+        "wow": "Wow",
+        "sad": "Sad",
+        "angry": "Angry"
+      }
     }
   },
   "admin": {
