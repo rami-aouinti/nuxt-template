@@ -121,7 +121,8 @@
         "summary": "Summary",
         "content": "Content",
         "url": "External URL"
-      }
+      },
+      "sharePlaceholder": "Di qualcosa su questo post..."
     },
     "notifications": {
       "commentCreated": "Commento pubblicato con successo.",
@@ -155,7 +156,9 @@
     },
     "dialogs": {
       "editTitle": "Modifica articolo",
-      "deleteConfirm": "Sei sicuro di voler eliminare questo articolo? Questa azione non può essere annullata."
+      "deleteConfirm": "Sei sicuro di voler eliminare questo articolo? Questa azione non può essere annullata.",
+      "shareTitle": "Condividi il post",
+      "shareAudiencePublic": "Pubblico"
     }
   },
   "admin": {
@@ -288,7 +291,8 @@
       "edit": "Modifica",
       "close": "Chiudi",
       "delete": "Elimina",
-      "link": "Collega"
+      "link": "Collega",
+      "share": "Condividi"
     },
     "labels": {
       "all": "Tutti",

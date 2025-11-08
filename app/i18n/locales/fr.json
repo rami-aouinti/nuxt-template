@@ -121,7 +121,8 @@
         "summary": "Summary",
         "content": "Content",
         "url": "External URL"
-      }
+      },
+      "sharePlaceholder": "Dites quelque chose à propos de cette publication..."
     },
     "notifications": {
       "commentCreated": "Commentaire publié avec succès.",
@@ -155,7 +156,9 @@
     },
     "dialogs": {
       "editTitle": "Modifier l’article",
-      "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cet article ? Cette action est irréversible."
+      "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cet article ? Cette action est irréversible.",
+      "shareTitle": "Partager la publication",
+      "shareAudiencePublic": "Public"
     }
   },
   "admin": {
@@ -288,7 +291,8 @@
       "edit": "Modifier",
       "close": "Fermer",
       "delete": "Supprimer",
-      "link": "Associer"
+      "link": "Associer",
+      "share": "Partager"
     },
     "labels": {
       "all": "Tous",

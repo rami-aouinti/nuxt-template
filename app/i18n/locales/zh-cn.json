@@ -121,7 +121,8 @@
         "summary": "Summary",
         "content": "Content",
         "url": "External URL"
-      }
+      },
+      "sharePlaceholder": "说点关于这篇文章的内容…"
     },
     "notifications": {
       "commentCreated": "评论发布成功。",
@@ -155,7 +156,9 @@
     },
     "dialogs": {
       "editTitle": "编辑文章",
-      "deleteConfirm": "确定要删除此文章吗？该操作无法撤销。"
+      "deleteConfirm": "确定要删除此文章吗？该操作无法撤销。",
+      "shareTitle": "分享文章",
+      "shareAudiencePublic": "公开"
     }
   },
   "admin": {
@@ -288,7 +291,8 @@
       "edit": "编辑",
       "close": "关闭",
       "delete": "删除",
-      "link": "关联"
+      "link": "关联",
+      "share": "分享"
     },
     "labels": {
       "all": "全部",

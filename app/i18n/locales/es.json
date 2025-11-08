@@ -121,7 +121,8 @@
         "summary": "Summary",
         "content": "Content",
         "url": "External URL"
-      }
+      },
+      "sharePlaceholder": "Di algo sobre esta publicación..."
     },
     "notifications": {
       "commentCreated": "Comentario publicado correctamente.",
@@ -155,7 +156,9 @@
     },
     "dialogs": {
       "editTitle": "Editar publicación",
-      "deleteConfirm": "¿Estás seguro de que deseas eliminar esta publicación? Esta acción no se puede deshacer."
+      "deleteConfirm": "¿Estás seguro de que deseas eliminar esta publicación? Esta acción no se puede deshacer.",
+      "shareTitle": "Compartir publicación",
+      "shareAudiencePublic": "Público"
     }
   },
   "admin": {
@@ -288,7 +291,8 @@
       "edit": "Editar",
       "close": "Cerrar",
       "delete": "Eliminar",
-      "link": "Vincular"
+      "link": "Vincular",
+      "share": "Compartir"
     },
     "labels": {
       "all": "Todos",

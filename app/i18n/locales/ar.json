@@ -121,7 +121,8 @@
         "summary": "Summary",
         "content": "Content",
         "url": "External URL"
-      }
+      },
+      "sharePlaceholder": "قل شيئًا عن هذا المنشور..."
     },
     "notifications": {
       "commentCreated": "تم نشر التعليق بنجاح.",
@@ -155,7 +156,9 @@
     },
     "dialogs": {
       "editTitle": "تعديل المنشور",
-      "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا المنشور؟ هذا الإجراء لا يمكن التراجع عنه."
+      "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا المنشور؟ هذا الإجراء لا يمكن التراجع عنه.",
+      "shareTitle": "مشاركة المنشور",
+      "shareAudiencePublic": "عام"
     }
   },
   "admin": {
@@ -288,7 +291,8 @@
       "edit": "تحرير",
       "close": "إغلاق",
       "delete": "حذف",
-      "link": "ربط"
+      "link": "ربط",
+      "share": "مشاركة"
     },
     "labels": {
       "all": "الكل",
