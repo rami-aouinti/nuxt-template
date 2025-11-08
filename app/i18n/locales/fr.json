@@ -881,7 +881,7 @@
       },
       "details": {
         "title": "Nous joindre",
-        "description": "Envoyez un e-mail à support@example.com ou ouvrez un ticket depuis votre tableau de bord. Nous répondons sous un jour ouvré."
+        "description": "Envoyez un e-mail à {email} ou ouvrez un ticket depuis votre tableau de bord. Nous répondons sous un jour ouvré."
       }
     }
   },

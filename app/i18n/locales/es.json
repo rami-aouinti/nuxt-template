@@ -881,7 +881,7 @@
       },
       "details": {
         "title": "Cómo contactarnos",
-        "description": "Envía un correo a support@example.com o abre un ticket desde tu panel. Respondemos en un día hábil."
+        "description": "Envía un correo a {email} o abre un ticket desde tu panel. Respondemos en un día hábil."
       }
     }
   },
