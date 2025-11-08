@@ -36,7 +36,11 @@
     "blog": "博客",
     "messenger": "消息",
     "language": "切换语言",
-    "workspace": "Workspace"
+    "workspace": "Workspace",
+    "settings": "设置",
+    "help": "帮助",
+    "about": "关于我们",
+    "contact": "联系我们"
   },
   "messenger": {
     "title": "消息",
@@ -902,6 +906,96 @@
     "messages": {
       "selectFolder": "Select a folder from the list to display its content.",
       "refreshing": "Refreshing folder content..."
+    }
+  },
+  "pages": {
+    "settings": {
+      "title": "账户设置",
+      "subtitle": "在一个位置自定义您的使用体验并保护个人信息。",
+      "sections": {
+        "profile": {
+          "title": "个人资料偏好",
+          "description": "更新姓名、头像、语言以及团队可见的其他信息。"
+        },
+        "security": {
+          "title": "安全与隐私",
+          "description": "检查活动会话，启用多重身份验证并管理已连接的应用。"
+        },
+        "notifications": {
+          "title": "通知",
+          "description": "选择通过电子邮件、推送或站内消息接收动态提醒。"
+        }
+      },
+      "tips": {
+        "title": "需要帮助？",
+        "description": "访问下方的帮助中心查看分步指南，或在遇到问题时联系支持团队。"
+      }
+    },
+    "help": {
+      "title": "帮助中心",
+      "subtitle": "通过精选文档、常见问题和社区讨论快速找到答案。",
+      "sections": {
+        "guides": {
+          "title": "产品指南",
+          "description": "浏览图文教程，学习基础知识并发现高级工作流。"
+        },
+        "faq": {
+          "title": "常见问题",
+          "description": "查看用户每天最常咨询的问题与解决方案。"
+        },
+        "community": {
+          "title": "社区论坛",
+          "description": "与其他成员交流心得、分享技巧并为新功能投票。"
+        }
+      },
+      "contact": {
+        "title": "仍需帮助？",
+        "description": "通过联系我们页面发送消息，我们的团队会尽快回复。"
+      }
+    },
+    "about": {
+      "title": "关于 Bro World",
+      "subtitle": "了解 Bro World 平台的使命、愿景与背后的团队。",
+      "sections": {
+        "mission": {
+          "title": "我们的使命",
+          "description": "我们提供灵活的工具，帮助团队提升协作、透明度和创新能力。"
+        },
+        "team": {
+          "title": "团队介绍",
+          "description": "我们是一支由设计师、工程师和故事讲述者组成的多元团队，共同致力于打造令人愉悦的体验。"
+        },
+        "values": {
+          "title": "核心价值",
+          "description": "我们在所有工作中都重视信任、可及性和持续学习。"
+        }
+      },
+      "callToAction": {
+        "title": "加入我们",
+        "description": "想加入团队？请通过联系表单与我们取得联系，开启交流。"
+      }
+    },
+    "contact": {
+      "title": "联系我们",
+      "subtitle": "我们随时为您解答问题并提供合适的解决方案。",
+      "sections": {
+        "support": {
+          "title": "客户支持",
+          "description": "获取技术协助、反馈问题或向我们的团队申请账户调整。"
+        },
+        "partnerships": {
+          "title": "合作伙伴",
+          "description": "与我们讨论集成方案、联合营销机会或定制化企业套餐。"
+        },
+        "press": {
+          "title": "媒体资源",
+          "description": "申请采访、徽标或媒体资料包，以便在您的报道中介绍 Bro World。"
+        }
+      },
+      "details": {
+        "title": "联系方式",
+        "description": "发送邮件至 support@example.com 或通过控制面板提交工单，我们会在一个工作日内回复。"
+      }
     }
   }
 }

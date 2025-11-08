@@ -150,30 +150,52 @@ watch(loggedIn, (value) => {
         </v-tooltip>
       </template>
       <v-list>
+        <v-list-item
+          v-if="loggedIn"
+          :title="t('navigation.profile')"
+          prepend-icon="mdi-face"
+          :to="localePath('profile')"
+        />
+        <v-list-item
+          :title="t('navigation.settings')"
+          prepend-icon="mdi-cog-outline"
+          :to="localePath('settings')"
+        />
+        <v-list-item
+          :title="t('navigation.help')"
+          prepend-icon="mdi-lifebuoy"
+          :to="localePath('help')"
+        />
+        <v-list-item
+          :title="t('navigation.about')"
+          prepend-icon="mdi-information-outline"
+          :to="localePath('about')"
+        />
+        <v-list-item
+          :title="t('navigation.contact')"
+          prepend-icon="mdi-email-outline"
+          :to="localePath('contact')"
+        />
+        <v-divider class="my-2" />
+        <template v-if="loggedIn">
           <v-list-item
-            v-if="loggedIn"
-            :title="t('auth.profile')"
-            prepend-icon="mdi-face"
-            :to="localePath('profile')"
+            :title="t('auth.logout')"
+            prepend-icon="mdi-logout"
+            @click="handleLogout"
           />
+        </template>
+        <template v-else>
           <v-list-item
-            v-if="!loggedIn"
             :title="t('auth.loginWithGithub')"
             prepend-icon="mdi-github"
             href="/api/auth/github"
           />
           <v-list-item
-            v-if="!loggedIn"
             :title="t('auth.loginWithCredentials')"
             prepend-icon="mdi-lock"
             @click="credentialsDialog = true"
           />
-          <v-list-item
-            v-else
-            :title="t('auth.logout')"
-            prepend-icon="mdi-logout"
-            @click="handleLogout"
-          />
+        </template>
       </v-list>
     </v-menu>
     <v-menu
