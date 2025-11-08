@@ -67,6 +67,7 @@ export interface BlogPost {
   reactions_preview?: BlogReactionPreview[]
   comments_preview?: BlogComment[]
   blog?: BlogSummary | null
+  sharedFrom?: BlogPost | null
 }
 
 export interface BlogListResponse<T> {
@@ -88,6 +89,10 @@ export interface BlogCommentPayload {
 export interface BlogPostUpdatePayload {
   title?: string
   summary?: string | null
+  content?: string | null
+}
+
+export interface BlogPostSharePayload {
   content?: string | null
 }
 

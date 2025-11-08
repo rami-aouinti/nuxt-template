@@ -7,6 +7,7 @@ import type {
   BlogPost,
   BlogPostCreatePayload,
   BlogPostListResponse,
+  BlogPostSharePayload,
   BlogPostUpdatePayload,
   BlogSummary,
   BlogSummaryListResponse,
@@ -512,6 +513,19 @@ export const useBlogApi = () => {
     })
   }
 
+  const sharePost = async (
+    postId: string | number,
+    payload: BlogPostSharePayload = {},
+  ): Promise<BlogPost> => {
+    const headers = getAuthHeaders(true)
+
+    return await $fetch<BlogPost>(`${PRIVATE_POSTS_ENDPOINT}/${postId}/shared`, {
+      method: 'POST',
+      body: payload,
+      headers,
+    })
+  }
+
   return {
     isAuthenticated,
     fetchPosts,
@@ -531,5 +545,6 @@ export const useBlogApi = () => {
     deletePost,
     createBlog,
     createPost,
+    sharePost,
   }
 }

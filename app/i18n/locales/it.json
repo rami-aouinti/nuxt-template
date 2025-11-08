@@ -134,7 +134,8 @@
       "postUpdated": "Articolo aggiornato con successo.",
       "postDeleted": "Articolo eliminato con successo.",
       "blogCreated": "Blog created successfully.",
-      "postCreated": "Post created successfully."
+      "postCreated": "Post created successfully.",
+      "postShared": "Articolo condiviso con successo."
     },
     "errors": {
       "authenticationRequired": "Devi effettuare l'accesso per eseguire questa azione.",
@@ -145,6 +146,7 @@
       "deleteFailed": "Impossibile eliminare l'articolo.",
       "createBlogFailed": "Unable to create the blog.",
       "createPostFailed": "Unable to create the post.",
+      "shareFailed": "Impossibile condividere l'articolo.",
       "loadBlogsFailed": "Unable to load the list of blogs."
     },
     "prompts": {
