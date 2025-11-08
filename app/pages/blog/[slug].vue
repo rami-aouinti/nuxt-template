@@ -74,6 +74,27 @@ function getAuthorMetaParts(date: string) {
   return { prefix, suffix }
 }
 
+function truncateText(text: string, maxLength: number) {
+  const normalized = text.replace(/\s+/g, ' ').trim()
+  if (normalized.length <= maxLength) {
+    return normalized
+  }
+
+  return `${normalized.slice(0, maxLength).trimEnd()}…`
+}
+
+function getPostExcerpt(post: BlogPost, maxLength = 50) {
+  const summary = typeof post.summary === 'string' ? post.summary : ''
+  const content = typeof post.content === 'string' ? post.content : ''
+  const source = summary.trim().length ? summary : content
+
+  if (!source.trim().length) {
+    return t('blog.placeholders.noSummary')
+  }
+
+  return truncateText(source, maxLength)
+}
+
 async function loadPosts(
   pageNumber: number,
   { replace = false }: { replace?: boolean } = {},
@@ -239,7 +260,7 @@ watch(
 
                 <v-card-text>
                   <p class="text-body-1 mb-4">
-                    {{ post.summary || t('blog.placeholders.noSummary') }}
+                    {{ getPostExcerpt(post) }}
                   </p>
                   <div class="d-flex flex-wrap align-center">
                     <div class="d-flex align-center text-medium-emphasis mr-6 mb-2">
