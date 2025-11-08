@@ -259,11 +259,15 @@ watch(loggedIn, (value) => {
 .dock-navbar__language-flag {
   font-size: 1.25rem;
   line-height: 1;
+  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji', sans-serif;
 }
 
 .dock-navbar__language-flag--item {
   margin-right: 0.5rem;
   font-size: 1rem;
+  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji', sans-serif;
 }
 
 .dock-navbar__language-info {
