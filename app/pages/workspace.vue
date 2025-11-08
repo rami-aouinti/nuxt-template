@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { FetchError } from 'ofetch'
 import { Notify } from '~/stores/notification'
 import type {
@@ -21,7 +21,7 @@ definePageMeta({
 const { t } = useI18n()
 
 const folders = ref<WorkspaceFolder[]>([])
-const isLoading = ref(false)
+const isLoading = ref(true)
 const loadError = ref('')
 const selectedIds = ref<string[]>([])
 const selectedFolderId = ref<string | null>(null)
@@ -484,7 +484,9 @@ watch(selectedIds, (value) => {
   }
 })
 
-await loadFolders()
+onMounted(() => {
+  void loadFolders()
+})
 </script>
 
 <template>
@@ -493,7 +495,7 @@ await loadFolders()
       <v-col cols="12" md="4" lg="3">
         <v-card class="workspace-tree h-100">
           <v-card-title class="d-flex align-center gap-2">
-            <v-icon icon="mdi-folder-tree" class="me-2" />
+            <v-icon icon="mdi:folder-tree" class="me-2" />
             {{ t('workspace.tree.title') }}
             <v-spacer />
             <v-btn
