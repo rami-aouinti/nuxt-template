@@ -123,6 +123,7 @@ watch(loggedIn, (value) => {
     <v-breadcrumbs :items="breadcrumbs" />
     <v-spacer />
     <div id="app-bar" />
+    <AppNotification class="ml-2" />
     <v-switch
       v-model="isDark"
       color=""
