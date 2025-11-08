@@ -40,7 +40,13 @@
     "description": "Mantente al día con las últimas novedades de Bro World.",
     "actions": {
       "refresh": "Actualizar",
-      "read": "Leer el artículo"
+      "read": "Leer el artículo",
+      "showComments": "Mostrar todos los comentarios",
+      "hideComments": "Ocultar comentarios",
+      "like": "Me gusta",
+      "unlike": "Quitar reacción",
+      "addComment": "Publicar comentario",
+      "reply": "Responder"
     },
     "alerts": {
       "loadFailed": "Se produjo un error al cargar los artículos. Inténtalo de nuevo."
@@ -58,6 +64,44 @@
     "empty": {
       "title": "Aún no hay artículos publicados",
       "description": "Vuelve más tarde para descubrir las próximas publicaciones."
+    },
+    "forms": {
+      "commentPlaceholder": "Comparte tus ideas...",
+      "replyPlaceholder": "Escribe tu respuesta...",
+      "edit": {
+        "title": "Título",
+        "summary": "Resumen",
+        "content": "Contenido"
+      }
+    },
+    "notifications": {
+      "commentCreated": "Comentario publicado correctamente.",
+      "replyCreated": "Respuesta publicada correctamente.",
+      "postLiked": "Reacción añadida a la publicación.",
+      "postUnliked": "Reacción eliminada de la publicación.",
+      "commentLiked": "Reacción añadida al comentario.",
+      "commentUnliked": "Reacción eliminada del comentario.",
+      "postUpdated": "Publicación actualizada correctamente.",
+      "postDeleted": "Publicación eliminada correctamente."
+    },
+    "errors": {
+      "authenticationRequired": "Debes iniciar sesión para realizar esta acción.",
+      "loadCommentsFailed": "No se pudieron cargar los comentarios.",
+      "commentFailed": "No se pudo publicar el comentario.",
+      "likeFailed": "No se pudo actualizar la reacción.",
+      "updateFailed": "No se pudo actualizar la publicación.",
+      "deleteFailed": "No se pudo eliminar la publicación."
+    },
+    "prompts": {
+      "loginToComment": "Inicia sesión para ver todos los comentarios y participar en la conversación."
+    },
+    "emptyComments": {
+      "title": "Aún no hay comentarios",
+      "description": "Sé el primero en compartir tu opinión."
+    },
+    "dialogs": {
+      "editTitle": "Editar publicación",
+      "deleteConfirm": "¿Estás seguro de que deseas eliminar esta publicación? Esta acción no se puede deshacer."
     }
   },
   "admin": {

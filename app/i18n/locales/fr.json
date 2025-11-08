@@ -40,7 +40,13 @@
     "description": "Restez informé des dernières actualités de Bro World.",
     "actions": {
       "refresh": "Actualiser",
-      "read": "Lire l’article"
+      "read": "Lire l’article",
+      "showComments": "Afficher tous les commentaires",
+      "hideComments": "Masquer les commentaires",
+      "like": "Aimer",
+      "unlike": "Retirer la réaction",
+      "addComment": "Publier un commentaire",
+      "reply": "Répondre"
     },
     "alerts": {
       "loadFailed": "Une erreur est survenue lors du chargement des articles. Veuillez réessayer."
@@ -58,6 +64,44 @@
     "empty": {
       "title": "Aucun article publié pour le moment",
       "description": "Revenez plus tard pour découvrir les prochaines publications."
+    },
+    "forms": {
+      "commentPlaceholder": "Partagez vos idées...",
+      "replyPlaceholder": "Écrivez votre réponse...",
+      "edit": {
+        "title": "Titre",
+        "summary": "Résumé",
+        "content": "Contenu"
+      }
+    },
+    "notifications": {
+      "commentCreated": "Commentaire publié avec succès.",
+      "replyCreated": "Réponse publiée avec succès.",
+      "postLiked": "Réaction ajoutée à l’article.",
+      "postUnliked": "Réaction retirée de l’article.",
+      "commentLiked": "Réaction ajoutée au commentaire.",
+      "commentUnliked": "Réaction retirée du commentaire.",
+      "postUpdated": "Article mis à jour avec succès.",
+      "postDeleted": "Article supprimé avec succès."
+    },
+    "errors": {
+      "authenticationRequired": "Vous devez être connecté pour effectuer cette action.",
+      "loadCommentsFailed": "Impossible de charger les commentaires.",
+      "commentFailed": "Impossible de publier le commentaire.",
+      "likeFailed": "Impossible de mettre à jour la réaction.",
+      "updateFailed": "Impossible de mettre à jour l’article.",
+      "deleteFailed": "Impossible de supprimer l’article."
+    },
+    "prompts": {
+      "loginToComment": "Connectez-vous pour afficher tous les commentaires et participer à la discussion."
+    },
+    "emptyComments": {
+      "title": "Aucun commentaire pour le moment",
+      "description": "Soyez le premier à partager votre avis."
+    },
+    "dialogs": {
+      "editTitle": "Modifier l’article",
+      "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cet article ? Cette action est irréversible."
     }
   },
   "admin": {

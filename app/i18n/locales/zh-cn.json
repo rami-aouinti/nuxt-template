@@ -40,7 +40,13 @@
     "description": "随时了解 Bro World 的最新动态。",
     "actions": {
       "refresh": "刷新",
-      "read": "阅读全文"
+      "read": "阅读全文",
+      "showComments": "显示所有评论",
+      "hideComments": "隐藏评论",
+      "like": "点赞",
+      "unlike": "取消反应",
+      "addComment": "发布评论",
+      "reply": "回复"
     },
     "alerts": {
       "loadFailed": "加载文章时发生错误，请重试。"
@@ -58,6 +64,44 @@
     "empty": {
       "title": "暂时没有发布任何文章",
       "description": "稍后再来查看新的内容。"
+    },
+    "forms": {
+      "commentPlaceholder": "分享你的想法...",
+      "replyPlaceholder": "写下你的回复...",
+      "edit": {
+        "title": "标题",
+        "summary": "摘要",
+        "content": "内容"
+      }
+    },
+    "notifications": {
+      "commentCreated": "评论发布成功。",
+      "replyCreated": "回复发布成功。",
+      "postLiked": "已为文章添加反应。",
+      "postUnliked": "已移除文章的反应。",
+      "commentLiked": "已为评论添加反应。",
+      "commentUnliked": "已移除评论的反应。",
+      "postUpdated": "文章更新成功。",
+      "postDeleted": "文章删除成功。"
+    },
+    "errors": {
+      "authenticationRequired": "您需要登录才能执行此操作。",
+      "loadCommentsFailed": "无法加载评论。",
+      "commentFailed": "无法发布评论。",
+      "likeFailed": "无法更新反应。",
+      "updateFailed": "无法更新文章。",
+      "deleteFailed": "无法删除文章。"
+    },
+    "prompts": {
+      "loginToComment": "登录后即可查看所有评论并参与讨论。"
+    },
+    "emptyComments": {
+      "title": "暂时还没有评论",
+      "description": "快来留下你的想法。"
+    },
+    "dialogs": {
+      "editTitle": "编辑文章",
+      "deleteConfirm": "确定要删除此文章吗？该操作无法撤销。"
     }
   },
   "admin": {

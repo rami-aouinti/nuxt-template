@@ -40,7 +40,13 @@
     "description": "Stay up to date with the latest Bro World news.",
     "actions": {
       "refresh": "Refresh",
-      "read": "Read the article"
+      "read": "Read the article",
+      "showComments": "Show all comments",
+      "hideComments": "Hide comments",
+      "like": "Like",
+      "unlike": "Remove reaction",
+      "addComment": "Publish comment",
+      "reply": "Reply"
     },
     "alerts": {
       "loadFailed": "An error occurred while loading the articles. Please try again."
@@ -58,6 +64,44 @@
     "empty": {
       "title": "No articles published yet",
       "description": "Please check back later for upcoming posts."
+    },
+    "forms": {
+      "commentPlaceholder": "Share your thoughts...",
+      "replyPlaceholder": "Write your reply...",
+      "edit": {
+        "title": "Title",
+        "summary": "Summary",
+        "content": "Content"
+      }
+    },
+    "notifications": {
+      "commentCreated": "Comment published successfully.",
+      "replyCreated": "Reply published successfully.",
+      "postLiked": "Reaction added to the post.",
+      "postUnliked": "Reaction removed from the post.",
+      "commentLiked": "Reaction added to the comment.",
+      "commentUnliked": "Reaction removed from the comment.",
+      "postUpdated": "Post updated successfully.",
+      "postDeleted": "Post deleted successfully."
+    },
+    "errors": {
+      "authenticationRequired": "You need to be signed in to perform this action.",
+      "loadCommentsFailed": "Unable to load the comments.",
+      "commentFailed": "Unable to publish the comment.",
+      "likeFailed": "Unable to update the reaction.",
+      "updateFailed": "Unable to update the post.",
+      "deleteFailed": "Unable to delete the post."
+    },
+    "prompts": {
+      "loginToComment": "Sign in to view all comments and participate in the discussion."
+    },
+    "emptyComments": {
+      "title": "No comments yet",
+      "description": "Be the first to share your thoughts."
+    },
+    "dialogs": {
+      "editTitle": "Edit post",
+      "deleteConfirm": "Are you sure you want to delete this post? This action cannot be undone."
     }
   },
   "admin": {

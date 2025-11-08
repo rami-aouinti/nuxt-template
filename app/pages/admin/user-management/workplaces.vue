@@ -34,8 +34,15 @@ const headers = computed<DataTableHeader[]>(() => [
   },
 ])
 
-const pending = adminStore.workplacesPending
-const error = adminStore.workplacesError
+const pending = computed(() => workplacesPending.value)
+const tableError = computed(() =>
+  workplacesError.value
+    ? extractRequestError(
+        workplacesError.value,
+        t('common.unexpectedError'),
+      )
+    : '',
+)
 const refresh = () => adminStore.refreshWorkplaces()
 
 const items = computed(() => workplaces.value ?? [])

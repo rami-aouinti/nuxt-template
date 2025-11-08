@@ -40,7 +40,13 @@
     "description": "Rimani aggiornato sulle ultime novità di Bro World.",
     "actions": {
       "refresh": "Aggiorna",
-      "read": "Leggi l'articolo"
+      "read": "Leggi l'articolo",
+      "showComments": "Mostra tutti i commenti",
+      "hideComments": "Nascondi i commenti",
+      "like": "Mi piace",
+      "unlike": "Rimuovi reazione",
+      "addComment": "Pubblica commento",
+      "reply": "Rispondi"
     },
     "alerts": {
       "loadFailed": "Si è verificato un errore durante il caricamento degli articoli. Riprova."
@@ -58,6 +64,44 @@
     "empty": {
       "title": "Nessun articolo pubblicato al momento",
       "description": "Torna più tardi per scoprire i prossimi contenuti."
+    },
+    "forms": {
+      "commentPlaceholder": "Condividi le tue idee...",
+      "replyPlaceholder": "Scrivi la tua risposta...",
+      "edit": {
+        "title": "Titolo",
+        "summary": "Sommario",
+        "content": "Contenuto"
+      }
+    },
+    "notifications": {
+      "commentCreated": "Commento pubblicato con successo.",
+      "replyCreated": "Risposta pubblicata con successo.",
+      "postLiked": "Reazione aggiunta all'articolo.",
+      "postUnliked": "Reazione rimossa dall'articolo.",
+      "commentLiked": "Reazione aggiunta al commento.",
+      "commentUnliked": "Reazione rimossa dal commento.",
+      "postUpdated": "Articolo aggiornato con successo.",
+      "postDeleted": "Articolo eliminato con successo."
+    },
+    "errors": {
+      "authenticationRequired": "Devi effettuare l'accesso per eseguire questa azione.",
+      "loadCommentsFailed": "Impossibile caricare i commenti.",
+      "commentFailed": "Impossibile pubblicare il commento.",
+      "likeFailed": "Impossibile aggiornare la reazione.",
+      "updateFailed": "Impossibile aggiornare l'articolo.",
+      "deleteFailed": "Impossibile eliminare l'articolo."
+    },
+    "prompts": {
+      "loginToComment": "Accedi per vedere tutti i commenti e partecipare alla discussione."
+    },
+    "emptyComments": {
+      "title": "Ancora nessun commento",
+      "description": "Sii il primo a condividere la tua opinione."
+    },
+    "dialogs": {
+      "editTitle": "Modifica articolo",
+      "deleteConfirm": "Sei sicuro di voler eliminare questo articolo? Questa azione non può essere annullata."
     }
   },
   "admin": {
