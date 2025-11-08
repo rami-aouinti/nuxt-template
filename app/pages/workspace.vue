@@ -133,6 +133,34 @@ const selectedFolderChildrenCount = computed(
 
 const selectedFolderFiles = computed(() => selectedFolder.value?.files ?? [])
 
+const selectedFolderItemsLabel = computed(() => {
+  const count = selectedFolderChildrenCount.value
+
+  if (count === 0) {
+    return t('workspace.details.items.none')
+  }
+
+  if (count === 1) {
+    return t('workspace.details.items.one')
+  }
+
+  return t('workspace.details.items.other', { count })
+})
+
+const selectedFolderFilesLabel = computed(() => {
+  const count = selectedFolderFiles.value.length
+
+  if (count === 0) {
+    return t('workspace.details.files.none')
+  }
+
+  if (count === 1) {
+    return t('workspace.details.files.one')
+  }
+
+  return t('workspace.details.files.other', { count })
+})
+
 const folderTreeItems = computed(() => {
   function toTreeItem(node: WorkspaceFolder) {
     return {
@@ -559,11 +587,7 @@ await loadFolders()
                 size="small"
                 prepend-icon="mdi-file-tree"
               >
-                {{
-                  t('workspace.details.items', {
-                    count: selectedFolderChildrenCount,
-                  })
-                }}
+                {{ selectedFolderItemsLabel }}
               </v-chip>
               <v-chip
                 color="secondary"
@@ -571,11 +595,7 @@ await loadFolders()
                 size="small"
                 prepend-icon="mdi-file"
               >
-                {{
-                  t('workspace.details.files', {
-                    count: selectedFolderFiles.length,
-                  })
-                }}
+                {{ selectedFolderFilesLabel }}
               </v-chip>
               <v-chip
                 v-if="selectedFolder.isPrivate"

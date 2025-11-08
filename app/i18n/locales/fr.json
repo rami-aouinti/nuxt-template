@@ -739,8 +739,16 @@
       "refresh": "Rafraîchir"
     },
     "details": {
-      "items": "{count, plural, =0 {Aucun sous-dossier} one {1 sous-dossier} other {{count} sous-dossiers}}",
-      "files": "{count, plural, =0 {Aucun fichier} one {1 fichier} other {{count} fichiers}}",
+      "items": {
+        "none": "Aucun sous-dossier",
+        "one": "1 sous-dossier",
+        "other": "{count} sous-dossiers"
+      },
+      "files": {
+        "none": "Aucun fichier",
+        "one": "1 fichier",
+        "other": "{count} fichiers"
+      },
       "private": "Privé",
       "favorite": "Favori"
     },

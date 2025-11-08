@@ -739,8 +739,16 @@
       "refresh": "Refresh"
     },
     "details": {
-      "items": "{count, plural, =0 {No subfolders} one {1 subfolder} other {{count} subfolders}}",
-      "files": "{count, plural, =0 {No files} one {1 file} other {{count} files}}",
+      "items": {
+        "none": "No subfolders",
+        "one": "1 subfolder",
+        "other": "{count} subfolders"
+      },
+      "files": {
+        "none": "No files",
+        "one": "1 file",
+        "other": "{count} files"
+      },
       "private": "Private",
       "favorite": "Favorite"
     },
