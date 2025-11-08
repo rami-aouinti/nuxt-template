@@ -539,6 +539,15 @@ function getAuthorName(user: BlogPostUser) {
   return user.username
 }
 
+function resolveBlogLink(blog: BlogSummary) {
+  if (!blog) {
+    return null
+  }
+
+  const slug = typeof blog.slug === 'string' ? blog.slug.trim() : ''
+  return slug.length ? `/blog/${slug}` : null
+}
+
 const getAuthorAvatar = (user: BlogPostUser) => user.photo || undefined
 
 const formatPublishedAt = (publishedAt: string) =>
@@ -876,7 +885,12 @@ await loadPosts(1, { replace: true })
                           </v-avatar>
                         </template>
                         <v-card-title class="text-h5 text-wrap">
-                          {{ post.title }}
+                          <NuxtLink
+                            :to="`/post/${post.slug}`"
+                            class="blog-post-link"
+                          >
+                            {{ post.title }}
+                          </NuxtLink>
                         </v-card-title>
                         <v-card-subtitle class="text-body-2 text-medium-emphasis">
                           {{
@@ -1164,7 +1178,12 @@ await loadPosts(1, { replace: true })
                     </v-alert>
 
                     <v-list v-else-if="myBlogs.length" density="compact" lines="two">
-                      <v-list-item v-for="blog in myBlogs" :key="blog.id">
+                      <v-list-item
+                        v-for="blog in myBlogs"
+                        :key="blog.id"
+                        :to="resolveBlogLink(blog) || undefined"
+                        :link="Boolean(resolveBlogLink(blog))"
+                      >
                         <template #prepend>
                           <v-avatar size="32" class="mr-3">
                             <v-img :src="blog.logo || undefined" :alt="blog.title">
@@ -1232,7 +1251,12 @@ await loadPosts(1, { replace: true })
                   </v-alert>
 
                   <v-list v-else-if="publicBlogs.length" density="compact" lines="two">
-                    <v-list-item v-for="blog in publicBlogs" :key="blog.id">
+                    <v-list-item
+                      v-for="blog in publicBlogs"
+                      :key="blog.id"
+                      :to="resolveBlogLink(blog) || undefined"
+                      :link="Boolean(resolveBlogLink(blog))"
+                    >
                       <template #prepend>
                         <v-avatar size="32" class="mr-3">
                           <v-img :src="blog.logo || undefined" :alt="blog.title">
@@ -1369,6 +1393,16 @@ await loadPosts(1, { replace: true })
 </template>
 
 <style scoped>
+.blog-post-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.blog-post-link:hover,
+.blog-post-link:focus-visible {
+  text-decoration: underline;
+}
+
 .blog-infinite-trigger {
   height: 1px;
 }

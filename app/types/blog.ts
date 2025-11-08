@@ -48,6 +48,7 @@ export interface BlogSummary {
   logo?: string | null
   author: string
   teams?: string[] | null
+  slug?: string | null
 }
 
 export interface BlogPost {
