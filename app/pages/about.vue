@@ -9,19 +9,19 @@ const { t } = useI18n()
 
 const sections = computed(() => [
   {
-    icon: 'mdi-target-variant',
-    title: t('pages.about.sections.mission.title'),
-    description: t('pages.about.sections.mission.description'),
+    icon: 'mdi-monitor-dashboard',
+    title: t('pages.about.sections.frontend.title'),
+    description: t('pages.about.sections.frontend.description'),
   },
   {
-    icon: 'mdi-account-star-outline',
-    title: t('pages.about.sections.team.title'),
-    description: t('pages.about.sections.team.description'),
+    icon: 'mdi-server',
+    title: t('pages.about.sections.backend.title'),
+    description: t('pages.about.sections.backend.description'),
   },
   {
-    icon: 'mdi-lightbulb-on-outline',
-    title: t('pages.about.sections.values.title'),
-    description: t('pages.about.sections.values.description'),
+    icon: 'mdi-api',
+    title: t('pages.about.sections.api.title'),
+    description: t('pages.about.sections.api.description'),
   },
 ])
 
