@@ -1,6 +1,9 @@
 import type { Count } from '~/types/count'
 import { broWorldBlogRequest } from '~~/server/utils/broWorldBlogApi'
+import { fetchBlogCount } from '~~/server/utils/cache/blog'
 
 export default defineEventHandler(async (event) => {
-  return await broWorldBlogRequest<Count | number>(event, '/post/count')
+  return await fetchBlogCount(event, 'post', () =>
+    broWorldBlogRequest<Count | number>(event, '/post/count'),
+  )
 })

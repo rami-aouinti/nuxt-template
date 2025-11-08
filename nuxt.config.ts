@@ -152,6 +152,8 @@ export default defineNuxtConfig({
     redis: {
       url: process.env.REDIS_URL || '',
       profileTtl: toPositiveInteger(process.env.REDIS_PROFILE_TTL, 60 * 60),
+      adminTtl: toPositiveInteger(process.env.REDIS_ADMIN_TTL, 60),
+      blogTtl: toPositiveInteger(process.env.REDIS_BLOG_TTL, 60),
     },
     profileCookie: {
       name: process.env.PROFILE_COOKIE_NAME || 'bro_profile',

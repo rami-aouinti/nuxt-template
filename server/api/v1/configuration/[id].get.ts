@@ -1,5 +1,6 @@
 import { getRouterParam } from 'h3'
 import { configurationRequest } from '~~/server/utils/configurationApi'
+import { fetchAdminDetail } from '~~/server/utils/cache/admin'
 import type { Configuration } from '~/types/configuration'
 
 export default defineEventHandler(async (event) => {
@@ -11,5 +12,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  return await configurationRequest<Configuration>(event, `/configuration/${id}`)
+  return await fetchAdminDetail(event, 'configuration', id, () =>
+    configurationRequest<Configuration>(event, `/configuration/${id}`),
+  )
 })
