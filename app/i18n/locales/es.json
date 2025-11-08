@@ -931,6 +931,30 @@
       "details": {
         "title": "Cómo contactarnos",
         "description": "Envía un correo a {email} o abre un ticket desde tu panel. Respondemos en un día hábil."
+      },
+      "form": {
+        "title": "Envíanos un mensaje",
+        "description": "Comparte algunos detalles sobre tu solicitud y te pondremos en contacto con la persona adecuada.",
+        "fields": {
+          "subject": "Título del mensaje",
+          "email": "Correo electrónico",
+          "message": "Descripción"
+        },
+        "actions": {
+          "submit": "Enviar mensaje"
+        },
+        "status": {
+          "success": "¡Gracias! Tu mensaje se envió correctamente.",
+          "error": "Algo salió mal. Inténtalo de nuevo."
+        },
+        "validation": {
+          "required": "Este campo es obligatorio.",
+          "email": "Introduce una dirección de correo válida."
+        }
+      },
+      "location": {
+        "title": "Visítanos en Colonia",
+        "description": "Encuentra a nuestro equipo en nuestra oficina de Colonia, Alemania."
       }
     }
   },

@@ -931,6 +931,30 @@
       "details": {
         "title": "How to reach us",
         "description": "Send an email to {email} or open a support ticket from your dashboard. We respond within one business day."
+      },
+      "form": {
+        "title": "Send us a message",
+        "description": "Share a few details about your request and we'll connect you with the right specialist.",
+        "fields": {
+          "subject": "Message title",
+          "email": "Email address",
+          "message": "Description"
+        },
+        "actions": {
+          "submit": "Send message"
+        },
+        "status": {
+          "success": "Thank you! Your message was sent successfully.",
+          "error": "Something went wrong. Please try sending your message again."
+        },
+        "validation": {
+          "required": "This field is required.",
+          "email": "Enter a valid email address."
+        }
+      },
+      "location": {
+        "title": "Visit us in Cologne",
+        "description": "Find our team at our office in Cologne, Germany."
       }
     }
   },

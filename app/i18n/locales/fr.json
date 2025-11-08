@@ -931,6 +931,30 @@
       "details": {
         "title": "Nous joindre",
         "description": "Envoyez un e-mail à {email} ou ouvrez un ticket depuis votre tableau de bord. Nous répondons sous un jour ouvré."
+      },
+      "form": {
+        "title": "Envoyez-nous un message",
+        "description": "Partagez quelques détails sur votre demande et nous vous mettrons en relation avec le bon spécialiste.",
+        "fields": {
+          "subject": "Titre du message",
+          "email": "Adresse e-mail",
+          "message": "Description"
+        },
+        "actions": {
+          "submit": "Envoyer le message"
+        },
+        "status": {
+          "success": "Merci ! Votre message a été envoyé avec succès.",
+          "error": "Une erreur est survenue. Veuillez réessayer d'envoyer votre message."
+        },
+        "validation": {
+          "required": "Ce champ est requis.",
+          "email": "Entrez une adresse e-mail valide."
+        }
+      },
+      "location": {
+        "title": "Nous rendre visite à Cologne",
+        "description": "Retrouvez notre équipe dans nos bureaux de Cologne, en Allemagne."
       }
     }
   },

@@ -1044,6 +1044,30 @@
       "details": {
         "title": "Come contattarci",
         "description": "Invia una e-mail a {email} oppure apri un ticket dal tuo pannello. Rispondiamo entro un giorno lavorativo."
+      },
+      "form": {
+        "title": "Inviaci un messaggio",
+        "description": "Condividi alcuni dettagli sulla tua richiesta e ti metteremo in contatto con la persona giusta.",
+        "fields": {
+          "subject": "Titolo del messaggio",
+          "email": "Email",
+          "message": "Descrizione"
+        },
+        "actions": {
+          "submit": "Invia messaggio"
+        },
+        "status": {
+          "success": "Grazie! Il tuo messaggio è stato inviato con successo.",
+          "error": "Si è verificato un errore. Riprova a inviare il messaggio."
+        },
+        "validation": {
+          "required": "Questo campo è obbligatorio.",
+          "email": "Inserisci un indirizzo email valido."
+        }
+      },
+      "location": {
+        "title": "Vieni a trovarci a Colonia",
+        "description": "Trova il nostro team nel nostro ufficio di Colonia, Germania."
       }
     }
   }

@@ -1044,6 +1044,30 @@
       "details": {
         "title": "So erreichst du uns",
         "description": "Schicke eine E-Mail an {email} oder eröffne ein Ticket in deinem Dashboard. Wir antworten innerhalb eines Werktags."
+      },
+      "form": {
+        "title": "Schicke uns eine Nachricht",
+        "description": "Teile uns ein paar Details zu deiner Anfrage mit, damit wir dich mit der richtigen Ansprechperson verbinden können.",
+        "fields": {
+          "subject": "Betreff",
+          "email": "E-Mail-Adresse",
+          "message": "Beschreibung"
+        },
+        "actions": {
+          "submit": "Nachricht senden"
+        },
+        "status": {
+          "success": "Vielen Dank! Deine Nachricht wurde erfolgreich versendet.",
+          "error": "Es ist ein Fehler aufgetreten. Bitte sende deine Nachricht erneut."
+        },
+        "validation": {
+          "required": "Dieses Feld ist erforderlich.",
+          "email": "Bitte gib eine gültige E-Mail-Adresse ein."
+        }
+      },
+      "location": {
+        "title": "Besuche uns in Köln",
+        "description": "Du findest unser Team in unserem Büro in Köln, Deutschland."
       }
     }
   }
