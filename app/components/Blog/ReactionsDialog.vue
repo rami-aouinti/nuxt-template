@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { BlogReactionPreview, BlogPostUser } from '~/types/blog'
+import { getReactionDefinition } from '~/utils/reactions'
 
 const props = defineProps<{
   modelValue: boolean
@@ -58,6 +59,9 @@ const reactionLabel = (type: string) => {
     ? translation
     : type.charAt(0).toUpperCase() + type.slice(1)
 }
+
+const reactionEmoji = (type: string) =>
+  getReactionDefinition(type)?.emoji ?? '👍'
 
 const userDisplayName = (user: BlogPostUser) => {
   const parts = [user.firstName, user.lastName]
@@ -125,6 +129,9 @@ const userAvatar = (user: BlogPostUser) => {
                 {{ userDisplayName(reaction.user) }}
               </v-list-item-title>
               <v-list-item-subtitle class="text-capitalize">
+                <span class="blog-reactions-dialog__emoji">{{
+                  reactionEmoji(reaction.type)
+                }}</span>
                 {{ reactionLabel(reaction.type) }}
               </v-list-item-subtitle>
             </v-list-item>
@@ -146,3 +153,10 @@ const userAvatar = (user: BlogPostUser) => {
     </v-card>
   </v-dialog>
 </template>
+
+<style scoped>
+.blog-reactions-dialog__emoji {
+  margin-right: 6px;
+  font-size: 1.1rem;
+}
+</style>
