@@ -1534,15 +1534,15 @@ await loadPosts(1, { replace: true })
   --blog-surface-rgb: var(--v-theme-surface);
   --blog-surface-variant-rgb: var(--v-theme-surface-variant);
   --blog-hero-background: rgba(var(--blog-surface-rgb), 0.92);
-  --blog-hero-shadow: 0 26px 60px rgba(25, 118, 210, 0.16);
+  --blog-hero-shadow: 0 26px 60px rgba(var(--v-theme-primary), 22%);
   --blog-feed-background: rgba(var(--blog-surface-rgb), 0.92);
-  --blog-feed-shadow: 0 20px 48px rgba(25, 118, 210, 0.14);
+  --blog-feed-shadow: 0 20px 48px rgba(var(--v-theme-primary), 22%);
   --blog-sidebar-background: rgba(var(--blog-surface-rgb), 0.92);
-  --blog-sidebar-shadow: 0 20px 44px rgba(25, 118, 210, 0.14);
+  --blog-sidebar-shadow: 0 20px 44px rgba(var(--v-theme-primary), 22%);
   --blog-feed-empty-background: rgba(var(--blog-surface-variant-rgb), 0.28);
   --blog-post-card-background: rgba(var(--blog-surface-rgb), 0.96);
-  --blog-post-card-shadow: 0 22px 52px rgba(33, 150, 243, 0.18);
-  --blog-post-card-hover-shadow: 0 30px 68px rgba(25, 118, 210, 0.25);
+  --blog-post-card-shadow: 0 22px 52px rgba(var(--v-theme-primary), 22%);
+  --blog-post-card-hover-shadow: 0 30px 68px rgba(var(--v-theme-primary), 52%);
   --blog-comments-empty-background: rgba(var(--blog-surface-variant-rgb), 0.18);
 }
 
