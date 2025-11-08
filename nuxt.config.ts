@@ -162,6 +162,13 @@ export default defineNuxtConfig({
         60 * 60 * 24 * 30,
       ),
     },
+    public: {
+      messenger: {
+        apiBase:
+          process.env.NUXT_PUBLIC_MESSENGER_API_BASE ||
+          'https://bro-world.org/api/messenger',
+      },
+    },
   },
   compatibilityDate: '2024-08-05',
 })
