@@ -121,7 +121,8 @@
         "summary": "Summary",
         "content": "Content",
         "url": "External URL"
-      }
+      },
+      "sharePlaceholder": "Sag etwas zu diesem Beitrag..."
     },
     "notifications": {
       "commentCreated": "Kommentar erfolgreich veröffentlicht.",
@@ -155,7 +156,9 @@
     },
     "dialogs": {
       "editTitle": "Beitrag bearbeiten",
-      "deleteConfirm": "Sind Sie sicher, dass Sie diesen Beitrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
+      "deleteConfirm": "Sind Sie sicher, dass Sie diesen Beitrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "shareTitle": "Beitrag teilen",
+      "shareAudiencePublic": "Öffentlich"
     }
   },
   "admin": {
@@ -288,7 +291,8 @@
       "edit": "Bearbeiten",
       "close": "Schließen",
       "delete": "Löschen",
-      "link": "Verknüpfen"
+      "link": "Verknüpfen",
+      "share": "Teilen"
     },
     "labels": {
       "all": "Alle",

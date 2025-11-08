@@ -18,6 +18,7 @@ import type {
   BlogReactionPreview,
   BlogSummary,
 } from '~/types/blog'
+import type { PublicProfileData } from '~/types/profile'
 import { Notify } from '~/stores/notification'
 
 definePageMeta({
@@ -120,6 +121,75 @@ const createPostDialog = reactive({
     content: '',
     url: '',
   },
+})
+
+const shareDialog = reactive({
+  open: false,
+  post: null as BlogPostViewModel | null,
+  message: '',
+})
+
+const currentProfile = computed<PublicProfileData | null>(() => {
+  const profile = session.value?.profile
+  return profile && typeof profile === 'object'
+    ? (profile as PublicProfileData)
+    : null
+})
+
+const currentSessionUser = computed(
+  () =>
+    (session.value as {
+      user?: { login?: string | null; avatar_url?: string | null }
+    } | null)?.user ?? null,
+)
+
+const currentUserDisplayName = computed(() => {
+  const profile = currentProfile.value
+  if (profile) {
+    const firstName =
+      typeof profile.firstName === 'string' ? profile.firstName.trim() : ''
+    const lastName =
+      typeof profile.lastName === 'string' ? profile.lastName.trim() : ''
+    const fullName = [firstName, lastName].filter(Boolean).join(' ').trim()
+    if (fullName.length) {
+      return fullName
+    }
+
+    const username =
+      typeof profile.username === 'string' ? profile.username.trim() : ''
+    if (username.length) {
+      return username
+    }
+  }
+
+  const login =
+    typeof currentSessionUser.value?.login === 'string'
+      ? currentSessionUser.value.login.trim()
+      : ''
+
+  if (login.length) {
+    return login
+  }
+
+  return t('auth.guest')
+})
+
+const currentUserAvatar = computed(() => {
+  const profilePhoto =
+    typeof currentProfile.value?.photo === 'string'
+      ? currentProfile.value.photo
+      : ''
+
+  if (profilePhoto?.length) {
+    return profilePhoto
+  }
+
+  const avatar =
+    typeof currentSessionUser.value?.avatar_url === 'string'
+      ? currentSessionUser.value.avatar_url
+      : ''
+
+  return avatar?.length ? avatar : undefined
 })
 
 const hasMore = computed(
@@ -880,7 +950,17 @@ function toggleCommentsVisibility(post: BlogPostViewModel) {
 }
 
 function sharePost(post: BlogPostViewModel) {
+  if (!ensureAuthenticated()) {
+    return
+  }
 
+  shareDialog.post = post
+  shareDialog.message = ''
+  shareDialog.open = true
+}
+
+function closeShareDialog() {
+  shareDialog.open = false
 }
 
 watch(
@@ -902,6 +982,16 @@ watch(
   (open) => {
     if (open && myBlogs.value.length && !createPostDialog.form.blogId) {
       createPostDialog.form.blogId = myBlogs.value[0].id
+    }
+  },
+)
+
+watch(
+  () => shareDialog.open,
+  (open) => {
+    if (!open) {
+      shareDialog.post = null
+      shareDialog.message = ''
     }
   },
 )
@@ -1502,6 +1592,95 @@ await loadPosts(1, { replace: true })
       </v-col>
     </v-row>
 
+    <v-dialog v-model="shareDialog.open" max-width="640">
+      <v-card class="share-dialog">
+        <v-card-title class="d-flex align-center">
+          <span>{{ t('blog.dialogs.shareTitle') }}</span>
+          <v-spacer />
+          <v-btn icon variant="text" @click="closeShareDialog">
+            <v-icon icon="mdi-close" />
+          </v-btn>
+        </v-card-title>
+        <v-divider />
+        <v-card-text>
+          <div class="share-dialog__composer">
+            <v-avatar size="48" class="share-dialog__avatar">
+              <v-img :src="currentUserAvatar" :alt="currentUserDisplayName">
+                <template #error>
+                  <v-icon icon="mdi-account-circle" size="48" />
+                </template>
+              </v-img>
+            </v-avatar>
+            <div>
+              <div class="share-dialog__user-name">
+                {{ currentUserDisplayName }}
+              </div>
+              <div class="share-dialog__audience">
+                <v-icon icon="mdi-earth" size="16" class="mr-1" />
+                {{ t('blog.dialogs.shareAudiencePublic') }}
+              </div>
+            </div>
+          </div>
+          <v-textarea
+            v-model="shareDialog.message"
+            :placeholder="t('blog.forms.sharePlaceholder')"
+            rows="3"
+            auto-grow
+            variant="solo"
+            bg-color="rgba(var(--v-theme-surface-variant), 0.35)"
+            class="mt-4"
+          />
+          <div v-if="shareDialog.post" class="share-dialog__preview mt-4">
+            <div class="share-dialog__preview-header">
+              <v-avatar size="40">
+                <v-img
+                  :src="getAuthorAvatar(shareDialog.post.user)"
+                  :alt="getAuthorName(shareDialog.post.user)"
+                >
+                  <template #error>
+                    <v-icon icon="mdi-account-circle" size="40" />
+                  </template>
+                </v-img>
+              </v-avatar>
+              <div>
+                <div class="share-dialog__preview-author">
+                  {{ getAuthorName(shareDialog.post.user) }}
+                </div>
+                <div class="share-dialog__preview-meta">
+                  {{ formatRelativePublishedAt(shareDialog.post.publishedAt) }}
+                </div>
+              </div>
+            </div>
+            <div class="share-dialog__preview-body">
+              <div class="share-dialog__preview-title">
+                {{ shareDialog.post.title }}
+              </div>
+              <p class="share-dialog__preview-text">
+                {{
+                  getPostExcerpt(shareDialog.post) ||
+                    t('blog.placeholders.noSummary')
+                }}
+              </p>
+            </div>
+          </div>
+        </v-card-text>
+        <v-divider />
+        <v-card-actions>
+          <v-spacer />
+          <v-btn variant="text" @click="closeShareDialog">
+            {{ t('common.actions.cancel') }}
+          </v-btn>
+          <v-btn
+            color="primary"
+            :disabled="!shareDialog.post"
+            @click="closeShareDialog"
+          >
+            {{ t('common.actions.share') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-dialog
       v-model="createBlogDialog.open"
       max-width="520"
@@ -1896,6 +2075,70 @@ a.facebook-post-card__author-link:focus-visible {
   text-align: center;
   border-radius: 16px;
   background: var(--blog-comments-empty-background);
+}
+
+.share-dialog {
+  border-radius: 24px;
+  background: rgba(var(--blog-surface-rgb), 0.96);
+}
+
+.share-dialog__composer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.share-dialog__avatar {
+  border: 2px solid rgba(var(--v-theme-primary), 0.2);
+}
+
+.share-dialog__user-name {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.share-dialog__audience {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  color: rgba(var(--v-theme-on-surface), 0.6);
+  font-size: 0.85rem;
+}
+
+.share-dialog__preview {
+  border-radius: 20px;
+  border: 1px solid rgba(var(--v-theme-primary), 0.18);
+  background: rgba(var(--blog-surface-rgb), 0.72);
+  padding: 16px;
+}
+
+.share-dialog__preview-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.share-dialog__preview-author {
+  font-weight: 600;
+}
+
+.share-dialog__preview-meta {
+  font-size: 0.85rem;
+  color: rgba(var(--v-theme-on-surface), 0.6);
+}
+
+.share-dialog__preview-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.share-dialog__preview-text {
+  margin: 0;
+  font-size: 0.95rem;
+  color: rgba(var(--v-theme-on-surface), 0.72);
 }
 
 .blog-sidebar-column {

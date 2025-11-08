@@ -121,7 +121,8 @@
         "summary": "Summary",
         "content": "Content",
         "url": "External URL"
-      }
+      },
+      "sharePlaceholder": "Say something about this post..."
     },
     "notifications": {
       "commentCreated": "Comment published successfully.",
@@ -155,7 +156,9 @@
     },
     "dialogs": {
       "editTitle": "Edit post",
-      "deleteConfirm": "Are you sure you want to delete this post? This action cannot be undone."
+      "deleteConfirm": "Are you sure you want to delete this post? This action cannot be undone.",
+      "shareTitle": "Share post",
+      "shareAudiencePublic": "Public"
     }
   },
   "admin": {
@@ -288,7 +291,8 @@
       "edit": "Edit",
       "close": "Close",
       "delete": "Delete",
-      "link": "Link"
+      "link": "Link",
+      "share": "Share"
     },
     "labels": {
       "all": "All",
