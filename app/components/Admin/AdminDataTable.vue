@@ -21,6 +21,7 @@ const props = withDefaults(
     color?: string
     dense?: boolean
     itemsPerPageOptions?: ItemsPerPageOption[]
+    exportable?: boolean
   }>(),
   {
     title: '',
@@ -34,6 +35,7 @@ const props = withDefaults(
     color: 'primary',
     dense: false,
     itemsPerPageOptions: undefined,
+    exportable: true,
   },
 )
 
@@ -56,6 +58,7 @@ const {
   title,
   subtitle,
   color,
+  exportable,
 } = toRefs(props)
 
 const localSearch = ref(props.search ?? '')
@@ -160,6 +163,156 @@ const computedSearchPlaceholder = computed(
   () => searchPlaceholder.value || t('common.labels.search'),
 )
 
+type NormalizedHeader = {
+  title: string
+  valuePath: string
+}
+
+const normalizedHeaders = computed<NormalizedHeader[]>(() =>
+  headers.value
+    .map((header, index) => {
+      if ((header as Record<string, unknown>).exportable === false) {
+        return null
+      }
+
+      const rawTitle = (header as Record<string, unknown>).title
+      const title =
+        typeof rawTitle === 'string' && rawTitle.trim().length > 0
+          ? rawTitle
+          : String(getHeaderKey(header, index))
+
+      const valueKey =
+        typeof (header as Record<string, unknown>).value === 'string'
+          ? ((header as Record<string, unknown>).value as string)
+          : typeof (header as Record<string, unknown>).key === 'string'
+            ? ((header as Record<string, unknown>).key as string)
+            : undefined
+
+      if (!valueKey) {
+        return null
+      }
+
+      return {
+        title,
+        valuePath: valueKey,
+      }
+    })
+    .filter((value): value is NormalizedHeader => value !== null),
+)
+
+function getNestedValue(item: unknown, path: string) {
+  if (item == null || typeof item !== 'object') {
+    return ''
+  }
+
+  return path
+    .split('.')
+    .reduce<unknown>((current, segment) => {
+      if (current == null || typeof current !== 'object') {
+        return undefined
+      }
+
+      return (current as Record<string, unknown>)[segment]
+    }, item)
+}
+
+const exportableItems = computed(() =>
+  Array.isArray(items.value) ? [...items.value] : [],
+)
+
+const canExport = computed(
+  () =>
+    exportable.value !== false &&
+    normalizedHeaders.value.length > 0 &&
+    exportableItems.value.length > 0,
+)
+
+function sanitizeFileName(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-_]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+}
+
+const exportFileBaseName = computed(() => {
+  const rawTitle = typeof title.value === 'string' ? title.value : ''
+  const sanitized = sanitizeFileName(rawTitle)
+  return sanitized.length > 0 ? sanitized : 'data-table'
+})
+
+function buildExportFileName(extension: string) {
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
+  return `${exportFileBaseName.value}-${timestamp}.${extension}`
+}
+
+function formatItemValue(item: unknown, path: string) {
+  const value = getNestedValue(item, path)
+
+  if (value == null) {
+    return ''
+  }
+
+  if (value instanceof Date) {
+    return value.toISOString()
+  }
+
+  if (typeof value === 'object') {
+    try {
+      return JSON.stringify(value)
+    } catch (error) {
+      console.warn('Unable to stringify export value', error)
+      return ''
+    }
+  }
+
+  return String(value)
+}
+
+function createExportRows() {
+  return exportableItems.value.map((item) =>
+    normalizedHeaders.value.map((header) => formatItemValue(item, header.valuePath)),
+  )
+}
+
+async function exportToExcel() {
+  if (!import.meta.client || !canExport.value) {
+    return
+  }
+
+  const [{ utils, writeFileXLSX }] = await Promise.all([import('xlsx')])
+
+  const worksheetData = [
+    normalizedHeaders.value.map((header) => header.title),
+    ...createExportRows(),
+  ]
+
+  const workbook = utils.book_new()
+  const worksheet = utils.aoa_to_sheet(worksheetData)
+  utils.book_append_sheet(workbook, worksheet, 'Data')
+  writeFileXLSX(workbook, buildExportFileName('xlsx'))
+}
+
+async function exportToPdf() {
+  if (!import.meta.client || !canExport.value) {
+    return
+  }
+
+  const [{ jsPDF }, { default: autoTable }] = await Promise.all([
+    import('jspdf'),
+    import('jspdf-autotable'),
+  ])
+
+  const doc = new jsPDF()
+  autoTable(doc, {
+    head: [normalizedHeaders.value.map((header) => header.title)],
+    body: createExportRows(),
+  })
+
+  doc.save(buildExportFileName('pdf'))
+}
+
 function refresh() {
   if (props.refreshable !== false) {
     emit('refresh')
@@ -196,6 +349,40 @@ function refresh() {
       </div>
       <div class="admin-data-table__toolbar-actions">
         <slot name="header-actions" />
+        <v-menu v-if="exportable" location="bottom end">
+          <template #activator="{ props: menuProps }">
+            <v-btn
+              class="admin-data-table__export"
+              v-bind="menuProps"
+              :color="color"
+              :disabled="!canExport || loading"
+              prepend-icon="mdi-download"
+              variant="tonal"
+            >
+              {{ t('common.labels.export') }}
+            </v-btn>
+          </template>
+          <v-list min-width="220">
+            <v-list-item
+              :disabled="!canExport || loading"
+              prepend-icon="mdi-file-excel"
+              @click="exportToExcel"
+            >
+              <v-list-item-title>
+                {{ t('common.labels.exportExcel') }}
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item
+              :disabled="!canExport || loading"
+              prepend-icon="mdi-file-pdf-box"
+              @click="exportToPdf"
+            >
+              <v-list-item-title>
+                {{ t('common.labels.exportPdf') }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
         <v-btn
           v-if="refreshable"
           class="admin-data-table__refresh"

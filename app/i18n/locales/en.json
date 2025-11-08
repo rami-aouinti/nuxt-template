@@ -196,7 +196,10 @@
       "all": "All",
       "search": "Search",
       "group": "Group",
-      "user": "User"
+      "user": "User",
+      "export": "Export",
+      "exportPdf": "Export as PDF",
+      "exportExcel": "Export as Excel"
     },
     "placeholders": {
       "selectGroup": "Select a group",

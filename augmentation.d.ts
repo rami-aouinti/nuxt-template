@@ -21,4 +21,16 @@ declare module '#auth-utils' {
   }
 }
 
+declare module 'jspdf-autotable' {
+  import type { jsPDF } from 'jspdf'
+
+  export interface AutoTableOptions {
+    head?: unknown[][]
+    body?: unknown[][]
+    [key: string]: unknown
+  }
+
+  export default function autoTable(doc: jsPDF, options: AutoTableOptions): jsPDF
+}
+
 export {}

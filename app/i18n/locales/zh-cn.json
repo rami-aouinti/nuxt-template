@@ -196,7 +196,10 @@
       "all": "全部",
       "search": "搜索",
       "group": "群组",
-      "user": "用户"
+      "user": "用户",
+      "export": "导出",
+      "exportPdf": "导出为 PDF",
+      "exportExcel": "导出为 Excel"
     },
     "placeholders": {
       "selectGroup": "请选择群组",
