@@ -840,6 +840,15 @@
     "help": {
       "title": "Centre d'aide",
       "subtitle": "Trouvez rapidement des réponses grâce à notre documentation, aux questions fréquentes et aux discussions communautaires.",
+      "explanation": {
+        "title": "Qu'est-ce que Bro World ?",
+        "description": "Bro World centralise la communication, les connaissances et les workflows de votre équipe afin que vous puissiez rester concentré sur la création de valeur.",
+        "highlights": {
+          "workspace": "Organisez projets, documents et discussions dans des espaces dédiés à chaque initiative.",
+          "collaboration": "Collaborez en temps réel grâce aux notes partagées, à la messagerie intégrée et aux notifications ciblées.",
+          "support": "Suivez l'avancement via des tableaux de bord interactifs et sollicitez notre équipe dès que vous avez besoin d'accompagnement."
+        }
+      },
       "sections": {
         "guides": {
           "title": "Guides produit",
@@ -852,6 +861,23 @@
         "community": {
           "title": "Forum communautaire",
           "description": "Participez aux conversations avec d'autres membres, partagez vos conseils et votez pour les fonctionnalités souhaitées."
+        }
+      },
+      "questions": {
+        "title": "Questions courantes",
+        "items": {
+          "accountAccess": {
+            "question": "Comment accéder à mon compte ?",
+            "answer": "Connectez-vous avec l'adresse e-mail utilisée lors de l'inscription. En cas de souci, réinitialisez votre mot de passe depuis la page de connexion ou contactez le support."
+          },
+          "inviteTeam": {
+            "question": "Puis-je inviter mes coéquipiers ?",
+            "answer": "Oui. Ouvrez les paramètres de votre espace de travail, choisissez « Membres » et envoyez des invitations par e-mail pour collaborer immédiatement."
+          },
+          "getSupport": {
+            "question": "Où obtenir davantage d'aide ?",
+            "answer": "Consultez les guides ci-dessus pour suivre des tutoriels pas à pas ou écrivez-nous directement afin que nous vous accompagnions plus en détail."
+          }
         }
       },
       "contact": {
