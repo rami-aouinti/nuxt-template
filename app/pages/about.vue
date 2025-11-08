@@ -32,9 +32,9 @@ const callToAction = computed(() => ({
 </script>
 
 <template>
-  <v-container class="py-10">
+  <v-container fluid>
     <v-row justify="center">
-      <v-col cols="12" md="10" lg="8">
+      <v-col cols="12">
         <v-card class="pa-6" elevation="2">
           <v-card-title class="text-h4 font-weight-bold pb-2">
             {{ t('pages.about.title') }}
@@ -48,7 +48,7 @@ const callToAction = computed(() => ({
               v-for="section in sections"
               :key="section.title"
               cols="12"
-              sm="6"
+              sm="4"
               class="d-flex"
             >
               <v-sheet elevation="1" rounded="lg" class="pa-4 flex-grow-1">
