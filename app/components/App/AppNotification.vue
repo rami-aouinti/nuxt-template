@@ -27,11 +27,19 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
           :aria-label="
             notifications.length ? 'Notifications (new)' : 'Notifications'
           "
-          :icon="
-            notifications.length ? 'mdi-bell-badge-outline' : 'mdi-bell-outline'
-          "
+          size="small"
           variant="text"
-        />
+        >
+          <v-badge
+            v-if="notifications.length > 0"
+            :content="notifications.length"
+            color="error"
+            floating
+          >
+            <v-icon icon="mdi-bell-badge-outline" />
+          </v-badge>
+          <v-icon v-else icon="mdi-bell-outline" />
+        </v-btn>
       </template>
       <v-card
         elevation="6"

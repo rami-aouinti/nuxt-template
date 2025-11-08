@@ -124,7 +124,7 @@ watch(loggedIn, (value) => {
     <v-spacer />
     <div id="app-bar" />
     <AppMessenger />
-    <AppNotification class="ml-2" />
+    <AppNotification />
     <v-switch
       v-model="isDark"
       color=""
@@ -133,7 +133,7 @@ watch(loggedIn, (value) => {
       inset
       false-icon="mdi-white-balance-sunny"
       true-icon="mdi-weather-night"
-      class="opacity-80"
+      class="opacity-80 ml-2"
     />
     <v-menu location="bottom">
       <template #activator="{ props: menu }">
