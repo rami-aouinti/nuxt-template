@@ -126,6 +126,35 @@ const myBlogsOptions = computed(() =>
   })),
 )
 
+function getBlogInitials(title: string | null | undefined): string {
+  if (!title) {
+    return '??'
+  }
+
+  const trimmed = title.trim()
+  if (!trimmed) {
+    return '??'
+  }
+
+  const alphanumericChars = Array.from(trimmed).filter((char) =>
+    /\p{Letter}|\p{Number}/u.test(char),
+  )
+  const fallbackChars = alphanumericChars.length
+    ? alphanumericChars
+    : Array.from(trimmed).filter((char) => char.trim().length > 0)
+
+  if (!fallbackChars.length) {
+    return '??'
+  }
+
+  const initials = fallbackChars.slice(0, 2)
+  if (initials.length === 1) {
+    initials.push(initials[0])
+  }
+
+  return initials.join('').toUpperCase()
+}
+
 let activeRequest = 0
 let previousLoggedIn = loggedIn.value
 
@@ -1185,12 +1214,21 @@ await loadPosts(1, { replace: true })
                         :link="Boolean(resolveBlogLink(blog))"
                       >
                         <template #prepend>
-                          <v-avatar size="32" class="mr-3">
-                            <v-img :src="blog.logo || undefined" :alt="blog.title">
-                              <template #error>
-                                <v-icon icon="mdi-rss" />
-                              </template>
-                            </v-img>
+                          <v-avatar size="32" class="mr-3" color="primary" variant="tonal">
+                            <template v-if="blog.logo">
+                              <v-img :src="blog.logo || undefined" :alt="blog.title">
+                                <template #error>
+                                  <span class="blog-avatar__initials">
+                                    {{ getBlogInitials(blog.title) }}
+                                  </span>
+                                </template>
+                              </v-img>
+                            </template>
+                            <template v-else>
+                              <span class="blog-avatar__initials">
+                                {{ getBlogInitials(blog.title) }}
+                              </span>
+                            </template>
                           </v-avatar>
                         </template>
                         <v-list-item-title>{{ blog.title }}</v-list-item-title>
@@ -1250,23 +1288,32 @@ await loadPosts(1, { replace: true })
                     {{ publicBlogsError }}
                   </v-alert>
 
-                  <v-list v-else-if="publicBlogs.length" density="compact" lines="two">
-                    <v-list-item
-                      v-for="blog in publicBlogs"
-                      :key="blog.id"
-                      :to="resolveBlogLink(blog) || undefined"
-                      :link="Boolean(resolveBlogLink(blog))"
-                    >
-                      <template #prepend>
-                        <v-avatar size="32" class="mr-3">
-                          <v-img :src="blog.logo || undefined" :alt="blog.title">
-                            <template #error>
-                              <v-icon icon="mdi-rss" />
+                    <v-list v-else-if="publicBlogs.length" density="compact" lines="two">
+                      <v-list-item
+                        v-for="blog in publicBlogs"
+                        :key="blog.id"
+                        :to="resolveBlogLink(blog) || undefined"
+                        :link="Boolean(resolveBlogLink(blog))"
+                      >
+                        <template #prepend>
+                          <v-avatar size="32" class="mr-3" color="primary" variant="tonal">
+                            <template v-if="blog.logo">
+                              <v-img :src="blog.logo || undefined" :alt="blog.title">
+                                <template #error>
+                                  <span class="blog-avatar__initials">
+                                    {{ getBlogInitials(blog.title) }}
+                                  </span>
+                                </template>
+                              </v-img>
                             </template>
-                          </v-img>
-                        </v-avatar>
-                      </template>
-                      <v-list-item-title>{{ blog.title }}</v-list-item-title>
+                            <template v-else>
+                              <span class="blog-avatar__initials">
+                                {{ getBlogInitials(blog.title) }}
+                              </span>
+                            </template>
+                          </v-avatar>
+                        </template>
+                        <v-list-item-title>{{ blog.title }}</v-list-item-title>
                       <v-list-item-subtitle v-if="blog.blogSubtitle">
                         {{ blog.blogSubtitle }}
                       </v-list-item-subtitle>
@@ -1409,5 +1456,17 @@ await loadPosts(1, { replace: true })
 
 .blog-comment-thread__reply {
   margin-left: 32px;
+}
+
+.blog-avatar__initials {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: rgba(var(--v-theme-on-primary), 0.9);
 }
 </style>
