@@ -1159,17 +1159,6 @@ await loadPosts(1, { replace: true })
                             : t('blog.actions.showComments')
                         }}
                       </v-btn>
-                      <v-btn
-                        :href="post.url || undefined"
-                        :disabled="!post.url"
-                        target="_blank"
-                        variant="text"
-                        color="primary"
-                        class="facebook-post-card__action-btn"
-                      >
-                        <v-icon icon="mdi-share-variant" class="mr-2" />
-                        {{ t('blog.actions.read') }}
-                      </v-btn>
                     </div>
                     <div
                       v-if="canEditPost(post)"
