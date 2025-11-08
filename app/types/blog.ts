@@ -14,15 +14,24 @@ export interface BlogMedia {
   alt?: string | null
 }
 
+export type BlogReactionType =
+  | 'like'
+  | 'love'
+  | 'care'
+  | 'haha'
+  | 'wow'
+  | 'sad'
+  | 'angry'
+
 export interface BlogReactionPreview {
   id: string
-  type: string
+  type: BlogReactionType | string
   user: BlogPostUser
 }
 
 export interface BlogCommentLike {
   id: string
-  type?: string | null
+  type?: BlogReactionType | string | null
   user: BlogPostUser
 }
 
@@ -34,7 +43,7 @@ export interface BlogComment {
   reactions_count?: number
   likes_count?: number
   totalComments?: number
-  isReacted?: boolean | string | null
+  isReacted?: boolean | BlogReactionType | string | null
   reactions_preview?: BlogReactionPreview[]
   comments_preview?: BlogComment[]
   likes?: BlogCommentLike[] | null
@@ -60,7 +69,7 @@ export interface BlogPost {
   publishedAt: string
   url?: string | null
   medias?: BlogMedia[]
-  isReacted?: boolean | string | null
+  isReacted?: boolean | BlogReactionType | string | null
   reactions_count?: number
   totalComments?: number
   user: BlogPostUser

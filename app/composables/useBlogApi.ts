@@ -9,6 +9,7 @@ import type {
   BlogPostListResponse,
   BlogPostSharePayload,
   BlogPostUpdatePayload,
+  BlogReactionType,
   BlogSummary,
   BlogSummaryListResponse,
 } from '~/types/blog'
@@ -446,16 +447,20 @@ export const useBlogApi = () => {
     )
   }
 
-  const likePost = async (postId: string) => {
-    const headers = getAuthHeaders(true)
+  const normalizeReactionType = (type: BlogReactionType) =>
+    (typeof type === 'string' && type.trim().length ? type.trim().toLowerCase() : 'like')
 
-    await $fetch(`${PRIVATE_POSTS_REACTS_ENDPOINT}/${postId}/react/like`, {
+  const reactToPost = async (postId: string, type: BlogReactionType) => {
+    const headers = getAuthHeaders(true)
+    const normalized = normalizeReactionType(type)
+
+    await $fetch(`${PRIVATE_POSTS_REACTS_ENDPOINT}/${postId}/react/${normalized}`, {
       method: 'POST',
       headers,
     })
   }
 
-  const dislikePost = async (postId: string) => {
+  const removePostReaction = async (postId: string) => {
     const headers = getAuthHeaders(true)
 
     await $fetch(`${PRIVATE_POSTS_REACTS_ENDPOINT}/${postId}/react/delete`, {
@@ -464,19 +469,20 @@ export const useBlogApi = () => {
     })
   }
 
-  const likeComment = async (commentId: string) => {
+  const reactToComment = async (commentId: string, type: BlogReactionType) => {
     const headers = getAuthHeaders(true)
+    const normalized = normalizeReactionType(type)
 
-    await $fetch(`${PRIVATE_COMMENTS_ENDPOINT}/${commentId}/like`, {
+    await $fetch(`${PRIVATE_COMMENTS_ENDPOINT}/${commentId}/react/${normalized}`, {
       method: 'POST',
       headers,
     })
   }
 
-  const dislikeComment = async (commentId: string) => {
+  const removeCommentReaction = async (commentId: string) => {
     const headers = getAuthHeaders(true)
 
-    await $fetch(`${PRIVATE_COMMENTS_ENDPOINT}/${commentId}/dislike`, {
+    await $fetch(`${PRIVATE_COMMENTS_ENDPOINT}/${commentId}/react/delete`, {
       method: 'POST',
       headers,
     })
@@ -555,10 +561,10 @@ export const useBlogApi = () => {
     fetchComments,
     createComment,
     replyToComment,
-    likePost,
-    dislikePost,
-    likeComment,
-    dislikeComment,
+    reactToPost,
+    removePostReaction,
+    reactToComment,
+    removeCommentReaction,
     updatePost,
     deletePost,
     createBlog,

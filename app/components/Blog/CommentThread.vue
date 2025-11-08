@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { BlogCommentViewModel, BlogPostUser } from '~/types/blog'
+import type { BlogCommentViewModel, BlogPostUser, BlogReactionType } from '~/types/blog'
+import { resolveReactionType } from '~/utils/reactions'
 
 defineOptions({ name: 'BlogCommentThread' })
 
@@ -13,15 +14,25 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'toggle-like' | 'submit-reply', comment: BlogCommentViewModel): void
+  (
+    e: 'select-reaction',
+    payload: { comment: BlogCommentViewModel; type: BlogReactionType },
+  ): void
+  (e: 'remove-reaction' | 'submit-reply', comment: BlogCommentViewModel): void
 }>()
 
 const { t } = useI18n()
 
 const hasComments = computed(() => props.comments?.length > 0)
 
-const getProfileLink = (user: BlogPostUser) =>
-  props.resolveProfileLink?.(user) ?? null
+const getProfileLink = (user: BlogPostUser) => {
+  const link = props.resolveProfileLink?.(user)
+  if (typeof link === 'string' && link.trim().length) {
+    return link
+  }
+
+  return undefined
+}
 
 const toggleReply = (comment: BlogCommentViewModel) => {
   comment.ui.replyOpen = !comment.ui.replyOpen
@@ -29,6 +40,10 @@ const toggleReply = (comment: BlogCommentViewModel) => {
     comment.ui.replyContent = ''
   }
 }
+
+const resolveCommentReaction = (
+  value: BlogCommentViewModel['isReacted'],
+): BlogReactionType | null => resolveReactionType(value ?? null)
 </script>
 
 <template>
@@ -87,23 +102,19 @@ const toggleReply = (comment: BlogCommentViewModel) => {
             <p class="text-body-2 mb-0">
               {{ comment.content }}
             </p>
-            <div class="d-flex align-center pa-3">
-              <v-btn
-                v-if="canInteract"
-                variant="text"
-                size="small"
-                :loading="comment.ui.likeLoading"
+            <div class="d-flex align-center pa-3 blog-comment-thread__actions">
+              <BlogReactionPicker
                 class="mr-2"
-                @click="emit('toggle-like', comment)"
-              >
-                <v-icon
-                  :icon="
-                    comment.isReacted ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'
-                  "
-                  class="mr-1"
-                />
-                {{ comment.reactions_count ?? comment.likes_count ?? 0 }}
-              </v-btn>
+                size="small"
+                density="comfortable"
+                :model-value="resolveCommentReaction(comment.isReacted)"
+                :count="comment.reactions_count ?? comment.likes_count ?? 0"
+                :loading="comment.ui.likeLoading"
+                :disabled="!canInteract"
+                :show-caret="canInteract"
+                @select="(type) => emit('select-reaction', { comment, type })"
+                @remove="emit('remove-reaction', comment)"
+              />
               <v-btn
                 v-if="canInteract"
                 variant="text"
@@ -112,7 +123,7 @@ const toggleReply = (comment: BlogCommentViewModel) => {
                 @click="toggleReply(comment)"
               >
                 <v-icon icon="mdi-message" class="mr-1" />
-                {{ comment?.comments?.length }}
+                {{ comment.replies?.length ?? comment.totalComments ?? 0 }}
               </v-btn>
             </div>
           </div>
@@ -159,7 +170,8 @@ const toggleReply = (comment: BlogCommentViewModel) => {
         :format-author="formatAuthor"
         :format-date="formatDate"
         :can-interact="canInteract"
-        @toggle-like="emit('toggle-like', $event)"
+        @select-reaction="emit('select-reaction', $event)"
+        @remove-reaction="emit('remove-reaction', $event)"
         @submit-reply="emit('submit-reply', $event)"
       />
     </div>
@@ -173,6 +185,10 @@ const toggleReply = (comment: BlogCommentViewModel) => {
 
 .blog-comment-thread__reply {
   margin-left: 52px;
+}
+
+.blog-comment-thread__actions {
+  gap: 8px;
 }
 
 .blog-comment-thread__avatar-link {

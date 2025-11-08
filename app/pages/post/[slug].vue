@@ -14,10 +14,15 @@ import type {
   BlogPostUser,
   BlogPostViewModel,
   BlogReactionPreview,
+  BlogReactionType,
   BlogSummary,
 } from '~/types/blog'
 import type { PublicProfileData } from '~/types/profile'
 import { Notify } from '~/stores/notification'
+import {
+  DEFAULT_REACTION_TYPE,
+  resolveReactionType,
+} from '~/utils/reactions'
 
 definePageMeta({
   icon: 'mdi-post-outline',
@@ -151,10 +156,10 @@ const {
   fetchComments,
   createComment,
   replyToComment,
-  likePost,
-  dislikePost,
-  likeComment,
-  dislikeComment,
+  reactToPost,
+  removePostReaction,
+  reactToComment,
+  removeCommentReaction,
 } = useBlogApi()
 
 const post = ref<BlogPostViewModel | null>(null)
@@ -207,17 +212,15 @@ function normalizeComment(comment: BlogComment): BlogComment {
         ? comment.children
         : []
 
-  let isReacted: BlogComment['isReacted'] = null
-  if (typeof comment.isReacted === 'string' || comment.isReacted === null) {
-    isReacted = comment.isReacted
-  } else if (typeof comment.isReacted === 'boolean') {
-    isReacted = comment.isReacted ? 'like' : null
-  }
+  let isReacted: BlogComment['isReacted'] = resolveReactionType(
+    comment.isReacted ?? null,
+  )
 
   if (!isReacted && currentUserId.value) {
-    const hasLiked = likes.some((like) => like.user.id === currentUserId.value)
-    if (hasLiked) {
-      isReacted = 'like'
+    const selfReaction = likes.find((like) => like.user.id === currentUserId.value)
+    if (selfReaction) {
+      isReacted =
+        resolveReactionType(selfReaction.type ?? null) ?? DEFAULT_REACTION_TYPE
     }
   }
 
@@ -232,7 +235,8 @@ function normalizeComment(comment: BlogComment): BlogComment {
 
             return {
               id: like.id ?? `${comment.id}-${like.user.id}`,
-              type: like.type ?? 'like',
+              type:
+                resolveReactionType(like.type ?? null) ?? DEFAULT_REACTION_TYPE,
               user: like.user,
             }
           })
@@ -303,9 +307,7 @@ function normalizeReaction(
   }
 
   const type =
-    typeof reaction.type === 'string' && reaction.type.trim().length
-      ? reaction.type.trim()
-      : 'like'
+    resolveReactionType(reaction.type ?? null) ?? DEFAULT_REACTION_TYPE
 
   const firstName =
     typeof user.firstName === 'string' && user.firstName.trim().length
@@ -560,52 +562,44 @@ async function submitCommentReply(
   }
 }
 
-async function togglePostReaction(postValue: BlogPostViewModel) {
+async function applyPostReaction(
+  postValue: BlogPostViewModel,
+  type: BlogReactionType,
+) {
   if (!ensureAuthenticated()) return
+  if (postValue.ui.likeLoading) return
+
+  const previousReaction = resolveReactionType(postValue.isReacted ?? null)
+  const sanitizedPreview = normalizeReactionsPreview(postValue.reactions_preview)
 
   postValue.ui.likeLoading = true
-  const currentlyReacted = Boolean(postValue.isReacted)
-
   try {
-    const sanitizedPreview = normalizeReactionsPreview(
-      postValue.reactions_preview,
-    )
+    await reactToPost(postValue.id, type)
+    postValue.isReacted = type
 
-    if (currentlyReacted) {
-      await dislikePost(postValue.id)
-      postValue.isReacted = null
-      postValue.reactions_count = Math.max(
-        (postValue.reactions_count ?? 1) - 1,
-        0,
-      )
-
-      const currentId = currentUserId.value
-      postValue.reactions_preview = currentId
-        ? sanitizedPreview.filter((reaction) => reaction.user.id !== currentId)
-        : sanitizedPreview
-    } else {
-      await likePost(postValue.id)
-      postValue.isReacted = 'like'
+    if (!previousReaction) {
       postValue.reactions_count = (postValue.reactions_count ?? 0) + 1
-
-      const currentUser = currentUserReactionUser.value
-      if (currentUser) {
-        const filtered = sanitizedPreview.filter(
-          (reaction) => reaction.user.id !== currentUser.id,
-        )
-        const normalizedReaction = normalizeReaction({
-          id: `${postValue.id}-${currentUser.id}`,
-          type: 'like',
-          user: currentUser,
-        } as BlogReactionPreview)
-
-        postValue.reactions_preview = normalizedReaction
-          ? [normalizedReaction, ...filtered]
-          : filtered
-      } else {
-        postValue.reactions_preview = sanitizedPreview
-      }
     }
+
+    const currentUser = currentUserReactionUser.value
+    if (currentUser) {
+      const filtered = sanitizedPreview.filter(
+        (reaction) => reaction.user.id !== currentUser.id,
+      )
+      const normalizedReaction = normalizeReaction({
+        id: `${postValue.id}-${currentUser.id}`,
+        type,
+        user: currentUser,
+      } as BlogReactionPreview)
+
+      postValue.reactions_preview = normalizedReaction
+        ? [normalizedReaction, ...filtered]
+        : filtered
+    } else {
+      postValue.reactions_preview = sanitizedPreview
+    }
+
+    Notify.success(t('blog.notifications.postLiked'))
   } catch (error) {
     Notify.error(extractErrorMessage(error, t('blog.errors.reactionFailed')))
   } finally {
@@ -613,25 +607,123 @@ async function togglePostReaction(postValue: BlogPostViewModel) {
   }
 }
 
-async function toggleCommentReaction(
-  postValue: BlogPostViewModel,
+async function removePostReactionFromPost(postValue: BlogPostViewModel) {
+  if (!ensureAuthenticated()) return
+  if (postValue.ui.likeLoading) return
+
+  const currentType = resolveReactionType(postValue.isReacted ?? null)
+  if (!currentType) {
+    return
+  }
+
+  const sanitizedPreview = normalizeReactionsPreview(postValue.reactions_preview)
+
+  postValue.ui.likeLoading = true
+  try {
+    await removePostReaction(postValue.id)
+    postValue.isReacted = null
+    postValue.reactions_count = Math.max((postValue.reactions_count ?? 1) - 1, 0)
+
+    const currentId = currentUserId.value
+    postValue.reactions_preview = currentId
+      ? sanitizedPreview.filter((reaction) => reaction.user.id !== currentId)
+      : sanitizedPreview
+
+    Notify.info(t('blog.notifications.postUnliked'))
+  } catch (error) {
+    Notify.error(extractErrorMessage(error, t('blog.errors.reactionFailed')))
+  } finally {
+    postValue.ui.likeLoading = false
+  }
+}
+
+async function applyCommentReaction(
+  _postValue: BlogPostViewModel,
+  comment: BlogCommentViewModel,
+  type: BlogReactionType,
+) {
+  if (!ensureAuthenticated()) return
+  if (comment.ui.likeLoading) return
+
+  const previousReaction = resolveReactionType(comment.isReacted ?? null)
+  const sanitizedPreview = normalizeReactionsPreview(comment.reactions_preview)
+
+  comment.ui.likeLoading = true
+  try {
+    await reactToComment(comment.id, type)
+    comment.isReacted = type
+
+    const previousCount =
+      typeof comment.reactions_count === 'number'
+        ? comment.reactions_count
+        : typeof comment.likes_count === 'number'
+          ? comment.likes_count
+          : 0
+
+    comment.reactions_count = previousReaction ? previousCount : previousCount + 1
+    comment.likes_count = comment.reactions_count
+
+    const currentUser = currentUserReactionUser.value
+    if (currentUser) {
+      const filtered = sanitizedPreview.filter(
+        (reaction) => reaction.user.id !== currentUser.id,
+      )
+      const normalizedReaction = normalizeReaction({
+        id: `${comment.id}-${currentUser.id}`,
+        type,
+        user: currentUser,
+      } as BlogReactionPreview)
+
+      comment.reactions_preview = normalizedReaction
+        ? [normalizedReaction, ...filtered]
+        : filtered
+    } else {
+      comment.reactions_preview = sanitizedPreview
+    }
+
+    Notify.success(t('blog.notifications.commentLiked'))
+  } catch (error) {
+    Notify.error(extractErrorMessage(error, t('blog.errors.reactionFailed')))
+  } finally {
+    comment.ui.likeLoading = false
+  }
+}
+
+async function removeCommentReactionFromComment(
+  _postValue: BlogPostViewModel,
   comment: BlogCommentViewModel,
 ) {
   if (!ensureAuthenticated()) return
+  if (comment.ui.likeLoading) return
+
+  const currentType = resolveReactionType(comment.isReacted ?? null)
+  if (!currentType) {
+    return
+  }
+
+  const sanitizedPreview = normalizeReactionsPreview(comment.reactions_preview)
 
   comment.ui.likeLoading = true
-  const currentlyReacted = Boolean(comment.isReacted)
-
   try {
-    if (currentlyReacted) {
-      await dislikeComment(comment.id)
-      comment.isReacted = null
-      comment.reactions_count = Math.max((comment.reactions_count ?? 1) - 1, 0)
-    } else {
-      await likeComment(comment.id)
-      comment.isReacted = 'like'
-      comment.reactions_count = (comment.reactions_count ?? 0) + 1
-    }
+    await removeCommentReaction(comment.id)
+    const previousCount =
+      typeof comment.reactions_count === 'number'
+        ? comment.reactions_count
+        : typeof comment.likes_count === 'number'
+          ? comment.likes_count
+          : 0
+    const nextCount = Math.max(previousCount - 1, 0)
+
+    comment.isReacted = null
+    comment.reactions_count = nextCount
+    comment.likes_count = nextCount
+
+    const currentId = currentUserId.value
+    comment.reactions_preview = currentId
+      ? sanitizedPreview.filter((reaction) => reaction.user.id !== currentId)
+      : sanitizedPreview
+
+    Notify.info(t('blog.notifications.commentUnliked'))
   } catch (error) {
     Notify.error(extractErrorMessage(error, t('blog.errors.reactionFailed')))
   } finally {
@@ -851,22 +943,17 @@ watch(
             >
               {{ t('blog.actions.read') }}
             </v-btn>
-            <v-btn
-              variant="text"
-              color="primary"
+            <BlogReactionPicker
+              class="ml-auto ml-sm-4"
+              :model-value="resolveReactionType(post.isReacted ?? null)"
+              :count="post.reactions_count ?? 0"
               :loading="post.ui.likeLoading"
-              @click="togglePostReaction(post)"
-            >
-              <v-icon
-                :icon="post.isReacted ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
-                class="mr-2"
-              />
-              {{
-                post.isReacted
-                  ? t('blog.actions.unlike')
-                  : t('blog.actions.like')
-              }}
-            </v-btn>
+              :disabled="!loggedIn"
+              :show-caret="loggedIn"
+              :show-count="false"
+              @select="(type) => applyPostReaction(post, type)"
+              @remove="removePostReactionFromPost(post)"
+            />
           </v-card-actions>
 
           <v-divider />
@@ -925,7 +1012,8 @@ watch(
               :format-date="formatPublishedAt"
               :can-interact="loggedIn"
               :resolve-profile-link="getAuthorProfileLink"
-              @toggle-like="(comment) => toggleCommentReaction(post, comment)"
+              @select-reaction="(payload) => applyCommentReaction(post, payload.comment, payload.type)"
+              @remove-reaction="(comment) => removeCommentReactionFromComment(post, comment)"
               @submit-reply="(comment) => submitCommentReply(post, comment)"
             />
 
