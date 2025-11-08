@@ -35,7 +35,8 @@
     "profileCalendar": "Calendrier",
     "blog": "Blog",
     "messenger": "Messagerie",
-    "language": "Changer de langue"
+    "language": "Changer de langue",
+    "workspace": "Espace de travail"
   },
   "messenger": {
     "title": "Messagerie",
@@ -232,8 +233,8 @@
         }
       }
     },
-      "workplaces": "Number of workplaces",
-      "apiKeys": "Nombre de clés API"
+    "workplaces": "Number of workplaces",
+    "apiKeys": "Nombre de clés API"
   },
   "auth": {
     "profile": "Profil",
@@ -717,5 +718,107 @@
   },
   "$vuetify": {
     "close": "Fermer"
+  },
+  "workspace": {
+    "page": {
+      "title": "Mon espace de travail",
+      "subtitle": "Organisez et partagez vos dossiers et fichiers personnels."
+    },
+    "tree": {
+      "title": "Dossiers",
+      "empty": "Aucun dossier disponible pour le moment.",
+      "actions": {
+        "createRoot": "Créer un dossier racine"
+      }
+    },
+    "actions": {
+      "newFolder": "Nouveau dossier",
+      "uploadFile": "Importer un fichier",
+      "renameFolder": "Renommer",
+      "deleteFolder": "Supprimer le dossier",
+      "refresh": "Rafraîchir"
+    },
+    "details": {
+      "items": "{count, plural, =0 {Aucun sous-dossier} one {1 sous-dossier} other {{count} sous-dossiers}}",
+      "files": "{count, plural, =0 {Aucun fichier} one {1 fichier} other {{count} fichiers}}",
+      "private": "Privé",
+      "favorite": "Favori"
+    },
+    "files": {
+      "title": "Fichiers",
+      "empty": "Aucun fichier dans ce dossier.",
+      "favorite": "Favori",
+      "sizeUnknown": "Taille inconnue",
+      "headers": {
+        "name": "Nom",
+        "type": "Type",
+        "extension": "Extension",
+        "size": "Taille",
+        "actions": "Actions"
+      },
+      "actions": {
+        "open": "Ouvrir",
+        "delete": "Supprimer"
+      }
+    },
+    "dialogs": {
+      "create": {
+        "title": "Créer un dossier",
+        "subtitle": "Choisissez un nom et éventuellement un dossier parent."
+      },
+      "edit": {
+        "title": "Renommer le dossier"
+      },
+      "delete": {
+        "title": "Supprimer le dossier",
+        "message": "Voulez-vous vraiment supprimer ce dossier et tout son contenu ?"
+      },
+      "upload": {
+        "title": "Importer un fichier",
+        "subtitle": "Sélectionnez un fichier à ajouter au dossier courant."
+      },
+      "deleteFile": {
+        "title": "Supprimer le fichier",
+        "message": "Voulez-vous vraiment supprimer ce fichier ?"
+      },
+      "fields": {
+        "name": "Nom du dossier",
+        "parent": "Dossier parent",
+        "private": "Dossier privé",
+        "favorite": "Marquer comme favori",
+        "file": "Fichier"
+      },
+      "actions": {
+        "cancel": "Annuler",
+        "create": "Créer",
+        "save": "Enregistrer",
+        "delete": "Supprimer",
+        "upload": "Importer"
+      }
+    },
+    "notifications": {
+      "folderCreated": "Dossier créé avec succès.",
+      "folderUpdated": "Dossier mis à jour avec succès.",
+      "folderDeleted": "Dossier supprimé avec succès.",
+      "fileUploaded": "Fichier importé avec succès.",
+      "fileDeleted": "Fichier supprimé avec succès."
+    },
+    "errors": {
+      "loadFolders": "Impossible de charger les dossiers. Veuillez réessayer.",
+      "createFolder": "Impossible de créer le dossier.",
+      "updateFolder": "Impossible de mettre à jour le dossier.",
+      "deleteFolder": "Impossible de supprimer le dossier.",
+      "uploadFile": "Impossible d'importer le fichier.",
+      "deleteFile": "Impossible de supprimer le fichier.",
+      "noFolderSelected": "Sélectionnez un dossier avant d'importer un fichier."
+    },
+    "validation": {
+      "nameRequired": "Le nom du dossier est obligatoire.",
+      "fileRequired": "Vous devez sélectionner un fichier."
+    },
+    "messages": {
+      "selectFolder": "Sélectionnez un dossier dans la liste pour afficher son contenu.",
+      "refreshing": "Actualisation du contenu du dossier…"
+    }
   }
 }
