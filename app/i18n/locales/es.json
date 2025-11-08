@@ -336,6 +336,31 @@
       "roles": {
         "title": "Roles",
         "empty": "Todavía no hay roles asignados."
+      },
+      "settings": {
+        "title": "Preferencias"
+      }
+    },
+    "settings": {
+      "allowSendEmail": {
+        "title": "Recibir correos electrónicos",
+        "description": "Permitir que la plataforma envíe actualizaciones y alertas por correo electrónico."
+      },
+      "allowNotification": {
+        "title": "Activar las notificaciones en la aplicación",
+        "description": "Recibir notificaciones directamente en la aplicación."
+      },
+      "actions": {
+        "refresh": "Recargar"
+      },
+      "notifications": {
+        "updateSuccess": "Preferencia actualizada correctamente."
+      },
+      "errors": {
+        "loadFailed": "No se pudieron cargar sus preferencias. Inténtelo de nuevo más tarde.",
+        "saveFailed": "No se pudieron guardar sus preferencias. Inténtelo de nuevo más tarde.",
+        "metadataMissing": "No se pudieron determinar los identificadores necesarios para guardar estas preferencias.",
+        "noConfiguration": "Todavía no se encontraron preferencias guardadas."
       }
     },
     "calendar": {

@@ -336,6 +336,31 @@
       "roles": {
         "title": "角色",
         "empty": "尚未分配角色。"
+      },
+      "settings": {
+        "title": "偏好设置"
+      }
+    },
+    "settings": {
+      "allowSendEmail": {
+        "title": "接收电子邮件",
+        "description": "允许平台通过电子邮件发送更新和提醒。"
+      },
+      "allowNotification": {
+        "title": "启用应用内通知",
+        "description": "直接在应用中接收通知。"
+      },
+      "actions": {
+        "refresh": "重新加载"
+      },
+      "notifications": {
+        "updateSuccess": "偏好设置更新成功。"
+      },
+      "errors": {
+        "loadFailed": "无法加载您的偏好设置，请稍后重试。",
+        "saveFailed": "无法保存您的偏好设置，请稍后重试。",
+        "metadataMissing": "无法确定保存这些偏好设置所需的标识符。",
+        "noConfiguration": "尚未找到已保存的偏好设置。"
       }
     },
     "calendar": {

@@ -336,6 +336,31 @@
       "roles": {
         "title": "Ruoli",
         "empty": "Nessun ruolo assegnato al momento."
+      },
+      "settings": {
+        "title": "Preferenze"
+      }
+    },
+    "settings": {
+      "allowSendEmail": {
+        "title": "Ricevere email",
+        "description": "Consenti alla piattaforma di inviare aggiornamenti e avvisi via email."
+      },
+      "allowNotification": {
+        "title": "Abilitare le notifiche nell'app",
+        "description": "Ricevi le notifiche direttamente nell'applicazione."
+      },
+      "actions": {
+        "refresh": "Ricarica"
+      },
+      "notifications": {
+        "updateSuccess": "Preferenza aggiornata con successo."
+      },
+      "errors": {
+        "loadFailed": "Impossibile caricare le preferenze. Riprova più tardi.",
+        "saveFailed": "Impossibile salvare le preferenze. Riprova più tardi.",
+        "metadataMissing": "Impossibile determinare gli identificatori necessari per salvare queste preferenze.",
+        "noConfiguration": "Non sono state ancora trovate preferenze salvate."
       }
     },
     "calendar": {

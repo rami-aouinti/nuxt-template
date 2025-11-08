@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { FetchError } from 'ofetch'
 import type { AuthProfile } from '~/types/auth'
+import type { Configuration } from '~/types/configuration'
 import { Notify } from '~/stores/notification'
 
 definePageMeta({
@@ -90,11 +91,42 @@ type ProfileForm = {
   birthday: string
 }
 
+type ProfileSettingsState = {
+  allowSendEmail: boolean
+  allowNotification: boolean
+}
+
+type ProfileSettingKey = keyof ProfileSettingsState
+
+type ProfileSettingsPayload = {
+  configurationKey: string
+  contextKey: string
+  contextId: string
+  workplaceId: string
+  configurationValue: Record<string, unknown>
+}
+
+const PROFILE_SETTINGS_CONFIGURATION_KEY = 'profile.settings'
+const PROFILE_SETTINGS_CONTEXT_KEY = 'profile'
+
+const DEFAULT_PROFILE_SETTINGS: ProfileSettingsState = {
+  allowSendEmail: false,
+  allowNotification: false,
+}
+
 const editDialog = ref(false)
 const isSaving = ref(false)
 const formError = ref('')
 const photoFiles = ref<File[] | File | null>(null)
 const selectedFile = ref<File | null>(null)
+const settings = reactive<ProfileSettingsState>({ ...DEFAULT_PROFILE_SETTINGS })
+const settingsLoading = ref(true)
+const settingsError = ref('')
+const settingsSaving = reactive<Record<ProfileSettingKey, boolean>>({
+  allowSendEmail: false,
+  allowNotification: false,
+})
+const currentSettingsConfiguration = ref<Configuration | null>(null)
 
 const form = reactive<ProfileForm>({
   firstName: '',
@@ -159,6 +191,306 @@ function resetFormFromProfile(current: AuthProfile | null) {
   form.birthday = formatDateForInput(getProfileStringValue(current, 'birthday'))
 }
 
+function resetProfileSettings() {
+  for (const key of Object.keys(DEFAULT_PROFILE_SETTINGS) as ProfileSettingKey[]) {
+    settings[key] = DEFAULT_PROFILE_SETTINGS[key]
+    settingsSaving[key] = false
+  }
+}
+
+function extractRequestError(error: unknown, fallback: string) {
+  if (error && typeof error === 'object') {
+    const withData = error as { data?: unknown; message?: unknown }
+
+    if (withData.data && typeof withData.data === 'object') {
+      const data = withData.data as Record<string, unknown>
+
+      if (
+        'message' in data &&
+        typeof data.message === 'string' &&
+        data.message.trim().length > 0
+      ) {
+        return data.message
+      }
+
+      if ('error' in data && typeof data.error === 'string' && data.error.trim().length > 0) {
+        return data.error
+      }
+    }
+
+    if (
+      typeof withData.message === 'string' &&
+      withData.message.trim().length > 0
+    ) {
+      return withData.message
+    }
+  }
+
+  if (error instanceof Error && error.message.trim().length > 0) {
+    return error.message
+  }
+
+  if (typeof error === 'string' && error.trim().length > 0) {
+    return error
+  }
+
+  return fallback
+}
+
+function parseBoolean(value: unknown) {
+  if (typeof value === 'boolean') {
+    return value
+  }
+
+  if (typeof value === 'number') {
+    return value !== 0
+  }
+
+  if (typeof value === 'string') {
+    const normalized = value.trim().toLowerCase()
+    if (normalized === 'true' || normalized === '1' || normalized === 'yes') {
+      return true
+    }
+    if (normalized === 'false' || normalized === '0' || normalized === 'no') {
+      return false
+    }
+  }
+
+  return null
+}
+
+function toSettingsRecord(value: unknown): Partial<ProfileSettingsState> {
+  if (!value) {
+    return {}
+  }
+
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value) as unknown
+      return toSettingsRecord(parsed)
+    } catch (error) {
+      console.warn('Failed to parse profile settings configuration value', error)
+      return {}
+    }
+  }
+
+  if (Array.isArray(value) || typeof value !== 'object') {
+    return {}
+  }
+
+  const record = value as Record<string, unknown>
+  const output: Partial<ProfileSettingsState> = {}
+
+  for (const key of Object.keys(DEFAULT_PROFILE_SETTINGS) as ProfileSettingKey[]) {
+    const candidate = parseBoolean(record[key])
+    if (candidate != null) {
+      output[key] = candidate
+    }
+  }
+
+  return output
+}
+
+function applySettingsValue(value: unknown) {
+  const record = toSettingsRecord(value)
+
+  for (const key of Object.keys(DEFAULT_PROFILE_SETTINGS) as ProfileSettingKey[]) {
+    settings[key] = record[key] ?? DEFAULT_PROFILE_SETTINGS[key]
+  }
+}
+
+function applyConfiguration(configuration: Configuration | null) {
+  currentSettingsConfiguration.value = configuration
+
+  if (configuration) {
+    applySettingsValue(configuration.configurationValue)
+    return
+  }
+
+  resetProfileSettings()
+}
+
+const resolvedSettingsContextId = computed(() => {
+  const configurationContextId = currentSettingsConfiguration.value?.contextId
+  if (typeof configurationContextId === 'string' && configurationContextId.trim().length > 0) {
+    return configurationContextId
+  }
+
+  const profileId = profile.value?.id
+  if (typeof profileId === 'string' && profileId.trim().length > 0) {
+    return profileId
+  }
+
+  const rawProfile = profile.value as Record<string, unknown> | null
+  const alternative = rawProfile?.contextId ?? rawProfile?.context_id ?? rawProfile?.userId ?? rawProfile?.user_id
+  if (typeof alternative === 'string' && alternative.trim().length > 0) {
+    return alternative
+  }
+
+  return ''
+})
+
+const resolvedSettingsWorkplaceId = computed(() => {
+  const configurationWorkplaceId = currentSettingsConfiguration.value?.workplaceId
+  if (
+    typeof configurationWorkplaceId === 'string' &&
+    configurationWorkplaceId.trim().length > 0
+  ) {
+    return configurationWorkplaceId
+  }
+
+  const rawProfile = profile.value as Record<string, unknown> | null
+  const direct = rawProfile?.workplaceId ?? rawProfile?.workplace_id
+  if (typeof direct === 'string' && direct.trim().length > 0) {
+    return direct
+  }
+
+  const nestedWorkplace = rawProfile?.workplace
+  if (nestedWorkplace && typeof nestedWorkplace === 'object') {
+    const nestedId = (nestedWorkplace as Record<string, unknown>).id
+    if (typeof nestedId === 'string' && nestedId.trim().length > 0) {
+      return nestedId
+    }
+  }
+
+  return ''
+})
+
+const resolvedSettingsConfigurationKey = computed(() => {
+  const configurationKey = currentSettingsConfiguration.value?.configurationKey
+  if (typeof configurationKey === 'string' && configurationKey.trim().length > 0) {
+    return configurationKey
+  }
+
+  return PROFILE_SETTINGS_CONFIGURATION_KEY
+})
+
+const resolvedSettingsContextKey = computed(() => {
+  const contextKey = currentSettingsConfiguration.value?.contextKey
+  if (typeof contextKey === 'string' && contextKey.trim().length > 0) {
+    return contextKey
+  }
+
+  return PROFILE_SETTINGS_CONTEXT_KEY
+})
+
+const canUpdateSettings = computed(
+  () =>
+    Boolean(
+      currentSettingsConfiguration.value &&
+        resolvedSettingsContextId.value &&
+        resolvedSettingsWorkplaceId.value &&
+        resolvedSettingsConfigurationKey.value &&
+        resolvedSettingsContextKey.value,
+    ),
+)
+
+const profileSettingsDefinitions = computed(() => [
+  {
+    id: 'allowSendEmail' as const,
+    title: t('profile.settings.allowSendEmail.title'),
+    subtitle: t('profile.settings.allowSendEmail.description'),
+    icon: 'mdi-email-outline',
+  },
+  {
+    id: 'allowNotification' as const,
+    title: t('profile.settings.allowNotification.title'),
+    subtitle: t('profile.settings.allowNotification.description'),
+    icon: 'mdi-bell-outline',
+  },
+])
+
+async function loadProfileSettings(force = false) {
+  if (settingsLoading.value && !force) {
+    return
+  }
+
+  settingsLoading.value = true
+  settingsError.value = ''
+
+  try {
+    const configurations = await $fetch<Configuration[]>('/api/profile/settings')
+
+    let configuration: Configuration | null = null
+    for (const item of configurations) {
+      const record = toSettingsRecord(item.configurationValue)
+      if (Object.keys(record).length > 0) {
+        configuration = item
+        break
+      }
+    }
+
+    if (!configuration) {
+      settingsError.value = t('profile.settings.errors.noConfiguration')
+      applyConfiguration(null)
+      return
+    }
+
+    applyConfiguration(configuration)
+  } catch (error) {
+    settingsError.value = extractRequestError(error, t('profile.settings.errors.loadFailed'))
+    applyConfiguration(null)
+    Notify.error(settingsError.value)
+  } finally {
+    settingsLoading.value = false
+  }
+}
+
+function buildSettingsPayload(): ProfileSettingsPayload | null {
+  const configurationKey = resolvedSettingsConfigurationKey.value
+  const contextKey = resolvedSettingsContextKey.value
+  const contextId = resolvedSettingsContextId.value
+  const workplaceId = resolvedSettingsWorkplaceId.value
+
+  if (!configurationKey || !contextKey || !contextId || !workplaceId) {
+    return null
+  }
+
+  return {
+    configurationKey,
+    contextKey,
+    contextId,
+    workplaceId,
+    configurationValue: { ...settings },
+  }
+}
+
+async function handleSettingToggle(key: ProfileSettingKey, value: boolean) {
+  if (settingsSaving[key] || !canUpdateSettings.value) {
+    return
+  }
+
+  const previous = settings[key]
+  settings[key] = value
+  settingsSaving[key] = true
+  settingsError.value = ''
+
+  const payload = buildSettingsPayload()
+  if (!payload) {
+    settings[key] = previous
+    settingsSaving[key] = false
+    settingsError.value = t('profile.settings.errors.metadataMissing')
+    Notify.error(settingsError.value)
+    return
+  }
+
+  try {
+    const configuration = await $fetch<Configuration>('/api/profile/settings', {
+      method: 'POST',
+      body: payload,
+    })
+
+    applyConfiguration(configuration)
+    Notify.success(t('profile.settings.notifications.updateSuccess'))
+  } catch (error) {
+    settings[key] = previous
+    settingsError.value = extractRequestError(error, t('profile.settings.errors.saveFailed'))
+    Notify.error(settingsError.value)
+  } finally {
+    settingsSaving[key] = false
+  }
+}
+
 watch(
   profile,
   (value) => {
@@ -166,6 +498,10 @@ watch(
   },
   { immediate: true },
 )
+
+onMounted(async () => {
+  await loadProfileSettings(true)
+})
 
 watch(photoFiles, (files) => {
   if (Array.isArray(files)) {
@@ -620,6 +956,91 @@ async function submit() {
                     <p v-else class="text-body-2 text-medium-emphasis mb-0">
                       {{ t('profile.sections.roles.empty') }}
                     </p>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+
+              <v-col cols="12">
+                <v-card elevation="2">
+                  <v-card-title class="d-flex align-center gap-3">
+                    <span>{{ t('profile.sections.settings.title') }}</span>
+                    <v-spacer />
+                    <v-tooltip location="bottom">
+                      <template #activator="{ props }">
+                        <v-btn
+                          v-bind="props"
+                          variant="text"
+                          density="comfortable"
+                          icon="mdi-refresh"
+                          :disabled="settingsLoading"
+                          :loading="settingsLoading"
+                          @click="loadProfileSettings()"
+                        />
+                      </template>
+                      <span>{{ t('profile.settings.actions.refresh') }}</span>
+                    </v-tooltip>
+                  </v-card-title>
+                  <v-divider />
+                  <v-card-text>
+                    <v-alert
+                      v-if="settingsError"
+                      type="error"
+                      variant="tonal"
+                      density="compact"
+                      class="mb-4"
+                    >
+                      {{ settingsError }}
+                    </v-alert>
+
+                    <v-alert
+                      v-else-if="!settingsLoading && !canUpdateSettings"
+                      type="warning"
+                      variant="tonal"
+                      density="compact"
+                      class="mb-4"
+                    >
+                      {{ t('profile.settings.errors.metadataMissing') }}
+                    </v-alert>
+
+                    <div v-if="settingsLoading">
+                      <v-skeleton-loader
+                        v-for="definition in profileSettingsDefinitions"
+                        :key="definition.id"
+                        type="list-item-two-line"
+                        class="mb-3"
+                      />
+                    </div>
+                    <v-list
+                      v-else
+                      density="comfortable"
+                      lines="two"
+                    >
+                      <v-list-item
+                        v-for="definition in profileSettingsDefinitions"
+                        :key="definition.id"
+                        :title="definition.title"
+                        :subtitle="definition.subtitle"
+                      >
+                        <template #prepend>
+                          <v-icon
+                            :icon="definition.icon"
+                            class="mr-4"
+                            color="primary"
+                          />
+                        </template>
+                        <template #append>
+                          <v-switch
+                            :model-value="settings[definition.id]"
+                            color="primary"
+                            hide-details
+                            inset
+                            :disabled="!canUpdateSettings || settingsSaving[definition.id]"
+                            :loading="settingsSaving[definition.id]"
+                            @update:model-value="handleSettingToggle(definition.id, $event)"
+                          />
+                        </template>
+                      </v-list-item>
+                    </v-list>
                   </v-card-text>
                 </v-card>
               </v-col>

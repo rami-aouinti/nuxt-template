@@ -336,6 +336,31 @@
       "roles": {
         "title": "Roles",
         "empty": "No roles assigned yet."
+      },
+      "settings": {
+        "title": "Preferences"
+      }
+    },
+    "settings": {
+      "allowSendEmail": {
+        "title": "Receive emails",
+        "description": "Allow the platform to send updates and alerts by email."
+      },
+      "allowNotification": {
+        "title": "Enable in-app notifications",
+        "description": "Receive notifications directly inside the application."
+      },
+      "actions": {
+        "refresh": "Reload"
+      },
+      "notifications": {
+        "updateSuccess": "Preference updated successfully."
+      },
+      "errors": {
+        "loadFailed": "Unable to load your preferences. Please try again later.",
+        "saveFailed": "Unable to save your preferences. Please try again later.",
+        "metadataMissing": "We are unable to determine the identifiers required to save these preferences.",
+        "noConfiguration": "No saved preferences were found yet."
       }
     },
     "calendar": {
