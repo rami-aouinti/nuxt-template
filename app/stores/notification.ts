@@ -1,5 +1,4 @@
 export interface Notification {
-  show: boolean
   type: 'info' | 'error' | 'success' | 'warning'
   text: string
   time: Date
@@ -21,7 +20,6 @@ export const useNotificationStore = defineStore('notification', {
         text,
         type,
         time: new Date(),
-        show: true,
       })
     },
     delNotification(id: number) {

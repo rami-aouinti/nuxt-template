@@ -4,7 +4,6 @@
     <v-defaults-provider
       :defaults="{ VBtn: { variant: 'text', size: 'x-small' } }"
     >
-      <AppNotification />
       <AppSettings />
     </v-defaults-provider>
   </v-footer>

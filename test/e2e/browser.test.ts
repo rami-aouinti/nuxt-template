@@ -17,9 +17,12 @@ describe('page /homepage', () => {
     const page = await createPage('/')
     await page.getByLabel("What's your name?").fill('kingyue')
     await page.getByRole('button', { name: 'Confirm', exact: true }).click()
+    const notificationsButton = page.getByRole('button', {
+      name: /Notifications/,
+    })
+    await notificationsButton.click()
     const locator = page.getByText('Hi, kingyue!')
     await locator.isVisible()
-    await locator.isHidden({ timeout: 6000 })
     await page.close()
   })
 })
