@@ -2340,7 +2340,6 @@ a.facebook-post-card__author-link:focus-visible {
 
 .share-dialog {
   border-radius: 24px;
-  background: rgba(var(--blog-surface-rgb), 0.96);
 }
 
 .share-dialog__composer {

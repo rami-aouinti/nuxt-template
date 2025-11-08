@@ -15,6 +15,7 @@ import type {
 
 const PUBLIC_POSTS_ENDPOINT = 'https://blog.bro-world.org/public/post'
 const PRIVATE_POSTS_ENDPOINT = 'https://blog.bro-world.org/v1/platform/post'
+const PRIVATE_POSTS_REACTS_ENDPOINT = 'https://blog.bro-world.org/v1/private/post'
 const PRIVATE_COMMENTS_ENDPOINT = 'https://blog.bro-world.org/v1/platform/comment'
 const PUBLIC_BLOGS_ENDPOINT = 'https://blog.bro-world.org/public/blog'
 const PROFILE_BLOGS_ENDPOINT = 'https://blog.bro-world.org/v1/profile/blog'
@@ -438,7 +439,7 @@ export const useBlogApi = () => {
   const likePost = async (postId: string) => {
     const headers = getAuthHeaders(true)
 
-    await $fetch(`${PRIVATE_POSTS_ENDPOINT}/${postId}/react/like`, {
+    await $fetch(`${PRIVATE_POSTS_REACTS_ENDPOINT}/${postId}/react/like`, {
       method: 'POST',
       headers,
     })
@@ -447,7 +448,7 @@ export const useBlogApi = () => {
   const dislikePost = async (postId: string) => {
     const headers = getAuthHeaders(true)
 
-    await $fetch(`${PRIVATE_POSTS_ENDPOINT}/${postId}/react/delete`, {
+    await $fetch(`${PRIVATE_POSTS_REACTS_ENDPOINT}/${postId}/react/delete`, {
       method: 'POST',
       headers,
     })
