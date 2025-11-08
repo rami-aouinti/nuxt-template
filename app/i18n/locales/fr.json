@@ -821,7 +821,11 @@
       "sections": {
         "profile": {
           "title": "Préférences du profil",
-          "description": "Mettez à jour votre nom, votre avatar, votre langue et les autres détails visibles par votre équipe."
+          "description": "Mettez à jour votre nom, votre avatar, votre langue et les autres détails visibles par votre équipe.",
+          "fields": {
+            "displayName": "Nom affiché",
+            "username": "Nom d'utilisateur"
+          }
         },
         "security": {
           "title": "Sécurité et confidentialité",

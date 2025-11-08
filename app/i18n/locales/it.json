@@ -934,7 +934,11 @@
       "sections": {
         "profile": {
           "title": "Preferenze del profilo",
-          "description": "Aggiorna nome, avatar, lingua e gli altri dettagli visibili al tuo team."
+          "description": "Aggiorna nome, avatar, lingua e gli altri dettagli visibili al tuo team.",
+          "fields": {
+            "displayName": "Nome visualizzato",
+            "username": "Nome utente"
+          }
         },
         "security": {
           "title": "Sicurezza e privacy",

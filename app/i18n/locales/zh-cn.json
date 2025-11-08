@@ -934,7 +934,11 @@
       "sections": {
         "profile": {
           "title": "个人资料偏好",
-          "description": "更新姓名、头像、语言以及团队可见的其他信息。"
+          "description": "更新姓名、头像、语言以及团队可见的其他信息。",
+          "fields": {
+            "displayName": "显示名称",
+            "username": "用户名"
+          }
         },
         "security": {
           "title": "安全与隐私",

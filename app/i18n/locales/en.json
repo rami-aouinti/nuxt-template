@@ -821,7 +821,11 @@
       "sections": {
         "profile": {
           "title": "Profile preferences",
-          "description": "Update your name, avatar, language, and other details that appear to your teammates."
+          "description": "Update your name, avatar, language, and other details that appear to your teammates.",
+          "fields": {
+            "displayName": "Display name",
+            "username": "Username"
+          }
         },
         "security": {
           "title": "Security & privacy",
