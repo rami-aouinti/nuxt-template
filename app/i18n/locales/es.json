@@ -134,7 +134,8 @@
       "postUpdated": "Publicación actualizada correctamente.",
       "postDeleted": "Publicación eliminada correctamente.",
       "blogCreated": "Blog created successfully.",
-      "postCreated": "Post created successfully."
+      "postCreated": "Post created successfully.",
+      "postShared": "Publicación compartida correctamente."
     },
     "errors": {
       "authenticationRequired": "Debes iniciar sesión para realizar esta acción.",
@@ -145,6 +146,7 @@
       "deleteFailed": "No se pudo eliminar la publicación.",
       "createBlogFailed": "Unable to create the blog.",
       "createPostFailed": "Unable to create the post.",
+      "shareFailed": "No se pudo compartir la publicación.",
       "loadBlogsFailed": "Unable to load the list of blogs."
     },
     "prompts": {

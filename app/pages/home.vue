@@ -13,6 +13,7 @@ import type {
   BlogCommentLike,
   BlogCommentViewModel,
   BlogPost,
+  BlogPostSharePayload,
   BlogPostViewModel,
   BlogPostUser,
   BlogReactionPreview,
@@ -77,6 +78,7 @@ const {
   deletePost,
   createBlog,
   createPost,
+  sharePost: sharePostRequest,
 } = useBlogApi()
 
 const POST_EXCERPT_MAX_LENGTH = 150
@@ -127,6 +129,7 @@ const shareDialog = reactive({
   open: false,
   post: null as BlogPostViewModel | null,
   message: '',
+  loading: false,
 })
 
 const currentProfile = computed<PublicProfileData | null>(() => {
@@ -949,7 +952,7 @@ function toggleCommentsVisibility(post: BlogPostViewModel) {
   }
 }
 
-function sharePost(post: BlogPostViewModel) {
+function openShareDialog(post: BlogPostViewModel) {
   if (!ensureAuthenticated()) {
     return
   }
@@ -960,7 +963,53 @@ function sharePost(post: BlogPostViewModel) {
 }
 
 function closeShareDialog() {
+  if (shareDialog.loading) {
+    return
+  }
+
   shareDialog.open = false
+}
+
+async function submitShare() {
+  if (!ensureAuthenticated()) return
+
+  const postToShare = shareDialog.post
+  if (!postToShare || shareDialog.loading) return
+
+  const postId = postToShare.id
+  if (!postId) {
+    Notify.error(t('blog.errors.shareFailed'))
+    return
+  }
+
+  const message = shareDialog.message.trim()
+  const payload: BlogPostSharePayload = message.length
+    ? { content: message }
+    : {}
+
+  shareDialog.loading = true
+  try {
+    const sharedPost = await sharePostRequest(postId, payload)
+    const viewModel = createPostViewModel(sharedPost)
+    const previousPosts = posts.value
+    const existingIds = new Set(previousPosts.map((item) => item.id))
+
+    posts.value = [
+      viewModel,
+      ...previousPosts.filter((item) => item.id !== viewModel.id),
+    ]
+
+    if (!existingIds.has(viewModel.id)) {
+      pagination.total += 1
+    }
+
+    Notify.success(t('blog.notifications.postShared'))
+    shareDialog.open = false
+  } catch (error) {
+    Notify.error(extractErrorMessage(error, t('blog.errors.shareFailed')))
+  } finally {
+    shareDialog.loading = false
+  }
 }
 
 watch(
@@ -992,6 +1041,7 @@ watch(
     if (!open) {
       shareDialog.post = null
       shareDialog.message = ''
+      shareDialog.loading = false
     }
   },
 )
@@ -1270,7 +1320,7 @@ await loadPosts(1, { replace: true })
                       <v-btn
                         variant="text"
                         class="facebook-post-card__action-btn"
-                        @click="sharePost(post)"
+                        @click="openShareDialog(post)"
                       >
                         <v-icon
                           icon="mdi-share"
@@ -1597,7 +1647,12 @@ await loadPosts(1, { replace: true })
         <v-card-title class="d-flex align-center">
           <span>{{ t('blog.dialogs.shareTitle') }}</span>
           <v-spacer />
-          <v-btn icon variant="text" @click="closeShareDialog">
+          <v-btn
+            icon
+            variant="text"
+            :disabled="shareDialog.loading"
+            @click="closeShareDialog"
+          >
             <v-icon icon="mdi-close" />
           </v-btn>
         </v-card-title>
@@ -1667,13 +1722,18 @@ await loadPosts(1, { replace: true })
         <v-divider />
         <v-card-actions>
           <v-spacer />
-          <v-btn variant="text" @click="closeShareDialog">
+          <v-btn
+            variant="text"
+            :disabled="shareDialog.loading"
+            @click="closeShareDialog"
+          >
             {{ t('common.actions.cancel') }}
           </v-btn>
           <v-btn
             color="primary"
-            :disabled="!shareDialog.post"
-            @click="closeShareDialog"
+            :disabled="!shareDialog.post || shareDialog.loading"
+            :loading="shareDialog.loading"
+            @click="submitShare"
           >
             {{ t('common.actions.share') }}
           </v-btn>

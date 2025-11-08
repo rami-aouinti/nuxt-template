@@ -35,6 +35,7 @@ export interface BlogPost extends Record<string, unknown> {
   blogSlug?: string | null
   user?: BlogUser | null
   author?: BlogUser | null
+  sharedFrom?: BlogPost | null
   totalComments?: number
   commentsCount?: number
   commentCount?: number
@@ -60,3 +61,7 @@ export interface BlogPostListResponse extends Record<string, unknown> {
 }
 
 export type BlogPostPayload = Record<string, unknown>
+
+export interface BlogPostSharePayload extends Record<string, unknown> {
+  content?: string | null
+}

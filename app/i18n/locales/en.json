@@ -134,7 +134,8 @@
       "postUpdated": "Post updated successfully.",
       "postDeleted": "Post deleted successfully.",
       "blogCreated": "Blog created successfully.",
-      "postCreated": "Post created successfully."
+      "postCreated": "Post created successfully.",
+      "postShared": "Post shared successfully."
     },
     "errors": {
       "authenticationRequired": "You need to be signed in to perform this action.",
@@ -145,6 +146,7 @@
       "deleteFailed": "Unable to delete the post.",
       "createBlogFailed": "Unable to create the blog.",
       "createPostFailed": "Unable to create the post.",
+      "shareFailed": "Unable to share the post.",
       "loadBlogsFailed": "Unable to load the list of blogs."
     },
     "prompts": {
