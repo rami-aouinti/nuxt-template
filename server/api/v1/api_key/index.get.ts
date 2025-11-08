@@ -1,6 +1,9 @@
 import { broWorldRequest } from '~~/server/utils/broWorldApi'
-import type {ApiKey} from "~/types/apiKey";
+import { fetchAdminList } from '~~/server/utils/cache/admin'
+import type { ApiKey } from '~/types/apiKey'
 
 export default defineEventHandler(async (event) => {
-  return await broWorldRequest<ApiKey[]>(event, '/api_key')
+  return await fetchAdminList(event, 'api_key', () =>
+    broWorldRequest<ApiKey[]>(event, '/api_key'),
+  )
 })

@@ -1,6 +1,9 @@
 import { broWorldRequest } from '~~/server/utils/broWorldApi'
-import type {Workplace} from "~/types/workplace";
+import { fetchAdminList } from '~~/server/utils/cache/admin'
+import type { Workplace } from '~/types/workplace'
 
 export default defineEventHandler(async (event) => {
-  return await broWorldRequest<Workplace[]>(event, '/workplace')
+  return await fetchAdminList(event, 'workplace', () =>
+    broWorldRequest<Workplace[]>(event, '/workplace'),
+  )
 })

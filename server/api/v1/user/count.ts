@@ -1,6 +1,9 @@
 import type { Count } from '~/types/count'
 import { broWorldRequest } from '~~/server/utils/broWorldApi'
+import { fetchAdminCount } from '~~/server/utils/cache/admin'
 
 export default defineEventHandler(async (event) => {
-  return await broWorldRequest<Count>(event, '/user/count')
+  return await fetchAdminCount(event, 'user', () =>
+    broWorldRequest<Count>(event, '/user/count'),
+  )
 })
