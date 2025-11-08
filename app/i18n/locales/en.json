@@ -36,7 +36,11 @@
     "blog": "Blog",
     "messenger": "Messenger",
     "language": "Change language",
-    "workspace": "Workspace"
+    "workspace": "Workspace",
+    "settings": "Settings",
+    "help": "Help",
+    "about": "About",
+    "contact": "Contact"
   },
   "messenger": {
     "title": "Messenger",
@@ -788,6 +792,96 @@
         "flags": "Flags",
         "noFlags": "No flags",
         "updatedAt": "Updated at"
+      }
+    }
+  },
+  "pages": {
+    "settings": {
+      "title": "Account settings",
+      "subtitle": "Personalize your account experience and keep your information secure from one convenient place.",
+      "sections": {
+        "profile": {
+          "title": "Profile preferences",
+          "description": "Update your name, avatar, language, and other details that appear to your teammates."
+        },
+        "security": {
+          "title": "Security & privacy",
+          "description": "Review active sessions, enable multi-factor authentication, and manage connected applications."
+        },
+        "notifications": {
+          "title": "Notifications",
+          "description": "Choose how you are notified about activity via email, push alerts, or in-app messages."
+        }
+      },
+      "tips": {
+        "title": "Need assistance?",
+        "description": "Visit the Help Center below for step-by-step guides or contact our support team if you get stuck."
+      }
+    },
+    "help": {
+      "title": "Help Center",
+      "subtitle": "Find answers fast with curated documentation, frequently asked questions, and community discussions.",
+      "sections": {
+        "guides": {
+          "title": "Product guides",
+          "description": "Browse illustrated tutorials to learn the basics and discover advanced workflows."
+        },
+        "faq": {
+          "title": "Frequently asked questions",
+          "description": "See the solutions to the most common topics our users ask about every day."
+        },
+        "community": {
+          "title": "Community forum",
+          "description": "Join conversations with other members, share tips, and vote on feature requests."
+        }
+      },
+      "contact": {
+        "title": "Still need help?",
+        "description": "Send us a message through the contact page and our specialists will respond shortly."
+      }
+    },
+    "about": {
+      "title": "About Bro World",
+      "subtitle": "Get to know the mission, vision, and people who build the Bro World platform.",
+      "sections": {
+        "mission": {
+          "title": "Our mission",
+          "description": "We empower teams with flexible tools that encourage collaboration, transparency, and innovation."
+        },
+        "team": {
+          "title": "Meet the team",
+          "description": "A diverse group of designers, engineers, and storytellers united by a passion for delightful experiences."
+        },
+        "values": {
+          "title": "Core values",
+          "description": "We prioritize trust, accessibility, and continuous learning in everything we create."
+        }
+      },
+      "callToAction": {
+        "title": "Work with us",
+        "description": "Interested in joining the team? Reach out through the contact form to start the conversation."
+      }
+    },
+    "contact": {
+      "title": "Contact us",
+      "subtitle": "We are here to answer your questions and guide you toward the right solutions.",
+      "sections": {
+        "support": {
+          "title": "Customer support",
+          "description": "Get technical assistance, report issues, or request account changes with our dedicated team."
+        },
+        "partnerships": {
+          "title": "Partnerships",
+          "description": "Discuss integrations, co-marketing opportunities, or tailored enterprise packages."
+        },
+        "press": {
+          "title": "Press & media",
+          "description": "Request interviews, logos, or press kits to feature Bro World in your publication."
+        }
+      },
+      "details": {
+        "title": "How to reach us",
+        "description": "Send an email to support@example.com or open a support ticket from your dashboard. We respond within one business day."
       }
     }
   },

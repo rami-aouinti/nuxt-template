@@ -36,7 +36,11 @@
     "blog": "Blog",
     "messenger": "Messenger",
     "language": "Sprache wechseln",
-    "workspace": "Workspace"
+    "workspace": "Workspace",
+    "settings": "Einstellungen",
+    "help": "Hilfe",
+    "about": "Über uns",
+    "contact": "Kontakt"
   },
   "messenger": {
     "title": "Messenger",
@@ -902,6 +906,96 @@
     "messages": {
       "selectFolder": "Select a folder from the list to display its content.",
       "refreshing": "Refreshing folder content..."
+    }
+  },
+  "pages": {
+    "settings": {
+      "title": "Kontoeinstellungen",
+      "subtitle": "Passe dein Erlebnis an und schütze deine Informationen an einem zentralen Ort.",
+      "sections": {
+        "profile": {
+          "title": "Profileinstellungen",
+          "description": "Aktualisiere deinen Namen, Avatar, deine Sprache und weitere Details, die dein Team sieht."
+        },
+        "security": {
+          "title": "Sicherheit & Datenschutz",
+          "description": "Überprüfe aktive Sitzungen, aktiviere die Mehr-Faktor-Authentifizierung und verwalte verbundene Anwendungen."
+        },
+        "notifications": {
+          "title": "Benachrichtigungen",
+          "description": "Bestimme, wie du per E-Mail, Push-Mitteilung oder In-App-Nachricht über Aktivitäten informiert wirst."
+        }
+      },
+      "tips": {
+        "title": "Brauchst du Hilfe?",
+        "description": "Besuche das Hilfe-Center für Schritt-für-Schritt-Anleitungen oder kontaktiere unser Support-Team, wenn du nicht weiterkommst."
+      }
+    },
+    "help": {
+      "title": "Hilfe-Center",
+      "subtitle": "Finde schnell Antworten in kuratierten Dokumentationen, häufigen Fragen und Community-Diskussionen.",
+      "sections": {
+        "guides": {
+          "title": "Produktleitfäden",
+          "description": "Durchstöbere bebilderte Tutorials, um die Grundlagen zu lernen und fortgeschrittene Abläufe zu entdecken."
+        },
+        "faq": {
+          "title": "Häufige Fragen",
+          "description": "Sieh dir die Lösungen zu den Themen an, nach denen unsere Nutzer täglich am meisten fragen."
+        },
+        "community": {
+          "title": "Community-Forum",
+          "description": "Beteilige dich an Gesprächen mit anderen Mitgliedern, teile Tipps und stimme über Funktionswünsche ab."
+        }
+      },
+      "contact": {
+        "title": "Noch Fragen?",
+        "description": "Sende uns eine Nachricht über die Kontaktseite und unser Team meldet sich in Kürze."
+      }
+    },
+    "about": {
+      "title": "Über Bro World",
+      "subtitle": "Lerne die Mission, Vision und Menschen hinter der Bro World Plattform kennen.",
+      "sections": {
+        "mission": {
+          "title": "Unsere Mission",
+          "description": "Wir stärken Teams mit flexiblen Werkzeugen, die Zusammenarbeit, Transparenz und Innovation fördern."
+        },
+        "team": {
+          "title": "Das Team",
+          "description": "Ein vielfältiges Team aus Designer:innen, Entwickler:innen und Storyteller:innen mit Leidenschaft für großartige Erlebnisse."
+        },
+        "values": {
+          "title": "Grundwerte",
+          "description": "Vertrauen, Barrierefreiheit und kontinuierliches Lernen stehen bei unserer Arbeit im Mittelpunkt."
+        }
+      },
+      "callToAction": {
+        "title": "Arbeite mit uns",
+        "description": "Du möchtest Teil des Teams werden? Melde dich über das Kontaktformular und wir sprechen miteinander."
+      }
+    },
+    "contact": {
+      "title": "Kontaktiere uns",
+      "subtitle": "Wir beantworten deine Fragen und begleiten dich zu den passenden Lösungen.",
+      "sections": {
+        "support": {
+          "title": "Kundensupport",
+          "description": "Erhalte technische Unterstützung, melde Probleme oder fordere Kontenanpassungen bei unserem Team an."
+        },
+        "partnerships": {
+          "title": "Partnerschaften",
+          "description": "Sprich mit uns über Integrationen, Co-Marketing-Möglichkeiten oder individuelle Enterprise-Pakete."
+        },
+        "press": {
+          "title": "Presse & Medien",
+          "description": "Fordere Interviews, Logos oder Pressematerialien an, um über Bro World zu berichten."
+        }
+      },
+      "details": {
+        "title": "So erreichst du uns",
+        "description": "Schicke eine E-Mail an support@example.com oder eröffne ein Ticket in deinem Dashboard. Wir antworten innerhalb eines Werktags."
+      }
     }
   }
 }
