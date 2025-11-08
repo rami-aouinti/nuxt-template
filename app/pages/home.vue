@@ -879,6 +879,10 @@ function toggleCommentsVisibility(post: BlogPostViewModel) {
   }
 }
 
+function sharePost(post: BlogPostViewModel) {
+
+}
+
 watch(
   () => myBlogs.value.map((blog) => blog.id),
   (ids) => {
@@ -1167,10 +1171,23 @@ await loadPosts(1, { replace: true })
                           :icon="post.ui.commentsVisible
                             ? 'mdi-comment-off-outline'
                             : 'mdi-comment-text-outline'"
-                          class="mr-2"
+                          class="mr-1"
                         />
                         {{
                           post.totalComments
+                        }}
+                      </v-btn>
+                      <v-btn
+                        variant="text"
+                        class="facebook-post-card__action-btn"
+                        @click="sharePost(post)"
+                      >
+                        <v-icon
+                          icon="mdi-share"
+                          class="mr-1"
+                        />
+                        {{
+                          post.sharedFrom?.length
                         }}
                       </v-btn>
                     </div>
