@@ -89,6 +89,8 @@ const items = computed(() =>
 .admin-index {
   position: relative;
   z-index: 1;
+  --admin-card-background: rgba(255, 255, 255, 0.88);
+  --admin-card-box-shadow: 0 14px 36px rgba(25, 118, 210, 0.16);
 }
 
 .admin-index__hero {
@@ -110,9 +112,9 @@ const items = computed(() =>
   position: relative;
   border-radius: 24px;
   padding-inline: 8px;
-  background: rgba(255, 255, 255, 0.88);
+  background: var(--admin-card-background);
   backdrop-filter: blur(12px);
-  box-shadow: 0 14px 36px rgba(25, 118, 210, 0.16);
+  box-shadow: var(--admin-card-box-shadow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -151,13 +153,14 @@ const items = computed(() =>
 }
 
 @media (prefers-color-scheme: dark) {
-  .admin-index__card {
-    background: rgba(18, 18, 18, 0.85);
-    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+  .admin-index {
+    --admin-card-background: rgba(18, 18, 18, 0.85);
+    --admin-card-box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
   }
+}
 
-  .admin-index__hero {
-    background: rgba(18, 18, 18, 0.8);
-  }
+:global(.v-theme--dark) .admin-index {
+  --admin-card-background: rgba(18, 18, 18, 0.85);
+  --admin-card-box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
 }
 </style>

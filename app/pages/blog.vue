@@ -1531,14 +1531,25 @@ await loadPosts(1, { replace: true })
 .blog-page {
   position: relative;
   z-index: 1;
+  --blog-hero-background: rgba(255, 255, 255, 0.92);
+  --blog-hero-shadow: 0 26px 60px rgba(25, 118, 210, 0.16);
+  --blog-feed-background: rgba(255, 255, 255, 0.92);
+  --blog-feed-shadow: 0 20px 48px rgba(25, 118, 210, 0.14);
+  --blog-sidebar-background: rgba(255, 255, 255, 0.92);
+  --blog-sidebar-shadow: 0 20px 44px rgba(25, 118, 210, 0.14);
+  --blog-feed-empty-background: rgba(255, 255, 255, 0.85);
+  --blog-post-card-background: rgba(255, 255, 255, 0.96);
+  --blog-post-card-shadow: 0 22px 52px rgba(33, 150, 243, 0.18);
+  --blog-post-card-hover-shadow: 0 30px 68px rgba(25, 118, 210, 0.25);
+  --blog-comments-empty-background: transparent;
 }
 
 .blog-hero {
   display: grid;
   gap: 24px;
   border-radius: 32px;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 26px 60px rgba(25, 118, 210, 0.16);
+  background: var(--blog-hero-background);
+  box-shadow: var(--blog-hero-shadow);
 }
 
 .blog-hero__actions {
@@ -1556,8 +1567,8 @@ await loadPosts(1, { replace: true })
 
 .blog-feed {
   border-radius: 28px;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 20px 48px rgba(25, 118, 210, 0.14);
+  background: var(--blog-feed-background);
+  box-shadow: var(--blog-feed-shadow);
 }
 
 .blog-feed__empty {
@@ -1567,20 +1578,20 @@ await loadPosts(1, { replace: true })
   justify-content: center;
   padding: 48px 24px;
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--blog-feed-empty-background);
 }
 
 .blog-post-card {
   border-radius: 26px;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 22px 52px rgba(33, 150, 243, 0.18);
+  background: var(--blog-post-card-background);
+  box-shadow: var(--blog-post-card-shadow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
 }
 
 .blog-post-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 30px 68px rgba(25, 118, 210, 0.25);
+  box-shadow: var(--blog-post-card-hover-shadow);
 }
 
 .blog-post-card__meta {
@@ -1613,6 +1624,7 @@ await loadPosts(1, { replace: true })
   padding: 32px 16px;
   text-align: center;
   border-radius: 16px;
+  background: var(--blog-comments-empty-background);
 }
 
 .blog-post-link {
@@ -1647,8 +1659,8 @@ await loadPosts(1, { replace: true })
 
 .blog-sidebar {
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 20px 44px rgba(25, 118, 210, 0.14);
+  background: var(--blog-sidebar-background);
+  box-shadow: var(--blog-sidebar-shadow);
 }
 
 .blog-sidebar__list {
@@ -1677,17 +1689,32 @@ await loadPosts(1, { replace: true })
 }
 
 @media (prefers-color-scheme: dark) {
-  .blog-hero,
-  .blog-feed,
-  .blog-sidebar,
-  .blog-feed__empty,
-  .blog-post-card {
-    background: rgba(18, 18, 18, 0.85);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  .blog-page {
+    --blog-hero-background: rgba(18, 18, 18, 0.85);
+    --blog-hero-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+    --blog-feed-background: rgba(18, 18, 18, 0.85);
+    --blog-feed-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+    --blog-sidebar-background: rgba(18, 18, 18, 0.85);
+    --blog-sidebar-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+    --blog-feed-empty-background: rgba(18, 18, 18, 0.85);
+    --blog-post-card-background: rgba(18, 18, 18, 0.85);
+    --blog-post-card-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+    --blog-post-card-hover-shadow: 0 30px 68px rgba(0, 0, 0, 0.6);
+    --blog-comments-empty-background: rgba(30, 30, 30, 0.92);
   }
+}
 
-  .blog-post-card__comments-empty {
-    background: rgba(30, 30, 30, 0.92);
-  }
+:global(.v-theme--dark) .blog-page {
+  --blog-hero-background: rgba(18, 18, 18, 0.85);
+  --blog-hero-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  --blog-feed-background: rgba(18, 18, 18, 0.85);
+  --blog-feed-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  --blog-sidebar-background: rgba(18, 18, 18, 0.85);
+  --blog-sidebar-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  --blog-feed-empty-background: rgba(18, 18, 18, 0.85);
+  --blog-post-card-background: rgba(18, 18, 18, 0.85);
+  --blog-post-card-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  --blog-post-card-hover-shadow: 0 30px 68px rgba(0, 0, 0, 0.6);
+  --blog-comments-empty-background: rgba(30, 30, 30, 0.92);
 }
 </style>

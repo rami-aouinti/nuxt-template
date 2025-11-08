@@ -228,6 +228,16 @@ const testimonials = [
   background: linear-gradient(180deg, rgba(33, 150, 243, 0.08), rgba(25, 118, 210, 0.12));
   overflow: hidden;
   color: rgb(var(--v-theme-on-surface));
+  --home-hero-card-background: rgba(255, 255, 255, 0.85);
+  --home-feature-card-background: rgba(255, 255, 255, 0.92);
+  --home-card-hover-shadow: 0 16px 40px rgba(25, 118, 210, 0.16);
+  --home-testimonials-background: rgba(255, 255, 255, 0.6);
+  --home-testimonials-text-color: inherit;
+  --home-testimonials-overlay: linear-gradient(
+    135deg,
+    rgba(33, 150, 243, 0.08),
+    rgba(156, 39, 176, 0.08)
+  );
 }
 
 .hero {
@@ -325,7 +335,7 @@ const testimonials = [
 .hero-card {
   border-radius: 24px;
   backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--home-hero-card-background);
   animation: fadeScale 0.9s ease forwards;
   opacity: 0;
   animation-delay: 0.25s;
@@ -356,7 +366,7 @@ const testimonials = [
 .testimonial-card {
   border-radius: 20px;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--home-feature-card-background);
   backdrop-filter: blur(10px);
   animation: fadeSlideUp 0.7s ease forwards;
   opacity: 0;
@@ -366,7 +376,7 @@ const testimonials = [
 .feature-card:hover,
 .testimonial-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 16px 40px rgba(25, 118, 210, 0.16);
+  box-shadow: var(--home-card-hover-shadow);
 }
 
 .feature-grid,
@@ -392,39 +402,46 @@ const testimonials = [
 }
 
 .testimonials {
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--home-testimonials-background);
   position: relative;
+  color: var(--home-testimonials-text-color);
 }
 
 .testimonials::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(33, 150, 243, 0.08), rgba(156, 39, 176, 0.08));
+  background: var(--home-testimonials-overlay);
   opacity: 0.9;
   z-index: 0;
 }
 
 @media (prefers-color-scheme: dark) {
-  .hero-card,
-  .feature-card,
-  .testimonial-card {
-    background: rgba(18, 18, 18, 0.7);
+  .home-page {
+    --home-hero-card-background: rgba(18, 18, 18, 0.7);
+    --home-feature-card-background: rgba(18, 18, 18, 0.7);
+    --home-card-hover-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    --home-testimonials-background: rgba(18, 18, 18, 0.65);
+    --home-testimonials-text-color: rgba(255, 255, 255, 0.86);
+    --home-testimonials-overlay: linear-gradient(
+      135deg,
+      rgba(33, 150, 243, 0.12),
+      rgba(156, 39, 176, 0.12)
+    );
   }
+}
 
-  .feature-card:hover,
-  .testimonial-card:hover {
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
-  }
-
-  .testimonials {
-    background: rgba(18, 18, 18, 0.65);
-    color: rgba(255, 255, 255, 0.86);
-  }
-
-  .testimonials::before {
-    background: linear-gradient(135deg, rgba(33, 150, 243, 0.12), rgba(156, 39, 176, 0.12));
-  }
+:global(.v-theme--dark) .home-page {
+  --home-hero-card-background: rgba(18, 18, 18, 0.7);
+  --home-feature-card-background: rgba(18, 18, 18, 0.7);
+  --home-card-hover-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  --home-testimonials-background: rgba(18, 18, 18, 0.65);
+  --home-testimonials-text-color: rgba(255, 255, 255, 0.86);
+  --home-testimonials-overlay: linear-gradient(
+    135deg,
+    rgba(33, 150, 243, 0.12),
+    rgba(156, 39, 176, 0.12)
+  );
 }
 
 @keyframes fadeSlideUp {
