@@ -45,6 +45,8 @@ const formatPublishedAt = (publishedAt: string) =>
     timeStyle: 'short',
   }).format(new Date(publishedAt))
 
+const AUTHOR_PLACEHOLDER = '__AUTHOR__'
+
 function getAuthorName(user: BlogPostUser) {
   if (user.firstName && user.lastName) {
     return `${user.firstName} ${user.lastName}`
@@ -55,6 +57,21 @@ function getAuthorName(user: BlogPostUser) {
   }
 
   return user.username
+}
+
+function getAuthorProfileLink(user: BlogPostUser) {
+  const username = typeof user.username === 'string' ? user.username.trim() : ''
+  return username.length ? `/profile/${encodeURIComponent(username)}` : null
+}
+
+function getAuthorMetaParts(date: string) {
+  const template = t('blog.meta.author', {
+    author: AUTHOR_PLACEHOLDER,
+    date,
+  })
+
+  const [prefix = '', suffix = ''] = template.split(AUTHOR_PLACEHOLDER)
+  return { prefix, suffix }
 }
 
 async function loadPosts(
@@ -196,13 +213,27 @@ watch(
                       {{ post.title }}
                     </NuxtLink>
                   </v-card-title>
-                  <v-card-subtitle class="text-body-2 text-medium-emphasis">
-                    {{
-                      t('blog.meta.author', {
-                        author: getAuthorName(post.user),
-                        date: formatPublishedAt(post.publishedAt),
-                      })
-                    }}
+                  <v-card-subtitle
+                    class="text-body-2 text-medium-emphasis d-flex flex-wrap align-center"
+                  >
+                    <span>
+                      {{
+                        getAuthorMetaParts(formatPublishedAt(post.publishedAt)).prefix
+                      }}
+                    </span>
+                    <NuxtLink
+                      v-if="getAuthorProfileLink(post.user)"
+                      :to="getAuthorProfileLink(post.user)"
+                      class="blog-post-card__author-link mx-1"
+                    >
+                      {{ getAuthorName(post.user) }}
+                    </NuxtLink>
+                    <span v-else class="mx-1">{{ getAuthorName(post.user) }}</span>
+                    <span>
+                      {{
+                        getAuthorMetaParts(formatPublishedAt(post.publishedAt)).suffix
+                      }}
+                    </span>
                   </v-card-subtitle>
                 </v-card-item>
 
@@ -278,6 +309,16 @@ watch(
 
 .blog-post-link:hover,
 .blog-post-link:focus-visible {
+  text-decoration: underline;
+}
+
+.blog-post-card__author-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.blog-post-card__author-link:hover,
+.blog-post-card__author-link:focus-visible {
   text-decoration: underline;
 }
 

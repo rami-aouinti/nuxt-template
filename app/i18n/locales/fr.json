@@ -363,6 +363,30 @@
         "noConfiguration": "Aucune préférence enregistrée n'a encore été trouvée."
       }
     },
+    "public": {
+      "page": {
+        "title": "Profil public",
+        "description": "Consultez les informations publiques partagées par ce membre."
+      },
+      "actions": {
+        "retry": "Réessayer"
+      },
+      "errors": {
+        "load": "Impossible de charger ce profil.",
+        "notFound": "Ce profil est introuvable."
+      },
+      "labels": {
+        "email": "E-mail",
+        "language": "Langue",
+        "locale": "Paramètres régionaux",
+        "timezone": "Fuseau horaire",
+        "enabled": "Actif",
+        "disabled": "Inactif",
+        "friends": "Amis",
+        "stories": "Stories",
+        "empty": "Non renseigné"
+      }
+    },
     "calendar": {
       "page": {
         "title": "Mon calendrier",

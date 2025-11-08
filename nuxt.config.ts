@@ -162,6 +162,10 @@ export default defineNuxtConfig({
         process.env.REDIS_PROFILE_POSTS_TTL,
         60,
       ),
+      profilePublicTtl: toPositiveInteger(
+        process.env.REDIS_PROFILE_PUBLIC_TTL,
+        60,
+      ),
       workspaceTtl: toPositiveInteger(process.env.REDIS_WORKSPACE_TTL, 60),
     },
     profileCookie: {

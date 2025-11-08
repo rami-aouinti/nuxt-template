@@ -363,6 +363,30 @@
         "noConfiguration": "Es wurden noch keine gespeicherten Einstellungen gefunden."
       }
     },
+    "public": {
+      "page": {
+        "title": "Öffentliches Profil",
+        "description": "Sehen Sie sich die öffentlichen Informationen dieses Mitglieds an."
+      },
+      "actions": {
+        "retry": "Erneut versuchen"
+      },
+      "errors": {
+        "load": "Dieses Profil konnte nicht geladen werden.",
+        "notFound": "Dieses Profil wurde nicht gefunden."
+      },
+      "labels": {
+        "email": "E-Mail",
+        "language": "Sprache",
+        "locale": "Gebietsschema",
+        "timezone": "Zeitzone",
+        "enabled": "Aktiv",
+        "disabled": "Inaktiv",
+        "friends": "Freunde",
+        "stories": "Stories",
+        "empty": "Keine Angabe"
+      }
+    },
     "calendar": {
       "page": {
         "title": "Mein Kalender",

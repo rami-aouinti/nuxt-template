@@ -363,6 +363,30 @@
         "noConfiguration": "No saved preferences were found yet."
       }
     },
+    "public": {
+      "page": {
+        "title": "Public profile",
+        "description": "View the public information shared by this member."
+      },
+      "actions": {
+        "retry": "Try again"
+      },
+      "errors": {
+        "load": "Unable to load this profile.",
+        "notFound": "This profile could not be found."
+      },
+      "labels": {
+        "email": "Email",
+        "language": "Language",
+        "locale": "Locale",
+        "timezone": "Timezone",
+        "enabled": "Active",
+        "disabled": "Inactive",
+        "friends": "Friends",
+        "stories": "Stories",
+        "empty": "Not provided"
+      }
+    },
     "calendar": {
       "page": {
         "title": "My calendar",

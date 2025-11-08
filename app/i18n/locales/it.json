@@ -363,6 +363,30 @@
         "noConfiguration": "Non sono state ancora trovate preferenze salvate."
       }
     },
+    "public": {
+      "page": {
+        "title": "Profilo pubblico",
+        "description": "Visualizza le informazioni pubbliche condivise da questo membro."
+      },
+      "actions": {
+        "retry": "Riprova"
+      },
+      "errors": {
+        "load": "Impossibile caricare questo profilo.",
+        "notFound": "Questo profilo non è stato trovato."
+      },
+      "labels": {
+        "email": "Email",
+        "language": "Lingua",
+        "locale": "Impostazioni locali",
+        "timezone": "Fuso orario",
+        "enabled": "Attivo",
+        "disabled": "Inattivo",
+        "friends": "Amici",
+        "stories": "Storie",
+        "empty": "Non disponibile"
+      }
+    },
     "calendar": {
       "page": {
         "title": "Il mio calendario",

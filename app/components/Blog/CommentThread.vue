@@ -9,6 +9,7 @@ const props = defineProps<{
   formatAuthor: (user: BlogPostUser) => string
   formatDate: (date: string) => string
   canInteract: boolean
+  resolveProfileLink?: (user: BlogPostUser) => string | null | undefined
 }>()
 
 const emit = defineEmits<{
@@ -18,6 +19,9 @@ const emit = defineEmits<{
 const { t } = useI18n()
 
 const hasComments = computed(() => props.comments?.length > 0)
+
+const getProfileLink = (user: BlogPostUser) =>
+  props.resolveProfileLink?.(user) ?? null
 
 const toggleReply = (comment: BlogCommentViewModel) => {
   comment.ui.replyOpen = !comment.ui.replyOpen
@@ -36,7 +40,23 @@ const toggleReply = (comment: BlogCommentViewModel) => {
     >
       <v-sheet variant="outlined" class="pa-4 mb-4 rounded-lg" color="surface">
         <div class="d-flex align-start">
-          <v-avatar size="36">
+          <NuxtLink
+            v-if="getProfileLink(comment.user)"
+            :to="getProfileLink(comment.user)"
+            class="blog-comment-thread__avatar-link"
+          >
+            <v-avatar size="36">
+              <v-img
+                :src="comment.user.photo || undefined"
+                :alt="formatAuthor(comment.user)"
+              >
+                <template #error>
+                  <v-icon icon="mdi-account-circle" size="36" />
+                </template>
+              </v-img>
+            </v-avatar>
+          </NuxtLink>
+          <v-avatar v-else size="36">
             <v-img
               :src="comment.user.photo || undefined"
               :alt="formatAuthor(comment.user)"
@@ -50,7 +70,14 @@ const toggleReply = (comment: BlogCommentViewModel) => {
             <div class="d-flex align-start justify-space-between">
               <div>
                 <p class="text-subtitle-2 mb-0">
-                  {{ formatAuthor(comment.user) }}
+                  <NuxtLink
+                    v-if="getProfileLink(comment.user)"
+                    :to="getProfileLink(comment.user)"
+                    class="blog-comment-thread__author-link"
+                  >
+                    {{ formatAuthor(comment.user) }}
+                  </NuxtLink>
+                  <span v-else>{{ formatAuthor(comment.user) }}</span>
                 </p>
                 <p class="text-caption text-medium-emphasis mb-3">
                   {{ formatDate(comment.publishedAt) }}
@@ -143,5 +170,19 @@ const toggleReply = (comment: BlogCommentViewModel) => {
 
 .blog-comment-thread__reply {
   margin-left: 52px;
+}
+
+.blog-comment-thread__avatar-link {
+  display: inline-flex;
+}
+
+.blog-comment-thread__author-link {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.blog-comment-thread__author-link:hover {
+  text-decoration: underline;
 }
 </style>
