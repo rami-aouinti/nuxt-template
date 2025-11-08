@@ -465,6 +465,15 @@ async function submit() {
                   </div>
                 </div>
               </div>
+              <v-btn
+                class="mt-6"
+                color="primary"
+                block
+                prepend-icon="mdi-calendar"
+                :to="{ path: '/profile/calendar' }"
+              >
+                {{ t('navigation.profileCalendar') }}
+              </v-btn>
             </v-card>
           </v-col>
 

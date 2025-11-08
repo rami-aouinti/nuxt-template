@@ -32,6 +32,7 @@
     "workplaces": "Workplaces",
     "apiKeys": "Claves API",
     "profile": "Perfil",
+    "profileCalendar": "Calendario",
     "blog": "Blog",
     "messenger": "Mensajería",
     "language": "Cambiar idioma"
@@ -308,6 +309,59 @@
       "roles": {
         "title": "Roles",
         "empty": "Todavía no hay roles asignados."
+      }
+    },
+    "calendar": {
+      "page": {
+        "title": "Mi calendario",
+        "subtitle": "Consulta, crea y organiza tus eventos personales."
+      },
+      "actions": {
+        "new": "Nuevo evento",
+        "refresh": "Actualizar",
+        "delete": "Eliminar evento"
+      },
+      "view": {
+        "month": "Mes",
+        "week": "Semana",
+        "day": "Día"
+      },
+      "list": {
+        "title": "Próximos eventos",
+        "empty": "Aún no hay eventos programados."
+      },
+      "dialog": {
+        "createTitle": "Crear evento",
+        "editTitle": "Editar evento",
+        "submit": "Crear",
+        "save": "Guardar",
+        "cancel": "Cancelar"
+      },
+      "form": {
+        "title": "Título",
+        "description": "Descripción",
+        "location": "Ubicación",
+        "color": "Color",
+        "allDay": "Todo el día",
+        "isPrivate": "Evento privado",
+        "startDate": "Fecha de inicio",
+        "startTime": "Hora de inicio",
+        "endDate": "Fecha de finalización",
+        "endTime": "Hora de finalización"
+      },
+      "delete": {
+        "title": "Eliminar evento",
+        "message": "¿Seguro que deseas eliminar este evento? Esta acción no se puede deshacer."
+      },
+      "notifications": {
+        "created": "Evento creado correctamente.",
+        "updated": "Evento actualizado correctamente.",
+        "deleted": "Evento eliminado correctamente.",
+        "genericError": "No se pudo procesar la solicitud. Inténtalo de nuevo."
+      },
+      "validation": {
+        "titleRequired": "Se requiere un título.",
+        "startRequired": "Se requiere la fecha de inicio."
       }
     }
   },

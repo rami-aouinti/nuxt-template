@@ -32,6 +32,7 @@
     "workplaces": "Workplaces",
     "apiKeys": "مفاتيح API",
     "profile": "الملف الشخصي",
+    "profileCalendar": "تقويم الملف الشخصي",
     "blog": "المدونة",
     "messenger": "الرسائل",
     "language": "تغيير اللغة"
@@ -308,6 +309,59 @@
       "roles": {
         "title": "الأدوار",
         "empty": "لا توجد أدوار مخصّصة بعد."
+      }
+    },
+    "calendar": {
+      "page": {
+        "title": "تقويمي",
+        "subtitle": "اعرض وأنشئ ونظّم فعالياتك الشخصية."
+      },
+      "actions": {
+        "new": "حدث جديد",
+        "refresh": "تحديث",
+        "delete": "حذف الحدث"
+      },
+      "view": {
+        "month": "شهر",
+        "week": "أسبوع",
+        "day": "يوم"
+      },
+      "list": {
+        "title": "الفعاليات القادمة",
+        "empty": "لا توجد فعاليات مجدولة بعد."
+      },
+      "dialog": {
+        "createTitle": "إنشاء حدث",
+        "editTitle": "تعديل الحدث",
+        "submit": "إنشاء",
+        "save": "حفظ",
+        "cancel": "إلغاء"
+      },
+      "form": {
+        "title": "العنوان",
+        "description": "الوصف",
+        "location": "الموقع",
+        "color": "اللون",
+        "allDay": "طوال اليوم",
+        "isPrivate": "حدث خاص",
+        "startDate": "تاريخ البداية",
+        "startTime": "وقت البداية",
+        "endDate": "تاريخ الانتهاء",
+        "endTime": "وقت الانتهاء"
+      },
+      "delete": {
+        "title": "حذف الحدث",
+        "message": "هل أنت متأكد من حذف هذا الحدث؟ هذا الإجراء لا يمكن التراجع عنه."
+      },
+      "notifications": {
+        "created": "تم إنشاء الحدث بنجاح.",
+        "updated": "تم تحديث الحدث بنجاح.",
+        "deleted": "تم حذف الحدث بنجاح.",
+        "genericError": "تعذّر معالجة الطلب. حاول مرة أخرى."
+      },
+      "validation": {
+        "titleRequired": "العنوان مطلوب.",
+        "startRequired": "تاريخ البداية مطلوب."
       }
     }
   },

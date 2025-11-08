@@ -32,6 +32,7 @@
     "workplaces": "Workplaces",
     "apiKeys": "Clés API",
     "profile": "Profil",
+    "profileCalendar": "Calendrier",
     "blog": "Blog",
     "messenger": "Messagerie",
     "language": "Changer de langue"
@@ -308,6 +309,59 @@
       "roles": {
         "title": "Rôles",
         "empty": "Aucun rôle attribué pour le moment."
+      }
+    },
+    "calendar": {
+      "page": {
+        "title": "Mon calendrier",
+        "subtitle": "Consultez, créez et organisez vos événements personnels."
+      },
+      "actions": {
+        "new": "Nouvel événement",
+        "refresh": "Rafraîchir",
+        "delete": "Supprimer l'événement"
+      },
+      "view": {
+        "month": "Mois",
+        "week": "Semaine",
+        "day": "Jour"
+      },
+      "list": {
+        "title": "Événements à venir",
+        "empty": "Aucun événement planifié pour le moment."
+      },
+      "dialog": {
+        "createTitle": "Créer un événement",
+        "editTitle": "Modifier l'événement",
+        "submit": "Créer",
+        "save": "Enregistrer",
+        "cancel": "Annuler"
+      },
+      "form": {
+        "title": "Titre",
+        "description": "Description",
+        "location": "Lieu",
+        "color": "Couleur",
+        "allDay": "Journée entière",
+        "isPrivate": "Événement privé",
+        "startDate": "Date de début",
+        "startTime": "Heure de début",
+        "endDate": "Date de fin",
+        "endTime": "Heure de fin"
+      },
+      "delete": {
+        "title": "Supprimer l'événement",
+        "message": "Voulez-vous vraiment supprimer cet événement ? Cette action est irréversible."
+      },
+      "notifications": {
+        "created": "Événement créé avec succès.",
+        "updated": "Événement mis à jour avec succès.",
+        "deleted": "Événement supprimé avec succès.",
+        "genericError": "Impossible de traiter la requête. Veuillez réessayer."
+      },
+      "validation": {
+        "titleRequired": "Un titre est requis.",
+        "startRequired": "La date de début est requise."
       }
     }
   },

@@ -32,6 +32,7 @@
     "workplaces": "Workplaces",
     "apiKeys": "API Keys",
     "profile": "Profile",
+    "profileCalendar": "Profile calendar",
     "blog": "Blog",
     "messenger": "Messenger",
     "language": "Change language"
@@ -308,6 +309,59 @@
       "roles": {
         "title": "Roles",
         "empty": "No roles assigned yet."
+      }
+    },
+    "calendar": {
+      "page": {
+        "title": "My calendar",
+        "subtitle": "View, create and organize your personal events."
+      },
+      "actions": {
+        "new": "New event",
+        "refresh": "Refresh",
+        "delete": "Delete event"
+      },
+      "view": {
+        "month": "Month",
+        "week": "Week",
+        "day": "Day"
+      },
+      "list": {
+        "title": "Upcoming events",
+        "empty": "No events scheduled yet."
+      },
+      "dialog": {
+        "createTitle": "Create event",
+        "editTitle": "Edit event",
+        "submit": "Create",
+        "save": "Save changes",
+        "cancel": "Cancel"
+      },
+      "form": {
+        "title": "Title",
+        "description": "Description",
+        "location": "Location",
+        "color": "Color",
+        "allDay": "All day",
+        "isPrivate": "Private event",
+        "startDate": "Start date",
+        "startTime": "Start time",
+        "endDate": "End date",
+        "endTime": "End time"
+      },
+      "delete": {
+        "title": "Delete event",
+        "message": "Are you sure you want to delete this event? This action cannot be undone."
+      },
+      "notifications": {
+        "created": "Event created successfully.",
+        "updated": "Event updated successfully.",
+        "deleted": "Event deleted successfully.",
+        "genericError": "Unable to process the request. Please try again."
+      },
+      "validation": {
+        "titleRequired": "A title is required.",
+        "startRequired": "The start date is required."
       }
     }
   },

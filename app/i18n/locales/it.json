@@ -32,6 +32,7 @@
     "workplaces": "Workplaces",
     "apiKeys": "Chiavi API",
     "profile": "Profilo",
+    "profileCalendar": "Calendario",
     "blog": "Blog",
     "messenger": "Messaggistica",
     "language": "Cambia lingua"
@@ -308,6 +309,59 @@
       "roles": {
         "title": "Ruoli",
         "empty": "Nessun ruolo assegnato al momento."
+      }
+    },
+    "calendar": {
+      "page": {
+        "title": "Il mio calendario",
+        "subtitle": "Visualizza, crea e organizza i tuoi eventi personali."
+      },
+      "actions": {
+        "new": "Nuovo evento",
+        "refresh": "Aggiorna",
+        "delete": "Elimina evento"
+      },
+      "view": {
+        "month": "Mese",
+        "week": "Settimana",
+        "day": "Giorno"
+      },
+      "list": {
+        "title": "Prossimi eventi",
+        "empty": "Nessun evento pianificato."
+      },
+      "dialog": {
+        "createTitle": "Crea evento",
+        "editTitle": "Modifica evento",
+        "submit": "Crea",
+        "save": "Salva",
+        "cancel": "Annulla"
+      },
+      "form": {
+        "title": "Titolo",
+        "description": "Descrizione",
+        "location": "Luogo",
+        "color": "Colore",
+        "allDay": "Tutto il giorno",
+        "isPrivate": "Evento privato",
+        "startDate": "Data di inizio",
+        "startTime": "Ora di inizio",
+        "endDate": "Data di fine",
+        "endTime": "Ora di fine"
+      },
+      "delete": {
+        "title": "Elimina evento",
+        "message": "Eliminare davvero questo evento? Questa azione è irreversibile."
+      },
+      "notifications": {
+        "created": "Evento creato con successo.",
+        "updated": "Evento aggiornato con successo.",
+        "deleted": "Evento eliminato con successo.",
+        "genericError": "Impossibile elaborare la richiesta. Riprova."
+      },
+      "validation": {
+        "titleRequired": "Il titolo è obbligatorio.",
+        "startRequired": "La data di inizio è obbligatoria."
       }
     }
   },
