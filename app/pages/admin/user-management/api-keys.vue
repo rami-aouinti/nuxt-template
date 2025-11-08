@@ -46,20 +46,12 @@ await Promise.all([
   adminStore.fetchApiKeys('v2'),
 ])
 
-const pendingV1 = computed(
-  () => getVersionEntry('v1')?.pending?.value ?? false,
-)
-const errorV1 = computed(
-  () => getVersionEntry('v1')?.error?.value ?? null,
-)
+const pendingV1 = computed(() => getVersionEntry('v1')?.pending?.value ?? false)
+const errorV1 = computed(() => getVersionEntry('v1')?.error?.value ?? null)
 const refreshV1 = () => adminStore.refreshApiKeys('v1')
 
-const pendingV2 = computed(
-  () => getVersionEntry('v2')?.pending?.value ?? false,
-)
-const errorV2 = computed(
-  () => getVersionEntry('v2')?.error?.value ?? null,
-)
+const pendingV2 = computed(() => getVersionEntry('v2')?.pending?.value ?? false)
+const errorV2 = computed(() => getVersionEntry('v2')?.error?.value ?? null)
 const refreshV2 = () => adminStore.refreshApiKeys('v2')
 
 const itemsV1 = computed<ApiKey[]>(
@@ -104,9 +96,7 @@ const defaultFormState = (): ApiKeyFormState => ({
 const form = reactive<ApiKeyFormState>(defaultFormState())
 
 const canSubmitCreate = computed(
-  () =>
-    form.description.trim().length > 0 &&
-    !actionLoading.value,
+  () => form.description.trim().length > 0 && !actionLoading.value,
 )
 
 const versionLabels = computed<Record<ApiVersion, string>>(() => ({
@@ -566,12 +556,7 @@ watch(deleteDialog, (value) => {
           }}
         </v-card-title>
         <v-card-text>
-          <v-alert
-            v-if="formError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
             {{ formError }}
           </v-alert>
           <v-form @submit.prevent="submitCreate">
@@ -611,12 +596,7 @@ watch(deleteDialog, (value) => {
           }}
         </v-card-title>
         <v-card-text>
-          <v-alert
-            v-if="formError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
             {{ formError }}
           </v-alert>
           <v-alert type="info" variant="tonal" class="mb-4">
@@ -685,12 +665,7 @@ watch(deleteDialog, (value) => {
             indeterminate
             class="mb-4"
           />
-          <v-alert
-            v-if="viewError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="viewError" type="error" variant="tonal" class="mb-4">
             {{ viewError }}
           </v-alert>
           <template v-if="viewingKey && !viewLoading">
@@ -721,7 +696,10 @@ watch(deleteDialog, (value) => {
               </div>
             </div>
           </template>
-          <div v-else-if="!viewLoading" class="text-body-2 text-medium-emphasis">
+          <div
+            v-else-if="!viewLoading"
+            class="text-body-2 text-medium-emphasis"
+          >
             {{ t('userManagement.apiKeys.dialogs.view.empty') }}
           </div>
         </v-card-text>
@@ -736,14 +714,11 @@ watch(deleteDialog, (value) => {
 
     <v-dialog v-model="deleteDialog" max-width="480">
       <v-card>
-        <v-card-title>{{ t('userManagement.apiKeys.dialogs.delete.title') }}</v-card-title>
+        <v-card-title>{{
+          t('userManagement.apiKeys.dialogs.delete.title')
+        }}</v-card-title>
         <v-card-text>
-          <v-alert
-            v-if="deleteError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="deleteError" type="error" variant="tonal" class="mb-4">
             {{ deleteError }}
           </v-alert>
           <p class="text-body-2">
@@ -751,7 +726,7 @@ watch(deleteDialog, (value) => {
             <strong>
               {{
                 deletingKey?.description ??
-                  t('userManagement.apiKeys.labels.keyFallback')
+                t('userManagement.apiKeys.labels.keyFallback')
               }}
             </strong>
             {{ t('userManagement.apiKeys.dialogs.delete.warningSuffix') }}

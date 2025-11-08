@@ -26,7 +26,13 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const { configurationKey, contextKey, contextId, workplaceId, configurationValue } = body
+  const {
+    configurationKey,
+    contextKey,
+    contextId,
+    workplaceId,
+    configurationValue,
+  } = body
 
   if (
     !assertString(configurationKey) ||

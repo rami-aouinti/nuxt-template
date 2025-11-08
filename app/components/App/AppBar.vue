@@ -45,10 +45,10 @@ const credentialsDialog = ref(false)
 const controlChevronSize = 18
 
 type LanguageItem = LocaleObject & {
-  to: string;
-  flag?: string;
-  flagIcon?: string;
-};
+  to: string
+  flag?: string
+  flagIcon?: string
+}
 
 const toFlagEmoji = (code?: string) => {
   if (!code || !/^[A-Z]{2}$/.test(code)) {
@@ -90,25 +90,25 @@ const toFlagIconName = (code?: string) => {
 }
 
 const languageItems = computed<LanguageItem[]>(() => {
-  const availableLocales = (locales.value ?? []) as LocaleObject[];
+  const availableLocales = (locales.value ?? []) as LocaleObject[]
 
   return availableLocales.map((language) => {
-    const flagCode = extractFlagCode(language);
+    const flagCode = extractFlagCode(language)
 
     return {
       ...language,
       to: switchLocalePath(language.code) ?? localePath('/'),
       flag: toFlagEmoji(flagCode),
       flagIcon: toFlagIconName(flagCode),
-    };
-  });
-});
+    }
+  })
+})
 
 const currentLanguage = computed(() =>
   languageItems.value.find((language) => language.code === locale.value),
-);
+)
 
-const hasLanguageMenu = computed(() => languageItems.value.length > 0);
+const hasLanguageMenu = computed(() => languageItems.value.length > 0)
 
 const handleLogout = async () => {
   await clear()
@@ -254,34 +254,24 @@ watch(loggedIn, (value) => {
               class="dock-navbar__language-flag-icon"
               aria-hidden="true"
             />
-            <span
-              v-else
-              class="dock-navbar__language-code"
-              aria-hidden="true"
-            >
+            <span v-else class="dock-navbar__language-code" aria-hidden="true">
               {{ currentLanguage?.code?.toUpperCase() }}
             </span>
           </button>
         </template>
 
-        <v-list
-          class="dock-navbar__language-list"
-          density="compact"
-          tag="ul"
-        >
+        <v-list class="dock-navbar__language-list" density="compact" tag="ul">
           <v-list-item
             v-for="language in languageItems"
             :key="language.code"
             tag="li"
             class="dock-navbar__language-list-item"
             :class="{
-              'dock-navbar__language-list-item--active': language.code === locale,
+              'dock-navbar__language-list-item--active':
+                language.code === locale,
             }"
           >
-            <NuxtLink
-              :to="language.to"
-              class="dock-navbar__language-link"
-            >
+            <NuxtLink :to="language.to" class="dock-navbar__language-link">
               <div class="dock-navbar__language-item">
                 <div class="dock-navbar__language-info">
                   <span
@@ -297,7 +287,9 @@ watch(loggedIn, (value) => {
                     class="dock-navbar__language-flag-icon dock-navbar__language-flag-icon--item"
                     aria-hidden="true"
                   />
-                  <span class="dock-navbar__language-name">{{ language.name }}</span>
+                  <span class="dock-navbar__language-name">{{
+                    language.name
+                  }}</span>
                 </div>
                 <v-icon
                   v-if="language.code === locale"
@@ -374,7 +366,8 @@ watch(loggedIn, (value) => {
 .dock-navbar__language-flag {
   font-size: 1.25rem;
   line-height: 1;
-  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+  font-family:
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji', sans-serif;
 }
 
@@ -392,7 +385,8 @@ watch(loggedIn, (value) => {
 .dock-navbar__language-flag--item {
   margin-right: 0.5rem;
   font-size: 1rem;
-  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+  font-family:
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji', sans-serif;
 }
 

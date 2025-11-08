@@ -92,10 +92,7 @@ export function createBroWorldRequest(
         statusCode: 500,
         statusMessage: 'API request failed',
         data: {
-          message:
-            error instanceof Error
-              ? error.message
-              : defaultErrorMessage,
+          message: error instanceof Error ? error.message : defaultErrorMessage,
         },
       })
     }

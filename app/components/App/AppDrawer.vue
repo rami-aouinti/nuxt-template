@@ -35,7 +35,8 @@ const userRoles = computed(() => {
 
   return rawRoles
     .filter(
-      (role): role is string => typeof role === 'string' && role.trim().length > 0,
+      (role): role is string =>
+        typeof role === 'string' && role.trim().length > 0,
     )
     .map((role) => role.trim())
 })
@@ -47,7 +48,8 @@ const hasRouteAccess = (route: RouteRecordRaw) => {
   }
 
   const requiredRoles = rawRoles.filter(
-    (role): role is string => typeof role === 'string' && role.trim().length > 0,
+    (role): role is string =>
+      typeof role === 'string' && role.trim().length > 0,
   )
 
   if (requiredRoles.length === 0) {
@@ -57,7 +59,9 @@ const hasRouteAccess = (route: RouteRecordRaw) => {
   return requiredRoles.some((role) => userRoles.value.includes(role))
 }
 
-const availableRoutes = computed(() => routes.filter((route) => hasRouteAccess(route)))
+const availableRoutes = computed(() =>
+  routes.filter((route) => hasRouteAccess(route)),
+)
 
 drawerState.value = lgAndUp.value && width.value >= 1280
 

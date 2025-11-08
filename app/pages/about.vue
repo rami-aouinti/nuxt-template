@@ -53,7 +53,11 @@ const callToAction = computed(() => ({
             >
               <v-sheet elevation="1" rounded="lg" class="pa-4 flex-grow-1">
                 <div class="d-flex align-center mb-3">
-                  <v-icon :icon="section.icon" size="32" class="mr-3 text-primary" />
+                  <v-icon
+                    :icon="section.icon"
+                    size="32"
+                    class="mr-3 text-primary"
+                  />
                   <h2 class="text-h6 font-weight-medium mb-0">
                     {{ section.title }}
                   </h2>
@@ -64,12 +68,7 @@ const callToAction = computed(() => ({
               </v-sheet>
             </v-col>
           </v-row>
-          <v-alert
-            class="mt-6"
-            type="primary"
-            variant="tonal"
-            rounded="lg"
-          >
+          <v-alert class="mt-6" type="primary" variant="tonal" rounded="lg">
             <strong class="d-block mb-1">{{ callToAction.title }}</strong>
             <span>{{ callToAction.description }}</span>
           </v-alert>

@@ -18,15 +18,13 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const folder = await requestWithJsonBody<WorkspaceFolder, CreateWorkspaceFolderPayload>(
-    event,
-    '/folder',
-    'POST',
-    {
-      ...body,
-      name: body.name.trim(),
-    },
-  )
+  const folder = await requestWithJsonBody<
+    WorkspaceFolder,
+    CreateWorkspaceFolderPayload
+  >(event, '/folder', 'POST', {
+    ...body,
+    name: body.name.trim(),
+  })
 
   await invalidateWorkspaceFolders(event)
 

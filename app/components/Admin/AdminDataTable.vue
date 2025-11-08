@@ -86,7 +86,9 @@ watch(localSearch, (value) => {
 const computedError = computed(() => props.error?.toString().trim() ?? '')
 const hasError = computed(() => computedError.value.length > 0)
 
-const dataTableDensity = computed(() => (props.dense ? 'compact' : 'comfortable'))
+const dataTableDensity = computed(() =>
+  props.dense ? 'compact' : 'comfortable',
+)
 
 const defaultItemsPerPageOptions = computed<ItemsPerPageOption[]>(() => [
   10,
@@ -112,10 +114,12 @@ const skeletonRowCount = computed(() => {
     return Math.min(itemCount, 6)
   }
 
-  const firstPositiveOption = computedItemsPerPageOptions.value.find((option) => {
-    const value = typeof option === 'number' ? option : option.value
-    return typeof value === 'number' && value > 0
-  })
+  const firstPositiveOption = computedItemsPerPageOptions.value.find(
+    (option) => {
+      const value = typeof option === 'number' ? option : option.value
+      return typeof value === 'number' && value > 0
+    },
+  )
 
   const fallbackValue =
     typeof firstPositiveOption === 'number'
@@ -205,15 +209,13 @@ function getNestedValue(item: unknown, path: string) {
     return ''
   }
 
-  return path
-    .split('.')
-    .reduce<unknown>((current, segment) => {
-      if (current == null || typeof current !== 'object') {
-        return undefined
-      }
+  return path.split('.').reduce<unknown>((current, segment) => {
+    if (current == null || typeof current !== 'object') {
+      return undefined
+    }
 
-      return (current as Record<string, unknown>)[segment]
-    }, item)
+    return (current as Record<string, unknown>)[segment]
+  }, item)
 }
 
 const exportableItems = computed(() =>
@@ -272,7 +274,9 @@ function formatItemValue(item: unknown, path: string) {
 
 function createExportRows() {
   return exportableItems.value.map((item) =>
-    normalizedHeaders.value.map((header) => formatItemValue(item, header.valuePath)),
+    normalizedHeaders.value.map((header) =>
+      formatItemValue(item, header.valuePath),
+    ),
   )
 }
 
@@ -321,11 +325,7 @@ function refresh() {
 </script>
 
 <template>
-  <v-card
-    class="admin-data-table"
-    rounded="xl"
-    :elevation="2"
-  >
+  <v-card class="admin-data-table" rounded="xl" :elevation="2">
     <v-progress-linear
       v-if="loading"
       class="admin-data-table__loader"
@@ -418,12 +418,7 @@ function refresh() {
     </client-only>
 
     <v-expand-transition>
-      <v-alert
-        v-if="hasError"
-        class="mx-6 mt-4"
-        type="error"
-        variant="tonal"
-      >
+      <v-alert v-if="hasError" class="mx-6 mt-4" type="error" variant="tonal">
         {{ computedError }}
       </v-alert>
     </v-expand-transition>
@@ -442,25 +437,25 @@ function refresh() {
     >
       <template #loading="{ isActive }">
         <tbody v-if="isActive" class="admin-data-table__skeleton-body">
-          <tr v-for="rowIndex in skeletonRowCount" :key="`skeleton-row-${rowIndex}`">
+          <tr
+            v-for="rowIndex in skeletonRowCount"
+            :key="`skeleton-row-${rowIndex}`"
+          >
             <td
               v-for="(header, headerIndex) in headers"
               :key="`skeleton-cell-${rowIndex}-${getHeaderKey(header, headerIndex)}`"
             >
-              <v-skeleton-loader class="admin-data-table__skeleton" type="text" />
+              <v-skeleton-loader
+                class="admin-data-table__skeleton"
+                type="text"
+              />
             </td>
           </tr>
         </tbody>
       </template>
 
-      <template
-        v-for="slotName in dataTableSlots"
-        #[slotName]="slotProps"
-      >
-        <slot
-          :name="slotName"
-          v-bind="slotProps"
-        />
+      <template v-for="slotName in dataTableSlots" #[slotName]="slotProps">
+        <slot :name="slotName" v-bind="slotProps" />
       </template>
     </v-data-table>
 
@@ -474,8 +469,13 @@ function refresh() {
 .admin-data-table {
   position: relative;
   overflow: hidden;
-  background: color-mix(in srgb, rgba(var(--v-theme-surface), 92%), rgba(var(--v-theme-primary), 22%));
-  border: 1px solid color-mix(in srgb, var(--v-theme-outline-variant) 60%, transparent);
+  background: color-mix(
+    in srgb,
+    rgba(var(--v-theme-surface), 92%),
+    rgba(var(--v-theme-primary), 22%)
+  );
+  border: 1px solid
+    color-mix(in srgb, var(--v-theme-outline-variant) 60%, transparent);
   box-shadow: 0 24px 48px -28px rgba(var(--v-theme-primary), 92%);
 }
 
@@ -536,7 +536,8 @@ function refresh() {
 
 .admin-data-table__footer {
   padding: 16px 24px 24px;
-  border-top: 1px solid color-mix(in srgb, var(--v-theme-outline-variant) 50%, transparent);
+  border-top: 1px solid
+    color-mix(in srgb, var(--v-theme-outline-variant) 50%, transparent);
   background: color-mix(in srgb, var(--v-theme-surface) 96%, transparent);
 }
 
@@ -552,7 +553,8 @@ function refresh() {
 }
 
 :deep(.v-data-table-footer) {
-  border-top: 1px solid color-mix(in srgb, var(--v-theme-outline-variant) 55%, transparent);
+  border-top: 1px solid
+    color-mix(in srgb, var(--v-theme-outline-variant) 55%, transparent);
   padding: 16px 24px;
 }
 

@@ -18,7 +18,11 @@ const routeLoading = useRouteLoading()
         subtitle="Nous préparons la prochaine page pour vous."
       >
         <div class="d-flex flex-column align-center ga-2">
-          <v-chip variant="elevated" color="white" class="text-primary text-subtitle-2">
+          <v-chip
+            variant="elevated"
+            color="white"
+            class="text-primary text-subtitle-2"
+          >
             <v-icon icon="mdi-compass" start />
             Votre tableau de bord arrive…
           </v-chip>
@@ -31,7 +35,9 @@ const routeLoading = useRouteLoading()
 <style scoped>
 .fade-loader-enter-active,
 .fade-loader-leave-active {
-  transition: opacity 0.28s ease, transform 0.28s ease;
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease;
 }
 
 .fade-loader-enter-from,

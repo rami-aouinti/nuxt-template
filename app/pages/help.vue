@@ -79,7 +79,11 @@ const contact = computed(() => ({
               {{ explanation.description }}
             </p>
             <ul class="text-body-1 pl-6 mb-0">
-              <li v-for="point in explanation.highlights" :key="point" class="mb-2">
+              <li
+                v-for="point in explanation.highlights"
+                :key="point"
+                class="mb-2"
+              >
                 {{ point }}
               </li>
             </ul>
@@ -95,7 +99,11 @@ const contact = computed(() => ({
             >
               <v-sheet elevation="1" rounded="lg" class="pa-4 flex-grow-1">
                 <div class="d-flex align-center mb-3">
-                  <v-icon :icon="section.icon" size="32" class="mr-3 text-primary" />
+                  <v-icon
+                    :icon="section.icon"
+                    size="32"
+                    class="mr-3 text-primary"
+                  />
                   <h2 class="text-h6 font-weight-medium mb-0">
                     {{ section.title }}
                   </h2>
@@ -125,12 +133,7 @@ const contact = computed(() => ({
               </v-expansion-panel>
             </v-expansion-panels>
           </section>
-          <v-alert
-            class="mt-6"
-            type="success"
-            variant="tonal"
-            rounded="lg"
-          >
+          <v-alert class="mt-6" type="success" variant="tonal" rounded="lg">
             <strong class="d-block mb-1">{{ contact.title }}</strong>
             <span>{{ contact.description }}</span>
           </v-alert>

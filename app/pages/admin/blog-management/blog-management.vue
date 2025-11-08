@@ -21,12 +21,36 @@ definePageMeta({
 const { t, locale } = useI18n()
 
 const tableHeaders = computed<DataTableHeader[]>(() => [
-  { title: t('admin.blogManagement.blogs.table.title'), key: 'title', minWidth: 200 },
-  { title: t('admin.blogManagement.blogs.table.subtitle'), key: 'subtitle', minWidth: 260 },
-  { title: t('admin.blogManagement.blogs.table.author'), key: 'author', minWidth: 180 },
-  { title: t('admin.blogManagement.blogs.table.teams'), key: 'teams', minWidth: 200 },
-  { title: t('admin.blogManagement.blogs.table.createdAt'), key: 'createdAt', minWidth: 180 },
-  { title: t('admin.blogManagement.blogs.table.updatedAt'), key: 'updatedAt', minWidth: 180 },
+  {
+    title: t('admin.blogManagement.blogs.table.title'),
+    key: 'title',
+    minWidth: 200,
+  },
+  {
+    title: t('admin.blogManagement.blogs.table.subtitle'),
+    key: 'subtitle',
+    minWidth: 260,
+  },
+  {
+    title: t('admin.blogManagement.blogs.table.author'),
+    key: 'author',
+    minWidth: 180,
+  },
+  {
+    title: t('admin.blogManagement.blogs.table.teams'),
+    key: 'teams',
+    minWidth: 200,
+  },
+  {
+    title: t('admin.blogManagement.blogs.table.createdAt'),
+    key: 'createdAt',
+    minWidth: 180,
+  },
+  {
+    title: t('admin.blogManagement.blogs.table.updatedAt'),
+    key: 'updatedAt',
+    minWidth: 180,
+  },
   {
     title: t('admin.blogManagement.blogs.table.visibility'),
     key: 'visible',
@@ -64,7 +88,8 @@ const blogs = computed<BlogRow[]>(() => {
 
   return entries.map((blog, index) => {
     const identifier =
-      pickString(blog?.id, blog?.uuid, blog?.slug, blog?.name) ?? `blog-${index}`
+      pickString(blog?.id, blog?.uuid, blog?.slug, blog?.name) ??
+      `blog-${index}`
     const title =
       pickString(blog?.title, blog?.name, blog?.slug) ||
       t('admin.blogManagement.common.none')
@@ -72,9 +97,13 @@ const blogs = computed<BlogRow[]>(() => {
     const author =
       resolveUserName(blog?.owner ?? blog?.user ?? blog?.author) ??
       t('admin.blogManagement.common.none')
-    const teamsSource =
-      blog?.teams ?? blog?.categories ?? blog?.groups ?? []
-    const teams = resolveStringList(teamsSource, ['name', 'title', 'label', 'slug'])
+    const teamsSource = blog?.teams ?? blog?.categories ?? blog?.groups ?? []
+    const teams = resolveStringList(teamsSource, [
+      'name',
+      'title',
+      'label',
+      'slug',
+    ])
     const createdAt = pickString(blog?.createdAt, blog?.created_at)
     const updatedAt = pickString(blog?.updatedAt, blog?.updated_at)
     const visible = resolveVisibilityFlag(blog ?? null)
@@ -97,9 +126,10 @@ const errorMessage = computed(() => {
     return null
   }
 
-  const err = error.value as
-    | { data?: { message?: string }; message?: string }
-    | null
+  const err = error.value as {
+    data?: { message?: string }
+    message?: string
+  } | null
 
   return (
     (err?.data && typeof err.data.message === 'string' && err.data.message) ||
@@ -123,7 +153,9 @@ function formatDate(value: string | number | Date | null | undefined) {
 
   const date = value instanceof Date ? value : new Date(value)
   if (Number.isNaN(date.getTime())) {
-    return typeof value === 'string' ? value : t('admin.blogManagement.common.none')
+    return typeof value === 'string'
+      ? value
+      : t('admin.blogManagement.common.none')
   }
 
   return dateFormatter.value.format(date)

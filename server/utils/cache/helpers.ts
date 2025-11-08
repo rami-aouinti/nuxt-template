@@ -8,9 +8,7 @@ function extractString(source: SessionRecord, key: string) {
   }
 
   const value = source[key]
-  return typeof value === 'string' && value.trim().length > 0
-    ? value
-    : null
+  return typeof value === 'string' && value.trim().length > 0 ? value : null
 }
 
 export async function resolveUserCacheKey(event: H3Event) {
@@ -21,7 +19,10 @@ export async function resolveUserCacheKey(event: H3Event) {
     return profileId
   }
 
-  const profileUsername = extractString(session?.profile as SessionRecord, 'username')
+  const profileUsername = extractString(
+    session?.profile as SessionRecord,
+    'username',
+  )
   if (profileUsername) {
     return `username:${profileUsername}`
   }

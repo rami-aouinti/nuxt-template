@@ -8,7 +8,9 @@ import {
 export default defineEventHandler(async (event) => {
   const id = requireEntityId(event, 'du commentaire')
 
-  await broWorldBlogRequest<unknown>(event, `/comment/${id}`, { method: 'DELETE' })
+  await broWorldBlogRequest<unknown>(event, `/comment/${id}`, {
+    method: 'DELETE',
+  })
 
   await Promise.all([
     invalidateBlogDetail('comment', id),

@@ -47,7 +47,9 @@ function sanitizeRequiredString(value: unknown, maxLength = MAX_STRING_LENGTH) {
 function buildCookiePayload(profile: AuthProfile) {
   const roles = Array.isArray(profile.roles)
     ? profile.roles
-        .filter((role): role is string => typeof role === 'string' && role.length > 0)
+        .filter(
+          (role): role is string => typeof role === 'string' && role.length > 0,
+        )
         .slice(0, MAX_ROLES)
         .map((role) =>
           role.length > MAX_ROLE_LENGTH ? role.slice(0, MAX_ROLE_LENGTH) : role,
@@ -68,7 +70,10 @@ function buildCookiePayload(profile: AuthProfile) {
 function shrinkCookiePayload(payload: CookiePayload, availableLength: number) {
   const steps: ((payload: CookiePayload) => void)[] = [
     (current) => {
-      if (typeof current.photo === 'string' && current.photo.length > MAX_STRING_LENGTH) {
+      if (
+        typeof current.photo === 'string' &&
+        current.photo.length > MAX_STRING_LENGTH
+      ) {
         current.photo = current.photo.slice(0, MAX_STRING_LENGTH)
       }
     },
@@ -147,7 +152,10 @@ function createCookieValue(name: string, profile: AuthProfile) {
     return serialized
   }
 
-  const minimalSkeleton = { id: minimalPayload.id, username: minimalPayload.username }
+  const minimalSkeleton = {
+    id: minimalPayload.id,
+    username: minimalPayload.username,
+  }
   const minimalEmptyValue = JSON.stringify({ id: '', username: '' })
   if (minimalEmptyValue.length > availableLength) {
     return ''
@@ -158,9 +166,16 @@ function createCookieValue(name: string, profile: AuthProfile) {
     return skeletonValue
   }
 
-  const adjustValue = () => JSON.stringify({ id: minimalSkeleton.id, username: minimalSkeleton.username })
+  const adjustValue = () =>
+    JSON.stringify({
+      id: minimalSkeleton.id,
+      username: minimalSkeleton.username,
+    })
 
-  while (skeletonValue.length > availableLength && minimalSkeleton.username.length > 0) {
+  while (
+    skeletonValue.length > availableLength &&
+    minimalSkeleton.username.length > 0
+  ) {
     const excess = skeletonValue.length - availableLength
     const trimAmount = Math.max(1, Math.ceil(excess / 2))
     minimalSkeleton.username = minimalSkeleton.username.slice(
@@ -170,7 +185,10 @@ function createCookieValue(name: string, profile: AuthProfile) {
     skeletonValue = adjustValue()
   }
 
-  while (skeletonValue.length > availableLength && minimalSkeleton.id.length > 0) {
+  while (
+    skeletonValue.length > availableLength &&
+    minimalSkeleton.id.length > 0
+  ) {
     const excess = skeletonValue.length - availableLength
     const trimAmount = Math.max(1, Math.ceil(excess / 2))
     minimalSkeleton.id = minimalSkeleton.id.slice(

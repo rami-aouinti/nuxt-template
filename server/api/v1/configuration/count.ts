@@ -16,7 +16,8 @@ export default defineEventHandler(async (event) => {
   return await fetchAdminCount(
     event,
     'configuration',
-    () => configurationRequest<Count>(event, `/configuration/count${queryString}`),
+    () =>
+      configurationRequest<Count>(event, `/configuration/count${queryString}`),
     { identifier },
   )
 })

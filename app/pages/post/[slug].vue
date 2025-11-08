@@ -42,13 +42,15 @@ const currentProfile = computed<PublicProfileData | null>(() => {
 
 const currentSessionUser = computed(
   () =>
-    (session.value as {
-      user?: {
-        login?: string | null
-        avatar_url?: string | null
-        email?: string | null
-      }
-    } | null)?.user ?? null,
+    (
+      session.value as {
+        user?: {
+          login?: string | null
+          avatar_url?: string | null
+          email?: string | null
+        }
+      } | null
+    )?.user ?? null,
 )
 
 const currentUserAvatar = computed(() => {
@@ -109,7 +111,7 @@ const currentUserReactionUser = computed<BlogPostUser | null>(() => {
     const username =
       typeof profile.username === 'string' && profile.username.trim().length
         ? profile.username
-        : currentUsername.value ?? undefined
+        : (currentUsername.value ?? undefined)
 
     return {
       id,
@@ -166,7 +168,11 @@ const reactionsDialog = reactive({
 
 const slug = computed(() => {
   const value = route.params.slug
-  return typeof value === 'string' ? value : Array.isArray(value) ? value[0] ?? '' : ''
+  return typeof value === 'string'
+    ? value
+    : Array.isArray(value)
+      ? (value[0] ?? '')
+      : ''
 })
 
 function normalizeComment(comment: BlogComment): BlogComment {
@@ -236,7 +242,9 @@ function normalizeComment(comment: BlogComment): BlogComment {
     ...comment,
     reactions_count: reactionsCount,
     likes_count:
-      typeof comment.likes_count === 'number' ? comment.likes_count : reactionsCount,
+      typeof comment.likes_count === 'number'
+        ? comment.likes_count
+        : reactionsCount,
     isReacted,
     reactions_preview: reactionsPreview,
     comments_preview: replies,
@@ -259,11 +267,16 @@ function createCommentViewModel(comment: BlogComment): BlogCommentViewModel {
 }
 
 function resolvePostComments(postValue: BlogPost): BlogComment[] {
-  if (Array.isArray(postValue.comments_preview) && postValue.comments_preview.length) {
+  if (
+    Array.isArray(postValue.comments_preview) &&
+    postValue.comments_preview.length
+  ) {
     return postValue.comments_preview
   }
 
-  const withComments = postValue as BlogPost & { comments?: BlogComment[] | null }
+  const withComments = postValue as BlogPost & {
+    comments?: BlogComment[] | null
+  }
   if (Array.isArray(withComments.comments)) {
     return withComments.comments
   }
@@ -352,7 +365,9 @@ function normalizeReactionsPreview(
 }
 
 function createPostViewModel(postValue: BlogPost): BlogPostViewModel {
-  const reactionsPreview = normalizeReactionsPreview(postValue.reactions_preview)
+  const reactionsPreview = normalizeReactionsPreview(
+    postValue.reactions_preview,
+  )
 
   return {
     ...postValue,
@@ -552,12 +567,17 @@ async function togglePostReaction(postValue: BlogPostViewModel) {
   const currentlyReacted = Boolean(postValue.isReacted)
 
   try {
-    const sanitizedPreview = normalizeReactionsPreview(postValue.reactions_preview)
+    const sanitizedPreview = normalizeReactionsPreview(
+      postValue.reactions_preview,
+    )
 
     if (currentlyReacted) {
       await dislikePost(postValue.id)
       postValue.isReacted = null
-      postValue.reactions_count = Math.max((postValue.reactions_count ?? 1) - 1, 0)
+      postValue.reactions_count = Math.max(
+        (postValue.reactions_count ?? 1) - 1,
+        0,
+      )
 
       const currentId = currentUserId.value
       postValue.reactions_preview = currentId
@@ -686,7 +706,13 @@ watch(
   <v-container fluid>
     <v-row class="justify-center">
       <v-col cols="12" lg="9" xl="8">
-        <v-btn class="mb-4" color="primary" variant="text" prepend-icon="mdi-arrow-left" to="/blog">
+        <v-btn
+          class="mb-4"
+          color="primary"
+          variant="text"
+          prepend-icon="mdi-arrow-left"
+          to="/blog"
+        >
           {{ t('common.actions.back') }}
         </v-btn>
 
@@ -716,7 +742,10 @@ watch(
                 class="post-card__avatar-link"
               >
                 <v-avatar size="56">
-                  <v-img :src="getAuthorAvatar(post.user)" :alt="getAuthorName(post.user)">
+                  <v-img
+                    :src="getAuthorAvatar(post.user)"
+                    :alt="getAuthorName(post.user)"
+                  >
                     <template #error>
                       <v-icon icon="mdi-account-circle" size="56" />
                     </template>
@@ -724,7 +753,10 @@ watch(
                 </v-avatar>
               </NuxtLink>
               <v-avatar v-else size="56">
-                <v-img :src="getAuthorAvatar(post.user)" :alt="getAuthorName(post.user)">
+                <v-img
+                  :src="getAuthorAvatar(post.user)"
+                  :alt="getAuthorName(post.user)"
+                >
                   <template #error>
                     <v-icon icon="mdi-account-circle" size="56" />
                   </template>
@@ -774,7 +806,11 @@ watch(
               {{ post.summary }}
             </p>
             <div v-if="post.content" class="post-content text-body-1 mb-6">
-              <p v-for="(paragraph, index) in post.content.split('\n')" :key="index" class="mb-2">
+              <p
+                v-for="(paragraph, index) in post.content.split('\n')"
+                :key="index"
+                class="mb-2"
+              >
                 {{ paragraph }}
               </p>
             </div>
@@ -825,7 +861,11 @@ watch(
                 :icon="post.isReacted ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
                 class="mr-2"
               />
-              {{ post.isReacted ? t('blog.actions.unlike') : t('blog.actions.like') }}
+              {{
+                post.isReacted
+                  ? t('blog.actions.unlike')
+                  : t('blog.actions.like')
+              }}
             </v-btn>
           </v-card-actions>
 
@@ -867,7 +907,10 @@ watch(
                 <v-btn
                   color="primary"
                   :loading="post.ui.commentLoading"
-                  :disabled="post.ui.commentLoading || !post.ui.commentContent.trim().length"
+                  :disabled="
+                    post.ui.commentLoading ||
+                    !post.ui.commentContent.trim().length
+                  "
                   @click="submitPostComment(post)"
                 >
                   {{ t('blog.actions.addComment') }}

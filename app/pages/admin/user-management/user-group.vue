@@ -29,10 +29,7 @@ const adminStore = useAdminStore()
 const { userGroups, userGroupsPending, userGroupsError, users } =
   storeToRefs(adminStore)
 
-await Promise.all([
-  adminStore.fetchUserGroups(),
-  adminStore.fetchUsers(),
-])
+await Promise.all([adminStore.fetchUserGroups(), adminStore.fetchUsers()])
 
 const search = ref('')
 
@@ -299,9 +296,7 @@ async function loadGroupUsers(id: string) {
   groupUsersLoading.value = true
   groupUsersError.value = ''
   try {
-    groupUsers.value = await $fetch<User[]>(
-      `/api/v1/user_group/${id}/users`,
-    )
+    groupUsers.value = await $fetch<User[]>(`/api/v1/user_group/${id}/users`)
   } catch (error) {
     groupUsersError.value = extractRequestError(
       error,
@@ -390,10 +385,7 @@ async function submitAttachUser() {
     )
     Notify.success(t('userManagement.groups.notifications.attachSuccess'))
     attachUserDialog.value = false
-    await Promise.all([
-      loadGroupUsers(viewingGroup.value.id),
-      refreshUsers(),
-    ])
+    await Promise.all([loadGroupUsers(viewingGroup.value.id), refreshUsers()])
   } catch (error) {
     attachUserError.value = extractRequestError(
       error,
@@ -412,15 +404,11 @@ async function detachUser(userId: string) {
 
   userActionLoading.value = true
   try {
-    await $fetch(
-      `/api/v1/user_group/${viewingGroup.value.id}/user/${userId}`,
-      { method: 'DELETE' },
-    )
+    await $fetch(`/api/v1/user_group/${viewingGroup.value.id}/user/${userId}`, {
+      method: 'DELETE',
+    })
     Notify.success(t('userManagement.groups.notifications.detachSuccess'))
-    await Promise.all([
-      loadGroupUsers(viewingGroup.value.id),
-      refreshUsers(),
-    ])
+    await Promise.all([loadGroupUsers(viewingGroup.value.id), refreshUsers()])
   } catch (error) {
     const message = extractRequestError(
       error,
@@ -564,14 +552,11 @@ watch(attachUserDialog, (value) => {
 
     <v-dialog v-model="createDialog" max-width="540">
       <v-card>
-        <v-card-title>{{ t('userManagement.groups.dialogs.create.title') }}</v-card-title>
+        <v-card-title>{{
+          t('userManagement.groups.dialogs.create.title')
+        }}</v-card-title>
         <v-card-text>
-          <v-alert
-            v-if="formError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
             {{ formError }}
           </v-alert>
           <v-form @submit.prevent="submitCreate">
@@ -611,14 +596,11 @@ watch(attachUserDialog, (value) => {
 
     <v-dialog v-model="editDialog" max-width="540">
       <v-card>
-        <v-card-title>{{ t('userManagement.groups.dialogs.edit.title') }}</v-card-title>
+        <v-card-title>{{
+          t('userManagement.groups.dialogs.edit.title')
+        }}</v-card-title>
         <v-card-text>
-          <v-alert
-            v-if="formError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
             {{ formError }}
           </v-alert>
           <v-form @submit.prevent="submitEdit">
@@ -658,7 +640,9 @@ watch(attachUserDialog, (value) => {
 
     <v-dialog v-model="viewDialog" max-width="560">
       <v-card>
-        <v-card-title>{{ t('userManagement.groups.dialogs.view.title') }}</v-card-title>
+        <v-card-title>{{
+          t('userManagement.groups.dialogs.view.title')
+        }}</v-card-title>
         <v-card-text>
           <v-progress-linear
             v-if="viewLoading"
@@ -666,12 +650,7 @@ watch(attachUserDialog, (value) => {
             indeterminate
             class="mb-4"
           />
-          <v-alert
-            v-if="viewError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="viewError" type="error" variant="tonal" class="mb-4">
             {{ viewError }}
           </v-alert>
           <template v-if="viewingGroup && !viewLoading">
@@ -761,7 +740,10 @@ watch(attachUserDialog, (value) => {
               </div>
             </div>
           </template>
-          <div v-else-if="!viewLoading" class="text-body-2 text-medium-emphasis">
+          <div
+            v-else-if="!viewLoading"
+            class="text-body-2 text-medium-emphasis"
+          >
             {{ t('userManagement.groups.details.empty') }}
           </div>
         </v-card-text>
@@ -776,7 +758,9 @@ watch(attachUserDialog, (value) => {
 
     <v-dialog v-model="attachUserDialog" max-width="520">
       <v-card>
-        <v-card-title>{{ t('userManagement.groups.dialogs.attachUser.title') }}</v-card-title>
+        <v-card-title>{{
+          t('userManagement.groups.dialogs.attachUser.title')
+        }}</v-card-title>
         <v-card-text>
           <v-alert
             v-if="attachUserError"
@@ -822,24 +806,21 @@ watch(attachUserDialog, (value) => {
 
     <v-dialog v-model="deleteDialog" max-width="520">
       <v-card>
-        <v-card-title>{{ t('userManagement.groups.dialogs.delete.title') }}</v-card-title>
+        <v-card-title>{{
+          t('userManagement.groups.dialogs.delete.title')
+        }}</v-card-title>
         <v-card-text>
           <v-alert type="warning" variant="tonal" class="mb-4">
             {{ t('userManagement.groups.dialogs.delete.warningPrefix') }}
             <strong>
               {{
                 deletingGroup?.name ??
-                  t('userManagement.groups.labels.groupFallback')
+                t('userManagement.groups.labels.groupFallback')
               }}
             </strong>
             {{ t('userManagement.groups.dialogs.delete.warningSuffix') }}
           </v-alert>
-          <v-alert
-            v-if="deleteError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="deleteError" type="error" variant="tonal" class="mb-4">
             {{ deleteError }}
           </v-alert>
         </v-card-text>

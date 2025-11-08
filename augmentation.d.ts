@@ -30,7 +30,10 @@ declare module 'jspdf-autotable' {
     [key: string]: unknown
   }
 
-  export default function autoTable(doc: jsPDF, options: AutoTableOptions): jsPDF
+  export default function autoTable(
+    doc: jsPDF,
+    options: AutoTableOptions,
+  ): jsPDF
 }
 
 export {}

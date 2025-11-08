@@ -23,10 +23,26 @@ definePageMeta({
 const { t, locale } = useI18n()
 
 const tableHeaders = computed<DataTableHeader[]>(() => [
-  { title: t('admin.blogManagement.comments.table.author'), key: 'author', minWidth: 180 },
-  { title: t('admin.blogManagement.comments.table.post'), key: 'post', minWidth: 220 },
-  { title: t('admin.blogManagement.comments.table.content'), key: 'content', minWidth: 320 },
-  { title: t('admin.blogManagement.comments.table.publishedAt'), key: 'publishedAt', minWidth: 180 },
+  {
+    title: t('admin.blogManagement.comments.table.author'),
+    key: 'author',
+    minWidth: 180,
+  },
+  {
+    title: t('admin.blogManagement.comments.table.post'),
+    key: 'post',
+    minWidth: 220,
+  },
+  {
+    title: t('admin.blogManagement.comments.table.content'),
+    key: 'content',
+    minWidth: 320,
+  },
+  {
+    title: t('admin.blogManagement.comments.table.publishedAt'),
+    key: 'publishedAt',
+    minWidth: 180,
+  },
   {
     title: t('admin.blogManagement.comments.table.likes'),
     key: 'likes',
@@ -80,11 +96,10 @@ const comments = computed<CommentRow[]>(() => {
     const author =
       resolveUserName(comment?.user ?? comment?.author) ??
       t('admin.blogManagement.common.none')
-    const relatedPost =
-      (comment?.post ??
-        comment?.article ??
-        comment?.entry ??
-        comment?.target) as BlogPost | undefined
+    const relatedPost = (comment?.post ??
+      comment?.article ??
+      comment?.entry ??
+      comment?.target) as BlogPost | undefined
     const postTitle =
       pickString(
         comment?.postTitle,
@@ -92,8 +107,12 @@ const comments = computed<CommentRow[]>(() => {
         resolvePostTitle(relatedPost),
       ) || t('admin.blogManagement.common.none')
     const content =
-      pickString(comment?.content, comment?.body, comment?.message, comment?.text) ??
-      null
+      pickString(
+        comment?.content,
+        comment?.body,
+        comment?.message,
+        comment?.text,
+      ) ?? null
     const publishedAt = pickString(
       comment?.publishedAt,
       comment?.published_at,
@@ -101,11 +120,21 @@ const comments = computed<CommentRow[]>(() => {
       comment?.created_at,
     )
     const likes = resolveFirstAvailableNumber(
-      [comment?.likes, comment?.likeCount, comment?.likesCount, comment?.reactionsCount],
+      [
+        comment?.likes,
+        comment?.likeCount,
+        comment?.likesCount,
+        comment?.reactionsCount,
+      ],
       0,
     )
     const replies = resolveFirstAvailableNumber(
-      [comment?.replies, comment?.replyCount, comment?.repliesCount, comment?.replies_count],
+      [
+        comment?.replies,
+        comment?.replyCount,
+        comment?.repliesCount,
+        comment?.replies_count,
+      ],
       0,
     )
     const visible = resolveVisibilityFlag(comment ?? null)
@@ -128,9 +157,10 @@ const errorMessage = computed(() => {
     return null
   }
 
-  const err = error.value as
-    | { data?: { message?: string }; message?: string }
-    | null
+  const err = error.value as {
+    data?: { message?: string }
+    message?: string
+  } | null
 
   return (
     (err?.data && typeof err.data.message === 'string' && err.data.message) ||
@@ -158,7 +188,9 @@ function formatDate(value: string | number | Date | null | undefined) {
 
   const date = value instanceof Date ? value : new Date(value)
   if (Number.isNaN(date.getTime())) {
-    return typeof value === 'string' ? value : t('admin.blogManagement.common.none')
+    return typeof value === 'string'
+      ? value
+      : t('admin.blogManagement.common.none')
   }
 
   return dateFormatter.value.format(date)

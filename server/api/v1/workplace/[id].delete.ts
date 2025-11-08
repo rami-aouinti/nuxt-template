@@ -8,7 +8,9 @@ import {
 export default defineEventHandler(async (event) => {
   const id = requireEntityId(event, 'du rôle')
 
-  await broWorldRequest<unknown>(event, `/workplace/${id}`, { method: 'DELETE' })
+  await broWorldRequest<unknown>(event, `/workplace/${id}`, {
+    method: 'DELETE',
+  })
 
   await Promise.all([
     invalidateAdminDetail('workplace', id),

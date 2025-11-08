@@ -1,6 +1,9 @@
 import { requestBlogWithJsonBody, requireEntityId } from '~~/server/utils/crud'
 import type { BlogPost, BlogPostPayload } from '~/types/blogPost'
-import { invalidateBlogDetail, invalidateBlogList } from '~~/server/utils/cache/blog'
+import {
+  invalidateBlogDetail,
+  invalidateBlogList,
+} from '~~/server/utils/cache/blog'
 
 export default defineEventHandler(async (event) => {
   const id = requireEntityId(event, "de l'article")

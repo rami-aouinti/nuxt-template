@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
           'https://bro-world-space.com/img/person.png',
       },
       token: data.token,
-      profile:  {
+      profile: {
         username: data.profile.username,
         firstName: data.profile.firstName,
         lastName: data.profile.lastName,
@@ -42,7 +42,7 @@ export default defineEventHandler(async (event) => {
         birthday: data.profile.profile.birthday,
         gender: data.profile.profile.gender,
         description: data.profile.profile.description,
-        address: data.profile.profile.address
+        address: data.profile.profile.address,
       },
     })
 

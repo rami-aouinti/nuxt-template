@@ -24,12 +24,36 @@ definePageMeta({
 const { t, locale } = useI18n()
 
 const tableHeaders = computed<DataTableHeader[]>(() => [
-  { title: t('admin.blogManagement.posts.table.title'), key: 'title', minWidth: 220 },
-  { title: t('admin.blogManagement.posts.table.blog'), key: 'blog', minWidth: 180 },
-  { title: t('admin.blogManagement.posts.table.author'), key: 'author', minWidth: 180 },
-  { title: t('admin.blogManagement.posts.table.publishedAt'), key: 'publishedAt', minWidth: 180 },
-  { title: t('admin.blogManagement.posts.table.url'), key: 'url', minWidth: 220 },
-  { title: t('admin.blogManagement.posts.table.tags'), key: 'tags', minWidth: 200 },
+  {
+    title: t('admin.blogManagement.posts.table.title'),
+    key: 'title',
+    minWidth: 220,
+  },
+  {
+    title: t('admin.blogManagement.posts.table.blog'),
+    key: 'blog',
+    minWidth: 180,
+  },
+  {
+    title: t('admin.blogManagement.posts.table.author'),
+    key: 'author',
+    minWidth: 180,
+  },
+  {
+    title: t('admin.blogManagement.posts.table.publishedAt'),
+    key: 'publishedAt',
+    minWidth: 180,
+  },
+  {
+    title: t('admin.blogManagement.posts.table.url'),
+    key: 'url',
+    minWidth: 220,
+  },
+  {
+    title: t('admin.blogManagement.posts.table.tags'),
+    key: 'tags',
+    minWidth: 200,
+  },
   {
     title: t('admin.blogManagement.posts.table.comments'),
     key: 'commentCount',
@@ -106,9 +130,19 @@ const posts = computed<PostRow[]>(() => {
     const url = resolvePostUrl(post ?? null)
     const tagsSource =
       post?.tags ?? post?.tagList ?? post?.tagNames ?? post?.categories ?? []
-    const tags = resolveStringList(tagsSource, ['name', 'title', 'label', 'value'])
+    const tags = resolveStringList(tagsSource, [
+      'name',
+      'title',
+      'label',
+      'value',
+    ])
     const commentCount = resolveFirstAvailableNumber(
-      [post?.commentCount, post?.commentsCount, post?.totalComments, post?.comments],
+      [
+        post?.commentCount,
+        post?.commentsCount,
+        post?.totalComments,
+        post?.comments,
+      ],
       0,
     )
     const likeCount = resolveFirstAvailableNumber(
@@ -137,9 +171,10 @@ const errorMessage = computed(() => {
     return null
   }
 
-  const err = error.value as
-    | { data?: { message?: string }; message?: string }
-    | null
+  const err = error.value as {
+    data?: { message?: string }
+    message?: string
+  } | null
 
   return (
     (err?.data && typeof err.data.message === 'string' && err.data.message) ||
@@ -167,7 +202,9 @@ function formatDate(value: string | number | Date | null | undefined) {
 
   const date = value instanceof Date ? value : new Date(value)
   if (Number.isNaN(date.getTime())) {
-    return typeof value === 'string' ? value : t('admin.blogManagement.common.none')
+    return typeof value === 'string'
+      ? value
+      : t('admin.blogManagement.common.none')
   }
 
   return dateFormatter.value.format(date)

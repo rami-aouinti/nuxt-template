@@ -41,10 +41,7 @@ const { icon, iconClass, color, title, value, unit, formatter } = toRefs(props)
         :to="localizedUrl"
         class="d-block text-decoration-none"
       >
-        <span
-          class="card-title--name font-weight-bold"
-          v-text="title"
-        />
+        <span class="card-title--name font-weight-bold" v-text="title" />
 
         <h3
           class="font-weight-regular d-inline-block ml-2"

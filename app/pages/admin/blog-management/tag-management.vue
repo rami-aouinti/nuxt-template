@@ -20,17 +20,37 @@ definePageMeta({
 const { t, locale } = useI18n()
 
 const tableHeaders = computed<DataTableHeader[]>(() => [
-  { title: t('admin.blogManagement.tags.table.name'), key: 'name', minWidth: 160 },
-  { title: t('admin.blogManagement.tags.table.description'), key: 'description', minWidth: 280 },
-  { title: t('admin.blogManagement.tags.table.color'), key: 'color', minWidth: 150 },
+  {
+    title: t('admin.blogManagement.tags.table.name'),
+    key: 'name',
+    minWidth: 160,
+  },
+  {
+    title: t('admin.blogManagement.tags.table.description'),
+    key: 'description',
+    minWidth: 280,
+  },
+  {
+    title: t('admin.blogManagement.tags.table.color'),
+    key: 'color',
+    minWidth: 150,
+  },
   {
     title: t('admin.blogManagement.tags.table.usage'),
     key: 'usage',
     align: 'end',
     width: 120,
   },
-  { title: t('admin.blogManagement.tags.table.createdAt'), key: 'createdAt', minWidth: 180 },
-  { title: t('admin.blogManagement.tags.table.updatedAt'), key: 'updatedAt', minWidth: 180 },
+  {
+    title: t('admin.blogManagement.tags.table.createdAt'),
+    key: 'createdAt',
+    minWidth: 180,
+  },
+  {
+    title: t('admin.blogManagement.tags.table.updatedAt'),
+    key: 'updatedAt',
+    minWidth: 180,
+  },
   {
     title: t('admin.blogManagement.tags.table.visibility'),
     key: 'visible',
@@ -73,7 +93,12 @@ const tags = computed<TagRow[]>(() => {
       pickString(tag?.name, tag?.title, tag?.label) ||
       t('admin.blogManagement.common.none')
     const description = pickString(tag?.description, tag?.summary)
-    const color = pickString(tag?.color, tag?.hex, tag?.hexColor, tag?.hex_color)
+    const color = pickString(
+      tag?.color,
+      tag?.hex,
+      tag?.hexColor,
+      tag?.hex_color,
+    )
     const usage = resolveFirstAvailableNumber(
       [
         tag?.usage,
@@ -108,9 +133,10 @@ const errorMessage = computed(() => {
     return null
   }
 
-  const err = error.value as
-    | { data?: { message?: string }; message?: string }
-    | null
+  const err = error.value as {
+    data?: { message?: string }
+    message?: string
+  } | null
 
   return (
     (err?.data && typeof err.data.message === 'string' && err.data.message) ||
@@ -138,7 +164,9 @@ function formatDate(value: string | number | Date | null | undefined) {
 
   const date = value instanceof Date ? value : new Date(value)
   if (Number.isNaN(date.getTime())) {
-    return typeof value === 'string' ? value : t('admin.blogManagement.common.none')
+    return typeof value === 'string'
+      ? value
+      : t('admin.blogManagement.common.none')
   }
 
   return dateFormatter.value.format(date)

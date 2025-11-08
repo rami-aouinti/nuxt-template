@@ -97,7 +97,9 @@ const toggleReply = (comment: BlogCommentViewModel) => {
                 @click="emit('toggle-like', comment)"
               >
                 <v-icon
-                  :icon="comment.isReacted ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
+                  :icon="
+                    comment.isReacted ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'
+                  "
                   class="mr-1"
                 />
                 {{ comment.reactions_count ?? comment.likes_count ?? 0 }}
@@ -140,7 +142,8 @@ const toggleReply = (comment: BlogCommentViewModel) => {
               color="primary"
               :loading="comment.ui.replyLoading"
               :disabled="
-                comment.ui.replyLoading || !comment.ui.replyContent.trim().length
+                comment.ui.replyLoading ||
+                !comment.ui.replyContent.trim().length
               "
               @click="emit('submit-reply', comment)"
             >

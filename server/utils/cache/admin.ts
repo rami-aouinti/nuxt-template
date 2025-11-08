@@ -198,4 +198,3 @@ export async function invalidateAdminCollection(resource: AdminResource) {
     invalidateAdminCount(resource),
   ])
 }
-

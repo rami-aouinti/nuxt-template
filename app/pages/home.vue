@@ -24,7 +24,7 @@ import type { PublicProfileData } from '~/types/profile'
 import { Notify } from '~/stores/notification'
 
 definePageMeta({
-  title: 'navigation.home'
+  title: 'navigation.home',
 })
 
 const { t, locale } = useI18n()
@@ -147,13 +147,15 @@ const currentProfile = computed<PublicProfileData | null>(() => {
 
 const currentSessionUser = computed(
   () =>
-    (session.value as {
-      user?: {
-        login?: string | null
-        avatar_url?: string | null
-        email?: string | null
-      }
-    } | null)?.user ?? null,
+    (
+      session.value as {
+        user?: {
+          login?: string | null
+          avatar_url?: string | null
+          email?: string | null
+        }
+      } | null
+    )?.user ?? null,
 )
 
 const currentUserDisplayName = computed(() => {
@@ -220,7 +222,7 @@ const currentUserReactionUser = computed<BlogPostUser | null>(() => {
     const username =
       typeof profile.username === 'string' && profile.username.trim().length
         ? profile.username
-        : currentUsername.value ?? undefined
+        : (currentUsername.value ?? undefined)
 
     return {
       id,
@@ -365,7 +367,9 @@ function normalizeComment(comment: BlogComment): BlogComment {
     ...comment,
     reactions_count: reactionsCount,
     likes_count:
-      typeof comment.likes_count === 'number' ? comment.likes_count : reactionsCount,
+      typeof comment.likes_count === 'number'
+        ? comment.likes_count
+        : reactionsCount,
     isReacted,
     reactions_preview: reactionsPreview,
     comments_preview: replies,
@@ -676,7 +680,10 @@ async function submitCreateBlog() {
       blogSubtitle: subtitle.length ? subtitle : null,
     })
 
-    myBlogs.value = [created, ...myBlogs.value.filter((blog) => blog.id !== created.id)]
+    myBlogs.value = [
+      created,
+      ...myBlogs.value.filter((blog) => blog.id !== created.id),
+    ]
     Notify.success(t('blog.notifications.blogCreated'))
     createBlogDialog.open = false
     resetCreateBlogForm()
@@ -725,7 +732,10 @@ async function submitCreatePost() {
     })
 
     const newPost = createPostViewModel(created)
-    posts.value = [newPost, ...posts.value.filter((post) => post.id !== newPost.id)]
+    posts.value = [
+      newPost,
+      ...posts.value.filter((post) => post.id !== newPost.id),
+    ]
     pagination.total += 1
     Notify.success(t('blog.notifications.postCreated'))
     createPostDialog.open = false
@@ -827,7 +837,10 @@ function getPostPlainContent(content: string | null | undefined) {
     return text.replace(/\s+/g, ' ').trim()
   }
 
-  return content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+  return content
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
 }
 
 function getPostExcerpt(post: BlogPostViewModel) {
@@ -1345,11 +1358,7 @@ await loadPosts(1, { replace: true })
 
           <template v-else>
             <v-row v-if="posts.length" class="g-6">
-              <v-col
-                v-for="post in posts"
-                :key="post.id"
-                cols="12"
-              >
+              <v-col v-for="post in posts" :key="post.id" cols="12">
                 <v-card class="facebook-post-card" elevation="0">
                   <div class="facebook-post-card__header">
                     <div class="facebook-post-card__avatar">
@@ -1394,8 +1403,12 @@ await loadPosts(1, { replace: true })
                         </span>
                       </div>
                       <div class="facebook-post-card__meta">
-                        <span>{{ formatRelativePublishedAt(post.publishedAt) }}</span>
-                        <span class="facebook-post-card__meta-separator">·</span>
+                        <span>{{
+                          formatRelativePublishedAt(post.publishedAt)
+                        }}</span>
+                        <span class="facebook-post-card__meta-separator"
+                          >·</span
+                        >
                         <v-icon
                           icon="mdi-earth"
                           size="14"
@@ -1436,22 +1449,33 @@ await loadPosts(1, { replace: true })
                     </NuxtLink>
                     <p
                       class="facebook-post-card__text"
-                      :class="{ 'facebook-post-card__text--muted': !getPostExcerpt(post) }"
+                      :class="{
+                        'facebook-post-card__text--muted':
+                          !getPostExcerpt(post),
+                      }"
                     >
-                      {{ getPostExcerpt(post) || t('blog.placeholders.noSummary') }}
+                      {{
+                        getPostExcerpt(post) || t('blog.placeholders.noSummary')
+                      }}
                     </p>
                   </div>
 
                   <div class="facebook-post-card__stats">
                     <div class="facebook-post-card__stats-left">
                       <div class="facebook-post-card__reaction-icons">
-                        <span class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--like">
+                        <span
+                          class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--like"
+                        >
                           <v-icon icon="mdi-thumb-up" size="14" />
                         </span>
-                        <span class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--love">
+                        <span
+                          class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--love"
+                        >
                           <v-icon icon="mdi-heart" size="14" />
                         </span>
-                        <span class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--care">
+                        <span
+                          class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--care"
+                        >
                           <v-icon icon="mdi-emoticon-excited" size="14" />
                         </span>
                       </div>
@@ -1462,13 +1486,18 @@ await loadPosts(1, { replace: true })
                           variant="text"
                           class="facebook-post-card__action-btn"
                           :class="{
-                            'facebook-post-card__action-btn--active': post.isReacted,
+                            'facebook-post-card__action-btn--active':
+                              post.isReacted,
                           }"
                           :loading="post.ui.likeLoading"
                           @click="togglePostReaction(post)"
                         >
                           <v-icon
-                            :icon="post.isReacted ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
+                            :icon="
+                              post.isReacted
+                                ? 'mdi-thumb-up'
+                                : 'mdi-thumb-up-outline'
+                            "
                             class="mr-2"
                           />
                           {{
@@ -1494,27 +1523,22 @@ await loadPosts(1, { replace: true })
                         @click="toggleCommentsVisibility(post)"
                       >
                         <v-icon
-                          :icon="post.ui.commentsVisible
-                            ? 'mdi-comment-off-outline'
-                            : 'mdi-comment-text-outline'"
+                          :icon="
+                            post.ui.commentsVisible
+                              ? 'mdi-comment-off-outline'
+                              : 'mdi-comment-text-outline'
+                          "
                           class="mr-1"
                         />
-                        {{
-                          post.totalComments
-                        }}
+                        {{ post.totalComments }}
                       </v-btn>
                       <v-btn
                         variant="text"
                         class="facebook-post-card__action-btn"
                         @click="openShareDialog(post)"
                       >
-                        <v-icon
-                          icon="mdi-share"
-                          class="mr-1"
-                        />
-                        {{
-                          post.sharedFrom?.length
-                        }}
+                        <v-icon icon="mdi-share" class="mr-1" />
+                        {{ post.sharedFrom?.length }}
                       </v-btn>
                     </div>
                   </div>
@@ -1576,8 +1600,12 @@ await loadPosts(1, { replace: true })
                           :format-date="formatPublishedAt"
                           :can-interact="loggedIn"
                           :resolve-profile-link="getAuthorProfileLink"
-                          @toggle-like="(comment) => toggleCommentReaction(post, comment)"
-                          @submit-reply="(comment) => submitCommentReply(post, comment)"
+                          @toggle-like="
+                            (comment) => toggleCommentReaction(post, comment)
+                          "
+                          @submit-reply="
+                            (comment) => submitCommentReply(post, comment)
+                          "
                         />
 
                         <v-sheet
@@ -1586,7 +1614,11 @@ await loadPosts(1, { replace: true })
                           variant="tonal"
                           color="surface"
                         >
-                          <v-icon icon="mdi-comment-outline" size="48" class="mb-3" />
+                          <v-icon
+                            icon="mdi-comment-outline"
+                            size="48"
+                            class="mb-3"
+                          />
                           <h3 class="text-h6 mb-1">
                             {{ t('blog.emptyComments.title') }}
                           </h3>
@@ -1604,7 +1636,9 @@ await loadPosts(1, { replace: true })
                     persistent
                   >
                     <v-card>
-                      <v-card-title>{{ t('blog.dialogs.editTitle') }}</v-card-title>
+                      <v-card-title>{{
+                        t('blog.dialogs.editTitle')
+                      }}</v-card-title>
                       <v-card-text>
                         <v-text-field
                           v-model="post.ui.editForm.title"
@@ -1649,12 +1683,7 @@ await loadPosts(1, { replace: true })
               </v-col>
             </v-row>
 
-            <v-sheet
-              v-else
-              class="blog-feed__empty"
-              elevation="1"
-              rounded="xl"
-            >
+            <v-sheet v-else class="blog-feed__empty" elevation="1" rounded="xl">
               <v-icon icon="mdi-post-outline" size="64" class="mb-4" />
               <h2 class="text-h5 mb-2">{{ t('blog.empty.title') }}</h2>
               <p class="text-medium-emphasis mb-0">
@@ -1671,7 +1700,11 @@ await loadPosts(1, { replace: true })
             />
           </div>
 
-          <div v-show="hasMore" ref="loadMoreTrigger" class="blog-infinite-trigger" />
+          <div
+            v-show="hasMore"
+            ref="loadMoreTrigger"
+            class="blog-infinite-trigger"
+          />
         </section>
       </v-col>
 
@@ -1679,7 +1712,12 @@ await loadPosts(1, { replace: true })
         <div class="blog-sidebar glass-card pa-4 pa-md-6 mb-6">
           <h2 class="text-h6 mb-1">{{ t('blog.sidebar.myBlogsTitle') }}</h2>
           <p class="text-body-2 text-medium-emphasis mb-4">
-            {{ translate('blog.sidebar.intro', "Retrouvez vos espaces d'écriture et créez un nouvel article.") }}
+            {{
+              translate(
+                'blog.sidebar.intro',
+                "Retrouvez vos espaces d'écriture et créez un nouvel article.",
+              )
+            }}
           </p>
           <v-alert
             v-if="!loggedIn"
@@ -1708,7 +1746,12 @@ await loadPosts(1, { replace: true })
               {{ myBlogsError }}
             </v-alert>
 
-            <v-list v-else-if="myBlogs.length" density="comfortable" lines="two" class="blog-sidebar__list">
+            <v-list
+              v-else-if="myBlogs.length"
+              density="comfortable"
+              lines="two"
+              class="blog-sidebar__list"
+            >
               <v-list-item
                 v-for="blog in myBlogs"
                 :key="blog.id"
@@ -1716,7 +1759,12 @@ await loadPosts(1, { replace: true })
                 :link="Boolean(resolveBlogLink(blog))"
               >
                 <template #prepend>
-                  <v-avatar size="36" class="mr-3" color="primary" variant="tonal">
+                  <v-avatar
+                    size="36"
+                    class="mr-3"
+                    color="primary"
+                    variant="tonal"
+                  >
                     <template v-if="blog.logo">
                       <v-img :src="blog.logo || undefined" :alt="blog.title">
                         <template #error>
@@ -1772,7 +1820,12 @@ await loadPosts(1, { replace: true })
         <div class="blog-sidebar glass-card pa-4 pa-md-6">
           <h2 class="text-h6 mb-3">{{ t('blog.sidebar.publicBlogsTitle') }}</h2>
           <p class="text-body-2 text-medium-emphasis mb-4">
-            {{ translate('blog.sidebar.publicIntro', 'Explorez les blogs mis en avant par la communauté.') }}
+            {{
+              translate(
+                'blog.sidebar.publicIntro',
+                'Explorez les blogs mis en avant par la communauté.',
+              )
+            }}
           </p>
           <v-skeleton-loader
             v-if="publicBlogsLoading"
@@ -1789,7 +1842,12 @@ await loadPosts(1, { replace: true })
             {{ publicBlogsError }}
           </v-alert>
 
-          <v-list v-else-if="publicBlogs.length" density="comfortable" lines="two" class="blog-sidebar__list">
+          <v-list
+            v-else-if="publicBlogs.length"
+            density="comfortable"
+            lines="two"
+            class="blog-sidebar__list"
+          >
             <v-list-item
               v-for="blog in publicBlogs"
               :key="blog.id"
@@ -1797,7 +1855,12 @@ await loadPosts(1, { replace: true })
               :link="Boolean(resolveBlogLink(blog))"
             >
               <template #prepend>
-                <v-avatar size="36" class="mr-3" color="primary" variant="tonal">
+                <v-avatar
+                  size="36"
+                  class="mr-3"
+                  color="primary"
+                  variant="tonal"
+                >
                   <template v-if="blog.logo">
                     <v-img :src="blog.logo || undefined" :alt="blog.title">
                       <template #error>
@@ -1899,7 +1962,7 @@ await loadPosts(1, { replace: true })
               <p class="share-dialog__preview-text">
                 {{
                   getPostExcerpt(shareDialog.post) ||
-                    t('blog.placeholders.noSummary')
+                  t('blog.placeholders.noSummary')
                 }}
               </p>
             </div>
@@ -1927,11 +1990,7 @@ await loadPosts(1, { replace: true })
       </v-card>
     </v-dialog>
 
-    <v-dialog
-      v-model="createBlogDialog.open"
-      max-width="520"
-      persistent
-    >
+    <v-dialog v-model="createBlogDialog.open" max-width="520" persistent>
       <v-card>
         <v-card-title>{{ t('blog.sidebar.createBlog') }}</v-card-title>
         <v-card-text>
@@ -1968,11 +2027,7 @@ await loadPosts(1, { replace: true })
       </v-card>
     </v-dialog>
 
-    <v-dialog
-      v-model="createPostDialog.open"
-      max-width="640"
-      persistent
-    >
+    <v-dialog v-model="createPostDialog.open" max-width="640" persistent>
       <v-card>
         <v-card-title>{{ t('blog.sidebar.createPost') }}</v-card-title>
         <v-card-text>
@@ -2040,7 +2095,6 @@ await loadPosts(1, { replace: true })
   </v-container>
 </template>
 
-
 <style scoped>
 .blog-page {
   position: relative;
@@ -2103,7 +2157,9 @@ await loadPosts(1, { replace: true })
   box-shadow: var(--blog-post-card-shadow);
   border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
   overflow: hidden;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .facebook-post-card:hover {
@@ -2450,7 +2506,10 @@ a.facebook-post-card__author-link:focus-visible {
     --blog-post-card-background: rgba(var(--blog-surface-rgb), 0.9);
     --blog-post-card-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
     --blog-post-card-hover-shadow: 0 30px 68px rgba(0, 0, 0, 0.6);
-    --blog-comments-empty-background: rgba(var(--blog-surface-variant-rgb), 0.12);
+    --blog-comments-empty-background: rgba(
+      var(--blog-surface-variant-rgb),
+      0.12
+    );
   }
 }
 

@@ -33,7 +33,13 @@ const normalizeCollection = <T,>(input: unknown): T[] => {
 
   if (input && typeof input === 'object') {
     const record = input as Record<string, unknown>
-    const possibleKeys = ['data', 'items', 'results', 'hydra:member', 'hydra:members']
+    const possibleKeys = [
+      'data',
+      'items',
+      'results',
+      'hydra:member',
+      'hydra:members',
+    ]
 
     for (const key of possibleKeys) {
       const value = record[key]
@@ -58,7 +64,12 @@ const extractCount = (d: any): number => {
 
 const [
   { data: configurations, pending, error, refresh },
-  { data: configurationCount, pending: countPending, error: countError, refresh: refreshCount },
+  {
+    data: configurationCount,
+    pending: countPending,
+    error: countError,
+    refresh: refreshCount,
+  },
 ] = await Promise.all([
   useFetch<Configuration[]>('/api/v1/configuration', {
     key: 'configuration-list',
@@ -77,18 +88,41 @@ const [
 try {
   await adminStore.fetchWorkplaces()
 } catch (workplaceError) {
-  console.error('Failed to load workplaces for configuration form', workplaceError)
+  console.error(
+    'Failed to load workplaces for configuration form',
+    workplaceError,
+  )
 }
 
 const search = ref('')
 
 const dataTableHeaders = computed<DataTableHeader[]>(() => [
-  { title: t('configurationManagement.configurations.table.key'), key: 'configurationKey' },
-  { title: t('configurationManagement.configurations.table.contextKey'), key: 'contextKey' },
-  { title: t('configurationManagement.configurations.table.contextId'), key: 'contextId' },
-  { title: t('configurationManagement.configurations.table.value'), key: 'valuePreview', sortable: false },
-  { title: t('configurationManagement.configurations.table.flags'), key: 'flagsDisplay', sortable: false },
-  { title: t('configurationManagement.configurations.table.updatedAt'), key: 'updatedAtDisplay' },
+  {
+    title: t('configurationManagement.configurations.table.key'),
+    key: 'configurationKey',
+  },
+  {
+    title: t('configurationManagement.configurations.table.contextKey'),
+    key: 'contextKey',
+  },
+  {
+    title: t('configurationManagement.configurations.table.contextId'),
+    key: 'contextId',
+  },
+  {
+    title: t('configurationManagement.configurations.table.value'),
+    key: 'valuePreview',
+    sortable: false,
+  },
+  {
+    title: t('configurationManagement.configurations.table.flags'),
+    key: 'flagsDisplay',
+    sortable: false,
+  },
+  {
+    title: t('configurationManagement.configurations.table.updatedAt'),
+    key: 'updatedAtDisplay',
+  },
 ])
 
 const formatDate = (value: string | null | undefined) => {
@@ -360,7 +394,9 @@ async function submitCreate() {
 
   const configurationKey = form.configurationKey.trim()
   if (!configurationKey) {
-    createError.value = t('configurationManagement.configurations.errors.keyRequired')
+    createError.value = t(
+      'configurationManagement.configurations.errors.keyRequired',
+    )
     Notify.error(createError.value)
     return
   }
@@ -443,7 +479,9 @@ async function submitCreate() {
       :loading="loading"
       :error="tableError"
       :search="search"
-      :search-placeholder="t('configurationManagement.configurations.searchPlaceholder')"
+      :search-placeholder="
+        t('configurationManagement.configurations.searchPlaceholder')
+      "
       color="primary"
       @update:search="(value) => (search.value = value)"
       @refresh="refreshAll"
@@ -469,12 +507,7 @@ async function submitCreate() {
           {{ t('configurationManagement.configurations.dialogs.create.title') }}
         </v-card-title>
         <v-card-text>
-          <v-alert
-            v-if="createError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="createError" type="error" variant="tonal" class="mb-4">
             {{ createError }}
           </v-alert>
 
@@ -483,7 +516,9 @@ async function submitCreate() {
               <v-col cols="12">
                 <v-text-field
                   v-model="form.configurationKey"
-                  :label="t('configurationManagement.configurations.fields.key')"
+                  :label="
+                    t('configurationManagement.configurations.fields.key')
+                  "
                   :disabled="createLoading"
                   required
                   autocomplete="off"
@@ -492,7 +527,11 @@ async function submitCreate() {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.contextKey"
-                  :label="t('configurationManagement.configurations.fields.contextKey')"
+                  :label="
+                    t(
+                      'configurationManagement.configurations.fields.contextKey',
+                    )
+                  "
                   :disabled="createLoading"
                   required
                   autocomplete="off"
@@ -501,7 +540,9 @@ async function submitCreate() {
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="form.contextId"
-                  :label="t('configurationManagement.configurations.fields.contextId')"
+                  :label="
+                    t('configurationManagement.configurations.fields.contextId')
+                  "
                   :disabled="createLoading"
                   autocomplete="off"
                 />
@@ -512,7 +553,9 @@ async function submitCreate() {
                   :items="workplaceOptions"
                   item-title="title"
                   item-value="value"
-                  :label="t('configurationManagement.configurations.fields.workplace')"
+                  :label="
+                    t('configurationManagement.configurations.fields.workplace')
+                  "
                   :placeholder="t('common.placeholders.selectWorkplace')"
                   :loading="adminStore.workplacesPending"
                   :disabled="createLoading"
@@ -523,8 +566,12 @@ async function submitCreate() {
               <v-col cols="12">
                 <v-textarea
                   v-model="form.configurationValue"
-                  :label="t('configurationManagement.configurations.fields.value')"
-                  :hint="t('configurationManagement.configurations.fields.valueHint')"
+                  :label="
+                    t('configurationManagement.configurations.fields.value')
+                  "
+                  :hint="
+                    t('configurationManagement.configurations.fields.valueHint')
+                  "
                   persistent-hint
                   :disabled="createLoading"
                   auto-grow
@@ -534,8 +581,12 @@ async function submitCreate() {
               <v-col cols="12">
                 <v-text-field
                   v-model="form.flags"
-                  :label="t('configurationManagement.configurations.fields.flags')"
-                  :hint="t('configurationManagement.configurations.fields.flagsHint')"
+                  :label="
+                    t('configurationManagement.configurations.fields.flags')
+                  "
+                  :hint="
+                    t('configurationManagement.configurations.fields.flagsHint')
+                  "
                   persistent-hint
                   :disabled="createLoading"
                   autocomplete="off"

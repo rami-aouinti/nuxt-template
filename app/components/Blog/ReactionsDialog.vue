@@ -34,9 +34,10 @@ const normalizedReactions = computed(() => {
     })
     .map((reaction) => ({
       ...reaction,
-      id: typeof reaction.id === 'string' && reaction.id.trim().length
-        ? reaction.id
-        : `${reaction.user.id}-${reaction.type}`,
+      id:
+        typeof reaction.id === 'string' && reaction.id.trim().length
+          ? reaction.id
+          : `${reaction.user.id}-${reaction.type}`,
       type:
         typeof reaction.type === 'string' && reaction.type.trim().length
           ? reaction.type.trim()

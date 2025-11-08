@@ -1,7 +1,10 @@
 import { getRouterParam, readBody } from 'h3'
 import { configurationRequest } from '~~/server/utils/configurationApi'
 import type { Configuration, ConfigurationPayload } from '~/types/configuration'
-import { invalidateAdminDetail, invalidateAdminList } from '~~/server/utils/cache/admin'
+import {
+  invalidateAdminDetail,
+  invalidateAdminList,
+} from '~~/server/utils/cache/admin'
 
 export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id')

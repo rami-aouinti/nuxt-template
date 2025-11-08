@@ -1,6 +1,9 @@
 import { requestWithJsonBody, requireEntityId } from '~~/server/utils/crud'
 import type { Workplace, WorkplacePayload } from '~/types/workplace'
-import { invalidateAdminDetail, invalidateAdminList } from '~~/server/utils/cache/admin'
+import {
+  invalidateAdminDetail,
+  invalidateAdminList,
+} from '~~/server/utils/cache/admin'
 
 export default defineEventHandler(async (event) => {
   const id = requireEntityId(event, 'du rôle')

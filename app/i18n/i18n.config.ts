@@ -1,5 +1,5 @@
-import en from "./locales/en.json";
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "~/utils/i18n/locales";
+import en from './locales/en.json'
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '~/utils/i18n/locales'
 
 export default defineI18nConfig(() => ({
   legacy: false,
@@ -10,4 +10,4 @@ export default defineI18nConfig(() => ({
   messages: {
     [DEFAULT_LOCALE]: en,
   },
-}));
+}))

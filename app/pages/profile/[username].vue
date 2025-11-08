@@ -22,12 +22,7 @@ const usernameParam = computed(() => {
 
 const normalizedUsername = computed(() => usernameParam.value.trim())
 
-const {
-  data,
-  pending,
-  error,
-  refresh,
-} = await useAsyncData(
+const { data, pending, error, refresh } = await useAsyncData(
   () => `public-profile-${normalizedUsername.value}`,
   async () => {
     const username = normalizedUsername.value
@@ -68,8 +63,8 @@ const displayName = computed(() => {
   return username
 })
 
-const profileTitle = computed(() =>
-  `${displayName.value} • ${t('profile.public.page.title')}`,
+const profileTitle = computed(
+  () => `${displayName.value} • ${t('profile.public.page.title')}`,
 )
 
 useHead(() => ({
@@ -110,7 +105,8 @@ const accountStatusColor = computed(() =>
 const roles = computed(() =>
   Array.isArray(profile.value?.roles)
     ? (profile.value?.roles ?? []).filter(
-        (role): role is string => typeof role === 'string' && role.trim().length > 0,
+        (role): role is string =>
+          typeof role === 'string' && role.trim().length > 0,
       )
     : [],
 )
@@ -138,7 +134,9 @@ const hasContactInfo = computed(() => {
   ].some((value) => typeof value === 'string' && value.trim().length > 0)
 })
 
-const showMetadata = computed(() => friendsCount.value > 0 || storiesCount.value > 0)
+const showMetadata = computed(
+  () => friendsCount.value > 0 || storiesCount.value > 0,
+)
 
 const profilePhoto = computed(() => {
   const value = profile.value?.photo
@@ -154,7 +152,9 @@ const usernameLabel = computed(
   <v-container class="py-8" fluid>
     <v-row class="justify-center">
       <v-col cols="12" lg="8" xl="7">
-        <div class="d-flex align-center justify-space-between flex-wrap gap-2 mb-6">
+        <div
+          class="d-flex align-center justify-space-between flex-wrap gap-2 mb-6"
+        >
           <div>
             <h1 class="text-h4 text-h3-md font-weight-bold mb-1">
               {{ t('profile.public.page.title') }}
@@ -193,9 +193,15 @@ const usernameLabel = computed(
 
         <v-card v-else-if="profile" class="rounded-xl" elevation="2">
           <v-card-text class="pa-6">
-            <div class="d-flex flex-column flex-md-row align-md-center gap-4 mb-6">
+            <div
+              class="d-flex flex-column flex-md-row align-md-center gap-4 mb-6"
+            >
               <v-avatar size="96">
-                <v-img v-if="profilePhoto" :src="profilePhoto" :alt="displayName">
+                <v-img
+                  v-if="profilePhoto"
+                  :src="profilePhoto"
+                  :alt="displayName"
+                >
                   <template #error>
                     <v-icon icon="mdi-account-circle" size="96" />
                   </template>
@@ -205,7 +211,11 @@ const usernameLabel = computed(
               <div class="flex-grow-1">
                 <h2 class="text-h4 text-h5-sm mb-1">{{ displayName }}</h2>
                 <p class="text-medium-emphasis mb-2">{{ usernameLabel }}</p>
-                <v-chip :color="accountStatusColor" size="small" variant="tonal">
+                <v-chip
+                  :color="accountStatusColor"
+                  size="small"
+                  variant="tonal"
+                >
                   {{ accountStatusLabel }}
                 </v-chip>
               </div>
@@ -280,7 +290,9 @@ const usernameLabel = computed(
                     <span class="text-caption text-medium-emphasis">
                       {{ t('profile.public.labels.friends') }}
                     </span>
-                    <span class="text-body-1 font-weight-medium">{{ friendsCount }}</span>
+                    <span class="text-body-1 font-weight-medium">{{
+                      friendsCount
+                    }}</span>
                   </div>
                 </v-col>
                 <v-col cols="12" sm="6">
@@ -288,7 +300,9 @@ const usernameLabel = computed(
                     <span class="text-caption text-medium-emphasis">
                       {{ t('profile.public.labels.stories') }}
                     </span>
-                    <span class="text-body-1 font-weight-medium">{{ storiesCount }}</span>
+                    <span class="text-body-1 font-weight-medium">{{
+                      storiesCount
+                    }}</span>
                   </div>
                 </v-col>
               </v-row>
@@ -303,7 +317,9 @@ const usernameLabel = computed(
           rounded="xl"
         >
           <v-icon icon="mdi-account-question" size="64" class="mb-4" />
-          <h2 class="text-h5 mb-2">{{ t('profile.public.errors.notFound') }}</h2>
+          <h2 class="text-h5 mb-2">
+            {{ t('profile.public.errors.notFound') }}
+          </h2>
           <p class="text-medium-emphasis mb-0">
             {{ t('profile.public.page.description') }}
           </p>

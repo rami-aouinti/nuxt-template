@@ -22,7 +22,8 @@ const userRoles = computed(() => {
 
   return rawRoles
     .filter(
-      (role): role is string => typeof role === 'string' && role.trim().length > 0,
+      (role): role is string =>
+        typeof role === 'string' && role.trim().length > 0,
     )
     .map((role) => role.trim())
 })
@@ -34,7 +35,8 @@ const hasRouteAccess = (route: RouteRecordRaw) => {
   }
 
   const requiredRoles = rawRoles.filter(
-    (role): role is string => typeof role === 'string' && role.trim().length > 0,
+    (role): role is string =>
+      typeof role === 'string' && role.trim().length > 0,
   )
 
   if (requiredRoles.length === 0) {
@@ -87,7 +89,11 @@ const isActive = computed(() => {
     color="primary"
   >
     <template #activator="{ props: vProps }">
-      <v-list-item :title="translatedTitle" v-bind="vProps" :active="isActive" />
+      <v-list-item
+        :title="translatedTitle"
+        v-bind="vProps"
+        :active="isActive"
+      />
     </template>
     <AppDrawerItem
       v-for="child in visibleChildren"

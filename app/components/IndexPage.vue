@@ -33,7 +33,12 @@ const items = computed(() =>
           {{ translate('admin.dashboard.welcome', 'Centre de contrôle') }}
         </div>
         <h1 class="text-h4 text-md-h3 font-weight-bold mb-3">
-          {{ translate('admin.dashboard.title', 'Gérez chaque espace en un clin d’œil') }}
+          {{
+            translate(
+              'admin.dashboard.title',
+              'Gérez chaque espace en un clin d’œil',
+            )
+          }}
         </h1>
         <p class="text-body-1 text-medium-emphasis mb-6">
           {{
@@ -45,12 +50,20 @@ const items = computed(() =>
         </p>
         <div class="admin-index__hero-stats">
           <div class="stat-card">
-            <p class="text-caption text-medium-emphasis mb-1">{{ translate('admin.dashboard.sections', 'Sections') }}</p>
-            <p class="text-h5 font-weight-semibold mb-0">{{ items?.length || 0 }}</p>
+            <p class="text-caption text-medium-emphasis mb-1">
+              {{ translate('admin.dashboard.sections', 'Sections') }}
+            </p>
+            <p class="text-h5 font-weight-semibold mb-0">
+              {{ items?.length || 0 }}
+            </p>
           </div>
           <div class="stat-card">
-            <p class="text-caption text-medium-emphasis mb-1">{{ translate('admin.dashboard.activity', 'Activité') }}</p>
-            <p class="text-h5 font-weight-semibold mb-0">{{ translate('admin.dashboard.updated', 'Mis à jour') }}</p>
+            <p class="text-caption text-medium-emphasis mb-1">
+              {{ translate('admin.dashboard.activity', 'Activité') }}
+            </p>
+            <p class="text-h5 font-weight-semibold mb-0">
+              {{ translate('admin.dashboard.updated', 'Mis à jour') }}
+            </p>
           </div>
         </div>
       </div>
@@ -58,8 +71,12 @@ const items = computed(() =>
 
     <section class="page-section">
       <div class="page-section__header">
-        <span class="section-eyebrow">{{ translate('admin.dashboard.sectionsTitle', 'Navigation rapide') }}</span>
-        <h2 class="section-title">{{ translate('admin.dashboard.choose', 'Choisissez une section') }}</h2>
+        <span class="section-eyebrow">{{
+          translate('admin.dashboard.sectionsTitle', 'Navigation rapide')
+        }}</span>
+        <h2 class="section-title">
+          {{ translate('admin.dashboard.choose', 'Choisissez une section') }}
+        </h2>
         <p class="section-subtitle">
           {{
             translate(
@@ -73,11 +90,7 @@ const items = computed(() =>
       <v-row class="g-6">
         <v-col v-for="item in items" :key="item.title" cols="12" md="6" lg="4">
           <v-card class="admin-index__card h-100" elevation="0">
-            <v-list-item
-              v-bind="item"
-              :ripple="false"
-              class="py-6"
-            />
+            <v-list-item v-bind="item" :ripple="false" class="py-6" />
           </v-card>
         </v-col>
       </v-row>
@@ -115,7 +128,9 @@ const items = computed(() =>
   background: var(--admin-card-background);
   backdrop-filter: blur(12px);
   box-shadow: var(--admin-card-box-shadow);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .admin-index__card::after {

@@ -192,7 +192,9 @@ function resetFormFromProfile(current: AuthProfile | null) {
 }
 
 function resetProfileSettings() {
-  for (const key of Object.keys(DEFAULT_PROFILE_SETTINGS) as ProfileSettingKey[]) {
+  for (const key of Object.keys(
+    DEFAULT_PROFILE_SETTINGS,
+  ) as ProfileSettingKey[]) {
     settings[key] = DEFAULT_PROFILE_SETTINGS[key]
     settingsSaving[key] = false
   }
@@ -213,7 +215,11 @@ function extractRequestError(error: unknown, fallback: string) {
         return data.message
       }
 
-      if ('error' in data && typeof data.error === 'string' && data.error.trim().length > 0) {
+      if (
+        'error' in data &&
+        typeof data.error === 'string' &&
+        data.error.trim().length > 0
+      ) {
         return data.error
       }
     }
@@ -269,7 +275,10 @@ function toSettingsRecord(value: unknown): Partial<ProfileSettingsState> {
       const parsed = JSON.parse(value) as unknown
       return toSettingsRecord(parsed)
     } catch (error) {
-      console.warn('Failed to parse profile settings configuration value', error)
+      console.warn(
+        'Failed to parse profile settings configuration value',
+        error,
+      )
       return {}
     }
   }
@@ -281,7 +290,9 @@ function toSettingsRecord(value: unknown): Partial<ProfileSettingsState> {
   const record = value as Record<string, unknown>
   const output: Partial<ProfileSettingsState> = {}
 
-  for (const key of Object.keys(DEFAULT_PROFILE_SETTINGS) as ProfileSettingKey[]) {
+  for (const key of Object.keys(
+    DEFAULT_PROFILE_SETTINGS,
+  ) as ProfileSettingKey[]) {
     const candidate = parseBoolean(record[key])
     if (candidate != null) {
       output[key] = candidate
@@ -294,7 +305,9 @@ function toSettingsRecord(value: unknown): Partial<ProfileSettingsState> {
 function applySettingsValue(value: unknown) {
   const record = toSettingsRecord(value)
 
-  for (const key of Object.keys(DEFAULT_PROFILE_SETTINGS) as ProfileSettingKey[]) {
+  for (const key of Object.keys(
+    DEFAULT_PROFILE_SETTINGS,
+  ) as ProfileSettingKey[]) {
     settings[key] = record[key] ?? DEFAULT_PROFILE_SETTINGS[key]
   }
 }
@@ -312,7 +325,10 @@ function applyConfiguration(configuration: Configuration | null) {
 
 const resolvedSettingsContextId = computed(() => {
   const configurationContextId = currentSettingsConfiguration.value?.contextId
-  if (typeof configurationContextId === 'string' && configurationContextId.trim().length > 0) {
+  if (
+    typeof configurationContextId === 'string' &&
+    configurationContextId.trim().length > 0
+  ) {
     return configurationContextId
   }
 
@@ -322,7 +338,11 @@ const resolvedSettingsContextId = computed(() => {
   }
 
   const rawProfile = profile.value as Record<string, unknown> | null
-  const alternative = rawProfile?.contextId ?? rawProfile?.context_id ?? rawProfile?.userId ?? rawProfile?.user_id
+  const alternative =
+    rawProfile?.contextId ??
+    rawProfile?.context_id ??
+    rawProfile?.userId ??
+    rawProfile?.user_id
   if (typeof alternative === 'string' && alternative.trim().length > 0) {
     return alternative
   }
@@ -331,7 +351,8 @@ const resolvedSettingsContextId = computed(() => {
 })
 
 const resolvedSettingsWorkplaceId = computed(() => {
-  const configurationWorkplaceId = currentSettingsConfiguration.value?.workplaceId
+  const configurationWorkplaceId =
+    currentSettingsConfiguration.value?.workplaceId
   if (
     typeof configurationWorkplaceId === 'string' &&
     configurationWorkplaceId.trim().length > 0
@@ -358,7 +379,10 @@ const resolvedSettingsWorkplaceId = computed(() => {
 
 const resolvedSettingsConfigurationKey = computed(() => {
   const configurationKey = currentSettingsConfiguration.value?.configurationKey
-  if (typeof configurationKey === 'string' && configurationKey.trim().length > 0) {
+  if (
+    typeof configurationKey === 'string' &&
+    configurationKey.trim().length > 0
+  ) {
     return configurationKey
   }
 
@@ -374,15 +398,14 @@ const resolvedSettingsContextKey = computed(() => {
   return PROFILE_SETTINGS_CONTEXT_KEY
 })
 
-const canUpdateSettings = computed(
-  () =>
-    Boolean(
-      currentSettingsConfiguration.value &&
-        resolvedSettingsContextId.value &&
-        resolvedSettingsWorkplaceId.value &&
-        resolvedSettingsConfigurationKey.value &&
-        resolvedSettingsContextKey.value,
-    ),
+const canUpdateSettings = computed(() =>
+  Boolean(
+    currentSettingsConfiguration.value &&
+      resolvedSettingsContextId.value &&
+      resolvedSettingsWorkplaceId.value &&
+      resolvedSettingsConfigurationKey.value &&
+      resolvedSettingsContextKey.value,
+  ),
 )
 
 const profileSettingsDefinitions = computed(() => [
@@ -409,7 +432,9 @@ async function loadProfileSettings(force = false) {
   settingsError.value = ''
 
   try {
-    const configurations = await $fetch<Configuration[]>('/api/profile/settings')
+    const configurations = await $fetch<Configuration[]>(
+      '/api/profile/settings',
+    )
 
     let configuration: Configuration | null = null
     for (const item of configurations) {
@@ -428,7 +453,10 @@ async function loadProfileSettings(force = false) {
 
     applyConfiguration(configuration)
   } catch (error) {
-    settingsError.value = extractRequestError(error, t('profile.settings.errors.loadFailed'))
+    settingsError.value = extractRequestError(
+      error,
+      t('profile.settings.errors.loadFailed'),
+    )
     applyConfiguration(null)
     Notify.error(settingsError.value)
   } finally {
@@ -484,7 +512,10 @@ async function handleSettingToggle(key: ProfileSettingKey, value: boolean) {
     Notify.success(t('profile.settings.notifications.updateSuccess'))
   } catch (error) {
     settings[key] = previous
-    settingsError.value = extractRequestError(error, t('profile.settings.errors.saveFailed'))
+    settingsError.value = extractRequestError(
+      error,
+      t('profile.settings.errors.saveFailed'),
+    )
     Notify.error(settingsError.value)
   } finally {
     settingsSaving[key] = false
@@ -727,7 +758,11 @@ async function submit() {
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn variant="text" :disabled="isSaving" @click="editDialog = false">
+          <v-btn
+            variant="text"
+            :disabled="isSaving"
+            @click="editDialog = false"
+          >
             {{ t('common.actions.cancel') }}
           </v-btn>
           <v-btn
@@ -1010,11 +1045,7 @@ async function submit() {
                         class="mb-3"
                       />
                     </div>
-                    <v-list
-                      v-else
-                      density="comfortable"
-                      lines="two"
-                    >
+                    <v-list v-else density="comfortable" lines="two">
                       <v-list-item
                         v-for="definition in profileSettingsDefinitions"
                         :key="definition.id"
@@ -1034,9 +1065,14 @@ async function submit() {
                             color="primary"
                             hide-details
                             inset
-                            :disabled="!canUpdateSettings || settingsSaving[definition.id]"
+                            :disabled="
+                              !canUpdateSettings ||
+                              settingsSaving[definition.id]
+                            "
                             :loading="settingsSaving[definition.id]"
-                            @update:model-value="handleSettingToggle(definition.id, $event)"
+                            @update:model-value="
+                              handleSettingToggle(definition.id, $event)
+                            "
                           />
                         </template>
                       </v-list-item>

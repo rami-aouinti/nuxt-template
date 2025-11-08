@@ -36,10 +36,14 @@ export default defineEventHandler(async (event) => {
     start,
   }
 
-  const response = await broWorldRequest<ProfileEvent>(event, '/profile/events', {
-    method: 'PUT',
-    body: payload,
-  })
+  const response = await broWorldRequest<ProfileEvent>(
+    event,
+    '/profile/events',
+    {
+      method: 'PUT',
+      body: payload,
+    },
+  )
 
   await invalidateProfileEvents(event)
 

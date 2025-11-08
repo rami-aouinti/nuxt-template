@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
-import {
-  BLOG_POSTS_DEFAULT_LIMIT,
-  useBlogApi,
-} from '~/composables/useBlogApi'
+import { BLOG_POSTS_DEFAULT_LIMIT, useBlogApi } from '~/composables/useBlogApi'
 import type { BlogPost, BlogPostUser, BlogSummary } from '~/types/blog'
 
 definePageMeta({
@@ -19,7 +16,11 @@ const { fetchBlogPostsBySlug } = useBlogApi()
 
 const slug = computed(() => {
   const value = route.params.slug
-  return typeof value === 'string' ? value : Array.isArray(value) ? value[0] ?? '' : ''
+  return typeof value === 'string'
+    ? value
+    : Array.isArray(value)
+      ? (value[0] ?? '')
+      : ''
 })
 
 const posts = ref<BlogPost[]>([])
@@ -117,7 +118,11 @@ async function loadPosts(
   }
 
   try {
-    const response = await fetchBlogPostsBySlug(currentSlug, pageNumber, pagination.limit)
+    const response = await fetchBlogPostsBySlug(
+      currentSlug,
+      pageNumber,
+      pagination.limit,
+    )
     const data = Array.isArray(response.data) ? response.data : []
 
     if (!blogInfo.value) {
@@ -189,7 +194,13 @@ watch(
   <v-container fluid>
     <v-row class="justify-center">
       <v-col cols="12" lg="10" xl="8">
-        <v-btn class="mb-4" color="primary" variant="text" prepend-icon="mdi-arrow-left" to="/blog">
+        <v-btn
+          class="mb-4"
+          color="primary"
+          variant="text"
+          prepend-icon="mdi-arrow-left"
+          to="/blog"
+        >
           {{ t('common.actions.back') }}
         </v-btn>
 
@@ -198,10 +209,16 @@ watch(
             <h1 class="text-h4 text-h3-md font-weight-bold mb-1">
               {{ blogInfo?.title || slug }}
             </h1>
-            <p v-if="blogInfo?.blogSubtitle" class="text-body-1 text-medium-emphasis mb-0">
+            <p
+              v-if="blogInfo?.blogSubtitle"
+              class="text-body-1 text-medium-emphasis mb-0"
+            >
               {{ blogInfo.blogSubtitle }}
             </p>
-            <p v-else-if="blogInfo?.author" class="text-body-1 text-medium-emphasis mb-0">
+            <p
+              v-else-if="blogInfo?.author"
+              class="text-body-1 text-medium-emphasis mb-0"
+            >
               {{ blogInfo.author }}
             </p>
           </div>
@@ -239,7 +256,8 @@ watch(
                   >
                     <span>
                       {{
-                        getAuthorMetaParts(formatPublishedAt(post.publishedAt)).prefix
+                        getAuthorMetaParts(formatPublishedAt(post.publishedAt))
+                          .prefix
                       }}
                     </span>
                     <NuxtLink
@@ -249,10 +267,13 @@ watch(
                     >
                       {{ getAuthorName(post.user) }}
                     </NuxtLink>
-                    <span v-else class="mx-1">{{ getAuthorName(post.user) }}</span>
+                    <span v-else class="mx-1">{{
+                      getAuthorName(post.user)
+                    }}</span>
                     <span>
                       {{
-                        getAuthorMetaParts(formatPublishedAt(post.publishedAt)).suffix
+                        getAuthorMetaParts(formatPublishedAt(post.publishedAt))
+                          .suffix
                       }}
                     </span>
                   </v-card-subtitle>
@@ -263,7 +284,9 @@ watch(
                     {{ getPostExcerpt(post) }}
                   </p>
                   <div class="d-flex flex-wrap align-center">
-                    <div class="d-flex align-center text-medium-emphasis mr-6 mb-2">
+                    <div
+                      class="d-flex align-center text-medium-emphasis mr-6 mb-2"
+                    >
                       <v-icon icon="mdi-thumb-up-outline" class="mr-1" />
                       {{
                         t('blog.stats.reactions', {
@@ -271,7 +294,9 @@ watch(
                         })
                       }}
                     </div>
-                    <div class="d-flex align-center text-medium-emphasis mr-6 mb-2">
+                    <div
+                      class="d-flex align-center text-medium-emphasis mr-6 mb-2"
+                    >
                       <v-icon icon="mdi-comment-text-outline" class="mr-1" />
                       {{
                         t('blog.stats.comments', {
@@ -313,10 +338,18 @@ watch(
         </template>
 
         <div class="d-flex justify-center py-4">
-          <v-progress-circular v-if="isLoadingMore" indeterminate color="primary" />
+          <v-progress-circular
+            v-if="isLoadingMore"
+            indeterminate
+            color="primary"
+          />
         </div>
 
-        <div v-show="hasMore" ref="loadMoreTrigger" class="blog-infinite-trigger" />
+        <div
+          v-show="hasMore"
+          ref="loadMoreTrigger"
+          class="blog-infinite-trigger"
+        />
       </v-col>
     </v-row>
   </v-container>

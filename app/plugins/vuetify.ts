@@ -10,7 +10,9 @@ import { ar, de, en, es, fr, it, ru, zhHans } from 'vuetify/locale'
 
 type VueI18nInstance = Parameters<typeof createVueI18nAdapter>[0]['i18n']
 
-const resolveVueI18nInstance = (nuxtApp: NuxtApp): VueI18nInstance | undefined =>
+const resolveVueI18nInstance = (
+  nuxtApp: NuxtApp,
+): VueI18nInstance | undefined =>
   (nuxtApp as NuxtApp & { _nuxtI18n?: { vueI18n?: VueI18nInstance } })._nuxtI18n
     ?.vueI18n
 

@@ -43,17 +43,11 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
           <v-icon v-else icon="mdi-bell-outline" />
         </v-btn>
       </template>
-      <v-card
-        elevation="6"
-        width="360"
-        class="notification-card"
-      >
+      <v-card elevation="6" width="360" class="notification-card">
         <v-toolbar flat density="compact">
           <v-toolbar-title
             class="font-weight-light text-body-1"
-            :text="
-              hasNotifications ? 'Notifications' : 'No New Notifications'
-            "
+            :text="hasNotifications ? 'Notifications' : 'No New Notifications'"
           />
           <v-btn
             v-tooltip="{ text: 'Clear All Notifications' }"

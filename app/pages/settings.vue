@@ -78,8 +78,10 @@ const profileFields = computed(() => {
     return login ?? null
   })()
 
-  const username = getProfileValue('username') ?? ensureString(currentUser.value?.login)
-  const email = getProfileValue('email') ?? ensureString(currentUser.value?.email)
+  const username =
+    getProfileValue('username') ?? ensureString(currentUser.value?.login)
+  const email =
+    getProfileValue('email') ?? ensureString(currentUser.value?.email)
   const title = getProfileValue('title')
   const phone = getProfileValue('phone')
   const address = getProfileValue('address')
@@ -166,7 +168,11 @@ const sections = computed<SettingsSection[]>(() => {
             >
               <v-sheet elevation="1" rounded="lg" class="pa-4 flex-grow-1">
                 <div class="d-flex align-center mb-3">
-                  <v-icon :icon="section.icon" size="32" class="mr-3 text-primary" />
+                  <v-icon
+                    :icon="section.icon"
+                    size="32"
+                    class="mr-3 text-primary"
+                  />
                   <h2 class="text-h6 font-weight-medium mb-0">
                     {{ section.title }}
                   </h2>
@@ -174,7 +180,9 @@ const sections = computed<SettingsSection[]>(() => {
                 <p class="text-body-1 mb-0">
                   {{ section.description }}
                 </p>
-                <template v-if="section.key === 'profile' && section.fields?.length">
+                <template
+                  v-if="section.key === 'profile' && section.fields?.length"
+                >
                   <v-divider class="my-4" />
                   <div class="d-flex flex-column gap-3">
                     <div
@@ -194,13 +202,10 @@ const sections = computed<SettingsSection[]>(() => {
               </v-sheet>
             </v-col>
           </v-row>
-          <v-alert
-            class="mt-6"
-            type="info"
-            variant="tonal"
-            rounded="lg"
-          >
-            <strong class="d-block mb-1">{{ t('pages.settings.tips.title') }}</strong>
+          <v-alert class="mt-6" type="info" variant="tonal" rounded="lg">
+            <strong class="d-block mb-1">{{
+              t('pages.settings.tips.title')
+            }}</strong>
             <span>{{ t('pages.settings.tips.description') }}</span>
           </v-alert>
         </v-card>

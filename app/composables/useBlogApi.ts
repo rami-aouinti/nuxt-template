@@ -15,8 +15,10 @@ import type {
 
 const PUBLIC_POSTS_ENDPOINT = 'https://blog.bro-world.org/public/post'
 const PRIVATE_POSTS_ENDPOINT = 'https://blog.bro-world.org/v1/platform/post'
-const PRIVATE_POSTS_REACTS_ENDPOINT = 'https://blog.bro-world.org/v1/private/post'
-const PRIVATE_COMMENTS_ENDPOINT = 'https://blog.bro-world.org/v1/platform/comment'
+const PRIVATE_POSTS_REACTS_ENDPOINT =
+  'https://blog.bro-world.org/v1/private/post'
+const PRIVATE_COMMENTS_ENDPOINT =
+  'https://blog.bro-world.org/v1/platform/comment'
 const PUBLIC_BLOGS_ENDPOINT = 'https://blog.bro-world.org/public/blog'
 const PROFILE_BLOGS_ENDPOINT = 'https://blog.bro-world.org/v1/profile/blog'
 const PRIVATE_BLOGS_ENDPOINT = 'https://blog.bro-world.org/v1/platform/blog'
@@ -158,13 +160,18 @@ export const useBlogApi = () => {
 
     const data = extractBlogPosts(value)
     const record =
-      value && typeof value === 'object' ? (value as Record<string, unknown>) : {}
+      value && typeof value === 'object'
+        ? (value as Record<string, unknown>)
+        : {}
 
     const resolvedPage = resolveNumeric(record.page, page)
     const resolvedLimit = resolveNumeric(record.limit, limit)
     const resolvedCount = resolveNumeric(record.count, data.length)
 
-    if (!data.length && !('count' in record || 'data' in record || 'posts' in record)) {
+    if (
+      !data.length &&
+      !('count' in record || 'data' in record || 'posts' in record)
+    ) {
       return null
     }
 
@@ -197,7 +204,8 @@ export const useBlogApi = () => {
 
     const headers = getAuthHeaders(false)
     const encodedSlug = encodeURIComponent(normalizedSlug)
-    const attempts: Array<{ url: string; options?: Record<string, unknown> }> = []
+    const attempts: Array<{ url: string; options?: Record<string, unknown> }> =
+      []
 
     if (headers) {
       attempts.push({
@@ -271,7 +279,8 @@ export const useBlogApi = () => {
 
     const headers = getAuthHeaders(false)
     const encodedSlug = encodeURIComponent(normalizedSlug)
-    const attempts: Array<{ url: string; options?: Record<string, unknown> }> = []
+    const attempts: Array<{ url: string; options?: Record<string, unknown> }> =
+      []
 
     if (headers) {
       attempts.push({
@@ -315,13 +324,15 @@ export const useBlogApi = () => {
         const response = await fetchPosts(pageNumber, fetchSize)
         const filtered = response.data.filter((post) => {
           const summary = post.blog as BlogSummary | null | undefined
-          const postSlug = typeof summary?.slug === 'string' ? summary.slug.trim() : ''
+          const postSlug =
+            typeof summary?.slug === 'string' ? summary.slug.trim() : ''
           return postSlug === normalizedSlug
         })
         aggregated.push(...filtered)
 
         hasMore =
-          pageNumber * response.limit < response.count && response.data.length > 0
+          pageNumber * response.limit < response.count &&
+          response.data.length > 0
 
         if (aggregated.length >= page * limit) {
           break
@@ -377,13 +388,12 @@ export const useBlogApi = () => {
   ): Promise<BlogCommentListResponse> => {
     const headers = getAuthHeaders(true)
 
-    const response = await $fetch<BlogCommentListResponse | BlogComment[] | null>(
-      `${PRIVATE_POSTS_ENDPOINT}/${postId}/comments`,
-      {
-        params: { page, limit },
-        headers,
-      },
-    )
+    const response = await $fetch<
+      BlogCommentListResponse | BlogComment[] | null
+    >(`${PRIVATE_POSTS_ENDPOINT}/${postId}/comments`, {
+      params: { page, limit },
+      headers,
+    })
 
     if (Array.isArray(response)) {
       return {
@@ -494,7 +504,9 @@ export const useBlogApi = () => {
     })
   }
 
-  const createBlog = async (payload: BlogCreatePayload): Promise<BlogSummary> => {
+  const createBlog = async (
+    payload: BlogCreatePayload,
+  ): Promise<BlogSummary> => {
     const headers = getAuthHeaders(true)
 
     return await $fetch<BlogSummary>(PRIVATE_BLOGS_ENDPOINT, {
@@ -504,7 +516,9 @@ export const useBlogApi = () => {
     })
   }
 
-  const createPost = async (payload: BlogPostCreatePayload): Promise<BlogPost> => {
+  const createPost = async (
+    payload: BlogPostCreatePayload,
+  ): Promise<BlogPost> => {
     const headers = getAuthHeaders(true)
 
     return await $fetch<BlogPost>(PRIVATE_POSTS_ENDPOINT, {
@@ -520,11 +534,14 @@ export const useBlogApi = () => {
   ): Promise<BlogPost> => {
     const headers = getAuthHeaders(true)
 
-    return await $fetch<BlogPost>(`${PRIVATE_POSTS_ENDPOINT}/${postId}/shared`, {
-      method: 'POST',
-      body: payload,
-      headers,
-    })
+    return await $fetch<BlogPost>(
+      `${PRIVATE_POSTS_ENDPOINT}/${postId}/shared`,
+      {
+        method: 'POST',
+        body: payload,
+        headers,
+      },
+    )
   }
 
   return {

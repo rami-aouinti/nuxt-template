@@ -56,7 +56,8 @@ type AxiosBody = BodyInit | Record<string, any> | null | undefined
 
 export const axios = {
   post<T>(url: string, data?: AxiosBody, options: FetchOptions<'json'> = {}) {
-    const isFormData = typeof FormData !== 'undefined' && data instanceof FormData
+    const isFormData =
+      typeof FormData !== 'undefined' && data instanceof FormData
 
     return request<T>(url, {
       ...options,

@@ -36,7 +36,12 @@ const computedSubtitle = computed(
   >
     <div class="app-loader__container">
       <div class="app-loader__icon">
-        <v-progress-circular size="72" width="6" color="primary" indeterminate />
+        <v-progress-circular
+          size="72"
+          width="6"
+          color="primary"
+          indeterminate
+        />
       </div>
       <div class="app-loader__content text-center">
         <h2 class="text-h5 font-weight-medium mb-1">

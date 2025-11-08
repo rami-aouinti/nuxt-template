@@ -19,7 +19,9 @@ const form = reactive({
 })
 
 const rules = {
-  required: (value: string) => Boolean(value?.toString().trim()) || t('pages.contact.form.validation.required'),
+  required: (value: string) =>
+    Boolean(value?.toString().trim()) ||
+    t('pages.contact.form.validation.required'),
   email: (value: string) =>
     /^[\w.!#$%&'*+/=?^`{|}~-]+@[\w-]+(?:\.[\w-]+)+$/.test(value) ||
     t('pages.contact.form.validation.email'),

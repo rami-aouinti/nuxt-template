@@ -5,7 +5,8 @@ import { useMessengerStore } from '~/stores/messenger'
 import type { ConversationSummary } from '~/types/messenger'
 
 const messengerStore = useMessengerStore()
-const { previews, unreadTotal, loading, error, isConnected } = storeToRefs(messengerStore)
+const { previews, unreadTotal, loading, error, isConnected } =
+  storeToRefs(messengerStore)
 const { loggedIn } = useUserSession()
 const { t } = useI18n()
 const localePath = useLocalePath()
@@ -42,7 +43,9 @@ const formatMessagePreview = (conversation: ConversationSummary) => {
   }
 
   const senderName =
-    lastMessage.sender.displayName || lastMessage.sender.username || t('messenger.someone')
+    lastMessage.sender.displayName ||
+    lastMessage.sender.username ||
+    t('messenger.someone')
 
   const text = lastMessage.text?.trim()
 
@@ -197,7 +200,11 @@ onBeforeUnmount(() => {
                   <template #prepend>
                     <v-avatar size="36" color="primary" class="mr-3">
                       <span class="text-body-2">
-                        {{ formatParticipants(conversation).slice(0, 2).toUpperCase() }}
+                        {{
+                          formatParticipants(conversation)
+                            .slice(0, 2)
+                            .toUpperCase()
+                        }}
                       </span>
                     </v-avatar>
                   </template>
@@ -238,7 +245,9 @@ onBeforeUnmount(() => {
                 size="16"
                 class="mr-1"
               />
-              {{ isConnected ? t('messenger.live') : t('messenger.reconnecting') }}
+              {{
+                isConnected ? t('messenger.live') : t('messenger.reconnecting')
+              }}
             </v-chip>
           </div>
         </div>

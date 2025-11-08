@@ -31,12 +31,8 @@ export default defineEventHandler(async (event) => {
   const limit = toPositiveInteger(query.limit, DEFAULT_LIMIT)
 
   return await fetchProfilePosts(event, page, limit, () =>
-    broWorldBlogProfileRequest<BlogPostListResponse>(
-      event,
-      '/profile/post',
-      {
-        params: { page, limit },
-      },
-    ),
+    broWorldBlogProfileRequest<BlogPostListResponse>(event, '/profile/post', {
+      params: { page, limit },
+    }),
   )
 })

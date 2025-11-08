@@ -45,7 +45,10 @@ export const useMessengerStore = defineStore('messenger', () => {
   const isInitialised = ref(false)
 
   const unreadTotal = computed(() =>
-    previews.value.reduce((total, conversation) => total + (conversation.unreadCount || 0), 0),
+    previews.value.reduce(
+      (total, conversation) => total + (conversation.unreadCount || 0),
+      0,
+    ),
   )
 
   const hasUnread = computed(() => unreadTotal.value > 0)
@@ -57,7 +60,9 @@ export const useMessengerStore = defineStore('messenger', () => {
   }
 
   const upsertPreview = (conversation: ConversationSummary) => {
-    const existingIndex = previews.value.findIndex((item) => item.id === conversation.id)
+    const existingIndex = previews.value.findIndex(
+      (item) => item.id === conversation.id,
+    )
     if (existingIndex !== -1) {
       previews.value.splice(existingIndex, 1)
     }
@@ -70,7 +75,9 @@ export const useMessengerStore = defineStore('messenger', () => {
   }
 
   const removePreview = (conversationId: string) => {
-    previews.value = previews.value.filter((conversation) => conversation.id !== conversationId)
+    previews.value = previews.value.filter(
+      (conversation) => conversation.id !== conversationId,
+    )
   }
 
   const applyEvent = (event: MessengerMercureEvent) => {
@@ -87,7 +94,9 @@ export const useMessengerStore = defineStore('messenger', () => {
         upsertPreview(event.conversation)
         break
       case 'message.read': {
-        const preview = previews.value.find((conversation) => conversation.id === event.conversationId)
+        const preview = previews.value.find(
+          (conversation) => conversation.id === event.conversationId,
+        )
         if (preview) {
           preview.unreadCount = event.unreadCount
         }

@@ -22,13 +22,16 @@ export default defineNuxtRouteMiddleware(() => {
     const rawRoles = (profile as Record<string, unknown>).roles
     if (Array.isArray(rawRoles)) {
       roles = rawRoles
-        .filter((role): role is string => typeof role === 'string' && role.trim().length > 0)
+        .filter(
+          (role): role is string =>
+            typeof role === 'string' && role.trim().length > 0,
+        )
         .map((role) => role.trim())
     }
   }
 
-  const hasAdminAccess = roles.some((role) =>
-    role === 'ROLE_ADMIN' || role === 'ROLE_ROOT',
+  const hasAdminAccess = roles.some(
+    (role) => role === 'ROLE_ADMIN' || role === 'ROLE_ROOT',
   )
 
   if (!hasAdminAccess) {

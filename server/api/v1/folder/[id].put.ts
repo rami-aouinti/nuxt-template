@@ -34,12 +34,10 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const folder = await requestWithJsonBody<WorkspaceFolder, UpdateWorkspaceFolderPayload>(
-    event,
-    `/folder/${id}`,
-    'PUT',
-    payload,
-  )
+  const folder = await requestWithJsonBody<
+    WorkspaceFolder,
+    UpdateWorkspaceFolderPayload
+  >(event, `/folder/${id}`, 'PUT', payload)
 
   await invalidateWorkspaceFolders(event)
 

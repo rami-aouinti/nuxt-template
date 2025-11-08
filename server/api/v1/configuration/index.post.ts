@@ -5,10 +5,14 @@ import { invalidateAdminCollection } from '~~/server/utils/cache/admin'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<ConfigurationPayload>(event)
-  const response = await configurationRequest<Configuration>(event, '/configuration', {
-    method: 'POST',
-    body,
-  })
+  const response = await configurationRequest<Configuration>(
+    event,
+    '/configuration',
+    {
+      method: 'POST',
+      body,
+    },
+  )
 
   await invalidateAdminCollection('configuration')
 

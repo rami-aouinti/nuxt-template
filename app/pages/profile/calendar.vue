@@ -171,7 +171,8 @@ function extractErrorMessage(error: unknown) {
     typeof error === 'object' &&
     'data' in error &&
     error.data &&
-    typeof (error as { data?: Record<string, unknown> }).data?.message === 'string'
+    typeof (error as { data?: Record<string, unknown> }).data?.message ===
+      'string'
   ) {
     return (error as { data: { message: string } }).data.message
   }
@@ -256,7 +257,11 @@ function openEditDialog(event: ProfileEvent) {
   formError.value = ''
 }
 
-function handleCalendarEventClick({ event }: { event: { data?: ProfileEvent } }) {
+function handleCalendarEventClick({
+  event,
+}: {
+  event: { data?: ProfileEvent }
+}) {
   if (event?.data) {
     openEditDialog(event.data)
   }
@@ -374,13 +379,12 @@ function closeDialog() {
 </script>
 
 <template>
-  <v-container
-    fluid
-    class="profile-calendar py-6"
-  >
+  <v-container fluid class="profile-calendar py-6">
     <v-row>
       <v-col cols="12">
-        <div class="d-flex flex-wrap gap-4 align-center justify-space-between mb-4">
+        <div
+          class="d-flex flex-wrap gap-4 align-center justify-space-between mb-4"
+        >
           <div>
             <h1 class="text-h4 mb-1">
               {{ t('profile.calendar.page.title') }}
@@ -411,13 +415,12 @@ function closeDialog() {
     </v-row>
 
     <v-row dense>
-      <v-col
-        cols="12"
-        lg="8"
-      >
+      <v-col cols="12" lg="8">
         <v-card class="h-100">
           <v-card-text>
-            <div class="d-flex flex-wrap align-center justify-space-between gap-4 mb-4">
+            <div
+              class="d-flex flex-wrap align-center justify-space-between gap-4 mb-4"
+            >
               <v-btn-toggle
                 v-model="calendarType"
                 mandatory
@@ -470,10 +473,7 @@ function closeDialog() {
         </v-card>
       </v-col>
 
-      <v-col
-        cols="12"
-        lg="4"
-      >
+      <v-col cols="12" lg="4">
         <v-card class="h-100">
           <v-card-title class="d-flex align-center justify-space-between">
             <span class="text-subtitle-1 font-weight-medium">
@@ -551,10 +551,7 @@ function closeDialog() {
       </v-col>
     </v-row>
 
-    <v-dialog
-      v-model="isDialogOpen"
-      max-width="520"
-    >
+    <v-dialog v-model="isDialogOpen" max-width="520">
       <v-card>
         <v-card-title>
           {{
@@ -564,12 +561,7 @@ function closeDialog() {
           }}
         </v-card-title>
         <v-card-text>
-          <v-alert
-            v-if="formError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
             {{ formError }}
           </v-alert>
           <v-form @submit.prevent="submitEvent">
@@ -664,17 +656,10 @@ function closeDialog() {
             </v-btn>
           </div>
           <div class="d-flex gap-2">
-            <v-btn
-              variant="text"
-              @click="closeDialog"
-            >
+            <v-btn variant="text" @click="closeDialog">
               {{ t('profile.calendar.dialog.cancel') }}
             </v-btn>
-            <v-btn
-              color="primary"
-              :loading="isSaving"
-              @click="submitEvent"
-            >
+            <v-btn color="primary" :loading="isSaving" @click="submitEvent">
               {{
                 editingEvent
                   ? t('profile.calendar.dialog.save')
@@ -686,10 +671,7 @@ function closeDialog() {
       </v-card>
     </v-dialog>
 
-    <v-dialog
-      v-model="isDeleteDialogOpen"
-      max-width="420"
-    >
+    <v-dialog v-model="isDeleteDialogOpen" max-width="420">
       <v-card>
         <v-card-title class="text-h6">
           {{ t('profile.calendar.delete.title') }}
@@ -698,17 +680,10 @@ function closeDialog() {
           {{ t('profile.calendar.delete.message') }}
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn
-            variant="text"
-            @click="isDeleteDialogOpen = false"
-          >
+          <v-btn variant="text" @click="isDeleteDialogOpen = false">
             {{ t('profile.calendar.dialog.cancel') }}
           </v-btn>
-          <v-btn
-            color="error"
-            :loading="isDeleting"
-            @click="confirmDelete"
-          >
+          <v-btn color="error" :loading="isDeleting" @click="confirmDelete">
             {{ t('profile.calendar.actions.delete') }}
           </v-btn>
         </v-card-actions>

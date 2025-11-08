@@ -33,18 +33,26 @@ const hasMoreMessages = ref(false)
 
 const currentUserId = computed(() => session.value?.profile?.id ?? '')
 
-const selectedConversation = computed(() =>
-  conversations.value.find((conversation) => conversation.id === selectedConversationId.value) ?? null,
+const selectedConversation = computed(
+  () =>
+    conversations.value.find(
+      (conversation) => conversation.id === selectedConversationId.value,
+    ) ?? null,
 )
 
-const sortedMessages = computed(() => messages.value.slice().sort((a, b) => {
-  const aTime = new Date(a.createdAt).getTime()
-  const bTime = new Date(b.createdAt).getTime()
-  return aTime - bTime
-}))
+const sortedMessages = computed(() =>
+  messages.value.slice().sort((a, b) => {
+    const aTime = new Date(a.createdAt).getTime()
+    const bTime = new Date(b.createdAt).getTime()
+    return aTime - bTime
+  }),
+)
 
 const canSendMessage = computed(
-  () => Boolean(selectedConversationId.value) && messageInput.value.trim().length > 0 && !isSending.value,
+  () =>
+    Boolean(selectedConversationId.value) &&
+    messageInput.value.trim().length > 0 &&
+    !isSending.value,
 )
 
 const loadConversations = async () => {
@@ -64,7 +72,9 @@ const loadConversations = async () => {
 }
 
 const upsertConversation = (conversation: ConversationSummary) => {
-  const existingIndex = conversations.value.findIndex((item) => item.id === conversation.id)
+  const existingIndex = conversations.value.findIndex(
+    (item) => item.id === conversation.id,
+  )
   if (existingIndex !== -1) {
     conversations.value.splice(existingIndex, 1)
   }
@@ -73,7 +83,9 @@ const upsertConversation = (conversation: ConversationSummary) => {
 }
 
 const removeConversation = (conversationId: string) => {
-  conversations.value = conversations.value.filter((conversation) => conversation.id !== conversationId)
+  conversations.value = conversations.value.filter(
+    (conversation) => conversation.id !== conversationId,
+  )
 
   if (selectedConversationId.value === conversationId) {
     selectedConversationId.value = conversations.value[0]?.id ?? ''
@@ -108,7 +120,8 @@ const formatConversationTitle = (conversation: ConversationSummary | null) => {
 const loadMessages = async (conversationId: string) => {
   isLoadingMessages.value = true
   try {
-    const response = await messengerApi.fetchConversationMessages(conversationId)
+    const response =
+      await messengerApi.fetchConversationMessages(conversationId)
     messages.value = response.items
     messageCursor.value = response.previousCursor ?? null
     hasMoreMessages.value = Boolean(response.previousCursor)
@@ -133,10 +146,13 @@ const loadMoreMessages = async () => {
 
   isLoadingMessages.value = true
   try {
-    const response = await messengerApi.fetchConversationMessages(selectedConversationId.value, {
-      cursor: messageCursor.value,
-      direction: 'backward',
-    })
+    const response = await messengerApi.fetchConversationMessages(
+      selectedConversationId.value,
+      {
+        cursor: messageCursor.value,
+        direction: 'backward',
+      },
+    )
     messages.value = [...response.items, ...messages.value]
     messageCursor.value = response.previousCursor ?? null
     hasMoreMessages.value = Boolean(response.previousCursor)
@@ -155,7 +171,10 @@ const sendMessage = async () => {
   isSending.value = true
   const text = messageInput.value.trim()
   try {
-    const message = await messengerApi.sendMessage(selectedConversationId.value, { text })
+    const message = await messengerApi.sendMessage(
+      selectedConversationId.value,
+      { text },
+    )
     messages.value = [...messages.value, message]
     messageInput.value = ''
     await loadConversations()
@@ -199,7 +218,9 @@ watch(
     } else if (event.type === 'conversation.updated') {
       upsertConversation(event.conversation)
     } else if (event.type === 'message.read') {
-      const conversation = conversations.value.find((item) => item.id === event.conversationId)
+      const conversation = conversations.value.find(
+        (item) => item.id === event.conversationId,
+      )
       if (conversation) {
         conversation.unreadCount = event.unreadCount
       }
@@ -228,7 +249,12 @@ onMounted(async () => {
             <v-toolbar-title class="text-subtitle-1 font-weight-medium">
               {{ t('messenger.conversations') }}
             </v-toolbar-title>
-            <v-btn icon="mdi-refresh" size="small" :loading="isLoadingConversations" @click="loadConversations" />
+            <v-btn
+              icon="mdi-refresh"
+              size="small"
+              :loading="isLoadingConversations"
+              @click="loadConversations"
+            />
           </v-toolbar>
           <v-divider />
           <div class="conversation-scroll">
@@ -243,7 +269,10 @@ onMounted(async () => {
                   {{ formatConversationTitle(conversation) }}
                 </v-list-item-title>
                 <v-list-item-subtitle>
-                  {{ conversation.lastMessage?.text || t('messenger.noMessagesYet') }}
+                  {{
+                    conversation.lastMessage?.text ||
+                    t('messenger.noMessagesYet')
+                  }}
                 </v-list-item-subtitle>
                 <template #append>
                   <v-badge
@@ -255,7 +284,10 @@ onMounted(async () => {
                 </template>
               </v-list-item>
             </v-list>
-            <div v-if="!conversations.length && !isLoadingConversations" class="empty-state">
+            <div
+              v-if="!conversations.length && !isLoadingConversations"
+              class="empty-state"
+            >
               {{ t('messenger.noConversations') }}
             </div>
           </div>
@@ -290,13 +322,19 @@ onMounted(async () => {
                   :key="message.id"
                   class="message-item"
                   :class="{
-                    'message-item--outgoing': message.sender.id === currentUserId,
-                    'message-item--incoming': message.sender.id !== currentUserId,
+                    'message-item--outgoing':
+                      message.sender.id === currentUserId,
+                    'message-item--incoming':
+                      message.sender.id !== currentUserId,
                   }"
                 >
                   <div class="message-metadata">
-                    <span class="message-author">{{ message.sender.displayName || message.sender.username }}</span>
-                    <span class="message-time">{{ new Date(message.createdAt).toLocaleString() }}</span>
+                    <span class="message-author">{{
+                      message.sender.displayName || message.sender.username
+                    }}</span>
+                    <span class="message-time">{{
+                      new Date(message.createdAt).toLocaleString()
+                    }}</span>
                   </div>
                   <div class="message-content">
                     {{ message.text || t('messenger.unsupportedContent') }}

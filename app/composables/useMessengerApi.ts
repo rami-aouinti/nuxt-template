@@ -24,9 +24,10 @@ const DEFAULT_MESSAGE_LIMIT = 50
 export const useMessengerApi = () => {
   const { loggedIn, session } = useUserSession()
   const runtimeConfig = useRuntimeConfig()
-  const apiBase = computed(() =>
-    runtimeConfig.public?.messenger?.apiBase?.replace(/\/$/, '') ||
-    'https://bro-world.org/api/messenger',
+  const apiBase = computed(
+    () =>
+      runtimeConfig.public?.messenger?.apiBase?.replace(/\/$/, '') ||
+      'https://bro-world.org/api/messenger',
   )
 
   const token = computed(() => session.value?.token ?? '')
@@ -53,10 +54,13 @@ export const useMessengerApi = () => {
   ): Promise<ConversationListResponse> => {
     const headers = getAuthHeaders(true)
 
-    return await $fetch<ConversationListResponse>(`${apiBase.value}/conversations`, {
-      params: { limit },
-      headers,
-    })
+    return await $fetch<ConversationListResponse>(
+      `${apiBase.value}/conversations`,
+      {
+        params: { limit },
+        headers,
+      },
+    )
   }
 
   const fetchConversations = async (
@@ -65,13 +69,16 @@ export const useMessengerApi = () => {
     const headers = getAuthHeaders(true)
     const { limit = DEFAULT_CONVERSATION_LIMIT, cursor } = params
 
-    return await $fetch<ConversationListResponse>(`${apiBase.value}/conversations`, {
-      params: {
-        limit,
-        cursor,
+    return await $fetch<ConversationListResponse>(
+      `${apiBase.value}/conversations`,
+      {
+        params: {
+          limit,
+          cursor,
+        },
+        headers,
       },
-      headers,
-    })
+    )
   }
 
   const fetchConversationMessages = async (

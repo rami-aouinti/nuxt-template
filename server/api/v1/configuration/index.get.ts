@@ -16,7 +16,11 @@ export default defineEventHandler(async (event) => {
   return await fetchAdminList(
     event,
     'configuration',
-    () => configurationRequest<Configuration[]>(event, `/configuration${queryString}`),
+    () =>
+      configurationRequest<Configuration[]>(
+        event,
+        `/configuration${queryString}`,
+      ),
     { identifier },
   )
 })

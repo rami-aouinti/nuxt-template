@@ -66,7 +66,11 @@ export interface MessengerSubscription {
 }
 
 export type MessengerMercureEvent =
-  | { type: 'message.created'; conversation: ConversationSummary; message: MessengerMessageSummary }
+  | {
+      type: 'message.created'
+      conversation: ConversationSummary
+      message: MessengerMessageSummary
+    }
   | { type: 'conversation.updated'; conversation: ConversationSummary }
   | { type: 'conversation.deleted'; conversationId: string }
   | { type: 'message.read'; conversationId: string; unreadCount: number }

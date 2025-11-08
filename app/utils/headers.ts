@@ -3,7 +3,7 @@ export type HeaderRecord = Record<string, HeaderValues>
 export type NormalizableHeaders =
   | HeaderRecord
   | Headers
-  | Array<[string, string]> 
+  | Array<[string, string]>
   | undefined
   | null
 

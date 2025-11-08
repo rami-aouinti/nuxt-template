@@ -4,7 +4,7 @@ import type { DataTableHeader } from 'vuetify'
 import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
 import type { Workplace, WorkplacePayload } from '~/types/workplace'
-import {storeToRefs} from "pinia";
+import { storeToRefs } from 'pinia'
 
 definePageMeta({
   title: 'navigation.workplaces',
@@ -15,7 +15,8 @@ definePageMeta({
 
 const { t } = useI18n()
 const adminStore = useAdminStore()
-const { workplaces, workplacesPending, workplacesError } = storeToRefs(adminStore)
+const { workplaces, workplacesPending, workplacesError } =
+  storeToRefs(adminStore)
 
 await adminStore.fetchWorkplaces()
 
@@ -37,10 +38,7 @@ const headers = computed<DataTableHeader[]>(() => [
 const pending = computed(() => workplacesPending.value)
 const tableError = computed(() =>
   workplacesError.value
-    ? extractRequestError(
-        workplacesError.value,
-        t('common.unexpectedError'),
-      )
+    ? extractRequestError(workplacesError.value, t('common.unexpectedError'))
     : '',
 )
 const refresh = () => adminStore.refreshWorkplaces()
@@ -130,8 +128,7 @@ function extractRequestError(error: unknown, fallback: string) {
 
 function getWorkplaceLabel(workplace: Workplace | null | undefined) {
   return (
-    workplace?.name ??
-    t('userManagement.workplaces.labels.workplaceFallback')
+    workplace?.name ?? t('userManagement.workplaces.labels.workplaceFallback')
   )
 }
 
@@ -166,10 +163,7 @@ async function submitCreate() {
     Notify.success(t('userManagement.workplaces.notifications.createSuccess'))
     createDialog.value = false
     resetForm()
-    await Promise.all([
-      refresh(),
-      adminStore.refreshWorkplaceCount(),
-    ])
+    await Promise.all([refresh(), adminStore.refreshWorkplaceCount()])
   } catch (error) {
     formError.value = extractRequestError(
       error,
@@ -216,10 +210,7 @@ async function submitEdit() {
     })
     Notify.success(t('userManagement.workplaces.notifications.updateSuccess'))
     editDialog.value = false
-    await Promise.all([
-      refresh(),
-      adminStore.refreshWorkplaceCount(),
-    ])
+    await Promise.all([refresh(), adminStore.refreshWorkplaceCount()])
   } catch (error) {
     formError.value = extractRequestError(
       error,
@@ -288,10 +279,7 @@ async function confirmDelete() {
     })
     Notify.success(t('userManagement.workplaces.notifications.deleteSuccess'))
     deleteDialog.value = false
-    await Promise.all([
-      refresh(),
-      adminStore.refreshWorkplaceCount(),
-    ])
+    await Promise.all([refresh(), adminStore.refreshWorkplaceCount()])
   } catch (error) {
     deleteError.value = extractRequestError(
       error,
@@ -424,14 +412,11 @@ watch(deleteDialog, (value) => {
 
     <v-dialog v-model="createDialog" max-width="540">
       <v-card>
-        <v-card-title>{{ t('userManagement.workplaces.dialogs.create.title') }}</v-card-title>
+        <v-card-title>{{
+          t('userManagement.workplaces.dialogs.create.title')
+        }}</v-card-title>
         <v-card-text>
-          <v-alert
-            v-if="formError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
             {{ formError }}
           </v-alert>
           <v-form @submit.prevent="submitCreate">
@@ -446,18 +431,10 @@ watch(deleteDialog, (value) => {
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn
-            variant="text"
-            :disabled="actionLoading"
-            @click="closeCreate"
-          >
+          <v-btn variant="text" :disabled="actionLoading" @click="closeCreate">
             {{ t('common.actions.cancel') }}
           </v-btn>
-          <v-btn
-            color="primary"
-            :loading="actionLoading"
-            @click="submitCreate"
-          >
+          <v-btn color="primary" :loading="actionLoading" @click="submitCreate">
             {{ t('common.actions.create') }}
           </v-btn>
         </v-card-actions>
@@ -466,14 +443,11 @@ watch(deleteDialog, (value) => {
 
     <v-dialog v-model="editDialog" max-width="540">
       <v-card>
-        <v-card-title>{{ t('userManagement.workplaces.dialogs.edit.title') }}</v-card-title>
+        <v-card-title>{{
+          t('userManagement.workplaces.dialogs.edit.title')
+        }}</v-card-title>
         <v-card-text>
-          <v-alert
-            v-if="formError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
             {{ formError }}
           </v-alert>
           <v-form @submit.prevent="submitEdit">
@@ -488,18 +462,10 @@ watch(deleteDialog, (value) => {
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn
-            variant="text"
-            :disabled="actionLoading"
-            @click="closeEdit"
-          >
+          <v-btn variant="text" :disabled="actionLoading" @click="closeEdit">
             {{ t('common.actions.cancel') }}
           </v-btn>
-          <v-btn
-            color="primary"
-            :loading="actionLoading"
-            @click="submitEdit"
-          >
+          <v-btn color="primary" :loading="actionLoading" @click="submitEdit">
             {{ t('common.actions.save') }}
           </v-btn>
         </v-card-actions>
@@ -508,14 +474,11 @@ watch(deleteDialog, (value) => {
 
     <v-dialog v-model="viewDialog" max-width="540">
       <v-card>
-        <v-card-title>{{ t('userManagement.workplaces.dialogs.view.title') }}</v-card-title>
+        <v-card-title>{{
+          t('userManagement.workplaces.dialogs.view.title')
+        }}</v-card-title>
         <v-card-text>
-          <v-alert
-            v-if="viewError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="viewError" type="error" variant="tonal" class="mb-4">
             {{ viewError }}
           </v-alert>
           <v-skeleton-loader
@@ -552,14 +515,11 @@ watch(deleteDialog, (value) => {
 
     <v-dialog v-model="deleteDialog" max-width="540">
       <v-card>
-        <v-card-title>{{ t('userManagement.workplaces.dialogs.delete.title') }}</v-card-title>
+        <v-card-title>{{
+          t('userManagement.workplaces.dialogs.delete.title')
+        }}</v-card-title>
         <v-card-text>
-          <v-alert
-            v-if="deleteError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="deleteError" type="error" variant="tonal" class="mb-4">
             {{ deleteError }}
           </v-alert>
           <p class="mb-0">
@@ -570,18 +530,10 @@ watch(deleteDialog, (value) => {
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn
-            variant="text"
-            :disabled="deleteLoading"
-            @click="closeDelete"
-          >
+          <v-btn variant="text" :disabled="deleteLoading" @click="closeDelete">
             {{ t('common.actions.cancel') }}
           </v-btn>
-          <v-btn
-            color="error"
-            :loading="deleteLoading"
-            @click="confirmDelete"
-          >
+          <v-btn color="error" :loading="deleteLoading" @click="confirmDelete">
             {{ t('common.actions.delete') }}
           </v-btn>
         </v-card-actions>

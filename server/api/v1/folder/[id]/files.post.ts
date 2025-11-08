@@ -57,10 +57,14 @@ export default defineEventHandler(async (event) => {
 
   const formData = toFormData(multipart)
 
-  const file = await broWorldRequest<WorkspaceFile>(event, `/folder/${folderId}/files`, {
-    method: 'POST',
-    body: formData,
-  })
+  const file = await broWorldRequest<WorkspaceFile>(
+    event,
+    `/folder/${folderId}/files`,
+    {
+      method: 'POST',
+      body: formData,
+    },
+  )
 
   await invalidateWorkspaceFolders(event)
 

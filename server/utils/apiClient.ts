@@ -45,10 +45,16 @@ function extractErrorMessage(data: unknown): string | null {
   }
 
   if (typeof data === 'object') {
-    if ('message' in data && typeof (data as { message?: unknown }).message === 'string') {
+    if (
+      'message' in data &&
+      typeof (data as { message?: unknown }).message === 'string'
+    ) {
       return (data as { message: string }).message
     }
-    if ('error' in data && typeof (data as { error?: unknown }).error === 'string') {
+    if (
+      'error' in data &&
+      typeof (data as { error?: unknown }).error === 'string'
+    ) {
       return (data as { error: string }).error
     }
   }
@@ -106,7 +112,9 @@ export function createApiRequest<T>(baseUrl: string): ApiRequest<T> {
   }
 }
 
-export function buildQueryString(query: Record<string, unknown> | undefined): string {
+export function buildQueryString(
+  query: Record<string, unknown> | undefined,
+): string {
   if (!query) {
     return ''
   }

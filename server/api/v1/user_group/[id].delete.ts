@@ -8,7 +8,9 @@ import {
 export default defineEventHandler(async (event) => {
   const id = requireEntityId(event, "du groupe d'utilisateurs")
 
-  await broWorldRequest<unknown>(event, `/user_group/${id}`, { method: 'DELETE' })
+  await broWorldRequest<unknown>(event, `/user_group/${id}`, {
+    method: 'DELETE',
+  })
 
   await Promise.all([
     invalidateAdminDetail('user_group', id),

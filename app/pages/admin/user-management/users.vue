@@ -22,10 +22,7 @@ const {
   userGroups: userGroupsRef,
 } = storeToRefs(adminStore)
 
-await Promise.all([
-  adminStore.fetchUsers(),
-  adminStore.fetchUserGroups(),
-])
+await Promise.all([adminStore.fetchUsers(), adminStore.fetchUserGroups()])
 
 const search = ref('')
 
@@ -200,9 +197,10 @@ function buildPayload(): UserPayload {
     enabled: form.enabled,
   }
 
-  const optionalFields: Array<
-    'firstName' | 'lastName'
-  > = ['firstName', 'lastName']
+  const optionalFields: Array<'firstName' | 'lastName'> = [
+    'firstName',
+    'lastName',
+  ]
 
   for (const field of optionalFields) {
     const value = form[field].trim()
@@ -342,9 +340,7 @@ async function loadUserGroups(id: string) {
   userGroupsLoading.value = true
   userGroupsError.value = ''
   try {
-    viewUserGroups.value = await $fetch<Group[]>(
-      `/api/v1/user/${id}/groups`,
-    )
+    viewUserGroups.value = await $fetch<Group[]>(`/api/v1/user/${id}/groups`)
   } catch (error) {
     userGroupsError.value = extractRequestError(
       error,
@@ -415,12 +411,9 @@ async function detachGroup(groupId: string) {
 
   groupActionLoading.value = true
   try {
-    await $fetch(
-      `/api/v1/user/${viewUser.value.id}/group/${groupId}`,
-      {
-        method: 'DELETE',
-      },
-    )
+    await $fetch(`/api/v1/user/${viewUser.value.id}/group/${groupId}`, {
+      method: 'DELETE',
+    })
     Notify.success(t('userManagement.users.notifications.detachSuccess'))
     await Promise.all([loadUserGroups(viewUser.value.id), refreshUserGroups()])
   } catch (error) {
@@ -624,14 +617,11 @@ watch(attachDialog, (value) => {
 
     <v-dialog v-model="createDialog" max-width="640">
       <v-card>
-        <v-card-title>{{ t('userManagement.users.dialogs.create.title') }}</v-card-title>
+        <v-card-title>{{
+          t('userManagement.users.dialogs.create.title')
+        }}</v-card-title>
         <v-card-text>
-          <v-alert
-            v-if="formError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
             {{ formError }}
           </v-alert>
           <v-form @submit.prevent="submitCreate">
@@ -746,12 +736,7 @@ watch(attachDialog, (value) => {
           }}
         </v-card-title>
         <v-card-text>
-          <v-alert
-            v-if="formError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
             {{ formError }}
           </v-alert>
           <v-form @submit.prevent="submitEdit">
@@ -857,7 +842,9 @@ watch(attachDialog, (value) => {
 
     <v-dialog v-model="viewDialog" max-width="520">
       <v-card>
-        <v-card-title>{{ t('userManagement.users.dialogs.view.title') }}</v-card-title>
+        <v-card-title>{{
+          t('userManagement.users.dialogs.view.title')
+        }}</v-card-title>
         <v-card-text>
           <v-progress-linear
             v-if="viewLoading"
@@ -865,12 +852,7 @@ watch(attachDialog, (value) => {
             indeterminate
             class="mb-4"
           />
-          <v-alert
-            v-if="viewError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="viewError" type="error" variant="tonal" class="mb-4">
             {{ viewError }}
           </v-alert>
           <template v-if="viewUser && !viewLoading">
@@ -939,7 +921,11 @@ watch(attachDialog, (value) => {
                 <div class="text-caption text-medium-emphasis">
                   {{ t('userManagement.users.fields.status') }}
                 </div>
-                <v-chip :color="viewUser.enabled ? 'success' : 'grey'" size="small" label>
+                <v-chip
+                  :color="viewUser.enabled ? 'success' : 'grey'"
+                  size="small"
+                  label
+                >
                   {{
                     viewUser.enabled
                       ? t('userManagement.users.status.active')
@@ -1003,7 +989,10 @@ watch(attachDialog, (value) => {
               </div>
             </div>
           </template>
-          <div v-else-if="!viewLoading" class="text-body-2 text-medium-emphasis">
+          <div
+            v-else-if="!viewLoading"
+            class="text-body-2 text-medium-emphasis"
+          >
             {{ t('userManagement.users.details.empty') }}
           </div>
         </v-card-text>
@@ -1018,14 +1007,11 @@ watch(attachDialog, (value) => {
 
     <v-dialog v-model="attachDialog" max-width="480">
       <v-card>
-        <v-card-title>{{ t('userManagement.users.dialogs.attachGroup.title') }}</v-card-title>
+        <v-card-title>{{
+          t('userManagement.users.dialogs.attachGroup.title')
+        }}</v-card-title>
         <v-card-text>
-          <v-alert
-            v-if="attachError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="attachError" type="error" variant="tonal" class="mb-4">
             {{ attachError }}
           </v-alert>
           <v-select
@@ -1043,7 +1029,11 @@ watch(attachDialog, (value) => {
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn variant="text" :disabled="groupActionLoading" @click="closeAttachDialog">
+          <v-btn
+            variant="text"
+            :disabled="groupActionLoading"
+            @click="closeAttachDialog"
+          >
             {{ t('common.actions.cancel') }}
           </v-btn>
           <v-btn
@@ -1060,24 +1050,21 @@ watch(attachDialog, (value) => {
 
     <v-dialog v-model="deleteDialog" max-width="480">
       <v-card>
-        <v-card-title>{{ t('userManagement.users.dialogs.delete.title') }}</v-card-title>
+        <v-card-title>{{
+          t('userManagement.users.dialogs.delete.title')
+        }}</v-card-title>
         <v-card-text>
           <v-alert type="warning" variant="tonal" class="mb-4">
             {{ t('userManagement.users.dialogs.delete.warningPrefix') }}
             <strong>
               {{
                 deletingUser?.username ??
-                  t('userManagement.users.labels.userFallback')
+                t('userManagement.users.labels.userFallback')
               }}
             </strong>
             {{ t('userManagement.users.dialogs.delete.warningSuffix') }}
           </v-alert>
-          <v-alert
-            v-if="deleteError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="deleteError" type="error" variant="tonal" class="mb-4">
             {{ deleteError }}
           </v-alert>
         </v-card-text>

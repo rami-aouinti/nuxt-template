@@ -384,7 +384,7 @@ function extractFirstFile(files: File[] | File | null) {
   if (!files) {
     return null
   }
-  return Array.isArray(files) ? files[0] ?? null : files
+  return Array.isArray(files) ? (files[0] ?? null) : files
 }
 
 async function submitUpload() {
@@ -416,10 +416,7 @@ async function submitUpload() {
     uploadDialog.value = false
     await loadFolders({ selectId: selectedFolder.value.id })
   } catch (error) {
-    const message = resolveErrorMessage(
-      error,
-      t('workspace.errors.uploadFile'),
-    )
+    const message = resolveErrorMessage(error, t('workspace.errors.uploadFile'))
     uploadError.value = message
     Notify.error(message)
   } finally {
@@ -452,10 +449,7 @@ async function confirmDeleteFile() {
     deleteFileDialog.value = false
     await loadFolders({ selectId: selectedFolder.value.id })
   } catch (error) {
-    const message = resolveErrorMessage(
-      error,
-      t('workspace.errors.deleteFile'),
-    )
+    const message = resolveErrorMessage(error, t('workspace.errors.deleteFile'))
     Notify.error(message)
   } finally {
     isDeletingFile.value = false
@@ -665,8 +659,7 @@ onMounted(() => {
                   <td>
                     <div class="d-flex align-center gap-2">
                       <v-icon
-                        :icon="file.isPrivate ? 'mdi-lock' : 'mdi-file'
-                        "
+                        :icon="file.isPrivate ? 'mdi-lock' : 'mdi-file'"
                         size="small"
                       />
                       <span>{{ file.name }}</span>
@@ -712,7 +705,10 @@ onMounted(() => {
             </v-table>
           </v-card-text>
         </v-card>
-        <v-card v-else class="workspace-empty h-100 d-flex align-center justify-center">
+        <v-card
+          v-else
+          class="workspace-empty h-100 d-flex align-center justify-center"
+        >
           <v-card-text class="text-center text-medium-emphasis">
             {{ t('workspace.messages.selectFolder') }}
           </v-card-text>
@@ -777,11 +773,7 @@ onMounted(() => {
               >
                 {{ t('workspace.dialogs.actions.cancel') }}
               </v-btn>
-              <v-btn
-                color="primary"
-                type="submit"
-                :loading="isCreating"
-              >
+              <v-btn color="primary" type="submit" :loading="isCreating">
                 {{ t('workspace.dialogs.actions.create') }}
               </v-btn>
             </div>
@@ -835,11 +827,7 @@ onMounted(() => {
               >
                 {{ t('workspace.dialogs.actions.cancel') }}
               </v-btn>
-              <v-btn
-                color="primary"
-                type="submit"
-                :loading="isEditing"
-              >
+              <v-btn color="primary" type="submit" :loading="isEditing">
                 {{ t('workspace.dialogs.actions.save') }}
               </v-btn>
             </div>
@@ -860,10 +848,18 @@ onMounted(() => {
           </p>
         </v-card-text>
         <v-card-actions class="justify-end gap-2">
-          <v-btn variant="text" :disabled="isDeleting" @click="deleteDialog = false">
+          <v-btn
+            variant="text"
+            :disabled="isDeleting"
+            @click="deleteDialog = false"
+          >
             {{ t('workspace.dialogs.actions.cancel') }}
           </v-btn>
-          <v-btn color="error" :loading="isDeleting" @click="confirmDeleteFolder">
+          <v-btn
+            color="error"
+            :loading="isDeleting"
+            @click="confirmDeleteFolder"
+          >
             {{ t('workspace.dialogs.actions.delete') }}
           </v-btn>
         </v-card-actions>
@@ -913,11 +909,7 @@ onMounted(() => {
               >
                 {{ t('workspace.dialogs.actions.cancel') }}
               </v-btn>
-              <v-btn
-                color="primary"
-                type="submit"
-                :loading="isUploading"
-              >
+              <v-btn color="primary" type="submit" :loading="isUploading">
                 {{ t('workspace.dialogs.actions.upload') }}
               </v-btn>
             </div>

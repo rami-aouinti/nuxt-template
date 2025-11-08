@@ -2,10 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
-import {
-  BLOG_POSTS_DEFAULT_LIMIT,
-  useBlogApi,
-} from '~/composables/useBlogApi'
+import { BLOG_POSTS_DEFAULT_LIMIT, useBlogApi } from '~/composables/useBlogApi'
 import type { BlogPostUser } from '~/types/blog'
 import { useProfilePostsStore } from '~/stores/profile-posts'
 
@@ -19,8 +16,13 @@ const { fetchProfilePosts } = useBlogApi()
 const { loggedIn } = useUserSession()
 
 const profilePostsStore = useProfilePostsStore()
-const { posts, pagination, isInitialLoading, isLoadingMore, error: postsError } =
-  storeToRefs(profilePostsStore)
+const {
+  posts,
+  pagination,
+  isInitialLoading,
+  isLoadingMore,
+  error: postsError,
+} = storeToRefs(profilePostsStore)
 const loadMoreTrigger = ref<HTMLElement | null>(null)
 
 const hasMore = computed(
@@ -136,7 +138,9 @@ watch(
     <v-row class="justify-center">
       <v-col cols="12" lg="10" xl="8">
         <v-sheet class="rounded-xl mb-6" elevation="2">
-          <div class="pa-6 d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-4">
+          <div
+            class="pa-6 d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-4"
+          >
             <div>
               <h1 class="text-h4 text-h3-md font-weight-bold mb-1">
                 {{ t('blog.title') }}
@@ -188,7 +192,8 @@ watch(
                   >
                     <span>
                       {{
-                        getAuthorMetaParts(formatPublishedAt(post.publishedAt)).prefix
+                        getAuthorMetaParts(formatPublishedAt(post.publishedAt))
+                          .prefix
                       }}
                     </span>
                     <NuxtLink
@@ -198,10 +203,13 @@ watch(
                     >
                       {{ getAuthorName(post.user) }}
                     </NuxtLink>
-                    <span v-else class="mx-1">{{ getAuthorName(post.user) }}</span>
+                    <span v-else class="mx-1">{{
+                      getAuthorName(post.user)
+                    }}</span>
                     <span>
                       {{
-                        getAuthorMetaParts(formatPublishedAt(post.publishedAt)).suffix
+                        getAuthorMetaParts(formatPublishedAt(post.publishedAt))
+                          .suffix
                       }}
                     </span>
                   </v-card-subtitle>
@@ -212,7 +220,9 @@ watch(
                     {{ post.summary || t('blog.placeholders.noSummary') }}
                   </p>
                   <div class="d-flex flex-wrap align-center">
-                    <div class="d-flex align-center text-medium-emphasis mr-6 mb-2">
+                    <div
+                      class="d-flex align-center text-medium-emphasis mr-6 mb-2"
+                    >
                       <v-icon icon="mdi-thumb-up-outline" class="mr-1" />
                       {{
                         t('blog.stats.reactions', {
@@ -220,7 +230,9 @@ watch(
                         })
                       }}
                     </div>
-                    <div class="d-flex align-center text-medium-emphasis mr-6 mb-2">
+                    <div
+                      class="d-flex align-center text-medium-emphasis mr-6 mb-2"
+                    >
                       <v-icon icon="mdi-comment-text-outline" class="mr-1" />
                       {{
                         t('blog.stats.comments', {
@@ -262,10 +274,18 @@ watch(
         </template>
 
         <div class="d-flex justify-center py-4">
-          <v-progress-circular v-if="isLoadingMore" indeterminate color="primary" />
+          <v-progress-circular
+            v-if="isLoadingMore"
+            indeterminate
+            color="primary"
+          />
         </div>
 
-        <div v-show="hasMore" ref="loadMoreTrigger" class="blog-infinite-trigger" />
+        <div
+          v-show="hasMore"
+          ref="loadMoreTrigger"
+          class="blog-infinite-trigger"
+        />
       </v-col>
     </v-row>
   </v-container>

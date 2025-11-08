@@ -1,4 +1,4 @@
-export const normalizeCollection = <T,>(input: unknown): T[] => {
+export const normalizeCollection = <T>(input: unknown): T[] => {
   if (Array.isArray(input)) {
     return input as T[]
   }
@@ -123,7 +123,11 @@ export const resolveStringList = (
       return
     }
 
-    if (typeof entry === 'string' || typeof entry === 'number' || typeof entry === 'bigint') {
+    if (
+      typeof entry === 'string' ||
+      typeof entry === 'number' ||
+      typeof entry === 'bigint'
+    ) {
       const normalized = toNonEmptyString(entry)
       if (normalized) {
         result.push(normalized)
@@ -185,7 +189,14 @@ export const resolveVisibilityFlag = (
     return false
   }
 
-  const booleanKeys = ['visible', 'isVisible', 'isPublished', 'published', 'enabled', 'active']
+  const booleanKeys = [
+    'visible',
+    'isVisible',
+    'isPublished',
+    'published',
+    'enabled',
+    'active',
+  ]
   for (const key of booleanKeys) {
     const value = entity[key]
     if (typeof value === 'boolean') {

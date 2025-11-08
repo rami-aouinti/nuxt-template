@@ -84,7 +84,7 @@ export const useAdminStore = defineStore('admin', () => {
           })
           const transformed = cacheOptions.transform
             ? cacheOptions.transform(result)
-            : ((result as unknown) as TOutput)
+            : (result as unknown as TOutput)
           data.value = transformed
           fetchedAt.value = Date.now()
           return transformed
@@ -138,17 +138,15 @@ export const useAdminStore = defineStore('admin', () => {
     '/api/v1/user_group/count',
     { transform: parseCount },
   )
-  const workplaceCount = createCache<Count, number>(
-    '/api/v1/workplace/count',
-    { transform: parseCount },
-  )
+  const workplaceCount = createCache<Count, number>('/api/v1/workplace/count', {
+    transform: parseCount,
+  })
   const roleCount = createCache<Count, number>('/api/v1/role/count', {
     transform: parseCount,
   })
-  const apiKeyCount = createCache<Count, number>(
-    '/api/v1/api_key/count',
-    { transform: parseCount },
-  )
+  const apiKeyCount = createCache<Count, number>('/api/v1/api_key/count', {
+    transform: parseCount,
+  })
 
   const fetchAllCounts = (options?: FetchOptions) =>
     Promise.all([
