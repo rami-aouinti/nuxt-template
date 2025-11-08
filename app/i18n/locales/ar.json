@@ -196,7 +196,10 @@
       "all": "الكل",
       "search": "بحث",
       "group": "مجموعة",
-      "user": "مستخدم"
+      "user": "مستخدم",
+      "export": "تصدير",
+      "exportPdf": "تصدير كملف PDF",
+      "exportExcel": "تصدير كملف Excel"
     },
     "placeholders": {
       "selectGroup": "اختر مجموعة",

@@ -196,7 +196,10 @@
       "all": "Все",
       "search": "Поиск",
       "group": "Группа",
-      "user": "Пользователь"
+      "user": "Пользователь",
+      "export": "Экспорт",
+      "exportPdf": "Экспорт в PDF",
+      "exportExcel": "Экспорт в Excel"
     },
     "placeholders": {
       "selectGroup": "Выберите группу",
