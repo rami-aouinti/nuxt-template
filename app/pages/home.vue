@@ -77,6 +77,8 @@ const {
   createPost,
 } = useBlogApi()
 
+const POST_EXCERPT_MAX_LENGTH = 50
+
 const posts = ref<BlogPostViewModel[]>([])
 const pagination = reactive({
   page: 1,
@@ -587,6 +589,14 @@ function resolveBlogLink(blog: BlogSummary) {
 
 const getAuthorAvatar = (user: BlogPostUser) => user.photo || undefined
 
+function truncateText(text: string, maxLength: number) {
+  if (text.length <= maxLength) {
+    return text
+  }
+
+  return `${text.slice(0, maxLength).trimEnd()}…`
+}
+
 function getPostPlainContent(content: string | null | undefined) {
   if (!content) {
     return ''
@@ -600,6 +610,20 @@ function getPostPlainContent(content: string | null | undefined) {
   }
 
   return content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
+function getPostExcerpt(post: BlogPostViewModel) {
+  const summary = typeof post.summary === 'string' ? post.summary.trim() : ''
+  if (summary.length) {
+    return truncateText(summary, POST_EXCERPT_MAX_LENGTH)
+  }
+
+  const content = getPostPlainContent(post.content)
+  if (content.length) {
+    return truncateText(content, POST_EXCERPT_MAX_LENGTH)
+  }
+
+  return ''
 }
 
 const formatPublishedAt = (publishedAt: string) => {
@@ -1072,15 +1096,9 @@ await loadPosts(1, { replace: true })
                     </NuxtLink>
                     <p
                       class="facebook-post-card__text"
-                      :class="{ 'facebook-post-card__text--muted': !post.summary }"
+                      :class="{ 'facebook-post-card__text--muted': !getPostExcerpt(post) }"
                     >
-                      {{ post.summary || t('blog.placeholders.noSummary') }}
-                    </p>
-                    <p
-                      v-if="getPostPlainContent(post.content)"
-                      class="facebook-post-card__content"
-                    >
-                      {{ getPostPlainContent(post.content) }}
+                      {{ getPostExcerpt(post) || t('blog.placeholders.noSummary') }}
                     </p>
                   </div>
 
