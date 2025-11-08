@@ -1089,20 +1089,22 @@ await loadPosts(1, { replace: true })
                       v-if="canEditPost(post)"
                       icon
                       variant="text"
+                      size="sm"
                       class="facebook-post-card__menu-btn"
                       @click="openEditDialog(post)"
                     >
-                      <v-icon icon="mdi-pencil" />
+                      <v-icon size="sm" icon="mdi-pencil" />
                     </v-btn>
                     <v-btn
                       v-if="canEditPost(post)"
                       icon
                       variant="text"
+                      size="sm"
                       class="facebook-post-card__menu-btn"
                       :loading="post.ui.deleteLoading"
                       @click="confirmDeletePost(post)"
                     >
-                      <v-icon icon="mdi-trash-can-outline" />
+                      <v-icon size="sm" icon="mdi-trash-can-outline" />
                     </v-btn>
                   </div>
 
