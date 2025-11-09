@@ -5,7 +5,6 @@ import type { DataTableHeader } from 'vuetify'
 import { useAdminStore } from '~/stores/admin'
 
 definePageMeta({
-  layout: 'admin',
   title: 'navigation.roles',
   icon: 'mdi-shield-key-outline',
   drawerIndex: 4,
