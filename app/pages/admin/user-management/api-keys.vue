@@ -546,171 +546,168 @@ watch(deleteDialog, (value) => {
         </AdminDataTable>
       </v-col>
     </v-row>
-    <v-dialog v-model="createDialog" max-width="520">
-      <v-card>
-        <v-card-title>
-          {{
-            t('userManagement.apiKeys.dialogs.create.title', {
-              version: versionLabels[actionVersion],
-            })
-          }}
-        </v-card-title>
-        <v-card-text>
-          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
-            {{ formError }}
-          </v-alert>
-          <v-form @submit.prevent="submitCreate">
-            <v-text-field
-              v-model="form.description"
-              :label="t('userManagement.apiKeys.fields.description')"
-              :disabled="actionLoading"
-              autocomplete="off"
-              required
-            />
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn variant="text" :disabled="actionLoading" @click="closeCreate">
-            {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn
-            color="primary"
-            :loading="actionLoading"
-            :disabled="!canSubmitCreate"
-            @click="submitCreate"
-          >
-            {{ t('common.actions.create') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <AppModal
+      v-model="createDialog"
+      :max-width="520"
+      :close-disabled="actionLoading"
+      icon="mdi-key-plus"
+      :title="
+        t('userManagement.apiKeys.dialogs.create.title', {
+          version: versionLabels[actionVersion],
+        })
+      "
+      @close="closeCreate"
+    >
+      <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
+        {{ formError }}
+      </v-alert>
+      <v-form @submit.prevent="submitCreate">
+        <v-text-field
+          v-model="form.description"
+          :label="t('userManagement.apiKeys.fields.description')"
+          :disabled="actionLoading"
+          autocomplete="off"
+          required
+        />
+      </v-form>
 
-    <v-dialog v-model="editDialog" max-width="520">
-      <v-card>
-        <v-card-title>
-          {{
-            t('userManagement.apiKeys.dialogs.edit.title', {
-              version: versionLabels[actionVersion],
-            })
-          }}
-        </v-card-title>
-        <v-card-text>
-          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
-            {{ formError }}
-          </v-alert>
-          <v-alert type="info" variant="tonal" class="mb-4">
-            Sélectionnez la méthode de mise à jour à utiliser.
-          </v-alert>
-          <v-btn-toggle
-            v-model="editMethod"
-            mandatory
-            variant="outlined"
-            divided
-            color="primary"
-            class="mb-4"
-          >
-            <v-btn value="PUT">Remplacer (PUT)</v-btn>
-            <v-btn value="PATCH">Modifier (PATCH)</v-btn>
-          </v-btn-toggle>
-          <v-form @submit.prevent="submitEdit">
-            <v-text-field
-              v-model="form.description"
-              :label="t('userManagement.apiKeys.fields.description')"
-              :disabled="actionLoading"
-              autocomplete="off"
-              required
-            />
-            <v-text-field
-              v-model="form.token"
-              :label="t('userManagement.apiKeys.fields.token')"
-              :disabled="actionLoading"
-              autocomplete="off"
-              :required="editMethod === 'PUT'"
-              :hint="t('userManagement.apiKeys.hints.keepToken')"
-              persistent-hint
-            />
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn variant="text" :disabled="actionLoading" @click="closeEdit">
-            {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn
-            color="primary"
-            :loading="actionLoading"
-            :disabled="actionLoading"
-            @click="submitEdit"
-          >
-            {{ t('common.actions.save') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+      <template #actions>
+        <v-btn variant="text" :disabled="actionLoading" @click="closeCreate">
+          {{ t('common.actions.cancel') }}
+        </v-btn>
+        <v-btn
+          color="primary"
+          :loading="actionLoading"
+          :disabled="!canSubmitCreate"
+          @click="submitCreate"
+        >
+          {{ t('common.actions.create') }}
+        </v-btn>
+      </template>
+    </AppModal>
 
-    <v-dialog v-model="viewDialog" max-width="500">
-      <v-card>
-        <v-card-title>
-          {{
-            t('userManagement.apiKeys.dialogs.view.title', {
-              version: versionLabels[actionVersion],
-            })
-          }}
-        </v-card-title>
-        <v-card-text>
-          <v-progress-linear
-            v-if="viewLoading"
-            color="primary"
-            indeterminate
-            class="mb-4"
-          />
-          <v-alert v-if="viewError" type="error" variant="tonal" class="mb-4">
-            {{ viewError }}
-          </v-alert>
-          <template v-if="viewingKey && !viewLoading">
-            <div class="d-flex flex-column" style="row-gap: 12px">
-              <div>
-                <div class="text-caption text-medium-emphasis">
-                  {{ t('userManagement.apiKeys.fields.id') }}
-                </div>
-                <div class="text-body-2 font-weight-medium">
-                  {{ viewingKey.id }}
-                </div>
-              </div>
-              <div>
-                <div class="text-caption text-medium-emphasis">
-                  {{ t('userManagement.apiKeys.fields.description') }}
-                </div>
-                <div class="text-body-2 font-weight-medium">
-                  {{ viewingKey.description }}
-                </div>
-              </div>
-              <div>
-                <div class="text-caption text-medium-emphasis">
-                  {{ t('userManagement.apiKeys.fields.token') }}
-                </div>
-                <div class="text-body-2 font-weight-medium">
-                  {{ viewingKey.token }}
-                </div>
-              </div>
+    <AppModal
+      v-model="editDialog"
+      :max-width="520"
+      :close-disabled="actionLoading"
+      icon="mdi-key-change"
+      :title="
+        t('userManagement.apiKeys.dialogs.edit.title', {
+          version: versionLabels[actionVersion],
+        })
+      "
+      @close="closeEdit"
+    >
+      <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
+        {{ formError }}
+      </v-alert>
+      <v-alert type="info" variant="tonal" class="mb-4">
+        Sélectionnez la méthode de mise à jour à utiliser.
+      </v-alert>
+      <v-btn-toggle
+        v-model="editMethod"
+        mandatory
+        variant="outlined"
+        divided
+        color="primary"
+        class="mb-4"
+      >
+        <v-btn value="PUT">Remplacer (PUT)</v-btn>
+        <v-btn value="PATCH">Modifier (PATCH)</v-btn>
+      </v-btn-toggle>
+      <v-form @submit.prevent="submitEdit">
+        <v-text-field
+          v-model="form.description"
+          :label="t('userManagement.apiKeys.fields.description')"
+          :disabled="actionLoading"
+          autocomplete="off"
+          required
+        />
+        <v-text-field
+          v-model="form.token"
+          :label="t('userManagement.apiKeys.fields.token')"
+          :disabled="actionLoading"
+          autocomplete="off"
+          :required="editMethod === 'PUT'"
+          :hint="t('userManagement.apiKeys.hints.keepToken')"
+          persistent-hint
+        />
+      </v-form>
+
+      <template #actions>
+        <v-btn variant="text" :disabled="actionLoading" @click="closeEdit">
+          {{ t('common.actions.cancel') }}
+        </v-btn>
+        <v-btn
+          color="primary"
+          :loading="actionLoading"
+          :disabled="actionLoading"
+          @click="submitEdit"
+        >
+          {{ t('common.actions.save') }}
+        </v-btn>
+      </template>
+    </AppModal>
+
+    <AppModal
+      v-model="viewDialog"
+      :max-width="500"
+      :close-disabled="viewLoading"
+      icon="mdi-eye-lock-open"
+      :title="
+        t('userManagement.apiKeys.dialogs.view.title', {
+          version: versionLabels[actionVersion],
+        })
+      "
+      @close="closeView"
+    >
+      <v-progress-linear
+        v-if="viewLoading"
+        color="primary"
+        indeterminate
+        class="mb-4"
+      />
+      <v-alert v-if="viewError" type="error" variant="tonal" class="mb-4">
+        {{ viewError }}
+      </v-alert>
+      <template v-if="viewingKey && !viewLoading">
+        <div class="d-flex flex-column" style="row-gap: 12px">
+          <div>
+            <div class="text-caption text-medium-emphasis">
+              {{ t('userManagement.apiKeys.fields.id') }}
             </div>
-          </template>
-          <div
-            v-else-if="!viewLoading"
-            class="text-body-2 text-medium-emphasis"
-          >
-            {{ t('userManagement.apiKeys.dialogs.view.empty') }}
+            <div class="text-body-2 font-weight-medium">
+              {{ viewingKey.id }}
+            </div>
           </div>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn variant="text" :disabled="viewLoading" @click="closeView">
-            {{ t('common.actions.close') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+          <div>
+            <div class="text-caption text-medium-emphasis">
+              {{ t('userManagement.apiKeys.fields.description') }}
+            </div>
+            <div class="text-body-2 font-weight-medium">
+              {{ viewingKey.description }}
+            </div>
+          </div>
+          <div>
+            <div class="text-caption text-medium-emphasis">
+              {{ t('userManagement.apiKeys.fields.token') }}
+            </div>
+            <div class="text-body-2 font-weight-medium">
+              {{ viewingKey.token }}
+            </div>
+          </div>
+        </div>
+      </template>
+      <div v-else-if="!viewLoading" class="text-body-2 text-medium-emphasis">
+        {{ t('userManagement.apiKeys.dialogs.view.empty') }}
+      </div>
+
+      <template #actions>
+        <v-btn variant="text" :disabled="viewLoading" @click="closeView">
+          {{ t('common.actions.close') }}
+        </v-btn>
+      </template>
+    </AppModal>
 
     <v-dialog v-model="deleteDialog" max-width="480">
       <v-card>

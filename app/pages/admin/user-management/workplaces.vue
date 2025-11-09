@@ -410,108 +410,107 @@ watch(deleteDialog, (value) => {
       </v-col>
     </v-row>
 
-    <v-dialog v-model="createDialog" max-width="540">
-      <v-card>
-        <v-card-title>{{
-          t('userManagement.workplaces.dialogs.create.title')
-        }}</v-card-title>
-        <v-card-text>
-          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
-            {{ formError }}
-          </v-alert>
-          <v-form @submit.prevent="submitCreate">
-            <v-text-field
-              v-model="form.name"
-              :label="t('userManagement.workplaces.fields.name')"
-              :disabled="actionLoading"
-              required
-              autocomplete="off"
-            />
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn variant="text" :disabled="actionLoading" @click="closeCreate">
-            {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn color="primary" :loading="actionLoading" @click="submitCreate">
-            {{ t('common.actions.create') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <AppModal
+      v-model="createDialog"
+      :max-width="540"
+      :close-disabled="actionLoading"
+      icon="mdi-office-building-plus-outline"
+      :title="t('userManagement.workplaces.dialogs.create.title')"
+      @close="closeCreate"
+    >
+      <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
+        {{ formError }}
+      </v-alert>
+      <v-form @submit.prevent="submitCreate">
+        <v-text-field
+          v-model="form.name"
+          :label="t('userManagement.workplaces.fields.name')"
+          :disabled="actionLoading"
+          required
+          autocomplete="off"
+        />
+      </v-form>
 
-    <v-dialog v-model="editDialog" max-width="540">
-      <v-card>
-        <v-card-title>{{
-          t('userManagement.workplaces.dialogs.edit.title')
-        }}</v-card-title>
-        <v-card-text>
-          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
-            {{ formError }}
-          </v-alert>
-          <v-form @submit.prevent="submitEdit">
-            <v-text-field
-              v-model="form.name"
-              :label="t('userManagement.workplaces.fields.name')"
-              :disabled="actionLoading"
-              required
-              autocomplete="off"
-            />
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn variant="text" :disabled="actionLoading" @click="closeEdit">
-            {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn color="primary" :loading="actionLoading" @click="submitEdit">
-            {{ t('common.actions.save') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+      <template #actions>
+        <v-btn variant="text" :disabled="actionLoading" @click="closeCreate">
+          {{ t('common.actions.cancel') }}
+        </v-btn>
+        <v-btn color="primary" :loading="actionLoading" @click="submitCreate">
+          {{ t('common.actions.create') }}
+        </v-btn>
+      </template>
+    </AppModal>
 
-    <v-dialog v-model="viewDialog" max-width="540">
-      <v-card>
-        <v-card-title>{{
-          t('userManagement.workplaces.dialogs.view.title')
-        }}</v-card-title>
-        <v-card-text>
-          <v-alert v-if="viewError" type="error" variant="tonal" class="mb-4">
-            {{ viewError }}
-          </v-alert>
-          <v-skeleton-loader
-            v-else-if="viewLoading"
-            type="list-item-two-line, list-item-two-line, list-item-two-line"
-            class="mb-2"
-          />
-          <v-list v-else-if="viewingWorkplace" density="compact">
-            <v-list-item
-              :title="t('userManagement.workplaces.fields.name')"
-              :subtitle="viewingWorkplace.name || '—'"
-            />
-            <v-list-item
-              :title="t('userManagement.workplaces.fields.slug')"
-              :subtitle="viewingWorkplace.slug || '—'"
-            />
-            <v-list-item
-              :title="t('userManagement.workplaces.fields.id')"
-              :subtitle="viewingWorkplace.id || '—'"
-            />
-          </v-list>
-          <div v-else class="text-medium-emphasis">
-            {{ t('userManagement.workplaces.details.empty') }}
-          </div>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn variant="text" @click="closeView">
-            {{ t('common.actions.close') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <AppModal
+      v-model="editDialog"
+      :max-width="540"
+      :close-disabled="actionLoading"
+      icon="mdi-pencil-ruler"
+      :title="t('userManagement.workplaces.dialogs.edit.title')"
+      @close="closeEdit"
+    >
+      <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
+        {{ formError }}
+      </v-alert>
+      <v-form @submit.prevent="submitEdit">
+        <v-text-field
+          v-model="form.name"
+          :label="t('userManagement.workplaces.fields.name')"
+          :disabled="actionLoading"
+          required
+          autocomplete="off"
+        />
+      </v-form>
+
+      <template #actions>
+        <v-btn variant="text" :disabled="actionLoading" @click="closeEdit">
+          {{ t('common.actions.cancel') }}
+        </v-btn>
+        <v-btn color="primary" :loading="actionLoading" @click="submitEdit">
+          {{ t('common.actions.save') }}
+        </v-btn>
+      </template>
+    </AppModal>
+
+    <AppModal
+      v-model="viewDialog"
+      :max-width="540"
+      icon="mdi-eye-outline"
+      :title="t('userManagement.workplaces.dialogs.view.title')"
+      @close="closeView"
+    >
+      <v-alert v-if="viewError" type="error" variant="tonal" class="mb-4">
+        {{ viewError }}
+      </v-alert>
+      <v-skeleton-loader
+        v-else-if="viewLoading"
+        type="list-item-two-line, list-item-two-line, list-item-two-line"
+        class="mb-2"
+      />
+      <v-list v-else-if="viewingWorkplace" density="compact">
+        <v-list-item
+          :title="t('userManagement.workplaces.fields.name')"
+          :subtitle="viewingWorkplace.name || '—'"
+        />
+        <v-list-item
+          :title="t('userManagement.workplaces.fields.slug')"
+          :subtitle="viewingWorkplace.slug || '—'"
+        />
+        <v-list-item
+          :title="t('userManagement.workplaces.fields.id')"
+          :subtitle="viewingWorkplace.id || '—'"
+        />
+      </v-list>
+      <div v-else class="text-medium-emphasis">
+        {{ t('userManagement.workplaces.details.empty') }}
+      </div>
+
+      <template #actions>
+        <v-btn variant="text" @click="closeView">
+          {{ t('common.actions.close') }}
+        </v-btn>
+      </template>
+    </AppModal>
 
     <v-dialog v-model="deleteDialog" max-width="540">
       <v-card>
