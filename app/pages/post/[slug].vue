@@ -6,6 +6,7 @@ import {
   AuthenticationRequiredError,
   useBlogApi,
 } from '~/composables/useBlogApi'
+import { useBlogAuthor } from '~/composables/useBlogAuthor'
 import type {
   BlogComment,
   BlogCommentLike,
@@ -150,6 +151,8 @@ const currentUserReactionUser = computed<BlogPostUser | null>(() => {
     photo: currentUserAvatar.value,
   }
 })
+
+const { getAuthorName, getAuthorProfileLink } = useBlogAuthor()
 
 const {
   fetchPostBySlug,
@@ -428,42 +431,11 @@ function extractErrorMessage(error: unknown, fallback: string) {
   return fallback
 }
 
-const getAuthorAvatar = (user: BlogPostUser) => user.photo || undefined
-
-const AUTHOR_PLACEHOLDER = '__AUTHOR__'
-
 const formatPublishedAt = (publishedAt: string) =>
   new Intl.DateTimeFormat(locale.value, {
     dateStyle: 'long',
     timeStyle: 'short',
   }).format(new Date(publishedAt))
-
-function getAuthorName(user: BlogPostUser) {
-  if (user.firstName && user.lastName) {
-    return `${user.firstName} ${user.lastName}`
-  }
-
-  if (user.firstName) {
-    return user.firstName
-  }
-
-  return user.username
-}
-
-function getAuthorProfileLink(user: BlogPostUser) {
-  const username = typeof user.username === 'string' ? user.username.trim() : ''
-  return username.length ? `/profile/${encodeURIComponent(username)}` : null
-}
-
-function getAuthorMetaParts(date: string) {
-  const template = t('blog.meta.author', {
-    author: AUTHOR_PLACEHOLDER,
-    date,
-  })
-
-  const [prefix = '', suffix = ''] = template.split(AUTHOR_PLACEHOLDER)
-  return { prefix, suffix }
-}
 
 function ensureAuthenticated(showNotification = true) {
   if (!loggedIn.value) {
@@ -827,59 +799,16 @@ watch(
 
         <v-card v-else-if="post" class="rounded-xl" elevation="2">
           <v-card-item>
-            <template #prepend>
-              <NuxtLink
-                v-if="getAuthorProfileLink(post.user)"
-                :to="getAuthorProfileLink(post.user)"
-                class="post-card__avatar-link"
-              >
-                <v-avatar size="56">
-                  <v-img
-                    :src="getAuthorAvatar(post.user)"
-                    :alt="getAuthorName(post.user)"
-                  >
-                    <template #error>
-                      <v-icon icon="mdi-account-circle" size="56" />
-                    </template>
-                  </v-img>
-                </v-avatar>
-              </NuxtLink>
-              <v-avatar v-else size="56">
-                <v-img
-                  :src="getAuthorAvatar(post.user)"
-                  :alt="getAuthorName(post.user)"
-                >
-                  <template #error>
-                    <v-icon icon="mdi-account-circle" size="56" />
-                  </template>
-                </v-img>
-              </v-avatar>
-            </template>
+            <BlogPostAuthor
+              class="mb-3"
+              :user="post.user"
+              :published-at="post.publishedAt"
+              :format-date="formatPublishedAt"
+              :avatar-size="56"
+            />
             <v-card-title class="text-h4 text-wrap">
               {{ post.title }}
             </v-card-title>
-            <v-card-subtitle
-              class="text-medium-emphasis d-flex flex-wrap align-center"
-            >
-              <span>
-                {{
-                  getAuthorMetaParts(formatPublishedAt(post.publishedAt)).prefix
-                }}
-              </span>
-              <NuxtLink
-                v-if="getAuthorProfileLink(post.user)"
-                :to="getAuthorProfileLink(post.user)"
-                class="post-card__author-link mx-1"
-              >
-                {{ getAuthorName(post.user) }}
-              </NuxtLink>
-              <span v-else class="mx-1">{{ getAuthorName(post.user) }}</span>
-              <span>
-                {{
-                  getAuthorMetaParts(formatPublishedAt(post.publishedAt)).suffix
-                }}
-              </span>
-            </v-card-subtitle>
             <v-card-subtitle v-if="post.blog" class="d-flex align-center mt-1">
               <v-icon icon="mdi-rss" size="18" class="mr-1" />
               <NuxtLink
@@ -906,30 +835,13 @@ watch(
                 {{ paragraph }}
               </p>
             </div>
-            <div class="d-flex flex-wrap align-center mb-2">
-              <v-btn
-                variant="text"
-                class="d-flex align-center text-medium-emphasis mr-6 mb-2 px-0"
-                @click="openPostReactions(post)"
-              >
-                <v-icon icon="mdi-thumb-up-outline" class="mr-1" />
-                <span class="text-body-2 font-weight-medium">
-                  {{
-                    t('blog.stats.reactions', {
-                      count: post.reactions_count ?? 0,
-                    })
-                  }}
-                </span>
-              </v-btn>
-              <div class="d-flex align-center text-medium-emphasis mr-6 mb-2">
-                <v-icon icon="mdi-comment-text-outline" class="mr-1" />
-                {{
-                  t('blog.stats.comments', {
-                    count: post.totalComments ?? 0,
-                  })
-                }}
-              </div>
-            </div>
+            <BlogReactionBar
+              class="mb-2"
+              :reactions-count="post.reactions_count ?? 0"
+              :comments-count="post.totalComments ?? 0"
+              clickable
+              @click:reactions="openPostReactions(post)"
+            />
           </v-card-text>
 
           <v-card-actions class="px-4 pb-4 pt-0 flex-wrap">
@@ -1060,17 +972,5 @@ watch(
   white-space: pre-line;
 }
 
-.post-card__avatar-link {
-  display: inline-flex;
-}
-
-.post-card__author-link {
-  color: inherit;
-  text-decoration: none;
-}
-
-.post-card__author-link:hover,
-.post-card__author-link:focus-visible {
-  text-decoration: underline;
-}
+ 
 </style>
