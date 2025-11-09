@@ -151,6 +151,7 @@ watch(loggedIn, (value) => {
         class="dock-navbar__theme-switch"
         false-icon="mdi-white-balance-sunny"
         true-icon="mdi-weather-night"
+        variant="outlined"
       />
       <v-menu location="bottom" class="dock-navbar__menu">
         <template #activator="{ props: menu }">

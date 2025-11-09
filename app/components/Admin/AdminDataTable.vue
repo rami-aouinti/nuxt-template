@@ -411,7 +411,8 @@ function refresh() {
           flat
           icon-color
           glow
-          variant="solo"
+          color="primary"
+          variant="outlined"
           style="width: 250px"
         />
       </teleport>

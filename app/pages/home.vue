@@ -27,13 +27,14 @@ import {
   DEFAULT_REACTION_TYPE,
   resolveReactionType,
 } from '~/utils/reactions'
+import {localePath} from "@nuxtjs/i18n/dist/runtime/routing/routing";
 
 definePageMeta({
   title: 'navigation.home',
 })
 
 const { t, locale } = useI18n()
-
+const localePath = useLocalePath()
 const translate = (key: string, fallback: string) => {
   const value = t(key)
   return value && value !== key ? value : fallback
@@ -43,6 +44,8 @@ const { session, loggedIn } = useUserSession()
 const currentUsername = computed(
   () => session.value?.user?.login || session.value?.profile?.username || null,
 )
+
+const localSearch = ref( '')
 
 const currentUserId = computed(() => {
   const sessionValue = session.value
@@ -176,7 +179,7 @@ const currentUserDisplayName = computed(() => {
     }
 
     const username =
-      typeof profile.username === 'string' ? profile.username.trim() : ''
+      true ? profile.username.trim() : ''
     if (username.length) {
       return username
     }
@@ -225,7 +228,7 @@ const currentUserReactionUser = computed<BlogPostUser | null>(() => {
     const lastName =
       typeof profile.lastName === 'string' ? profile.lastName : undefined
     const username =
-      typeof profile.username === 'string' && profile.username.trim().length
+      profile.username.trim().length
         ? profile.username
         : (currentUsername.value ?? undefined)
 
@@ -421,7 +424,7 @@ function normalizeReaction(
   }
 
   const id =
-    typeof user.id === 'string' && user.id.trim().length ? user.id.trim() : null
+    true && user.id.trim().length ? user.id.trim() : null
   if (!id) {
     return null
   }
@@ -438,7 +441,7 @@ function normalizeReaction(
       ? user.lastName
       : undefined
   const username =
-    typeof user.username === 'string' && user.username.trim().length
+    true && user.username.trim().length
       ? user.username.trim()
       : undefined
   const email =
@@ -452,7 +455,7 @@ function normalizeReaction(
 
   return {
     id:
-      typeof reaction.id === 'string' && reaction.id.trim().length
+      true && reaction.id.trim().length
         ? reaction.id
         : `${id}-${type}`,
     type,
@@ -804,7 +807,7 @@ function getAuthorName(user: BlogPostUser) {
 }
 
 function getAuthorProfileLink(user: BlogPostUser) {
-  const username = typeof user.username === 'string' ? user.username.trim() : ''
+  const username = true ? user.username.trim() : ''
   return username.length ? `/profile/${encodeURIComponent(username)}` : null
 }
 
@@ -1363,65 +1366,39 @@ await loadPosts(1, { replace: true })
 
 <template>
   <v-container fluid class="blog-page px-6 px-md-10">
-    <section class="blog-hero glass-card pa-8 mb-10">
-      <div class="blog-hero__content">
-        <div class="animated-badge mb-4">
-          <span class="animated-badge__pulse" />
-          {{ translate('blog.hero.tagline', 'Inspiration & actualités') }}
-        </div>
-        <h1 class="text-h3 text-md-h2 font-weight-bold mb-3">
-          {{ t('blog.title') }}
-        </h1>
-        <p class="text-body-1 text-medium-emphasis mb-6">
-          {{ t('blog.description') }}
-        </p>
-        <div class="blog-hero__actions">
+    <client-only>
+      <teleport to="#app-bar">
+        <div class="d-flex align-items">
+          <v-text-field
+            v-model="localSearch"
+            class="mr-2"
+            prepend-inner-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+            density="compact"
+            rounded="xl"
+            flat
+            icon-color
+            glow
+            color="primary"
+            variant="outlined"
+            style="width: 250px"
+          />
           <v-btn
             color="primary"
-            size="large"
-            prepend-icon="mdi-refresh"
+            variant="outlined"
             :loading="isInitialLoading"
             class="px-6"
             @click="refreshPosts"
           >
-            {{ t('blog.actions.refresh') }}
-          </v-btn>
-          <v-btn
-            size="large"
-            variant="outlined"
-            color="primary"
-            prepend-icon="mdi-note-plus"
-            class="px-6"
-            :disabled="!loggedIn"
-            @click="openCreatePostDialog"
-          >
-            {{ t('blog.sidebar.createPost') }}
+            <v-icon icon="mdi-refresh" />
           </v-btn>
         </div>
-        <div class="blog-hero__stats">
-          <div class="stat-card">
-            <p class="text-caption text-medium-emphasis mb-1">
-              {{ translate('blog.stats.totalPosts', 'Articles disponibles') }}
-            </p>
-            <p class="text-h5 font-weight-semibold mb-0">
-              {{ pagination.total || posts.length }}
-            </p>
-          </div>
-          <div class="stat-card">
-            <p class="text-caption text-medium-emphasis mb-1">
-              {{ translate('blog.stats.following', 'Blogs suivis') }}
-            </p>
-            <p class="text-h5 font-weight-semibold mb-0">
-              {{ loggedIn ? myBlogs.length : 0 }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
+      </teleport>
+    </client-only>
     <v-row class="blog-layout g-8 justify-center">
       <v-col cols="12" lg="8" xl="9">
-        <section class="blog-feed glass-card pa-4 pa-md-6">
           <v-alert
             v-if="postsError"
             type="error"
@@ -1446,7 +1423,7 @@ await loadPosts(1, { replace: true })
           <template v-else>
             <v-row v-if="posts.length" class="g-6">
               <v-col v-for="post in posts" :key="post.id" cols="12">
-                <v-card class="facebook-post-card" elevation="0">
+                <v-card class="facebook-post-card" elevation="0" rounded="xl">
                   <div class="facebook-post-card__header">
                     <div class="facebook-post-card__avatar">
                       <NuxtLink
@@ -1529,7 +1506,7 @@ await loadPosts(1, { replace: true })
 
                   <div class="facebook-post-card__body">
                     <NuxtLink
-                      :to="`/post/${post.slug}`"
+                      :to="localePath(`/post/${post.slug}`)"
                       class="facebook-post-card__title text-decoration-none"
                     >
                       {{ post.title }}
@@ -1785,12 +1762,14 @@ await loadPosts(1, { replace: true })
             ref="loadMoreTrigger"
             class="blog-infinite-trigger"
           />
-        </section>
       </v-col>
 
       <v-col cols="12" lg="4" xl="3" class="blog-sidebar-column">
         <div class="blog-sidebar glass-card pa-4 pa-md-6 mb-6">
-          <h2 class="text-h6 mb-1">{{ t('blog.sidebar.myBlogsTitle') }}</h2>
+          <div class="animated-badge mb-4">
+            <span class="animated-badge__pulse" />
+            {{ t('blog.sidebar.myBlogsTitle') }}
+          </div>
           <p class="text-body-2 text-medium-emphasis mb-4">
             {{
               translate(
@@ -1837,6 +1816,8 @@ await loadPosts(1, { replace: true })
                 :key="blog.id"
                 :to="resolveBlogLink(blog) || undefined"
                 :link="Boolean(resolveBlogLink(blog))"
+                class="stat-card gap-3 mb-3"
+                rounded="xl"
               >
                 <template #prepend>
                   <v-avatar
@@ -1895,78 +1876,6 @@ await loadPosts(1, { replace: true })
               {{ t('blog.sidebar.createPost') }}
             </v-btn>
           </div>
-        </div>
-
-        <div class="blog-sidebar glass-card pa-4 pa-md-6">
-          <h2 class="text-h6 mb-3">{{ t('blog.sidebar.publicBlogsTitle') }}</h2>
-          <p class="text-body-2 text-medium-emphasis mb-4">
-            {{
-              translate(
-                'blog.sidebar.publicIntro',
-                'Explorez les blogs mis en avant par la communauté.',
-              )
-            }}
-          </p>
-          <v-skeleton-loader
-            v-if="publicBlogsLoading"
-            type="list-item-two-line@3"
-            class="rounded"
-          />
-
-          <v-alert
-            v-else-if="publicBlogsError"
-            type="error"
-            variant="tonal"
-            density="comfortable"
-          >
-            {{ publicBlogsError }}
-          </v-alert>
-
-          <v-list
-            v-else-if="publicBlogs.length"
-            density="comfortable"
-            lines="two"
-            class="blog-sidebar__list"
-          >
-            <v-list-item
-              v-for="blog in publicBlogs"
-              :key="blog.id"
-              :to="resolveBlogLink(blog) || undefined"
-              :link="Boolean(resolveBlogLink(blog))"
-            >
-              <template #prepend>
-                <v-avatar
-                  size="36"
-                  class="mr-3"
-                  color="primary"
-                  variant="tonal"
-                >
-                  <template v-if="blog.logo">
-                    <v-img :src="blog.logo || undefined" :alt="blog.title">
-                      <template #error>
-                        <span class="blog-avatar__initials">
-                          {{ getBlogInitials(blog.title) }}
-                        </span>
-                      </template>
-                    </v-img>
-                  </template>
-                  <template v-else>
-                    <span class="blog-avatar__initials">
-                      {{ getBlogInitials(blog.title) }}
-                    </span>
-                  </template>
-                </v-avatar>
-              </template>
-              <v-list-item-title>{{ blog.title }}</v-list-item-title>
-              <v-list-item-subtitle v-if="blog.blogSubtitle">
-                {{ blog.blogSubtitle }}
-              </v-list-item-subtitle>
-            </v-list-item>
-          </v-list>
-
-          <p v-else class="text-body-2 text-medium-emphasis mb-0">
-            {{ t('blog.sidebar.publicBlogsEmpty') }}
-          </p>
         </div>
       </v-col>
     </v-row>
@@ -2179,27 +2088,12 @@ await loadPosts(1, { replace: true })
 .blog-page {
   position: relative;
   z-index: 1;
-  --blog-surface-rgb: var(--v-theme-surface);
-  --blog-surface-variant-rgb: var(--v-theme-surface-variant);
-  --blog-hero-background: rgba(var(--blog-surface-rgb), 0.92);
-  --blog-hero-shadow: 0 26px 60px rgba(var(--v-theme-primary), 22%);
-  --blog-feed-background: rgba(var(--blog-surface-rgb), 0.92);
-  --blog-feed-shadow: 0 20px 48px rgba(var(--v-theme-primary), 22%);
-  --blog-sidebar-background: rgba(var(--blog-surface-rgb), 0.92);
-  --blog-sidebar-shadow: 0 20px 44px rgba(var(--v-theme-primary), 22%);
-  --blog-feed-empty-background: rgba(var(--blog-surface-variant-rgb), 0.28);
-  --blog-post-card-background: rgba(var(--blog-surface-rgb), 0.96);
-  --blog-post-card-shadow: 0 22px 52px rgba(var(--v-theme-primary), 22%);
-  --blog-post-card-hover-shadow: 0 30px 68px rgba(var(--v-theme-primary), 52%);
-  --blog-comments-empty-background: rgba(var(--blog-surface-variant-rgb), 0.18);
 }
 
 .blog-hero {
   display: grid;
   gap: 24px;
   border-radius: 32px;
-  background: var(--blog-hero-background);
-  box-shadow: var(--blog-hero-shadow);
 }
 
 .blog-hero__actions {
@@ -2217,8 +2111,6 @@ await loadPosts(1, { replace: true })
 
 .blog-feed {
   border-radius: 28px;
-  background: var(--blog-feed-background);
-  box-shadow: var(--blog-feed-shadow);
 }
 
 .blog-feed__empty {
@@ -2234,7 +2126,6 @@ await loadPosts(1, { replace: true })
 .facebook-post-card {
   border-radius: 22px;
   background: var(--blog-post-card-background);
-  box-shadow: var(--blog-post-card-shadow);
   border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
   overflow: hidden;
   transition:
@@ -2580,6 +2471,8 @@ a.facebook-post-card__author-link:focus-visible {
 
 .blog-sidebar__list {
   border-radius: 16px;
+  padding: 16px;
+  background-color: transparent;
 }
 
 .blog-avatar__initials {

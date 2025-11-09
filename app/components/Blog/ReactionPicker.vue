@@ -165,9 +165,6 @@ watch(
           @click="handleSelect(reaction.type)"
         >
           <span class="blog-reaction-picker__menu-emoji">{{ reaction.emoji }}</span>
-          <span class="blog-reaction-picker__menu-label">
-            {{ t(`blog.reactions.types.${reaction.type}`) }}
-          </span>
         </button>
       </div>
     </transition>
@@ -192,20 +189,6 @@ watch(
       </template>
       <span class="blog-reaction-picker__label">{{ buttonLabel }}</span>
       <span v-if="showCount" class="blog-reaction-picker__count">{{ formattedCount }}</span>
-    </v-btn>
-
-    <v-btn
-      v-if="showCaret"
-      class="blog-reaction-picker__caret"
-      variant="text"
-      icon
-      :size="caretButtonSize"
-      :density="buttonDensity"
-      :disabled="disabled"
-      :aria-label="t('blog.dialogs.reactionsTitle')"
-      @click.stop="toggleMenu"
-    >
-      <v-icon :icon="menuPinned ? 'mdi-menu-up' : 'mdi-menu-down'" size="18" />
     </v-btn>
   </div>
 </template>

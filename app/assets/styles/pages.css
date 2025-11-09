@@ -50,8 +50,6 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  background: rgba(var(--v-theme-primary), 0.08);
-  color: rgb(var(--v-theme-primary));
 }
 
 .section-title {
@@ -166,21 +164,6 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .page-surface {
-    --page-surface-background:
-      radial-gradient(
-        circle at top right,
-        rgba(var(--v-theme-primary), 0.3),
-        rgba(0, 0, 0, 0.4) 60%
-      ),
-      radial-gradient(
-        circle at 20% 80%,
-        rgba(var(--v-theme-secondary), 0.28),
-        transparent 60%
-      ),
-      linear-gradient(180deg, rgba(12, 12, 12, 0.92), rgba(18, 18, 18, 0.94));
-  }
-
   .glass-card {
     --glass-card-background: rgba(18, 18, 18, 0.88);
     --glass-card-box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
@@ -208,21 +191,6 @@
 }
 
 .v-theme--dark {
-  .page-surface {
-    --page-surface-background:
-      radial-gradient(
-        circle at top right,
-        rgba(var(--v-theme-primary), 0.3),
-        rgba(0, 0, 0, 0.4) 60%
-      ),
-      radial-gradient(
-        circle at 20% 80%,
-        rgba(var(--v-theme-secondary), 0.28),
-        transparent 60%
-      ),
-      linear-gradient(180deg, rgba(12, 12, 12, 0.92), rgba(18, 18, 18, 0.94));
-  }
-
   .glass-card {
     --glass-card-background: rgba(18, 18, 18, 0.88);
     --glass-card-box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
