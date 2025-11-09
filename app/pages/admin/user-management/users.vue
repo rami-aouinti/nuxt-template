@@ -7,7 +7,6 @@ import { Notify } from '~/stores/notification'
 import type { User, UserPayload } from '~/types/user'
 
 definePageMeta({
-  layout: 'admin',
   title: 'navigation.users',
   icon: 'mdi-account-multiple-outline',
   drawerIndex: 1,

@@ -5,7 +5,6 @@ definePageMeta({
   drawerIndex: 6,
   middleware: 'admin',
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
-  layout: 'admin',
 })
 </script>
 
