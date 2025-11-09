@@ -1445,7 +1445,7 @@ await loadPosts(1, { replace: true })
             color="primary"
             variant="outlined"
             :loading="isInitialLoading"
-            class="px-6"
+            class="dock-navbar__action-button"
             @click="refreshPosts"
           >
             <v-icon icon="mdi-refresh" />
