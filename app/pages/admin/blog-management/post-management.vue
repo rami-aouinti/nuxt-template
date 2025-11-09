@@ -15,6 +15,7 @@ import {
 } from '~/utils/blog/admin'
 
 definePageMeta({
+  layout: 'admin',
   title: 'navigation.posts',
   icon: 'mdi-post-outline',
   drawerIndex: 2,

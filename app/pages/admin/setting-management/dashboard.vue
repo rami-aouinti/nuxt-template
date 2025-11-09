@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { normalizeRequestHeaders } from '~/utils/headers'
 
 definePageMeta({
+  layout: 'admin',
   icon: 'mdi-monitor-dashboard',
   title: 'navigation.dashboard',
   drawerIndex: 0,

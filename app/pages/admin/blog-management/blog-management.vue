@@ -12,6 +12,7 @@ import {
 } from '~/utils/blog/admin'
 
 definePageMeta({
+  layout: 'admin',
   title: 'navigation.blogs',
   icon: 'mdi-notebook-outline',
   drawerIndex: 1,

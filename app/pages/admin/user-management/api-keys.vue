@@ -11,6 +11,7 @@ type ApiKeyFormState = {
 }
 
 definePageMeta({
+  layout: 'admin',
   title: 'navigation.apiKeys',
   icon: 'mdi-key-outline',
   drawerIndex: 5,

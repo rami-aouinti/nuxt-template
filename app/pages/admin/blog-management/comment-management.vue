@@ -14,6 +14,7 @@ import {
 } from '~/utils/blog/admin'
 
 definePageMeta({
+  layout: 'admin',
   title: 'navigation.comments',
   icon: 'mdi-comment-text-outline',
   drawerIndex: 3,

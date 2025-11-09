@@ -1,4 +1,9 @@
+<script setup lang="ts">
+definePageMeta({
+  layout: 'admin',
+})
+</script>
+
 <template>
   <IndexPage />
 </template>
-<script setup lang="ts"></script>
