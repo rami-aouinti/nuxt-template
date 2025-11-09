@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
+import ProfileNavigation from '~/components/profile/ProfileNavigation.vue'
 import { BLOG_POSTS_DEFAULT_LIMIT, useBlogApi } from '~/composables/useBlogApi'
 import type { BlogPostUser } from '~/types/blog'
 import { useProfilePostsStore } from '~/stores/profile-posts'
@@ -135,6 +136,7 @@ watch(
 
 <template>
   <v-container fluid>
+    <ProfileNavigation class="mb-6" />
     <v-row class="justify-center">
       <v-col cols="12" lg="10" xl="8">
         <v-sheet class="rounded-xl mb-6" elevation="2">

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { FetchError } from 'ofetch'
+import ProfileNavigation from '~/components/profile/ProfileNavigation.vue'
 import type { AuthProfile } from '~/types/auth'
 import type { Configuration } from '~/types/configuration'
 import { Notify } from '~/stores/notification'
@@ -657,6 +658,7 @@ async function submit() {
 
 <template>
   <v-container fluid>
+    <ProfileNavigation class="mb-6" />
     <v-dialog v-model="editDialog" max-width="640">
       <v-card>
         <v-card-title class="text-wrap">
