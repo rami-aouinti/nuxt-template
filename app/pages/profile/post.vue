@@ -4,7 +4,6 @@ import { useIntersectionObserver } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import ProfileNavigation from '~/components/profile/ProfileNavigation.vue'
 import { BLOG_POSTS_DEFAULT_LIMIT, useBlogApi } from '~/composables/useBlogApi'
-import type { BlogPostUser } from '~/types/blog'
 import { useProfilePostsStore } from '~/stores/profile-posts'
 
 definePageMeta({
@@ -35,35 +34,6 @@ const formatPublishedAt = (publishedAt: string) =>
     dateStyle: 'long',
     timeStyle: 'short',
   }).format(new Date(publishedAt))
-
-const AUTHOR_PLACEHOLDER = '__AUTHOR__'
-
-function getAuthorName(user: BlogPostUser) {
-  if (user.firstName && user.lastName) {
-    return `${user.firstName} ${user.lastName}`
-  }
-
-  if (user.firstName) {
-    return user.firstName
-  }
-
-  return user.username
-}
-
-function getAuthorProfileLink(user: BlogPostUser) {
-  const username = typeof user.username === 'string' ? user.username.trim() : ''
-  return username.length ? `/profile/${encodeURIComponent(username)}` : null
-}
-
-function getAuthorMetaParts(date: string) {
-  const template = t('blog.meta.author', {
-    author: AUTHOR_PLACEHOLDER,
-    date,
-  })
-
-  const [prefix = '', suffix = ''] = template.split(AUTHOR_PLACEHOLDER)
-  return { prefix, suffix }
-}
 
 async function loadPosts(
   pageNumber: number,
@@ -189,60 +159,23 @@ watch(
                       {{ post.title }}
                     </NuxtLink>
                   </v-card-title>
-                  <v-card-subtitle
-                    class="text-body-2 text-medium-emphasis d-flex flex-wrap align-center"
-                  >
-                    <span>
-                      {{
-                        getAuthorMetaParts(formatPublishedAt(post.publishedAt))
-                          .prefix
-                      }}
-                    </span>
-                    <NuxtLink
-                      v-if="getAuthorProfileLink(post.user)"
-                      :to="getAuthorProfileLink(post.user)"
-                      class="blog-post-card__author-link mx-1"
-                    >
-                      {{ getAuthorName(post.user) }}
-                    </NuxtLink>
-                    <span v-else class="mx-1">{{
-                      getAuthorName(post.user)
-                    }}</span>
-                    <span>
-                      {{
-                        getAuthorMetaParts(formatPublishedAt(post.publishedAt))
-                          .suffix
-                      }}
-                    </span>
-                  </v-card-subtitle>
+                  <BlogPostMeta
+                    tag="v-card-subtitle"
+                    class="text-body-2 text-medium-emphasis"
+                    :user="post.user"
+                    :published-at="post.publishedAt"
+                    :format-date="formatPublishedAt"
+                  />
                 </v-card-item>
 
                 <v-card-text>
                   <p class="text-body-1 mb-4">
                     {{ post.summary || t('blog.placeholders.noSummary') }}
                   </p>
-                  <div class="d-flex flex-wrap align-center">
-                    <div
-                      class="d-flex align-center text-medium-emphasis mr-6 mb-2"
-                    >
-                      <v-icon icon="mdi-thumb-up-outline" class="mr-1" />
-                      {{
-                        t('blog.stats.reactions', {
-                          count: post.reactions_count ?? 0,
-                        })
-                      }}
-                    </div>
-                    <div
-                      class="d-flex align-center text-medium-emphasis mr-6 mb-2"
-                    >
-                      <v-icon icon="mdi-comment-text-outline" class="mr-1" />
-                      {{
-                        t('blog.stats.comments', {
-                          count: post.totalComments ?? 0,
-                        })
-                      }}
-                    </div>
-                  </div>
+                  <BlogReactionBar
+                    :reactions-count="post.reactions_count ?? 0"
+                    :comments-count="post.totalComments ?? 0"
+                  />
                 </v-card-text>
 
                 <v-card-actions class="pt-0 pb-4 px-4">
@@ -301,16 +234,6 @@ watch(
 
 .blog-post-link:hover,
 .blog-post-link:focus-visible {
-  text-decoration: underline;
-}
-
-.blog-post-card__author-link {
-  color: inherit;
-  text-decoration: none;
-}
-
-.blog-post-card__author-link:hover,
-.blog-post-card__author-link:focus-visible {
   text-decoration: underline;
 }
 
