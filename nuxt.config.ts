@@ -227,6 +227,16 @@ export default defineNuxtConfig({
         apiBase:
           process.env.NUXT_PUBLIC_MESSENGER_API_BASE ||
           'https://bro-world.org/api/v1/messenger',
+        mercureHubUrl:
+          process.env.NUXT_PUBLIC_MESSENGER_HUB_URL ||
+          'http://bro-world.org:3000/.well-known/mercure',
+        notificationTopic:
+          process.env.NUXT_PUBLIC_MESSENGER_NOTIFICATION_TOPIC ||
+          '/notifications/3d2abda8-bdb9-11f0-8da8-9d776028aeca',
+        notificationReconnectDelay: toPositiveInteger(
+          process.env.NUXT_PUBLIC_MESSENGER_NOTIFICATION_RECONNECT_DELAY,
+          5000,
+        ),
       },
     },
   },
