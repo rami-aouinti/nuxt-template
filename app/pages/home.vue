@@ -2469,16 +2469,6 @@ a.facebook-post-card__author-link:focus-visible {
   box-shadow: var(--blog-sidebar-shadow);
 }
 
-@media (min-width: 960px) {
-  .blog-sidebar {
-    position: sticky;
-    top: calc(var(--v-layout-top, 0px) + 24px);
-    max-height: calc(100vh - var(--v-layout-top, 0px) - 48px);
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-}
-
 .blog-sidebar__list {
   border-radius: 16px;
   padding: 16px;
