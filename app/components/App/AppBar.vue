@@ -7,6 +7,7 @@ import { Notify } from '~/stores/notification'
 const theme = useTheme()
 const drawer = useState('drawer')
 const route = useRoute()
+const router = useRouter()
 const { t, locale, locales } = useI18n()
 const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
@@ -43,6 +44,14 @@ const { loggedIn, clear, user, session } = useUserSession()
 const profileCache = useAuthProfileCache()
 const credentialsDialog = ref(false)
 const controlChevronSize = 18
+
+const canGoBack = computed(() => import.meta.client && window.history.length > 1)
+
+const handleGoBack = () => {
+  if (canGoBack.value) {
+    router.back()
+  }
+}
 
 type LanguageItem = LocaleObject & {
   to: string
@@ -141,6 +150,21 @@ watch(loggedIn, (value) => {
     <v-spacer />
     <div id="app-bar" />
     <div class="dock-navbar__actions">
+      <v-tooltip location="bottom">
+        <template #activator="{ props: tooltip }">
+          <v-btn
+            icon
+            :aria-label="t('navigation.goBack')"
+            :disabled="!canGoBack"
+            class="dock-navbar__action-button"
+            v-bind="tooltip"
+            @click="handleGoBack"
+          >
+            <v-icon icon="mdi-arrow-left" />
+          </v-btn>
+        </template>
+        <span>{{ t('navigation.goBack') }}</span>
+      </v-tooltip>
       <AppMessenger />
       <AppNotification />
       <v-switch
