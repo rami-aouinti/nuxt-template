@@ -27,7 +27,6 @@ import {
   DEFAULT_REACTION_TYPE,
   resolveReactionType,
 } from '~/utils/reactions'
-import {localePath} from "@nuxtjs/i18n/dist/runtime/routing/routing";
 
 definePageMeta({
   title: 'navigation.home',
