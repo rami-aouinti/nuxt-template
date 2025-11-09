@@ -115,6 +115,9 @@
       "title": "Aucun article publié pour le moment",
       "description": "Revenez plus tard pour découvrir les prochaines publications."
     },
+    "search": {
+      "noResults": "Aucun article ou blog ne correspond à votre recherche."
+    },
     "forms": {
       "commentPlaceholder": "Partagez vos idées...",
       "replyPlaceholder": "Écrivez votre réponse...",

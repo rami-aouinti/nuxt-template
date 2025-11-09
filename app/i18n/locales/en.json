@@ -115,6 +115,9 @@
       "title": "No articles published yet",
       "description": "Please check back later for upcoming posts."
     },
+    "search": {
+      "noResults": "No posts or blogs match your search."
+    },
     "forms": {
       "commentPlaceholder": "Share your thoughts...",
       "replyPlaceholder": "Write your reply...",

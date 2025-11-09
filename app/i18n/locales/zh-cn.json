@@ -115,6 +115,9 @@
       "title": "暂时没有发布任何文章",
       "description": "稍后再来查看新的内容。"
     },
+    "search": {
+      "noResults": "没有与您的搜索匹配的文章或博客。"
+    },
     "forms": {
       "commentPlaceholder": "分享你的想法...",
       "replyPlaceholder": "写下你的回复...",
