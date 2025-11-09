@@ -236,7 +236,7 @@ watch(loggedIn, (value) => {
         true-icon="mdi-weather-night"
         variant="outlined"
       />
-      <v-menu location="bottom" class="dock-navbar__menu">
+      <v-menu location="bottom" class="dock-navbar__menu" min-width="200">
         <template #activator="{ props: menu }">
           <v-tooltip location="bottom">
             <template #activator="{ props: tooltip }">
@@ -262,9 +262,9 @@ watch(loggedIn, (value) => {
             :to="localePath('profile')"
           />
           <v-list-item
-            :title="t('navigation.settings')"
-            prepend-icon="mdi-cog-outline"
-            :to="localePath('settings')"
+            :title="t('navigation.admin')"
+            prepend-icon="mdi-shield-account"
+            :to="localePath('admin')"
           />
           <v-list-item
             :title="t('navigation.help')"

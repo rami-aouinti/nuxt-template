@@ -23,7 +23,7 @@ export function useBlogAuthor() {
 
   function getAuthorProfileLink(user: BlogPostUser): string | null {
     const username = resolveString(user.username).trim()
-    return username.length ? `/profile/${encodeURIComponent(username)}` : null
+    return username.length ? `/account/${encodeURIComponent(username)}` : null
   }
 
   function getAuthorAvatar(user: BlogPostUser): string | undefined {

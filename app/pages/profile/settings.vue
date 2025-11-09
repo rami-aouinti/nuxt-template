@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { AuthProfile } from '~/types/auth'
+import ProfileNavigation from "~/components/profile/ProfileNavigation.vue";
 
 definePageMeta({
   title: 'navigation.settings',
@@ -147,10 +148,11 @@ const sections = computed<SettingsSection[]>(() => {
 </script>
 
 <template>
-  <v-container fluid>
+  <v-container fluid class="py-6">
+    <ProfileNavigation class="mb-6" />
     <v-row justify="center">
       <v-col cols="12">
-        <v-card class="pa-6" elevation="2">
+        <v-card class="pa-6" elevation="2"  rounded="xl">
           <v-card-title class="text-h4 font-weight-bold pb-2">
             {{ t('pages.settings.title') }}
           </v-card-title>

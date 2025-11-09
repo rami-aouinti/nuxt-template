@@ -786,10 +786,10 @@ async function submit() {
 
         <v-row v-else align="stretch">
           <v-col cols="12" md="4">
-            <v-card class="pa-6" elevation="2">
+            <v-card class="pa-6" elevation="2" rounded="xl">
               <v-row no-gutters class="align-center mb-4">
                 <v-col cols="auto">
-                  <v-avatar size="96" color="primary" class="elevation-2">
+                  <v-avatar size="72" color="primary" class="elevation-2">
                     <v-img
                       v-if="avatarUrl"
                       :src="avatarUrl"
@@ -802,8 +802,8 @@ async function submit() {
                     >
                   </v-avatar>
                 </v-col>
-                <v-col>
-                  <div class="text-h5 font-weight-medium">
+                <v-col class="px-4">
+                  <div class="text-h6 font-weight-medium">
                     {{ displayName }}
                   </div>
                   <div class="text-body-2 text-medium-emphasis">
@@ -838,22 +838,13 @@ async function submit() {
                   </div>
                 </div>
               </div>
-              <v-btn
-                class="mt-6"
-                color="primary"
-                block
-                prepend-icon="mdi-calendar"
-                :to="{ path: '/profile/calendar' }"
-              >
-                {{ t('navigation.profileCalendar') }}
-              </v-btn>
             </v-card>
           </v-col>
 
           <v-col cols="12" md="8">
             <v-row>
               <v-col cols="12">
-                <v-card elevation="2">
+                <v-card elevation="2" rounded="xl">
                   <v-card-title class="d-flex align-center gap-4">
                     <span>{{ t('profile.sections.personalInfo.title') }}</span>
                     <v-spacer />
@@ -908,7 +899,7 @@ async function submit() {
               </v-col>
 
               <v-col cols="12">
-                <v-card elevation="2">
+                <v-card elevation="2" rounded="xl">
                   <v-card-title>
                     {{ t('profile.sections.details.title') }}
                   </v-card-title>
@@ -969,7 +960,7 @@ async function submit() {
               </v-col>
 
               <v-col cols="12">
-                <v-card elevation="2">
+                <v-card elevation="2" rounded="xl">
                   <v-card-title>
                     {{ t('profile.sections.roles.title') }}
                   </v-card-title>
@@ -998,7 +989,7 @@ async function submit() {
               </v-col>
 
               <v-col cols="12">
-                <v-card elevation="2">
+                <v-card elevation="2" rounded="xl">
                   <v-card-title class="d-flex align-center gap-3">
                     <span>{{ t('profile.sections.settings.title') }}</span>
                     <v-spacer />

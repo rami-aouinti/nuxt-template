@@ -481,7 +481,7 @@ onMounted(() => {
     <slot name="header" />
     <v-row>
       <v-col cols="12" md="4" lg="3">
-        <v-card class="workspace-tree h-100">
+        <v-card class="workspace-tree h-100"  rounded="xl">
           <v-card-title class="d-flex align-center gap-2">
             <v-icon icon="mdi:folder-tree" class="me-2" />
             {{ t('workspace.tree.title') }}
@@ -527,7 +527,7 @@ onMounted(() => {
         </v-card>
       </v-col>
       <v-col cols="12" md="8" lg="9">
-        <v-card v-if="selectedFolder" class="workspace-details h-100">
+        <v-card v-if="selectedFolder" class="workspace-details h-100"  rounded="xl">
           <v-toolbar flat color="transparent" class="px-4">
             <v-toolbar-title class="text-h5">
               {{ selectedFolder.name }}

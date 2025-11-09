@@ -382,43 +382,9 @@ function closeDialog() {
 <template>
   <v-container fluid class="profile-calendar py-6">
     <ProfileNavigation class="mb-6" />
-    <v-row>
-      <v-col cols="12">
-        <div
-          class="d-flex flex-wrap gap-4 align-center justify-space-between mb-4"
-        >
-          <div>
-            <h1 class="text-h4 mb-1">
-              {{ t('profile.calendar.page.title') }}
-            </h1>
-            <p class="text-body-2 text-medium-emphasis">
-              {{ t('profile.calendar.page.subtitle') }}
-            </p>
-          </div>
-          <div class="d-flex gap-3 flex-wrap">
-            <v-btn
-              color="primary"
-              prepend-icon="mdi-plus"
-              @click="openCreateDialog()"
-            >
-              {{ t('profile.calendar.actions.new') }}
-            </v-btn>
-            <v-btn
-              variant="tonal"
-              prepend-icon="mdi-refresh"
-              :loading="isLoading"
-              @click="loadEvents"
-            >
-              {{ t('profile.calendar.actions.refresh') }}
-            </v-btn>
-          </div>
-        </div>
-      </v-col>
-    </v-row>
-
     <v-row dense>
       <v-col cols="12" lg="8">
-        <v-card class="h-100">
+        <v-card class="h-100" rounded="xl">
           <v-card-text>
             <div
               class="d-flex flex-wrap align-center justify-space-between gap-4 mb-4"
@@ -476,7 +442,7 @@ function closeDialog() {
       </v-col>
 
       <v-col cols="12" lg="4">
-        <v-card class="h-100">
+        <v-card class="h-100" rounded="xl">
           <v-card-title class="d-flex align-center justify-space-between">
             <span class="text-subtitle-1 font-weight-medium">
               {{ t('profile.calendar.list.title') }}
@@ -486,6 +452,13 @@ function closeDialog() {
               size="small"
               variant="text"
               @click="openCreateDialog()"
+            />
+            <v-btn
+              size="small"
+              variant="text"
+              prepend-icon="mdi-refresh"
+              :loading="isLoading"
+              @click="loadEvents"
             />
           </v-card-title>
           <v-divider />

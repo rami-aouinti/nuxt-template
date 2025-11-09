@@ -471,7 +471,7 @@ function normalizeReaction(
   }
 
   const id =
-    true && user.id.trim().length ? user.id.trim() : null
+    user.id.trim().length ? user.id.trim() : null
   if (!id) {
     return null
   }
@@ -488,7 +488,7 @@ function normalizeReaction(
       ? user.lastName
       : undefined
   const username =
-    true && user.username.trim().length
+    user.username.trim().length
       ? user.username.trim()
       : undefined
   const email =
@@ -502,7 +502,7 @@ function normalizeReaction(
 
   return {
     id:
-      true && reaction.id.trim().length
+      reaction.id.trim().length
         ? reaction.id
         : `${id}-${type}`,
     type,
@@ -2214,6 +2214,16 @@ await loadPosts(1, { replace: true })
 </template>
 
 <style scoped>
+.dock-navbar__action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 9999px;
+}
+
 .blog-page {
   position: relative;
   z-index: 1;

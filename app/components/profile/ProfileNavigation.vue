@@ -18,7 +18,14 @@ const items = computed<NavigationItem[]>(() => [
     to: '/profile',
     label: t('navigation.profile'),
     icon: 'mdi-account-circle',
-    match: (path) => path === '/profile' || path.startsWith('/profile/post'),
+    match: (path) => path.startsWith('/profile'),
+  },
+  {
+    value: 'post',
+    to: '/profile/post',
+    label: t('navigation.posts'),
+    icon: 'mdi-blogger',
+    match: (path) => path.startsWith('/profile/post'),
   },
   {
     value: 'calendar',
@@ -36,7 +43,7 @@ const items = computed<NavigationItem[]>(() => [
   },
   {
     value: 'settings',
-    to: '/settings',
+    to: '/profile/settings',
     label: t('navigation.settings'),
     icon: 'mdi-cog',
     match: (path) => path.startsWith('/settings'),
@@ -64,7 +71,7 @@ const activeValue = computed(() => {
 </script>
 
 <template>
-  <v-sheet color="transparent" class="profile-navigation" rounded="lg">
+  <v-sheet color="transparent" class="profile-navigation" rounded="xl">
     <v-tabs
       :model-value="activeValue"
       color="primary"
@@ -78,7 +85,7 @@ const activeValue = computed(() => {
         :value="item.value"
         :to="item.to"
         :prepend-icon="item.icon"
-        rounded="lg"
+        rounded="xl"
       >
         {{ item.label }}
       </v-tab>
