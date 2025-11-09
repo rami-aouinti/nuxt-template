@@ -1444,13 +1444,13 @@ await loadPosts(1, { replace: true })
                   @keydown.enter.prevent="openCreatePostDialog"
                   @keydown.space.prevent="openCreatePostDialog"
                 >
-                  <v-avatar size="48" class="create-post-card__avatar">
+                  <v-avatar size="32" class="create-post-card__avatar">
                     <v-img
                       :src="currentUserAvatar"
                       :alt="currentUserDisplayName"
                     >
                       <template #error>
-                        <v-icon icon="mdi-account-circle" size="48" />
+                        <v-icon icon="mdi-account-circle" size="32" />
                       </template>
                     </v-img>
                   </v-avatar>
@@ -1934,16 +1934,6 @@ await loadPosts(1, { replace: true })
             >
               {{ t('blog.sidebar.createBlog') }}
             </v-btn>
-            <v-btn
-              block
-              color="primary"
-              variant="tonal"
-              prepend-icon="mdi-note-plus"
-              :disabled="!loggedIn || !myBlogs.length"
-              @click="openCreatePostDialog"
-            >
-              {{ t('blog.sidebar.createPost') }}
-            </v-btn>
           </div>
         </div>
       </v-col>
@@ -2190,7 +2180,6 @@ await loadPosts(1, { replace: true })
 .create-post-card__body {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 .create-post-card__composer {
@@ -2199,7 +2188,8 @@ await loadPosts(1, { replace: true })
   gap: 16px;
   padding: 12px 16px;
   border-radius: 999px;
-  background: rgba(var(--v-theme-surface-variant), 0.35);
+  border: solid;
+  border-color: rgba(var(--v-theme-surface-variant), 0.5);
   cursor: pointer;
   transition: background-color 0.2s ease;
   outline: none;
@@ -2207,7 +2197,7 @@ await loadPosts(1, { replace: true })
 
 .create-post-card__composer:hover,
 .create-post-card__composer:focus-visible {
-  background: rgba(var(--v-theme-surface-variant), 0.5);
+  background: rgba(var(--v-theme-surface-variant), 0.1);
 }
 
 .create-post-card__avatar {

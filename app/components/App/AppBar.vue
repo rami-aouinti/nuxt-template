@@ -153,10 +153,11 @@ watch(loggedIn, (value) => {
       <v-tooltip location="bottom">
         <template #activator="{ props: tooltip }">
           <v-btn
-            icon
             :aria-label="t('navigation.goBack')"
             :disabled="!canGoBack"
             class="dock-navbar__action-button"
+            color="primary"
+            variant="outlined"
             v-bind="tooltip"
             @click="handleGoBack"
           >
