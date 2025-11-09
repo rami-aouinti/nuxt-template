@@ -635,9 +635,11 @@ async function loadPosts(
 
 async function refreshPosts() {
   posts.value = []
+  myBlogs.value = []
   pagination.page = 1
   pagination.total = 0
   await loadPosts(1, { replace: true })
+  await loadMyBlogList()
 }
 
 async function loadMorePosts() {
