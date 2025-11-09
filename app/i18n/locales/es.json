@@ -412,11 +412,14 @@
         "description": "Consulta la información pública compartida por este miembro."
       },
       "actions": {
-        "retry": "Intentar de nuevo"
+        "retry": "Intentar de nuevo",
+        "message": "Mensaje"
       },
       "errors": {
         "load": "No se pudo cargar este perfil.",
-        "notFound": "No se encontró este perfil."
+        "notFound": "No se encontró este perfil.",
+        "authenticationRequired": "Debes iniciar sesión para enviar mensajes.",
+        "messengerUnavailable": "No se puede abrir Messenger. Inténtalo de nuevo más tarde."
       },
       "labels": {
         "email": "Correo electrónico",

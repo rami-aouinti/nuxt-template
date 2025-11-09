@@ -412,11 +412,14 @@
         "description": "Consultez les informations publiques partagées par ce membre."
       },
       "actions": {
-        "retry": "Réessayer"
+        "retry": "Réessayer",
+        "message": "Message"
       },
       "errors": {
         "load": "Impossible de charger ce profil.",
-        "notFound": "Ce profil est introuvable."
+        "notFound": "Ce profil est introuvable.",
+        "authenticationRequired": "Vous devez être connecté pour envoyer des messages.",
+        "messengerUnavailable": "Impossible d'ouvrir Messenger. Veuillez réessayer plus tard."
       },
       "labels": {
         "email": "E-mail",

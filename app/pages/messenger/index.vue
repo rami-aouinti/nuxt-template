@@ -20,6 +20,8 @@ const messengerApi = useMessengerApi()
 const messengerStore = useMessengerStore()
 const { lastEvent } = storeToRefs(messengerStore)
 const { session } = useUserSession()
+const route = useRoute()
+const router = useRouter()
 
 const conversations = ref<ConversationSummary[]>([])
 const selectedConversationId = ref<string>('')
@@ -30,6 +32,7 @@ const isSending = ref(false)
 const messageInput = ref('')
 const messageCursor = ref<string | null>(null)
 const hasMoreMessages = ref(false)
+const isUpdatingRoute = ref(false)
 
 const currentUserId = computed(() => session.value?.profile?.id ?? '')
 
@@ -48,6 +51,38 @@ const sortedMessages = computed(() =>
   }),
 )
 
+const getRouteConversationId = () => {
+  const value = route.query.conversationId
+  if (Array.isArray(value)) {
+    return value[0] ?? ''
+  }
+
+  return typeof value === 'string' ? value : ''
+}
+
+const updateRouteConversationId = async (conversationId: string) => {
+  const normalized = typeof conversationId === 'string' ? conversationId : ''
+  const current = getRouteConversationId()
+
+  if (normalized === current) {
+    return
+  }
+
+  const query = { ...route.query }
+  if (normalized) {
+    query.conversationId = normalized
+  } else {
+    delete query.conversationId
+  }
+
+  isUpdatingRoute.value = true
+  try {
+    await router.replace({ query })
+  } finally {
+    isUpdatingRoute.value = false
+  }
+}
+
 const canSendMessage = computed(
   () =>
     Boolean(selectedConversationId.value) &&
@@ -61,8 +96,17 @@ const loadConversations = async () => {
     const response = await messengerApi.fetchConversations({ limit: 30 })
     conversations.value = response.items
 
-    if (!selectedConversationId.value && conversations.value.length > 0) {
+    const routeConversationId = getRouteConversationId()
+
+    if (routeConversationId) {
+      selectedConversationId.value = routeConversationId
+    } else if (!selectedConversationId.value && conversations.value.length > 0) {
       selectedConversationId.value = conversations.value[0].id
+      void updateRouteConversationId(selectedConversationId.value)
+    } else if (conversations.value.length === 0) {
+      selectedConversationId.value = ''
+      messages.value = []
+      void updateRouteConversationId('')
     }
   } catch (error) {
     Notify.error(error)
@@ -189,11 +233,16 @@ const sendMessage = async () => {
 }
 
 const handleSelectConversation = async (conversationId: string) => {
+  if (!conversationId) {
+    return
+  }
+
   if (selectedConversationId.value === conversationId) {
     return
   }
 
   selectedConversationId.value = conversationId
+  await updateRouteConversationId(conversationId)
   await loadMessages(conversationId)
 }
 
@@ -231,10 +280,40 @@ watch(
   { deep: false },
 )
 
+watch(
+  () => route.query.conversationId,
+  async () => {
+    if (isUpdatingRoute.value) {
+      return
+    }
+
+    const conversationId = getRouteConversationId()
+    if (conversationId && conversationId !== selectedConversationId.value) {
+      selectedConversationId.value = conversationId
+      await loadMessages(conversationId)
+    } else if (!conversationId) {
+      if (conversations.value.length > 0) {
+        const firstId = conversations.value[0].id
+        selectedConversationId.value = firstId
+        await updateRouteConversationId(firstId)
+        await loadMessages(firstId)
+      } else {
+        selectedConversationId.value = ''
+        messages.value = []
+      }
+    }
+  },
+)
+
 onMounted(async () => {
   await loadConversations()
-  if (selectedConversationId.value) {
-    await loadMessages(selectedConversationId.value)
+  const initialConversationId =
+    getRouteConversationId() || selectedConversationId.value
+
+  if (initialConversationId) {
+    selectedConversationId.value = initialConversationId
+    await updateRouteConversationId(initialConversationId)
+    await loadMessages(initialConversationId)
   }
   await messengerStore.initialise(3)
 })

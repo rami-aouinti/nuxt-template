@@ -226,7 +226,7 @@ export default defineNuxtConfig({
       messenger: {
         apiBase:
           process.env.NUXT_PUBLIC_MESSENGER_API_BASE ||
-          'https://bro-world.org/api/messenger',
+          'https://bro-world.org/api/v1/messenger',
       },
     },
   },
