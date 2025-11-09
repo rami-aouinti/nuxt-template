@@ -86,6 +86,17 @@
       "addComment": "Pubblica commento",
       "reply": "Rispondi"
     },
+    "feed": {
+      "composer": {
+        "title": "Crea un post",
+        "placeholder": "Cosa stai facendo, {name}?",
+        "actions": {
+          "liveVideo": "Video in diretta",
+          "photoVideo": "Foto/Video",
+          "feelingActivity": "Stato d'animo/Attività"
+        }
+      }
+    },
     "alerts": {
       "loadFailed": "Si è verificato un errore durante il caricamento degli articoli. Riprova."
     },

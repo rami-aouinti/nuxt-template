@@ -86,6 +86,17 @@
       "addComment": "Kommentar veröffentlichen",
       "reply": "Antworten"
     },
+    "feed": {
+      "composer": {
+        "title": "Beitrag erstellen",
+        "placeholder": "Was machst du gerade, {name}?",
+        "actions": {
+          "liveVideo": "Live-Video",
+          "photoVideo": "Foto/Video",
+          "feelingActivity": "Gefühl/Aktivität"
+        }
+      }
+    },
     "alerts": {
       "loadFailed": "Beim Laden der Beiträge ist ein Fehler aufgetreten. Bitte versuche es erneut."
     },

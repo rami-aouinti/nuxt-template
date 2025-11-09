@@ -86,6 +86,17 @@
       "addComment": "Publicar comentario",
       "reply": "Responder"
     },
+    "feed": {
+      "composer": {
+        "title": "Crear publicación",
+        "placeholder": "¿Qué estás haciendo, {name}?",
+        "actions": {
+          "liveVideo": "Video en vivo",
+          "photoVideo": "Foto/Video",
+          "feelingActivity": "Sentimiento/Actividad"
+        }
+      }
+    },
     "alerts": {
       "loadFailed": "Se produjo un error al cargar los artículos. Inténtalo de nuevo."
     },
