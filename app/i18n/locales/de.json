@@ -412,11 +412,14 @@
         "description": "Sehen Sie sich die öffentlichen Informationen dieses Mitglieds an."
       },
       "actions": {
-        "retry": "Erneut versuchen"
+        "retry": "Erneut versuchen",
+        "message": "Nachricht"
       },
       "errors": {
         "load": "Dieses Profil konnte nicht geladen werden.",
-        "notFound": "Dieses Profil wurde nicht gefunden."
+        "notFound": "Dieses Profil wurde nicht gefunden.",
+        "authenticationRequired": "Sie müssen angemeldet sein, um Nachrichten zu senden.",
+        "messengerUnavailable": "Messenger kann nicht geöffnet werden. Bitte versuchen Sie es später erneut."
       },
       "labels": {
         "email": "E-Mail",

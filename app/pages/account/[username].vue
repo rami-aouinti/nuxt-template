@@ -1,15 +1,24 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { createError } from 'nuxt/app'
 
 import type { PublicProfileData } from '~/types/profile'
+import type { ConversationSummary } from '~/types/messenger'
+import { useMessengerApi } from '~/composables/useMessengerApi'
+import { Notify } from '~/stores/notification'
 
 definePageMeta({
   title: 'navigation.profile',
 })
 
 const route = useRoute()
+const router = useRouter()
 const { t } = useI18n()
+const localePath = useLocalePath()
+const { session } = useUserSession()
+const messengerApi = useMessengerApi()
+
+const isOpeningConversation = ref(false)
 
 const usernameParam = computed(() => {
   const value = route.params.username
@@ -45,6 +54,20 @@ const { data, pending, error, refresh } = await useAsyncData(
 )
 
 const profile = computed(() => data.value ?? null)
+
+const currentUserId = computed(() => session.value?.profile?.id ?? '')
+
+const isOwnProfile = computed(
+  () => profile.value?.id && profile.value.id === currentUserId.value,
+)
+
+const messengerButtonVisible = computed(
+  () => Boolean(profile.value) && !isOwnProfile.value,
+)
+
+const messengerButtonDisabled = computed(
+  () => isOpeningConversation.value || !profile.value,
+)
 
 const displayName = computed(() => {
   if (!profile.value) {
@@ -146,6 +169,71 @@ const profilePhoto = computed(() => {
 const usernameLabel = computed(
   () => `@${profile.value?.username ?? normalizedUsername.value}`,
 )
+
+const findConversationByParticipant = (
+  conversations: ConversationSummary[],
+  participantId: string,
+) =>
+  conversations.find((conversation) =>
+    conversation.participants.some(
+      (participant) => participant.id === participantId,
+    ),
+  )
+
+const openMessengerConversation = async () => {
+  if (!profile.value) {
+    return
+  }
+
+  if (isOwnProfile.value) {
+    return
+  }
+
+  if (!messengerApi.isAuthenticated.value) {
+    Notify.warning(t('profile.public.errors.authenticationRequired'))
+    return
+  }
+
+  const receiverId = profile.value.id
+  if (!receiverId) {
+    Notify.error(t('profile.public.errors.messengerUnavailable'))
+    return
+  }
+
+  isOpeningConversation.value = true
+
+  try {
+    const response = await messengerApi.fetchConversations({
+      limit: 50,
+    })
+
+    let conversation = findConversationByParticipant(
+      response.items,
+      receiverId,
+    )
+
+    if (!conversation) {
+      conversation = await messengerApi.createDirectConversation(receiverId)
+    }
+
+    if (!conversation?.id) {
+      throw new Error('CONVERSATION_NOT_AVAILABLE')
+    }
+
+    const messengerRoute =
+      localePath({
+        name: 'messenger',
+        query: { conversationId: conversation.id },
+      }) || '/messenger'
+
+    await router.push(messengerRoute)
+  } catch (error) {
+    console.error('Unable to open messenger conversation', error)
+    Notify.error(t('profile.public.errors.messengerUnavailable'))
+  } finally {
+    isOpeningConversation.value = false
+  }
+}
 </script>
 
 <template>
@@ -211,13 +299,26 @@ const usernameLabel = computed(
               <div class="flex-grow-1">
                 <h2 class="text-h4 text-h5-sm mb-1">{{ displayName }}</h2>
                 <p class="text-medium-emphasis mb-2">{{ usernameLabel }}</p>
-                <v-chip
-                  :color="accountStatusColor"
-                  size="small"
-                  variant="tonal"
-                >
-                  {{ accountStatusLabel }}
-                </v-chip>
+                <div class="d-flex flex-wrap align-center gap-3">
+                  <v-chip
+                    :color="accountStatusColor"
+                    size="small"
+                    variant="tonal"
+                  >
+                    {{ accountStatusLabel }}
+                  </v-chip>
+                  <v-btn
+                    v-if="messengerButtonVisible"
+                    color="primary"
+                    variant="flat"
+                    prepend-icon="mdi-message-text-outline"
+                    :loading="isOpeningConversation"
+                    :disabled="messengerButtonDisabled"
+                    @click="openMessengerConversation"
+                  >
+                    {{ t('profile.public.actions.message') }}
+                  </v-btn>
+                </div>
               </div>
             </div>
 

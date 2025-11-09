@@ -412,11 +412,14 @@
         "description": "Visualizza le informazioni pubbliche condivise da questo membro."
       },
       "actions": {
-        "retry": "Riprova"
+        "retry": "Riprova",
+        "message": "Messaggio"
       },
       "errors": {
         "load": "Impossibile caricare questo profilo.",
-        "notFound": "Questo profilo non è stato trovato."
+        "notFound": "Questo profilo non è stato trovato.",
+        "authenticationRequired": "Devi essere connesso per inviare messaggi.",
+        "messengerUnavailable": "Impossibile aprire Messenger. Riprova più tardi."
       },
       "labels": {
         "email": "Email",
