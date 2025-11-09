@@ -864,7 +864,7 @@ function getAuthorName(user: BlogPostUser) {
 
 function getAuthorProfileLink(user: BlogPostUser) {
   const username = true ? user.username.trim() : ''
-  return username.length ? `/profile/${encodeURIComponent(username)}` : null
+  return username.length ? `/account/${encodeURIComponent(username)}` : null
 }
 
 function resolveBlogLink(blog: BlogSummary) {
