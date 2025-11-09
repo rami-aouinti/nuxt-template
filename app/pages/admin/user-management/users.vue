@@ -615,395 +615,388 @@ watch(attachDialog, (value) => {
       </v-col>
     </v-row>
 
-    <v-dialog v-model="createDialog" max-width="640">
-      <v-card>
-        <v-card-title>{{
-          t('userManagement.users.dialogs.create.title')
-        }}</v-card-title>
-        <v-card-text>
-          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
-            {{ formError }}
-          </v-alert>
-          <v-form @submit.prevent="submitCreate">
-            <v-row>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.username"
-                  :label="t('userManagement.users.fields.username')"
-                  required
-                  :disabled="actionLoading"
-                  autocomplete="off"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.email"
-                  :label="t('userManagement.users.fields.email')"
-                  type="email"
-                  required
-                  :disabled="actionLoading"
-                  autocomplete="off"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.firstName"
-                  :label="t('userManagement.users.fields.firstName')"
-                  :disabled="actionLoading"
-                  autocomplete="off"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.lastName"
-                  :label="t('userManagement.users.fields.lastName')"
-                  :disabled="actionLoading"
-                  autocomplete="off"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.language"
-                  :label="t('userManagement.users.fields.language')"
-                  :disabled="actionLoading"
-                  autocomplete="off"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.locale"
-                  :label="t('userManagement.users.fields.locale')"
-                  :disabled="actionLoading"
-                  autocomplete="off"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.timezone"
-                  :label="t('userManagement.users.fields.timezone')"
-                  :disabled="actionLoading"
-                  autocomplete="off"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.password"
-                  :label="t('userManagement.users.fields.password')"
-                  type="password"
-                  required
-                  :disabled="actionLoading"
-                  autocomplete="new-password"
-                />
-              </v-col>
-              <v-col cols="12">
-                <v-switch
-                  v-model="form.enabled"
-                  :disabled="actionLoading"
-                  inset
-                  color="primary"
-                  :label="t('userManagement.users.fields.enabled')"
-                />
-              </v-col>
-            </v-row>
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn variant="text" :disabled="actionLoading" @click="closeCreate">
-            {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn
-            color="primary"
-            :loading="actionLoading"
-            :disabled="!canSubmit"
-            @click="submitCreate"
-          >
-            {{ t('common.actions.create') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <AppModal
+      v-model="createDialog"
+      :max-width="640"
+      :close-disabled="actionLoading"
+      icon="mdi-account-plus-outline"
+      :title="t('userManagement.users.dialogs.create.title')"
+      @close="closeCreate"
+    >
+      <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
+        {{ formError }}
+      </v-alert>
+      <v-form @submit.prevent="submitCreate">
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="form.username"
+              :label="t('userManagement.users.fields.username')"
+              required
+              :disabled="actionLoading"
+              autocomplete="off"
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="form.email"
+              :label="t('userManagement.users.fields.email')"
+              type="email"
+              required
+              :disabled="actionLoading"
+              autocomplete="off"
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="form.firstName"
+              :label="t('userManagement.users.fields.firstName')"
+              :disabled="actionLoading"
+              autocomplete="off"
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="form.lastName"
+              :label="t('userManagement.users.fields.lastName')"
+              :disabled="actionLoading"
+              autocomplete="off"
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="form.language"
+              :label="t('userManagement.users.fields.language')"
+              :disabled="actionLoading"
+              autocomplete="off"
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="form.locale"
+              :label="t('userManagement.users.fields.locale')"
+              :disabled="actionLoading"
+              autocomplete="off"
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="form.timezone"
+              :label="t('userManagement.users.fields.timezone')"
+              :disabled="actionLoading"
+              autocomplete="off"
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="form.password"
+              :label="t('userManagement.users.fields.password')"
+              type="password"
+              required
+              :disabled="actionLoading"
+              autocomplete="new-password"
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-switch
+              v-model="form.enabled"
+              :disabled="actionLoading"
+              inset
+              color="primary"
+              :label="t('userManagement.users.fields.enabled')"
+            />
+          </v-col>
+        </v-row>
+      </v-form>
 
-    <v-dialog v-model="editDialog" max-width="640">
-      <v-card>
-        <v-card-title>
-          {{
-            t('userManagement.users.dialogs.edit.title', {
-              username:
-                editingUser?.username ??
-                t('userManagement.users.labels.userFallback'),
-            })
-          }}
-        </v-card-title>
-        <v-card-text>
-          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
-            {{ formError }}
-          </v-alert>
-          <v-form @submit.prevent="submitEdit">
-            <v-row>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.username"
-                  :label="t('userManagement.users.fields.username')"
-                  required
-                  :disabled="actionLoading"
-                  autocomplete="off"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.email"
-                  :label="t('userManagement.users.fields.email')"
-                  type="email"
-                  required
-                  :disabled="actionLoading"
-                  autocomplete="off"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.firstName"
-                  :label="t('userManagement.users.fields.firstName')"
-                  :disabled="actionLoading"
-                  autocomplete="off"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.lastName"
-                  :label="t('userManagement.users.fields.lastName')"
-                  :disabled="actionLoading"
-                  autocomplete="off"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.language"
-                  :label="t('userManagement.users.fields.language')"
-                  :disabled="actionLoading"
-                  autocomplete="off"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.locale"
-                  :label="t('userManagement.users.fields.locale')"
-                  :disabled="actionLoading"
-                  autocomplete="off"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.timezone"
-                  :label="t('userManagement.users.fields.timezone')"
-                  :disabled="actionLoading"
-                  autocomplete="off"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.password"
-                  :label="t('userManagement.users.fields.newPassword')"
-                  type="password"
-                  :disabled="actionLoading"
-                  autocomplete="new-password"
-                  :hint="t('userManagement.users.hints.keepPassword')"
-                  persistent-hint
-                />
-              </v-col>
-              <v-col cols="12">
-                <v-switch
-                  v-model="form.enabled"
-                  :disabled="actionLoading"
-                  inset
-                  color="primary"
-                  :label="t('userManagement.users.fields.enabled')"
-                />
-              </v-col>
-            </v-row>
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn variant="text" :disabled="actionLoading" @click="closeEdit">
-            {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn
-            color="primary"
-            :loading="actionLoading"
-            :disabled="!canSubmit"
-            @click="submitEdit"
-          >
-            {{ t('common.actions.save') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+      <template #actions>
+        <v-btn variant="text" :disabled="actionLoading" @click="closeCreate">
+          {{ t('common.actions.cancel') }}
+        </v-btn>
+        <v-btn
+          color="primary"
+          :loading="actionLoading"
+          :disabled="!canSubmit"
+          @click="submitCreate"
+        >
+          {{ t('common.actions.create') }}
+        </v-btn>
+      </template>
+    </AppModal>
 
-    <v-dialog v-model="viewDialog" max-width="520">
-      <v-card>
-        <v-card-title>{{
-          t('userManagement.users.dialogs.view.title')
-        }}</v-card-title>
-        <v-card-text>
-          <v-progress-linear
-            v-if="viewLoading"
-            color="primary"
-            indeterminate
-            class="mb-4"
-          />
-          <v-alert v-if="viewError" type="error" variant="tonal" class="mb-4">
-            {{ viewError }}
-          </v-alert>
-          <template v-if="viewUser && !viewLoading">
-            <div class="d-flex flex-column" style="row-gap: 12px">
-              <div>
-                <div class="text-caption text-medium-emphasis">
-                  {{ t('userManagement.users.fields.username') }}
-                </div>
-                <div class="text-body-1 font-weight-medium">
-                  {{ viewUser.username }}
-                </div>
+    <AppModal
+      v-model="editDialog"
+      :max-width="640"
+      :close-disabled="actionLoading"
+      icon="mdi-account-edit-outline"
+      :title="
+        t('userManagement.users.dialogs.edit.title', {
+          username:
+            editingUser?.username ??
+            t('userManagement.users.labels.userFallback'),
+        })
+      "
+      @close="closeEdit"
+    >
+      <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
+        {{ formError }}
+      </v-alert>
+      <v-form @submit.prevent="submitEdit">
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="form.username"
+              :label="t('userManagement.users.fields.username')"
+              required
+              :disabled="actionLoading"
+              autocomplete="off"
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="form.email"
+              :label="t('userManagement.users.fields.email')"
+              type="email"
+              required
+              :disabled="actionLoading"
+              autocomplete="off"
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="form.firstName"
+              :label="t('userManagement.users.fields.firstName')"
+              :disabled="actionLoading"
+              autocomplete="off"
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="form.lastName"
+              :label="t('userManagement.users.fields.lastName')"
+              :disabled="actionLoading"
+              autocomplete="off"
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="form.language"
+              :label="t('userManagement.users.fields.language')"
+              :disabled="actionLoading"
+              autocomplete="off"
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="form.locale"
+              :label="t('userManagement.users.fields.locale')"
+              :disabled="actionLoading"
+              autocomplete="off"
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="form.timezone"
+              :label="t('userManagement.users.fields.timezone')"
+              :disabled="actionLoading"
+              autocomplete="off"
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="form.password"
+              :label="t('userManagement.users.fields.newPassword')"
+              type="password"
+              :disabled="actionLoading"
+              autocomplete="new-password"
+              :hint="t('userManagement.users.hints.keepPassword')"
+              persistent-hint
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-switch
+              v-model="form.enabled"
+              :disabled="actionLoading"
+              inset
+              color="primary"
+              :label="t('userManagement.users.fields.enabled')"
+            />
+          </v-col>
+        </v-row>
+      </v-form>
+
+      <template #actions>
+        <v-btn variant="text" :disabled="actionLoading" @click="closeEdit">
+          {{ t('common.actions.cancel') }}
+        </v-btn>
+        <v-btn
+          color="primary"
+          :loading="actionLoading"
+          :disabled="!canSubmit"
+          @click="submitEdit"
+        >
+          {{ t('common.actions.save') }}
+        </v-btn>
+      </template>
+    </AppModal>
+
+    <AppModal
+      v-model="viewDialog"
+      :max-width="520"
+      :close-disabled="viewLoading"
+      icon="mdi-account-eye-outline"
+      :title="t('userManagement.users.dialogs.view.title')"
+      @close="closeView"
+    >
+      <v-progress-linear
+        v-if="viewLoading"
+        color="primary"
+        indeterminate
+        class="mb-4"
+      />
+      <v-alert v-if="viewError" type="error" variant="tonal" class="mb-4">
+        {{ viewError }}
+      </v-alert>
+      <template v-if="viewUser && !viewLoading">
+        <div class="d-flex flex-column" style="row-gap: 12px">
+          <div>
+            <div class="text-caption text-medium-emphasis">
+              {{ t('userManagement.users.fields.username') }}
+            </div>
+            <div class="text-body-1 font-weight-medium">
+              {{ viewUser.username }}
+            </div>
+          </div>
+          <div class="d-flex flex-wrap" style="gap: 16px">
+            <div>
+              <div class="text-caption text-medium-emphasis">
+                {{ t('userManagement.users.fields.firstName') }}
               </div>
-              <div class="d-flex flex-wrap" style="gap: 16px">
-                <div>
-                  <div class="text-caption text-medium-emphasis">
-                    {{ t('userManagement.users.fields.firstName') }}
-                  </div>
-                  <div class="text-body-2 font-weight-medium">
-                    {{ viewUser.firstName || '—' }}
-                  </div>
-                </div>
-                <div>
-                  <div class="text-caption text-medium-emphasis">
-                    {{ t('userManagement.users.fields.lastName') }}
-                  </div>
-                  <div class="text-body-2 font-weight-medium">
-                    {{ viewUser.lastName || '—' }}
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div class="text-caption text-medium-emphasis">
-                  {{ t('userManagement.users.fields.email') }}
-                </div>
-                <div class="text-body-2 font-weight-medium">
-                  {{ viewUser.email }}
-                </div>
-              </div>
-              <div class="d-flex flex-wrap" style="gap: 16px">
-                <div>
-                  <div class="text-caption text-medium-emphasis">
-                    {{ t('userManagement.users.fields.language') }}
-                  </div>
-                  <div class="text-body-2 font-weight-medium">
-                    {{ viewUser.language || '—' }}
-                  </div>
-                </div>
-                <div>
-                  <div class="text-caption text-medium-emphasis">
-                    {{ t('userManagement.users.fields.locale') }}
-                  </div>
-                  <div class="text-body-2 font-weight-medium">
-                    {{ viewUser.locale || '—' }}
-                  </div>
-                </div>
-                <div>
-                  <div class="text-caption text-medium-emphasis">
-                    {{ t('userManagement.users.fields.timezone') }}
-                  </div>
-                  <div class="text-body-2 font-weight-medium">
-                    {{ viewUser.timezone || '—' }}
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div class="text-caption text-medium-emphasis">
-                  {{ t('userManagement.users.fields.status') }}
-                </div>
-                <v-chip
-                  :color="viewUser.enabled ? 'success' : 'grey'"
-                  size="small"
-                  label
-                >
-                  {{
-                    viewUser.enabled
-                      ? t('userManagement.users.status.active')
-                      : t('userManagement.users.status.inactive')
-                  }}
-                </v-chip>
-              </div>
-              <div>
-                <div
-                  class="d-flex align-center justify-space-between mb-2"
-                  style="gap: 12px"
-                >
-                  <span class="text-caption text-medium-emphasis">
-                    {{ t('userManagement.users.details.groups.title') }}
-                  </span>
-                  <v-btn
-                    size="small"
-                    color="primary"
-                    variant="tonal"
-                    prepend-icon="mdi-account-group"
-                    :disabled="groupActionLoading"
-                    @click="openAttachDialog"
-                  >
-                    {{ t('userManagement.users.details.groups.actions.link') }}
-                  </v-btn>
-                </div>
-                <v-progress-linear
-                  v-if="userGroupsLoading"
-                  color="primary"
-                  indeterminate
-                  class="mb-2"
-                />
-                <v-alert
-                  v-else-if="userGroupsError"
-                  type="error"
-                  variant="tonal"
-                  class="mb-2"
-                >
-                  {{ userGroupsError }}
-                </v-alert>
-                <div
-                  v-else-if="viewUserGroups.length > 0"
-                  class="d-flex flex-wrap"
-                  style="gap: 8px"
-                >
-                  <v-chip
-                    v-for="group in viewUserGroups"
-                    :key="group.id"
-                    color="primary"
-                    variant="tonal"
-                    closable
-                    :disabled="groupActionLoading"
-                    @click:close="detachGroup(group.id)"
-                  >
-                    {{ group.name }}
-                  </v-chip>
-                </div>
-                <div v-else class="text-body-2 text-medium-emphasis">
-                  {{ t('userManagement.users.details.groups.empty') }}
-                </div>
+              <div class="text-body-2 font-weight-medium">
+                {{ viewUser.firstName || '—' }}
               </div>
             </div>
-          </template>
-          <div
-            v-else-if="!viewLoading"
-            class="text-body-2 text-medium-emphasis"
-          >
-            {{ t('userManagement.users.details.empty') }}
+            <div>
+              <div class="text-caption text-medium-emphasis">
+                {{ t('userManagement.users.fields.lastName') }}
+              </div>
+              <div class="text-body-2 font-weight-medium">
+                {{ viewUser.lastName || '—' }}
+              </div>
+            </div>
           </div>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn variant="text" :disabled="viewLoading" @click="closeView">
-            {{ t('common.actions.close') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+          <div>
+            <div class="text-caption text-medium-emphasis">
+              {{ t('userManagement.users.fields.email') }}
+            </div>
+            <div class="text-body-2 font-weight-medium">
+              {{ viewUser.email }}
+            </div>
+          </div>
+          <div class="d-flex flex-wrap" style="gap: 16px">
+            <div>
+              <div class="text-caption text-medium-emphasis">
+                {{ t('userManagement.users.fields.language') }}
+              </div>
+              <div class="text-body-2 font-weight-medium">
+                {{ viewUser.language || '—' }}
+              </div>
+            </div>
+            <div>
+              <div class="text-caption text-medium-emphasis">
+                {{ t('userManagement.users.fields.locale') }}
+              </div>
+              <div class="text-body-2 font-weight-medium">
+                {{ viewUser.locale || '—' }}
+              </div>
+            </div>
+            <div>
+              <div class="text-caption text-medium-emphasis">
+                {{ t('userManagement.users.fields.timezone') }}
+              </div>
+              <div class="text-body-2 font-weight-medium">
+                {{ viewUser.timezone || '—' }}
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="text-caption text-medium-emphasis">
+              {{ t('userManagement.users.fields.status') }}
+            </div>
+            <v-chip :color="viewUser.enabled ? 'success' : 'grey'" size="small" label>
+              {{
+                viewUser.enabled
+                  ? t('userManagement.users.status.active')
+                  : t('userManagement.users.status.inactive')
+              }}
+            </v-chip>
+          </div>
+          <div>
+            <div
+              class="d-flex align-center justify-space-between mb-2"
+              style="gap: 12px"
+            >
+              <span class="text-caption text-medium-emphasis">
+                {{ t('userManagement.users.details.groups.title') }}
+              </span>
+              <v-btn
+                size="small"
+                color="primary"
+                variant="tonal"
+                prepend-icon="mdi-account-group"
+                :disabled="groupActionLoading"
+                @click="openAttachDialog"
+              >
+                {{ t('userManagement.users.details.groups.actions.link') }}
+              </v-btn>
+            </div>
+            <v-progress-linear
+              v-if="userGroupsLoading"
+              color="primary"
+              indeterminate
+              class="mb-2"
+            />
+            <v-alert
+              v-else-if="userGroupsError"
+              type="error"
+              variant="tonal"
+              class="mb-2"
+            >
+              {{ userGroupsError }}
+            </v-alert>
+            <div
+              v-else-if="viewUserGroups.length > 0"
+              class="d-flex flex-wrap"
+              style="gap: 8px"
+            >
+              <v-chip
+                v-for="group in viewUserGroups"
+                :key="group.id"
+                color="primary"
+                variant="tonal"
+                closable
+                :disabled="groupActionLoading"
+                @click:close="detachGroup(group.id)"
+              >
+                {{ group.name }}
+              </v-chip>
+            </div>
+            <div v-else class="text-body-2 text-medium-emphasis">
+              {{ t('userManagement.users.details.groups.empty') }}
+            </div>
+          </div>
+        </div>
+      </template>
+      <div v-else-if="!viewLoading" class="text-body-2 text-medium-emphasis">
+        {{ t('userManagement.users.details.empty') }}
+      </div>
+
+      <template #actions>
+        <v-btn variant="text" :disabled="viewLoading" @click="closeView">
+          {{ t('common.actions.close') }}
+        </v-btn>
+      </template>
+    </AppModal>
 
     <v-dialog v-model="attachDialog" max-width="480">
       <v-card>

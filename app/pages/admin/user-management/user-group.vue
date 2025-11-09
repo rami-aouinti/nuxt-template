@@ -550,211 +550,208 @@ watch(attachUserDialog, (value) => {
       </v-col>
     </v-row>
 
-    <v-dialog v-model="createDialog" max-width="540">
-      <v-card>
-        <v-card-title>{{
-          t('userManagement.groups.dialogs.create.title')
-        }}</v-card-title>
-        <v-card-text>
-          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
-            {{ formError }}
-          </v-alert>
-          <v-form @submit.prevent="submitCreate">
-            <v-text-field
-              v-model="form.name"
-              :label="t('userManagement.groups.fields.name')"
-              :disabled="actionLoading"
-              required
-              autocomplete="off"
-            />
-            <v-textarea
-              v-model="form.description"
-              :label="t('userManagement.groups.fields.description')"
-              :disabled="actionLoading"
-              auto-grow
-              rows="3"
-              autocomplete="off"
-            />
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn variant="text" :disabled="actionLoading" @click="closeCreate">
-            {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn
-            color="primary"
-            :disabled="!canSubmit"
-            :loading="actionLoading"
-            @click="submitCreate"
-          >
-            {{ t('common.actions.create') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <AppModal
+      v-model="createDialog"
+      :max-width="540"
+      :close-disabled="actionLoading"
+      icon="mdi-account-group-outline"
+      :title="t('userManagement.groups.dialogs.create.title')"
+      @close="closeCreate"
+    >
+      <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
+        {{ formError }}
+      </v-alert>
+      <v-form @submit.prevent="submitCreate">
+        <v-text-field
+          v-model="form.name"
+          :label="t('userManagement.groups.fields.name')"
+          :disabled="actionLoading"
+          required
+          autocomplete="off"
+        />
+        <v-textarea
+          v-model="form.description"
+          :label="t('userManagement.groups.fields.description')"
+          :disabled="actionLoading"
+          auto-grow
+          rows="3"
+          autocomplete="off"
+        />
+      </v-form>
 
-    <v-dialog v-model="editDialog" max-width="540">
-      <v-card>
-        <v-card-title>{{
-          t('userManagement.groups.dialogs.edit.title')
-        }}</v-card-title>
-        <v-card-text>
-          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
-            {{ formError }}
-          </v-alert>
-          <v-form @submit.prevent="submitEdit">
-            <v-text-field
-              v-model="form.name"
-              :label="t('userManagement.groups.fields.name')"
-              :disabled="actionLoading"
-              required
-              autocomplete="off"
-            />
-            <v-textarea
-              v-model="form.description"
-              :label="t('userManagement.groups.fields.description')"
-              :disabled="actionLoading"
-              auto-grow
-              rows="3"
-              autocomplete="off"
-            />
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn variant="text" :disabled="actionLoading" @click="closeEdit">
-            {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn
-            color="primary"
-            :disabled="!canSubmit"
-            :loading="actionLoading"
-            @click="submitEdit"
-          >
-            {{ t('common.actions.save') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+      <template #actions>
+        <v-btn variant="text" :disabled="actionLoading" @click="closeCreate">
+          {{ t('common.actions.cancel') }}
+        </v-btn>
+        <v-btn
+          color="primary"
+          :disabled="!canSubmit"
+          :loading="actionLoading"
+          @click="submitCreate"
+        >
+          {{ t('common.actions.create') }}
+        </v-btn>
+      </template>
+    </AppModal>
 
-    <v-dialog v-model="viewDialog" max-width="560">
-      <v-card>
-        <v-card-title>{{
-          t('userManagement.groups.dialogs.view.title')
-        }}</v-card-title>
-        <v-card-text>
-          <v-progress-linear
-            v-if="viewLoading"
-            color="primary"
-            indeterminate
-            class="mb-4"
-          />
-          <v-alert v-if="viewError" type="error" variant="tonal" class="mb-4">
-            {{ viewError }}
-          </v-alert>
-          <template v-if="viewingGroup && !viewLoading">
-            <div class="d-flex flex-column" style="row-gap: 12px">
-              <div>
-                <div class="text-caption text-medium-emphasis">
-                  {{ t('userManagement.groups.fields.name') }}
-                </div>
-                <div class="text-body-1 font-weight-medium">
-                  {{ viewingGroup.name }}
-                </div>
-              </div>
-              <div>
-                <div class="text-caption text-medium-emphasis">
-                  {{ t('userManagement.groups.fields.id') }}
-                </div>
-                <div class="text-body-2 font-weight-medium">
-                  {{ viewingGroup.id }}
-                </div>
-              </div>
-              <div>
-                <div class="text-caption text-medium-emphasis">
-                  {{ t('userManagement.groups.fields.description') }}
-                </div>
-                <div class="text-body-2 font-weight-medium">
-                  {{ viewingGroup.description || '—' }}
-                </div>
-              </div>
-              <div>
-                <div
-                  class="d-flex align-center justify-space-between mb-2"
-                  style="gap: 12px"
-                >
-                  <span class="text-caption text-medium-emphasis">
-                    {{ t('userManagement.groups.details.users.title') }}
-                  </span>
-                  <v-btn
-                    size="small"
-                    color="primary"
-                    variant="tonal"
-                    prepend-icon="mdi-account-plus"
-                    :disabled="userActionLoading"
-                    @click="openAttachUserDialog"
-                  >
-                    {{ t('userManagement.groups.details.users.actions.link') }}
-                  </v-btn>
-                </div>
-                <v-progress-linear
-                  v-if="groupUsersLoading"
-                  color="primary"
-                  indeterminate
-                  class="mb-2"
-                />
-                <v-alert
-                  v-else-if="groupUsersError"
-                  type="error"
-                  variant="tonal"
-                  class="mb-2"
-                >
-                  {{ groupUsersError }}
-                </v-alert>
-                <v-list
-                  v-else-if="groupUsers.length > 0"
-                  density="comfortable"
-                  class="py-0"
-                >
-                  <v-list-item
-                    v-for="user in groupUsers"
-                    :key="user.id"
-                    :title="user.username"
-                    :subtitle="user.email || '—'"
-                  >
-                    <template #append>
-                      <v-btn
-                        icon="mdi-close"
-                        variant="text"
-                        color="error"
-                        :disabled="userActionLoading"
-                        @click="detachUser(user.id)"
-                      />
-                    </template>
-                  </v-list-item>
-                </v-list>
-                <div v-else class="text-body-2 text-medium-emphasis">
-                  {{ t('userManagement.groups.details.users.empty') }}
-                </div>
-              </div>
+    <AppModal
+      v-model="editDialog"
+      :max-width="540"
+      :close-disabled="actionLoading"
+      icon="mdi-account-edit-outline"
+      :title="t('userManagement.groups.dialogs.edit.title')"
+      @close="closeEdit"
+    >
+      <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
+        {{ formError }}
+      </v-alert>
+      <v-form @submit.prevent="submitEdit">
+        <v-text-field
+          v-model="form.name"
+          :label="t('userManagement.groups.fields.name')"
+          :disabled="actionLoading"
+          required
+          autocomplete="off"
+        />
+        <v-textarea
+          v-model="form.description"
+          :label="t('userManagement.groups.fields.description')"
+          :disabled="actionLoading"
+          auto-grow
+          rows="3"
+          autocomplete="off"
+        />
+      </v-form>
+
+      <template #actions>
+        <v-btn variant="text" :disabled="actionLoading" @click="closeEdit">
+          {{ t('common.actions.cancel') }}
+        </v-btn>
+        <v-btn
+          color="primary"
+          :disabled="!canSubmit"
+          :loading="actionLoading"
+          @click="submitEdit"
+        >
+          {{ t('common.actions.save') }}
+        </v-btn>
+      </template>
+    </AppModal>
+
+    <AppModal
+      v-model="viewDialog"
+      :max-width="560"
+      :close-disabled="viewLoading"
+      icon="mdi-eye-outline"
+      :title="t('userManagement.groups.dialogs.view.title')"
+      @close="closeView"
+    >
+      <v-progress-linear
+        v-if="viewLoading"
+        color="primary"
+        indeterminate
+        class="mb-4"
+      />
+      <v-alert v-if="viewError" type="error" variant="tonal" class="mb-4">
+        {{ viewError }}
+      </v-alert>
+      <template v-if="viewingGroup && !viewLoading">
+        <div class="d-flex flex-column" style="row-gap: 12px">
+          <div>
+            <div class="text-caption text-medium-emphasis">
+              {{ t('userManagement.groups.fields.name') }}
             </div>
-          </template>
-          <div
-            v-else-if="!viewLoading"
-            class="text-body-2 text-medium-emphasis"
-          >
-            {{ t('userManagement.groups.details.empty') }}
+            <div class="text-body-1 font-weight-medium">
+              {{ viewingGroup.name }}
+            </div>
           </div>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn variant="text" :disabled="viewLoading" @click="closeView">
-            {{ t('common.actions.close') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+          <div>
+            <div class="text-caption text-medium-emphasis">
+              {{ t('userManagement.groups.fields.id') }}
+            </div>
+            <div class="text-body-2 font-weight-medium">
+              {{ viewingGroup.id }}
+            </div>
+          </div>
+          <div>
+            <div class="text-caption text-medium-emphasis">
+              {{ t('userManagement.groups.fields.description') }}
+            </div>
+            <div class="text-body-2 font-weight-medium">
+              {{ viewingGroup.description || '—' }}
+            </div>
+          </div>
+          <div>
+            <div
+              class="d-flex align-center justify-space-between mb-2"
+              style="gap: 12px"
+            >
+              <span class="text-caption text-medium-emphasis">
+                {{ t('userManagement.groups.details.users.title') }}
+              </span>
+              <v-btn
+                size="small"
+                color="primary"
+                variant="tonal"
+                prepend-icon="mdi-account-plus"
+                :disabled="userActionLoading"
+                @click="openAttachUserDialog"
+              >
+                {{ t('userManagement.groups.details.users.actions.link') }}
+              </v-btn>
+            </div>
+            <v-progress-linear
+              v-if="groupUsersLoading"
+              color="primary"
+              indeterminate
+              class="mb-2"
+            />
+            <v-alert
+              v-else-if="groupUsersError"
+              type="error"
+              variant="tonal"
+              class="mb-2"
+            >
+              {{ groupUsersError }}
+            </v-alert>
+            <v-list
+              v-else-if="groupUsers.length > 0"
+              density="comfortable"
+              class="py-0"
+            >
+              <v-list-item
+                v-for="user in groupUsers"
+                :key="user.id"
+                :title="user.username"
+                :subtitle="user.email || '—'"
+              >
+                <template #append>
+                  <v-btn
+                    icon="mdi-close"
+                    variant="text"
+                    color="error"
+                    :disabled="userActionLoading"
+                    @click="detachUser(user.id)"
+                  />
+                </template>
+              </v-list-item>
+            </v-list>
+            <div v-else class="text-body-2 text-medium-emphasis">
+              {{ t('userManagement.groups.details.users.empty') }}
+            </div>
+          </div>
+        </div>
+      </template>
+      <div v-else-if="!viewLoading" class="text-body-2 text-medium-emphasis">
+        {{ t('userManagement.groups.details.empty') }}
+      </div>
+
+      <template #actions>
+        <v-btn variant="text" :disabled="viewLoading" @click="closeView">
+          {{ t('common.actions.close') }}
+        </v-btn>
+      </template>
+    </AppModal>
 
     <v-dialog v-model="attachUserDialog" max-width="520">
       <v-card>
