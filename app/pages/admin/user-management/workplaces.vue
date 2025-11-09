@@ -7,6 +7,7 @@ import type { Workplace, WorkplacePayload } from '~/types/workplace'
 import { storeToRefs } from 'pinia'
 
 definePageMeta({
+  layout: 'admin',
   title: 'navigation.workplaces',
   icon: 'mdi-office-building',
   drawerIndex: 3,

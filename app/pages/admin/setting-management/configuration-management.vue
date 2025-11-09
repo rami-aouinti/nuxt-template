@@ -12,6 +12,7 @@ import { Notify } from '~/stores/notification'
 import { normalizeRequestHeaders } from '~/utils/headers'
 
 definePageMeta({
+  layout: 'admin',
   title: 'configurationManagement.configurations.title',
   subtitle: 'configurationManagement.configurations.subtitle',
   icon: 'mdi-cog-outline',

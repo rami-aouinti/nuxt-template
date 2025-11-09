@@ -7,6 +7,7 @@ import { Notify } from '~/stores/notification'
 import type { User } from '~/types/user'
 
 definePageMeta({
+  layout: 'admin',
   title: 'navigation.userGroups',
   icon: 'mdi-account-group-outline',
   drawerIndex: 2,

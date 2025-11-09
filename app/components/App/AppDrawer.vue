@@ -3,7 +3,9 @@ import { computed } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
 
 const router = useRouter()
-const routes = router.getRoutes().filter((r) => r.path.lastIndexOf('/') === 0)
+const routes = router
+  .getRoutes()
+  .filter((r) => r.path.lastIndexOf('/') === 0) as RouteRecordRaw[]
 const drawerState = useState('drawer', () => true)
 
 const { mobile, lgAndUp, width } = useDisplay()
@@ -17,7 +19,6 @@ const drawer = computed({
   },
 })
 const rail = computed(() => !drawerState.value && !mobile.value)
-routes.sort((a, b) => (a.meta?.drawerIndex ?? 99) - (b.meta?.drawerIndex ?? 98))
 
 const { session } = useUserSession()
 const localePath = useLocalePath()
@@ -59,8 +60,48 @@ const hasRouteAccess = (route: RouteRecordRaw) => {
   return requiredRoles.some((role) => userRoles.value.includes(role))
 }
 
+const cloneRoute = (route: RouteRecordRaw): RouteRecordRaw => ({
+  ...route,
+  children: route.children
+    ? route.children.map((child) => cloneRoute(child as RouteRecordRaw))
+    : undefined,
+  meta: route.meta ? { ...route.meta } : undefined,
+})
+
+const adminRoute = computed(() =>
+  routes.find((routeRecord) => routeRecord.name === 'admin'),
+)
+
+const navigationRoutes = computed(() => {
+  const clonedRoutes = routes
+    .map((route) => cloneRoute(route))
+    .sort((a, b) => (a.meta?.drawerIndex ?? 99) - (b.meta?.drawerIndex ?? 98))
+
+  const admin = adminRoute.value
+  const settingsIndex = clonedRoutes.findIndex(
+    (route) => route.name === 'settings',
+  )
+
+  if (admin) {
+    const shouldShowAdmin = hasRouteAccess(admin)
+    if (shouldShowAdmin && settingsIndex !== -1) {
+      const settingsRoute = clonedRoutes[settingsIndex]
+      const settingsChildren = settingsRoute.children ? [...settingsRoute.children] : []
+      const adminItem = cloneRoute(admin)
+      adminItem.children = undefined
+      adminItem.meta = {
+        ...(adminItem.meta ?? {}),
+        icon: adminItem.meta?.icon ?? 'mdi-shield-account',
+      }
+      settingsRoute.children = [...settingsChildren, adminItem]
+    }
+  }
+
+  return clonedRoutes.filter((route) => route.name !== admin?.name)
+})
+
 const availableRoutes = computed(() =>
-  routes.filter((route) => hasRouteAccess(route)),
+  navigationRoutes.value.filter((route) => hasRouteAccess(route)),
 )
 
 drawerState.value = lgAndUp.value && width.value >= 1280

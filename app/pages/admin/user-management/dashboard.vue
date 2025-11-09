@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useAdminStore } from '~/stores/admin'
 
 definePageMeta({
+  layout: 'admin',
   icon: 'mdi-monitor-dashboard',
   title: 'navigation.dashboard',
   drawerIndex: 0,
