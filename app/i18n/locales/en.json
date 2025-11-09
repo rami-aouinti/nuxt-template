@@ -412,11 +412,14 @@
         "description": "View the public information shared by this member."
       },
       "actions": {
-        "retry": "Try again"
+        "retry": "Try again",
+        "message": "Message"
       },
       "errors": {
         "load": "Unable to load this profile.",
-        "notFound": "This profile could not be found."
+        "notFound": "This profile could not be found.",
+        "authenticationRequired": "You need to be signed in to send messages.",
+        "messengerUnavailable": "Unable to open Messenger. Please try again later."
       },
       "labels": {
         "email": "Email",
