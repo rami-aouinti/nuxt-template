@@ -115,6 +115,9 @@
       "title": "Aún no hay artículos publicados",
       "description": "Vuelve más tarde para descubrir las próximas publicaciones."
     },
+    "search": {
+      "noResults": "Ningún artículo o blog coincide con tu búsqueda."
+    },
     "forms": {
       "commentPlaceholder": "Comparte tus ideas...",
       "replyPlaceholder": "Escribe tu respuesta...",

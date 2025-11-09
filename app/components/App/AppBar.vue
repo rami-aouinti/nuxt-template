@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mergeProps, ref, watch, computed } from 'vue'
+import { mergeProps, ref, watch, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useTheme } from 'vuetify'
 import type { LocaleObject } from '#i18n'
 import { Notify } from '~/stores/notification'
@@ -45,7 +45,65 @@ const profileCache = useAuthProfileCache()
 const credentialsDialog = ref(false)
 const controlChevronSize = 18
 
-const canGoBack = computed(() => import.meta.client && window.history.length > 1)
+const canGoBack = ref(false)
+
+const updateCanGoBack = () => {
+  if (!import.meta.client) {
+    canGoBack.value = false
+    return
+  }
+
+  const historyState = window.history.state as
+    | { back?: string | null; position?: number }
+    | null
+    | undefined
+
+  const hasBackState = (() => {
+    if (!historyState) {
+      return false
+    }
+
+    if (typeof historyState.back === 'string') {
+      return historyState.back.length > 0
+    }
+
+    if (historyState.back != null) {
+      return true
+    }
+
+    return false
+  })()
+
+  const hasPosition =
+    typeof historyState?.position === 'number' && historyState.position > 0
+
+  const hasHistoryLength = window.history.length > 1
+
+  canGoBack.value = hasBackState || hasPosition || hasHistoryLength
+}
+
+if (import.meta.client) {
+  watch(
+    () => route.fullPath,
+    () => {
+      requestAnimationFrame(updateCanGoBack)
+    },
+    { immediate: true },
+  )
+
+  router.afterEach(() => {
+    updateCanGoBack()
+  })
+
+  onMounted(() => {
+    updateCanGoBack()
+    window.addEventListener('popstate', updateCanGoBack)
+  })
+
+  onBeforeUnmount(() => {
+    window.removeEventListener('popstate', updateCanGoBack)
+  })
+}
 
 const handleGoBack = () => {
   if (canGoBack.value) {

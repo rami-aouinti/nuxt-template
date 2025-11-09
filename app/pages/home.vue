@@ -44,7 +44,22 @@ const currentUsername = computed(
   () => session.value?.user?.login || session.value?.profile?.username || null,
 )
 
-const localSearch = ref( '')
+const localSearch = ref('')
+
+const searchTerm = computed(() => localSearch.value.trim().toLowerCase())
+const hasSearchTerm = computed(() => searchTerm.value.length > 0)
+
+const normalizeSearchValue = (value: string | null | undefined) =>
+  typeof value === 'string' ? value.trim().toLowerCase() : ''
+
+const matchesSearchTerm = (value: string | null | undefined) => {
+  if (!hasSearchTerm.value) {
+    return true
+  }
+
+  const normalized = normalizeSearchValue(value)
+  return normalized.length > 0 && normalized.includes(searchTerm.value)
+}
 
 const currentUserId = computed(() => {
   const sessionValue = session.value
@@ -92,6 +107,20 @@ const {
 const POST_EXCERPT_MAX_LENGTH = 150
 
 const posts = ref<BlogPostViewModel[]>([])
+const filteredPosts = computed(() => {
+  if (!hasSearchTerm.value) {
+    return posts.value
+  }
+
+  return posts.value.filter((post) => {
+    return [
+      post.title,
+      post.summary ?? null,
+      post.blog?.title ?? null,
+      post.blog?.blogSubtitle ?? null,
+    ].some((field) => matchesSearchTerm(field))
+  })
+})
 const pagination = reactive({
   page: 1,
   limit: BLOG_POSTS_DEFAULT_LIMIT,
@@ -109,6 +138,17 @@ const publicBlogsLoading = ref(false)
 const publicBlogsError = ref<string | null>(null)
 
 const myBlogs = ref<BlogSummary[]>([])
+const filteredMyBlogs = computed(() => {
+  if (!hasSearchTerm.value) {
+    return myBlogs.value
+  }
+
+  return myBlogs.value.filter((blog) =>
+    [blog.title, blog.blogSubtitle ?? null, blog.author].some((field) =>
+      matchesSearchTerm(field),
+    ),
+  )
+})
 const myBlogsLoading = ref(false)
 const myBlogsError = ref<string | null>(null)
 
@@ -601,7 +641,14 @@ async function refreshPosts() {
 }
 
 async function loadMorePosts() {
-  if (isInitialLoading.value || isLoadingMore.value || !hasMore.value) return
+  if (
+    isInitialLoading.value ||
+    isLoadingMore.value ||
+    !hasMore.value ||
+    hasSearchTerm.value
+  ) {
+    return
+  }
   await loadPosts(pagination.page + 1)
 }
 
@@ -1490,8 +1537,8 @@ await loadPosts(1, { replace: true })
                 </div>
               </v-card-text>
             </v-card>
-            <v-row v-if="posts.length" class="g-6">
-              <v-col v-for="post in posts" :key="post.id" cols="12">
+            <v-row v-if="filteredPosts.length" class="g-6">
+              <v-col v-for="post in filteredPosts" :key="post.id" cols="12">
                 <v-card class="facebook-post-card" elevation="0" rounded="xl">
                   <div class="facebook-post-card__header">
                     <div class="facebook-post-card__avatar">
@@ -1809,6 +1856,17 @@ await loadPosts(1, { replace: true })
               </v-col>
             </v-row>
 
+            <v-alert
+              v-else-if="hasSearchTerm"
+              type="info"
+              variant="tonal"
+              class="mb-6"
+              border="start"
+              prominent
+            >
+              {{ t('blog.search.noResults') }}
+            </v-alert>
+
             <v-sheet v-else class="blog-feed__empty" elevation="1" rounded="xl">
               <v-icon icon="mdi-post-outline" size="64" class="mb-4" />
               <h2 class="text-h5 mb-2">{{ t('blog.empty.title') }}</h2>
@@ -1827,7 +1885,7 @@ await loadPosts(1, { replace: true })
           </div>
 
           <div
-            v-show="hasMore"
+            v-show="hasMore && !hasSearchTerm"
             ref="loadMoreTrigger"
             class="blog-infinite-trigger"
           />
@@ -1875,13 +1933,13 @@ await loadPosts(1, { replace: true })
             </v-alert>
 
             <v-list
-              v-else-if="myBlogs.length"
+              v-else-if="filteredMyBlogs.length"
               density="comfortable"
               lines="two"
               class="blog-sidebar__list"
             >
               <v-list-item
-                v-for="blog in myBlogs"
+                v-for="blog in filteredMyBlogs"
                 :key="blog.id"
                 :to="resolveBlogLink(blog) || undefined"
                 :link="Boolean(resolveBlogLink(blog))"
@@ -1917,6 +1975,16 @@ await loadPosts(1, { replace: true })
                 </v-list-item-subtitle>
               </v-list-item>
             </v-list>
+
+            <v-alert
+              v-else-if="hasSearchTerm && myBlogs.length"
+              type="info"
+              variant="tonal"
+              density="comfortable"
+              class="mb-4"
+            >
+              {{ t('blog.search.noResults') }}
+            </v-alert>
 
             <p v-else class="text-body-2 text-medium-emphasis mb-0">
               {{ t('blog.sidebar.myBlogsEmpty') }}

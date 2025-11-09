@@ -115,6 +115,9 @@
       "title": "Noch keine Beiträge veröffentlicht",
       "description": "Schau später noch einmal vorbei, um neue Beiträge zu entdecken."
     },
+    "search": {
+      "noResults": "Keine Beiträge oder Blogs entsprechen deiner Suche."
+    },
     "forms": {
       "commentPlaceholder": "Teilen Sie Ihre Gedanken...",
       "replyPlaceholder": "Schreiben Sie Ihre Antwort...",
