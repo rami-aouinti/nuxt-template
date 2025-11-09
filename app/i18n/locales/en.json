@@ -87,6 +87,17 @@
       "addComment": "Publish comment",
       "reply": "Reply"
     },
+    "feed": {
+      "composer": {
+        "title": "Create post",
+        "placeholder": "What's on your mind, {name}?",
+        "actions": {
+          "liveVideo": "Live video",
+          "photoVideo": "Photo/video",
+          "feelingActivity": "Feeling/activity"
+        }
+      }
+    },
     "alerts": {
       "loadFailed": "An error occurred while loading the articles. Please try again."
     },

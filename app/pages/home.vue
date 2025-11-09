@@ -27,7 +27,6 @@ import {
   DEFAULT_REACTION_TYPE,
   resolveReactionType,
 } from '~/utils/reactions'
-import {localePath} from "@nuxtjs/i18n/dist/runtime/routing/routing";
 
 definePageMeta({
   title: 'navigation.home',
@@ -196,6 +195,14 @@ const currentUserDisplayName = computed(() => {
 
   return t('auth.guest')
 })
+
+const createPostTitle = computed(() => t('blog.feed.composer.title'))
+
+const createPostPrompt = computed(() =>
+  t('blog.feed.composer.placeholder', {
+    name: currentUserDisplayName.value,
+  }),
+)
 
 const currentUserAvatar = computed(() => {
   const profilePhoto =
@@ -1421,6 +1428,68 @@ await loadPosts(1, { replace: true })
           </v-row>
 
           <template v-else>
+            <v-card
+              v-if="loggedIn"
+              class="create-post-card mb-6"
+              elevation="0"
+              rounded="xl"
+            >
+              <v-card-text class="create-post-card__body">
+                <div
+                  class="create-post-card__composer"
+                  role="button"
+                  tabindex="0"
+                  :aria-label="createPostTitle"
+                  @click="openCreatePostDialog"
+                  @keydown.enter.prevent="openCreatePostDialog"
+                  @keydown.space.prevent="openCreatePostDialog"
+                >
+                  <v-avatar size="48" class="create-post-card__avatar">
+                    <v-img
+                      :src="currentUserAvatar"
+                      :alt="currentUserDisplayName"
+                    >
+                      <template #error>
+                        <v-icon icon="mdi-account-circle" size="48" />
+                      </template>
+                    </v-img>
+                  </v-avatar>
+                  <div class="create-post-card__placeholder">
+                    {{ createPostPrompt }}
+                  </div>
+                </div>
+                <v-divider class="my-4" />
+                <div class="create-post-card__actions">
+                  <v-btn
+                    variant="text"
+                    class="create-post-card__action"
+                    color="error"
+                    prepend-icon="mdi-video-outline"
+                    @click="openCreatePostDialog"
+                  >
+                    {{ t('blog.feed.composer.actions.liveVideo') }}
+                  </v-btn>
+                  <v-btn
+                    variant="text"
+                    class="create-post-card__action"
+                    color="success"
+                    prepend-icon="mdi-image-multiple-outline"
+                    @click="openCreatePostDialog"
+                  >
+                    {{ t('blog.feed.composer.actions.photoVideo') }}
+                  </v-btn>
+                  <v-btn
+                    variant="text"
+                    class="create-post-card__action"
+                    color="warning"
+                    prepend-icon="mdi-emoticon-happy-outline"
+                    @click="openCreatePostDialog"
+                  >
+                    {{ t('blog.feed.composer.actions.feelingActivity') }}
+                  </v-btn>
+                </div>
+              </v-card-text>
+            </v-card>
             <v-row v-if="posts.length" class="g-6">
               <v-col v-for="post in posts" :key="post.id" cols="12">
                 <v-card class="facebook-post-card" elevation="0" rounded="xl">
@@ -2111,6 +2180,64 @@ await loadPosts(1, { replace: true })
 
 .blog-feed {
   border-radius: 28px;
+}
+
+.create-post-card {
+  background: var(--blog-feed-background);
+  box-shadow: var(--blog-feed-shadow);
+}
+
+.create-post-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.create-post-card__composer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  border-radius: 999px;
+  background: rgba(var(--v-theme-surface-variant), 0.35);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  outline: none;
+}
+
+.create-post-card__composer:hover,
+.create-post-card__composer:focus-visible {
+  background: rgba(var(--v-theme-surface-variant), 0.5);
+}
+
+.create-post-card__avatar {
+  flex-shrink: 0;
+}
+
+.create-post-card__placeholder {
+  flex: 1 1 auto;
+  color: rgba(var(--v-theme-on-surface), 0.6);
+  font-weight: 500;
+}
+
+.create-post-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.create-post-card__action {
+  flex: 1 1 auto;
+  justify-content: flex-start;
+  text-transform: none;
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .create-post-card__actions {
+    flex-direction: column;
+  }
 }
 
 .blog-feed__empty {

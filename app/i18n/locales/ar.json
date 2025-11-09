@@ -87,6 +87,17 @@
       "addComment": "نشر تعليق",
       "reply": "الرد"
     },
+    "feed": {
+      "composer": {
+        "title": "إنشاء منشور",
+        "placeholder": "ماذا تفعل الآن، {name}؟",
+        "actions": {
+          "liveVideo": "فيديو مباشر",
+          "photoVideo": "صورة/فيديو",
+          "feelingActivity": "شعور/نشاط"
+        }
+      }
+    },
     "alerts": {
       "loadFailed": "حدث خطأ أثناء تحميل المقالات. يرجى المحاولة مرة أخرى."
     },
