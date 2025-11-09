@@ -1858,8 +1858,8 @@ await loadPosts(1, { replace: true })
             <v-btn
               block
               color="primary"
-              variant="flat"
-              prepend-icon="mdi-plus"
+              variant="tonal"
+              prepend-icon="mdi-note-plus"
               :disabled="!loggedIn"
               @click="openCreateBlogDialog"
             >
@@ -2472,7 +2472,6 @@ a.facebook-post-card__author-link:focus-visible {
 .blog-sidebar__list {
   border-radius: 16px;
   padding: 16px;
-  background-color: transparent;
 }
 
 .blog-avatar__initials {
