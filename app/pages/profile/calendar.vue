@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
+import ProfileNavigation from '~/components/profile/ProfileNavigation.vue'
 import type { ProfileEvent, UpsertProfileEventPayload } from '~/types/events'
 import { Notify } from '~/stores/notification'
 import { useProfileEventsStore } from '~/stores/profile-events'
@@ -380,6 +381,7 @@ function closeDialog() {
 
 <template>
   <v-container fluid class="profile-calendar py-6">
+    <ProfileNavigation class="mb-6" />
     <v-row>
       <v-col cols="12">
         <div
