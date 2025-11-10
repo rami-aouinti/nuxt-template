@@ -10,6 +10,7 @@ import type { Workplace } from '~/types/workplace'
 import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
 import { normalizeRequestHeaders } from '~/utils/headers'
+import { normalizeCollection } from '~/utils/collections'
 
 definePageMeta({
   title: 'configurationManagement.configurations.title',
@@ -25,32 +26,6 @@ const adminStore = useAdminStore()
 const headers = import.meta.server
   ? normalizeRequestHeaders(useRequestHeaders(['cookie', 'authorization']))
   : undefined
-
-const normalizeCollection = <T,>(input: unknown): T[] => {
-  if (Array.isArray(input)) {
-    return input as T[]
-  }
-
-  if (input && typeof input === 'object') {
-    const record = input as Record<string, unknown>
-    const possibleKeys = [
-      'data',
-      'items',
-      'results',
-      'hydra:member',
-      'hydra:members',
-    ]
-
-    for (const key of possibleKeys) {
-      const value = record[key]
-      if (Array.isArray(value)) {
-        return value as T[]
-      }
-    }
-  }
-
-  return []
-}
 
 const extractCount = (d: any): number => {
   if (typeof d === 'number') return d

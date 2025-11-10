@@ -1,31 +1,3 @@
-export const normalizeCollection = <T>(input: unknown): T[] => {
-  if (Array.isArray(input)) {
-    return input as T[]
-  }
-
-  if (input && typeof input === 'object') {
-    const record = input as Record<string, unknown>
-    const possibleKeys = [
-      'data',
-      'items',
-      'results',
-      'rows',
-      'entries',
-      'hydra:member',
-      'hydra:members',
-    ]
-
-    for (const key of possibleKeys) {
-      const value = record[key]
-      if (Array.isArray(value)) {
-        return value as T[]
-      }
-    }
-  }
-
-  return []
-}
-
 export const toNonEmptyString = (value: unknown): string | null => {
   if (value == null) {
     return null
@@ -236,7 +208,7 @@ export const resolveVisibilityFlag = (
   return false
 }
 
-export const toNumeric = (value: unknown): number | null => {
+const toNumeric = (value: unknown): number | null => {
   if (Array.isArray(value)) {
     return value.length
   }
@@ -269,11 +241,6 @@ export const toNumeric = (value: unknown): number | null => {
   }
 
   return null
-}
-
-export const resolveNumericValue = (value: unknown, fallback = 0): number => {
-  const numeric = toNumeric(value)
-  return numeric ?? fallback
 }
 
 export const resolveFirstAvailableNumber = (

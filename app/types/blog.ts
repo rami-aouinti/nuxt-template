@@ -7,6 +7,8 @@ export interface BlogPostUser {
   photo?: string | null
 }
 
+export type BlogUser = BlogPostUser
+
 export interface BlogMedia {
   id: string
   url: string
