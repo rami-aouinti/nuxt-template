@@ -23,6 +23,7 @@ interface FetchMessagesParams {
 
 const DEFAULT_CONVERSATION_LIMIT = 20
 const DEFAULT_MESSAGE_LIMIT = 50
+const DEFAULT_MERCURE_HUB_URL = 'http://bro-world.org/.well-known/mercure'
 
 const toStringValue = (value: unknown) => {
   if (typeof value === 'string') {
@@ -40,6 +41,143 @@ const toNullableString = (value: unknown) => {
   const stringValue = typeof value === 'string' ? value : ''
   const trimmed = stringValue.trim()
   return trimmed.length > 0 ? trimmed : null
+}
+
+const normalizeTopics = (value: unknown): string[] => {
+  if (!value) {
+    return []
+  }
+
+  if (Array.isArray(value)) {
+    const unique = new Set(
+      value
+        .map((item) => toNullableString(item))
+        .filter((item): item is string => Boolean(item)),
+    )
+
+    return Array.from(unique)
+  }
+
+  if (typeof value === 'string') {
+    if (!value.trim()) {
+      return []
+    }
+
+    return normalizeTopics(value.split(','))
+  }
+
+  return []
+}
+
+const normalizeRetry = (value: unknown): number | null => {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return value
+  }
+
+  if (typeof value === 'string') {
+    const trimmed = value.trim()
+    if (!trimmed) {
+      return null
+    }
+
+    const parsed = Number.parseInt(trimmed, 10)
+    if (Number.isFinite(parsed)) {
+      return parsed
+    }
+  }
+
+  return null
+}
+
+const normalizeBoolean = (value: unknown): boolean | undefined => {
+  if (typeof value === 'boolean') {
+    return value
+  }
+
+  if (typeof value === 'string') {
+    const normalized = value.trim().toLowerCase()
+    if (!normalized) {
+      return undefined
+    }
+
+    if (['1', 'true', 'yes', 'on'].includes(normalized)) {
+      return true
+    }
+
+    if (['0', 'false', 'no', 'off'].includes(normalized)) {
+      return false
+    }
+  }
+
+  return undefined
+}
+
+const normalizeSubscription = (
+  payload: unknown,
+  fallbackHubUrl: string,
+): MessengerSubscription => {
+  const fallback: MessengerSubscription = {
+    hubUrl: fallbackHubUrl,
+    topics: [],
+    token: null,
+    retry: null,
+  }
+
+  if (!payload || typeof payload !== 'object') {
+    return fallback
+  }
+
+  const record = payload as Record<string, unknown>
+
+  const hubUrl =
+    toNullableString(
+      record.hubUrl ??
+        record.hub_url ??
+        record.url ??
+        record.hub ??
+        record.mercureHubUrl ??
+        record.mercure_hub_url,
+    ) || fallbackHubUrl
+
+  const topics = normalizeTopics(record.topics ?? record.topic ?? record.channels)
+
+  const token =
+    toNullableString(
+      record.token ??
+        record.jwt ??
+        record.jwtToken ??
+        record.accessToken ??
+        record.access_token,
+    ) ?? null
+
+  const withCredentials = normalizeBoolean(
+    record.withCredentials ??
+      record.with_credentials ??
+      record.credentials ??
+      record.sendCredentials,
+  )
+
+  const retry = normalizeRetry(
+    record.retry ??
+      record.retryDelay ??
+      record.retry_delay ??
+      record.retryInterval ??
+      record.retry_interval,
+  )
+
+  const result: MessengerSubscription = {
+    hubUrl,
+    topics,
+    token,
+  }
+
+  if (typeof withCredentials === 'boolean') {
+    result.withCredentials = withCredentials
+  }
+
+  result.retry = retry
+
+  return result
 }
 
 const toTimestamp = (value: unknown, fallback?: string) => {
@@ -256,6 +394,11 @@ export const useMessengerApi = () => {
       'https://bro-world.org/api/v1/messenger',
   )
 
+  const fallbackHubUrl =
+    runtimeConfig.public?.messenger?.mercureHubUrl ||
+    runtimeConfig.public?.mercure?.hubUrl ||
+    DEFAULT_MERCURE_HUB_URL
+
   const token = computed(() => session.value?.token ?? '')
   const isAuthenticated = computed(
     () => loggedIn.value && Boolean(token.value?.length),
@@ -384,6 +527,16 @@ export const useMessengerApi = () => {
     })
   }
 
+  const fetchSubscription = async (): Promise<MessengerSubscription> => {
+    const headers = getAuthHeaders(true)
+
+    const payload = await $fetch<unknown>(`${apiBase.value}/subscription`, {
+      headers,
+    })
+
+    return normalizeSubscription(payload, fallbackHubUrl)
+  }
+
   return {
     isAuthenticated,
     fetchConversationPreviews,
@@ -392,5 +545,6 @@ export const useMessengerApi = () => {
     sendMessage,
     createDirectConversation,
     markConversationAsRead,
+    fetchSubscription,
   }
 }
