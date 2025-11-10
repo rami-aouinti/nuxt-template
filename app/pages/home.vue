@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import BlogReactionsDialog from '~/components/Blog/ReactionsDialog.vue'
 import BlogPostCard from '~/components/Blog/PostCard.vue'
@@ -1591,13 +1591,21 @@ if (import.meta.client) {
   )
 }
 
-await loadPublicBlogList()
+async function hydrateInitialData() {
+  await loadPublicBlogList()
 
-if (loggedIn.value) {
-  await Promise.all([loadMyBlogList(), loadMyWorkplaceList()])
+  if (loggedIn.value) {
+    await Promise.all([loadMyBlogList(), loadMyWorkplaceList()])
+  }
+
+  await loadPosts(1, { replace: true })
 }
 
-await loadPosts(1, { replace: true })
+if (import.meta.client) {
+  onMounted(() => {
+    void hydrateInitialData()
+  })
+}
 </script>
 
 <template>
