@@ -1695,18 +1695,6 @@ await loadPosts(1, { replace: true })
             {{ translate('workplace.drawer.emptyList', 'You have no worlds yet.') }}
           </p>
         </template>
-        <div class="animated-badge mb-4">
-          <span class="animated-badge__pulse" />
-          {{ t('blog.sidebar.friends') }}
-        </div>
-        <p class="text-body-2 text-medium-emphasis mb-4">
-          {{
-            translate(
-              'blog.sidebar.intro',
-              "Retrouvez vos espaces d'écriture et créez un nouvel article.",
-            )
-          }}
-        </p>
       </teleport>
     </client-only>
     <client-only>
