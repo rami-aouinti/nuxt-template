@@ -2,6 +2,10 @@
 const theme = useTheme()
 const { t, locale } = useI18n()
 const route = useRoute()
+const requestURL = useRequestURL()
+const siteOrigin = `${requestURL.protocol}//${requestURL.host}`
+
+const canonicalUrl = computed(() => `${siteOrigin}${route.path}`)
 
 const DEFAULT_APP_DESCRIPTION =
   'Vuetify 3 + Nuxt 3, Opinionated Admin Starter Template'

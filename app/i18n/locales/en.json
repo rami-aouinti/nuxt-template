@@ -48,6 +48,7 @@
     "toggleSecondaryNavigationDrawer": "Toggle secondary navigation drawer",
     "toggleTheme": "Toggle color theme",
     "openAccountMenu": "Open account menu for {name}",
+    "accountAvatarAlt": "Profile photo of {name}",
     "openAccountMenuGuest": "Open sign-in menu",
     "openLanguageMenu": "Open language menu ({language})",
     "language": "Change language",
