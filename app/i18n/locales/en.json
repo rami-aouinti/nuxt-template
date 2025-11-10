@@ -71,6 +71,7 @@
     "description": "Stay up to date with the latest Bro World news.",
     "sidebar": {
       "myBlogsTitle": "My blogs",
+      "intro": "Access your writing spaces and create a new article.",
       "myBlogsEmpty": "You are not subscribed to any blogs yet.",
       "publicBlogsTitle": "Public blogs",
       "publicBlogsEmpty": "No public blogs are available right now.",

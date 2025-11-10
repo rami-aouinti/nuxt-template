@@ -71,6 +71,7 @@
     "description": "随时了解 Bro World 的最新动态。",
     "sidebar": {
       "myBlogsTitle": "My blogs",
+      "intro": "Access your writing spaces and create a new article.",
       "myBlogsEmpty": "You are not subscribed to any blogs yet.",
       "publicBlogsTitle": "Public blogs",
       "publicBlogsEmpty": "No public blogs are available right now.",
