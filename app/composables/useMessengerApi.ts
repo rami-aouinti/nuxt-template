@@ -180,6 +180,34 @@ const normalizeSubscription = (
   return result
 }
 
+const mergeSubscription = (
+  primary: MessengerSubscription,
+  fallback: MessengerSubscription,
+): MessengerSubscription => {
+  const merged: MessengerSubscription = {
+    hubUrl: primary.hubUrl || fallback.hubUrl,
+    topics: primary.topics.length > 0 ? primary.topics : fallback.topics,
+    token: primary.token !== undefined ? primary.token : fallback.token ?? null,
+    retry:
+      primary.retry !== undefined && primary.retry !== null
+        ? primary.retry
+        : fallback.retry ?? null,
+  }
+
+  const withCredentials =
+    typeof primary.withCredentials === 'boolean'
+      ? primary.withCredentials
+      : typeof fallback.withCredentials === 'boolean'
+        ? fallback.withCredentials
+        : undefined
+
+  if (typeof withCredentials === 'boolean') {
+    merged.withCredentials = withCredentials
+  }
+
+  return merged
+}
+
 const toTimestamp = (value: unknown, fallback?: string) => {
   if (typeof value === 'string' && value.trim().length > 0) {
     return value
@@ -399,6 +427,13 @@ export const useMessengerApi = () => {
     runtimeConfig.public?.mercure?.hubUrl ||
     DEFAULT_MERCURE_HUB_URL
 
+  const configuredSubscription = computed(() =>
+    normalizeSubscription(
+      runtimeConfig.public?.messenger?.subscription,
+      fallbackHubUrl,
+    ),
+  )
+
   const token = computed(() => session.value?.token ?? '')
   const isAuthenticated = computed(
     () => loggedIn.value && Boolean(token.value?.length),
@@ -528,13 +563,28 @@ export const useMessengerApi = () => {
   }
 
   const fetchSubscription = async (): Promise<MessengerSubscription> => {
-    const headers = getAuthHeaders(true)
+    const fallback = configuredSubscription.value
 
-    const payload = await $fetch<unknown>(`${apiBase.value}/subscription`, {
-      headers,
-    })
+    try {
+      const headers = getAuthHeaders(true)
 
-    return normalizeSubscription(payload, fallbackHubUrl)
+      const payload = await $fetch<unknown>(`${apiBase.value}/subscription`, {
+        headers,
+      })
+
+      const subscription = normalizeSubscription(payload, fallbackHubUrl)
+
+      return mergeSubscription(subscription, fallback)
+    } catch (fetchError) {
+      if (import.meta.dev) {
+        console.warn(
+          'Unable to fetch messenger subscription, using configured fallback instead.',
+          fetchError,
+        )
+      }
+
+      return fallback
+    }
   }
 
   return {
