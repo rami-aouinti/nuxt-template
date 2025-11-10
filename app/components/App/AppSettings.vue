@@ -144,13 +144,17 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
 .app-settings-card__body {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: stretch;
+  text-align: left;
   gap: 16px;
   overflow-y: auto;
 }
 
 .app-settings-card__body :deep(.v-btn-toggle) {
   width: 100%;
+}
+
+.app-settings-card__body :deep(.v-color-picker) {
+  align-self: center;
 }
 </style>
