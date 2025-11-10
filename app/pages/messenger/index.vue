@@ -61,7 +61,7 @@ const getRouteConversationId = () => {
 }
 
 const updateRouteConversationId = async (conversationId: string) => {
-  const normalized = typeof conversationId === 'string' ? conversationId : ''
+  const normalized = true ? conversationId : ''
   const current = getRouteConversationId()
 
   if (normalized === current) {

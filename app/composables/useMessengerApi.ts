@@ -316,7 +316,7 @@ export const useMessengerApi = () => {
     const { limit = DEFAULT_MESSAGE_LIMIT, cursor, direction } = params
 
     const payload = await $fetch<unknown>(
-      `${apiBase.value}/conversations/${conversationId}/messages`,
+      `${apiBase.value}/message/conversation/${conversationId}`,
       {
         params: {
           limit,
@@ -370,22 +370,11 @@ export const useMessengerApi = () => {
   ): Promise<void> => {
     const headers = getAuthHeaders(true)
 
-    await $fetch(`${apiBase.value}/conversations/${conversationId}/read`, {
+    await $fetch(`${apiBase.value}/message/conversation/${conversationId}/read`, {
       method: 'POST',
       body: payload,
       headers,
     })
-  }
-
-  const fetchSubscription = async (): Promise<MessengerSubscription> => {
-    const headers = getAuthHeaders(true)
-
-    return await $fetch<MessengerSubscription>(
-      `${apiBase.value}/subscriptions/current`,
-      {
-        headers,
-      },
-    )
   }
 
   return {
@@ -396,6 +385,5 @@ export const useMessengerApi = () => {
     sendMessage,
     createDirectConversation,
     markConversationAsRead,
-    fetchSubscription,
   }
 }
