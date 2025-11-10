@@ -65,7 +65,7 @@ const baseItems = computed<NavigationItem[]>(() => [
     to: '/profile/settings',
     label: t('navigation.settings'),
     icon: 'mdi-cog',
-    match: (path) => path.startsWith('/settings'),
+    match: (path) => path.startsWith('/profile/settings'),
   },
 ])
 
@@ -85,7 +85,7 @@ const pluginItems = computed<NavigationItem[]>(() =>
 
 try {
   await pluginsStore.load()
-} catch (error) {
+} catch {
   // Ignore plugin navigation loading errors here; they are handled in dedicated pages.
 }
 

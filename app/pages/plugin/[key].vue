@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 
-import ProfileNavigation from '~/components/profile/ProfileNavigation.vue'
+import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 import type { ProfilePlugin } from '~/types/plugin'
 import { Notify } from '~/stores/notification'
 import { useProfilePluginsStore } from '~/stores/profile-plugins'
@@ -168,8 +168,7 @@ async function handlePluginToggle(current: ProfilePlugin | null) {
 </script>
 
 <template>
-  <v-container fluid class="py-6">
-    <ProfileNavigation class="mb-6" />
+  <ProfilePageShell>
     <v-row class="justify-center">
       <v-col cols="12" lg="8" xl="9">
         <v-alert
@@ -360,7 +359,7 @@ async function handlePluginToggle(current: ProfilePlugin | null) {
         </template>
       </v-col>
     </v-row>
-  </v-container>
+  </ProfilePageShell>
 </template>
 
 <style scoped>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { FetchError } from 'ofetch'
-import ProfileNavigation from '~/components/profile/ProfileNavigation.vue'
+import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 import type { AuthProfile } from '~/types/auth'
 import type { Configuration } from '~/types/configuration'
 import { Notify } from '~/stores/notification'
@@ -323,10 +323,6 @@ function applyConfiguration(configuration: Configuration | null) {
   }
 
   resetProfileSettings()
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
 }
 
 const resolvedSettingsContextId = computed(() => {
@@ -674,8 +670,7 @@ async function submit() {
 </script>
 
 <template>
-  <v-container fluid>
-    <ProfileNavigation class="mb-6" />
+  <ProfilePageShell>
     <v-dialog v-model="editDialog" max-width="640">
       <v-card>
         <v-card-title class="text-wrap">
@@ -1095,6 +1090,6 @@ async function submit() {
         </v-row>
       </v-col>
     </v-row>
-  </v-container>
+  </ProfilePageShell>
 </template>
 
