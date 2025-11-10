@@ -105,7 +105,7 @@ export default defineNuxtConfig({
     },
     build: {
       sourcemap: false,
-      cssCodeSplit: true,
+      cssCodeSplit: false,
     },
   },
   nitro: {
