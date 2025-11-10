@@ -9,6 +9,9 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 const { session } = useUserSession()
 
+const normalizeRole = (role: string) =>
+  role.replace(/^ROLE_/i, '').trim().toUpperCase()
+
 const userRoles = computed(() => {
   const profile = session.value?.profile
   if (!profile || typeof profile !== 'object') {
@@ -20,12 +23,15 @@ const userRoles = computed(() => {
     return [] as string[]
   }
 
-  return rawRoles
+  const normalizedRoles = rawRoles
     .filter(
       (role): role is string =>
         typeof role === 'string' && role.trim().length > 0,
     )
-    .map((role) => role.trim())
+    .map((role) => normalizeRole(role))
+    .filter((role) => role.length > 0)
+
+  return Array.from(new Set(normalizedRoles))
 })
 
 const hasRouteAccess = (route: RouteRecordRaw) => {
@@ -34,10 +40,13 @@ const hasRouteAccess = (route: RouteRecordRaw) => {
     return true
   }
 
-  const requiredRoles = rawRoles.filter(
-    (role): role is string =>
-      typeof role === 'string' && role.trim().length > 0,
-  )
+  const requiredRoles = rawRoles
+    .filter(
+      (role): role is string =>
+        typeof role === 'string' && role.trim().length > 0,
+    )
+    .map((role) => normalizeRole(role))
+    .filter((role) => role.length > 0)
 
   if (requiredRoles.length === 0) {
     return true

@@ -18,21 +18,25 @@ export default defineNuxtRouteMiddleware(() => {
   const profile = session.value?.profile
   let roles: string[] = []
 
+  const normalizeRole = (role: string) =>
+    role.replace(/^ROLE_/i, '').trim().toUpperCase()
+
   if (profile && typeof profile === 'object') {
     const rawRoles = (profile as Record<string, unknown>).roles
     if (Array.isArray(rawRoles)) {
-      roles = rawRoles
+      const normalizedRoles = rawRoles
         .filter(
           (role): role is string =>
             typeof role === 'string' && role.trim().length > 0,
         )
-        .map((role) => role.trim())
+        .map((role) => normalizeRole(role))
+        .filter((role) => role.length > 0)
+
+      roles = Array.from(new Set(normalizedRoles))
     }
   }
 
-  const hasAdminAccess = roles.some(
-    (role) => role === 'ROLE_ADMIN' || role === 'ROLE_ROOT',
-  )
+  const hasAdminAccess = roles.some((role) => role === 'ADMIN' || role === 'ROOT')
 
   if (!hasAdminAccess) {
     Notify.error(t('auth.adminOnly'))
