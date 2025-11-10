@@ -104,8 +104,6 @@ export const useProfilePluginsStore = defineStore('profilePlugins', () => {
       return
     }
 
-    const { $fetch } = useNuxtApp()
-
     isLoading.value = true
 
     try {

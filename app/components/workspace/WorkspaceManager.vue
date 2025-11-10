@@ -14,7 +14,6 @@ import { useWorkspaceStore } from '~/stores/workspace'
 const WORKSPACE_BASE_URL = 'https://bro-world.org'
 
 const { t } = useI18n()
-const { $fetch } = useNuxtApp()
 
 const workspaceStore = useWorkspaceStore()
 const { folders, isLoading, loadError, selectedFolderId, isReloading } =

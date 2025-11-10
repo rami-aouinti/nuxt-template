@@ -13,7 +13,6 @@ definePageMeta({
 })
 
 const { t } = useI18n()
-const { $fetch } = useNuxtApp()
 
 const pluginsError = ref('')
 const pluginToggleLoading = reactive<Record<string, boolean>>({})
@@ -156,10 +155,10 @@ await loadPlugins()
   <v-container fluid class="py-6">
     <ProfileNavigation class="mb-6" />
     <v-row class="justify-center">
-      <v-col cols="12" lg="8" xl="9">
+      <v-col cols="12">
         <v-sheet class="rounded-xl mb-6" elevation="2">
           <div
-            class="pa-6 d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-4"
+            class="pa-6 px-4 py-2 d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-4"
           >
             <div class="d-flex flex-column gap-2">
               <h1 class="text-h4 text-h3-md font-weight-bold mb-0">

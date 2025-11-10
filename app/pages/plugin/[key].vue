@@ -13,7 +13,6 @@ definePageMeta({
 
 const route = useRoute()
 const { t } = useI18n()
-const { $fetch } = useNuxtApp()
 
 const pluginsStore = useProfilePluginsStore()
 const pluginsError = ref('')
