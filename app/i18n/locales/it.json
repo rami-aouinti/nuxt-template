@@ -14,6 +14,12 @@
     "loader": {
       "title": "Caricamento",
       "subtitle": "Attendere un momento…"
+    },
+    "settings": {
+      "themePalette": "Theme palette",
+      "openThemeMenu": "Open theme palette",
+      "cornerRadius": "Corner radius",
+      "shadowDepth": "Shadow depth"
     }
   },
   "navigation": {
@@ -38,6 +44,12 @@
     "blog": "Blog",
     "messenger": "Messaggistica",
     "goBack": "Torna indietro",
+    "toggleNavigationDrawer": "Toggle navigation drawer",
+    "toggleSecondaryNavigationDrawer": "Toggle secondary navigation drawer",
+    "toggleTheme": "Toggle color theme",
+    "openAccountMenu": "Open account menu for {name}",
+    "openAccountMenuGuest": "Open sign-in menu",
+    "openLanguageMenu": "Open language menu ({language})",
     "language": "Cambia lingua",
     "workspace": "Workspace",
     "settings": "Impostazioni",
