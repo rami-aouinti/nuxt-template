@@ -45,6 +45,7 @@ const isDeleting = ref(false)
 const uploadDialog = ref(false)
 const uploadError = ref('')
 const isUploading = ref(false)
+const uploadTargetFolderId = ref<string | null>(null)
 const uploadForm = reactive({
   files: null as File[] | File | null,
   isPrivate: false,
@@ -126,9 +127,7 @@ const selectedFolderChildrenCount = computed(
 
 const selectedFolderFiles = computed(() => selectedFolder.value?.files ?? [])
 
-const selectedFolderItemsLabel = computed(() => {
-  const count = selectedFolderChildrenCount.value
-
+function resolveChildrenLabel(count: number) {
   if (count === 0) {
     return t('workspace.details.items.none')
   }
@@ -138,11 +137,9 @@ const selectedFolderItemsLabel = computed(() => {
   }
 
   return t('workspace.details.items.other', { count })
-})
+}
 
-const selectedFolderFilesLabel = computed(() => {
-  const count = selectedFolderFiles.value.length
-
+function resolveFilesLabel(count: number) {
   if (count === 0) {
     return t('workspace.details.files.none')
   }
@@ -152,7 +149,15 @@ const selectedFolderFilesLabel = computed(() => {
   }
 
   return t('workspace.details.files.other', { count })
-})
+}
+
+const selectedFolderItemsLabel = computed(() =>
+  resolveChildrenLabel(selectedFolderChildrenCount.value),
+)
+
+const selectedFolderFilesLabel = computed(() =>
+  resolveFilesLabel(selectedFolderFiles.value.length),
+)
 
 const folderTreeItems = computed(() => {
   function toTreeItem(node: WorkspaceFolder) {
@@ -370,11 +375,21 @@ async function confirmDeleteFolder() {
   }
 }
 
-function openUploadDialog() {
+function resolveFolderChildrenLabel(folder: WorkspaceFolder) {
+  return resolveChildrenLabel(folder.children?.length ?? 0)
+}
+
+function resolveFolderFilesLabel(folder: WorkspaceFolder) {
+  return resolveFilesLabel(folder.files?.length ?? 0)
+}
+
+function openUploadDialog(folderId?: string | null) {
   uploadForm.files = null
   uploadForm.isPrivate = false
   uploadError.value = ''
   uploadDialog.value = true
+  uploadTargetFolderId.value =
+    folderId !== undefined ? folderId : selectedFolderId.value
 }
 
 function extractFirstFile(files: File[] | File | null) {
@@ -385,11 +400,6 @@ function extractFirstFile(files: File[] | File | null) {
 }
 
 async function submitUpload() {
-  if (!selectedFolder.value) {
-    uploadError.value = t('workspace.errors.noFolderSelected')
-    return
-  }
-
   const file = extractFirstFile(uploadForm.files)
   if (!file) {
     uploadError.value = t('workspace.validation.fileRequired')
@@ -403,15 +413,21 @@ async function submitUpload() {
   isUploading.value = true
   uploadError.value = ''
 
+  const targetFolderId = uploadTargetFolderId.value
+  const targetSelection = targetFolderId ?? null
+  const endpoint = targetFolderId
+    ? `/api/v1/file/${targetFolderId}`
+    : '/api/v1/file'
+
   try {
-    await $fetch(`/api/v1/file/${selectedFolder.value.id}`, {
+    await $fetch(endpoint, {
       method: 'POST',
       body: formData,
     })
 
     Notify.success(t('workspace.notifications.fileUploaded'))
     uploadDialog.value = false
-    await loadFolders({ selectId: selectedFolder.value.id })
+    await loadFolders({ selectId: targetSelection })
   } catch (error) {
     const message = resolveErrorMessage(error, t('workspace.errors.uploadFile'))
     uploadError.value = message
@@ -700,12 +716,134 @@ onMounted(() => {
             </v-table>
           </v-card-text>
         </v-card>
-        <v-card
-          v-else
-          class="workspace-empty h-100 d-flex align-center justify-center"
-        >
-          <v-card-text class="text-center text-medium-emphasis">
-            {{ t('workspace.messages.selectFolder') }}
+        <v-card v-else class="workspace-root h-100"  rounded="xl">
+          <v-toolbar flat color="transparent" class="px-4">
+            <v-toolbar-title class="text-h5">
+              {{ t('workspace.tree.title') }}
+            </v-toolbar-title>
+            <v-spacer />
+            <v-btn
+              color="primary"
+              class="me-2"
+              prepend-icon="mdi-folder-plus"
+              :disabled="isLoading || isReloading"
+              @click="openCreateDialog(null)"
+            >
+              {{ t('workspace.tree.actions.createRoot') }}
+            </v-btn>
+            <v-btn
+              variant="tonal"
+              class="me-2"
+              prepend-icon="mdi-cloud-upload"
+              :disabled="isLoading || isReloading"
+              @click="openUploadDialog(null)"
+            >
+              {{ t('workspace.actions.uploadFile') }}
+            </v-btn>
+            <v-btn
+              variant="text"
+              :disabled="isReloading"
+              prepend-icon="mdi-refresh"
+              @click="loadFolders({ selectId: null })"
+            >
+              {{ t('workspace.actions.refresh') }}
+            </v-btn>
+          </v-toolbar>
+          <v-divider />
+          <v-card-text>
+            <v-alert
+              v-if="loadError"
+              type="error"
+              variant="tonal"
+              class="mb-4"
+              density="compact"
+            >
+              {{ loadError }}
+            </v-alert>
+            <div v-if="isLoading" class="py-4">
+              <v-skeleton-loader type="list-item" class="mb-2" />
+              <v-skeleton-loader type="list-item" class="mb-2" />
+              <v-skeleton-loader type="list-item" />
+            </div>
+            <div v-else-if="folders.length === 0" class="text-medium-emphasis">
+              {{ t('workspace.tree.empty') }}
+            </div>
+            <div v-else>
+              <v-alert
+                v-if="isReloading"
+                type="info"
+                variant="tonal"
+                density="compact"
+                class="mb-4"
+              >
+                {{ t('workspace.messages.refreshing') }}
+              </v-alert>
+              <v-list
+                class="workspace-root-list"
+                density="comfortable"
+                lines="two"
+              >
+                <v-list-item
+                  v-for="folder in folders"
+                  :key="folder.id"
+                  :title="folder.name"
+                  class="workspace-root-list-item"
+                  link
+                  @click="workspaceStore.selectFolder(folder.id)"
+                >
+                  <template #prepend>
+                    <v-avatar color="primary" variant="tonal">
+                      <v-icon icon="mdi-folder" />
+                    </v-avatar>
+                  </template>
+                  <template #subtitle>
+                    <div class="d-flex flex-wrap align-center gap-2 mt-2">
+                      <v-chip
+                        color="primary"
+                        variant="tonal"
+                        size="x-small"
+                        prepend-icon="mdi-file-tree"
+                      >
+                        {{ resolveFolderChildrenLabel(folder) }}
+                      </v-chip>
+                      <v-chip
+                        color="secondary"
+                        variant="tonal"
+                        size="x-small"
+                        prepend-icon="mdi-file"
+                      >
+                        {{ resolveFolderFilesLabel(folder) }}
+                      </v-chip>
+                      <v-chip
+                        v-if="folder.isPrivate"
+                        color="error"
+                        variant="tonal"
+                        size="x-small"
+                        prepend-icon="mdi-lock"
+                      >
+                        {{ t('workspace.details.private') }}
+                      </v-chip>
+                      <v-chip
+                        v-if="folder.isFavorite"
+                        color="warning"
+                        variant="tonal"
+                        size="x-small"
+                        prepend-icon="mdi-star"
+                      >
+                        {{ t('workspace.details.favorite') }}
+                      </v-chip>
+                    </div>
+                  </template>
+                  <template #append>
+                    <v-btn
+                      icon="mdi-chevron-right"
+                      variant="text"
+                      @click.stop="workspaceStore.selectFolder(folder.id)"
+                    />
+                  </template>
+                </v-list-item>
+              </v-list>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -968,5 +1106,23 @@ onMounted(() => {
 
 .workspace-empty {
   min-height: 420px;
+}
+
+.workspace-root {
+  min-height: 420px;
+}
+
+.workspace-root-list {
+  max-height: calc(100vh - 300px);
+  overflow-y: auto;
+}
+
+.workspace-root-list-item {
+  border-radius: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.workspace-root-list-item:hover {
+  background-color: rgb(var(--v-theme-surface-variant) / 0.2);
 }
 </style>
