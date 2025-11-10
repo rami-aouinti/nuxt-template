@@ -399,6 +399,10 @@
       "selectGroup": "Seleziona un gruppo",
       "selectUser": "Seleziona un utente",
       "selectWorkplace": "Seleziona un workspace"
+    },
+    "pagination": {
+      "rowsPerPage": "Righe per pagina",
+      "range": "Visualizzazione {start}–{end} di {total}"
     }
   },
   "profile": {

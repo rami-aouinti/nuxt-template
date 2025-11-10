@@ -46,7 +46,7 @@ const emit = defineEmits<{
 
 const slots = useSlots()
 const attrs = useAttrs()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const {
   headers,
@@ -103,6 +103,170 @@ const defaultItemsPerPageOptions = computed<ItemsPerPageOption[]>(() => [
 const computedItemsPerPageOptions = computed<ItemsPerPageOption[]>(
   () => props.itemsPerPageOptions ?? defaultItemsPerPageOptions.value,
 )
+
+type NormalizedItemsPerPageOption = {
+  value: number
+  title: string
+}
+
+const numberFormatter = computed(() => new Intl.NumberFormat(locale.value))
+
+const itemsPerPageSelectOptions = computed<NormalizedItemsPerPageOption[]>(() =>
+  computedItemsPerPageOptions.value
+    .map((option) => {
+      const rawValue = typeof option === 'number' ? option : option.value
+
+      if (typeof rawValue !== 'number' || Number.isNaN(rawValue)) {
+        return null
+      }
+
+      const fallbackTitle =
+        rawValue === -1
+          ? t('common.labels.all')
+          : numberFormatter.value.format(rawValue)
+
+      const rawTitle =
+        typeof option === 'number'
+          ? undefined
+          : typeof option.title === 'string'
+            ? option.title
+            : undefined
+
+      const title = rawTitle && rawTitle.trim().length > 0 ? rawTitle : fallbackTitle
+
+      return {
+        value: rawValue,
+        title,
+      }
+    })
+    .filter((option): option is NormalizedItemsPerPageOption => option !== null),
+)
+
+const page = ref(1)
+const itemsPerPage = ref<number>(10)
+
+watch(
+  itemsPerPageSelectOptions,
+  (options) => {
+    const fallback = options[0]?.value ?? 10
+
+    if (!options.some((option) => option.value === itemsPerPage.value)) {
+      itemsPerPage.value = fallback
+    }
+  },
+  { immediate: true },
+)
+
+const itemCount = computed(() => (Array.isArray(items.value) ? items.value.length : 0))
+
+const pageCount = computed(() => {
+  if (itemCount.value === 0) {
+    return 1
+  }
+
+  if (itemsPerPage.value <= 0 || itemsPerPage.value === -1) {
+    return 1
+  }
+
+  return Math.max(1, Math.ceil(itemCount.value / itemsPerPage.value))
+})
+
+watch(
+  [itemCount, pageCount],
+  () => {
+    if (page.value > pageCount.value) {
+      page.value = pageCount.value
+    }
+
+    if (page.value < 1) {
+      page.value = 1
+    }
+  },
+  { immediate: true },
+)
+
+watch(itemsPerPage, () => {
+  page.value = 1
+})
+
+const displayedStartIndex = computed(() => {
+  if (itemCount.value === 0) {
+    return 0
+  }
+
+  if (itemsPerPage.value <= 0 || itemsPerPage.value === -1) {
+    return 1
+  }
+
+  return Math.min((page.value - 1) * itemsPerPage.value + 1, itemCount.value)
+})
+
+const displayedEndIndex = computed(() => {
+  if (itemCount.value === 0) {
+    return 0
+  }
+
+  if (itemsPerPage.value <= 0 || itemsPerPage.value === -1) {
+    return itemCount.value
+  }
+
+  return Math.min(page.value * itemsPerPage.value, itemCount.value)
+})
+
+const paginationSummary = computed(() =>
+  t('common.pagination.range', {
+    start: numberFormatter.value.format(displayedStartIndex.value),
+    end: numberFormatter.value.format(displayedEndIndex.value),
+    total: numberFormatter.value.format(itemCount.value),
+  }),
+)
+
+const showPaginationButtons = computed(() => pageCount.value > 1)
+const showItemsPerPageSelect = computed(() => itemsPerPageSelectOptions.value.length > 1)
+
+const canGoToPreviousPage = computed(() => page.value > 1 && itemCount.value > 0)
+const canGoToNextPage = computed(
+  () => page.value < pageCount.value && itemCount.value > 0,
+)
+
+const handleItemsPerPageUpdate = (value: number | string) => {
+  const numericValue =
+    typeof value === 'number' ? value : Number.parseInt(String(value), 10)
+
+  if (Number.isNaN(numericValue)) {
+    return
+  }
+
+  itemsPerPage.value = numericValue
+}
+
+const handleTablePageUpdate = (value: number | string) => {
+  const numericValue =
+    typeof value === 'number' ? value : Number.parseInt(String(value), 10)
+
+  if (!Number.isFinite(numericValue)) {
+    return
+  }
+
+  if (numericValue < 1) {
+    page.value = 1
+    return
+  }
+
+  page.value = Math.min(Math.round(numericValue), pageCount.value)
+}
+
+const goToPreviousPage = () => {
+  if (canGoToPreviousPage.value) {
+    page.value -= 1
+  }
+}
+
+const goToNextPage = () => {
+  if (canGoToNextPage.value) {
+    page.value += 1
+  }
+}
 
 const skeletonRowCount = computed(() => {
   if (!loading.value) {
@@ -432,9 +596,14 @@ function refresh() {
       :density="dataTableDensity"
       :search="showSearch ? localSearch : undefined"
       :items-per-page-options="computedItemsPerPageOptions"
+      :items-per-page="itemsPerPage"
+      :page="page"
       class="admin-data-table__table"
       hover
+      hide-default-footer
       rounded="0"
+      @update:items-per-page="handleItemsPerPageUpdate"
+      @update:page="handleTablePageUpdate"
     >
       <template #loading="{ isActive }">
         <tbody v-if="isActive" class="admin-data-table__skeleton-body">
@@ -457,6 +626,47 @@ function refresh() {
 
       <template v-for="slotName in dataTableSlots" #[slotName]="slotProps">
         <slot :name="slotName" v-bind="slotProps" />
+      </template>
+
+      <template #bottom>
+        <div class="admin-data-table__pagination">
+          <div class="admin-data-table__pagination-info">
+            {{ paginationSummary }}
+          </div>
+          <div class="admin-data-table__pagination-controls">
+            <v-select
+              v-if="showItemsPerPageSelect"
+              v-model="itemsPerPage"
+              class="admin-data-table__pagination-select"
+              :items="itemsPerPageSelectOptions"
+              density="compact"
+              hide-details
+              item-title="title"
+              item-value="value"
+              :label="t('common.pagination.rowsPerPage')"
+              variant="outlined"
+            />
+            <div
+              v-if="showPaginationButtons"
+              class="admin-data-table__pagination-buttons"
+            >
+              <v-btn
+                icon="mdi-chevron-left"
+                variant="tonal"
+                size="small"
+                :disabled="!canGoToPreviousPage"
+                @click="goToPreviousPage"
+              />
+              <v-btn
+                icon="mdi-chevron-right"
+                variant="tonal"
+                size="small"
+                :disabled="!canGoToNextPage"
+                @click="goToNextPage"
+              />
+            </div>
+          </div>
+        </div>
       </template>
     </v-data-table>
 
@@ -517,6 +727,48 @@ function refresh() {
   opacity: 0.85;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.admin-data-table__pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 24px;
+  border-top: 1px solid
+    color-mix(in srgb, var(--v-theme-outline-variant) 38%, transparent);
+  background: color-mix(
+    in srgb,
+    rgba(var(--v-theme-surface), 0.96) 90%,
+    rgba(var(--v-theme-primary), 0.12)
+  );
+}
+
+.admin-data-table__pagination-info {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(var(--v-theme-on-surface), 0.72);
+}
+
+.admin-data-table__pagination-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  min-height: 40px;
+}
+
+.admin-data-table__pagination-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-data-table__pagination-select {
+  min-width: 148px;
+  max-width: 200px;
 }
 
 .admin-data-table__toolbar-actions {

@@ -411,6 +411,10 @@
       "selectGroup": "Select a group",
       "selectUser": "Select a user",
       "selectWorkplace": "Select a workplace"
+    },
+    "pagination": {
+      "rowsPerPage": "Rows per page",
+      "range": "{start}–{end} of {total}"
     }
   },
   "profile": {

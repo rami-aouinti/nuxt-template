@@ -399,6 +399,10 @@
       "selectGroup": "اختر مجموعة",
       "selectUser": "اختر مستخدمًا",
       "selectWorkplace": "اختر مساحة عمل"
+    },
+    "pagination": {
+      "rowsPerPage": "صفوف لكل صفحة",
+      "range": "عرض {start}–{end} من {total}"
     }
   },
   "profile": {

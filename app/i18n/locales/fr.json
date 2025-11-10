@@ -408,6 +408,10 @@
       "selectGroup": "Sélectionnez un groupe",
       "selectUser": "Sélectionnez un utilisateur",
       "selectWorkplace": "Sélectionnez un espace de travail"
+    },
+    "pagination": {
+      "rowsPerPage": "Lignes par page",
+      "range": "Affichage {start}–{end} sur {total}"
     }
   },
   "profile": {
