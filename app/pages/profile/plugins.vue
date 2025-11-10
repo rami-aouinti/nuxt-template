@@ -167,7 +167,11 @@ await loadPlugins()
                 {{ t('profile.sections.plugins.description') }}
               </p>
             </div>
-            <v-tooltip :text="t('profile.sections.plugins.actions.refresh')" location="bottom">
+            <v-tooltip
+              :text="t('profile.sections.plugins.actions.refresh')"
+              :aria-label="t('profile.sections.plugins.actions.refresh')"
+              location="bottom"
+            >
               <template #activator="{ props }">
                 <v-btn
                   v-bind="props"

@@ -59,7 +59,11 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
     offset="15"
   >
     <template #activator="{ props: menu }">
-      <v-tooltip :text="themePaletteLabel" location="top">
+      <v-tooltip
+        :text="themePaletteLabel"
+        :aria-label="themePaletteLabel"
+        location="top"
+      >
         <template #activator="{ props: tooltip }">
           <v-btn
             icon="mdi-palette-outline"
