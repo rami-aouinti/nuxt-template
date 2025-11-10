@@ -380,6 +380,33 @@
         "title": "الأدوار",
         "empty": "لا توجد أدوار مخصّصة بعد."
       },
+      "plugins": {
+        "title": "إضافات مساحة العمل",
+        "description": "فعّل الأدوات التي تحتاجها وخصص تجربتك.",
+        "empty": "لا توجد إضافات متاحة حاليًا.",
+        "status": {
+          "active": "مفعل",
+          "inactive": "غير مفعل"
+        },
+        "pricing": {
+          "free": "مجاني",
+          "paid": "مدفوع"
+        },
+        "actions": {
+          "refresh": "تحديث",
+          "activate": "تفعيل",
+          "deactivate": "إيقاف",
+          "open": "فتح",
+          "install": "تثبيت"
+        },
+        "notifications": {
+          "toggleSuccess": "تم تحديث حالة \"{name}\"."
+        },
+        "errors": {
+          "loadFailed": "تعذر تحميل الإضافات. حاول مرة أخرى لاحقًا.",
+          "toggleFailed": "تعذر تحديث هذه الإضافة. حاول مرة أخرى لاحقًا."
+        }
+      },
       "settings": {
         "title": "التفضيلات"
       }
