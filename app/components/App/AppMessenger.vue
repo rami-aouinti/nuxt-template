@@ -253,6 +253,9 @@ onBeforeUnmount(() => {
         </div>
       </v-card>
     </v-menu>
+    <template #fallback>
+      <span class="dock-navbar__action-placeholder" aria-hidden="true" />
+    </template>
   </ClientOnly>
 </template>
 
@@ -314,5 +317,14 @@ onBeforeUnmount(() => {
   display: flex;
   justify-content: flex-end;
   padding: 0 12px 12px;
+}
+
+.dock-navbar__action-placeholder {
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  pointer-events: none;
+  flex-shrink: 0;
 }
 </style>

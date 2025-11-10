@@ -4,7 +4,7 @@ import { computed } from 'vue'
 const router = useRouter()
 const routes = router.getRoutes().filter((r) => r.path.lastIndexOf('/') === 0)
 const drawerState = useState('drawer', () => true)
-const appBarReady = useState('appBarReady', () => false)
+const appBarReady = useState('appBarReady', () => true)
 
 const { mobile, lgAndUp, width } = useDisplay()
 const { t } = useI18n()
@@ -54,12 +54,12 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
 
 <template>
   <v-navigation-drawer
-    v-if="appBarReady"
     v-model="drawer"
     :expand-on-hover="rail"
     :rail="rail"
     width="320"
     floating
+    :class="{ 'app-drawer--hydrating': !appBarReady }"
   >
     <template #prepend>
       <NuxtLink
@@ -116,6 +116,10 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
 .v-navigation-drawer {
   transition-property: box-shadow, transform, opacity, border-radius !important;
   overflow: hidden;
+  &.app-drawer--hydrating {
+    visibility: hidden;
+    pointer-events: none;
+  }
   &.v-navigation-drawer--rail {
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
