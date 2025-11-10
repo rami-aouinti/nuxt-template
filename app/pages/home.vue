@@ -1580,9 +1580,9 @@ await loadPosts(1, { replace: true })
         </p>
       </teleport>
     </client-only>
-    <<client-only>
+    <client-only>
       <teleport to="#app-drawer-right"
-        >>
+        >
         <div class="animated-badge mb-4">
           <span class="animated-badge__pulse" />
           {{ t('blog.sidebar.myBlogsTitle') }}
