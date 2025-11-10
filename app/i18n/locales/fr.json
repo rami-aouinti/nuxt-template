@@ -202,6 +202,15 @@
   },
   "admin": {
     "dashboard": {
+      "welcome": "Centre de contrôle",
+      "title": "Gérez chaque espace en un clin d’œil",
+      "subtitle": "Accédez rapidement aux sections clés de l’administration et suivez vos indicateurs.",
+      "sections": "Sections",
+      "activity": "Activité",
+      "updated": "Mis à jour",
+      "sectionsTitle": "Navigation rapide",
+      "choose": "Choisissez une section",
+      "description": "Des cartes claires pour gérer vos utilisateurs, contenus et paramètres en toute simplicité.",
       "stats": {
         "bandwidth": {
           "title": "Bande passante",

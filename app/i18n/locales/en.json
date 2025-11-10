@@ -202,6 +202,15 @@
   },
   "admin": {
     "dashboard": {
+      "welcome": "Control center",
+      "title": "Manage every space at a glance",
+      "subtitle": "Quickly access key administration sections and track your metrics.",
+      "sections": "Sections",
+      "activity": "Activity",
+      "updated": "Updated",
+      "sectionsTitle": "Quick navigation",
+      "choose": "Choose a section",
+      "description": "Clear cards to manage your users, content, and settings with ease.",
       "stats": {
         "bandwidth": {
           "title": "Bandwidth",
