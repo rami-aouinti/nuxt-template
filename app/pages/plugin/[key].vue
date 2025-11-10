@@ -204,24 +204,21 @@ async function handlePluginToggle(current: ProfilePlugin | null) {
             <v-card-text>
               <div class="plugin-detail-card__header">
                 <div class="d-flex align-center gap-4 flex-wrap">
-                  <v-avatar
+                  <AppAvatar
+                    :src="plugin?.logo"
+                    :alt="plugin?.name"
                     size="72"
                     rounded="lg"
                     class="plugin-detail-card__logo"
                   >
-                    <v-img
-                      v-if="plugin?.logo"
-                      :src="plugin.logo"
-                      :alt="plugin.name"
-                      cover
-                    />
-                    <v-icon
-                      v-else
-                      :icon="plugin?.icon || 'mdi-puzzle'"
-                      size="32"
-                      color="primary"
-                    />
-                  </v-avatar>
+                    <template #fallback>
+                      <v-icon
+                        :icon="plugin?.icon || 'mdi-puzzle'"
+                        size="32"
+                        color="primary"
+                      />
+                    </template>
+                  </AppAvatar>
                   <div class="d-flex flex-column gap-1">
                     <h1 class="text-h4 text-h3-md font-weight-bold mb-0">
                       {{ plugin?.name }}

@@ -93,21 +93,9 @@ const onDeletePost = () => {
           :to="authorLink"
           class="facebook-post-card__avatar-link text-decoration-none"
         >
-          <v-avatar size="48">
-            <v-img :src="authorAvatar" :alt="authorName">
-              <template #error>
-                <v-icon icon="mdi-account-circle" size="48" />
-              </template>
-            </v-img>
-          </v-avatar>
+          <AppAvatar :src="authorAvatar" :alt="authorName" size="48" />
         </NuxtLink>
-        <v-avatar v-else size="48">
-          <v-img :src="authorAvatar" :alt="authorName">
-            <template #error>
-              <v-icon icon="mdi-account-circle" size="48" />
-            </template>
-          </v-img>
-        </v-avatar>
+        <AppAvatar v-else :src="authorAvatar" :alt="authorName" size="48" />
       </div>
       <div class="facebook-post-card__header-info">
         <div class="facebook-post-card__author">

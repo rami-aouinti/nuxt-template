@@ -663,16 +663,19 @@ async function submit() {
         <div v-else>
           <v-row no-gutters class="align-center mb-4">
             <v-col cols="auto">
-              <v-avatar size="72" color="primary" class="elevation-2">
-                <v-img
-                  v-if="avatarUrl"
-                  :src="avatarUrl"
-                  :alt="t('profile.page.avatar.alt')"
-                />
-                <span v-else class="text-h4 font-weight-medium text-white">{{
-                  initials
-                }}</span>
-              </v-avatar>
+              <AppAvatar
+                :src="avatarUrl"
+                :alt="t('profile.page.avatar.alt')"
+                size="72"
+                color="primary"
+                class="elevation-2"
+              >
+                <template #fallback>
+                  <span class="text-h4 font-weight-medium text-white">{{
+                    initials
+                  }}</span>
+                </template>
+              </AppAvatar>
             </v-col>
             <v-col class="px-4">
               <div class="text-h6 font-weight-medium">

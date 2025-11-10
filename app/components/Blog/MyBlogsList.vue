@@ -81,22 +81,19 @@ function getBlogInitials(title: string | null | undefined): string {
           class="text-decoration-none text-primary d-flex align-center gap-3"
           :to="`/blog/${blog.id}`"
         >
-          <v-avatar size="36" color="primary" variant="tonal">
-            <template v-if="blog.logo">
-              <v-img :src="blog.logo || undefined" :alt="blog.title">
-                <template #error>
-                  <span class="blog-avatar__initials">
-                    {{ getBlogInitials(blog.title) }}
-                  </span>
-                </template>
-              </v-img>
-            </template>
-            <template v-else>
+          <AppAvatar
+            :src="blog.logo || undefined"
+            :alt="blog.title"
+            size="36"
+            color="primary"
+            variant="tonal"
+          >
+            <template #fallback>
               <span class="blog-avatar__initials">
                 {{ getBlogInitials(blog.title) }}
               </span>
             </template>
-          </v-avatar>
+          </AppAvatar>
           <span>{{ blog.title }}</span>
         </NuxtLink>
       </div>
