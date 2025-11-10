@@ -492,30 +492,12 @@ watch(loggedIn, (value) => {
     'Noto Color Emoji', sans-serif;
 }
 
-.dock-navbar__language-flag-icon {
-  display: inline-flex;
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-.dock-navbar__language-flag-icon :deep(svg) {
-  width: 100%;
-  height: 100%;
-}
-
 .dock-navbar__language-flag--item {
   margin-right: 0.5rem;
   font-size: 1rem;
   font-family:
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji', sans-serif;
-}
-
-.dock-navbar__language-flag-icon--item {
-  display: inline-flex;
-  margin-right: 0.5rem;
-  width: 1rem;
-  height: 1rem;
 }
 
 .dock-navbar__language-info {
