@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
-import ProfileNavigation from '~/components/profile/ProfileNavigation.vue'
+import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 import { BLOG_POSTS_DEFAULT_LIMIT, useBlogApi } from '~/composables/useBlogApi'
 import { useProfilePostsStore } from '~/stores/profile-posts'
 
@@ -105,8 +105,7 @@ watch(
 </script>
 
 <template>
-  <v-container fluid class="py-6">
-    <ProfileNavigation class="mb-6" />
+  <ProfilePageShell>
     <v-row class="justify-center">
       <v-col cols="12" lg="8" xl="9">
         <v-sheet class="rounded-xl mb-6" elevation="2">
@@ -223,11 +222,10 @@ watch(
         />
       </v-col>
       <v-col cols="12" lg="4" xl="3" class="blog-sidebar-column">
-        <div class="blog-sidebar glass-card pa-4 pa-md-6 mb-6">
-        </div>
+        <div class="blog-sidebar glass-card pa-4 pa-md-6 mb-6"></div>
       </v-col>
     </v-row>
-  </v-container>
+  </ProfilePageShell>
 </template>
 
 <style scoped>

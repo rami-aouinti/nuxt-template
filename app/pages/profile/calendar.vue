@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
-import ProfileNavigation from '~/components/profile/ProfileNavigation.vue'
+import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 import type { ProfileEvent, UpsertProfileEventPayload } from '~/types/events'
 import { Notify } from '~/stores/notification'
 import { useProfileEventsStore } from '~/stores/profile-events'
@@ -380,151 +380,152 @@ function closeDialog() {
 </script>
 
 <template>
-  <v-container fluid class="profile-calendar py-6">
-    <ProfileNavigation class="mb-6" />
-    <v-row dense>
-      <v-col cols="12" lg="8">
-        <v-card class="h-100" rounded="xl">
-          <v-card-text>
-            <div
-              class="d-flex flex-wrap align-center justify-space-between gap-4 mb-4"
-            >
-              <v-btn-toggle
-                v-model="calendarType"
-                mandatory
-                density="comfortable"
+  <ProfilePageShell>
+    <div class="profile-calendar">
+      <v-row dense>
+        <v-col cols="12" lg="8">
+          <v-card class="h-100" rounded="xl">
+            <v-card-text>
+              <div
+                class="d-flex flex-wrap align-center justify-space-between gap-4 mb-4"
               >
-                <v-btn value="month">
-                  {{ t('profile.calendar.view.month') }}
-                </v-btn>
-                <v-btn value="week">
-                  {{ t('profile.calendar.view.week') }}
-                </v-btn>
-                <v-btn value="day">
-                  {{ t('profile.calendar.view.day') }}
-                </v-btn>
-              </v-btn-toggle>
-              <v-text-field
-                v-model="focus"
-                type="date"
-                density="comfortable"
-                hide-details
-                style="max-width: 200px"
-              />
-            </div>
-
-            <v-skeleton-loader
-              v-if="isLoading && events.length === 0"
-              type="article"
-            />
-            <template v-else>
-              <v-alert
-                v-if="loadError"
-                type="error"
-                variant="tonal"
-                class="mb-4"
-              >
-                {{ loadError }}
-              </v-alert>
-
-              <v-calendar
-                v-model="focus"
-                :type="calendarType"
-                :events="calendarEvents"
-                color="primary"
-                show-week
-                @click:event="handleCalendarEventClick"
-                @click:date="handleCalendarDateClick"
-              />
-            </template>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
-      <v-col cols="12" lg="4">
-        <v-card class="h-100" rounded="xl">
-          <v-card-title class="d-flex align-center justify-space-between">
-            <span class="text-subtitle-1 font-weight-medium">
-              {{ t('profile.calendar.list.title') }}
-            </span>
-            <v-btn
-              icon="mdi-plus"
-              size="small"
-              variant="text"
-              @click="openCreateDialog()"
-            />
-            <v-btn
-              size="small"
-              variant="text"
-              prepend-icon="mdi-refresh"
-              :loading="isLoading"
-              @click="loadEvents"
-            />
-          </v-card-title>
-          <v-divider />
-          <v-card-text>
-            <v-skeleton-loader
-              v-if="isLoading && events.length === 0"
-              type="list-item-three-line"
-            />
-            <template v-else>
-              <v-alert
-                v-if="loadError"
-                type="error"
-                variant="tonal"
-                class="mb-4"
-              >
-                {{ loadError }}
-              </v-alert>
-
-              <v-alert
-                v-else-if="sortedEvents.length === 0"
-                variant="tonal"
-                type="info"
-              >
-                {{ t('profile.calendar.list.empty') }}
-              </v-alert>
-
-              <v-list v-else>
-                <v-list-item
-                  v-for="event in sortedEvents"
-                  :key="event.id"
-                  :title="event.title"
-                  :subtitle="formatEventRange(event)"
+                <v-btn-toggle
+                  v-model="calendarType"
+                  mandatory
+                  density="comfortable"
                 >
-                  <template #prepend>
-                    <v-avatar
-                      size="36"
-                      :color="event.color ?? 'primary'"
-                      class="text-white"
-                    >
-                      <v-icon>mdi-calendar</v-icon>
-                    </v-avatar>
-                  </template>
-                  <template #append>
-                    <div class="d-flex align-center gap-1">
-                      <v-btn
-                        icon="mdi-pencil"
-                        size="small"
-                        variant="text"
-                        @click="openEditDialog(event)"
-                      />
-                      <v-btn
-                        icon="mdi-delete"
-                        size="small"
-                        variant="text"
-                        color="error"
-                        @click="requestDelete(event)"
-                      />
-                    </div>
-                  </template>
-                </v-list-item>
-              </v-list>
-            </template>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+                  <v-btn value="month">
+                    {{ t('profile.calendar.view.month') }}
+                  </v-btn>
+                  <v-btn value="week">
+                    {{ t('profile.calendar.view.week') }}
+                  </v-btn>
+                  <v-btn value="day">
+                    {{ t('profile.calendar.view.day') }}
+                  </v-btn>
+                </v-btn-toggle>
+                <v-text-field
+                  v-model="focus"
+                  type="date"
+                  density="comfortable"
+                  hide-details
+                  style="max-width: 200px"
+                />
+              </div>
+
+              <v-skeleton-loader
+                v-if="isLoading && events.length === 0"
+                type="article"
+              />
+              <template v-else>
+                <v-alert
+                  v-if="loadError"
+                  type="error"
+                  variant="tonal"
+                  class="mb-4"
+                >
+                  {{ loadError }}
+                </v-alert>
+
+                <v-calendar
+                  v-model="focus"
+                  :type="calendarType"
+                  :events="calendarEvents"
+                  color="primary"
+                  show-week
+                  @click:event="handleCalendarEventClick"
+                  @click:date="handleCalendarDateClick"
+                />
+              </template>
+            </v-card-text>
+          </v-card>
+        </v-col>
+
+        <v-col cols="12" lg="4">
+          <v-card class="h-100" rounded="xl">
+            <v-card-title class="d-flex align-center justify-space-between">
+              <span class="text-subtitle-1 font-weight-medium">
+                {{ t('profile.calendar.list.title') }}
+              </span>
+              <v-btn
+                icon="mdi-plus"
+                size="small"
+                variant="text"
+                @click="openCreateDialog()"
+              />
+              <v-btn
+                size="small"
+                variant="text"
+                prepend-icon="mdi-refresh"
+                :loading="isLoading"
+                @click="loadEvents"
+              />
+            </v-card-title>
+            <v-divider />
+            <v-card-text>
+              <v-skeleton-loader
+                v-if="isLoading && events.length === 0"
+                type="list-item-three-line"
+              />
+              <template v-else>
+                <v-alert
+                  v-if="loadError"
+                  type="error"
+                  variant="tonal"
+                  class="mb-4"
+                >
+                  {{ loadError }}
+                </v-alert>
+
+                <v-alert
+                  v-else-if="sortedEvents.length === 0"
+                  variant="tonal"
+                  type="info"
+                >
+                  {{ t('profile.calendar.list.empty') }}
+                </v-alert>
+
+                <v-list v-else>
+                  <v-list-item
+                    v-for="event in sortedEvents"
+                    :key="event.id"
+                    :title="event.title"
+                    :subtitle="formatEventRange(event)"
+                  >
+                    <template #prepend>
+                      <v-avatar
+                        size="36"
+                        :color="event.color ?? 'primary'"
+                        class="text-white"
+                      >
+                        <v-icon>mdi-calendar</v-icon>
+                      </v-avatar>
+                    </template>
+                    <template #append>
+                      <div class="d-flex align-center gap-1">
+                        <v-btn
+                          icon="mdi-pencil"
+                          size="small"
+                          variant="text"
+                          @click="openEditDialog(event)"
+                        />
+                        <v-btn
+                          icon="mdi-delete"
+                          size="small"
+                          variant="text"
+                          color="error"
+                          @click="requestDelete(event)"
+                        />
+                      </div>
+                    </template>
+                  </v-list-item>
+                </v-list>
+              </template>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
 
     <v-dialog v-model="isDialogOpen" max-width="520">
       <v-card>
@@ -664,7 +665,7 @@ function closeDialog() {
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-container>
+  </ProfilePageShell>
 </template>
 
 <style scoped>
