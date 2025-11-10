@@ -324,28 +324,12 @@ watch(loggedIn, (value) => {
         class="dock-navbar__menu"
       >
         <template #activator="{ props }">
-          <button
-            class="dock-navbar__language-button"
-            type="button"
+          <v-btn
+            icon
             v-bind="props"
           >
-            <span
-              v-if="currentLanguage?.flag"
-              class="dock-navbar__language-flag"
-              aria-hidden="true"
-            >
-              {{ currentLanguage.flag }}
-            </span>
-            <Icon
-              v-else-if="currentLanguage?.flagIcon"
-              :name="currentLanguage.flagIcon"
-              class="dock-navbar__language-flag-icon"
-              aria-hidden="true"
-            />
-            <span v-else class="dock-navbar__language-code" aria-hidden="true">
-              {{ currentLanguage?.code?.toUpperCase() }}
-            </span>
-          </button>
+            <FlagSpan :code="currentLanguage?.code" />
+          </v-btn>
         </template>
 
         <v-list class="dock-navbar__language-list" density="compact" tag="ul">
@@ -362,19 +346,7 @@ watch(loggedIn, (value) => {
             <NuxtLink :to="language.to" class="dock-navbar__language-link">
               <div class="dock-navbar__language-item">
                 <div class="dock-navbar__language-info">
-                  <span
-                    v-if="language.flag"
-                    class="dock-navbar__language-flag dock-navbar__language-flag--item"
-                    aria-hidden="true"
-                  >
-                    {{ language.flag }}
-                  </span>
-                  <Icon
-                    v-else-if="language.flagIcon"
-                    :name="language.flagIcon"
-                    class="dock-navbar__language-flag-icon dock-navbar__language-flag-icon--item"
-                    aria-hidden="true"
-                  />
+                  <FlagSpan :code="language?.code" class="mr-1" />
                   <span class="dock-navbar__language-name">{{
                     language.name
                   }}</span>
