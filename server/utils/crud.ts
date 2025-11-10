@@ -3,6 +3,7 @@ import { createError, getRouterParam, type H3Event } from 'h3'
 import { broWorldRequest } from './broWorldApi'
 import { broWorldBlogRequest } from './broWorldBlogApi'
 import { broWorldMediaRequest } from './broWorldMediaApi'
+import { broWorldFrontendRequest } from './broWorldFrontendApi'
 
 export function requireEntityId(event: H3Event, entityLabel: string) {
   const id = getRouterParam(event, 'id')
@@ -25,6 +26,19 @@ export async function requestWithJsonBody<Response, Payload>(
   body: Payload,
 ) {
   return await broWorldRequest<Response>(event, path, {
+    method,
+    body,
+    headers: { 'Content-Type': 'application/json' },
+  })
+}
+
+export async function requestFrontendWithJsonBody<Response, Payload>(
+  event: H3Event,
+  path: string,
+  method: 'POST' | 'PUT' | 'PATCH' | 'DELETE',
+  body: Payload,
+) {
+  return await broWorldFrontendRequest<Response>(event, path, {
     method,
     body,
     headers: { 'Content-Type': 'application/json' },
