@@ -3,7 +3,6 @@ import { defineNuxtConfig } from 'nuxt/config'
 import { createHash } from 'node:crypto'
 import { fileURLToPath } from 'node:url'
 import { resolve } from 'node:path'
-import { splitVendorChunkPlugin } from 'vite'
 
 const projectRoot = fileURLToPath(new URL('./', import.meta.url))
 const localeDirectory = resolve(projectRoot, 'app/i18n/locales')
@@ -114,7 +113,6 @@ export default defineNuxtConfig({
     ],
   },
   vite: {
-    plugins: [splitVendorChunkPlugin()],
     resolve: {
       alias: {
         i18n: projectRoot,
