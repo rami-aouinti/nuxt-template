@@ -85,7 +85,7 @@ const onDeletePost = () => {
 </script>
 
 <template>
-  <v-card class="facebook-post-card" elevation="0" rounded="xl">
+<v-card class="facebook-post-card" elevation="0" rounded="xl">
     <div class="facebook-post-card__header">
       <div class="facebook-post-card__avatar">
         <NuxtLink
@@ -337,6 +337,9 @@ const onDeletePost = () => {
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
+  min-height: 288px;
+  display: flex;
+  flex-direction: column;
 }
 
 .facebook-post-card:hover {

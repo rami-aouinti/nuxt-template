@@ -3,6 +3,7 @@ import { computed, reactive, ref, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import BlogReactionsDialog from '~/components/Blog/ReactionsDialog.vue'
 import BlogPostCard from '~/components/Blog/PostCard.vue'
+import BlogPostCardSkeleton from '~/components/Blog/PostCardSkeleton.vue'
 import DialogConfirm from '~/components/DialogConfirm.vue'
 import WorkplaceActionMenu from '~/components/workplace/WorkplaceActionMenu.vue'
 import WorkplaceManagerDialog from '~/components/workplace/WorkplaceManagerDialog.vue'
@@ -1913,11 +1914,7 @@ await loadPosts(1, { replace: true })
 
         <v-row v-if="isInitialLoading" class="g-6">
           <v-col v-for="index in 3" :key="index" cols="12">
-            <v-skeleton-loader
-              type="heading, paragraph, actions"
-              elevation="2"
-              class="rounded-xl"
-            />
+            <BlogPostCardSkeleton />
           </v-col>
         </v-row>
 
