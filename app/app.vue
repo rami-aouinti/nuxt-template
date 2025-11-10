@@ -2,6 +2,10 @@
 const theme = useTheme()
 const { t, locale } = useI18n()
 const route = useRoute()
+const requestURL = useRequestURL()
+const siteOrigin = `${requestURL.protocol}//${requestURL.host}`
+
+const canonicalUrl = computed(() => `${siteOrigin}${route.path}`)
 
 provide(
   THEME_KEY,
@@ -33,15 +37,25 @@ const layoutName = computed(() => {
   return route.path.startsWith('/admin') ? 'admin' : 'default'
 })
 
-useHead(() => ({
-  title: pageTitle.value || defaultTitle.value,
-  titleTemplate: (titleChunk?: string) =>
-    titleChunk && titleChunk !== defaultTitle.value
-      ? `${titleChunk} | ${defaultTitle.value}`
-      : defaultTitle.value,
-  htmlAttrs: { lang: locale.value },
-  link: [{ rel: 'icon', href: '/favicon.ico' }],
-}))
+useHead(() => {
+  const links: { rel: string; href: string }[] = [
+    { rel: 'icon', href: '/favicon.ico' },
+  ]
+
+  if (canonicalUrl.value) {
+    links.push({ rel: 'canonical', href: canonicalUrl.value })
+  }
+
+  return {
+    title: pageTitle.value || defaultTitle.value,
+    titleTemplate: (titleChunk?: string) =>
+      titleChunk && titleChunk !== defaultTitle.value
+        ? `${titleChunk} | ${defaultTitle.value}`
+        : defaultTitle.value,
+    htmlAttrs: { lang: locale.value },
+    link: links,
+  }
+})
 
 useSeoMeta(() => ({
   viewport: 'width=device-width, initial-scale=1, maximum-scale=1',

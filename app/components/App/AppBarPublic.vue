@@ -33,6 +33,19 @@ const profileCache = useAuthProfileCache()
 const credentialsDialog = ref(false)
 const controlChevronSize = 18
 
+const accountAvatarAlt = computed(() => {
+  if (!loggedIn.value) {
+    return t('profile.page.avatar.alt')
+  }
+
+  const username = user.value?.login?.trim()
+  if (username && username.length > 0) {
+    return t('navigation.accountAvatarAlt', { name: username })
+  }
+
+  return t('profile.page.avatar.alt')
+})
+
 const canGoBack = ref(false)
 
 const updateCanGoBack = () => {
@@ -262,7 +275,7 @@ watch(loggedIn, (value) => {
               >
                 <v-icon v-if="!loggedIn" icon="mdi-account-circle" size="36" />
                 <v-avatar v-else color="primary" size="36">
-                  <v-img :src="user?.avatar_url" />
+                  <v-img :src="user?.avatar_url" :alt="accountAvatarAlt" />
                 </v-avatar>
               </v-btn>
             </template>
