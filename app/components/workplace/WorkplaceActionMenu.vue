@@ -281,7 +281,7 @@ async function handleDeleteSubmit() {
           v-bind="activatorProps"
           icon
           variant="text"
-          color="primary"
+          style="color: rgba(var(--v-theme-on-surface), 0.92);"
           class="rounded-circle"
         >
           <v-icon>mdi-dots-vertical</v-icon>

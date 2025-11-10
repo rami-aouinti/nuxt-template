@@ -1615,18 +1615,6 @@ await loadPosts(1, { replace: true })
             )
           }}
         </p>
-        <div class="d-flex flex-column gap-3 mt-6 mb-4">
-          <v-btn
-            block
-            color="primary"
-            variant="tonal"
-            prepend-icon="mdi-earth-plus"
-            :disabled="!loggedIn"
-            @click="openAddWorldDialog"
-          >
-            {{ translate('workplace.drawer.addWorld', 'Add world') }}
-          </v-btn>
-        </div>
         <v-alert
           v-if="!loggedIn"
           type="info"
@@ -1663,6 +1651,7 @@ await loadPosts(1, { replace: true })
             >
               <v-card-text class="d-flex align-center gap-3">
                 <NuxtLink
+                  style="color: rgba(var(--v-theme-on-surface), 0.92);"
                   class="workplace-card__link d-flex align-center gap-3 flex-grow-1 text-decoration-none"
                   :to="`/world/${encodeURIComponent(workplace.slug)}`"
                 >
@@ -1671,12 +1660,9 @@ await loadPosts(1, { replace: true })
                       {{ getBlogInitials(workplace.name || workplace.slug) }}
                     </span>
                   </v-avatar>
-                  <div class="d-flex flex-column">
+                  <div class="d-flex flex-column px-2">
                     <span class="text-body-1 font-weight-medium text-truncate">
                       {{ workplace.name || workplace.slug }}
-                    </span>
-                    <span class="text-caption text-medium-emphasis">
-                      {{ workplace.slug }}
                     </span>
                   </div>
                 </NuxtLink>
@@ -1703,6 +1689,19 @@ await loadPosts(1, { replace: true })
             {{ translate('workplace.drawer.emptyList', 'You have no worlds yet.') }}
           </p>
         </template>
+
+        <div class="d-flex flex-column gap-3 mt-6 mb-4">
+          <v-btn
+            block
+            color="primary"
+            variant="tonal"
+            prepend-icon="mdi-earth-plus"
+            :disabled="!loggedIn"
+            @click="openAddWorldDialog"
+          >
+            {{ translate('workplace.drawer.addWorld', 'Add world') }}
+          </v-btn>
+        </div>
       </teleport>
     </client-only>
     <client-only>
@@ -1754,7 +1753,8 @@ await loadPosts(1, { replace: true })
               class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
             >
               <NuxtLink
-                class="text-decoration-none text-primary"
+                style="color: rgba(var(--v-theme-on-surface), 0.92);"
+                class="text-decoration-none"
                 :to="`/blog/${blog.id}`"
               >
                 <v-avatar
