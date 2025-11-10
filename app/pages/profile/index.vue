@@ -639,7 +639,7 @@ async function submit() {
     }
 
     if (selectedFile.value) {
-      formData.append('file', selectedFile.value)
+      formData.append('files[]', selectedFile.value)
     }
 
     const updatedProfile = await $fetch<AuthProfile>('/api/profile/update', {

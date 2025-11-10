@@ -407,7 +407,7 @@ async function submitUpload() {
   }
 
   const formData = new FormData()
-  formData.append('file', file)
+  formData.append('files[]', file)
   formData.append('isPrivate', String(uploadForm.isPrivate))
 
   isUploading.value = true
