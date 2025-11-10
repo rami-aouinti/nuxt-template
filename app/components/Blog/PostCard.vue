@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /* eslint-disable vue/no-mutating-props */
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import type {
   BlogCommentViewModel,
   BlogPostViewModel,
@@ -59,6 +59,11 @@ const reactionType = computed(() =>
   resolveReactionType(props.post.isReacted ?? null),
 )
 
+const isMenuOpen = ref(false)
+const isDeleteLoading = computed(
+  () => props.post.ui?.deleteLoading ?? false,
+)
+
 const onSelectReaction = (type: BlogReactionType) =>
   emit('select-reaction', { post: props.post, type })
 const onRemoveReaction = () => emit('remove-reaction', props.post)
@@ -71,6 +76,14 @@ const onRemoveCommentReaction = (comment: BlogCommentViewModel) =>
   emit('remove-comment-reaction', { post: props.post, comment })
 const onSubmitCommentReply = (comment: BlogCommentViewModel) =>
   emit('submit-comment-reply', { post: props.post, comment })
+const onRequestEdit = () => {
+  emit('request-edit', props.post)
+  isMenuOpen.value = false
+}
+const onDeletePost = () => {
+  emit('delete', props.post)
+  isMenuOpen.value = false
+}
 </script>
 
 <template>
@@ -122,27 +135,53 @@ const onSubmitCommentReply = (comment: BlogCommentViewModel) =>
           />
         </div>
       </div>
-      <v-btn
+      <v-menu
         v-if="canEdit"
-        icon
-        variant="text"
-        size="sm"
-        class="facebook-post-card__menu-btn"
-        @click="emit('request-edit', post)"
+        v-model="isMenuOpen"
+        location="bottom end"
+        offset="8"
       >
-        <v-icon size="sm" icon="mdi-pencil" />
-      </v-btn>
-      <v-btn
-        v-if="canEdit"
-        icon
-        variant="text"
-        size="sm"
-        class="facebook-post-card__menu-btn"
-        :loading="post.ui.deleteLoading"
-        @click="emit('delete', post)"
-      >
-        <v-icon size="sm" icon="mdi-trash-can-outline" />
-      </v-btn>
+        <template #activator="{ props: activatorProps }">
+          <v-btn
+            icon
+            variant="text"
+            size="sm"
+            class="facebook-post-card__menu-btn"
+            v-bind="activatorProps"
+            :disabled="activatorProps.disabled || isDeleteLoading"
+            :loading="isDeleteLoading"
+          >
+            <v-icon size="sm" icon="mdi-dots-vertical" />
+          </v-btn>
+        </template>
+
+        <v-list density="compact" nav>
+          <v-list-item @click="onRequestEdit">
+            <template #prepend>
+              <v-icon size="sm" icon="mdi-pencil" />
+            </template>
+            <v-list-item-title>{{ t('common.actions.edit') }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item :disabled="isDeleteLoading" @click="onDeletePost">
+            <template #prepend>
+              <v-icon
+                v-if="!isDeleteLoading"
+                size="sm"
+                icon="mdi-trash-can-outline"
+              />
+              <v-progress-circular
+                v-else
+                indeterminate
+                size="16"
+                width="2"
+              />
+            </template>
+            <v-list-item-title>
+              {{ t('common.actions.delete') }}
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </div>
 
     <div class="facebook-post-card__body">

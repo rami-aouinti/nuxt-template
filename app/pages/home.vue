@@ -174,6 +174,12 @@ const editBlogDialog = reactive({
 
 const blogDeleteLoadingId = ref<string | null>(null)
 
+const isBlogDeleting = (blogId: string) => blogDeleteLoadingId.value === blogId
+const isBlogEditing = (blogId: string) =>
+  editBlogDialog.loading && editBlogDialog.blogId === blogId
+const isBlogMenuDisabled = (blogId: string) =>
+  isBlogDeleting(blogId) || isBlogEditing(blogId)
+
 const createPostDialog = reactive({
   open: false,
   loading: false,
@@ -1656,33 +1662,60 @@ await loadPosts(1, { replace: true })
                 {{ blog.title }}
               </NuxtLink>
               <v-spacer />
-              <v-btn
-                icon="mdi-pencil"
-                variant="text"
-                size="small"
-                density="compact"
-                :aria-label="t('blog.actions.editBlog')"
-                :title="t('blog.actions.editBlog')"
-                :disabled="
-                  editBlogDialog.loading && editBlogDialog.blogId === blog.id
-                "
-                :loading="
-                  editBlogDialog.loading && editBlogDialog.blogId === blog.id
-                "
-                @click.stop="openEditBlogDialog(blog)"
-              />
-              <v-btn
-                icon="mdi-delete"
-                variant="text"
-                color="error"
-                size="small"
-                density="compact"
-                :aria-label="t('blog.actions.deleteBlog')"
-                :title="t('blog.actions.deleteBlog')"
-                :loading="blogDeleteLoadingId === blog.id"
-                :disabled="blogDeleteLoadingId === blog.id"
-                @click.stop="confirmDeleteBlog(blog)"
-              />
+              <v-menu location="bottom end" offset="8">
+                <template #activator="{ props: activatorProps }">
+                  <v-btn
+                    icon
+                    variant="text"
+                    size="small"
+                    density="compact"
+                    class="blog-sidebar__menu-btn"
+                    v-bind="activatorProps"
+                    :disabled="
+                      activatorProps.disabled || isBlogMenuDisabled(blog.id)
+                    "
+                    :loading="isBlogDeleting(blog.id)"
+                    @click.stop="activatorProps.onClick?.($event)"
+                  >
+                    <v-icon size="small" icon="mdi-dots-vertical" />
+                  </v-btn>
+                </template>
+
+                <v-list density="compact" nav>
+                  <v-list-item
+                    :disabled="isBlogMenuDisabled(blog.id)"
+                    @click.stop="openEditBlogDialog(blog)"
+                  >
+                    <template #prepend>
+                      <v-icon size="small" icon="mdi-pencil" />
+                    </template>
+                    <v-list-item-title>
+                      {{ t('blog.actions.editBlog') }}
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item
+                    :disabled="isBlogMenuDisabled(blog.id)"
+                    @click.stop="confirmDeleteBlog(blog)"
+                  >
+                    <template #prepend>
+                      <v-icon
+                        v-if="!isBlogDeleting(blog.id)"
+                        size="small"
+                        icon="mdi-trash-can-outline"
+                      />
+                      <v-progress-circular
+                        v-else
+                        indeterminate
+                        size="16"
+                        width="2"
+                      />
+                    </template>
+                    <v-list-item-title>
+                      {{ t('blog.actions.deleteBlog') }}
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
             </div>
           </template>
 
@@ -2339,6 +2372,15 @@ await loadPosts(1, { replace: true })
 
 .blog-sidebar__list {
   background: transparent;
+}
+
+.blog-sidebar__menu-btn {
+  color: rgba(var(--v-theme-on-surface), 0.6);
+}
+
+.blog-sidebar__menu-btn:hover,
+.blog-sidebar__menu-btn:focus-visible {
+  color: rgba(var(--v-theme-on-surface), 0.87);
 }
 
 .blog-avatar__initials {
