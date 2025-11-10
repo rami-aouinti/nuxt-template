@@ -7,6 +7,7 @@ import { createVueI18nAdapter } from 'vuetify/locale/adapters/vue-i18n'
 import { useI18n as useVueI18n } from 'vue-i18n'
 import type { NuxtApp } from 'nuxt/app'
 import { ar, de, en, es, fr, it, ru, zhHans } from 'vuetify/locale'
+import { useThemePreferences } from '~/composables/useThemePreferences'
 
 type VueI18nInstance = Parameters<typeof createVueI18nAdapter>[0]['i18n']
 
@@ -55,6 +56,8 @@ const mergeVuetifyLocaleMessages = (
 }
 
 export default defineNuxtPlugin((nuxtApp) => {
+  useThemePreferences()
+
   const i18n = nuxtApp.$i18n
 
   if (i18n) {

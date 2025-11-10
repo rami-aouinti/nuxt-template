@@ -1,3 +1,8 @@
+:root {
+  --app-rounded: 18px;
+  --app-shadow: 0 10px 26px rgba(15, 23, 42, 0.14);
+}
+
 html {
   overflow-y: auto;
   &.dark {
@@ -6,7 +11,58 @@ html {
 }
 
 .v-card--variant-elevated:not(.v-card--flat) {
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  box-shadow: var(--app-shadow, 0 10px 26px rgba(15, 23, 42, 0.14));
+}
+
+:where(div) {
+  border-radius: var(--app-rounded, 18px);
+}
+
+:where(
+    .v-card,
+    .v-sheet,
+    .v-navigation-drawer,
+    .v-footer,
+    .v-app-bar,
+    .v-dialog,
+    .v-overlay__content > .v-card,
+    .v-list,
+    .v-btn,
+    .v-chip,
+    .v-alert,
+    .v-expansion-panels,
+    .v-expansion-panel,
+    .v-data-table,
+    .v-field,
+    .v-text-field,
+    .v-select,
+    .v-textarea,
+    .v-toolbar,
+    .v-tabs,
+    .v-pagination,
+    .v-window
+  ) {
+  border-radius: var(--app-rounded, 18px) !important;
+}
+
+:where(
+    .v-card--variant-elevated:not(.v-card--flat),
+    .v-sheet.v-sheet--elevated,
+    .v-navigation-drawer,
+    .v-footer,
+    .v-app-bar,
+    .v-dialog,
+    .v-overlay__content > .v-card,
+    .v-alert.v-alert--elevated,
+    .v-btn.v-btn--elevated,
+    .v-sheet[role='menu'],
+    .v-menu .v-overlay__content,
+    .v-tooltip .v-overlay__content,
+    .v-hover .v-card,
+    .v-list.v-sheet,
+    .v-window-item
+  ) {
+  box-shadow: var(--app-shadow, 0 10px 26px rgba(15, 23, 42, 0.14)) !important;
 }
 
 .v-theme--light {
