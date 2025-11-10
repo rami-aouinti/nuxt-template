@@ -548,7 +548,7 @@ watch(
 )
 
 onMounted(async () => {
-  await Promise.all([loadProfileSettings(true), loadPlugins(true)])
+  await loadProfileSettings(true)
 })
 
 watch(photoFiles, (files) => {
