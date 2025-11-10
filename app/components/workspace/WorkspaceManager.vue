@@ -18,7 +18,7 @@ const { t } = useI18n()
 const workspaceStore = useWorkspaceStore()
 const { folders, isLoading, loadError, selectedFolderId, isReloading } =
   storeToRefs(workspaceStore)
-const selectedIds = ref<string[]>([])
+const activatedIds = ref<string[]>([])
 
 const createDialog = ref(false)
 const createError = ref('')
@@ -255,20 +255,20 @@ async function submitCreateFolder() {
 
   const payload: CreateWorkspaceFolderPayload = {
     name: trimmedName,
+    isPrivate: createForm.isPrivate,
+    isFavorite: createForm.isFavorite,
   }
 
-  if (createForm.parentId) {
-    payload.parentId = createForm.parentId
-  }
-
-  payload.isPrivate = createForm.isPrivate
-  payload.isFavorite = createForm.isFavorite
+  const parentId = createForm.parentId
+  const endpoint = parentId
+    ? `/api/v1/folder/${parentId}`
+    : '/api/v1/folder'
 
   isCreating.value = true
   createError.value = ''
 
   try {
-    const folder = await $fetch<WorkspaceFolder>('/api/v1/folder', {
+    const folder = await $fetch<WorkspaceFolder>(endpoint, {
       method: 'POST',
       body: payload,
     })
@@ -467,16 +467,16 @@ async function confirmDeleteFile() {
 }
 
 watch(selectedFolderId, (value) => {
-  if (value && selectedIds.value[0] !== value) {
-    selectedIds.value = [value]
+  if (value && activatedIds.value[0] !== value) {
+    activatedIds.value = [value]
   }
 
   if (!value) {
-    selectedIds.value = []
+    activatedIds.value = []
   }
 })
 
-watch(selectedIds, (value) => {
+watch(activatedIds, (value) => {
   const first = value[0]
   if (!first) {
     selectedFolderId.value = null
@@ -531,13 +531,13 @@ onMounted(() => {
             </div>
             <div v-else>
               <v-treeview
-                v-model:selected="selectedIds"
+                v-model:activated="activatedIds"
                 :items="folderTreeItems"
-                activatable
                 item-title="title"
                 item-value="value"
                 open-on-click
                 density="compact"
+                activatable
               />
             </div>
           </v-card-text>
