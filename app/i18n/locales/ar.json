@@ -1,4 +1,5 @@
 {
+  "All": "الكل",
   "app": {
     "title": "Vitify Admin",
     "description": "قالب إدارة برأي يعتمد على Vuetify 3 و Nuxt 3",
