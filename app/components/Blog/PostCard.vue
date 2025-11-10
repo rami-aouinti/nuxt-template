@@ -92,6 +92,7 @@ const onDeletePost = () => {
           v-if="authorLink"
           :to="authorLink"
           class="facebook-post-card__avatar-link text-decoration-none"
+          :aria-label="authorName"
         >
           <v-avatar size="48">
             <v-img :src="authorAvatar" :alt="authorName">
@@ -115,6 +116,7 @@ const onDeletePost = () => {
             v-if="authorLink"
             :to="authorLink"
             class="facebook-post-card__author-link text-decoration-none"
+            :aria-label="authorName"
           >
             {{ authorName }}
           </NuxtLink>
