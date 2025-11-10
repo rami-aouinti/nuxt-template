@@ -59,7 +59,7 @@ export default defineNuxtConfig({
     '@nuxt/test-utils/module',
   ],
   css: ['~/assets/styles/index.css'],
-  experimental: { typedPages: true },
+  experimental: { typedPages: true, inlineSSRStyles: true },
   typescript: {
     shim: false,
     strict: true,
