@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
 import { ref, type Ref } from 'vue'
 import { normalizeRequestHeaders } from '~/utils/headers'
+import type { AdminPlugin } from '~/types/plugin'
+import type { ApiKey } from '~/types/apiKey'
+import type { Role } from '~/types/role'
 import type { User } from '~/types/user'
 import type { UserGroup } from '~/types/userGroup'
-import type { Role } from '~/types/role'
-import type { ApiKey } from '~/types/apiKey'
 import type { Workplace } from '~/types/workplace'
 import type { Count } from '~/types/count'
 
@@ -124,6 +125,7 @@ export const useAdminStore = defineStore('admin', () => {
   const userGroups = createCache<UserGroup[]>('/api/v1/user_group')
   const workplaces = createCache<Workplace[]>('/api/v1/workplace')
   const roles = createCache<Role[]>('/api/v1/role')
+  const plugins = createCache<AdminPlugin[]>('/api/v1/plugin')
   const apiKeysByVersion: Record<ApiVersion, CacheEntry<ApiKey[]>> = {
     v1: createCache<ApiKey[]>('/api/v1/api_key'),
     v2: createCache<ApiKey[]>('/api/v2/api_key'),
@@ -147,6 +149,9 @@ export const useAdminStore = defineStore('admin', () => {
   const apiKeyCount = createCache<Count, number>('/api/v1/api_key/count', {
     transform: parseCount,
   })
+  const pluginCount = createCache<Count, number>('/api/v1/plugin/count', {
+    transform: parseCount,
+  })
 
   const fetchAllCounts = (options?: FetchOptions) =>
     Promise.all([
@@ -155,6 +160,7 @@ export const useAdminStore = defineStore('admin', () => {
       workplaceCount.fetch(options),
       roleCount.fetch(options),
       apiKeyCount.fetch(options),
+      pluginCount.fetch(options),
     ])
 
   const refreshAllCounts = () =>
@@ -164,6 +170,7 @@ export const useAdminStore = defineStore('admin', () => {
       workplaceCount.refresh(),
       roleCount.refresh(),
       apiKeyCount.refresh(),
+      pluginCount.refresh(),
     ])
 
   function fetchApiKeys(version: ApiVersion, options?: FetchOptions) {
@@ -179,11 +186,13 @@ export const useAdminStore = defineStore('admin', () => {
     userGroups.clear()
     workplaces.clear()
     roles.clear()
+    plugins.clear()
     userCount.clear()
     userGroupCount.clear()
     workplaceCount.clear()
     roleCount.clear()
     apiKeyCount.clear()
+    pluginCount.clear()
     for (const version of Object.keys(apiKeysByVersion) as ApiVersion[]) {
       apiKeysByVersion[version].clear()
     }
@@ -213,6 +222,12 @@ export const useAdminStore = defineStore('admin', () => {
     rolesError: roles.error,
     fetchRoles: roles.fetch,
     refreshRoles: roles.refresh,
+
+    plugins: plugins.data,
+    pluginsPending: plugins.pending,
+    pluginsError: plugins.error,
+    fetchPlugins: plugins.fetch,
+    refreshPlugins: plugins.refresh,
 
     apiKeysByVersion,
     fetchApiKeys,
@@ -247,6 +262,12 @@ export const useAdminStore = defineStore('admin', () => {
     apiKeyCountError: apiKeyCount.error,
     fetchApiKeyCount: apiKeyCount.fetch,
     refreshApiKeyCount: apiKeyCount.refresh,
+
+    pluginCount: pluginCount.data,
+    pluginCountPending: pluginCount.pending,
+    pluginCountError: pluginCount.error,
+    fetchPluginCount: pluginCount.fetch,
+    refreshPluginCount: pluginCount.refresh,
 
     fetchAllCounts,
     refreshAllCounts,

@@ -43,7 +43,9 @@
     "settings": "Paramètres",
     "help": "Aide",
     "about": "À propos",
-    "contact": "Contact"
+    "contact": "Contact",
+    "pluginManagement": "Gestion des plugins",
+    "plugins": "Plugins"
   },
   "messenger": {
     "title": "Messagerie",
@@ -1138,6 +1140,78 @@
     "messages": {
       "selectFolder": "Sélectionnez un dossier dans la liste pour afficher son contenu.",
       "refreshing": "Actualisation du contenu du dossier…"
+    }
+  },
+  "pluginManagement": {
+    "plugins": {
+      "cardTitle": "Plugins",
+      "cardSubtitle": "Gérez les intégrations disponibles pour la plateforme.",
+      "searchPlaceholder": "Rechercher un plugin",
+      "table": {
+        "name": "Nom",
+        "key": "Clé",
+        "status": "Statut",
+        "installed": "Installé",
+        "updatedAt": "Mis à jour le"
+      },
+      "labels": {
+        "active": "Actif",
+        "inactive": "Inactif",
+        "installed": "Installé",
+        "notInstalled": "Non installé",
+        "notAvailable": "Non disponible",
+        "total": "Total : {count}",
+        "pluginFallback": "ce plugin",
+        "createdAt": "Créé le",
+        "updatedAt": "Mis à jour le"
+      },
+      "fields": {
+        "name": "Nom",
+        "key": "Clé",
+        "subTitle": "Sous-titre",
+        "description": "Description",
+        "logo": "URL du logo",
+        "icon": "Icône",
+        "link": "URL du lien",
+        "pricing": "Tarification",
+        "action": "Libellé du bouton",
+        "active": "Actif",
+        "installed": "Installé"
+      },
+      "dialogs": {
+        "create": {
+          "title": "Créer un plugin"
+        },
+        "edit": {
+          "title": "Modifier {name}"
+        },
+        "delete": {
+          "title": "Supprimer le plugin",
+          "message": "Voulez-vous vraiment supprimer {name} ? Cette action est irréversible."
+        },
+        "view": {
+          "title": "Détails du plugin – {name}"
+        }
+      },
+      "notifications": {
+        "createSuccess": "Plugin créé avec succès.",
+        "updateSuccess": "Plugin mis à jour avec succès.",
+        "deleteSuccess": "Plugin supprimé avec succès."
+      },
+      "errors": {
+        "loadFailed": "Impossible de charger les plugins. Veuillez réessayer plus tard.",
+        "createFailed": "Impossible de créer le plugin. Veuillez réessayer plus tard.",
+        "updateFailed": "Impossible de mettre à jour le plugin. Veuillez réessayer plus tard.",
+        "deleteFailed": "Impossible de supprimer le plugin. Veuillez réessayer plus tard.",
+        "invalidForm": "Veuillez remplir les champs obligatoires avant de continuer.",
+        "missingIdentifier": "Un identifiant de plugin valide est requis.",
+        "loadDetails": "Impossible de récupérer les détails du plugin. Veuillez réessayer plus tard."
+      },
+      "actions": {
+        "view": "Afficher le plugin",
+        "edit": "Modifier le plugin",
+        "delete": "Supprimer le plugin"
+      }
     }
   }
 }
