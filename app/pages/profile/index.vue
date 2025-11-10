@@ -967,7 +967,7 @@ async function submit() {
                 <v-card-title class="d-flex align-center gap-3">
                   <span>{{ t('profile.sections.settings.title') }}</span>
                   <v-spacer />
-                  <v-tooltip location="bottom">
+                  <v-tooltip :text="t('profile.settings.actions.refresh')" location="bottom">
                     <template #activator="{ props }">
                       <v-btn
                         v-bind="props"
@@ -979,7 +979,6 @@ async function submit() {
                         @click="loadProfileSettings()"
                       />
                     </template>
-                    <span>{{ t('profile.settings.actions.refresh') }}</span>
                   </v-tooltip>
                 </v-card-title>
                 <v-divider />
