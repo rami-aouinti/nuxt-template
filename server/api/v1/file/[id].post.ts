@@ -9,10 +9,14 @@ export default defineEventHandler(async (event) => {
   const multipart = await readMultipartFormData(event)
   const formData = ensureUploadFormData(multipart)
 
-  const file = await broWorldRequest<WorkspaceFile>(event, `/file/${folderId}`, {
-    method: 'POST',
-    body: formData,
-  })
+  const file = await broWorldRequest<WorkspaceFile>(
+    event,
+    `/files/upload?folderId=${encodeURIComponent(folderId)}`,
+    {
+      method: 'POST',
+      body: formData,
+    },
+  )
 
   await invalidateWorkspaceFolders(event)
 
