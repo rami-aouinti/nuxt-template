@@ -1622,18 +1622,6 @@ await loadPosts(1, { replace: true })
             {{ translate('workplace.drawer.addWorld', 'Add world') }}
           </v-btn>
         </div>
-        <div class="animated-badge mb-4">
-          <span class="animated-badge__pulse" />
-          {{ translate('blog.sidebar.myWords', 'Words') }}
-        </div>
-        <p class="text-body-2 text-medium-emphasis mb-4">
-          {{
-            translate(
-              'blog.sidebar.intro',
-              "Retrouvez vos espaces d'écriture et créez un nouvel article.",
-            )
-          }}
-        </p>
         <v-alert
           v-if="!loggedIn"
           type="info"
