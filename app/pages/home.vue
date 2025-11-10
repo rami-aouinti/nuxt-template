@@ -792,6 +792,8 @@ async function submitCreateBlog() {
       created,
       ...myBlogs.value.filter((blog) => blog.id !== created.id),
     ]
+
+    await loadMyBlogList()
     Notify.success(t('blog.notifications.blogCreated'))
     createBlogDialog.open = false
     resetCreateBlogForm()
