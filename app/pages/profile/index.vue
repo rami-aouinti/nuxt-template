@@ -447,9 +447,20 @@ async function loadProfileSettings(force = false) {
     }
 
     if (!configuration) {
-      settingsError.value = t('profile.settings.errors.noConfiguration')
-      applyConfiguration(null)
-      return
+      const payload = buildSettingsPayload()
+      if (!payload) {
+        settingsError.value = t('profile.settings.errors.metadataMissing')
+        applyConfiguration(null)
+        return
+      }
+
+      configuration = await $fetch<Configuration>('/api/profile/settings', {
+        method: 'POST',
+        body: {
+          ...payload,
+          configurationValue: { ...DEFAULT_PROFILE_SETTINGS },
+        },
+      })
     }
 
     applyConfiguration(configuration)
