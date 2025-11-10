@@ -547,7 +547,11 @@ watch(viewDialog, (value) => {
 
           <template #[`item.actions`]="{ item }">
             <div class="d-flex justify-end gap-1">
-              <v-tooltip :text="t('pluginManagement.plugins.actions.view')" location="top">
+              <v-tooltip
+                :text="t('pluginManagement.plugins.actions.view')"
+                :aria-label="t('pluginManagement.plugins.actions.view')"
+                location="top"
+              >
                 <template #activator="{ props }">
                   <v-btn
                     v-bind="props"
@@ -559,7 +563,11 @@ watch(viewDialog, (value) => {
                 </template>
               </v-tooltip>
 
-              <v-tooltip :text="t('pluginManagement.plugins.actions.edit')" location="top">
+              <v-tooltip
+                :text="t('pluginManagement.plugins.actions.edit')"
+                :aria-label="t('pluginManagement.plugins.actions.edit')"
+                location="top"
+              >
                 <template #activator="{ props }">
                   <v-btn
                     v-bind="props"
@@ -571,7 +579,11 @@ watch(viewDialog, (value) => {
                 </template>
               </v-tooltip>
 
-              <v-tooltip :text="t('pluginManagement.plugins.actions.delete')" location="top">
+              <v-tooltip
+                :text="t('pluginManagement.plugins.actions.delete')"
+                :aria-label="t('pluginManagement.plugins.actions.delete')"
+                location="top"
+              >
                 <template #activator="{ props }">
                   <v-btn
                     v-bind="props"

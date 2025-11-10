@@ -239,7 +239,11 @@ watch(loggedIn, (value) => {
     <v-spacer />
     <div id="app-bar" />
     <div class="dock-navbar__actions">
-      <v-tooltip :text="t('navigation.goBack')" location="bottom">
+      <v-tooltip
+        :text="t('navigation.goBack')"
+        :aria-label="t('navigation.goBack')"
+        location="bottom"
+      >
         <template #activator="{ props: tooltip }">
           <v-btn
             :aria-label="t('navigation.goBack')"
@@ -266,7 +270,11 @@ watch(loggedIn, (value) => {
       />
       <v-menu location="bottom" class="dock-navbar__menu" min-width="200">
         <template #activator="{ props: menu }">
-          <v-tooltip :text="loggedIn ? user!.login : t('auth.guest')" location="bottom">
+          <v-tooltip
+            :text="loggedIn ? user!.login : t('auth.guest')"
+            :aria-label="loggedIn ? user!.login : t('auth.guest')"
+            location="bottom"
+          >
             <template #activator="{ props: tooltip }">
               <v-btn
                 icon
