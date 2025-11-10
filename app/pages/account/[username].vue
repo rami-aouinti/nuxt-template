@@ -281,18 +281,11 @@ const openMessengerConversation = async () => {
             <div
               class="d-flex flex-column flex-md-row align-md-center gap-4 mb-6"
             >
-              <v-avatar size="96">
-                <v-img
-                  v-if="profilePhoto"
-                  :src="profilePhoto"
-                  :alt="displayName"
-                >
-                  <template #error>
-                    <v-icon icon="mdi-account-circle" size="96" />
-                  </template>
-                </v-img>
-                <v-icon v-else icon="mdi-account-circle" size="96" />
-              </v-avatar>
+              <AppAvatar :src="profilePhoto" :alt="displayName" size="96">
+                <template #fallback>
+                  <v-icon icon="mdi-account-circle" size="96" />
+                </template>
+              </AppAvatar>
               <div class="flex-grow-1">
                 <h2 class="text-h4 text-h5-sm mb-1">{{ displayName }}</h2>
                 <p class="text-medium-emphasis mb-2">{{ usernameLabel }}</p>

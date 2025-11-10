@@ -48,6 +48,7 @@
     "toggleSecondaryNavigationDrawer": "Toggle secondary navigation drawer",
     "toggleTheme": "Toggle color theme",
     "openAccountMenu": "Open account menu for {name}",
+    "accountAvatarAlt": "{name} 的个人资料照片",
     "openAccountMenuGuest": "Open sign-in menu",
     "openLanguageMenu": "Open language menu ({language})",
     "language": "切换语言",
@@ -101,12 +102,14 @@
       "read": "阅读全文",
       "showComments": "显示所有评论",
       "hideComments": "隐藏评论",
+      "viewReactions": "查看所有反应",
       "like": "点赞",
       "unlike": "取消反应",
       "addComment": "发布评论",
       "reply": "回复",
       "editBlog": "编辑博客",
-      "deleteBlog": "删除博客"
+      "deleteBlog": "删除博客",
+      "sharePost": "分享帖子"
     },
     "feed": {
       "composer": {
@@ -130,7 +133,8 @@
     },
     "stats": {
       "reactions": "{count} 次点赞",
-      "comments": "{count} 条评论"
+      "comments": "{count} 条评论",
+      "shares": "{count} 次分享"
     },
     "empty": {
       "title": "暂时没有发布任何文章",

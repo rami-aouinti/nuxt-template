@@ -48,6 +48,7 @@
     "toggleSecondaryNavigationDrawer": "Toggle secondary navigation drawer",
     "toggleTheme": "Toggle color theme",
     "openAccountMenu": "Open account menu for {name}",
+    "accountAvatarAlt": "Foto profilo di {name}",
     "openAccountMenuGuest": "Open sign-in menu",
     "openLanguageMenu": "Open language menu ({language})",
     "language": "Cambia lingua",
@@ -101,12 +102,14 @@
       "read": "Leggi l'articolo",
       "showComments": "Mostra tutti i commenti",
       "hideComments": "Nascondi i commenti",
+      "viewReactions": "Visualizza le reazioni",
       "like": "Mi piace",
       "unlike": "Rimuovi reazione",
       "addComment": "Pubblica commento",
       "reply": "Rispondi",
       "editBlog": "Modifica blog",
-      "deleteBlog": "Elimina blog"
+      "deleteBlog": "Elimina blog",
+      "sharePost": "Condividi il post"
     },
     "feed": {
       "composer": {
@@ -130,7 +133,8 @@
     },
     "stats": {
       "reactions": "{count} reazioni",
-      "comments": "{count} commenti"
+      "comments": "{count} commenti",
+      "shares": "{count} condivisioni"
     },
     "empty": {
       "title": "Nessun articolo pubblicato al momento",

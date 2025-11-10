@@ -36,13 +36,7 @@ const authorAvatar = computed(() => getAuthorAvatar(props.user))
       :to="authorLink || undefined"
       class="blog-post-author__avatar-link"
     >
-      <v-avatar :size="avatarSize">
-        <v-img :src="authorAvatar" :alt="authorName">
-          <template #error>
-            <v-icon icon="mdi-account-circle" :size="avatarSize" />
-          </template>
-        </v-img>
-      </v-avatar>
+      <AppAvatar :src="authorAvatar" :alt="authorName" :size="avatarSize" />
     </component>
     <div class="blog-post-author__details" :class="{ 'ml-3': showAvatar }">
       <div class="blog-post-author__name text-subtitle-2 font-weight-medium">

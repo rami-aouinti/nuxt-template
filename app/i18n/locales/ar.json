@@ -48,6 +48,7 @@
     "toggleSecondaryNavigationDrawer": "Toggle secondary navigation drawer",
     "toggleTheme": "Toggle color theme",
     "openAccountMenu": "Open account menu for {name}",
+    "accountAvatarAlt": "صورة الملف الشخصي لـ {name}",
     "openAccountMenuGuest": "Open sign-in menu",
     "openLanguageMenu": "Open language menu ({language})",
     "language": "تغيير اللغة",
@@ -101,12 +102,14 @@
       "read": "قراءة المقال",
       "showComments": "عرض كل التعليقات",
       "hideComments": "إخفاء التعليقات",
+      "viewReactions": "عرض التفاعلات",
       "like": "إعجاب",
       "unlike": "إزالة التفاعل",
       "addComment": "نشر تعليق",
       "reply": "الرد",
       "editBlog": "تعديل المدوّنة",
-      "deleteBlog": "حذف المدوّنة"
+      "deleteBlog": "حذف المدوّنة",
+      "sharePost": "مشاركة المنشور"
     },
     "feed": {
       "composer": {
@@ -130,7 +133,8 @@
     },
     "stats": {
       "reactions": "{count} تفاعلات",
-      "comments": "{count} تعليقات"
+      "comments": "{count} تعليقات",
+      "shares": "{count} مشاركات"
     },
     "empty": {
       "title": "لا توجد مقالات منشورة بعد",

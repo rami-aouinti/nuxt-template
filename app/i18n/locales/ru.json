@@ -48,6 +48,7 @@
     "toggleSecondaryNavigationDrawer": "Toggle secondary navigation drawer",
     "toggleTheme": "Toggle color theme",
     "openAccountMenu": "Open account menu for {name}",
+    "accountAvatarAlt": "Фото профиля {name}",
     "openAccountMenuGuest": "Open sign-in menu",
     "openLanguageMenu": "Open language menu ({language})",
     "language": "Сменить язык",
@@ -101,12 +102,14 @@
       "read": "Читать статью",
       "showComments": "Показать все комментарии",
       "hideComments": "Скрыть комментарии",
+      "viewReactions": "Просмотреть реакции",
       "like": "Нравится",
       "unlike": "Удалить реакцию",
       "addComment": "Опубликовать комментарий",
       "reply": "Ответить",
       "editBlog": "Редактировать блог",
-      "deleteBlog": "Удалить блог"
+      "deleteBlog": "Удалить блог",
+      "sharePost": "Поделиться записью"
     },
     "feed": {
       "composer": {
@@ -130,7 +133,8 @@
     },
     "stats": {
       "reactions": "{count} реакций",
-      "comments": "{count} комментариев"
+      "comments": "{count} комментариев",
+      "shares": "{count} репостов"
     },
     "empty": {
       "title": "Статьи пока не опубликованы",
