@@ -210,13 +210,17 @@ async function loadFolders(options: { selectId?: string | null } = {}) {
       return
     }
 
-    if (targetSelection && folderIndex.value.has(targetSelection)) {
+    if (typeof targetSelection === 'string' && folderIndex.value.has(targetSelection)) {
       workspaceStore.selectFolder(targetSelection)
       return
     }
 
-    const firstFolder = folders.value[0]
-    workspaceStore.selectFolder(firstFolder ? firstFolder.id : null)
+    if (options.selectId !== undefined) {
+      workspaceStore.selectFolder(options.selectId ?? null)
+      return
+    }
+
+    workspaceStore.selectFolder(null)
   } catch (error) {
     loadError.value = resolveErrorMessage(
       error,
@@ -400,7 +404,7 @@ async function submitUpload() {
   uploadError.value = ''
 
   try {
-    await $fetch(`/api/v1/folder/${selectedFolder.value.id}/files`, {
+    await $fetch(`/api/v1/file/${selectedFolder.value.id}`, {
       method: 'POST',
       body: formData,
     })
@@ -431,12 +435,9 @@ async function confirmDeleteFile() {
   isDeletingFile.value = true
 
   try {
-    await $fetch(
-      `/api/v1/folder/${selectedFolder.value.id}/files/${fileToDelete.value.id}`,
-      {
-        method: 'DELETE',
-      },
-    )
+    await $fetch(`/api/v1/file/${fileToDelete.value.id}`, {
+      method: 'DELETE',
+    })
 
     Notify.success(t('workspace.notifications.fileDeleted'))
     deleteFileDialog.value = false
