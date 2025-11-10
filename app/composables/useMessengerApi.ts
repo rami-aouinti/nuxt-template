@@ -212,6 +212,34 @@ const mergeSubscription = (
   return merged
 }
 
+const isRuntimeConfiguredSubscription = (
+  subscription: MessengerSubscription,
+  fallbackHubUrl: string,
+) =>
+  subscription.hubUrl !== fallbackHubUrl ||
+  subscription.topics.length > 0 ||
+  typeof subscription.token === 'string' ||
+  typeof subscription.retry === 'number' ||
+  typeof subscription.withCredentials === 'boolean'
+
+const isIgnorableSubscriptionError = (error: unknown) => {
+  if (!error || typeof error !== 'object') {
+    return false
+  }
+
+  const record = error as Record<string, unknown>
+  const status =
+    typeof record.status === 'number'
+      ? (record.status as number)
+      : typeof record.statusCode === 'number'
+        ? (record.statusCode as number)
+        : typeof record.response === 'object' && record.response
+            ? (record.response as { status?: number }).status
+            : undefined
+
+  return status === 404
+}
+
 const toTimestamp = (value: unknown, fallback?: string) => {
   if (typeof value === 'string' && value.trim().length > 0) {
     return value
@@ -565,6 +593,10 @@ export const useMessengerApi = () => {
   const fetchSubscription = async (): Promise<MessengerSubscription> => {
     const fallback = configuredSubscription.value
 
+    if (isRuntimeConfiguredSubscription(fallback, fallbackHubUrl)) {
+      return fallback
+    }
+
     try {
       const headers = getAuthHeaders(true)
 
@@ -576,7 +608,7 @@ export const useMessengerApi = () => {
 
       return mergeSubscription(subscription, fallback)
     } catch (fetchError) {
-      if (import.meta.dev) {
+      if (import.meta.dev && !isIgnorableSubscriptionError(fetchError)) {
         console.warn(
           'Unable to fetch messenger subscription, using configured fallback instead.',
           fetchError,
