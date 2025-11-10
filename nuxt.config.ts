@@ -120,7 +120,7 @@ export default defineNuxtConfig({
     },
     build: {
       sourcemap: false,
-      cssCodeSplit: false,
+      cssCodeSplit: true,
     },
   },
   nitro: {
