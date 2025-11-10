@@ -31,10 +31,18 @@ const emit = defineEmits<{
   share: [BlogPostViewModel]
   'submit-comment': [BlogPostViewModel]
   'select-comment-reaction': [
-    { post: BlogPostViewModel; comment: BlogCommentViewModel; type: BlogReactionType },
+    {
+      post: BlogPostViewModel
+      comment: BlogCommentViewModel
+      type: BlogReactionType
+    },
   ]
-  'remove-comment-reaction': [{ post: BlogPostViewModel; comment: BlogCommentViewModel }]
-  'submit-comment-reply': [{ post: BlogPostViewModel; comment: BlogCommentViewModel }]
+  'remove-comment-reaction': [
+    { post: BlogPostViewModel; comment: BlogCommentViewModel },
+  ]
+  'submit-comment-reply': [
+    { post: BlogPostViewModel; comment: BlogCommentViewModel },
+  ]
 }>()
 
 const { t } = useI18n()
@@ -47,7 +55,9 @@ const authorLink = computed(() => getAuthorProfileLink(props.post.user))
 const authorAvatar = computed(() => getAuthorAvatar(props.post.user))
 const postExcerpt = computed(() => props.excerpt.trim())
 const hasExcerpt = computed(() => postExcerpt.value.length > 0)
-const reactionType = computed(() => resolveReactionType(props.post.isReacted ?? null))
+const reactionType = computed(() =>
+  resolveReactionType(props.post.isReacted ?? null),
+)
 
 const onSelectReaction = (type: BlogReactionType) =>
   emit('select-reaction', { post: props.post, type })
@@ -136,7 +146,10 @@ const onSubmitCommentReply = (comment: BlogCommentViewModel) =>
     </div>
 
     <div class="facebook-post-card__body">
-      <NuxtLink :to="postLink" class="facebook-post-card__title text-decoration-none">
+      <NuxtLink
+        :to="postLink"
+        class="facebook-post-card__title text-decoration-none"
+      >
         {{ post.title }}
       </NuxtLink>
       <p
@@ -150,17 +163,25 @@ const onSubmitCommentReply = (comment: BlogCommentViewModel) =>
     <div class="facebook-post-card__stats">
       <div class="facebook-post-card__stats-left">
         <div class="facebook-post-card__reaction-icons">
-          <span class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--like">
+          <span
+            class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--like"
+          >
             <v-icon icon="mdi-thumb-up" size="14" />
           </span>
-          <span class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--love">
+          <span
+            class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--love"
+          >
             <v-icon icon="mdi-heart" size="14" />
           </span>
-          <span class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--care">
+          <span
+            class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--care"
+          >
             <v-icon icon="mdi-emoticon-excited" size="14" />
           </span>
         </div>
-        <div class="facebook-post-card__stat-value facebook-post-card__stat-value--reactions">
+        <div
+          class="facebook-post-card__stat-value facebook-post-card__stat-value--reactions"
+        >
           <BlogReactionPicker
             class="facebook-post-card__reaction-picker"
             size="small"
@@ -191,7 +212,11 @@ const onSubmitCommentReply = (comment: BlogCommentViewModel) =>
           @click="emit('toggle-comments', post)"
         >
           <v-icon
-            :icon="post.ui.commentsVisible ? 'mdi-comment-off-outline' : 'mdi-comment-text-outline'"
+            :icon="
+              post.ui.commentsVisible
+                ? 'mdi-comment-off-outline'
+                : 'mdi-comment-text-outline'
+            "
             class="mr-1"
           />
           {{ post.totalComments }}
@@ -208,7 +233,10 @@ const onSubmitCommentReply = (comment: BlogCommentViewModel) =>
     </div>
 
     <v-expand-transition>
-      <div v-if="post.ui.commentsVisible" class="facebook-post-card__comments-section">
+      <div
+        v-if="post.ui.commentsVisible"
+        class="facebook-post-card__comments-section"
+      >
         <BlogPostComments
           :post="post"
           :logged-in="loggedIn"
@@ -272,7 +300,9 @@ const onSubmitCommentReply = (comment: BlogCommentViewModel) =>
   border-radius: 30px;
   background: rgba(var(--blog-post-card-background-rgb), 0.95);
   box-shadow: var(--blog-post-card-shadow);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .facebook-post-card:hover {

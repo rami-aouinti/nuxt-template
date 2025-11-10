@@ -17,13 +17,9 @@ export default defineEventHandler(async (event) => {
 
   const response = await broWorldRequest<
     ProfilePlugin | { active?: boolean } | Record<string, unknown>
-  >(
-    event,
-    `/profile/plugin/${encodeURIComponent(key)}/toggle`,
-    {
-      method: 'POST',
-    },
-  )
+  >(event, `/profile/plugin/${encodeURIComponent(key)}/toggle`, {
+    method: 'POST',
+  })
 
   await invalidateProfilePlugins(event)
 

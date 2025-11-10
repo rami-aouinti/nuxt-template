@@ -20,10 +20,7 @@ import type {
 } from '~/types/blog'
 import type { PublicProfileData } from '~/types/profile'
 import { Notify } from '~/stores/notification'
-import {
-  DEFAULT_REACTION_TYPE,
-  resolveReactionType,
-} from '~/utils/reactions'
+import { DEFAULT_REACTION_TYPE, resolveReactionType } from '~/utils/reactions'
 
 definePageMeta({
   icon: 'mdi-post-outline',
@@ -220,7 +217,9 @@ function normalizeComment(comment: BlogComment): BlogComment {
   )
 
   if (!isReacted && currentUserId.value) {
-    const selfReaction = likes.find((like) => like.user.id === currentUserId.value)
+    const selfReaction = likes.find(
+      (like) => like.user.id === currentUserId.value,
+    )
     if (selfReaction) {
       isReacted =
         resolveReactionType(selfReaction.type ?? null) ?? DEFAULT_REACTION_TYPE
@@ -542,7 +541,9 @@ async function applyPostReaction(
   if (postValue.ui.likeLoading) return
 
   const previousReaction = resolveReactionType(postValue.isReacted ?? null)
-  const sanitizedPreview = normalizeReactionsPreview(postValue.reactions_preview)
+  const sanitizedPreview = normalizeReactionsPreview(
+    postValue.reactions_preview,
+  )
 
   postValue.ui.likeLoading = true
   try {
@@ -588,13 +589,18 @@ async function removePostReactionFromPost(postValue: BlogPostViewModel) {
     return
   }
 
-  const sanitizedPreview = normalizeReactionsPreview(postValue.reactions_preview)
+  const sanitizedPreview = normalizeReactionsPreview(
+    postValue.reactions_preview,
+  )
 
   postValue.ui.likeLoading = true
   try {
     await removePostReaction(postValue.id)
     postValue.isReacted = null
-    postValue.reactions_count = Math.max((postValue.reactions_count ?? 1) - 1, 0)
+    postValue.reactions_count = Math.max(
+      (postValue.reactions_count ?? 1) - 1,
+      0,
+    )
 
     const currentId = currentUserId.value
     postValue.reactions_preview = currentId
@@ -632,7 +638,9 @@ async function applyCommentReaction(
           ? comment.likes_count
           : 0
 
-    comment.reactions_count = previousReaction ? previousCount : previousCount + 1
+    comment.reactions_count = previousReaction
+      ? previousCount
+      : previousCount + 1
     comment.likes_count = comment.reactions_count
 
     const currentUser = currentUserReactionUser.value
@@ -924,8 +932,13 @@ watch(
               :format-date="formatPublishedAt"
               :can-interact="loggedIn"
               :resolve-profile-link="getAuthorProfileLink"
-              @select-reaction="(payload) => applyCommentReaction(post, payload.comment, payload.type)"
-              @remove-reaction="(comment) => removeCommentReactionFromComment(post, comment)"
+              @select-reaction="
+                (payload) =>
+                  applyCommentReaction(post, payload.comment, payload.type)
+              "
+              @remove-reaction="
+                (comment) => removeCommentReactionFromComment(post, comment)
+              "
               @submit-reply="(comment) => submitCommentReply(post, comment)"
             />
 
@@ -971,6 +984,4 @@ watch(
 .post-content {
   white-space: pre-line;
 }
-
- 
 </style>

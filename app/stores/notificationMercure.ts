@@ -212,7 +212,8 @@ export const useNotificationMercureStore = defineStore(
       }
     }
 
-    const hasProcessedEvent = (eventId: string) => processedEventIds.has(eventId)
+    const hasProcessedEvent = (eventId: string) =>
+      processedEventIds.has(eventId)
 
     const handleNotificationEvent = (
       payload: MercureNotificationPayload,

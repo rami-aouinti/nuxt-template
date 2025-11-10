@@ -50,7 +50,11 @@ function readFromStore(identifier: string) {
   return entry.plugins
 }
 
-function updateStore(identifier: string, plugins: ProfilePlugin[], ttl: number) {
+function updateStore(
+  identifier: string,
+  plugins: ProfilePlugin[],
+  ttl: number,
+) {
   const store = getGlobalState()
   store[identifier] = {
     plugins,

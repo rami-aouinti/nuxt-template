@@ -923,7 +923,11 @@ watch(attachDialog, (value) => {
             <div class="text-caption text-medium-emphasis">
               {{ t('userManagement.users.fields.status') }}
             </div>
-            <v-chip :color="viewUser.enabled ? 'success' : 'grey'" size="small" label>
+            <v-chip
+              :color="viewUser.enabled ? 'success' : 'grey'"
+              size="small"
+              label
+            >
               {{
                 viewUser.enabled
                   ? t('userManagement.users.status.active')

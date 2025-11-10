@@ -111,7 +111,7 @@ const items = computed<NavigationItem[]>(() => [
       )
     }}
   </p>
-  <div v-for="section in items" :key="section.value" class="w-100 ">
+  <div v-for="section in items" :key="section.value" class="w-100">
     <NuxtLink class="text-decoration-none text-primary" :to="section.to">
       <div class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3">
         <v-icon :icon="section.icon" size="24" />

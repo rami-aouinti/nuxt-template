@@ -27,7 +27,10 @@ const drawerRouteKey = (route: RouteRecordRaw) =>
   `${String(route.name ?? '')}::${route.path ?? ''}`
 
 const normalizeRole = (role: string) =>
-  role.replace(/^ROLE_/i, '').trim().toUpperCase()
+  role
+    .replace(/^ROLE_/i, '')
+    .trim()
+    .toUpperCase()
 
 const userRoles = computed(() => {
   const profile = session.value?.profile
@@ -114,28 +117,27 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
     floating
   >
     <template #prepend>
-      <v-list>
-        <v-list-item class="pa-1" :to="home">
-          <template #prepend>
-            <v-icon
-              icon="custom:vitify-nuxt"
-              size="x-large"
-              class="drawer-header-icon"
-              color="primary"
-            />
-          </template>
-          <v-list-item-title
-            class="text-h5 font-weight-bold"
-            style="line-height: 2rem"
-          >
-            <span>{{ brandTitleParts.before }}</span>
-            <span v-if="brandTitleParts.highlight" class="text-primary">
-              {{ brandTitleParts.highlight }}
-            </span>
-            <span>{{ brandTitleParts.after }}</span>
-          </v-list-item-title>
-        </v-list-item>
-      </v-list>
+      <NuxtLink
+        :to="home"
+        class="text-decoration-none my-2 d-flex align-center"
+      >
+        <v-icon
+          icon="mdi-earth"
+          size="x-large"
+          class="drawer-header-icon mx-4"
+          color="primary"
+        />
+        <span class="text-h4 text-decoration-none">{{
+          brandTitleParts.before
+        }}</span>
+        <span
+          v-if="brandTitleParts.highlight"
+          class="text-h4 text-primary text-decoration-none"
+        >
+          {{ brandTitleParts.highlight }}
+        </span>
+        <span>{{ brandTitleParts.after }}</span>
+      </NuxtLink>
     </template>
     <v-list nav density="compact">
       <AppDrawerItem

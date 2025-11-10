@@ -9,7 +9,9 @@ const translate = (key: string, fallback: string) => {
 }
 
 const buildChildPath = (childPath: string) => {
-  const current = route.path.endsWith('/') ? route.path.slice(0, -1) : route.path
+  const current = route.path.endsWith('/')
+    ? route.path.slice(0, -1)
+    : route.path
   return `${current}/${childPath}`
 }
 

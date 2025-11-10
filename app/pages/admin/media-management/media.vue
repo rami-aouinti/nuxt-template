@@ -16,15 +16,23 @@ definePageMeta({
 
 const { t, locale } = useI18n()
 const adminStore = useAdminStore()
-const { media: mediaRef, mediaPending, mediaError, mediaCount } =
-  storeToRefs(adminStore)
+const {
+  media: mediaRef,
+  mediaPending,
+  mediaError,
+  mediaCount,
+} = storeToRefs(adminStore)
 
 await Promise.all([adminStore.fetchMedia(), adminStore.fetchMediaCount()])
 
 const search = ref('')
 
 const headers = computed<DataTableHeader[]>(() => [
-  { title: t('admin.mediaManagement.table.title'), key: 'title', minWidth: 220 },
+  {
+    title: t('admin.mediaManagement.table.title'),
+    key: 'title',
+    minWidth: 220,
+  },
   {
     title: t('admin.mediaManagement.table.fileName'),
     key: 'fileName',
@@ -281,7 +289,11 @@ const refresh = () =>
       </template>
 
       <template #[`item.favorite`]="{ value }">
-        <v-chip :color="value ? 'warning' : undefined" size="small" variant="tonal">
+        <v-chip
+          :color="value ? 'warning' : undefined"
+          size="small"
+          variant="tonal"
+        >
           {{
             value
               ? t('admin.mediaManagement.labels.favorite')

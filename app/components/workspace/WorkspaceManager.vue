@@ -215,7 +215,10 @@ async function loadFolders(options: { selectId?: string | null } = {}) {
       return
     }
 
-    if (typeof targetSelection === 'string' && folderIndex.value.has(targetSelection)) {
+    if (
+      typeof targetSelection === 'string' &&
+      folderIndex.value.has(targetSelection)
+    ) {
       workspaceStore.selectFolder(targetSelection)
       return
     }
@@ -260,9 +263,7 @@ async function submitCreateFolder() {
   }
 
   const parentId = createForm.parentId
-  const endpoint = parentId
-    ? `/api/v1/folder/${parentId}`
-    : '/api/v1/folder'
+  const endpoint = parentId ? `/api/v1/folder/${parentId}` : '/api/v1/folder'
 
   isCreating.value = true
   createError.value = ''
@@ -498,7 +499,7 @@ onMounted(() => {
     <slot name="header" />
     <v-row>
       <v-col cols="12" md="4" lg="3">
-        <v-card class="workspace-tree h-100"  rounded="xl">
+        <v-card class="workspace-tree h-100" rounded="xl">
           <v-card-title class="d-flex align-center gap-2">
             <v-icon icon="mdi-folder-tree" class="me-2" />
             {{ t('workspace.tree.title') }}
@@ -544,7 +545,11 @@ onMounted(() => {
         </v-card>
       </v-col>
       <v-col cols="12" md="8" lg="9">
-        <v-card v-if="selectedFolder" class="workspace-details h-100"  rounded="xl">
+        <v-card
+          v-if="selectedFolder"
+          class="workspace-details h-100"
+          rounded="xl"
+        >
           <v-toolbar flat color="transparent" class="px-4">
             <v-toolbar-title class="text-h5">
               {{ selectedFolder.name }}
@@ -716,7 +721,7 @@ onMounted(() => {
             </v-table>
           </v-card-text>
         </v-card>
-        <v-card v-else class="workspace-root h-100"  rounded="xl">
+        <v-card v-else class="workspace-root h-100" rounded="xl">
           <v-toolbar flat color="transparent" class="px-4">
             <v-toolbar-title class="text-h5">
               {{ t('workspace.tree.title') }}

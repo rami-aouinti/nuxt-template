@@ -449,16 +449,21 @@ export const useBlogApi = () => {
   }
 
   const normalizeReactionType = (type: BlogReactionType) =>
-    (typeof type === 'string' && type.trim().length ? type.trim().toLowerCase() : 'like')
+    typeof type === 'string' && type.trim().length
+      ? type.trim().toLowerCase()
+      : 'like'
 
   const reactToPost = async (postId: string, type: BlogReactionType) => {
     const headers = getAuthHeaders(true)
     const normalized = normalizeReactionType(type)
 
-    await $fetch(`${PRIVATE_POSTS_REACTS_ENDPOINT}/${postId}/react/${normalized}`, {
-      method: 'POST',
-      headers,
-    })
+    await $fetch(
+      `${PRIVATE_POSTS_REACTS_ENDPOINT}/${postId}/react/${normalized}`,
+      {
+        method: 'POST',
+        headers,
+      },
+    )
   }
 
   const removePostReaction = async (postId: string) => {
@@ -474,10 +479,13 @@ export const useBlogApi = () => {
     const headers = getAuthHeaders(true)
     const normalized = normalizeReactionType(type)
 
-    await $fetch(`${PRIVATE_COMMENTS_ENDPOINT}/${commentId}/react/${normalized}`, {
-      method: 'POST',
-      headers,
-    })
+    await $fetch(
+      `${PRIVATE_COMMENTS_ENDPOINT}/${commentId}/react/${normalized}`,
+      {
+        method: 'POST',
+        headers,
+      },
+    )
   }
 
   const removeCommentReaction = async (commentId: string) => {
@@ -529,11 +537,14 @@ export const useBlogApi = () => {
   ): Promise<BlogSummary | null> => {
     const headers = getAuthHeaders(true)
 
-    return await $fetch<BlogSummary | null>(`${PRIVATE_BLOGS_ENDPOINT}/${blogId}`, {
-      method: 'PATCH',
-      body: payload,
-      headers,
-    })
+    return await $fetch<BlogSummary | null>(
+      `${PRIVATE_BLOGS_ENDPOINT}/${blogId}`,
+      {
+        method: 'PATCH',
+        body: payload,
+        headers,
+      },
+    )
   }
 
   const deleteBlog = async (blogId: string) => {

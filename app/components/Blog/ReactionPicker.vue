@@ -41,8 +41,12 @@ const menuPinned = ref(false)
 
 const { t, locale } = useI18n()
 
-const currentType = computed(() => resolveReactionType(props.modelValue ?? null))
-const currentDefinition = computed(() => getReactionDefinition(currentType.value))
+const currentType = computed(() =>
+  resolveReactionType(props.modelValue ?? null),
+)
+const currentDefinition = computed(() =>
+  getReactionDefinition(currentType.value),
+)
 
 const buttonLabel = computed(() => {
   if (currentType.value) {
@@ -156,7 +160,9 @@ watch(
           class="blog-reaction-picker__menu-item"
           @click="handleSelect(reaction.type)"
         >
-          <span class="blog-reaction-picker__menu-emoji">{{ reaction.emoji }}</span>
+          <span class="blog-reaction-picker__menu-emoji">{{
+            reaction.emoji
+          }}</span>
         </button>
       </div>
     </transition>
@@ -174,13 +180,17 @@ watch(
       @click="handleButtonClick"
     >
       <template v-if="currentDefinition">
-        <span class="blog-reaction-picker__emoji">{{ currentDefinition.emoji }}</span>
+        <span class="blog-reaction-picker__emoji">{{
+          currentDefinition.emoji
+        }}</span>
       </template>
       <template v-else>
         <v-icon icon="mdi-thumb-up-outline" size="18" class="mr-2" />
       </template>
       <span class="blog-reaction-picker__label">{{ buttonLabel }}</span>
-      <span v-if="showCount" class="blog-reaction-picker__count">{{ formattedCount }}</span>
+      <span v-if="showCount" class="blog-reaction-picker__count">{{
+        formattedCount
+      }}</span>
     </v-btn>
   </div>
 </template>
@@ -219,7 +229,9 @@ watch(
   font-size: 14px;
   color: rgb(var(--v-theme-on-surface));
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .blog-reaction-picker__menu-item:hover,
@@ -284,7 +296,9 @@ watch(
 
 .blog-reaction-picker-fade-enter-active,
 .blog-reaction-picker-fade-leave-active {
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 
 .blog-reaction-picker-fade-enter-from,

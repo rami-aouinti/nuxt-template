@@ -24,10 +24,7 @@ import type {
 import type { PublicProfileData } from '~/types/profile'
 import { Notify } from '~/stores/notification'
 import { useBlogAuthor } from '~/composables/useBlogAuthor'
-import {
-  DEFAULT_REACTION_TYPE,
-  resolveReactionType,
-} from '~/utils/reactions'
+import { DEFAULT_REACTION_TYPE, resolveReactionType } from '~/utils/reactions'
 
 definePageMeta({
   title: 'navigation.home',
@@ -290,10 +287,9 @@ const currentUserReactionUser = computed<BlogPostUser | null>(() => {
       typeof profile.firstName === 'string' ? profile.firstName : undefined
     const lastName =
       typeof profile.lastName === 'string' ? profile.lastName : undefined
-    const username =
-      profile.username.trim().length
-        ? profile.username
-        : (currentUsername.value ?? undefined)
+    const username = profile.username.trim().length
+      ? profile.username
+      : (currentUsername.value ?? undefined)
 
     return {
       id,
@@ -408,7 +404,9 @@ function normalizeComment(comment: BlogComment): BlogComment {
   )
 
   if (!isReacted && currentUserId.value) {
-    const selfReaction = likes.find((like) => like.user.id === currentUserId.value)
+    const selfReaction = likes.find(
+      (like) => like.user.id === currentUserId.value,
+    )
     if (selfReaction) {
       isReacted =
         resolveReactionType(selfReaction.type ?? null) ?? DEFAULT_REACTION_TYPE
@@ -486,8 +484,7 @@ function normalizeReaction(
     return null
   }
 
-  const id =
-    user.id.trim().length ? user.id.trim() : null
+  const id = user.id.trim().length ? user.id.trim() : null
   if (!id) {
     return null
   }
@@ -503,10 +500,9 @@ function normalizeReaction(
     typeof user.lastName === 'string' && user.lastName.trim().length
       ? user.lastName
       : undefined
-  const username =
-    user.username.trim().length
-      ? user.username.trim()
-      : undefined
+  const username = user.username.trim().length
+    ? user.username.trim()
+    : undefined
   const email =
     typeof user.email === 'string' && user.email.trim().length
       ? user.email.trim()
@@ -517,10 +513,7 @@ function normalizeReaction(
       : undefined
 
   return {
-    id:
-      reaction.id.trim().length
-        ? reaction.id
-        : `${id}-${type}`,
+    id: reaction.id.trim().length ? reaction.id : `${id}-${type}`,
     type,
     user: {
       id,
@@ -836,7 +829,7 @@ async function submitEditBlog() {
       updatedBlog != null &&
       Object.prototype.hasOwnProperty.call(updatedBlog, 'blogSubtitle')
     const normalizedSubtitle = hasSubtitleFromResponse
-      ? updatedBlog?.blogSubtitle ?? null
+      ? (updatedBlog?.blogSubtitle ?? null)
       : subtitle.length
         ? subtitle
         : null
@@ -846,9 +839,7 @@ async function submitEditBlog() {
         return blog
       }
 
-      const merged = updatedBlog
-        ? { ...blog, ...updatedBlog }
-        : { ...blog }
+      const merged = updatedBlog ? { ...blog, ...updatedBlog } : { ...blog }
 
       return {
         ...merged,
@@ -1184,7 +1175,10 @@ async function confirmDeletePost(post: BlogPostViewModel) {
   }
 }
 
-async function applyPostReaction(post: BlogPostViewModel, type: BlogReactionType) {
+async function applyPostReaction(
+  post: BlogPostViewModel,
+  type: BlogReactionType,
+) {
   if (!ensureAuthenticated()) return
   if (post.ui.likeLoading) return
 
@@ -1284,7 +1278,9 @@ async function applyCommentReaction(
           ? comment.likes_count
           : 0
 
-    comment.reactions_count = previousReaction ? previousCount : previousCount + 1
+    comment.reactions_count = previousReaction
+      ? previousCount
+      : previousCount + 1
     comment.likes_count = comment.reactions_count
 
     const currentUser = currentUserReactionUser.value
@@ -1584,8 +1580,9 @@ await loadPosts(1, { replace: true })
         </p>
       </teleport>
     </client-only>
-    <client-only>
-      <teleport to="#app-drawer-right">
+    <<client-only>
+      <teleport to="#app-drawer-right"
+        >>
         <div class="animated-badge mb-4">
           <span class="animated-badge__pulse" />
           {{ t('blog.sidebar.myBlogsTitle') }}
@@ -1702,7 +1699,6 @@ await loadPosts(1, { replace: true })
           <p v-else class="text-body-2 text-medium-emphasis mb-0">
             {{ t('blog.sidebar.myBlogsEmpty') }}
           </p>
-
         </template>
 
         <div class="d-flex flex-column gap-3 mt-6">
@@ -1751,157 +1747,157 @@ await loadPosts(1, { replace: true })
     </client-only>
     <v-row class="blog-layout justify-center">
       <v-col cols="12">
+        <v-alert
+          v-if="postsError"
+          type="error"
+          variant="tonal"
+          class="mb-6"
+          border="start"
+          prominent
+        >
+          {{ postsError }}
+        </v-alert>
+
+        <v-row v-if="isInitialLoading" class="g-6">
+          <v-col v-for="index in 3" :key="index" cols="12">
+            <v-skeleton-loader
+              type="heading, paragraph, actions"
+              elevation="2"
+              class="rounded-xl"
+            />
+          </v-col>
+        </v-row>
+
+        <template v-else>
+          <v-card
+            v-if="loggedIn"
+            class="create-post-card mb-6"
+            elevation="0"
+            rounded="xl"
+          >
+            <v-card-text class="create-post-card__body">
+              <div
+                class="create-post-card__composer"
+                role="button"
+                tabindex="0"
+                :aria-label="createPostTitle"
+                @click="openCreatePostDialog"
+                @keydown.enter.prevent="openCreatePostDialog"
+                @keydown.space.prevent="openCreatePostDialog"
+              >
+                <v-avatar size="32" class="create-post-card__avatar">
+                  <v-img :src="currentUserAvatar" :alt="currentUserDisplayName">
+                    <template #error>
+                      <v-icon icon="mdi-account-circle" size="32" />
+                    </template>
+                  </v-img>
+                </v-avatar>
+                <div class="create-post-card__placeholder">
+                  {{ createPostPrompt }}
+                </div>
+              </div>
+              <v-divider class="my-4" />
+              <div class="create-post-card__actions">
+                <v-btn
+                  variant="text"
+                  class="create-post-card__action"
+                  color="error"
+                  prepend-icon="mdi-video-outline"
+                  @click="openCreatePostDialog"
+                >
+                  {{ t('blog.feed.composer.actions.liveVideo') }}
+                </v-btn>
+                <v-btn
+                  variant="text"
+                  class="create-post-card__action"
+                  color="success"
+                  prepend-icon="mdi-image-multiple-outline"
+                  @click="openCreatePostDialog"
+                >
+                  {{ t('blog.feed.composer.actions.photoVideo') }}
+                </v-btn>
+                <v-btn
+                  variant="text"
+                  class="create-post-card__action"
+                  color="warning"
+                  prepend-icon="mdi-emoticon-happy-outline"
+                  @click="openCreatePostDialog"
+                >
+                  {{ t('blog.feed.composer.actions.feelingActivity') }}
+                </v-btn>
+              </div>
+            </v-card-text>
+          </v-card>
+          <v-row v-if="filteredPosts.length" class="g-6">
+            <v-col v-for="post in filteredPosts" :key="post.id" cols="12">
+              <BlogPostCard
+                :post="post"
+                :logged-in="loggedIn"
+                :can-edit="canEditPost(post)"
+                :excerpt="getPostExcerpt(post)"
+                :format-relative-published-at="formatRelativePublishedAt"
+                :format-published-at="formatPublishedAt"
+                @request-edit="openEditDialog"
+                @submit-edit="submitEdit"
+                @delete="confirmDeletePost"
+                @select-reaction="
+                  ({ post: cardPost, type }) =>
+                    applyPostReaction(cardPost, type)
+                "
+                @remove-reaction="removePostReactionFromPost"
+                @show-reactions="openPostReactions"
+                @toggle-comments="toggleCommentsVisibility"
+                @share="openShareDialog"
+                @submit-comment="submitPostComment"
+                @select-comment-reaction="
+                  ({ post: cardPost, comment, type }) =>
+                    applyCommentReaction(cardPost, comment, type)
+                "
+                @remove-comment-reaction="
+                  ({ post: cardPost, comment }) =>
+                    removeCommentReactionFromComment(cardPost, comment)
+                "
+                @submit-comment-reply="
+                  ({ post: cardPost, comment }) =>
+                    submitCommentReply(cardPost, comment)
+                "
+              />
+            </v-col>
+          </v-row>
+
           <v-alert
-            v-if="postsError"
-            type="error"
+            v-else-if="hasSearchTerm"
+            type="info"
             variant="tonal"
             class="mb-6"
             border="start"
             prominent
           >
-            {{ postsError }}
+            {{ t('blog.search.noResults') }}
           </v-alert>
 
-          <v-row v-if="isInitialLoading" class="g-6">
-            <v-col v-for="index in 3" :key="index" cols="12">
-              <v-skeleton-loader
-                type="heading, paragraph, actions"
-                elevation="2"
-                class="rounded-xl"
-              />
-            </v-col>
-          </v-row>
+          <v-sheet v-else class="blog-feed__empty" elevation="1" rounded="xl">
+            <v-icon icon="mdi-post-outline" size="64" class="mb-4" />
+            <h2 class="text-h5 mb-2">{{ t('blog.empty.title') }}</h2>
+            <p class="text-medium-emphasis mb-0">
+              {{ t('blog.empty.description') }}
+            </p>
+          </v-sheet>
+        </template>
 
-          <template v-else>
-            <v-card
-              v-if="loggedIn"
-              class="create-post-card mb-6"
-              elevation="0"
-              rounded="xl"
-            >
-              <v-card-text class="create-post-card__body">
-                <div
-                  class="create-post-card__composer"
-                  role="button"
-                  tabindex="0"
-                  :aria-label="createPostTitle"
-                  @click="openCreatePostDialog"
-                  @keydown.enter.prevent="openCreatePostDialog"
-                  @keydown.space.prevent="openCreatePostDialog"
-                >
-                  <v-avatar size="32" class="create-post-card__avatar">
-                    <v-img
-                      :src="currentUserAvatar"
-                      :alt="currentUserDisplayName"
-                    >
-                      <template #error>
-                        <v-icon icon="mdi-account-circle" size="32" />
-                      </template>
-                    </v-img>
-                  </v-avatar>
-                  <div class="create-post-card__placeholder">
-                    {{ createPostPrompt }}
-                  </div>
-                </div>
-                <v-divider class="my-4" />
-                <div class="create-post-card__actions">
-                  <v-btn
-                    variant="text"
-                    class="create-post-card__action"
-                    color="error"
-                    prepend-icon="mdi-video-outline"
-                    @click="openCreatePostDialog"
-                  >
-                    {{ t('blog.feed.composer.actions.liveVideo') }}
-                  </v-btn>
-                  <v-btn
-                    variant="text"
-                    class="create-post-card__action"
-                    color="success"
-                    prepend-icon="mdi-image-multiple-outline"
-                    @click="openCreatePostDialog"
-                  >
-                    {{ t('blog.feed.composer.actions.photoVideo') }}
-                  </v-btn>
-                  <v-btn
-                    variant="text"
-                    class="create-post-card__action"
-                    color="warning"
-                    prepend-icon="mdi-emoticon-happy-outline"
-                    @click="openCreatePostDialog"
-                  >
-                    {{ t('blog.feed.composer.actions.feelingActivity') }}
-                  </v-btn>
-                </div>
-              </v-card-text>
-            </v-card>
-            <v-row v-if="filteredPosts.length" class="g-6">
-              <v-col v-for="post in filteredPosts" :key="post.id" cols="12">
-                <BlogPostCard
-                  :post="post"
-                  :logged-in="loggedIn"
-                  :can-edit="canEditPost(post)"
-                  :excerpt="getPostExcerpt(post)"
-                  :format-relative-published-at="formatRelativePublishedAt"
-                  :format-published-at="formatPublishedAt"
-                  @request-edit="openEditDialog"
-                  @submit-edit="submitEdit"
-                  @delete="confirmDeletePost"
-                  @select-reaction="({ post: cardPost, type }) => applyPostReaction(cardPost, type)"
-                  @remove-reaction="removePostReactionFromPost"
-                  @show-reactions="openPostReactions"
-                  @toggle-comments="toggleCommentsVisibility"
-                  @share="openShareDialog"
-                  @submit-comment="submitPostComment"
-                  @select-comment-reaction="
-                    ({ post: cardPost, comment, type }) =>
-                      applyCommentReaction(cardPost, comment, type)
-                  "
-                  @remove-comment-reaction="
-                    ({ post: cardPost, comment }) =>
-                      removeCommentReactionFromComment(cardPost, comment)
-                  "
-                  @submit-comment-reply="
-                    ({ post: cardPost, comment }) =>
-                      submitCommentReply(cardPost, comment)
-                  "
-                />
-              </v-col>
-            </v-row>
-
-            <v-alert
-              v-else-if="hasSearchTerm"
-              type="info"
-              variant="tonal"
-              class="mb-6"
-              border="start"
-              prominent
-            >
-              {{ t('blog.search.noResults') }}
-            </v-alert>
-
-            <v-sheet v-else class="blog-feed__empty" elevation="1" rounded="xl">
-              <v-icon icon="mdi-post-outline" size="64" class="mb-4" />
-              <h2 class="text-h5 mb-2">{{ t('blog.empty.title') }}</h2>
-              <p class="text-medium-emphasis mb-0">
-                {{ t('blog.empty.description') }}
-              </p>
-            </v-sheet>
-          </template>
-
-          <div class="d-flex justify-center py-4">
-            <v-progress-circular
-              v-if="isLoadingMore"
-              indeterminate
-              color="primary"
-            />
-          </div>
-
-          <div
-            v-show="hasMore && !hasSearchTerm"
-            ref="loadMoreTrigger"
-            class="blog-infinite-trigger"
+        <div class="d-flex justify-center py-4">
+          <v-progress-circular
+            v-if="isLoadingMore"
+            indeterminate
+            color="primary"
           />
+        </div>
+
+        <div
+          v-show="hasMore && !hasSearchTerm"
+          ref="loadMoreTrigger"
+          class="blog-infinite-trigger"
+        />
       </v-col>
     </v-row>
 
@@ -2265,7 +2261,6 @@ await loadPosts(1, { replace: true })
   border-radius: 24px;
   background: var(--blog-feed-empty-background);
 }
-
 
 .share-dialog {
   border-radius: 24px;

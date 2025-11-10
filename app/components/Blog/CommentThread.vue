@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { BlogCommentViewModel, BlogPostUser, BlogReactionType } from '~/types/blog'
+import type {
+  BlogCommentViewModel,
+  BlogPostUser,
+  BlogReactionType,
+} from '~/types/blog'
 import { resolveReactionType } from '~/utils/reactions'
 
 defineOptions({ name: 'BlogCommentThread' })

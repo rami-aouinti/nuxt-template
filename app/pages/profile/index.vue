@@ -115,7 +115,6 @@ const settingsSaving = reactive<Record<ProfileSettingKey, boolean>>({
 })
 const currentSettingsConfiguration = ref<Configuration | null>(null)
 
-
 const form = reactive<ProfileForm>({
   firstName: '',
   lastName: '',
@@ -591,7 +590,6 @@ const formattedBirthday = computed(() =>
   formatDateForDisplay(getProfileStringValue(profile.value, 'birthday')),
 )
 
-
 async function submit() {
   if (!profile.value || !hasChanges.value || isSaving.value) {
     return
@@ -671,11 +669,9 @@ async function submit() {
                 :src="avatarUrl"
                 :alt="t('profile.page.avatar.alt')"
               />
-              <span
-                v-else
-                class="text-h4 font-weight-medium text-white"
-              >{{ initials }}</span
-              >
+              <span v-else class="text-h4 font-weight-medium text-white">{{
+                initials
+              }}</span>
             </v-avatar>
           </v-col>
           <v-col class="px-4">
@@ -1037,13 +1033,12 @@ async function submit() {
                         hide-details
                         inset
                         :disabled="
-                              !canUpdateSettings ||
-                              settingsSaving[definition.id]
-                            "
+                          !canUpdateSettings || settingsSaving[definition.id]
+                        "
                         :loading="settingsSaving[definition.id]"
                         @update:model-value="
-                              handleSettingToggle(definition.id, $event)
-                            "
+                          handleSettingToggle(definition.id, $event)
+                        "
                       />
                     </template>
                   </v-list-item>
@@ -1057,4 +1052,3 @@ async function submit() {
   </ProfilePageShell>
   </div>
 </template>
-

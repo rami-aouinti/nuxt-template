@@ -12,16 +12,37 @@ export const DEFAULT_REACTION_TYPE: BlogReactionType = 'like'
 export const BLOG_REACTIONS: BlogReactionDefinition[] = [
   { type: 'like', emoji: '👍', icon: 'mdi-thumb-up', color: 'primary' },
   { type: 'love', emoji: '❤️', icon: 'mdi-heart', color: 'red' },
-  { type: 'care', emoji: '🤗', icon: 'mdi-emoticon-happy-outline', color: 'orange' },
-  { type: 'haha', emoji: '😂', icon: 'mdi-emoticon-excited-outline', color: 'yellow-darken-2' },
-  { type: 'wow', emoji: '😮', icon: 'mdi-emoticon-surprised-outline', color: 'amber-darken-2' },
+  {
+    type: 'care',
+    emoji: '🤗',
+    icon: 'mdi-emoticon-happy-outline',
+    color: 'orange',
+  },
+  {
+    type: 'haha',
+    emoji: '😂',
+    icon: 'mdi-emoticon-excited-outline',
+    color: 'yellow-darken-2',
+  },
+  {
+    type: 'wow',
+    emoji: '😮',
+    icon: 'mdi-emoticon-surprised-outline',
+    color: 'amber-darken-2',
+  },
   { type: 'sad', emoji: '😢', icon: 'mdi-emoticon-sad-outline', color: 'blue' },
-  { type: 'angry', emoji: '😡', icon: 'mdi-emoticon-angry-outline', color: 'deep-orange' },
+  {
+    type: 'angry',
+    emoji: '😡',
+    icon: 'mdi-emoticon-angry-outline',
+    color: 'deep-orange',
+  },
 ]
 
-const BLOG_REACTIONS_BY_TYPE = new Map<BlogReactionType, BlogReactionDefinition>(
-  BLOG_REACTIONS.map((reaction) => [reaction.type, reaction]),
-)
+const BLOG_REACTIONS_BY_TYPE = new Map<
+  BlogReactionType,
+  BlogReactionDefinition
+>(BLOG_REACTIONS.map((reaction) => [reaction.type, reaction]))
 
 export const resolveReactionType = (
   value: string | boolean | null | undefined,

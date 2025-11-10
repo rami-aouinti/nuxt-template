@@ -30,7 +30,11 @@ const search = ref('')
 const headers = computed<DataTableHeader[]>(() => [
   { title: t('pluginManagement.plugins.table.name'), key: 'name' },
   { title: t('pluginManagement.plugins.table.key'), key: 'key' },
-  { title: t('pluginManagement.plugins.table.status'), key: 'active', sortable: false },
+  {
+    title: t('pluginManagement.plugins.table.status'),
+    key: 'active',
+    sortable: false,
+  },
   {
     title: t('pluginManagement.plugins.table.installed'),
     key: 'installed',
@@ -376,9 +380,7 @@ async function confirmDelete() {
   deleteError.value = ''
   const id = resolveIdentifier(deletingPlugin.value)
   if (!id) {
-    deleteError.value = t(
-      'pluginManagement.plugins.errors.missingIdentifier',
-    )
+    deleteError.value = t('pluginManagement.plugins.errors.missingIdentifier')
     return
   }
 
