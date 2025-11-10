@@ -695,13 +695,14 @@ onMounted(async () => {
 }
 
 .message-item--outgoing {
-  align-self: flex-end;
-  flex-direction: row-reverse;
-  text-align: right;
+  align-self: flex-start;
+  text-align: left;
 }
 
 .message-item--incoming {
-  align-self: flex-start;
+  align-self: flex-end;
+  flex-direction: row-reverse;
+  text-align: right;
 }
 
 .message-avatar {
@@ -741,7 +742,7 @@ onMounted(async () => {
   gap: 8px;
 }
 
-.message-item--outgoing .message-header {
+.message-item--incoming .message-header {
   flex-direction: row-reverse;
 }
 
