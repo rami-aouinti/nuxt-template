@@ -113,17 +113,11 @@ const userAvatar = (user: BlogPostUser) => {
               :key="reaction.id"
             >
               <template #prepend>
-                <v-avatar size="40">
-                  <v-img
-                    :src="userAvatar(reaction.user)"
-                    :alt="userDisplayName(reaction.user)"
-                    cover
-                  >
-                    <template #error>
-                      <v-icon icon="mdi-account-circle" />
-                    </template>
-                  </v-img>
-                </v-avatar>
+                <AppAvatar
+                  :src="userAvatar(reaction.user)"
+                  :alt="userDisplayName(reaction.user)"
+                  size="40"
+                />
               </template>
               <v-list-item-title>
                 {{ userDisplayName(reaction.user) }}

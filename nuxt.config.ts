@@ -53,7 +53,6 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'vuetify-nuxt-module',
     'nuxt-auth-utils',
-    'nuxt-echarts',
     '@nuxtjs/i18n',
     '@nuxt/icon',
     '@nuxt/eslint',
@@ -98,20 +97,6 @@ export default defineNuxtConfig({
       },
     ],
   },
-  echarts: {
-    charts: ['LineChart', 'BarChart', 'PieChart', 'RadarChart'],
-    renderer: 'svg',
-    components: [
-      'DataZoomComponent',
-      'LegendComponent',
-      'TooltipComponent',
-      'ToolboxComponent',
-      'GridComponent',
-      'TitleComponent',
-      'DatasetComponent',
-      'VisualMapComponent',
-    ],
-  },
   vite: {
     resolve: {
       alias: {
@@ -120,7 +105,7 @@ export default defineNuxtConfig({
     },
     build: {
       sourcemap: false,
-      cssCodeSplit: false,
+      cssCodeSplit: true,
     },
   },
   nitro: {

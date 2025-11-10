@@ -37,7 +37,6 @@ const routeLoading = useRouteLoading()
   margin-bottom: var(--v-layout-bottom);
   height: calc(100vh - var(--v-layout-top) - var(--v-layout-bottom)); */
   overflow-y: auto;
-  transition-property: padding;
 }
 
 .route-container {

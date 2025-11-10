@@ -53,8 +53,21 @@ const postLink = computed(() => localePath(`/post/${props.post.slug}`))
 const authorName = computed(() => getAuthorName(props.post.user))
 const authorLink = computed(() => getAuthorProfileLink(props.post.user))
 const authorAvatar = computed(() => getAuthorAvatar(props.post.user))
-const postExcerpt = computed(() => props.excerpt.trim())
-const hasExcerpt = computed(() => postExcerpt.value.length > 0)
+const excerptState = computed(() => {
+  const trimmedExcerpt = props.excerpt.trim()
+
+  if (trimmedExcerpt.length > 0) {
+    return {
+      text: trimmedExcerpt,
+      isMuted: false,
+    }
+  }
+
+  return {
+    text: t('blog.placeholders.noSummary'),
+    isMuted: true,
+  }
+})
 const reactionType = computed(() =>
   resolveReactionType(props.post.isReacted ?? null),
 )
@@ -125,22 +138,11 @@ const onDeletePost = () => {
           v-if="authorLink"
           :to="authorLink"
           class="facebook-post-card__avatar-link text-decoration-none"
+          :aria-label="authorName"
         >
-          <v-avatar size="48">
-            <v-img :src="authorAvatar" :alt="authorName">
-              <template #error>
-                <v-icon icon="mdi-account-circle" size="48" />
-              </template>
-            </v-img>
-          </v-avatar>
+          <AppAvatar :src="authorAvatar" :alt="authorName" size="48" />
         </NuxtLink>
-        <v-avatar v-else size="48">
-          <v-img :src="authorAvatar" :alt="authorName">
-            <template #error>
-              <v-icon icon="mdi-account-circle" size="48" />
-            </template>
-          </v-img>
-        </v-avatar>
+        <AppAvatar v-else :src="authorAvatar" :alt="authorName" size="48" />
       </div>
       <div class="facebook-post-card__header-info">
         <div class="facebook-post-card__author">
@@ -148,6 +150,7 @@ const onDeletePost = () => {
             v-if="authorLink"
             :to="authorLink"
             class="facebook-post-card__author-link text-decoration-none"
+            :aria-label="authorName"
           >
             {{ authorName }}
           </NuxtLink>
@@ -221,9 +224,9 @@ const onDeletePost = () => {
       </NuxtLink>
       <p
         class="facebook-post-card__text"
-        :class="{ 'facebook-post-card__text--muted': !hasExcerpt }"
+        :class="{ 'facebook-post-card__text--muted': excerptState.isMuted }"
       >
-        {{ hasExcerpt ? postExcerpt : t('blog.placeholders.noSummary') }}
+        {{ excerptState.text }}
       </p>
     </div>
 
@@ -535,6 +538,16 @@ a.facebook-post-card__author-link:focus-visible {
 .facebook-post-card__reaction-picker {
   display: inline-flex;
   align-items: center;
+}
+
+.facebook-post-card__reaction-picker--placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 72px;
+  block-size: 32px;
+  border-radius: 16px;
+  background-color: rgba(var(--v-theme-surface-variant), 0.35);
 }
 
 .facebook-post-card__reaction-picker :deep(.blog-reaction-picker__action) {

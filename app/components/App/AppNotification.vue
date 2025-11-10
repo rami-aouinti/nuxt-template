@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { mergeProps } from 'vue'
+
 const notificationStore = useNotificationStore()
 const { notifications } = storeToRefs(notificationStore)
 const notificationsShown = computed(() => [...notifications.value].reverse())
@@ -22,26 +24,29 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
       :offset="[0, 12]"
     >
       <template #activator="{ props }">
-        <v-btn
-          v-tooltip="{ text: 'Notifications' }"
-          :disabled="!loggedIn"
-          v-bind="props"
-          :aria-label="
-            notifications.length ? 'Notifications (new)' : 'Notifications'
-          "
-          variant="text"
-          class="dock-navbar__action-button"
-        >
-          <v-badge
-            v-if="notifications.length > 0"
-            :content="notifications.length"
-            color="error"
-            floating
-          >
-            <v-icon icon="mdi-bell-badge-outline" />
-          </v-badge>
-          <v-icon v-else icon="mdi-bell-outline" />
-        </v-btn>
+        <v-tooltip text="Notifications" aria-label="Notifications">
+          <template #activator="{ props: tooltip }">
+            <v-btn
+              :disabled="!loggedIn"
+              v-bind="mergeProps(props, tooltip)"
+              :aria-label="
+                notifications.length ? 'Notifications (new)' : 'Notifications'
+              "
+              variant="text"
+              class="dock-navbar__action-button"
+            >
+              <v-badge
+                v-if="notifications.length > 0"
+                :content="notifications.length"
+                color="error"
+                floating
+              >
+                <v-icon icon="mdi-bell-badge-outline" />
+              </v-badge>
+              <v-icon v-else icon="mdi-bell-outline" />
+            </v-btn>
+          </template>
+        </v-tooltip>
       </template>
       <v-card elevation="6" width="360" class="notification-card">
         <v-toolbar flat density="compact">
@@ -49,13 +54,17 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
             class="font-weight-light text-body-1"
             :text="hasNotifications ? 'Notifications' : 'No New Notifications'"
           />
-          <v-btn
-            v-tooltip="{ text: 'Clear All Notifications' }"
-            size="small"
-            icon="mdi-broom"
-            :disabled="!hasNotifications"
-            @click="emptyNotifications"
-          />
+          <v-tooltip text="Clear All Notifications" aria-label="Clear All Notifications">
+            <template #activator="{ props: tooltip }">
+              <v-btn
+                size="small"
+                icon="mdi-broom"
+                :disabled="!hasNotifications"
+                v-bind="tooltip"
+                @click="emptyNotifications"
+              />
+            </template>
+          </v-tooltip>
         </v-toolbar>
         <div class="notification-box">
           <v-slide-y-reverse-transition group hide-on-leave>

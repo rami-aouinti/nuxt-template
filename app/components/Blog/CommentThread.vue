@@ -64,27 +64,18 @@ const resolveCommentReaction = (
             :to="getProfileLink(comment.user)"
             class="blog-comment-thread__avatar-link"
           >
-            <v-avatar size="36">
-              <v-img
-                :src="comment.user.photo || undefined"
-                :alt="formatAuthor(comment.user)"
-              >
-                <template #error>
-                  <v-icon icon="mdi-account-circle" size="36" />
-                </template>
-              </v-img>
-            </v-avatar>
-          </NuxtLink>
-          <v-avatar v-else size="36">
-            <v-img
+            <AppAvatar
               :src="comment.user.photo || undefined"
               :alt="formatAuthor(comment.user)"
-            >
-              <template #error>
-                <v-icon icon="mdi-account-circle" size="36" />
-              </template>
-            </v-img>
-          </v-avatar>
+              size="36"
+            />
+          </NuxtLink>
+          <AppAvatar
+            v-else
+            :src="comment.user.photo || undefined"
+            :alt="formatAuthor(comment.user)"
+            size="36"
+          />
           <div class="flex-grow-1 ml-3">
             <div class="d-flex align-start justify-space-between">
               <div>
