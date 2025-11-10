@@ -6,18 +6,20 @@ const routeLoading = useRouteLoading()
   <v-app>
     <AppDrawer />
     <AppBar />
-    <div class="route-container">
-      <div v-show="!routeLoading" class="route-container__page">
-        <div class="page-surface">
-          <span class="floating-shape floating-shape--one" />
-          <span class="floating-shape floating-shape--two" />
-          <div class="page-surface__inner">
-            <slot />
+    <v-main>
+      <div class="route-container">
+        <div v-show="!routeLoading" class="route-container__page">
+          <div class="page-surface">
+            <span class="floating-shape floating-shape--one" />
+            <span class="floating-shape floating-shape--two" />
+            <div class="page-surface__inner">
+              <slot />
+            </div>
           </div>
         </div>
+        <AppRouteLoader v-if="routeLoading" class="route-container__loader" />
       </div>
-      <AppRouteLoader v-if="routeLoading" class="route-container__loader" />
-    </div>
+    </v-main>
     <AppFooter />
   </v-app>
 </template>
@@ -58,4 +60,3 @@ const routeLoading = useRouteLoading()
 
 /* reuse transition defined in AppRouteLoader */
 </style>
-
