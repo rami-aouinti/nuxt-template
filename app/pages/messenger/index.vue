@@ -643,15 +643,16 @@ onMounted(async () => {
                       message.sender.id !== currentUserId,
                   }"
                 >
-                  <v-avatar class="message-avatar" size="36">
-                    <v-img
-                      v-if="message.sender.avatarUrl"
-                      :src="message.sender.avatarUrl"
-                      :alt="getSenderName(message.sender)"
-                      cover
-                    />
-                    <span v-else>{{ getSenderInitials(message.sender) }}</span>
-                  </v-avatar>
+                  <AppAvatar
+                    class="message-avatar"
+                    :src="message.sender.avatarUrl"
+                    :alt="getSenderName(message.sender)"
+                    size="36"
+                  >
+                    <template #fallback>
+                      <span>{{ getSenderInitials(message.sender) }}</span>
+                    </template>
+                  </AppAvatar>
                   <div class="message-body">
                     <div class="message-header">
                       <span class="message-author">

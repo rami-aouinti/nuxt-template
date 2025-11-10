@@ -283,9 +283,13 @@ watch(loggedIn, (value) => {
                 class="dock-navbar__action-button"
               >
                 <v-icon v-if="!loggedIn" icon="mdi-account-circle" size="36" />
-                <v-avatar v-else color="primary" size="36">
-                  <v-img :src="user?.avatar_url" />
-                </v-avatar>
+                <AppAvatar
+                  v-else
+                  :src="user?.avatar_url"
+                  :alt="user?.login || undefined"
+                  size="36"
+                  color="primary"
+                />
               </v-btn>
             </template>
           </v-tooltip>

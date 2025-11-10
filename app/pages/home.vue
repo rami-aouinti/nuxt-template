@@ -1767,27 +1767,20 @@ if (import.meta.client) {
                 class="text-decoration-none"
                 :to="`/blog/${blog.id}`"
               >
-                <v-avatar
+                <AppAvatar
+                  :src="blog.logo || undefined"
+                  :alt="blog.title"
                   size="36"
                   class="mr-3"
                   color="primary"
                   variant="tonal"
                 >
-                  <template v-if="blog.logo">
-                    <v-img :src="blog.logo || undefined" :alt="blog.title">
-                      <template #error>
-                        <span class="blog-avatar__initials">
-                          {{ getBlogInitials(blog.title) }}
-                        </span>
-                      </template>
-                    </v-img>
-                  </template>
-                  <template v-else>
+                  <template #fallback>
                     <span class="blog-avatar__initials">
                       {{ getBlogInitials(blog.title) }}
                     </span>
                   </template>
-                </v-avatar>
+                </AppAvatar>
                 {{ blog.title }}
               </NuxtLink>
               <v-spacer />
@@ -1943,13 +1936,12 @@ if (import.meta.client) {
                 @keydown.enter.prevent="openCreatePostDialog"
                 @keydown.space.prevent="openCreatePostDialog"
               >
-                <v-avatar size="32" class="create-post-card__avatar">
-                  <v-img :src="currentUserAvatar" :alt="currentUserDisplayName">
-                    <template #error>
-                      <v-icon icon="mdi-account-circle" size="32" />
-                    </template>
-                  </v-img>
-                </v-avatar>
+                <AppAvatar
+                  :src="currentUserAvatar"
+                  :alt="currentUserDisplayName"
+                  size="32"
+                  class="create-post-card__avatar"
+                />
                 <div class="create-post-card__placeholder">
                   {{ createPostPrompt }}
                 </div>
@@ -2076,13 +2068,12 @@ if (import.meta.client) {
         <v-divider />
         <v-card-text>
           <div class="share-dialog__composer">
-            <v-avatar size="48" class="share-dialog__avatar">
-              <v-img :src="currentUserAvatar" :alt="currentUserDisplayName">
-                <template #error>
-                  <v-icon icon="mdi-account-circle" size="48" />
-                </template>
-              </v-img>
-            </v-avatar>
+            <AppAvatar
+              :src="currentUserAvatar"
+              :alt="currentUserDisplayName"
+              size="48"
+              class="share-dialog__avatar"
+            />
             <div>
               <div class="share-dialog__user-name">
                 {{ currentUserDisplayName }}
@@ -2104,16 +2095,11 @@ if (import.meta.client) {
           />
           <div v-if="shareDialog.post" class="share-dialog__preview mt-4">
             <div class="share-dialog__preview-header">
-              <v-avatar size="40">
-                <v-img
-                  :src="getAuthorAvatar(shareDialog.post.user)"
-                  :alt="getAuthorName(shareDialog.post.user)"
-                >
-                  <template #error>
-                    <v-icon icon="mdi-account-circle" size="40" />
-                  </template>
-                </v-img>
-              </v-avatar>
+              <AppAvatar
+                :src="getAuthorAvatar(shareDialog.post.user)"
+                :alt="getAuthorName(shareDialog.post.user)"
+                size="40"
+              />
               <div>
                 <div class="share-dialog__preview-author">
                   {{ getAuthorName(shareDialog.post.user) }}

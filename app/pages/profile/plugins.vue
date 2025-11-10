@@ -232,24 +232,21 @@ await loadPlugins()
                 <div class="profile-plugin-card__body">
                   <div class="profile-plugin-card__header">
                     <div class="profile-plugin-card__meta">
-                      <v-avatar
+                      <AppAvatar
+                        :src="plugin.logo"
+                        :alt="plugin.name"
                         size="56"
                         rounded="lg"
                         class="profile-plugin-card__logo"
                       >
-                        <v-img
-                          v-if="plugin.logo"
-                          :src="plugin.logo"
-                          :alt="plugin.name"
-                          cover
-                        />
-                        <v-icon
-                          v-else
-                          :icon="plugin.icon || 'mdi-puzzle'"
-                          size="28"
-                          color="primary"
-                        />
-                      </v-avatar>
+                        <template #fallback>
+                          <v-icon
+                            :icon="plugin.icon || 'mdi-puzzle'"
+                            size="28"
+                            color="primary"
+                          />
+                        </template>
+                      </AppAvatar>
 
                       <div class="profile-plugin-card__title">
                         <div class="profile-plugin-card__heading">
