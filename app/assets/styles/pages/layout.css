@@ -3,6 +3,7 @@
   min-height: calc(100vh - 36px);
   background: var(--page-surface-background, rgb(var(--v-theme-background)));
   overflow: hidden;
+  padding-bottom: var(--app-footer-height, 64px);
 }
 
 .page-surface::before,

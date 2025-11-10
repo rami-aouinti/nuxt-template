@@ -1,6 +1,7 @@
 :root {
   --app-rounded: 18px;
   --app-shadow: 0 10px 26px rgba(15, 23, 42, 0.14);
+  --app-footer-height: 64px;
 }
 
 html {
@@ -78,6 +79,15 @@ html {
 .v-navigation-drawer,
 .v-footer {
   background-color: rgb(var(--v-theme-background)) !important;
+}
+
+.v-application__wrap {
+  min-height: 100vh;
+  padding-bottom: var(--app-footer-height, 64px);
+}
+
+.v-footer {
+  min-height: var(--app-footer-height, 64px);
 }
 
 .v-overlay__content > .v-card {
