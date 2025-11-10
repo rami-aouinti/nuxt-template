@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import AppDrawerPublic from "~/components/App/AppDrawerPublic.vue";
-import AppBarPublic from "~/components/App/AppBarPublic.vue";
-import AppDrawerPublicRight from "~/components/App/AppDrawerPublicRight.vue";
+import AppDrawerPublic from '~/components/App/AppDrawerPublic.vue'
+import AppBarPublic from '~/components/App/AppBarPublic.vue'
+import AppDrawerPublicRight from '~/components/App/AppDrawerPublicRight.vue'
 
 const routeLoading = useRouteLoading()
 </script>

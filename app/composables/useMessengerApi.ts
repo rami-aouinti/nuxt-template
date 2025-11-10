@@ -140,7 +140,9 @@ const normalizeSubscription = (
         record.mercure_hub_url,
     ) || fallbackHubUrl
 
-  const topics = normalizeTopics(record.topics ?? record.topic ?? record.channels)
+  const topics = normalizeTopics(
+    record.topics ?? record.topic ?? record.channels,
+  )
 
   const token =
     toNullableString(
@@ -188,11 +190,12 @@ const mergeSubscription = (
   const merged: MessengerSubscription = {
     hubUrl: primary.hubUrl || fallback.hubUrl,
     topics: primary.topics.length > 0 ? primary.topics : fallback.topics,
-    token: primary.token !== undefined ? primary.token : fallback.token ?? null,
+    token:
+      primary.token !== undefined ? primary.token : (fallback.token ?? null),
     retry:
       primary.retry !== undefined && primary.retry !== null
         ? primary.retry
-        : fallback.retry ?? null,
+        : (fallback.retry ?? null),
   }
 
   const withCredentials =
@@ -254,9 +257,9 @@ const normalizeUserSummary = (value: unknown): MessengerUserSummary => {
     toNullableString(record.avatar) ??
     toNullableString(record.photo) ??
     (profileRecord
-      ? toNullableString(profileRecord.avatarUrl) ??
+      ? (toNullableString(profileRecord.avatarUrl) ??
         toNullableString(profileRecord.avatar) ??
-        toNullableString(profileRecord.photo)
+        toNullableString(profileRecord.photo))
       : null)
 
   return {
@@ -267,9 +270,7 @@ const normalizeUserSummary = (value: unknown): MessengerUserSummary => {
   }
 }
 
-const normalizeMessageSummary = (
-  value: unknown,
-): MessengerMessageSummary => {
+const normalizeMessageSummary = (value: unknown): MessengerMessageSummary => {
   const record =
     value && typeof value === 'object' ? (value as Record<string, unknown>) : {}
 
@@ -307,9 +308,7 @@ const normalizeMessageSummary = (
   }
 }
 
-const normalizeConversationSummary = (
-  value: unknown,
-): ConversationSummary => {
+const normalizeConversationSummary = (value: unknown): ConversationSummary => {
   const record =
     value && typeof value === 'object' ? (value as Record<string, unknown>) : {}
 
@@ -456,12 +455,9 @@ export const useMessengerApi = () => {
 
   const requestConversations = async (): Promise<ConversationListResponse> => {
     const headers = getAuthHeaders(true)
-    const payload = await $fetch<unknown>(
-      `${apiBase.value}/conversation/my`,
-      {
-        headers,
-      },
-    )
+    const payload = await $fetch<unknown>(`${apiBase.value}/conversation/my`, {
+      headers,
+    })
 
     return normalizeConversationListResponse(payload)
   }
@@ -556,11 +552,14 @@ export const useMessengerApi = () => {
   ): Promise<void> => {
     const headers = getAuthHeaders(true)
 
-    await $fetch(`${apiBase.value}/message/conversation/${conversationId}/read`, {
-      method: 'POST',
-      body: payload,
-      headers,
-    })
+    await $fetch(
+      `${apiBase.value}/message/conversation/${conversationId}/read`,
+      {
+        method: 'POST',
+        body: payload,
+        headers,
+      },
+    )
   }
 
   const fetchSubscription = async (): Promise<MessengerSubscription> => {

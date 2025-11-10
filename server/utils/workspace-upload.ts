@@ -2,7 +2,9 @@ import { createError, type MultiPartData } from 'h3'
 
 const textDecoder = new TextDecoder()
 
-export function ensureUploadFormData(parts: MultiPartData[] | null | undefined) {
+export function ensureUploadFormData(
+  parts: MultiPartData[] | null | undefined,
+) {
   if (!parts || parts.length === 0) {
     throw createError({
       statusCode: 400,

@@ -207,10 +207,7 @@ const openMessengerConversation = async () => {
       limit: 50,
     })
 
-    let conversation = findConversationByParticipant(
-      response.items,
-      receiverId,
-    )
+    let conversation = findConversationByParticipant(response.items, receiverId)
 
     if (!conversation) {
       conversation = await messengerApi.createDirectConversation(receiverId)

@@ -383,9 +383,9 @@ function closeDialog() {
   <client-only>
     <teleport to="#app-drawer-right">
       <v-card-title class="d-flex align-center justify-space-between">
-              <span class="text-subtitle-1 font-weight-medium">
-                {{ t('profile.calendar.list.title') }}
-              </span>
+        <span class="text-subtitle-1 font-weight-medium">
+          {{ t('profile.calendar.list.title') }}
+        </span>
         <v-btn
           icon="mdi-plus"
           size="small"
@@ -407,12 +407,7 @@ function closeDialog() {
           type="list-item-three-line"
         />
         <template v-else>
-          <v-alert
-            v-if="loadError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="loadError" type="error" variant="tonal" class="mb-4">
             {{ loadError }}
           </v-alert>
 

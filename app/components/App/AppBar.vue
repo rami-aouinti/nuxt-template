@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { mergeProps, ref, watch, computed, onMounted, onBeforeUnmount } from 'vue'
+import {
+  mergeProps,
+  ref,
+  watch,
+  computed,
+  onMounted,
+  onBeforeUnmount,
+} from 'vue'
 import { useTheme } from 'vuetify'
 import type { LocaleObject } from '#i18n'
 import { Notify } from '~/stores/notification'

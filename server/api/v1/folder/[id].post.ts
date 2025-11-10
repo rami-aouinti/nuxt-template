@@ -1,4 +1,7 @@
-import type { CreateWorkspaceFolderPayload, WorkspaceFolder } from '~/types/workspace'
+import type {
+  CreateWorkspaceFolderPayload,
+  WorkspaceFolder,
+} from '~/types/workspace'
 import { invalidateWorkspaceFolders } from '~~/server/utils/cache/workspace'
 import { requireEntityId, requestWithJsonBody } from '~~/server/utils/crud'
 

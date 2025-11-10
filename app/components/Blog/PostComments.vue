@@ -65,7 +65,9 @@ const resolveProfileLink = (user: BlogPostUser) => getAuthorProfileLink(user)
         <v-btn
           color="primary"
           :loading="post.ui.commentLoading"
-          :disabled="post.ui.commentLoading || !post.ui.commentContent.trim().length"
+          :disabled="
+            post.ui.commentLoading || !post.ui.commentContent.trim().length
+          "
           @click="emit('submit-comment')"
         >
           {{ t('blog.actions.addComment') }}

@@ -319,7 +319,11 @@ await loadPlugins()
                     {{ t('profile.sections.plugins.actions.open') }}
                   </v-btn>
                   <v-btn
-                    v-if="!plugin.installed && plugin.action === 'install' && plugin.link"
+                    v-if="
+                      !plugin.installed &&
+                      plugin.action === 'install' &&
+                      plugin.link
+                    "
                     :href="plugin.link"
                     target="_blank"
                     rel="noopener"
@@ -350,7 +354,10 @@ await loadPlugins()
   padding: 24px;
   gap: 20px;
   overflow: hidden;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .profile-plugin-card:hover {

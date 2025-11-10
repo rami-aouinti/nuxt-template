@@ -8,8 +8,7 @@ const projectRoot = fileURLToPath(new URL('./', import.meta.url))
 const localeDirectory = resolve(projectRoot, 'app/i18n/locales')
 
 const DEFAULT_MERCURE_URL = 'http://bro-world.org:3000/.well-known/mercure'
-const DEFAULT_MERCURE_PUBLIC_URL =
-  'http://bro-world.org/.well-known/mercure'
+const DEFAULT_MERCURE_PUBLIC_URL = 'http://bro-world.org/.well-known/mercure'
 const DEFAULT_MESSENGER_API_BASE = 'https://bro-world.org/api/v1/messenger'
 const DEFAULT_MESSENGER_NOTIFICATION_TOPIC =
   '/notifications/3d2abda8-bdb9-11f0-8da8-9d776028aeca'
@@ -270,8 +269,8 @@ export default defineNuxtConfig({
           topics: process.env.NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_TOPICS || '',
           token: process.env.NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_TOKEN || '',
           withCredentials:
-            process.env
-              .NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_WITH_CREDENTIALS || '',
+            process.env.NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_WITH_CREDENTIALS ||
+            '',
           retry: process.env.NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_RETRY || '',
         },
       },

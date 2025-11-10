@@ -173,7 +173,9 @@ const handleClose = () => {
 
 .app-modal__close {
   color: rgba(var(--v-theme-on-primary), 0.88);
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .app-modal__close:hover {

@@ -109,7 +109,9 @@ const statusLabel = computed(() =>
     : t('profile.sections.plugins.status.inactive'),
 )
 
-const statusColor = computed(() => (plugin.value?.active ? 'success' : 'grey-darken-1'))
+const statusColor = computed(() =>
+  plugin.value?.active ? 'success' : 'grey-darken-1',
+)
 
 async function handlePluginToggle(current: ProfilePlugin | null) {
   if (!current) {
@@ -198,16 +200,15 @@ async function handlePluginToggle(current: ProfilePlugin | null) {
             {{ t('profile.sections.plugins.empty') }} ({{ pluginKey }})
           </v-alert>
 
-          <v-card
-            v-else
-            class="plugin-detail-card"
-            elevation="2"
-            rounded="xl"
-          >
+          <v-card v-else class="plugin-detail-card" elevation="2" rounded="xl">
             <v-card-text>
               <div class="plugin-detail-card__header">
                 <div class="d-flex align-center gap-4 flex-wrap">
-                  <v-avatar size="72" rounded="lg" class="plugin-detail-card__logo">
+                  <v-avatar
+                    size="72"
+                    rounded="lg"
+                    class="plugin-detail-card__logo"
+                  >
                     <v-img
                       v-if="plugin?.logo"
                       :src="plugin.logo"
@@ -285,7 +286,12 @@ async function handlePluginToggle(current: ProfilePlugin | null) {
                     {{ t('profile.sections.plugins.actions.open') }}
                   </v-btn>
                   <v-btn
-                    v-if="plugin && !plugin.installed && plugin.action === 'install' && plugin.link"
+                    v-if="
+                      plugin &&
+                      !plugin.installed &&
+                      plugin.action === 'install' &&
+                      plugin.link
+                    "
                     :href="plugin.link"
                     target="_blank"
                     rel="noopener"
@@ -308,7 +314,7 @@ async function handlePluginToggle(current: ProfilePlugin | null) {
                   <p class="text-body-1 text-medium-emphasis mb-0">
                     {{
                       plugin?.description ||
-                        t('profile.sections.plugins.description')
+                      t('profile.sections.plugins.description')
                     }}
                   </p>
                 </section>

@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 
-definePageMeta({
-  title: 'navigation.profileWorkspace',
-  middleware: 'auth',
-})
-
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { FetchError } from 'ofetch'
 import { storeToRefs } from 'pinia'
@@ -17,6 +12,11 @@ import type {
   WorkspaceFolder,
 } from '~/types/workspace'
 import { useWorkspaceStore } from '~/stores/workspace'
+
+definePageMeta({
+  title: 'navigation.profileWorkspace',
+  middleware: 'auth',
+})
 
 const WORKSPACE_BASE_URL = 'https://bro-world.org'
 
@@ -222,7 +222,10 @@ async function loadFolders(options: { selectId?: string | null } = {}) {
       return
     }
 
-    if (typeof targetSelection === 'string' && folderIndex.value.has(targetSelection)) {
+    if (
+      typeof targetSelection === 'string' &&
+      folderIndex.value.has(targetSelection)
+    ) {
       workspaceStore.selectFolder(targetSelection)
       return
     }
@@ -267,9 +270,7 @@ async function submitCreateFolder() {
   }
 
   const parentId = createForm.parentId
-  const endpoint = parentId
-    ? `/api/v1/folder/${parentId}`
-    : '/api/v1/folder'
+  const endpoint = parentId ? `/api/v1/folder/${parentId}` : '/api/v1/folder'
 
   isCreating.value = true
   createError.value = ''
@@ -550,7 +551,7 @@ onMounted(() => {
   <ProfilePageShell>
     <v-row class="d-flex">
       <v-col cols="12">
-        <v-card v-if="selectedFolder" class="workspace-details"  rounded="xl">
+        <v-card v-if="selectedFolder" class="workspace-details" rounded="xl">
           <v-toolbar flat color="transparent" class="px-4">
             <v-toolbar-title class="text-h5">
               {{ selectedFolder.name }}
@@ -654,75 +655,75 @@ onMounted(() => {
             </v-alert>
             <v-table density="comfortable" class="workspace-table">
               <thead>
-              <tr>
-                <th>{{ t('workspace.files.headers.name') }}</th>
-                <th>{{ t('workspace.files.headers.type') }}</th>
-                <th>{{ t('workspace.files.headers.extension') }}</th>
-                <th class="text-end">
-                  {{ t('workspace.files.headers.size') }}
-                </th>
-                <th class="text-end">
-                  {{ t('workspace.files.headers.actions') }}
-                </th>
-              </tr>
+                <tr>
+                  <th>{{ t('workspace.files.headers.name') }}</th>
+                  <th>{{ t('workspace.files.headers.type') }}</th>
+                  <th>{{ t('workspace.files.headers.extension') }}</th>
+                  <th class="text-end">
+                    {{ t('workspace.files.headers.size') }}
+                  </th>
+                  <th class="text-end">
+                    {{ t('workspace.files.headers.actions') }}
+                  </th>
+                </tr>
               </thead>
               <tbody>
-              <tr v-if="selectedFolderFiles.length === 0">
-                <td :colspan="5" class="text-center text-medium-emphasis">
-                  {{ t('workspace.files.empty') }}
-                </td>
-              </tr>
-              <tr v-for="file in selectedFolderFiles" :key="file.id">
-                <td>
-                  <div class="d-flex align-center gap-2">
-                    <v-icon
-                      :icon="file.isPrivate ? 'mdi-lock' : 'mdi-file'"
-                      size="small"
-                    />
-                    <span>{{ file.name }}</span>
-                    <v-chip
-                      v-if="file.isFavorite"
-                      size="x-small"
-                      color="warning"
-                      variant="tonal"
-                    >
-                      {{ t('workspace.files.favorite') }}
-                    </v-chip>
-                  </div>
-                </td>
-                <td>{{ file.type }}</td>
-                <td>{{ file.extension }}</td>
-                <td class="text-end">
-                  {{ formatFileSize(file.size) }}
-                </td>
-                <td class="text-end">
-                  <div class="d-flex justify-end gap-2">
-                    <v-btn
-                      :href="resolveFileUrl(file)"
-                      target="_blank"
-                      variant="text"
-                      size="small"
-                      prepend-icon="mdi-open-in-new"
-                    >
-                      {{ t('workspace.files.actions.open') }}
-                    </v-btn>
-                    <v-btn
-                      color="error"
-                      variant="text"
-                      size="small"
-                      prepend-icon="mdi-delete"
-                      @click="openDeleteFileDialog(file)"
-                    >
-                      {{ t('workspace.files.actions.delete') }}
-                    </v-btn>
-                  </div>
-                </td>
-              </tr>
+                <tr v-if="selectedFolderFiles.length === 0">
+                  <td :colspan="5" class="text-center text-medium-emphasis">
+                    {{ t('workspace.files.empty') }}
+                  </td>
+                </tr>
+                <tr v-for="file in selectedFolderFiles" :key="file.id">
+                  <td>
+                    <div class="d-flex align-center gap-2">
+                      <v-icon
+                        :icon="file.isPrivate ? 'mdi-lock' : 'mdi-file'"
+                        size="small"
+                      />
+                      <span>{{ file.name }}</span>
+                      <v-chip
+                        v-if="file.isFavorite"
+                        size="x-small"
+                        color="warning"
+                        variant="tonal"
+                      >
+                        {{ t('workspace.files.favorite') }}
+                      </v-chip>
+                    </div>
+                  </td>
+                  <td>{{ file.type }}</td>
+                  <td>{{ file.extension }}</td>
+                  <td class="text-end">
+                    {{ formatFileSize(file.size) }}
+                  </td>
+                  <td class="text-end">
+                    <div class="d-flex justify-end gap-2">
+                      <v-btn
+                        :href="resolveFileUrl(file)"
+                        target="_blank"
+                        variant="text"
+                        size="small"
+                        prepend-icon="mdi-open-in-new"
+                      >
+                        {{ t('workspace.files.actions.open') }}
+                      </v-btn>
+                      <v-btn
+                        color="error"
+                        variant="text"
+                        size="small"
+                        prepend-icon="mdi-delete"
+                        @click="openDeleteFileDialog(file)"
+                      >
+                        {{ t('workspace.files.actions.delete') }}
+                      </v-btn>
+                    </div>
+                  </td>
+                </tr>
               </tbody>
             </v-table>
           </v-card-text>
         </v-card>
-        <v-card v-else class="workspace-root"  rounded="xl">
+        <v-card v-else class="workspace-root" rounded="xl">
           <v-toolbar flat color="transparent" class="px-4">
             <v-toolbar-title class="text-h5">
               {{ t('workspace.tree.title') }}

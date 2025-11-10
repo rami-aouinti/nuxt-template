@@ -13,7 +13,10 @@ const routeKey = (route: RouteRecordRaw) =>
   `${String(route.name ?? '')}::${route.path ?? ''}`
 
 const normalizeRole = (role: string) =>
-  role.replace(/^ROLE_/i, '').trim().toUpperCase()
+  role
+    .replace(/^ROLE_/i, '')
+    .trim()
+    .toUpperCase()
 
 const userRoles = computed(() => {
   const profile = session.value?.profile

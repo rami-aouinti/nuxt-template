@@ -49,7 +49,8 @@ const fallbackSender = computed<MessengerUserSummary>(() => {
     typeof profile?.username === 'string' ? profile.username.trim() : ''
 
   const displayName =
-    [firstName, lastName].filter((part) => part.length > 0).join(' ') || username
+    [firstName, lastName].filter((part) => part.length > 0).join(' ') ||
+    username
 
   let avatarUrl: string | null = null
   const photo =
@@ -107,7 +108,7 @@ const resolveSender = (sender: MessengerUserSummary): MessengerUserSummary => {
   const avatarUrl =
     sender.avatarUrl && sender.avatarUrl.trim().length > 0
       ? sender.avatarUrl.trim()
-      : fallback.avatarUrl ?? null
+      : (fallback.avatarUrl ?? null)
 
   return {
     id: resolvedId,
@@ -126,7 +127,7 @@ const prepareMessage = (
   conversationId:
     message.conversationId && message.conversationId.length > 0
       ? message.conversationId
-      : fallbackConversationId ?? selectedConversationId.value,
+      : (fallbackConversationId ?? selectedConversationId.value),
   text: message.text ?? fallbackText ?? null,
   sender: resolveSender(message.sender),
 })
@@ -137,7 +138,7 @@ const normalizeConversationSummaryData = (
   ...conversation,
   lastMessage: conversation.lastMessage
     ? prepareMessage(conversation.lastMessage, undefined, conversation.id)
-    : conversation.lastMessage ?? null,
+    : (conversation.lastMessage ?? null),
 })
 
 const getSenderName = (sender: MessengerUserSummary) => {
@@ -281,7 +282,10 @@ const loadConversations = async () => {
 
     if (routeConversationId) {
       selectedConversationId.value = routeConversationId
-    } else if (!selectedConversationId.value && conversations.value.length > 0) {
+    } else if (
+      !selectedConversationId.value &&
+      conversations.value.length > 0
+    ) {
       selectedConversationId.value = conversations.value[0].id
       void updateRouteConversationId(selectedConversationId.value)
     } else if (conversations.value.length === 0) {

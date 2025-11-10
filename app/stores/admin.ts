@@ -154,10 +154,9 @@ export const useAdminStore = defineStore('admin', () => {
   const pluginCount = createCache<Count, number>('/api/v1/plugin/count', {
     transform: parseCount,
   })
-  const mediaCount = createCache<Count, number>(
-    '/api/media/v1/media/count',
-    { transform: parseCount },
-  )
+  const mediaCount = createCache<Count, number>('/api/media/v1/media/count', {
+    transform: parseCount,
+  })
 
   const fetchAllCounts = (options?: FetchOptions) =>
     Promise.all([
