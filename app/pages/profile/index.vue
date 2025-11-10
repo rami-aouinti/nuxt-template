@@ -4,6 +4,7 @@ import { FetchError } from 'ofetch'
 import ProfileNavigation from '~/components/profile/ProfileNavigation.vue'
 import type { AuthProfile } from '~/types/auth'
 import type { Configuration } from '~/types/configuration'
+import type { ProfilePlugin } from '~/types/plugin'
 import { Notify } from '~/stores/notification'
 
 definePageMeta({
@@ -128,6 +129,11 @@ const settingsSaving = reactive<Record<ProfileSettingKey, boolean>>({
   allowNotification: false,
 })
 const currentSettingsConfiguration = ref<Configuration | null>(null)
+
+const plugins = ref<ProfilePlugin[]>([])
+const pluginsLoading = ref(false)
+const pluginsError = ref('')
+const pluginToggleLoading = reactive<Record<string, boolean>>({})
 
 const form = reactive<ProfileForm>({
   firstName: '',
@@ -324,6 +330,96 @@ function applyConfiguration(configuration: Configuration | null) {
   resetProfileSettings()
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
+}
+
+function toProfilePlugin(value: unknown): ProfilePlugin | null {
+  if (!isRecord(value)) {
+    return null
+  }
+
+  const key = typeof value.key === 'string' ? value.key.trim() : ''
+  const name = typeof value.name === 'string' ? value.name.trim() : ''
+
+  if (!key || !name) {
+    return null
+  }
+
+  return {
+    key,
+    name,
+    subTitle:
+      typeof value.subTitle === 'string' && value.subTitle.trim().length > 0
+        ? value.subTitle
+        : null,
+    description:
+      typeof value.description === 'string' && value.description.trim().length > 0
+        ? value.description
+        : null,
+    logo:
+      typeof value.logo === 'string' && value.logo.trim().length > 0
+        ? value.logo
+        : null,
+    icon:
+      typeof value.icon === 'string' && value.icon.trim().length > 0
+        ? value.icon
+        : null,
+    installed: Boolean(value.installed),
+    link:
+      typeof value.link === 'string' && value.link.trim().length > 0
+        ? value.link
+        : null,
+    pricing:
+      typeof value.pricing === 'string' && value.pricing.trim().length > 0
+        ? value.pricing
+        : null,
+    action:
+      typeof value.action === 'string' && value.action.trim().length > 0
+        ? value.action
+        : null,
+    active: Boolean(value.active),
+    id:
+      typeof value.id === 'string' && value.id.trim().length > 0
+        ? value.id
+        : null,
+  }
+}
+
+function applyPluginsData(value: unknown) {
+  if (!Array.isArray(value)) {
+    plugins.value = []
+    return
+  }
+
+  const normalized: ProfilePlugin[] = []
+  for (const item of value) {
+    const plugin = toProfilePlugin(item)
+    if (plugin) {
+      normalized.push(plugin)
+    }
+  }
+
+  plugins.value = normalized
+}
+
+function formatPluginPricing(value: unknown) {
+  if (typeof value !== 'string') {
+    return ''
+  }
+
+  const normalized = value.trim().toLowerCase()
+  if (normalized === 'free') {
+    return t('profile.sections.plugins.pricing.free')
+  }
+
+  if (normalized === 'paid') {
+    return t('profile.sections.plugins.pricing.paid')
+  }
+
+  return value
+}
+
 const resolvedSettingsContextId = computed(() => {
   const configurationContextId = currentSettingsConfiguration.value?.contextId
   if (
@@ -476,6 +572,78 @@ async function loadProfileSettings(force = false) {
   }
 }
 
+async function loadPlugins(force = false) {
+  if (pluginsLoading.value && !force) {
+    return
+  }
+
+  pluginsLoading.value = true
+  pluginsError.value = ''
+
+  try {
+    const response = await $fetch<ProfilePlugin[]>('/api/profile/plugins')
+    applyPluginsData(response)
+  } catch (error) {
+    pluginsError.value = extractRequestError(
+      error,
+      t('profile.sections.plugins.errors.loadFailed'),
+    )
+  } finally {
+    pluginsLoading.value = false
+  }
+}
+
+async function handlePluginToggle(plugin: ProfilePlugin) {
+  const key = plugin.key
+  if (!key || pluginToggleLoading[key]) {
+    return
+  }
+
+  pluginToggleLoading[key] = true
+  const previousActive = plugin.active
+
+  try {
+    const response = await $fetch<
+      Partial<ProfilePlugin> & { success?: boolean; active?: boolean }
+    >(`/api/profile/plugins/${encodeURIComponent(key)}/toggle`, {
+      method: 'POST',
+    })
+
+    let updated = false
+    if (response && typeof response === 'object') {
+      if ('active' in response && typeof response.active === 'boolean') {
+        plugin.active = response.active
+        updated = true
+      }
+
+      if ('installed' in response && typeof response.installed === 'boolean') {
+        plugin.installed = response.installed
+      }
+    }
+
+    if (!updated) {
+      plugin.active = !previousActive
+    }
+
+    pluginsError.value = ''
+    Notify.success(
+      t('profile.sections.plugins.notifications.toggleSuccess', {
+        name: plugin.name,
+      }),
+    )
+  } catch (error) {
+    plugin.active = previousActive
+    const message = extractRequestError(
+      error,
+      t('profile.sections.plugins.errors.toggleFailed'),
+    )
+    pluginsError.value = message
+    Notify.error(message)
+  } finally {
+    pluginToggleLoading[key] = false
+  }
+}
+
 function buildSettingsPayload(): ProfileSettingsPayload | null {
   const configurationKey = resolvedSettingsConfigurationKey.value
   const contextKey = resolvedSettingsContextKey.value
@@ -543,7 +711,7 @@ watch(
 )
 
 onMounted(async () => {
-  await loadProfileSettings(true)
+  await Promise.all([loadProfileSettings(true), loadPlugins(true)])
 })
 
 watch(photoFiles, (files) => {
@@ -603,6 +771,8 @@ const hasChanges = computed(() => {
 const formattedBirthday = computed(() =>
   formatDateForDisplay(getProfileStringValue(profile.value, 'birthday')),
 )
+
+const hasPlugins = computed(() => plugins.value.length > 0)
 
 async function submit() {
   if (!profile.value || !hasChanges.value || isSaving.value) {
@@ -966,44 +1136,218 @@ async function submit() {
                         </div>
                       </v-col>
                     </v-row>
-                  </v-card-text>
-                </v-card>
-              </v-col>
+              </v-card-text>
+            </v-card>
+          </v-col>
 
-              <v-col cols="12">
-                <v-card elevation="2" rounded="xl">
-                  <v-card-title>
-                    {{ t('profile.sections.roles.title') }}
-                  </v-card-title>
-                  <v-divider />
-                  <v-card-text>
-                    <div
-                      v-if="roles.length"
-                      class="d-flex flex-wrap"
-                      style="gap: 8px"
+          <v-col cols="12">
+            <v-card elevation="2" rounded="xl">
+              <v-card-title>
+                {{ t('profile.sections.roles.title') }}
+              </v-card-title>
+              <v-divider />
+              <v-card-text>
+                <div
+                  v-if="roles.length"
+                  class="d-flex flex-wrap"
+                  style="gap: 8px"
+                >
+                  <v-chip
+                    v-for="role in roles"
+                    :key="role"
+                    color="primary"
+                    variant="tonal"
+                    class="text-capitalize"
+                  >
+                    {{ role }}
+                  </v-chip>
+                </div>
+                <p v-else class="text-body-2 text-medium-emphasis mb-0">
+                  {{ t('profile.sections.roles.empty') }}
+                </p>
+              </v-card-text>
+            </v-card>
+          </v-col>
+
+          <v-col cols="12">
+            <v-card elevation="2" rounded="xl">
+              <v-card-title class="d-flex align-center gap-3 flex-wrap">
+                <div class="d-flex flex-column">
+                  <span>{{ t('profile.sections.plugins.title') }}</span>
+                  <span class="text-body-2 text-medium-emphasis">
+                    {{ t('profile.sections.plugins.description') }}
+                  </span>
+                </div>
+                <v-spacer />
+                <v-tooltip location="bottom">
+                  <template #activator="{ props }">
+                    <v-btn
+                      v-bind="props"
+                      variant="text"
+                      density="comfortable"
+                      icon="mdi-refresh"
+                      :disabled="pluginsLoading"
+                      :loading="pluginsLoading"
+                      @click="loadPlugins(true)"
+                    />
+                  </template>
+                  <span>{{ t('profile.sections.plugins.actions.refresh') }}</span>
+                </v-tooltip>
+              </v-card-title>
+              <v-divider />
+              <v-card-text>
+                <v-alert
+                  v-if="pluginsError"
+                  type="error"
+                  variant="tonal"
+                  density="compact"
+                  class="mb-4"
+                >
+                  {{ pluginsError }}
+                </v-alert>
+
+                <div v-if="pluginsLoading">
+                  <v-row>
+                    <v-col v-for="index in 3" :key="index" cols="12" sm="6" lg="4">
+                      <v-skeleton-loader
+                        class="profile-plugin-card"
+                        type="image, article"
+                      />
+                    </v-col>
+                  </v-row>
+                </div>
+
+                <template v-else>
+                  <div v-if="!hasPlugins" class="text-body-2 text-medium-emphasis">
+                    {{ t('profile.sections.plugins.empty') }}
+                  </div>
+                  <v-row v-else class="g-4" style="row-gap: 24px; column-gap: 0">
+                    <v-col
+                      v-for="plugin in plugins"
+                      :key="plugin.id || plugin.key"
+                      cols="12"
+                      sm="6"
+                      lg="4"
                     >
-                      <v-chip
-                        v-for="role in roles"
-                        :key="role"
-                        color="primary"
-                        variant="tonal"
-                        class="text-capitalize"
+                      <v-card
+                        :elevation="plugin.active ? 8 : 2"
+                        rounded="xl"
+                        border
+                        class="profile-plugin-card"
+                        :class="{
+                          'profile-plugin-card--active': plugin.active,
+                        }"
                       >
-                        {{ role }}
-                      </v-chip>
-                    </div>
-                    <p v-else class="text-body-2 text-medium-emphasis mb-0">
-                      {{ t('profile.sections.roles.empty') }}
-                    </p>
-                  </v-card-text>
-                </v-card>
-              </v-col>
+                        <div class="profile-plugin-card__header">
+                          <div class="d-flex align-center gap-4">
+                            <v-avatar
+                              size="56"
+                              rounded="lg"
+                              class="profile-plugin-card__logo"
+                            >
+                              <v-img
+                                v-if="plugin.logo"
+                                :src="plugin.logo"
+                                :alt="plugin.name"
+                                cover
+                              />
+                              <v-icon
+                                v-else
+                                :icon="plugin.icon || 'mdi-puzzle'"
+                                size="28"
+                                color="primary"
+                              />
+                            </v-avatar>
+                            <div class="profile-plugin-card__title">
+                              <div class="d-flex align-center gap-2 flex-wrap">
+                                <span class="text-subtitle-1 font-weight-semibold">
+                                  {{ plugin.name }}
+                                </span>
+                                <v-chip
+                                  v-if="plugin.pricing"
+                                  size="x-small"
+                                  variant="flat"
+                                  color="primary"
+                                  class="text-uppercase"
+                                >
+                                  {{ formatPluginPricing(plugin.pricing) }}
+                                </v-chip>
+                              </div>
+                              <span
+                                v-if="plugin.subTitle"
+                                class="text-caption text-medium-emphasis"
+                              >
+                                {{ plugin.subTitle }}
+                              </span>
+                            </div>
+                          </div>
+                          <v-chip
+                            size="small"
+                            :color="plugin.active ? 'success' : 'grey-darken-1'"
+                            variant="tonal"
+                            class="text-uppercase font-weight-medium"
+                          >
+                            {{
+                              plugin.active
+                                ? t('profile.sections.plugins.status.active')
+                                : t('profile.sections.plugins.status.inactive')
+                            }}
+                          </v-chip>
+                        </div>
 
-              <v-col cols="12">
-                <v-card elevation="2" rounded="xl">
-                  <v-card-title class="d-flex align-center gap-3">
-                    <span>{{ t('profile.sections.settings.title') }}</span>
-                    <v-spacer />
+                        <p
+                          v-if="plugin.description"
+                          class="profile-plugin-card__description mt-4 mb-6"
+                        >
+                          {{ plugin.description }}
+                        </p>
+
+                        <div class="profile-plugin-card__actions">
+                          <v-btn
+                            :color="plugin.active ? 'secondary' : 'primary'"
+                            :variant="plugin.active ? 'tonal' : 'flat'"
+                            :loading="pluginToggleLoading[plugin.key]"
+                            :disabled="pluginToggleLoading[plugin.key]"
+                            prepend-icon="mdi-power"
+                            @click="handlePluginToggle(plugin)"
+                          >
+                            {{
+                              plugin.active
+                                ? t('profile.sections.plugins.actions.deactivate')
+                                : t('profile.sections.plugins.actions.activate')
+                            }}
+                          </v-btn>
+                          <v-btn
+                            v-if="plugin.link && plugin.installed"
+                            :to="plugin.link"
+                            variant="text"
+                            prepend-icon="mdi-open-in-new"
+                          >
+                            {{ t('profile.sections.plugins.actions.open') }}
+                          </v-btn>
+                          <v-btn
+                            v-else-if="plugin.action === 'install' && plugin.link"
+                            :to="plugin.link"
+                            variant="outlined"
+                            color="primary"
+                            prepend-icon="mdi-download"
+                          >
+                            {{ t('profile.sections.plugins.actions.install') }}
+                          </v-btn>
+                        </div>
+                      </v-card>
+                    </v-col>
+                  </v-row>
+                </template>
+              </v-card-text>
+            </v-card>
+          </v-col>
+
+          <v-col cols="12">
+            <v-card elevation="2" rounded="xl">
+              <v-card-title class="d-flex align-center gap-3">
+                <span>{{ t('profile.sections.settings.title') }}</span>
+                <v-spacer />
                     <v-tooltip location="bottom">
                       <template #activator="{ props }">
                         <v-btn
@@ -1091,3 +1435,61 @@ async function submit() {
     </v-row>
   </v-container>
 </template>
+
+<style scoped>
+.profile-plugin-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-plugin-card:hover {
+  transform: translateY(-4px);
+}
+
+.profile-plugin-card--active {
+  border: 1px solid rgba(var(--v-theme-primary), 0.35);
+  box-shadow: 0 16px 32px rgba(var(--v-theme-primary), 0.18);
+}
+
+.profile-plugin-card__logo {
+  background-color: rgba(var(--v-theme-surface-variant), 0.5);
+}
+
+.profile-plugin-card__title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profile-plugin-card__header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-plugin-card__description {
+  color: rgba(var(--v-theme-on-surface), 0.72);
+  line-height: 1.5;
+}
+
+.profile-plugin-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .profile-plugin-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-plugin-card__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+</style>

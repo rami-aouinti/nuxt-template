@@ -380,6 +380,33 @@
         "title": "角色",
         "empty": "尚未分配角色。"
       },
+      "plugins": {
+        "title": "工作区插件",
+        "description": "启用所需工具，自定义你的工作区体验。",
+        "empty": "暂时没有可用的插件。",
+        "status": {
+          "active": "已启用",
+          "inactive": "未启用"
+        },
+        "pricing": {
+          "free": "免费",
+          "paid": "付费"
+        },
+        "actions": {
+          "refresh": "刷新",
+          "activate": "启用",
+          "deactivate": "停用",
+          "open": "打开",
+          "install": "安装"
+        },
+        "notifications": {
+          "toggleSuccess": "“{name}”的状态已更新。"
+        },
+        "errors": {
+          "loadFailed": "无法加载插件，请稍后再试。",
+          "toggleFailed": "无法更新此插件，请稍后再试。"
+        }
+      },
       "settings": {
         "title": "偏好设置"
       }

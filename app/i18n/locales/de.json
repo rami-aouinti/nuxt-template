@@ -380,6 +380,33 @@
         "title": "Rollen",
         "empty": "Noch keine Rollen zugewiesen."
       },
+      "plugins": {
+        "title": "Workspace-Plugins",
+        "description": "Aktivieren Sie die benötigten Werkzeuge und passen Sie Ihr Erlebnis an.",
+        "empty": "Derzeit sind keine Plugins verfügbar.",
+        "status": {
+          "active": "Aktiv",
+          "inactive": "Inaktiv"
+        },
+        "pricing": {
+          "free": "Kostenlos",
+          "paid": "Kostenpflichtig"
+        },
+        "actions": {
+          "refresh": "Aktualisieren",
+          "activate": "Aktivieren",
+          "deactivate": "Deaktivieren",
+          "open": "Öffnen",
+          "install": "Installieren"
+        },
+        "notifications": {
+          "toggleSuccess": "Der Status von \"{name}\" wurde aktualisiert."
+        },
+        "errors": {
+          "loadFailed": "Die Plugins konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+          "toggleFailed": "Dieses Plugin konnte nicht aktualisiert werden. Bitte versuchen Sie es später erneut."
+        }
+      },
       "settings": {
         "title": "Einstellungen"
       }

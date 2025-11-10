@@ -380,6 +380,33 @@
         "title": "Roles",
         "empty": "Todavía no hay roles asignados."
       },
+      "plugins": {
+        "title": "Complementos del espacio de trabajo",
+        "description": "Activa las herramientas que necesitas y personaliza tu experiencia.",
+        "empty": "Todavía no hay complementos disponibles.",
+        "status": {
+          "active": "Activo",
+          "inactive": "Inactivo"
+        },
+        "pricing": {
+          "free": "Gratis",
+          "paid": "De pago"
+        },
+        "actions": {
+          "refresh": "Actualizar",
+          "activate": "Activar",
+          "deactivate": "Desactivar",
+          "open": "Abrir",
+          "install": "Instalar"
+        },
+        "notifications": {
+          "toggleSuccess": "El estado de \"{name}\" se ha actualizado."
+        },
+        "errors": {
+          "loadFailed": "No se pudieron cargar los complementos. Inténtalo de nuevo más tarde.",
+          "toggleFailed": "No se pudo actualizar este complemento. Inténtalo de nuevo más tarde."
+        }
+      },
       "settings": {
         "title": "Preferencias"
       }

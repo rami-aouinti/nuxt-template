@@ -380,6 +380,33 @@
         "title": "Ruoli",
         "empty": "Nessun ruolo assegnato al momento."
       },
+      "plugins": {
+        "title": "Plugin dello spazio di lavoro",
+        "description": "Attiva gli strumenti di cui hai bisogno e personalizza la tua esperienza.",
+        "empty": "Non ci sono ancora plugin disponibili.",
+        "status": {
+          "active": "Attivo",
+          "inactive": "Inattivo"
+        },
+        "pricing": {
+          "free": "Gratuito",
+          "paid": "A pagamento"
+        },
+        "actions": {
+          "refresh": "Aggiorna",
+          "activate": "Attiva",
+          "deactivate": "Disattiva",
+          "open": "Apri",
+          "install": "Installa"
+        },
+        "notifications": {
+          "toggleSuccess": "Lo stato di \"{name}\" è stato aggiornato."
+        },
+        "errors": {
+          "loadFailed": "Impossibile caricare i plugin. Riprova più tardi.",
+          "toggleFailed": "Impossibile aggiornare questo plugin. Riprova più tardi."
+        }
+      },
       "settings": {
         "title": "Preferenze"
       }
