@@ -1,11 +1,13 @@
 <template>
   <span
-    :class="cls"
+    class="flag-span"
     :style="styleObj"
     :aria-label="label"
     :title="label"
     role="img"
-  />
+  >
+    {{ emoji }}
+  </span>
 </template>
 
 <script setup lang="ts">
@@ -13,36 +15,84 @@ import { computed } from 'vue'
 
 const props = withDefaults(
   defineProps<{
-    code: string // 'de', 'fr', 'us', 'gb', 'en' (-> gb), etc.
+    code: string
     square?: boolean
     rounded?: boolean
-    size?: string // ex. '1rem', '20px'
+    size?: string
     title?: string
   }>(),
   {
     square: false,
     rounded: true,
     size: '1.5rem',
+    title: undefined,
   },
 )
 
-// Normalisation : si on reçoit 'en', on affiche le drapeau 'gb'
-const flagCode = computed(() => {
-  const c = (props.code || '').trim().toLowerCase()
-  if (c === 'en') return 'gb' // <- la règle demandée
-  return c
+const normalizeFlagCode = (code: string) => {
+  const trimmed = code.trim().toLowerCase()
+  if (!trimmed) return ''
+
+  if (trimmed === 'en') return 'gb'
+
+  const segments = trimmed.split(/[-_]/)
+  const lastSegment = segments.at(-1) ?? trimmed
+
+  if (/^[a-z]{2}$/i.test(lastSegment)) {
+    return lastSegment
+  }
+
+  return trimmed
+}
+
+const toFlagEmoji = (code: string) =>
+  Array.from(code.toUpperCase()).reduce((emoji, char) => {
+    if (!/[A-Z]/.test(char)) {
+      return emoji
+    }
+
+    const base = 0x1f1e6
+    const offset = char.charCodeAt(0) - 65
+    return `${emoji}${String.fromCodePoint(base + offset)}`
+  }, '')
+
+const flagCode = computed(() => normalizeFlagCode(props.code))
+
+const emoji = computed(() => {
+  const code = flagCode.value
+
+  if (/^[a-z]{2}$/.test(code)) {
+    const value = toFlagEmoji(code)
+    if (value) {
+      return value
+    }
+  }
+
+  return '🏳️'
 })
 
-const cls = computed(() => [
-  props.square ? 'fis' : 'fi',
-  `fi-${flagCode.value}`, // ex. 'fi-gb' si code='en'
-])
+const styleObj = computed(() => {
+  const size = props.size
 
-const styleObj = computed(() => ({
-  fontSize: props.size,
-  borderRadius: props.rounded ? '9999px' : undefined,
-}))
+  return {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: size,
+    height: size,
+    fontSize: size,
+    lineHeight: 1,
+    borderRadius: props.square ? '0' : props.rounded ? '9999px' : '0.25rem',
+  }
+})
 
-// Optionnel : on garde le label aligné avec l'icône
-const label = computed(() => props.title || flagCode.value.toUpperCase())
+const label = computed(
+  () => props.title || (flagCode.value ? flagCode.value.toUpperCase() : 'Flag'),
+)
 </script>
+
+<style scoped>
+.flag-span {
+  min-width: 1em;
+}
+</style>
