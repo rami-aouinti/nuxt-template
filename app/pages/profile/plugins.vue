@@ -218,6 +218,7 @@ await loadPlugins()
               cols="12"
               sm="6"
               lg="4"
+              class="d-flex"
             >
               <v-card
                 :elevation="plugin.active ? 8 : 2"
@@ -228,77 +229,82 @@ await loadPlugins()
                   'profile-plugin-card--active': plugin.active,
                 }"
               >
-                <div class="profile-plugin-card__header">
-                  <div class="d-flex align-center gap-4">
-                    <v-avatar
-                      size="56"
-                      rounded="lg"
-                      class="profile-plugin-card__logo"
-                    >
-                      <v-img
-                        v-if="plugin.logo"
-                        :src="plugin.logo"
-                        :alt="plugin.name"
-                        cover
-                      />
-                      <v-icon
-                        v-else
-                        :icon="plugin.icon || 'mdi-puzzle'"
-                        size="28"
-                        color="primary"
-                      />
-                    </v-avatar>
-                    <div class="profile-plugin-card__title">
-                      <div class="d-flex align-center gap-2 flex-wrap">
-                        <span class="text-subtitle-1 font-weight-semibold">
-                          {{ plugin.name }}
-                        </span>
-                        <v-chip
-                          v-if="plugin.pricing"
-                          size="x-small"
-                          variant="flat"
-                          color="primary"
-                          class="text-uppercase"
-                        >
-                          {{ formatPluginPricing(plugin.pricing) }}
-                        </v-chip>
-                      </div>
-                      <span
-                        v-if="plugin.subTitle"
-                        class="text-caption text-medium-emphasis"
+                <div class="profile-plugin-card__body">
+                  <div class="profile-plugin-card__header">
+                    <div class="profile-plugin-card__meta">
+                      <v-avatar
+                        size="56"
+                        rounded="lg"
+                        class="profile-plugin-card__logo"
                       >
-                        {{ plugin.subTitle }}
-                      </span>
+                        <v-img
+                          v-if="plugin.logo"
+                          :src="plugin.logo"
+                          :alt="plugin.name"
+                          cover
+                        />
+                        <v-icon
+                          v-else
+                          :icon="plugin.icon || 'mdi-puzzle'"
+                          size="28"
+                          color="primary"
+                        />
+                      </v-avatar>
+
+                      <div class="profile-plugin-card__title">
+                        <div class="profile-plugin-card__heading">
+                          <span class="profile-plugin-card__name">
+                            {{ plugin.name }}
+                          </span>
+                          <v-chip
+                            v-if="plugin.pricing"
+                            size="x-small"
+                            variant="flat"
+                            color="primary"
+                            class="text-uppercase profile-plugin-card__pricing"
+                          >
+                            {{ formatPluginPricing(plugin.pricing) }}
+                          </v-chip>
+                        </div>
+                        <span
+                          v-if="plugin.subTitle"
+                          class="text-caption text-medium-emphasis"
+                        >
+                          {{ plugin.subTitle }}
+                        </span>
+                      </div>
                     </div>
+
+                    <v-chip
+                      size="small"
+                      :color="plugin.active ? 'success' : 'grey-darken-1'"
+                      variant="tonal"
+                      class="text-uppercase font-weight-medium profile-plugin-card__status"
+                    >
+                      {{
+                        plugin.active
+                          ? t('profile.sections.plugins.status.active')
+                          : t('profile.sections.plugins.status.inactive')
+                      }}
+                    </v-chip>
                   </div>
-                  <v-chip
-                    size="small"
-                    :color="plugin.active ? 'success' : 'grey-darken-1'"
-                    variant="tonal"
-                    class="text-uppercase font-weight-medium"
+
+                  <p
+                    v-if="plugin.description"
+                    class="profile-plugin-card__description"
                   >
-                    {{
-                      plugin.active
-                        ? t('profile.sections.plugins.status.active')
-                        : t('profile.sections.plugins.status.inactive')
-                    }}
-                  </v-chip>
+                    {{ plugin.description }}
+                  </p>
                 </div>
 
-                <p
-                  v-if="plugin.description"
-                  class="profile-plugin-card__description mt-4 mb-6"
-                >
-                  {{ plugin.description }}
-                </p>
-
-                <div class="profile-plugin-card__actions">
+                <div class="profile-plugin-card__footer">
                   <v-btn
                     :color="plugin.active ? 'secondary' : 'primary'"
                     :variant="plugin.active ? 'tonal' : 'flat'"
                     :loading="pluginToggleLoading[plugin.key]"
                     :disabled="pluginToggleLoading[plugin.key]"
                     prepend-icon="mdi-power"
+                    class="profile-plugin-card__action"
                     @click="handlePluginToggle(plugin)"
                   >
                     {{
@@ -311,6 +317,7 @@ await loadPlugins()
                     :to="resolvePluginRoute(plugin.key)"
                     variant="text"
                     prepend-icon="mdi-open-in-new"
+                    class="profile-plugin-card__action"
                   >
                     {{ t('profile.sections.plugins.actions.open') }}
                   </v-btn>
@@ -322,6 +329,7 @@ await loadPlugins()
                     variant="outlined"
                     color="primary"
                     prepend-icon="mdi-download"
+                    class="profile-plugin-card__action"
                   >
                     {{ t('profile.sections.plugins.actions.install') }}
                   </v-btn>
@@ -338,8 +346,14 @@ await loadPlugins()
 <style scoped>
 .profile-plugin-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  padding: 24px;
+  gap: 20px;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .profile-plugin-card:hover {
@@ -347,48 +361,110 @@ await loadPlugins()
 }
 
 .profile-plugin-card--active {
-  border: 1px solid rgba(var(--v-theme-primary), 0.35);
-  box-shadow: 0 16px 32px rgba(var(--v-theme-primary), 0.18);
+  border-color: rgba(var(--v-theme-primary), 0.45);
+  box-shadow: 0 18px 32px rgba(var(--v-theme-primary), 0.18);
+  background: linear-gradient(
+    150deg,
+    rgba(var(--v-theme-primary), 0.08) 0%,
+    rgba(var(--v-theme-surface), 1) 65%
+  );
+}
+
+.profile-plugin-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-plugin-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
 }
 
 .profile-plugin-card__logo {
-  background-color: rgba(var(--v-theme-surface-variant), 0.5);
+  flex-shrink: 0;
+  background-color: rgba(var(--v-theme-surface-variant), 0.65);
+  box-shadow: inset 0 0 0 1px rgba(var(--v-theme-outline-variant), 0.25);
 }
 
 .profile-plugin-card__title {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+  min-width: 0;
+}
+
+.profile-plugin-card__heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.profile-plugin-card__name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(var(--v-theme-on-surface), 0.94);
+}
+
+.profile-plugin-card__pricing {
+  letter-spacing: 0.08em;
 }
 
 .profile-plugin-card__header {
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.profile-plugin-card__status {
+  align-self: flex-start;
 }
 
 .profile-plugin-card__description {
   color: rgba(var(--v-theme-on-surface), 0.72);
   line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 72px;
 }
 
-.profile-plugin-card__actions {
+.profile-plugin-card__footer {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(var(--v-theme-outline-variant), 0.4);
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
 }
 
+.profile-plugin-card__action {
+  flex: 1 1 auto;
+}
+
+@media (max-width: 960px) {
+  .profile-plugin-card__action {
+    flex: 1 1 100%;
+  }
+}
+
 @media (max-width: 600px) {
-  .profile-plugin-card__header {
-    flex-direction: column;
-    align-items: flex-start;
+  .profile-plugin-card {
+    padding: 20px;
   }
 
-  .profile-plugin-card__actions {
+  .profile-plugin-card__status {
+    width: 100%;
+  }
+
+  .profile-plugin-card__footer {
     flex-direction: column;
-    align-items: stretch;
   }
 }
 </style>
