@@ -53,8 +53,21 @@ const postLink = computed(() => localePath(`/post/${props.post.slug}`))
 const authorName = computed(() => getAuthorName(props.post.user))
 const authorLink = computed(() => getAuthorProfileLink(props.post.user))
 const authorAvatar = computed(() => getAuthorAvatar(props.post.user))
-const postExcerpt = computed(() => props.excerpt.trim())
-const hasExcerpt = computed(() => postExcerpt.value.length > 0)
+const excerptState = computed(() => {
+  const trimmedExcerpt = props.excerpt.trim()
+
+  if (trimmedExcerpt.length > 0) {
+    return {
+      text: trimmedExcerpt,
+      isMuted: false,
+    }
+  }
+
+  return {
+    text: t('blog.placeholders.noSummary'),
+    isMuted: true,
+  }
+})
 const reactionType = computed(() =>
   resolveReactionType(props.post.isReacted ?? null),
 )
@@ -188,9 +201,9 @@ const onDeletePost = () => {
       </NuxtLink>
       <p
         class="facebook-post-card__text"
-        :class="{ 'facebook-post-card__text--muted': !hasExcerpt }"
+        :class="{ 'facebook-post-card__text--muted': excerptState.isMuted }"
       >
-        {{ hasExcerpt ? postExcerpt : t('blog.placeholders.noSummary') }}
+        {{ excerptState.text }}
       </p>
     </div>
 
@@ -216,19 +229,27 @@ const onDeletePost = () => {
         <div
           class="facebook-post-card__stat-value facebook-post-card__stat-value--reactions"
         >
-          <BlogReactionPicker
-            class="facebook-post-card__reaction-picker"
-            size="small"
-            density="comfortable"
-            :model-value="reactionType"
-            :count="post.reactions_count ?? 0"
-            :loading="post.ui.likeLoading"
-            :disabled="!loggedIn"
-            :show-caret="loggedIn"
-            :show-count="false"
-            @select="onSelectReaction"
-            @remove="onRemoveReaction"
-          />
+          <ClientOnly>
+            <template #fallback>
+              <div
+                class="facebook-post-card__reaction-picker facebook-post-card__reaction-picker--placeholder"
+                aria-hidden="true"
+              />
+            </template>
+            <BlogReactionPicker
+              class="facebook-post-card__reaction-picker"
+              size="small"
+              density="comfortable"
+              :model-value="reactionType"
+              :count="post.reactions_count ?? 0"
+              :loading="post.ui.likeLoading"
+              :disabled="!loggedIn"
+              :show-caret="loggedIn"
+              :show-count="false"
+              @select="onSelectReaction"
+              @remove="onRemoveReaction"
+            />
+          </ClientOnly>
           <v-btn
             variant="text"
             class="facebook-post-card__action-btn facebook-post-card__count-btn"
@@ -499,6 +520,16 @@ a.facebook-post-card__author-link:focus-visible {
 .facebook-post-card__reaction-picker {
   display: inline-flex;
   align-items: center;
+}
+
+.facebook-post-card__reaction-picker--placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 72px;
+  block-size: 32px;
+  border-radius: 16px;
+  background-color: rgba(var(--v-theme-surface-variant), 0.35);
 }
 
 .facebook-post-card__reaction-picker :deep(.blog-reaction-picker__action) {
