@@ -380,6 +380,33 @@
         "title": "Roles",
         "empty": "No roles assigned yet."
       },
+      "plugins": {
+        "title": "Workspace plugins",
+        "description": "Enable the tools you need and tailor your workspace experience.",
+        "empty": "No plugins are available yet.",
+        "status": {
+          "active": "Active",
+          "inactive": "Inactive"
+        },
+        "pricing": {
+          "free": "Free",
+          "paid": "Premium"
+        },
+        "actions": {
+          "refresh": "Reload",
+          "activate": "Activate",
+          "deactivate": "Deactivate",
+          "open": "Open",
+          "install": "Install"
+        },
+        "notifications": {
+          "toggleSuccess": "The status of \"{name}\" has been updated."
+        },
+        "errors": {
+          "loadFailed": "Unable to load the plugins. Please try again later.",
+          "toggleFailed": "Unable to update this plugin. Please try again later."
+        }
+      },
       "settings": {
         "title": "Preferences"
       }
