@@ -10,9 +10,8 @@ const canonicalUrl = computed(() => `${siteOrigin}${route.path}`)
 const DEFAULT_APP_DESCRIPTION =
   'Vuetify 3 + Nuxt 3, Opinionated Admin Starter Template'
 
-provide(
-  THEME_KEY,
-  computed(() => (theme.current.value.dark ? 'dark' : undefined)),
+const htmlThemeClass = computed(() =>
+  theme.current.value.dark ? 'dark' : undefined
 )
 
 const pageTitle = computed(() => {
@@ -59,7 +58,7 @@ useHead(() => ({
     titleChunk && titleChunk !== defaultTitle.value
       ? `${titleChunk} | ${defaultTitle.value}`
       : defaultTitle.value,
-  htmlAttrs: { lang: locale.value },
+  htmlAttrs: { lang: locale.value, class: htmlThemeClass.value },
   meta: [
     {
       name: 'description',
