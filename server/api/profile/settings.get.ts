@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
 
   return await configurationRequest<Configuration[]>(
     event,
-    '/v1/platform/configuration',
+    '/platform/configuration',
     {
       method: 'GET',
     },
