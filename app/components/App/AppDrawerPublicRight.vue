@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-const router = useRouter()
-const routes = router.getRoutes().filter((r) => r.path.lastIndexOf('/') === 0)
 const drawerState = useState('drawerRight', () => true)
 
 const { mobile, lgAndUp, width } = useDisplay()
-const { t } = useI18n()
 const drawer = computed({
   get() {
     return drawerState.value || !mobile.value
@@ -16,11 +13,6 @@ const drawer = computed({
   },
 })
 const rail = computed(() => !drawerState.value && !mobile.value)
-routes.sort((a, b) => (a.meta?.drawerIndex ?? 99) - (b.meta?.drawerIndex ?? 98))
-
-const { session } = useUserSession()
-const localePath = useLocalePath()
-const home = computed(() => localePath('home') ?? '/')
 
 drawerState.value = lgAndUp.value && width.value >= 1280
 </script>

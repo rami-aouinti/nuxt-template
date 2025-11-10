@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { RouteRecordRaw } from 'vue-router'
 
 const router = useRouter()
 const routes = router.getRoutes().filter((r) => r.path.lastIndexOf('/') === 0)
@@ -19,65 +18,8 @@ const drawer = computed({
 const rail = computed(() => !drawerState.value && !mobile.value)
 routes.sort((a, b) => (a.meta?.drawerIndex ?? 99) - (b.meta?.drawerIndex ?? 98))
 
-const { session } = useUserSession()
 const localePath = useLocalePath()
 const home = computed(() => localePath('home') ?? '/')
-
-const drawerRouteKey = (route: RouteRecordRaw) =>
-  `${String(route.name ?? '')}::${route.path ?? ''}`
-
-const normalizeRole = (role: string) =>
-  role
-    .replace(/^ROLE_/i, '')
-    .trim()
-    .toUpperCase()
-
-const userRoles = computed(() => {
-  const profile = session.value?.profile
-  if (!profile || typeof profile !== 'object') {
-    return [] as string[]
-  }
-
-  const rawRoles = (profile as Record<string, unknown>).roles
-  if (!Array.isArray(rawRoles)) {
-    return [] as string[]
-  }
-
-  const normalizedRoles = rawRoles
-    .filter(
-      (role): role is string =>
-        typeof role === 'string' && role.trim().length > 0,
-    )
-    .map((role) => normalizeRole(role))
-    .filter((role) => role.length > 0)
-
-  return Array.from(new Set(normalizedRoles))
-})
-
-const hasRouteAccess = (route: RouteRecordRaw) => {
-  const rawRoles = (route.meta as Record<string, unknown> | undefined)?.roles
-  if (!Array.isArray(rawRoles)) {
-    return true
-  }
-
-  const requiredRoles = rawRoles
-    .filter(
-      (role): role is string =>
-        typeof role === 'string' && role.trim().length > 0,
-    )
-    .map((role) => normalizeRole(role))
-    .filter((role) => role.length > 0)
-
-  if (requiredRoles.length === 0) {
-    return true
-  }
-
-  return requiredRoles.some((role) => userRoles.value.includes(role))
-}
-
-const availableRoutes = computed(() =>
-  routes.filter((route) => hasRouteAccess(route)),
-)
 
 drawerState.value = lgAndUp.value && width.value >= 1280
 

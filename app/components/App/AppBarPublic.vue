@@ -19,27 +19,6 @@ const router = useRouter()
 const { t, locale, locales } = useI18n()
 const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
-const breadcrumbs = computed(() => {
-  return route!.matched
-    .filter((item) => item.meta && item.meta.title)
-    .map((r) => {
-      const routeName = typeof r.name === 'string' ? r.name : undefined
-      const localizedPath =
-        routeName != null
-          ? localePath({
-              name: routeName,
-              params: route.params,
-              query: route.query,
-            })
-          : route.path
-
-      return {
-        title: t(String(r.meta.title!)),
-        disabled: localizedPath === route.path || false,
-        to: localizedPath,
-      }
-    })
-})
 const isDark = computed({
   get() {
     return theme.current.value.dark

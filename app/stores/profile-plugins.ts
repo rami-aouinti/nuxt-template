@@ -1,4 +1,3 @@
-import { useNuxtApp } from '#app'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 

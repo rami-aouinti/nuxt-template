@@ -502,8 +502,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <client-only>
-    <teleport to="#app-drawer-right">
+  <div class="profile-workspace-page">
+    <client-only>
+      <teleport to="#app-drawer-right">
       <v-card-title class="d-flex align-center gap-2">
         <v-icon icon="mdi-folder-tree" class="me-2" />
         {{ t('workspace.tree.title') }}
@@ -1091,6 +1092,7 @@ onMounted(() => {
       </v-card>
     </v-dialog>
   </ProfilePageShell>
+  </div>
 </template>
 
 <style scoped>

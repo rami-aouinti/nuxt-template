@@ -20,6 +20,7 @@ const props = withDefaults(
     showCaret?: boolean
   }>(),
   {
+    modelValue: null,
     count: null,
     loading: false,
     disabled: false,
@@ -66,7 +67,7 @@ const formattedCount = computed(() => {
 
   try {
     return new Intl.NumberFormat(locale.value).format(props.count)
-  } catch (error) {
+  } catch {
     return String(props.count)
   }
 })
@@ -75,12 +76,7 @@ const showCount = computed(
   () => props.showCount && typeof props.count === 'number' && props.count >= 0,
 )
 
-const buttonSize = computed(() =>
-  props.size === 'small' ? 'small' : undefined,
-)
-const caretButtonSize = computed(() =>
-  props.size === 'small' ? 'x-small' : 'small',
-)
+const buttonSize = computed(() => (props.size === 'small' ? 'small' : undefined))
 const buttonDensity = computed(() =>
   props.density === 'default' ? undefined : props.density,
 )
@@ -131,14 +127,6 @@ const handleButtonClick = () => {
   }
 
   emit('select', DEFAULT_REACTION_TYPE)
-}
-
-const toggleMenu = () => {
-  if (props.disabled || props.loading) {
-    return
-  }
-
-  menuPinned.value = !menuPinned.value
 }
 
 watch(

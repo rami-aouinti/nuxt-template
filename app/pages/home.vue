@@ -991,15 +991,6 @@ async function loadComments(post: BlogPostViewModel) {
   }
 }
 
-function resolveBlogLink(blog: BlogSummary) {
-  if (!blog) {
-    return null
-  }
-
-  const slug = typeof blog.slug === 'string' ? blog.slug.trim() : ''
-  return slug.length ? `/blog/${slug}` : null
-}
-
 function truncateText(text: string, maxLength: number) {
   if (text.length <= maxLength) {
     return text
@@ -1631,62 +1622,69 @@ await loadPosts(1, { replace: true })
             {{ myBlogsError }}
           </v-alert>
 
-          <div
-            v-for="blog in filteredMyBlogs"
-            v-else-if="filteredMyBlogs.length"
-            class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
-          >
-            <NuxtLink
-              class="text-decoration-none text-primary"
-              :to="`/blog/${blog.id}`"
+          <template v-else-if="filteredMyBlogs.length">
+            <div
+              v-for="blog in filteredMyBlogs"
+              :key="blog.id"
+              class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
             >
-              <v-avatar size="36" class="mr-3" color="primary" variant="tonal">
-                <template v-if="blog.logo">
-                  <v-img :src="blog.logo || undefined" :alt="blog.title">
-                    <template #error>
-                      <span class="blog-avatar__initials">
-                        {{ getBlogInitials(blog.title) }}
-                      </span>
-                    </template>
-                  </v-img>
-                </template>
-                <template v-else>
-                  <span class="blog-avatar__initials">
-                    {{ getBlogInitials(blog.title) }}
-                  </span>
-                </template>
-              </v-avatar>
-              {{ blog.title }}
-            </NuxtLink>
-            <v-spacer />
-            <v-btn
-              icon="mdi-pencil"
-              variant="text"
-              size="sm"
-              density="compact"
-              :aria-label="t('blog.actions.editBlog')"
-              :title="t('blog.actions.editBlog')"
-              :disabled="
-                editBlogDialog.loading && editBlogDialog.blogId === blog.id
-              "
-              :loading="
-                editBlogDialog.loading && editBlogDialog.blogId === blog.id
-              "
-              @click.stop="openEditBlogDialog(blog)"
-            />
-            <v-btn
-              icon="mdi-delete"
-              variant="text"
-              color="error"
-              size="sm"
-              density="compact"
-              :aria-label="t('blog.actions.deleteBlog')"
-              :title="t('blog.actions.deleteBlog')"
-              :loading="blogDeleteLoadingId === blog.id"
-              :disabled="blogDeleteLoadingId === blog.id"
-              @click.stop="confirmDeleteBlog(blog)"
-            />
-          </div>
+              <NuxtLink
+                class="text-decoration-none text-primary"
+                :to="`/blog/${blog.id}`"
+              >
+                <v-avatar
+                  size="36"
+                  class="mr-3"
+                  color="primary"
+                  variant="tonal"
+                >
+                  <template v-if="blog.logo">
+                    <v-img :src="blog.logo || undefined" :alt="blog.title">
+                      <template #error>
+                        <span class="blog-avatar__initials">
+                          {{ getBlogInitials(blog.title) }}
+                        </span>
+                      </template>
+                    </v-img>
+                  </template>
+                  <template v-else>
+                    <span class="blog-avatar__initials">
+                      {{ getBlogInitials(blog.title) }}
+                    </span>
+                  </template>
+                </v-avatar>
+                {{ blog.title }}
+              </NuxtLink>
+              <v-spacer />
+              <v-btn
+                icon="mdi-pencil"
+                variant="text"
+                size="small"
+                density="compact"
+                :aria-label="t('blog.actions.editBlog')"
+                :title="t('blog.actions.editBlog')"
+                :disabled="
+                  editBlogDialog.loading && editBlogDialog.blogId === blog.id
+                "
+                :loading="
+                  editBlogDialog.loading && editBlogDialog.blogId === blog.id
+                "
+                @click.stop="openEditBlogDialog(blog)"
+              />
+              <v-btn
+                icon="mdi-delete"
+                variant="text"
+                color="error"
+                size="small"
+                density="compact"
+                :aria-label="t('blog.actions.deleteBlog')"
+                :title="t('blog.actions.deleteBlog')"
+                :loading="blogDeleteLoadingId === blog.id"
+                :disabled="blogDeleteLoadingId === blog.id"
+                @click.stop="confirmDeleteBlog(blog)"
+              />
+            </div>
+          </template>
 
           <v-alert
             v-else-if="hasSearchTerm && myBlogs.length"

@@ -43,7 +43,7 @@ function readFromStore(identifier: string) {
   }
 
   if (entry.expiresAt <= Date.now()) {
-    delete store[identifier]
+    Reflect.deleteProperty(store, identifier)
     return null
   }
 
@@ -64,7 +64,7 @@ function updateStore(
 
 function clearStore(identifier: string) {
   const store = getGlobalState()
-  delete store[identifier]
+  Reflect.deleteProperty(store, identifier)
 }
 
 export async function fetchProfilePlugins(

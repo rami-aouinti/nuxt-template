@@ -222,7 +222,7 @@ watch(
         />
       </v-col>
       <v-col cols="12" lg="4" xl="3" class="blog-sidebar-column">
-        <div class="blog-sidebar glass-card pa-4 pa-md-6 mb-6" />
+        <div class="blog-sidebar glass-card pa-4 pa-md-6 mb-6"/>
       </v-col>
     </v-row>
   </ProfilePageShell>
