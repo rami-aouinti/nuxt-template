@@ -224,6 +224,10 @@ export default defineNuxtConfig({
         process.env.REDIS_PROFILE_EVENTS_TTL,
         60,
       ),
+      profilePluginsTtl: toPositiveInteger(
+        process.env.REDIS_PROFILE_PLUGINS_TTL,
+        60,
+      ),
       profilePostsTtl: toPositiveInteger(
         process.env.REDIS_PROFILE_POSTS_TTL,
         60,
