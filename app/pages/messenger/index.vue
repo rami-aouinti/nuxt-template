@@ -518,7 +518,7 @@ onMounted(async () => {
   <v-container fluid class="messenger-page">
     <v-row>
       <v-col cols="12" md="4" class="pr-md-4">
-        <v-card class="conversation-list" elevation="2">
+        <v-card class="conversation-list" elevation="2" rounded="xl">
           <v-toolbar flat density="compact">
             <v-toolbar-title class="text-subtitle-1 font-weight-medium">
               {{ t('messenger.conversations') }}
@@ -568,7 +568,7 @@ onMounted(async () => {
         </v-card>
       </v-col>
       <v-col cols="12" md="8" class="mt-4 mt-md-0">
-        <v-card class="message-panel" elevation="2">
+        <v-card class="message-panel" elevation="2" rounded="xl">
           <template v-if="selectedConversation">
             <v-toolbar flat density="compact">
               <v-toolbar-title class="text-subtitle-1 font-weight-medium">
