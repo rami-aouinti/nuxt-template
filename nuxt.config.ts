@@ -58,7 +58,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/test-utils/module',
   ],
-  css: ['~/assets/styles/index.css', 'flag-icons/css/flag-icons.min.css'],
+  css: ['~/assets/styles/index.css'],
   experimental: { typedPages: true },
   typescript: {
     shim: false,
