@@ -45,7 +45,9 @@
     "about": "Informazioni",
     "contact": "Contatti",
     "pluginManagement": "Plugin management",
-    "plugins": "Plugins"
+    "plugins": "Plugins",
+    "mediaManagement": "Gestione media",
+    "media": "Libreria media"
   },
   "messenger": {
     "title": "Messaggistica",
@@ -307,6 +309,33 @@
           "updatedAt": "Aggiornato il",
           "visibility": "Visibilità"
         }
+      }
+    },
+    "mediaManagement": {
+      "title": "Libreria media",
+      "subtitle": "Esplora e gestisci i contenuti multimediali presenti sulla piattaforma. Totale: {count}.",
+      "table": {
+        "title": "Titolo",
+        "fileName": "Nome file",
+        "context": "Contesto",
+        "mimeType": "Tipo MIME",
+        "fileSize": "Dimensione",
+        "visibility": "Visibilità",
+        "favorite": "Preferito",
+        "createdAt": "Caricato",
+        "updatedAt": "Aggiornato"
+      },
+      "labels": {
+        "private": "Privato",
+        "public": "Pubblico",
+        "favorite": "Preferito",
+        "notFavorite": "Non preferito",
+        "noContext": "Nessun contesto",
+        "notAvailable": "Non disponibile",
+        "untitled": "Media senza titolo"
+      },
+      "errors": {
+        "loadFailed": "Impossibile caricare i media."
       }
     },
     "workplaces": "Number of workplaces",

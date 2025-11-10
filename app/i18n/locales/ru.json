@@ -45,7 +45,9 @@
     "about": "О нас",
     "contact": "Контакты",
     "pluginManagement": "Plugin management",
-    "plugins": "Plugins"
+    "plugins": "Plugins",
+    "mediaManagement": "Управление медиа",
+    "media": "Медиатека"
   },
   "messenger": {
     "title": "Мессенджер",
@@ -307,6 +309,33 @@
           "updatedAt": "Обновлён",
           "visibility": "Статус"
         }
+      }
+    },
+    "mediaManagement": {
+      "title": "Медиатека",
+      "subtitle": "Просматривайте и управляйте медиафайлами, размещёнными на платформе. Всего: {count}.",
+      "table": {
+        "title": "Название",
+        "fileName": "Имя файла",
+        "context": "Контекст",
+        "mimeType": "Тип MIME",
+        "fileSize": "Размер",
+        "visibility": "Доступ",
+        "favorite": "Избранное",
+        "createdAt": "Загружено",
+        "updatedAt": "Обновлено"
+      },
+      "labels": {
+        "private": "Приватный",
+        "public": "Публичный",
+        "favorite": "В избранном",
+        "notFavorite": "Не избранное",
+        "noContext": "Без контекста",
+        "notAvailable": "Недоступно",
+        "untitled": "Медиа без названия"
+      },
+      "errors": {
+        "loadFailed": "Не удалось загрузить медиафайлы."
       }
     },
     "workplaces": "Number of workplaces",
