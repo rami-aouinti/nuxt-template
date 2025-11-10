@@ -77,12 +77,19 @@ const normalizeUserSummary = (value: unknown): MessengerUserSummary => {
     displayName = parts.length > 0 ? parts.join(' ') : null
   }
 
+  const profileRecord =
+    record.profile && typeof record.profile === 'object'
+      ? (record.profile as Record<string, unknown>)
+      : null
+
   const avatarUrl =
     toNullableString(record.avatarUrl) ??
     toNullableString(record.avatar) ??
-    (record.profile && typeof record.profile === 'object'
-      ? toNullableString((record.profile as Record<string, unknown>).avatarUrl) ??
-        toNullableString((record.profile as Record<string, unknown>).avatar)
+    toNullableString(record.photo) ??
+    (profileRecord
+      ? toNullableString(profileRecord.avatarUrl) ??
+        toNullableString(profileRecord.avatar) ??
+        toNullableString(profileRecord.photo)
       : null)
 
   return {

@@ -111,6 +111,12 @@ export interface BlogCreatePayload {
   teams?: string[] | null
 }
 
+export interface BlogUpdatePayload {
+  title?: string
+  blogSubtitle?: string | null
+  teams?: string[] | null
+}
+
 export interface BlogPostCreatePayload {
   title: string
   summary?: string | null

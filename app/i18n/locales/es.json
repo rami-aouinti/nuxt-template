@@ -86,7 +86,9 @@
       "like": "Me gusta",
       "unlike": "Quitar reacción",
       "addComment": "Publicar comentario",
-      "reply": "Responder"
+      "reply": "Responder",
+      "editBlog": "Editar blog",
+      "deleteBlog": "Eliminar blog"
     },
     "feed": {
       "composer": {
@@ -149,8 +151,10 @@
       "commentUnliked": "Reacción eliminada del comentario.",
       "postUpdated": "Publicación actualizada correctamente.",
       "postDeleted": "Publicación eliminada correctamente.",
-      "blogCreated": "Blog created successfully.",
-      "postCreated": "Post created successfully.",
+      "blogCreated": "Blog creado correctamente.",
+      "blogUpdated": "Blog actualizado correctamente.",
+      "blogDeleted": "Blog eliminado correctamente.",
+      "postCreated": "Publicación creada correctamente.",
       "postShared": "Publicación compartida correctamente."
     },
     "errors": {
@@ -160,10 +164,12 @@
       "likeFailed": "No se pudo actualizar la reacción.",
       "updateFailed": "No se pudo actualizar la publicación.",
       "deleteFailed": "No se pudo eliminar la publicación.",
-      "createBlogFailed": "Unable to create the blog.",
-      "createPostFailed": "Unable to create the post.",
+      "createBlogFailed": "No se pudo crear el blog.",
+      "updateBlogFailed": "No se pudo actualizar el blog.",
+      "deleteBlogFailed": "No se pudo eliminar el blog.",
+      "createPostFailed": "No se pudo crear la publicación.",
       "shareFailed": "No se pudo compartir la publicación.",
-      "loadBlogsFailed": "Unable to load the list of blogs."
+      "loadBlogsFailed": "No se pudo cargar la lista de blogs."
     },
     "prompts": {
       "loginToComment": "Inicia sesión para ver todos los comentarios y participar en la conversación."
@@ -174,7 +180,9 @@
     },
     "dialogs": {
       "editTitle": "Editar publicación",
+      "editBlogTitle": "Editar blog",
       "deleteConfirm": "¿Estás seguro de que deseas eliminar esta publicación? Esta acción no se puede deshacer.",
+      "deleteBlogConfirm": "¿Seguro que deseas eliminar este blog? Esta acción no se puede deshacer.",
       "shareTitle": "Compartir publicación",
       "shareAudiencePublic": "Público",
       "reactionsTitle": "Reacciones",
