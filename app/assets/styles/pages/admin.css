@@ -1,0 +1,38 @@
+.page-section {
+  position: relative;
+  margin-block: clamp(32px, 6vw, 64px);
+}
+
+.page-section:first-of-type {
+  margin-top: 0;
+}
+
+.page-section__header {
+  max-width: 720px;
+  margin-inline: auto;
+  margin-bottom: clamp(16px, 4vw, 32px);
+  text-align: center;
+}
+
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 16px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-weight: 700;
+  font-size: clamp(1.75rem, 4vw, 2.625rem);
+  margin-block: 16px 12px;
+}
+
+.section-subtitle {
+  color: rgba(var(--v-theme-on-surface), 0.7);
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
+}
