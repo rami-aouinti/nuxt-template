@@ -6,7 +6,6 @@ import { watch } from 'vue'
 import { createVueI18nAdapter } from 'vuetify/locale/adapters/vue-i18n'
 import { useI18n as useVueI18n } from 'vue-i18n'
 import type { NuxtApp } from 'nuxt/app'
-import { ar, de, en, es, fr, it, ru, zhHans } from 'vuetify/locale'
 import { useThemePreferences } from '~/composables/useThemePreferences'
 
 type VueI18nInstance = Parameters<typeof createVueI18nAdapter>[0]['i18n']
@@ -17,25 +16,43 @@ const resolveVueI18nInstance = (
   (nuxtApp as NuxtApp & { _nuxtI18n?: { vueI18n?: VueI18nInstance } })._nuxtI18n
     ?.vueI18n
 
-const vuetifyLocales: Record<string, Record<string, unknown>> = {
-  ar,
-  de,
-  en,
-  es,
-  fr,
-  it,
-  ru,
-  'zh-cn': zhHans,
+const vuetifyLocaleLoaders: Record<string, () => Promise<Record<string, unknown>>> = {
+  ar: async () => (await import('vuetify/lib/locale/ar')).default,
+  de: async () => (await import('vuetify/lib/locale/de')).default,
+  en: async () => (await import('vuetify/lib/locale/en')).default,
+  es: async () => (await import('vuetify/lib/locale/es')).default,
+  fr: async () => (await import('vuetify/lib/locale/fr')).default,
+  it: async () => (await import('vuetify/lib/locale/it')).default,
+  ru: async () => (await import('vuetify/lib/locale/ru')).default,
+  'zh-cn': async () => (await import('vuetify/lib/locale/zh-Hans')).default,
 }
 
-const mergeVuetifyLocaleMessages = (
+const vuetifyLocaleCache = new Map<string, Record<string, unknown>>()
+
+async function resolveVuetifyLocale(locale: string) {
+  const normalizedLocale = locale.toLowerCase()
+  if (vuetifyLocaleCache.has(normalizedLocale)) {
+    return vuetifyLocaleCache.get(normalizedLocale)
+  }
+
+  const loader = vuetifyLocaleLoaders[normalizedLocale]
+  if (!loader) {
+    return undefined
+  }
+
+  const messages = await loader()
+  vuetifyLocaleCache.set(normalizedLocale, messages)
+  return messages
+}
+
+const mergeVuetifyLocaleMessages = async (
   i18n: ReturnType<typeof useNuxtApp>['$i18n'],
   locale: string,
 ) => {
   if (!i18n) return
 
   const normalizedLocale = locale.toLowerCase()
-  const vuetifyMessages = vuetifyLocales[normalizedLocale]
+  const vuetifyMessages = await resolveVuetifyLocale(normalizedLocale)
 
   if (!vuetifyMessages) return
 
@@ -61,15 +78,11 @@ export default defineNuxtPlugin((nuxtApp) => {
   const i18n = nuxtApp.$i18n
 
   if (i18n) {
-    Object.keys(vuetifyLocales).forEach((locale) =>
-      mergeVuetifyLocaleMessages(i18n, locale),
-    )
-
     watch(
       i18n.locale,
       (newLocale) => {
         if (typeof newLocale === 'string') {
-          mergeVuetifyLocaleMessages(i18n, newLocale)
+          void mergeVuetifyLocaleMessages(i18n, newLocale)
         }
       },
       { immediate: true },
@@ -77,7 +90,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     nuxtApp.hook('i18n:localeSwitched', ({ newLocale }) => {
       if (typeof newLocale === 'string') {
-        mergeVuetifyLocaleMessages(i18n, newLocale)
+        void mergeVuetifyLocaleMessages(i18n, newLocale)
       }
     })
   }
