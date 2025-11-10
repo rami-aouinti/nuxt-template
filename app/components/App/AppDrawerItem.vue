@@ -9,6 +9,9 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 const { session } = useUserSession()
 
+const routeKey = (route: RouteRecordRaw) =>
+  `${String(route.name ?? '')}::${route.path ?? ''}`
+
 const normalizeRole = (role: string) =>
   role.replace(/^ROLE_/i, '').trim().toUpperCase()
 
@@ -106,7 +109,7 @@ const isActive = computed(() => {
     </template>
     <AppDrawerItem
       v-for="child in visibleChildren"
-      :key="localePath(child.name)"
+      :key="routeKey(child)"
       :item="child"
     />
   </v-list-group>
