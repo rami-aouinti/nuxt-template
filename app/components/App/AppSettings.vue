@@ -66,8 +66,8 @@ const menuShow = ref(false)
         </template>
       </v-tooltip>
     </template>
-    <v-card width="360">
-      <v-card-text class="text-center">
+    <v-card width="360" class="app-settings-card">
+      <v-card-text class="app-settings-card__body">
         <v-label class="mb-3"> Theme Palette </v-label>
         <v-color-picker
           v-model="color"
@@ -127,3 +127,22 @@ const menuShow = ref(false)
     </v-card>
   </v-menu>
 </template>
+
+<style scoped>
+.app-settings-card {
+  max-height: 520px;
+}
+
+.app-settings-card__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+.app-settings-card__body :deep(.v-btn-toggle) {
+  width: 100%;
+}
+</style>
