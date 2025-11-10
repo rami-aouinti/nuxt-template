@@ -3,8 +3,10 @@ import { computed, ref, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
+import BlogMyBlogsList from '~/components/Blog/MyBlogsList.vue'
 import { BLOG_POSTS_DEFAULT_LIMIT, useBlogApi } from '~/composables/useBlogApi'
 import { useProfilePostsStore } from '~/stores/profile-posts'
+import type { BlogSummary } from '~/types/blog'
 
 definePageMeta({
   title: 'navigation.profile',
@@ -12,7 +14,7 @@ definePageMeta({
 })
 
 const { t, locale } = useI18n()
-const { fetchProfilePosts } = useBlogApi()
+const { fetchProfilePosts, fetchUserBlogs } = useBlogApi()
 const { loggedIn } = useUserSession()
 
 const profilePostsStore = useProfilePostsStore()
@@ -24,6 +26,10 @@ const {
   error: postsError,
 } = storeToRefs(profilePostsStore)
 const loadMoreTrigger = ref<HTMLElement | null>(null)
+
+const myBlogs = ref<BlogSummary[]>([])
+const myBlogsLoading = ref(false)
+const myBlogsError = ref<string | null>(null)
 
 const hasMore = computed(
   () => posts.value.length < pagination.value.total && posts.value.length > 0,
@@ -75,6 +81,29 @@ async function loadMorePosts() {
   await loadPosts(pagination.value.page + 1)
 }
 
+async function loadMyBlogs() {
+  if (!loggedIn.value) {
+    myBlogs.value = []
+    myBlogsError.value = null
+    myBlogsLoading.value = false
+    return
+  }
+
+  myBlogsLoading.value = true
+  myBlogsError.value = null
+
+  try {
+    myBlogs.value = await fetchUserBlogs()
+  } catch (error) {
+    myBlogsError.value =
+      error instanceof Error && error.message
+        ? error.message
+        : t('blog.alerts.loadFailed')
+  } finally {
+    myBlogsLoading.value = false
+  }
+}
+
 if (import.meta.client) {
   useIntersectionObserver(
     loadMoreTrigger,
@@ -88,17 +117,20 @@ if (import.meta.client) {
 }
 
 if (loggedIn.value) {
-  await loadPosts(1, { replace: true })
+  await Promise.all([loadPosts(1, { replace: true }), loadMyBlogs()])
 }
 
 watch(
   () => loggedIn.value,
   (value) => {
     if (value) {
-      void loadPosts(1, { replace: true })
+      void Promise.all([loadPosts(1, { replace: true }), loadMyBlogs()])
     } else {
       profilePostsStore.reset()
       pagination.value.limit = BLOG_POSTS_DEFAULT_LIMIT
+      myBlogs.value = []
+      myBlogsError.value = null
+      myBlogsLoading.value = false
     }
   },
 )
@@ -222,9 +254,40 @@ watch(
         />
       </v-col>
       <v-col cols="12" lg="4" xl="3" class="blog-sidebar-column">
-        <div class="blog-sidebar glass-card pa-4 pa-md-6 mb-6"/>
+        <div class="blog-sidebar glass-card pa-4 pa-md-6 mb-6">
+          <div class="animated-badge mb-4">
+            <span class="animated-badge__pulse" />
+            {{ t('blog.sidebar.myBlogsTitle') }}
+          </div>
+          <p class="text-body-2 text-medium-emphasis mb-4">
+            {{ t('blog.sidebar.intro') }}
+          </p>
+          <BlogMyBlogsList
+            :logged-in="loggedIn"
+            :blogs="myBlogs"
+            :loading="myBlogsLoading"
+            :error="myBlogsError"
+          />
+        </div>
       </v-col>
     </v-row>
+    <client-only>
+      <teleport to="#app-drawer-right">
+        <div class="animated-badge mb-4">
+          <span class="animated-badge__pulse" />
+          {{ t('blog.sidebar.myBlogsTitle') }}
+        </div>
+        <p class="text-body-2 text-medium-emphasis mb-4">
+          {{ t('blog.sidebar.intro') }}
+        </p>
+        <BlogMyBlogsList
+          :logged-in="loggedIn"
+          :blogs="myBlogs"
+          :loading="myBlogsLoading"
+          :error="myBlogsError"
+        />
+      </teleport>
+    </client-only>
   </ProfilePageShell>
 </template>
 
@@ -241,5 +304,17 @@ watch(
 
 .blog-infinite-trigger {
   height: 1px;
+}
+
+.blog-sidebar-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.blog-sidebar {
+  border-radius: 24px;
+  background: var(--blog-sidebar-background);
+  box-shadow: var(--blog-sidebar-shadow);
 }
 </style>
