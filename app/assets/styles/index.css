@@ -1,3 +1,5 @@
-@import 'global';
-@import 'scrollbar';
-@import 'pages';
+@import './global.css';
+@import './scrollbar.css';
+@import './pages/layout.css';
+@import './shared/interactive.css';
+@import './pages/admin.css';

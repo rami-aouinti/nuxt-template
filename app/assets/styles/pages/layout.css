@@ -1,0 +1,25 @@
+.page-surface {
+  position: relative;
+  min-height: calc(100vh - 36px);
+  background: var(--page-surface-background, rgb(var(--v-theme-background)));
+  overflow: hidden;
+}
+
+.page-surface::before,
+.page-surface::after {
+  content: '';
+  position: absolute;
+  width: clamp(280px, 35vw, 540px);
+  height: clamp(280px, 35vw, 540px);
+  border-radius: 50%;
+  filter: blur(0);
+  opacity: 0.45;
+  transform: translate3d(0, 0, 0);
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.page-surface__inner {
+  position: relative;
+  z-index: 1;
+}
