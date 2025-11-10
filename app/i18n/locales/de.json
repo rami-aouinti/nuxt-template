@@ -86,7 +86,9 @@
       "like": "Gefällt mir",
       "unlike": "Reaktion entfernen",
       "addComment": "Kommentar veröffentlichen",
-      "reply": "Antworten"
+      "reply": "Antworten",
+      "editBlog": "Blog bearbeiten",
+      "deleteBlog": "Blog löschen"
     },
     "feed": {
       "composer": {
@@ -149,8 +151,10 @@
       "commentUnliked": "Reaktion vom Kommentar entfernt.",
       "postUpdated": "Beitrag erfolgreich aktualisiert.",
       "postDeleted": "Beitrag erfolgreich gelöscht.",
-      "blogCreated": "Blog created successfully.",
-      "postCreated": "Post created successfully.",
+      "blogCreated": "Blog erfolgreich erstellt.",
+      "blogUpdated": "Blog erfolgreich aktualisiert.",
+      "blogDeleted": "Blog erfolgreich gelöscht.",
+      "postCreated": "Beitrag erfolgreich erstellt.",
       "postShared": "Beitrag erfolgreich geteilt."
     },
     "errors": {
@@ -160,10 +164,12 @@
       "likeFailed": "Die Reaktion konnte nicht aktualisiert werden.",
       "updateFailed": "Der Beitrag konnte nicht aktualisiert werden.",
       "deleteFailed": "Der Beitrag konnte nicht gelöscht werden.",
-      "createBlogFailed": "Unable to create the blog.",
-      "createPostFailed": "Unable to create the post.",
+      "createBlogFailed": "Blog konnte nicht erstellt werden.",
+      "updateBlogFailed": "Blog konnte nicht aktualisiert werden.",
+      "deleteBlogFailed": "Blog konnte nicht gelöscht werden.",
+      "createPostFailed": "Beitrag konnte nicht erstellt werden.",
       "shareFailed": "Der Beitrag konnte nicht geteilt werden.",
-      "loadBlogsFailed": "Unable to load the list of blogs."
+      "loadBlogsFailed": "Die Liste der Blogs konnte nicht geladen werden."
     },
     "prompts": {
       "loginToComment": "Melden Sie sich an, um alle Kommentare zu sehen und an der Diskussion teilzunehmen."
@@ -174,7 +180,9 @@
     },
     "dialogs": {
       "editTitle": "Beitrag bearbeiten",
+      "editBlogTitle": "Blog bearbeiten",
       "deleteConfirm": "Sind Sie sicher, dass Sie diesen Beitrag löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "deleteBlogConfirm": "Möchten Sie diesen Blog wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
       "shareTitle": "Beitrag teilen",
       "shareAudiencePublic": "Öffentlich",
       "reactionsTitle": "Reaktionen",

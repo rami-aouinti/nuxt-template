@@ -86,7 +86,9 @@
       "like": "Aimer",
       "unlike": "Retirer la réaction",
       "addComment": "Publier un commentaire",
-      "reply": "Répondre"
+      "reply": "Répondre",
+      "editBlog": "Modifier le blog",
+      "deleteBlog": "Supprimer le blog"
     },
     "feed": {
       "composer": {
@@ -149,8 +151,10 @@
       "commentUnliked": "Réaction retirée du commentaire.",
       "postUpdated": "Article mis à jour avec succès.",
       "postDeleted": "Article supprimé avec succès.",
-      "blogCreated": "Blog created successfully.",
-      "postCreated": "Post created successfully.",
+      "blogCreated": "Blog créé avec succès.",
+      "blogUpdated": "Blog mis à jour avec succès.",
+      "blogDeleted": "Blog supprimé avec succès.",
+      "postCreated": "Publication créée avec succès.",
       "postShared": "Publication partagée avec succès."
     },
     "errors": {
@@ -160,10 +164,12 @@
       "likeFailed": "Impossible de mettre à jour la réaction.",
       "updateFailed": "Impossible de mettre à jour l’article.",
       "deleteFailed": "Impossible de supprimer l’article.",
-      "createBlogFailed": "Unable to create the blog.",
-      "createPostFailed": "Unable to create the post.",
+      "createBlogFailed": "Impossible de créer le blog.",
+      "updateBlogFailed": "Impossible de mettre à jour le blog.",
+      "deleteBlogFailed": "Impossible de supprimer le blog.",
+      "createPostFailed": "Impossible de créer la publication.",
       "shareFailed": "Impossible de partager la publication.",
-      "loadBlogsFailed": "Unable to load the list of blogs."
+      "loadBlogsFailed": "Impossible de charger la liste des blogs."
     },
     "prompts": {
       "loginToComment": "Connectez-vous pour afficher tous les commentaires et participer à la discussion."
@@ -174,7 +180,9 @@
     },
     "dialogs": {
       "editTitle": "Modifier l’article",
+      "editBlogTitle": "Modifier le blog",
       "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cet article ? Cette action est irréversible.",
+      "deleteBlogConfirm": "Êtes-vous sûr de vouloir supprimer ce blog ? Cette action est irréversible.",
       "shareTitle": "Partager la publication",
       "shareAudiencePublic": "Public",
       "reactionsTitle": "Réactions",

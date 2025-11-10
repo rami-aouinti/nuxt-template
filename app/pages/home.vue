@@ -100,6 +100,8 @@ const {
   updatePost,
   deletePost,
   createBlog,
+  updateBlog,
+  deleteBlog,
   createPost,
   sharePost: sharePostRequest,
 } = useBlogApi()
@@ -161,6 +163,18 @@ const createBlogDialog = reactive({
   },
 })
 
+const editBlogDialog = reactive({
+  open: false,
+  loading: false,
+  blogId: '',
+  form: {
+    title: '',
+    subtitle: '',
+  },
+})
+
+const blogDeleteLoadingId = ref<string | null>(null)
+
 const createPostDialog = reactive({
   open: false,
   loading: false,
@@ -218,7 +232,7 @@ const currentUserDisplayName = computed(() => {
     }
 
     const username =
-      true ? profile.username.trim() : ''
+      typeof profile.username === 'string' ? profile.username.trim() : ''
     if (username.length) {
       return username
     }
@@ -707,6 +721,12 @@ function resetCreateBlogForm() {
   createBlogDialog.form.subtitle = ''
 }
 
+function resetEditBlogForm() {
+  editBlogDialog.blogId = ''
+  editBlogDialog.form.title = ''
+  editBlogDialog.form.subtitle = ''
+}
+
 function resetCreatePostForm() {
   createPostDialog.form.blogId = myBlogs.value[0]?.id ?? ''
   createPostDialog.form.title = ''
@@ -720,6 +740,31 @@ function openCreateBlogDialog() {
 
   resetCreateBlogForm()
   createBlogDialog.open = true
+}
+
+function openEditBlogDialog(blog: BlogSummary) {
+  if (!ensureAuthenticated()) return
+
+  const blogId = blog?.id?.toString().trim()
+  if (!blogId) {
+    Notify.warning(t('blog.errors.updateBlogFailed'))
+    return
+  }
+
+  editBlogDialog.blogId = blogId
+  editBlogDialog.form.title = typeof blog.title === 'string' ? blog.title : ''
+  editBlogDialog.form.subtitle =
+    typeof blog.blogSubtitle === 'string' ? blog.blogSubtitle : ''
+  editBlogDialog.open = true
+}
+
+function closeEditBlogDialog() {
+  if (editBlogDialog.loading) {
+    return
+  }
+
+  editBlogDialog.open = false
+  resetEditBlogForm()
 }
 
 async function submitCreateBlog() {
@@ -752,6 +797,107 @@ async function submitCreateBlog() {
     Notify.error(extractErrorMessage(error, t('blog.errors.createBlogFailed')))
   } finally {
     createBlogDialog.loading = false
+  }
+}
+
+async function submitEditBlog() {
+  if (!ensureAuthenticated()) return
+
+  const blogId = editBlogDialog.blogId
+  const title = editBlogDialog.form.title.trim()
+
+  if (!blogId || !title.length) {
+    Notify.warning(t('blog.errors.updateBlogFailed'))
+    return
+  }
+
+  editBlogDialog.loading = true
+
+  try {
+    const subtitle = editBlogDialog.form.subtitle.trim()
+    const payload = {
+      title,
+      blogSubtitle: subtitle.length ? subtitle : null,
+    }
+
+    const updated = await updateBlog(blogId, payload)
+    const updatedBlog =
+      updated && typeof updated === 'object' ? (updated as BlogSummary) : null
+
+    const normalizedTitle =
+      typeof updatedBlog?.title === 'string' && updatedBlog.title.trim().length
+        ? updatedBlog.title
+        : title
+    const hasSubtitleFromResponse =
+      updatedBlog != null &&
+      Object.prototype.hasOwnProperty.call(updatedBlog, 'blogSubtitle')
+    const normalizedSubtitle = hasSubtitleFromResponse
+      ? updatedBlog?.blogSubtitle ?? null
+      : subtitle.length
+        ? subtitle
+        : null
+
+    myBlogs.value = myBlogs.value.map((blog) => {
+      if (blog.id !== blogId) {
+        return blog
+      }
+
+      const merged = updatedBlog
+        ? { ...blog, ...updatedBlog }
+        : { ...blog }
+
+      return {
+        ...merged,
+        title: normalizedTitle,
+        blogSubtitle: normalizedSubtitle,
+      }
+    })
+
+    Notify.success(t('blog.notifications.blogUpdated'))
+    editBlogDialog.open = false
+    resetEditBlogForm()
+  } catch (error) {
+    Notify.error(extractErrorMessage(error, t('blog.errors.updateBlogFailed')))
+  } finally {
+    editBlogDialog.loading = false
+  }
+}
+
+async function confirmDeleteBlog(blog: BlogSummary) {
+  if (!ensureAuthenticated()) return
+
+  const blogId = blog?.id?.toString().trim()
+  if (!blogId) {
+    Notify.warning(t('blog.errors.deleteBlogFailed'))
+    return
+  }
+
+  if (!import.meta.client) {
+    return
+  }
+
+  const confirmation = deleteDialog.value
+    ? await deleteDialog.value.open(t('blog.dialogs.deleteBlogConfirm'))
+    : window.confirm(t('blog.dialogs.deleteBlogConfirm'))
+
+  if (!confirmation) {
+    return
+  }
+
+  blogDeleteLoadingId.value = blogId
+  try {
+    await deleteBlog(blogId)
+    myBlogs.value = myBlogs.value.filter((item) => item.id !== blogId)
+
+    if (createPostDialog.form.blogId === blogId) {
+      createPostDialog.form.blogId = myBlogs.value[0]?.id ?? ''
+    }
+
+    Notify.success(t('blog.notifications.blogDeleted'))
+  } catch (error) {
+    Notify.error(extractErrorMessage(error, t('blog.errors.deleteBlogFailed')))
+  } finally {
+    blogDeleteLoadingId.value = null
   }
 }
 
@@ -863,7 +1009,8 @@ function getAuthorName(user: BlogPostUser) {
 }
 
 function getAuthorProfileLink(user: BlogPostUser) {
-  const username = true ? user.username.trim() : ''
+  const username =
+    typeof user.username === 'string' ? user.username.trim() : ''
   return username.length ? `/account/${encodeURIComponent(username)}` : null
 }
 
@@ -1975,6 +2122,35 @@ await loadPosts(1, { replace: true })
                 <v-list-item-subtitle v-if="blog.blogSubtitle">
                   {{ blog.blogSubtitle }}
                 </v-list-item-subtitle>
+                <template #append>
+                  <div class="d-flex align-center ga-2">
+                    <v-btn
+                      icon="mdi-pencil"
+                      variant="text"
+                      density="comfortable"
+                      :aria-label="t('blog.actions.editBlog')"
+                      :title="t('blog.actions.editBlog')"
+                      :disabled="
+                        editBlogDialog.loading && editBlogDialog.blogId === blog.id
+                      "
+                      :loading="
+                        editBlogDialog.loading && editBlogDialog.blogId === blog.id
+                      "
+                      @click.stop="openEditBlogDialog(blog)"
+                    />
+                    <v-btn
+                      icon="mdi-delete"
+                      variant="text"
+                      color="error"
+                      density="comfortable"
+                      :aria-label="t('blog.actions.deleteBlog')"
+                      :title="t('blog.actions.deleteBlog')"
+                      :loading="blogDeleteLoadingId === blog.id"
+                      :disabled="blogDeleteLoadingId === blog.id"
+                      @click.stop="confirmDeleteBlog(blog)"
+                    />
+                  </div>
+                </template>
               </v-list-item>
             </v-list>
 
@@ -2103,6 +2279,47 @@ await loadPosts(1, { replace: true })
             @click="submitShare"
           >
             {{ t('common.actions.share') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="editBlogDialog.open" max-width="520" persistent>
+      <v-card>
+        <v-card-title>{{ t('blog.dialogs.editBlogTitle') }}</v-card-title>
+        <v-card-text class="d-flex flex-column gap-4">
+          <v-text-field
+            v-model="editBlogDialog.form.title"
+            :label="t('blog.forms.createBlog.title')"
+            :disabled="editBlogDialog.loading"
+            variant="outlined"
+            density="comfortable"
+            autofocus
+          />
+          <v-text-field
+            v-model="editBlogDialog.form.subtitle"
+            :label="t('blog.forms.createBlog.subtitle')"
+            :disabled="editBlogDialog.loading"
+            variant="outlined"
+            density="comfortable"
+          />
+        </v-card-text>
+        <v-card-actions class="justify-end">
+          <v-btn
+            variant="text"
+            :disabled="editBlogDialog.loading"
+            @click="closeEditBlogDialog"
+          >
+            {{ t('common.actions.cancel') }}
+          </v-btn>
+          <v-btn
+            color="primary"
+            variant="flat"
+            :loading="editBlogDialog.loading"
+            :disabled="!editBlogDialog.form.title.trim().length"
+            @click="submitEditBlog"
+          >
+            {{ t('common.actions.save') }}
           </v-btn>
         </v-card-actions>
       </v-card>

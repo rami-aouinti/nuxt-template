@@ -86,7 +86,9 @@
       "like": "点赞",
       "unlike": "取消反应",
       "addComment": "发布评论",
-      "reply": "回复"
+      "reply": "回复",
+      "editBlog": "编辑博客",
+      "deleteBlog": "删除博客"
     },
     "feed": {
       "composer": {
@@ -149,8 +151,10 @@
       "commentUnliked": "已移除评论的反应。",
       "postUpdated": "文章更新成功。",
       "postDeleted": "文章删除成功。",
-      "blogCreated": "Blog created successfully.",
-      "postCreated": "Post created successfully.",
+      "blogCreated": "博客已成功创建。",
+      "blogUpdated": "博客已成功更新。",
+      "blogDeleted": "博客已成功删除。",
+      "postCreated": "文章已成功创建。",
       "postShared": "帖子分享成功。"
     },
     "errors": {
@@ -160,10 +164,12 @@
       "likeFailed": "无法更新反应。",
       "updateFailed": "无法更新文章。",
       "deleteFailed": "无法删除文章。",
-      "createBlogFailed": "Unable to create the blog.",
-      "createPostFailed": "Unable to create the post.",
+      "createBlogFailed": "无法创建博客。",
+      "updateBlogFailed": "无法更新博客。",
+      "deleteBlogFailed": "无法删除博客。",
+      "createPostFailed": "无法创建文章。",
       "shareFailed": "无法分享帖子。",
-      "loadBlogsFailed": "Unable to load the list of blogs."
+      "loadBlogsFailed": "无法加载博客列表。"
     },
     "prompts": {
       "loginToComment": "登录后即可查看所有评论并参与讨论。"
@@ -174,7 +180,9 @@
     },
     "dialogs": {
       "editTitle": "编辑文章",
+      "editBlogTitle": "编辑博客",
       "deleteConfirm": "确定要删除此文章吗？该操作无法撤销。",
+      "deleteBlogConfirm": "确定要删除此博客吗？此操作无法撤销。",
       "shareTitle": "分享文章",
       "shareAudiencePublic": "公开",
       "reactionsTitle": "反应",
