@@ -262,6 +262,18 @@ export default defineNuxtConfig({
           process.env.NUXT_PUBLIC_MESSENGER_NOTIFICATION_RECONNECT_DELAY,
           5000,
         ),
+        subscription: {
+          hubUrl:
+            process.env.NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_HUB_URL ||
+            process.env.NUXT_PUBLIC_MESSENGER_HUB_URL ||
+            mercurePublicUrl,
+          topics: process.env.NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_TOPICS || '',
+          token: process.env.NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_TOKEN || '',
+          withCredentials:
+            process.env
+              .NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_WITH_CREDENTIALS || '',
+          retry: process.env.NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_RETRY || '',
+        },
       },
     },
   },
