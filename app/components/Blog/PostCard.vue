@@ -71,6 +71,39 @@ const excerptState = computed(() => {
 const reactionType = computed(() =>
   resolveReactionType(props.post.isReacted ?? null),
 )
+const reactionCount = computed(() => props.post.reactions_count ?? 0)
+const commentCount = computed(() => props.post.totalComments ?? 0)
+const shareCount = computed(() => props.post.sharedFrom?.length ?? 0)
+
+const commentsToggleLabel = computed(() => {
+  const baseKey = props.post.ui?.commentsVisible
+    ? 'blog.actions.hideComments'
+    : 'blog.actions.showComments'
+  const base = t(baseKey)
+  if (commentCount.value <= 0) {
+    return base
+  }
+
+  return `${base} (${t('blog.stats.comments', { count: commentCount.value })})`
+})
+
+const reactionsButtonLabel = computed(() => {
+  const base = t('blog.actions.viewReactions')
+  if (reactionCount.value <= 0) {
+    return base
+  }
+
+  return `${base} (${t('blog.stats.reactions', { count: reactionCount.value })})`
+})
+
+const shareButtonLabel = computed(() => {
+  const base = t('blog.actions.sharePost')
+  if (shareCount.value <= 0) {
+    return base
+  }
+
+  return `${base} (${t('blog.stats.shares', { count: shareCount.value })})`
+})
 
 const isMenuOpen = ref(false)
 const isDeleteLoading = computed(() => props.post.ui?.deleteLoading ?? false)
@@ -219,33 +252,26 @@ const onDeletePost = () => {
         <div
           class="facebook-post-card__stat-value facebook-post-card__stat-value--reactions"
         >
-          <ClientOnly>
-            <template #fallback>
-              <div
-                class="facebook-post-card__reaction-picker facebook-post-card__reaction-picker--placeholder"
-                aria-hidden="true"
-              />
-            </template>
-            <BlogReactionPicker
-              class="facebook-post-card__reaction-picker"
-              size="small"
-              density="comfortable"
-              :model-value="reactionType"
-              :count="post.reactions_count ?? 0"
-              :loading="post.ui.likeLoading"
-              :disabled="!loggedIn"
-              :show-caret="loggedIn"
-              :show-count="false"
-              @select="onSelectReaction"
-              @remove="onRemoveReaction"
-            />
-          </ClientOnly>
+          <BlogReactionPicker
+            class="facebook-post-card__reaction-picker"
+            size="small"
+            density="comfortable"
+            :model-value="reactionType"
+            :count="reactionCount"
+            :loading="post.ui.likeLoading"
+            :disabled="!loggedIn"
+            :show-caret="loggedIn"
+            :show-count="false"
+            @select="onSelectReaction"
+            @remove="onRemoveReaction"
+          />
           <v-btn
             variant="text"
             class="facebook-post-card__action-btn facebook-post-card__count-btn"
+            :aria-label="reactionsButtonLabel"
             @click="emit('show-reactions', post)"
           >
-            {{ post.reactions_count ?? 0 }}
+            {{ reactionCount }}
           </v-btn>
         </div>
       </div>
@@ -254,6 +280,7 @@ const onDeletePost = () => {
           variant="text"
           class="facebook-post-card__action-btn"
           :loading="post.ui.commentsLoading"
+          :aria-label="commentsToggleLabel"
           @click="emit('toggle-comments', post)"
         >
           <v-icon
@@ -264,15 +291,16 @@ const onDeletePost = () => {
             "
             class="mr-1"
           />
-          {{ post.totalComments }}
+          {{ commentCount }}
         </v-btn>
         <v-btn
           variant="text"
           class="facebook-post-card__action-btn"
+          :aria-label="shareButtonLabel"
           @click="emit('share', post)"
         >
           <v-icon icon="mdi-share" class="mr-1" />
-          {{ post.sharedFrom?.length }}
+          {{ shareCount }}
         </v-btn>
       </div>
     </div>

@@ -101,12 +101,14 @@
       "read": "قراءة المقال",
       "showComments": "عرض كل التعليقات",
       "hideComments": "إخفاء التعليقات",
+      "viewReactions": "عرض التفاعلات",
       "like": "إعجاب",
       "unlike": "إزالة التفاعل",
       "addComment": "نشر تعليق",
       "reply": "الرد",
       "editBlog": "تعديل المدوّنة",
-      "deleteBlog": "حذف المدوّنة"
+      "deleteBlog": "حذف المدوّنة",
+      "sharePost": "مشاركة المنشور"
     },
     "feed": {
       "composer": {
@@ -130,7 +132,8 @@
     },
     "stats": {
       "reactions": "{count} تفاعلات",
-      "comments": "{count} تعليقات"
+      "comments": "{count} تعليقات",
+      "shares": "{count} مشاركات"
     },
     "empty": {
       "title": "لا توجد مقالات منشورة بعد",

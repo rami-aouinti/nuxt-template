@@ -1893,6 +1893,7 @@ if (import.meta.client) {
             variant="text"
             :loading="isInitialLoading"
             class="dock-navbar__action-button"
+            :aria-label="t('blog.actions.refresh')"
             @click="refreshPosts"
           >
             <v-icon icon="mdi-refresh" />
