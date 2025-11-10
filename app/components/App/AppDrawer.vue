@@ -23,6 +23,9 @@ const { session } = useUserSession()
 const localePath = useLocalePath()
 const home = computed(() => localePath('home') ?? '/')
 
+const drawerRouteKey = (route: RouteRecordRaw) =>
+  `${String(route.name ?? '')}::${route.path ?? ''}`
+
 const normalizeRole = (role: string) =>
   role.replace(/^ROLE_/i, '').trim().toUpperCase()
 
@@ -137,7 +140,7 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
     <v-list nav density="compact">
       <AppDrawerItem
         v-for="route in availableRoutes"
-        :key="localePath(route.name)"
+        :key="drawerRouteKey(route)"
         :item="route"
       />
     </v-list>
