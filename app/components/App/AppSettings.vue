@@ -46,6 +46,9 @@ const colors = [
   ['#002FA7', '#492d22'],
 ]
 const menuShow = ref(false)
+const { t } = useI18n()
+const themePaletteLabel = computed(() => t('app.settings.themePalette'))
+const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
 </script>
 
 <template>
@@ -56,19 +59,20 @@ const menuShow = ref(false)
     offset="15"
   >
     <template #activator="{ props: menu }">
-      <v-tooltip location="top" text="Theme Palette">
+      <v-tooltip :text="themePaletteLabel" location="top">
         <template #activator="{ props: tooltip }">
           <v-btn
             icon="mdi-palette-outline"
             v-bind="mergeProps(menu, tooltip)"
             :rounded="0"
+            :aria-label="themeMenuAriaLabel"
           />
         </template>
       </v-tooltip>
     </template>
-    <v-card width="360" class="app-settings-card">
-      <v-card-text class="app-settings-card__body">
-        <v-label class="mb-3"> Theme Palette </v-label>
+    <v-card width="360">
+      <v-card-text class="text-center">
+        <v-label class="mb-3"> {{ themePaletteLabel }} </v-label>
         <v-color-picker
           v-model="color"
           show-swatches
@@ -79,7 +83,7 @@ const menuShow = ref(false)
           :swatches="colors"
         />
         <v-divider class="my-4" />
-        <v-label class="mb-2"> Corner Radius </v-label>
+        <v-label class="mb-2"> {{ t('app.settings.cornerRadius') }} </v-label>
         <v-btn-toggle
           v-model="rounded"
           class="mb-4 text-left d-flex flex-column gap-2"
@@ -101,7 +105,7 @@ const menuShow = ref(false)
             </div>
           </v-btn>
         </v-btn-toggle>
-        <v-label class="mb-2"> Shadow Depth </v-label>
+        <v-label class="mb-2"> {{ t('app.settings.shadowDepth') }} </v-label>
         <v-btn-toggle
           v-model="shadowPreset"
           class="text-left d-flex flex-column gap-2"

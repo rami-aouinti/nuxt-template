@@ -101,6 +101,25 @@ const handleGoBack = () => {
   }
 }
 
+const drawerToggleLabel = computed(() => t('navigation.toggleNavigationDrawer'))
+const secondaryDrawerToggleLabel = computed(() => t('navigation.toggleSecondaryNavigationDrawer'))
+const themeSwitchLabel = computed(() => t('navigation.toggleTheme'))
+const accountMenuAriaLabel = computed(() => {
+  if (loggedIn.value) {
+    const username = user.value?.login?.trim()
+    return t('navigation.openAccountMenu', {
+      name: username && username.length > 0 ? username : t('navigation.profile'),
+    })
+  }
+
+  return t('navigation.openAccountMenuGuest')
+})
+const languageMenuAriaLabel = computed(() =>
+  t('navigation.openLanguageMenu', {
+    language: currentLanguage.value?.name ?? t('navigation.language'),
+  }),
+)
+
 type LanguageItem = LocaleObject & {
   to: string
   flag?: string
@@ -193,7 +212,10 @@ watch(loggedIn, (value) => {
 <template>
   <v-app-bar flat>
     <AuthCredentialsDialog v-model="credentialsDialog" />
-    <v-app-bar-nav-icon @click="drawer = !drawer" />
+    <v-app-bar-nav-icon
+      :aria-label="drawerToggleLabel"
+      @click="drawer = !drawer"
+    />
     <v-spacer />
     <div id="app-bar" />
     <div class="dock-navbar__actions">
@@ -211,7 +233,10 @@ watch(loggedIn, (value) => {
           </v-btn>
         </template>
       </v-tooltip>
-      <v-app-bar-nav-icon @click="drawerRight = !drawerRight" />
+      <v-app-bar-nav-icon
+        :aria-label="secondaryDrawerToggleLabel"
+        @click="drawerRight = !drawerRight"
+      />
       <AppMessenger />
       <AppNotification />
       <v-switch
@@ -223,6 +248,7 @@ watch(loggedIn, (value) => {
         false-icon="mdi-white-balance-sunny"
         true-icon="mdi-weather-night"
         variant="text"
+        :aria-label="themeSwitchLabel"
       />
       <v-menu location="bottom" class="dock-navbar__menu" min-width="200">
         <template #activator="{ props: menu }">
@@ -230,6 +256,7 @@ watch(loggedIn, (value) => {
             <template #activator="{ props: tooltip }">
               <v-btn
                 icon
+                :aria-label="accountMenuAriaLabel"
                 v-bind="mergeProps(menu, tooltip)"
                 class="dock-navbar__action-button"
               >
@@ -307,7 +334,7 @@ watch(loggedIn, (value) => {
         class="dock-navbar__menu"
       >
         <template #activator="{ props }">
-          <v-btn icon v-bind="props">
+          <v-btn icon v-bind="props" :aria-label="languageMenuAriaLabel">
             <FlagSpan :code="currentLanguage?.code" />
           </v-btn>
         </template>

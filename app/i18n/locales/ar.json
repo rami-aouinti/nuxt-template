@@ -14,6 +14,12 @@
     "loader": {
       "title": "جارٍ التحميل",
       "subtitle": "يرجى الانتظار لحظة…"
+    },
+    "settings": {
+      "themePalette": "Theme palette",
+      "openThemeMenu": "Open theme palette",
+      "cornerRadius": "Corner radius",
+      "shadowDepth": "Shadow depth"
     }
   },
   "navigation": {
@@ -38,6 +44,12 @@
     "blog": "المدونة",
     "messenger": "الرسائل",
     "goBack": "رجوع",
+    "toggleNavigationDrawer": "Toggle navigation drawer",
+    "toggleSecondaryNavigationDrawer": "Toggle secondary navigation drawer",
+    "toggleTheme": "Toggle color theme",
+    "openAccountMenu": "Open account menu for {name}",
+    "openAccountMenuGuest": "Open sign-in menu",
+    "openLanguageMenu": "Open language menu ({language})",
     "language": "تغيير اللغة",
     "workspace": "Workspace",
     "settings": "الإعدادات",
