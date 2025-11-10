@@ -6,6 +6,7 @@ import { cacheDelete, cacheGet, cacheSet, useRedisClient } from './index'
 export type AdminResource =
   | 'api_key'
   | 'configuration'
+  | 'plugin'
   | 'role'
   | 'user'
   | 'user_group'

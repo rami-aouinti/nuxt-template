@@ -43,7 +43,9 @@
     "settings": "Configuración",
     "help": "Ayuda",
     "about": "Acerca de",
-    "contact": "Contacto"
+    "contact": "Contacto",
+    "pluginManagement": "Plugin management",
+    "plugins": "Plugins"
   },
   "messenger": {
     "title": "Mensajería",
@@ -1129,6 +1131,78 @@
     "messages": {
       "selectFolder": "Select a folder from the list to display its content.",
       "refreshing": "Refreshing folder content..."
+    }
+  },
+  "pluginManagement": {
+    "plugins": {
+      "cardTitle": "Plugins",
+      "cardSubtitle": "Manage the available integrations for the platform.",
+      "searchPlaceholder": "Search plugins",
+      "table": {
+        "name": "Name",
+        "key": "Key",
+        "status": "Status",
+        "installed": "Installed",
+        "updatedAt": "Updated at"
+      },
+      "labels": {
+        "active": "Active",
+        "inactive": "Inactive",
+        "installed": "Installed",
+        "notInstalled": "Not installed",
+        "notAvailable": "Not available",
+        "total": "Total: {count}",
+        "pluginFallback": "this plugin",
+        "createdAt": "Created at",
+        "updatedAt": "Updated at"
+      },
+      "fields": {
+        "name": "Name",
+        "key": "Key",
+        "subTitle": "Subtitle",
+        "description": "Description",
+        "logo": "Logo URL",
+        "icon": "Icon",
+        "link": "Link URL",
+        "pricing": "Pricing",
+        "action": "Action label",
+        "active": "Active",
+        "installed": "Installed"
+      },
+      "dialogs": {
+        "create": {
+          "title": "Create plugin"
+        },
+        "edit": {
+          "title": "Edit {name}"
+        },
+        "delete": {
+          "title": "Delete plugin",
+          "message": "Are you sure you want to delete {name}? This action cannot be undone."
+        },
+        "view": {
+          "title": "Plugin details – {name}"
+        }
+      },
+      "notifications": {
+        "createSuccess": "Plugin created successfully.",
+        "updateSuccess": "Plugin updated successfully.",
+        "deleteSuccess": "Plugin deleted successfully."
+      },
+      "errors": {
+        "loadFailed": "Unable to load the plugins. Please try again later.",
+        "createFailed": "Unable to create the plugin. Please try again later.",
+        "updateFailed": "Unable to update the plugin. Please try again later.",
+        "deleteFailed": "Unable to delete the plugin. Please try again later.",
+        "invalidForm": "Please fill in the required fields before continuing.",
+        "missingIdentifier": "A valid plugin identifier is required to continue.",
+        "loadDetails": "Unable to retrieve the plugin details. Please try again later."
+      },
+      "actions": {
+        "view": "View plugin",
+        "edit": "Edit plugin",
+        "delete": "Delete plugin"
+      }
     }
   }
 }
