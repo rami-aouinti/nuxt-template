@@ -98,25 +98,27 @@ const items = computed<NavigationItem[]>(() => [
 </script>
 
 <template>
-  <div class="animated-badge mb-4">
-    <span class="animated-badge__pulse" />
-    {{ t('blog.sidebar.mySection') }}
-  </div>
-  <p class="text-body-2 text-medium-emphasis mb-4">
-    {{
-      translate(
-        'blog.sidebar.intro',
-        "Retrouvez vos espaces d'écriture et créez un nouvel article.",
-      )
-    }}
-  </p>
-  <div v-for="section in items" :key="section.value" class="w-100">
-    <NuxtLink class="text-decoration-none text-primary" :to="section.to">
-      <div class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3">
-        <v-icon :icon="section.icon" size="24" />
-        {{ section.label }}
-      </div>
-    </NuxtLink>
+  <div class="profile-navigation" v-bind="$attrs">
+    <div class="animated-badge mb-4">
+      <span class="animated-badge__pulse" />
+      {{ t('blog.sidebar.mySection') }}
+    </div>
+    <p class="text-body-2 text-medium-emphasis mb-4">
+      {{
+        translate(
+          'blog.sidebar.intro',
+          "Retrouvez vos espaces d'écriture et créez un nouvel article.",
+        )
+      }}
+    </p>
+    <div v-for="section in items" :key="section.value" class="w-100">
+      <NuxtLink class="text-decoration-none text-primary" :to="section.to">
+        <div class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3">
+          <v-icon :icon="section.icon" size="24" />
+          {{ section.label }}
+        </div>
+      </NuxtLink>
+    </div>
   </div>
 </template>
 
