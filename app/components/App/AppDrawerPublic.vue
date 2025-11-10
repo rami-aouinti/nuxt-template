@@ -64,7 +64,7 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
     <template #prepend>
       <NuxtLink
         :to="home"
-        style="color: rgba(var(--v-theme-on-surface), 0.92);"
+        style="color: rgba(var(--v-theme-on-surface), 0.92)"
         class="text-decoration-none my-2 d-flex align-center"
       >
         <v-icon

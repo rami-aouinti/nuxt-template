@@ -7,10 +7,8 @@ import type {
 export default defineEventHandler(async (event) => {
   const body = await readBody<FrontendWorkplaceCreatePayload>(event)
 
-  return await requestFrontendWithJsonBody<Workplace, FrontendWorkplaceCreatePayload>(
-    event,
-    '/workplaces',
-    'POST',
-    body,
-  )
+  return await requestFrontendWithJsonBody<
+    Workplace,
+    FrontendWorkplaceCreatePayload
+  >(event, '/workplaces', 'POST', body)
 })

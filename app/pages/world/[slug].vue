@@ -61,9 +61,12 @@ const pageTitle = computed(() => {
   return t('workplace.drawer.title')
 })
 
-const { data: workplace, pending, error, refresh } = await useAsyncData<
-  Workplace | null
->(
+const {
+  data: workplace,
+  pending,
+  error,
+  refresh,
+} = await useAsyncData<Workplace | null>(
   () => `world-${slug.value}`,
   async () => {
     const currentSlug = slug.value.trim()
@@ -112,17 +115,9 @@ const errorMessage = computed(() => {
 </script>
 
 <template>
-  <v-container class="py-10 py-md-14">
+  <v-container fluid>
     <v-row class="justify-center">
-      <v-col cols="12" md="8" lg="6">
-        <v-breadcrumbs
-          :items="[
-            { title: t('navigation.home'), href: '/' },
-            { title: translate('workplace.drawer.title', 'World'), disabled: true },
-          ]"
-          class="px-0 mb-4"
-        />
-
+      <v-col cols="12">
         <v-skeleton-loader
           v-if="pending"
           type="heading, paragraph"
@@ -151,11 +146,15 @@ const errorMessage = computed(() => {
 
         <v-card v-else class="workplace-hero" elevation="4">
           <v-card-item>
-            <div class="d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-4">
+            <div
+              class="d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-4"
+            >
               <div class="d-flex align-center gap-4">
                 <v-avatar size="72" color="primary" variant="tonal">
                   <span class="text-h5 font-weight-medium">
-                    {{ getInitials(workplace?.name || workplace?.slug || slug) }}
+                    {{
+                      getInitials(workplace?.name || workplace?.slug || slug)
+                    }}
                   </span>
                 </v-avatar>
                 <div>
@@ -220,7 +219,8 @@ const errorMessage = computed(() => {
 <style scoped>
 .workplace-hero {
   border-radius: 28px;
-  background: linear-gradient(
+  background:
+    linear-gradient(
       135deg,
       rgba(var(--v-theme-primary), 0.06),
       rgba(var(--v-theme-surface), 0.92)

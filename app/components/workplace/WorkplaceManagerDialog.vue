@@ -30,7 +30,9 @@ const dialog = computed({
   },
 })
 
-const activeTab = ref<'create' | 'update' | 'delete' | 'plugins' | 'members'>('create')
+const activeTab = ref<'create' | 'update' | 'delete' | 'plugins' | 'members'>(
+  'create',
+)
 
 const createState = reactive({
   name: '',
@@ -173,7 +175,10 @@ async function handleCreate() {
       enabled: createState.enabled,
     })
     Notify.success(
-      translate('workplace.dialog.messages.createSuccess', 'World created successfully.'),
+      translate(
+        'workplace.dialog.messages.createSuccess',
+        'World created successfully.',
+      ),
     )
     dialog.value = false
   } catch (error) {
@@ -213,7 +218,10 @@ async function handleUpdate() {
   try {
     await updateWorkplace(workplace, payload)
     Notify.success(
-      translate('workplace.dialog.messages.updateSuccess', 'World updated successfully.'),
+      translate(
+        'workplace.dialog.messages.updateSuccess',
+        'World updated successfully.',
+      ),
     )
     dialog.value = false
   } catch (error) {
@@ -244,7 +252,10 @@ async function handleDelete() {
   try {
     await deleteWorkplace(workplace)
     Notify.success(
-      translate('workplace.dialog.messages.deleteSuccess', 'World deleted successfully.'),
+      translate(
+        'workplace.dialog.messages.deleteSuccess',
+        'World deleted successfully.',
+      ),
     )
     dialog.value = false
   } catch (error) {
@@ -387,16 +398,22 @@ async function handleMemberAction(action: 'add' | 'remove') {
       <v-card-title class="text-wrap">
         {{ translate('workplace.dialog.title', 'Manage your world') }}
       </v-card-title>
-      <v-tabs
-        v-model="activeTab"
-        grow
-        class="px-4"
-      >
-        <v-tab value="create">{{ translate('common.actions.create', 'Create') }}</v-tab>
-        <v-tab value="update">{{ translate('common.actions.edit', 'Edit') }}</v-tab>
-        <v-tab value="delete">{{ translate('common.actions.delete', 'Delete') }}</v-tab>
-        <v-tab value="plugins">{{ translate('workplace.dialog.tabs.plugins', 'Plugins') }}</v-tab>
-        <v-tab value="members">{{ translate('workplace.dialog.tabs.members', 'Members') }}</v-tab>
+      <v-tabs v-model="activeTab" grow class="px-4">
+        <v-tab value="create">{{
+          translate('common.actions.create', 'Create')
+        }}</v-tab>
+        <v-tab value="update">{{
+          translate('common.actions.edit', 'Edit')
+        }}</v-tab>
+        <v-tab value="delete">{{
+          translate('common.actions.delete', 'Delete')
+        }}</v-tab>
+        <v-tab value="plugins">{{
+          translate('workplace.dialog.tabs.plugins', 'Plugins')
+        }}</v-tab>
+        <v-tab value="members">{{
+          translate('workplace.dialog.tabs.members', 'Members')
+        }}</v-tab>
       </v-tabs>
       <v-divider />
       <v-window v-model="activeTab">
@@ -410,12 +427,16 @@ async function handleMemberAction(action: 'add' | 'remove') {
             />
             <v-switch
               v-model="createState.isPrivate"
-              :label="translate('workplace.dialog.fields.isPrivate', 'Private world')"
+              :label="
+                translate('workplace.dialog.fields.isPrivate', 'Private world')
+              "
               :disabled="createState.loading"
             />
             <v-switch
               v-model="createState.enabled"
-              :label="translate('workplace.dialog.fields.enabled', 'Enable world')"
+              :label="
+                translate('workplace.dialog.fields.enabled', 'Enable world')
+              "
               :disabled="createState.loading"
             />
           </v-card-text>
@@ -440,24 +461,43 @@ async function handleMemberAction(action: 'add' | 'remove') {
           <v-card-text class="d-flex flex-column gap-4">
             <v-text-field
               v-model="updateState.workplace"
-              :label="translate('workplace.dialog.fields.identifier', 'World identifier')"
+              :label="
+                translate(
+                  'workplace.dialog.fields.identifier',
+                  'World identifier',
+                )
+              "
               :disabled="updateState.loading"
-              :hint="translate('workplace.dialog.hints.identifier', 'Use the slug or ID of the world.')"
+              :hint="
+                translate(
+                  'workplace.dialog.hints.identifier',
+                  'Use the slug or ID of the world.',
+                )
+              "
               persistent-hint
             />
             <v-text-field
               v-model="updateState.name"
-              :label="translate('workplace.dialog.fields.optionalName', 'World name (optional)')"
+              :label="
+                translate(
+                  'workplace.dialog.fields.optionalName',
+                  'World name (optional)',
+                )
+              "
               :disabled="updateState.loading"
             />
             <v-switch
               v-model="updateState.isPrivate"
-              :label="translate('workplace.dialog.fields.isPrivate', 'Private world')"
+              :label="
+                translate('workplace.dialog.fields.isPrivate', 'Private world')
+              "
               :disabled="updateState.loading"
             />
             <v-switch
               v-model="updateState.enabled"
-              :label="translate('workplace.dialog.fields.enabled', 'Enable world')"
+              :label="
+                translate('workplace.dialog.fields.enabled', 'Enable world')
+              "
               :disabled="updateState.loading"
             />
           </v-card-text>
@@ -482,7 +522,12 @@ async function handleMemberAction(action: 'add' | 'remove') {
           <v-card-text class="d-flex flex-column gap-4">
             <v-text-field
               v-model="deleteState.workplace"
-              :label="translate('workplace.dialog.fields.identifier', 'World identifier')"
+              :label="
+                translate(
+                  'workplace.dialog.fields.identifier',
+                  'World identifier',
+                )
+              "
               :disabled="deleteState.loading"
             />
           </v-card-text>
@@ -507,13 +552,28 @@ async function handleMemberAction(action: 'add' | 'remove') {
           <v-card-text class="d-flex flex-column gap-4">
             <v-text-field
               v-model="pluginState.workplace"
-              :label="translate('workplace.dialog.fields.identifier', 'World identifier')"
+              :label="
+                translate(
+                  'workplace.dialog.fields.identifier',
+                  'World identifier',
+                )
+              "
               :disabled="pluginState.loadingAdd || pluginState.loadingRemove"
             />
             <v-textarea
               v-model="pluginState.values"
-              :label="translate('workplace.dialog.fields.plugins', 'Plugin identifiers')"
-              :hint="translate('workplace.dialog.hints.list', 'Use commas or line breaks to separate values.')"
+              :label="
+                translate(
+                  'workplace.dialog.fields.plugins',
+                  'Plugin identifiers',
+                )
+              "
+              :hint="
+                translate(
+                  'workplace.dialog.hints.list',
+                  'Use commas or line breaks to separate values.',
+                )
+              "
               persistent-hint
               :disabled="pluginState.loadingAdd || pluginState.loadingRemove"
               rows="3"
@@ -527,7 +587,9 @@ async function handleMemberAction(action: 'add' | 'remove') {
               :disabled="pluginState.loadingRemove"
               @click="handlePluginAction('add')"
             >
-              {{ translate('workplace.dialog.actions.addPlugins', 'Add plugins') }}
+              {{
+                translate('workplace.dialog.actions.addPlugins', 'Add plugins')
+              }}
             </v-btn>
             <v-btn
               variant="tonal"
@@ -536,7 +598,12 @@ async function handleMemberAction(action: 'add' | 'remove') {
               :disabled="pluginState.loadingAdd"
               @click="handlePluginAction('remove')"
             >
-              {{ translate('workplace.dialog.actions.removePlugins', 'Remove plugins') }}
+              {{
+                translate(
+                  'workplace.dialog.actions.removePlugins',
+                  'Remove plugins',
+                )
+              }}
             </v-btn>
           </v-card-actions>
         </v-window-item>
@@ -544,13 +611,28 @@ async function handleMemberAction(action: 'add' | 'remove') {
           <v-card-text class="d-flex flex-column gap-4">
             <v-text-field
               v-model="memberState.workplace"
-              :label="translate('workplace.dialog.fields.identifier', 'World identifier')"
+              :label="
+                translate(
+                  'workplace.dialog.fields.identifier',
+                  'World identifier',
+                )
+              "
               :disabled="memberState.loadingAdd || memberState.loadingRemove"
             />
             <v-textarea
               v-model="memberState.values"
-              :label="translate('workplace.dialog.fields.members', 'Member identifiers')"
-              :hint="translate('workplace.dialog.hints.list', 'Use commas or line breaks to separate values.')"
+              :label="
+                translate(
+                  'workplace.dialog.fields.members',
+                  'Member identifiers',
+                )
+              "
+              :hint="
+                translate(
+                  'workplace.dialog.hints.list',
+                  'Use commas or line breaks to separate values.',
+                )
+              "
               persistent-hint
               :disabled="memberState.loadingAdd || memberState.loadingRemove"
               rows="3"
@@ -564,7 +646,9 @@ async function handleMemberAction(action: 'add' | 'remove') {
               :disabled="memberState.loadingRemove"
               @click="handleMemberAction('add')"
             >
-              {{ translate('workplace.dialog.actions.addMembers', 'Add members') }}
+              {{
+                translate('workplace.dialog.actions.addMembers', 'Add members')
+              }}
             </v-btn>
             <v-btn
               variant="tonal"
@@ -573,7 +657,12 @@ async function handleMemberAction(action: 'add' | 'remove') {
               :disabled="memberState.loadingAdd"
               @click="handleMemberAction('remove')"
             >
-              {{ translate('workplace.dialog.actions.removeMembers', 'Remove members') }}
+              {{
+                translate(
+                  'workplace.dialog.actions.removeMembers',
+                  'Remove members',
+                )
+              }}
             </v-btn>
           </v-card-actions>
         </v-window-item>

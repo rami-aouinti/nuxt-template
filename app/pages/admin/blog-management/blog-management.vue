@@ -10,10 +10,7 @@ import {
   resolveVisibilityFlag,
 } from '~/utils/blog/admin'
 import { normalizeCollection } from '~/utils/collections'
-import {
-  createDateFormatter,
-  formatDateValue,
-} from '~/utils/formatters'
+import { createDateFormatter, formatDateValue } from '~/utils/formatters'
 import type { DateInput } from '~/utils/formatters'
 
 definePageMeta({
@@ -146,7 +143,11 @@ const errorMessage = computed(() => {
 const dateFormatter = createDateFormatter(locale)
 
 const formatDate = (value: DateInput) =>
-  formatDateValue(value, dateFormatter.value, t('admin.blogManagement.common.none'))
+  formatDateValue(
+    value,
+    dateFormatter.value,
+    t('admin.blogManagement.common.none'),
+  )
 </script>
 
 <template>

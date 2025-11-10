@@ -657,398 +657,398 @@ async function submit() {
   <div class="profile-index-page">
     <client-only>
       <teleport to="#app-drawer-right">
-      <v-alert v-if="!profile" type="info" variant="tonal" class="ma-auto">
-        {{ t('profile.page.alerts.emptyProfile') }}
-      </v-alert>
-      <div v-else>
-        <v-row no-gutters class="align-center mb-4">
-          <v-col cols="auto">
-            <v-avatar size="72" color="primary" class="elevation-2">
-              <v-img
-                v-if="avatarUrl"
-                :src="avatarUrl"
-                :alt="t('profile.page.avatar.alt')"
-              />
-              <span v-else class="text-h4 font-weight-medium text-white">{{
-                initials
-              }}</span>
-            </v-avatar>
-          </v-col>
-          <v-col class="px-4">
-            <div class="text-h6 font-weight-medium">
-              {{ displayName }}
-            </div>
-            <div class="text-body-2 text-medium-emphasis">
-              @{{ profile.username }}
-            </div>
-            <div
-              v-if="profile.title"
-              class="text-body-2 text-medium-emphasis mt-1"
-            >
-              {{ profile.title }}
-            </div>
-          </v-col>
-        </v-row>
+        <v-alert v-if="!profile" type="info" variant="tonal" class="ma-auto">
+          {{ t('profile.page.alerts.emptyProfile') }}
+        </v-alert>
+        <div v-else>
+          <v-row no-gutters class="align-center mb-4">
+            <v-col cols="auto">
+              <v-avatar size="72" color="primary" class="elevation-2">
+                <v-img
+                  v-if="avatarUrl"
+                  :src="avatarUrl"
+                  :alt="t('profile.page.avatar.alt')"
+                />
+                <span v-else class="text-h4 font-weight-medium text-white">{{
+                  initials
+                }}</span>
+              </v-avatar>
+            </v-col>
+            <v-col class="px-4">
+              <div class="text-h6 font-weight-medium">
+                {{ displayName }}
+              </div>
+              <div class="text-body-2 text-medium-emphasis">
+                @{{ profile.username }}
+              </div>
+              <div
+                v-if="profile.title"
+                class="text-body-2 text-medium-emphasis mt-1"
+              >
+                {{ profile.title }}
+              </div>
+            </v-col>
+          </v-row>
 
-        <v-divider class="my-4" />
+          <v-divider class="my-4" />
 
-        <div class="d-flex flex-column" style="row-gap: 12px">
-          <div>
-            <div class="text-caption text-medium-emphasis">
-              {{ t('profile.fields.userId') }}
+          <div class="d-flex flex-column" style="row-gap: 12px">
+            <div>
+              <div class="text-caption text-medium-emphasis">
+                {{ t('profile.fields.userId') }}
+              </div>
+              <div class="text-subtitle-2 font-weight-medium">
+                {{ profile.id }}
+              </div>
             </div>
-            <div class="text-subtitle-2 font-weight-medium">
-              {{ profile.id }}
-            </div>
-          </div>
-          <div>
-            <div class="text-caption text-medium-emphasis">
-              {{ t('userManagement.users.fields.email') }}
-            </div>
-            <div class="text-subtitle-2 font-weight-medium">
-              {{ profile.email }}
+            <div>
+              <div class="text-caption text-medium-emphasis">
+                {{ t('userManagement.users.fields.email') }}
+              </div>
+              <div class="text-subtitle-2 font-weight-medium">
+                {{ profile.email }}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </teleport>
-  </client-only>
-  <ProfilePageShell>
-    <v-dialog v-model="editDialog" max-width="640">
-      <v-card>
-        <v-card-title class="text-wrap">
-          {{ t('profile.page.edit.title') }}
-        </v-card-title>
-        <v-divider />
-        <v-card-text>
-          <p class="text-body-2 text-medium-emphasis mb-4">
-            {{ t('profile.page.edit.description') }}
-          </p>
-          <v-alert
-            v-if="formError"
-            type="error"
-            variant="tonal"
-            class="mb-2"
-            density="compact"
-          >
-            {{ formError }}
-          </v-alert>
-          <v-form @submit.prevent="submit">
-            <v-row dense>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="form.firstName"
-                  :label="t('userManagement.users.fields.firstName')"
-                  autocomplete="given-name"
-                  :disabled="isSaving"
-                  rounded
-                />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="form.lastName"
-                  :label="t('userManagement.users.fields.lastName')"
-                  autocomplete="family-name"
-                  :disabled="isSaving"
-                  rounded
-                />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="form.title"
-                  :label="t('profile.fields.title')"
-                  :disabled="isSaving"
-                  rounded
-                />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="form.gender"
-                  :label="t('profile.fields.gender')"
-                  :disabled="isSaving"
-                  rounded
-                />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="form.phone"
-                  :label="t('profile.fields.phone')"
-                  type="tel"
-                  autocomplete="tel"
-                  :disabled="isSaving"
-                  rounded
-                />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="form.address"
-                  :label="t('profile.fields.address')"
-                  autocomplete="street-address"
-                  :disabled="isSaving"
-                  rounded
-                />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="form.birthday"
-                  :label="t('profile.fields.birthday')"
-                  type="date"
-                  :disabled="isSaving"
-                  rounded
-                />
-              </v-col>
-              <v-col cols="12">
-                <v-textarea
-                  v-model="form.description"
-                  :label="t('profile.fields.description')"
-                  auto-grow
-                  rows="3"
-                  :disabled="isSaving"
-                />
-              </v-col>
-              <v-col cols="12">
-                <v-file-input
-                  v-model="photoFiles"
-                  :label="t('profile.fields.photo')"
-                  accept="image/*"
-                  prepend-icon="mdi-camera"
-                  clearable
-                  show-size
-                  :disabled="isSaving"
-                />
-              </v-col>
-            </v-row>
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            variant="text"
-            :disabled="isSaving"
-            @click="editDialog = false"
-          >
-            {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn
-            color="primary"
-            :disabled="!hasChanges || isSaving"
-            :loading="isSaving"
-            @click="submit"
-          >
-            {{ t('common.actions.save') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <v-alert v-if="!profile" type="info" variant="tonal" class="ma-auto">
-      {{ t('profile.page.alerts.emptyProfile') }}
-    </v-alert>
-    <v-row v-else>
-      <v-col cols="12">
-        <v-row>
-          <v-col cols="12">
-            <v-card elevation="2" rounded="xl" variant="text">
-              <v-card-title class="d-flex align-center gap-4">
-                <span>{{ t('profile.sections.personalInfo.title') }}</span>
-                <v-spacer />
-                <v-btn
-                  color="primary"
-                  variant="text"
-                  prepend-icon="mdi-pencil"
-                  :disabled="isSaving"
-                  @click="editDialog = true"
-                >
-                  {{ t('common.actions.edit') }}
-                </v-btn>
-              </v-card-title>
-              <v-divider />
-              <v-card-text>
-                <v-row>
-                  <v-col cols="12" sm="6">
-                    <div class="text-caption text-medium-emphasis">
-                      {{ t('userManagement.users.fields.firstName') }}
-                    </div>
-                    <div class="text-subtitle-2 font-weight-medium">
-                      {{ profile.firstName || '—' }}
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <div class="text-caption text-medium-emphasis">
-                      {{ t('userManagement.users.fields.lastName') }}
-                    </div>
-                    <div class="text-subtitle-2 font-weight-medium">
-                      {{ profile.lastName || '—' }}
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <div class="text-caption text-medium-emphasis">
-                      {{ t('userManagement.users.fields.username') }}
-                    </div>
-                    <div class="text-subtitle-2 font-weight-medium">
-                      {{ profile.username }}
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <div class="text-caption text-medium-emphasis">
-                      {{ t('userManagement.users.fields.email') }}
-                    </div>
-                    <div class="text-subtitle-2 font-weight-medium">
-                      {{ profile.email }}
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
-          </v-col>
-
-          <v-col cols="12">
-            <v-card elevation="2" rounded="xl" variant="text">
-              <v-card-title>
-                {{ t('profile.sections.details.title') }}
-              </v-card-title>
-              <v-divider />
-              <v-card-text>
-                <v-row>
-                  <v-col cols="12" sm="6">
-                    <div class="text-caption text-medium-emphasis">
-                      {{ t('profile.fields.title') }}
-                    </div>
-                    <div class="text-subtitle-2 font-weight-medium">
-                      {{ profile.title || '—' }}
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <div class="text-caption text-medium-emphasis">
-                      {{ t('profile.fields.gender') }}
-                    </div>
-                    <div class="text-subtitle-2 font-weight-medium">
-                      {{ profile.gender || '—' }}
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <div class="text-caption text-medium-emphasis">
-                      {{ t('profile.fields.phone') }}
-                    </div>
-                    <div class="text-subtitle-2 font-weight-medium">
-                      {{ profile.phone || '—' }}
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <div class="text-caption text-medium-emphasis">
-                      {{ t('profile.fields.address') }}
-                    </div>
-                    <div class="text-subtitle-2 font-weight-medium">
-                      {{ profile.address || '—' }}
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <div class="text-caption text-medium-emphasis">
-                      {{ t('profile.fields.birthday') }}
-                    </div>
-                    <div class="text-subtitle-2 font-weight-medium">
-                      {{ formattedBirthday || '—' }}
-                    </div>
-                  </v-col>
-                  <v-col cols="12">
-                    <div class="text-caption text-medium-emphasis">
-                      {{ t('profile.fields.description') }}
-                    </div>
-                    <div class="text-body-2">
-                      {{ profile.description || '—' }}
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
-          </v-col>
-
-          <v-col cols="12">
-            <v-card elevation="2" rounded="xl" variant="text">
-              <v-card-title class="d-flex align-center gap-3">
-                <span>{{ t('profile.sections.settings.title') }}</span>
-                <v-spacer />
-                <v-tooltip location="bottom">
-                  <template #activator="{ props }">
-                    <v-btn
-                      v-bind="props"
-                      variant="text"
-                      density="comfortable"
-                      icon="mdi-refresh"
-                      :disabled="settingsLoading"
-                      :loading="settingsLoading"
-                      @click="loadProfileSettings()"
-                    />
-                  </template>
-                  <span>{{ t('profile.settings.actions.refresh') }}</span>
-                </v-tooltip>
-              </v-card-title>
-              <v-divider />
-              <v-card-text>
-                <v-alert
-                  v-if="settingsError"
-                  type="error"
-                  variant="tonal"
-                  density="compact"
-                  class="mb-4"
-                >
-                  {{ settingsError }}
-                </v-alert>
-
-                <v-alert
-                  v-else-if="!settingsLoading && !canUpdateSettings"
-                  type="warning"
-                  variant="tonal"
-                  density="compact"
-                  class="mb-4"
-                >
-                  {{ t('profile.settings.errors.metadataMissing') }}
-                </v-alert>
-
-                <div v-if="settingsLoading">
-                  <v-skeleton-loader
-                    v-for="definition in profileSettingsDefinitions"
-                    :key="definition.id"
-                    type="list-item-two-line"
-                    class="mb-3"
+      </teleport>
+    </client-only>
+    <ProfilePageShell>
+      <v-dialog v-model="editDialog" max-width="640">
+        <v-card>
+          <v-card-title class="text-wrap">
+            {{ t('profile.page.edit.title') }}
+          </v-card-title>
+          <v-divider />
+          <v-card-text>
+            <p class="text-body-2 text-medium-emphasis mb-4">
+              {{ t('profile.page.edit.description') }}
+            </p>
+            <v-alert
+              v-if="formError"
+              type="error"
+              variant="tonal"
+              class="mb-2"
+              density="compact"
+            >
+              {{ formError }}
+            </v-alert>
+            <v-form @submit.prevent="submit">
+              <v-row dense>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="form.firstName"
+                    :label="t('userManagement.users.fields.firstName')"
+                    autocomplete="given-name"
+                    :disabled="isSaving"
+                    rounded
                   />
-                </div>
-                <v-list v-else density="comfortable" lines="two">
-                  <v-list-item
-                    v-for="definition in profileSettingsDefinitions"
-                    :key="definition.id"
-                    :title="definition.title"
-                    :subtitle="definition.subtitle"
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="form.lastName"
+                    :label="t('userManagement.users.fields.lastName')"
+                    autocomplete="family-name"
+                    :disabled="isSaving"
+                    rounded
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="form.title"
+                    :label="t('profile.fields.title')"
+                    :disabled="isSaving"
+                    rounded
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="form.gender"
+                    :label="t('profile.fields.gender')"
+                    :disabled="isSaving"
+                    rounded
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="form.phone"
+                    :label="t('profile.fields.phone')"
+                    type="tel"
+                    autocomplete="tel"
+                    :disabled="isSaving"
+                    rounded
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="form.address"
+                    :label="t('profile.fields.address')"
+                    autocomplete="street-address"
+                    :disabled="isSaving"
+                    rounded
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="form.birthday"
+                    :label="t('profile.fields.birthday')"
+                    type="date"
+                    :disabled="isSaving"
+                    rounded
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <v-textarea
+                    v-model="form.description"
+                    :label="t('profile.fields.description')"
+                    auto-grow
+                    rows="3"
+                    :disabled="isSaving"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <v-file-input
+                    v-model="photoFiles"
+                    :label="t('profile.fields.photo')"
+                    accept="image/*"
+                    prepend-icon="mdi-camera"
+                    clearable
+                    show-size
+                    :disabled="isSaving"
+                  />
+                </v-col>
+              </v-row>
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn
+              variant="text"
+              :disabled="isSaving"
+              @click="editDialog = false"
+            >
+              {{ t('common.actions.cancel') }}
+            </v-btn>
+            <v-btn
+              color="primary"
+              :disabled="!hasChanges || isSaving"
+              :loading="isSaving"
+              @click="submit"
+            >
+              {{ t('common.actions.save') }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-alert v-if="!profile" type="info" variant="tonal" class="ma-auto">
+        {{ t('profile.page.alerts.emptyProfile') }}
+      </v-alert>
+      <v-row v-else>
+        <v-col cols="12">
+          <v-row>
+            <v-col cols="12">
+              <v-card elevation="2" rounded="xl" variant="text">
+                <v-card-title class="d-flex align-center gap-4">
+                  <span>{{ t('profile.sections.personalInfo.title') }}</span>
+                  <v-spacer />
+                  <v-btn
+                    color="primary"
+                    variant="text"
+                    prepend-icon="mdi-pencil"
+                    :disabled="isSaving"
+                    @click="editDialog = true"
                   >
-                    <template #prepend>
-                      <v-icon
-                        :icon="definition.icon"
-                        class="mr-4"
-                        color="primary"
+                    {{ t('common.actions.edit') }}
+                  </v-btn>
+                </v-card-title>
+                <v-divider />
+                <v-card-text>
+                  <v-row>
+                    <v-col cols="12" sm="6">
+                      <div class="text-caption text-medium-emphasis">
+                        {{ t('userManagement.users.fields.firstName') }}
+                      </div>
+                      <div class="text-subtitle-2 font-weight-medium">
+                        {{ profile.firstName || '—' }}
+                      </div>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <div class="text-caption text-medium-emphasis">
+                        {{ t('userManagement.users.fields.lastName') }}
+                      </div>
+                      <div class="text-subtitle-2 font-weight-medium">
+                        {{ profile.lastName || '—' }}
+                      </div>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <div class="text-caption text-medium-emphasis">
+                        {{ t('userManagement.users.fields.username') }}
+                      </div>
+                      <div class="text-subtitle-2 font-weight-medium">
+                        {{ profile.username }}
+                      </div>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <div class="text-caption text-medium-emphasis">
+                        {{ t('userManagement.users.fields.email') }}
+                      </div>
+                      <div class="text-subtitle-2 font-weight-medium">
+                        {{ profile.email }}
+                      </div>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-col>
+
+            <v-col cols="12">
+              <v-card elevation="2" rounded="xl" variant="text">
+                <v-card-title>
+                  {{ t('profile.sections.details.title') }}
+                </v-card-title>
+                <v-divider />
+                <v-card-text>
+                  <v-row>
+                    <v-col cols="12" sm="6">
+                      <div class="text-caption text-medium-emphasis">
+                        {{ t('profile.fields.title') }}
+                      </div>
+                      <div class="text-subtitle-2 font-weight-medium">
+                        {{ profile.title || '—' }}
+                      </div>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <div class="text-caption text-medium-emphasis">
+                        {{ t('profile.fields.gender') }}
+                      </div>
+                      <div class="text-subtitle-2 font-weight-medium">
+                        {{ profile.gender || '—' }}
+                      </div>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <div class="text-caption text-medium-emphasis">
+                        {{ t('profile.fields.phone') }}
+                      </div>
+                      <div class="text-subtitle-2 font-weight-medium">
+                        {{ profile.phone || '—' }}
+                      </div>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <div class="text-caption text-medium-emphasis">
+                        {{ t('profile.fields.address') }}
+                      </div>
+                      <div class="text-subtitle-2 font-weight-medium">
+                        {{ profile.address || '—' }}
+                      </div>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <div class="text-caption text-medium-emphasis">
+                        {{ t('profile.fields.birthday') }}
+                      </div>
+                      <div class="text-subtitle-2 font-weight-medium">
+                        {{ formattedBirthday || '—' }}
+                      </div>
+                    </v-col>
+                    <v-col cols="12">
+                      <div class="text-caption text-medium-emphasis">
+                        {{ t('profile.fields.description') }}
+                      </div>
+                      <div class="text-body-2">
+                        {{ profile.description || '—' }}
+                      </div>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-col>
+
+            <v-col cols="12">
+              <v-card elevation="2" rounded="xl" variant="text">
+                <v-card-title class="d-flex align-center gap-3">
+                  <span>{{ t('profile.sections.settings.title') }}</span>
+                  <v-spacer />
+                  <v-tooltip location="bottom">
+                    <template #activator="{ props }">
+                      <v-btn
+                        v-bind="props"
+                        variant="text"
+                        density="comfortable"
+                        icon="mdi-refresh"
+                        :disabled="settingsLoading"
+                        :loading="settingsLoading"
+                        @click="loadProfileSettings()"
                       />
                     </template>
-                    <template #append>
-                      <v-switch
-                        :model-value="settings[definition.id]"
-                        color="primary"
-                        hide-details
-                        inset
-                        :disabled="
-                          !canUpdateSettings || settingsSaving[definition.id]
-                        "
-                        :loading="settingsSaving[definition.id]"
-                        @update:model-value="
-                          handleSettingToggle(definition.id, $event)
-                        "
-                      />
-                    </template>
-                  </v-list-item>
-                </v-list>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
-  </ProfilePageShell>
+                    <span>{{ t('profile.settings.actions.refresh') }}</span>
+                  </v-tooltip>
+                </v-card-title>
+                <v-divider />
+                <v-card-text>
+                  <v-alert
+                    v-if="settingsError"
+                    type="error"
+                    variant="tonal"
+                    density="compact"
+                    class="mb-4"
+                  >
+                    {{ settingsError }}
+                  </v-alert>
+
+                  <v-alert
+                    v-else-if="!settingsLoading && !canUpdateSettings"
+                    type="warning"
+                    variant="tonal"
+                    density="compact"
+                    class="mb-4"
+                  >
+                    {{ t('profile.settings.errors.metadataMissing') }}
+                  </v-alert>
+
+                  <div v-if="settingsLoading">
+                    <v-skeleton-loader
+                      v-for="definition in profileSettingsDefinitions"
+                      :key="definition.id"
+                      type="list-item-two-line"
+                      class="mb-3"
+                    />
+                  </div>
+                  <v-list v-else density="comfortable" lines="two">
+                    <v-list-item
+                      v-for="definition in profileSettingsDefinitions"
+                      :key="definition.id"
+                      :title="definition.title"
+                      :subtitle="definition.subtitle"
+                    >
+                      <template #prepend>
+                        <v-icon
+                          :icon="definition.icon"
+                          class="mr-4"
+                          color="primary"
+                        />
+                      </template>
+                      <template #append>
+                        <v-switch
+                          :model-value="settings[definition.id]"
+                          color="primary"
+                          hide-details
+                          inset
+                          :disabled="
+                            !canUpdateSettings || settingsSaving[definition.id]
+                          "
+                          :loading="settingsSaving[definition.id]"
+                          @update:model-value="
+                            handleSettingToggle(definition.id, $event)
+                          "
+                        />
+                      </template>
+                    </v-list-item>
+                  </v-list>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </ProfilePageShell>
   </div>
 </template>

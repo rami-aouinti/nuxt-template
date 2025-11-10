@@ -408,12 +408,7 @@ function closeDialog() {
             type="list-item-three-line"
           />
           <template v-else>
-            <v-alert
-              v-if="loadError"
-              type="error"
-              variant="tonal"
-              class="mb-4"
-            >
+            <v-alert v-if="loadError" type="error" variant="tonal" class="mb-4">
               {{ loadError }}
             </v-alert>
 
@@ -465,215 +460,215 @@ function closeDialog() {
       </teleport>
     </client-only>
     <ProfilePageShell>
-    <div class="profile-calendar">
-      <v-row dense>
-        <v-col cols="12">
-          <v-card class="h-100" rounded="xl">
-            <v-card-text>
-              <div
-                class="d-flex flex-wrap align-center justify-space-between gap-4 mb-4"
-              >
-                <v-btn-toggle
-                  v-model="calendarType"
-                  mandatory
-                  density="comfortable"
+      <div class="profile-calendar">
+        <v-row dense>
+          <v-col cols="12">
+            <v-card class="h-100" rounded="xl">
+              <v-card-text>
+                <div
+                  class="d-flex flex-wrap align-center justify-space-between gap-4 mb-4"
                 >
-                  <v-btn value="month">
-                    {{ t('profile.calendar.view.month') }}
-                  </v-btn>
-                  <v-btn value="week">
-                    {{ t('profile.calendar.view.week') }}
-                  </v-btn>
-                  <v-btn value="day">
-                    {{ t('profile.calendar.view.day') }}
-                  </v-btn>
-                </v-btn-toggle>
-                <v-text-field
-                  v-model="focus"
-                  type="date"
-                  density="comfortable"
-                  hide-details
-                  style="max-width: 200px"
-                  rounded
+                  <v-btn-toggle
+                    v-model="calendarType"
+                    mandatory
+                    density="comfortable"
+                  >
+                    <v-btn value="month">
+                      {{ t('profile.calendar.view.month') }}
+                    </v-btn>
+                    <v-btn value="week">
+                      {{ t('profile.calendar.view.week') }}
+                    </v-btn>
+                    <v-btn value="day">
+                      {{ t('profile.calendar.view.day') }}
+                    </v-btn>
+                  </v-btn-toggle>
+                  <v-text-field
+                    v-model="focus"
+                    type="date"
+                    density="comfortable"
+                    hide-details
+                    style="max-width: 200px"
+                    rounded
+                  />
+                </div>
+
+                <v-skeleton-loader
+                  v-if="isLoading && events.length === 0"
+                  type="article"
                 />
-              </div>
+                <template v-else>
+                  <v-alert
+                    v-if="loadError"
+                    type="error"
+                    variant="tonal"
+                    class="mb-4"
+                  >
+                    {{ loadError }}
+                  </v-alert>
 
-              <v-skeleton-loader
-                v-if="isLoading && events.length === 0"
-                type="article"
+                  <v-calendar
+                    v-model="focus"
+                    :type="calendarType"
+                    :events="calendarEvents"
+                    color="primary"
+                    show-week
+                    @click:event="handleCalendarEventClick"
+                    @click:date="handleCalendarDateClick"
+                  />
+                </template>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </div>
+
+      <v-dialog v-model="isDialogOpen" max-width="520">
+        <v-card>
+          <v-card-title>
+            {{
+              editingEvent
+                ? t('profile.calendar.dialog.editTitle')
+                : t('profile.calendar.dialog.createTitle')
+            }}
+          </v-card-title>
+          <v-card-text>
+            <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
+              {{ formError }}
+            </v-alert>
+            <v-form @submit.prevent="submitEvent">
+              <v-text-field
+                v-model="form.title"
+                :label="t('profile.calendar.form.title')"
+                required
+                density="comfortable"
+                class="mb-3"
+                rounded
               />
-              <template v-else>
-                <v-alert
-                  v-if="loadError"
-                  type="error"
-                  variant="tonal"
-                  class="mb-4"
-                >
-                  {{ loadError }}
-                </v-alert>
-
-                <v-calendar
-                  v-model="focus"
-                  :type="calendarType"
-                  :events="calendarEvents"
+              <v-textarea
+                v-model="form.description"
+                :label="t('profile.calendar.form.description')"
+                rows="3"
+                density="comfortable"
+                class="mb-3"
+                rounded
+              />
+              <v-text-field
+                v-model="form.location"
+                :label="t('profile.calendar.form.location')"
+                density="comfortable"
+                class="mb-3"
+                rounded
+              />
+              <v-color-picker
+                v-model="form.color"
+                hide-inputs
+                mode="hex"
+                class="mb-3"
+                width="280"
+              />
+              <div class="d-flex flex-column gap-3 mb-3">
+                <v-switch
+                  v-model="form.allDay"
+                  :label="t('profile.calendar.form.allDay')"
                   color="primary"
-                  show-week
-                  @click:event="handleCalendarEventClick"
-                  @click:date="handleCalendarDateClick"
+                  density="comfortable"
                 />
-              </template>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div>
+                <v-switch
+                  v-model="form.isPrivate"
+                  :label="t('profile.calendar.form.isPrivate')"
+                  color="primary"
+                  density="comfortable"
+                />
+              </div>
+              <div class="d-flex flex-column gap-3">
+                <div class="d-flex gap-3 flex-wrap">
+                  <v-text-field
+                    v-model="form.startDate"
+                    type="date"
+                    :label="t('profile.calendar.form.startDate')"
+                    density="comfortable"
+                    class="flex-grow-1"
+                    rounded
+                  />
+                  <v-text-field
+                    v-model="form.startTime"
+                    type="time"
+                    :label="t('profile.calendar.form.startTime')"
+                    density="comfortable"
+                    class="flex-grow-1"
+                    :disabled="form.allDay"
+                    rounded
+                  />
+                </div>
+                <div class="d-flex gap-3 flex-wrap">
+                  <v-text-field
+                    v-model="form.endDate"
+                    type="date"
+                    :label="t('profile.calendar.form.endDate')"
+                    density="comfortable"
+                    class="flex-grow-1"
+                    rounded
+                  />
+                  <v-text-field
+                    v-model="form.endTime"
+                    type="time"
+                    :label="t('profile.calendar.form.endTime')"
+                    density="comfortable"
+                    class="flex-grow-1"
+                    :disabled="form.allDay"
+                    rounded
+                  />
+                </div>
+              </div>
+            </v-form>
+          </v-card-text>
+          <v-card-actions class="justify-space-between">
+            <div>
+              <v-btn
+                v-if="editingEvent"
+                color="error"
+                variant="text"
+                @click="requestDelete(editingEvent)"
+              >
+                {{ t('profile.calendar.actions.delete') }}
+              </v-btn>
+            </div>
+            <div class="d-flex gap-2">
+              <v-btn variant="text" @click="closeDialog">
+                {{ t('profile.calendar.dialog.cancel') }}
+              </v-btn>
+              <v-btn color="primary" :loading="isSaving" @click="submitEvent">
+                {{
+                  editingEvent
+                    ? t('profile.calendar.dialog.save')
+                    : t('profile.calendar.dialog.submit')
+                }}
+              </v-btn>
+            </div>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 
-    <v-dialog v-model="isDialogOpen" max-width="520">
-      <v-card>
-        <v-card-title>
-          {{
-            editingEvent
-              ? t('profile.calendar.dialog.editTitle')
-              : t('profile.calendar.dialog.createTitle')
-          }}
-        </v-card-title>
-        <v-card-text>
-          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
-            {{ formError }}
-          </v-alert>
-          <v-form @submit.prevent="submitEvent">
-            <v-text-field
-              v-model="form.title"
-              :label="t('profile.calendar.form.title')"
-              required
-              density="comfortable"
-              class="mb-3"
-              rounded
-            />
-            <v-textarea
-              v-model="form.description"
-              :label="t('profile.calendar.form.description')"
-              rows="3"
-              density="comfortable"
-              class="mb-3"
-              rounded
-            />
-            <v-text-field
-              v-model="form.location"
-              :label="t('profile.calendar.form.location')"
-              density="comfortable"
-              class="mb-3"
-              rounded
-            />
-            <v-color-picker
-              v-model="form.color"
-              hide-inputs
-              mode="hex"
-              class="mb-3"
-              width="280"
-            />
-            <div class="d-flex flex-column gap-3 mb-3">
-              <v-switch
-                v-model="form.allDay"
-                :label="t('profile.calendar.form.allDay')"
-                color="primary"
-                density="comfortable"
-              />
-              <v-switch
-                v-model="form.isPrivate"
-                :label="t('profile.calendar.form.isPrivate')"
-                color="primary"
-                density="comfortable"
-              />
-            </div>
-            <div class="d-flex flex-column gap-3">
-              <div class="d-flex gap-3 flex-wrap">
-                <v-text-field
-                  v-model="form.startDate"
-                  type="date"
-                  :label="t('profile.calendar.form.startDate')"
-                  density="comfortable"
-                  class="flex-grow-1"
-                  rounded
-                />
-                <v-text-field
-                  v-model="form.startTime"
-                  type="time"
-                  :label="t('profile.calendar.form.startTime')"
-                  density="comfortable"
-                  class="flex-grow-1"
-                  :disabled="form.allDay"
-                  rounded
-                />
-              </div>
-              <div class="d-flex gap-3 flex-wrap">
-                <v-text-field
-                  v-model="form.endDate"
-                  type="date"
-                  :label="t('profile.calendar.form.endDate')"
-                  density="comfortable"
-                  class="flex-grow-1"
-                  rounded
-                />
-                <v-text-field
-                  v-model="form.endTime"
-                  type="time"
-                  :label="t('profile.calendar.form.endTime')"
-                  density="comfortable"
-                  class="flex-grow-1"
-                  :disabled="form.allDay"
-                  rounded
-                />
-              </div>
-            </div>
-          </v-form>
-        </v-card-text>
-        <v-card-actions class="justify-space-between">
-          <div>
-            <v-btn
-              v-if="editingEvent"
-              color="error"
-              variant="text"
-              @click="requestDelete(editingEvent)"
-            >
-              {{ t('profile.calendar.actions.delete') }}
-            </v-btn>
-          </div>
-          <div class="d-flex gap-2">
-            <v-btn variant="text" @click="closeDialog">
+      <v-dialog v-model="isDeleteDialogOpen" max-width="420">
+        <v-card>
+          <v-card-title class="text-h6">
+            {{ t('profile.calendar.delete.title') }}
+          </v-card-title>
+          <v-card-text>
+            {{ t('profile.calendar.delete.message') }}
+          </v-card-text>
+          <v-card-actions class="justify-end">
+            <v-btn variant="text" @click="isDeleteDialogOpen = false">
               {{ t('profile.calendar.dialog.cancel') }}
             </v-btn>
-            <v-btn color="primary" :loading="isSaving" @click="submitEvent">
-              {{
-                editingEvent
-                  ? t('profile.calendar.dialog.save')
-                  : t('profile.calendar.dialog.submit')
-              }}
+            <v-btn color="error" :loading="isDeleting" @click="confirmDelete">
+              {{ t('profile.calendar.actions.delete') }}
             </v-btn>
-          </div>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <v-dialog v-model="isDeleteDialogOpen" max-width="420">
-      <v-card>
-        <v-card-title class="text-h6">
-          {{ t('profile.calendar.delete.title') }}
-        </v-card-title>
-        <v-card-text>
-          {{ t('profile.calendar.delete.message') }}
-        </v-card-text>
-        <v-card-actions class="justify-end">
-          <v-btn variant="text" @click="isDeleteDialogOpen = false">
-            {{ t('profile.calendar.dialog.cancel') }}
-          </v-btn>
-          <v-btn color="error" :loading="isDeleting" @click="confirmDelete">
-            {{ t('profile.calendar.actions.delete') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </ProfilePageShell>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </ProfilePageShell>
   </div>
 </template>
 

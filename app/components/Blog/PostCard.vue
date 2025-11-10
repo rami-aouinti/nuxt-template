@@ -60,9 +60,7 @@ const reactionType = computed(() =>
 )
 
 const isMenuOpen = ref(false)
-const isDeleteLoading = computed(
-  () => props.post.ui?.deleteLoading ?? false,
-)
+const isDeleteLoading = computed(() => props.post.ui?.deleteLoading ?? false)
 
 const onSelectReaction = (type: BlogReactionType) =>
   emit('select-reaction', { post: props.post, type })
@@ -160,7 +158,9 @@ const onDeletePost = () => {
             <template #prepend>
               <v-icon size="sm" icon="mdi-pencil" />
             </template>
-            <v-list-item-title>{{ t('common.actions.edit') }}</v-list-item-title>
+            <v-list-item-title>{{
+              t('common.actions.edit')
+            }}</v-list-item-title>
           </v-list-item>
           <v-list-item :disabled="isDeleteLoading" @click="onDeletePost">
             <template #prepend>
@@ -169,12 +169,7 @@ const onDeletePost = () => {
                 size="sm"
                 icon="mdi-trash-can-outline"
               />
-              <v-progress-circular
-                v-else
-                indeterminate
-                size="16"
-                width="2"
-              />
+              <v-progress-circular v-else indeterminate size="16" width="2" />
             </template>
             <v-list-item-title>
               {{ t('common.actions.delete') }}

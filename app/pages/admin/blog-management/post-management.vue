@@ -194,7 +194,11 @@ const dateFormatter = createDateFormatter(locale)
 const numberFormatter = createNumberFormatter(locale)
 
 const formatDate = (value: DateInput) =>
-  formatDateValue(value, dateFormatter.value, t('admin.blogManagement.common.none'))
+  formatDateValue(
+    value,
+    dateFormatter.value,
+    t('admin.blogManagement.common.none'),
+  )
 
 const formatNumber = (value: number | string | null | undefined) =>
   formatNumberValue(value, numberFormatter.value)

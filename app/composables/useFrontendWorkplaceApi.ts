@@ -33,7 +33,11 @@ async function requestWorkplaceEndpoint<Response, Payload = undefined>(
       ...buildRequestOptions(options),
     })
   } catch (error) {
-    if (error instanceof FetchError && error.data && typeof error.data === 'object') {
+    if (
+      error instanceof FetchError &&
+      error.data &&
+      typeof error.data === 'object'
+    ) {
       const data = error.data as Record<string, unknown>
       if (typeof data.message === 'string' && data.message.trim().length > 0) {
         throw new Error(data.message)

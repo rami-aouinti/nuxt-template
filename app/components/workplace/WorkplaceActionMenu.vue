@@ -124,12 +124,8 @@ const pluginItems = computed(() => {
   }))
 })
 
-const {
-  updateWorkplace,
-  deleteWorkplace,
-  addMembers,
-  addPlugins,
-} = useFrontendWorkplaceApi()
+const { updateWorkplace, deleteWorkplace, addMembers, addPlugins } =
+  useFrontendWorkplaceApi()
 
 function extractErrorMessage(error: unknown, fallback: string) {
   if (error instanceof Error && error.message) {
@@ -140,7 +136,11 @@ function extractErrorMessage(error: unknown, fallback: string) {
   }
   if (typeof (error as { data?: { message?: string } }).data === 'object') {
     const data = (error as { data?: { message?: string } }).data
-    if (data && typeof data.message === 'string' && data.message.trim().length > 0) {
+    if (
+      data &&
+      typeof data.message === 'string' &&
+      data.message.trim().length > 0
+    ) {
       return data.message
     }
   }
@@ -164,7 +164,10 @@ async function handleEditSubmit() {
   try {
     await updateWorkplace(props.workplace.slug, { name })
     Notify.success(
-      translate('workplace.dialog.messages.updateSuccess', 'World updated successfully.'),
+      translate(
+        'workplace.dialog.messages.updateSuccess',
+        'World updated successfully.',
+      ),
     )
     editDialog.value = false
     emit('refresh')
@@ -194,7 +197,10 @@ async function handleMemberSubmit() {
   try {
     await addMembers(props.workplace.slug, { members: memberState.selected })
     Notify.success(
-      translate('workplace.dialog.messages.addMembersSuccess', 'Members added successfully.'),
+      translate(
+        'workplace.dialog.messages.addMembersSuccess',
+        'Members added successfully.',
+      ),
     )
     memberDialog.value = false
     emit('refresh')
@@ -224,7 +230,10 @@ async function handlePluginSubmit() {
   try {
     await addPlugins(props.workplace.slug, { plugins: pluginState.selected })
     Notify.success(
-      translate('workplace.dialog.messages.addPluginsSuccess', 'Plugins added successfully.'),
+      translate(
+        'workplace.dialog.messages.addPluginsSuccess',
+        'Plugins added successfully.',
+      ),
     )
     pluginDialog.value = false
     emit('refresh')
@@ -256,7 +265,10 @@ async function handleDeleteSubmit() {
   try {
     await deleteWorkplace(props.workplace.slug)
     Notify.success(
-      translate('workplace.dialog.messages.deleteSuccess', 'World deleted successfully.'),
+      translate(
+        'workplace.dialog.messages.deleteSuccess',
+        'World deleted successfully.',
+      ),
     )
     deleteDialog.value = false
     emit('deleted')
@@ -281,7 +293,7 @@ async function handleDeleteSubmit() {
           v-bind="activatorProps"
           icon
           variant="text"
-          style="color: rgba(var(--v-theme-on-surface), 0.92);"
+          style="color: rgba(var(--v-theme-on-surface), 0.92)"
           class="rounded-circle"
         >
           <v-icon>mdi-dots-vertical</v-icon>
@@ -296,12 +308,16 @@ async function handleDeleteSubmit() {
         />
         <v-list-item
           prepend-icon="mdi-account-plus"
-          :title="translate('workplace.dialog.actions.addMembers', 'Add members')"
+          :title="
+            translate('workplace.dialog.actions.addMembers', 'Add members')
+          "
           @click="memberDialog = true"
         />
         <v-list-item
           prepend-icon="mdi-puzzle-plus"
-          :title="translate('workplace.dialog.actions.addPlugins', 'Install plugins')"
+          :title="
+            translate('workplace.dialog.actions.addPlugins', 'Install plugins')
+          "
           @click="pluginDialog = true"
         />
         <v-divider class="my-1" />
@@ -342,7 +358,11 @@ async function handleDeleteSubmit() {
           <v-btn variant="text" @click="editDialog = false">
             {{ translate('common.actions.cancel', 'Cancel') }}
           </v-btn>
-          <v-btn color="primary" :loading="editState.loading" @click="handleEditSubmit">
+          <v-btn
+            color="primary"
+            :loading="editState.loading"
+            @click="handleEditSubmit"
+          >
             {{ translate('common.actions.save', 'Save') }}
           </v-btn>
         </v-card-actions>
@@ -363,22 +383,22 @@ async function handleDeleteSubmit() {
               )
             }}
           </p>
-            <v-autocomplete
-              v-model="memberState.selected"
-              :items="userItems"
-              :loading="usersPending"
-              multiple
-              chips
-              closable-chips
-              clearable
-              hide-selected
-              item-title="title"
-              item-value="value"
-              :label="translate('workplace.dialog.fields.members', 'Members')"
-              prepend-inner-icon="mdi-account-multiple"
-              :error="Boolean(memberState.error)"
-              :error-messages="memberState.error ? [memberState.error] : []"
-            >
+          <v-autocomplete
+            v-model="memberState.selected"
+            :items="userItems"
+            :loading="usersPending"
+            multiple
+            chips
+            closable-chips
+            clearable
+            hide-selected
+            item-title="title"
+            item-value="value"
+            :label="translate('workplace.dialog.fields.members', 'Members')"
+            prepend-inner-icon="mdi-account-multiple"
+            :error="Boolean(memberState.error)"
+            :error-messages="memberState.error ? [memberState.error] : []"
+          >
             <template #chip="{ item }">
               <v-chip
                 :text="item?.title ?? ''"
@@ -408,8 +428,14 @@ async function handleDeleteSubmit() {
           <v-btn variant="text" @click="memberDialog = false">
             {{ translate('common.actions.cancel', 'Cancel') }}
           </v-btn>
-          <v-btn color="primary" :loading="memberState.loading" @click="handleMemberSubmit">
-            {{ translate('workplace.dialog.actions.addMembers', 'Add members') }}
+          <v-btn
+            color="primary"
+            :loading="memberState.loading"
+            @click="handleMemberSubmit"
+          >
+            {{
+              translate('workplace.dialog.actions.addMembers', 'Add members')
+            }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -418,7 +444,9 @@ async function handleDeleteSubmit() {
     <v-dialog v-model="pluginDialog" max-width="520">
       <v-card>
         <v-card-title class="text-wrap">
-          {{ translate('workplace.dialog.actions.addPlugins', 'Install plugins') }}
+          {{
+            translate('workplace.dialog.actions.addPlugins', 'Install plugins')
+          }}
         </v-card-title>
         <v-card-text>
           <p class="text-body-2 text-medium-emphasis mb-4">
@@ -429,22 +457,22 @@ async function handleDeleteSubmit() {
               )
             }}
           </p>
-            <v-autocomplete
-              v-model="pluginState.selected"
-              :items="pluginItems"
-              :loading="pluginsPending"
-              multiple
-              chips
-              closable-chips
-              clearable
-              hide-selected
-              item-title="title"
-              item-value="value"
-              :label="translate('workplace.dialog.fields.plugins', 'Plugins')"
-              prepend-inner-icon="mdi-puzzle"
-              :error="Boolean(pluginState.error)"
-              :error-messages="pluginState.error ? [pluginState.error] : []"
-            >
+          <v-autocomplete
+            v-model="pluginState.selected"
+            :items="pluginItems"
+            :loading="pluginsPending"
+            multiple
+            chips
+            closable-chips
+            clearable
+            hide-selected
+            item-title="title"
+            item-value="value"
+            :label="translate('workplace.dialog.fields.plugins', 'Plugins')"
+            prepend-inner-icon="mdi-puzzle"
+            :error="Boolean(pluginState.error)"
+            :error-messages="pluginState.error ? [pluginState.error] : []"
+          >
             <template #chip="{ item }">
               <v-chip
                 :text="item?.title ?? ''"
@@ -472,8 +500,17 @@ async function handleDeleteSubmit() {
           <v-btn variant="text" @click="pluginDialog = false">
             {{ translate('common.actions.cancel', 'Cancel') }}
           </v-btn>
-          <v-btn color="primary" :loading="pluginState.loading" @click="handlePluginSubmit">
-            {{ translate('workplace.dialog.actions.addPlugins', 'Install plugins') }}
+          <v-btn
+            color="primary"
+            :loading="pluginState.loading"
+            @click="handlePluginSubmit"
+          >
+            {{
+              translate(
+                'workplace.dialog.actions.addPlugins',
+                'Install plugins',
+              )
+            }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -493,12 +530,7 @@ async function handleDeleteSubmit() {
               )
             }}
           </p>
-          <v-alert
-            type="warning"
-            variant="tonal"
-            class="mb-4"
-            border="start"
-          >
+          <v-alert type="warning" variant="tonal" class="mb-4" border="start">
             {{
               translate(
                 'workplace.dialog.messages.deleteConfirmation',
@@ -508,7 +540,12 @@ async function handleDeleteSubmit() {
           </v-alert>
           <v-text-field
             v-model="deleteState.confirmation"
-            :label="translate('workplace.dialog.fields.identifier', 'World identifier')"
+            :label="
+              translate(
+                'workplace.dialog.fields.identifier',
+                'World identifier',
+              )
+            "
             :hint="props.workplace.slug"
             persistent-hint
             prepend-inner-icon="mdi-alert"
@@ -520,7 +557,11 @@ async function handleDeleteSubmit() {
           <v-btn variant="text" @click="deleteDialog = false">
             {{ translate('common.actions.cancel', 'Cancel') }}
           </v-btn>
-          <v-btn color="error" :loading="deleteState.loading" @click="handleDeleteSubmit">
+          <v-btn
+            color="error"
+            :loading="deleteState.loading"
+            @click="handleDeleteSubmit"
+          >
             {{ translate('workplace.dialog.actions.delete', 'Delete world') }}
           </v-btn>
         </v-card-actions>

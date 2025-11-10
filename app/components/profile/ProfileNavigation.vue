@@ -95,7 +95,6 @@ const items = computed<NavigationItem[]>(() => [
   ...baseItems.value,
   ...pluginItems.value,
 ])
-
 </script>
 
 <template>

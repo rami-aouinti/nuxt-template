@@ -505,278 +505,146 @@ onMounted(() => {
   <div class="profile-workspace-page">
     <client-only>
       <teleport to="#app-drawer-right">
-      <v-card-title class="d-flex align-center gap-2">
-        <v-icon icon="mdi-folder-tree" class="me-2" />
-        {{ t('workspace.tree.title') }}
-        <v-spacer />
-        <v-btn
-          icon="mdi-folder-plus"
-          variant="text"
-          :title="t('workspace.tree.actions.createRoot')"
-          @click="openCreateDialog(null)"
-        />
-      </v-card-title>
-      <v-divider />
-      <v-card-text>
-        <v-alert
-          v-if="loadError"
-          type="error"
-          variant="tonal"
-          class="mb-4"
-          density="compact"
-        >
-          {{ loadError }}
-        </v-alert>
-        <div v-if="isLoading" class="py-4">
-          <v-skeleton-loader type="list-item" class="mb-2" />
-          <v-skeleton-loader type="list-item" class="mb-2" />
-          <v-skeleton-loader type="list-item" />
-        </div>
-        <div v-else-if="folders.length === 0" class="text-medium-emphasis">
-          {{ t('workspace.tree.empty') }}
-        </div>
-        <div v-else>
-          <v-treeview
-            v-model:activated="activatedIds"
-            :items="folderTreeItems"
-            item-title="title"
-            item-value="value"
-            open-on-click
-            density="compact"
-            activatable
+        <v-card-title class="d-flex align-center gap-2">
+          <v-icon icon="mdi-folder-tree" class="me-2" />
+          {{ t('workspace.tree.title') }}
+          <v-spacer />
+          <v-btn
+            icon="mdi-folder-plus"
+            variant="text"
+            :title="t('workspace.tree.actions.createRoot')"
+            @click="openCreateDialog(null)"
           />
-        </div>
-      </v-card-text>
-    </teleport>
-  </client-only>
-  <ProfilePageShell>
-    <v-row class="d-flex">
-      <v-col cols="12">
-        <v-card v-if="selectedFolder" class="workspace-details" rounded="xl">
-          <v-toolbar flat color="transparent" class="px-4">
-            <v-toolbar-title class="text-h5">
-              {{ selectedFolder.name }}
-            </v-toolbar-title>
-            <v-spacer />
-            <v-btn
-              color="primary"
-              class="me-2"
-              prepend-icon="mdi-folder-plus"
-              :disabled="isReloading"
-              @click="openCreateDialog(selectedFolder.id)"
-            >
-              {{ t('workspace.actions.newFolder') }}
-            </v-btn>
-            <v-btn
-              variant="tonal"
-              class="me-2"
-              prepend-icon="mdi-cloud-upload"
-              :disabled="isReloading"
-              @click="openUploadDialog"
-            >
-              {{ t('workspace.actions.uploadFile') }}
-            </v-btn>
-            <v-btn
-              icon="mdi-pencil"
-              variant="text"
-              class="me-1"
-              :title="t('workspace.actions.renameFolder')"
-              :disabled="isReloading"
-              @click="openEditDialog"
+        </v-card-title>
+        <v-divider />
+        <v-card-text>
+          <v-alert
+            v-if="loadError"
+            type="error"
+            variant="tonal"
+            class="mb-4"
+            density="compact"
+          >
+            {{ loadError }}
+          </v-alert>
+          <div v-if="isLoading" class="py-4">
+            <v-skeleton-loader type="list-item" class="mb-2" />
+            <v-skeleton-loader type="list-item" class="mb-2" />
+            <v-skeleton-loader type="list-item" />
+          </div>
+          <div v-else-if="folders.length === 0" class="text-medium-emphasis">
+            {{ t('workspace.tree.empty') }}
+          </div>
+          <div v-else>
+            <v-treeview
+              v-model:activated="activatedIds"
+              :items="folderTreeItems"
+              item-title="title"
+              item-value="value"
+              open-on-click
+              density="compact"
+              activatable
             />
-            <v-btn
-              icon="mdi-delete"
-              color="error"
-              variant="text"
-              :title="t('workspace.actions.deleteFolder')"
-              :disabled="isReloading"
-              @click="openDeleteDialog"
-            />
-          </v-toolbar>
-          <v-divider />
-          <v-card-text>
-            <div class="d-flex flex-wrap align-center gap-2 mb-4">
-              <v-chip
-                color="primary"
-                variant="tonal"
-                size="small"
-                prepend-icon="mdi-file-tree"
-              >
-                {{ selectedFolderItemsLabel }}
-              </v-chip>
-              <v-chip
-                color="secondary"
-                variant="tonal"
-                size="small"
-                prepend-icon="mdi-file"
-              >
-                {{ selectedFolderFilesLabel }}
-              </v-chip>
-              <v-chip
-                v-if="selectedFolder.isPrivate"
-                color="error"
-                variant="tonal"
-                size="small"
-                prepend-icon="mdi-lock"
-              >
-                {{ t('workspace.details.private') }}
-              </v-chip>
-              <v-chip
-                v-if="selectedFolder.isFavorite"
-                color="warning"
-                variant="tonal"
-                size="small"
-                prepend-icon="mdi-star"
-              >
-                {{ t('workspace.details.favorite') }}
-              </v-chip>
-            </div>
-            <div class="d-flex align-center mb-2">
-              <h2 class="text-h6 mb-0">
-                {{ t('workspace.files.title') }}
-              </h2>
+          </div>
+        </v-card-text>
+      </teleport>
+    </client-only>
+    <ProfilePageShell>
+      <v-row class="d-flex">
+        <v-col cols="12">
+          <v-card v-if="selectedFolder" class="workspace-details" rounded="xl">
+            <v-toolbar flat color="transparent" class="px-4">
+              <v-toolbar-title class="text-h5">
+                {{ selectedFolder.name }}
+              </v-toolbar-title>
               <v-spacer />
               <v-btn
-                variant="text"
+                color="primary"
+                class="me-2"
+                prepend-icon="mdi-folder-plus"
                 :disabled="isReloading"
-                prepend-icon="mdi-refresh"
-                @click="loadFolders({ selectId: selectedFolder.id })"
+                @click="openCreateDialog(selectedFolder.id)"
               >
-                {{ t('workspace.actions.refresh') }}
+                {{ t('workspace.actions.newFolder') }}
               </v-btn>
-            </div>
-            <v-alert
-              v-if="isReloading"
-              type="info"
-              variant="tonal"
-              density="compact"
-              class="mb-4"
-            >
-              {{ t('workspace.messages.refreshing') }}
-            </v-alert>
-            <v-table density="comfortable" class="workspace-table">
-              <thead>
-                <tr>
-                  <th>{{ t('workspace.files.headers.name') }}</th>
-                  <th>{{ t('workspace.files.headers.type') }}</th>
-                  <th>{{ t('workspace.files.headers.extension') }}</th>
-                  <th class="text-end">
-                    {{ t('workspace.files.headers.size') }}
-                  </th>
-                  <th class="text-end">
-                    {{ t('workspace.files.headers.actions') }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-if="selectedFolderFiles.length === 0">
-                  <td :colspan="5" class="text-center text-medium-emphasis">
-                    {{ t('workspace.files.empty') }}
-                  </td>
-                </tr>
-                <tr v-for="file in selectedFolderFiles" :key="file.id">
-                  <td>
-                    <div class="d-flex align-center gap-2">
-                      <v-icon
-                        :icon="file.isPrivate ? 'mdi-lock' : 'mdi-file'"
-                        size="small"
-                      />
-                      <span>{{ file.name }}</span>
-                      <v-chip
-                        v-if="file.isFavorite"
-                        size="x-small"
-                        color="warning"
-                        variant="tonal"
-                      >
-                        {{ t('workspace.files.favorite') }}
-                      </v-chip>
-                    </div>
-                  </td>
-                  <td>{{ file.type }}</td>
-                  <td>{{ file.extension }}</td>
-                  <td class="text-end">
-                    {{ formatFileSize(file.size) }}
-                  </td>
-                  <td class="text-end">
-                    <div class="d-flex justify-end gap-2">
-                      <v-btn
-                        :href="resolveFileUrl(file)"
-                        target="_blank"
-                        variant="text"
-                        size="small"
-                        prepend-icon="mdi-open-in-new"
-                      >
-                        {{ t('workspace.files.actions.open') }}
-                      </v-btn>
-                      <v-btn
-                        color="error"
-                        variant="text"
-                        size="small"
-                        prepend-icon="mdi-delete"
-                        @click="openDeleteFileDialog(file)"
-                      >
-                        {{ t('workspace.files.actions.delete') }}
-                      </v-btn>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </v-table>
-          </v-card-text>
-        </v-card>
-        <v-card v-else class="workspace-root" rounded="xl">
-          <v-toolbar flat color="transparent" class="px-4">
-            <v-toolbar-title class="text-h5">
-              {{ t('workspace.tree.title') }}
-            </v-toolbar-title>
-            <v-spacer />
-            <v-btn
-              color="primary"
-              class="me-2"
-              prepend-icon="mdi-folder-plus"
-              :disabled="isLoading || isReloading"
-              @click="openCreateDialog(null)"
-            >
-              {{ t('workspace.tree.actions.createRoot') }}
-            </v-btn>
-            <v-btn
-              variant="tonal"
-              class="me-2"
-              prepend-icon="mdi-cloud-upload"
-              :disabled="isLoading || isReloading"
-              @click="openUploadDialog(null)"
-            >
-              {{ t('workspace.actions.uploadFile') }}
-            </v-btn>
-            <v-btn
-              variant="text"
-              :disabled="isReloading"
-              prepend-icon="mdi-refresh"
-              @click="loadFolders({ selectId: null })"
-            >
-              {{ t('workspace.actions.refresh') }}
-            </v-btn>
-          </v-toolbar>
-          <v-divider />
-          <v-card-text>
-            <v-alert
-              v-if="loadError"
-              type="error"
-              variant="tonal"
-              class="mb-4"
-              density="compact"
-            >
-              {{ loadError }}
-            </v-alert>
-            <div v-if="isLoading" class="py-4">
-              <v-skeleton-loader type="list-item" class="mb-2" />
-              <v-skeleton-loader type="list-item" class="mb-2" />
-              <v-skeleton-loader type="list-item" />
-            </div>
-            <div v-else-if="folders.length === 0" class="text-medium-emphasis">
-              {{ t('workspace.tree.empty') }}
-            </div>
-            <div v-else>
+              <v-btn
+                variant="tonal"
+                class="me-2"
+                prepend-icon="mdi-cloud-upload"
+                :disabled="isReloading"
+                @click="openUploadDialog"
+              >
+                {{ t('workspace.actions.uploadFile') }}
+              </v-btn>
+              <v-btn
+                icon="mdi-pencil"
+                variant="text"
+                class="me-1"
+                :title="t('workspace.actions.renameFolder')"
+                :disabled="isReloading"
+                @click="openEditDialog"
+              />
+              <v-btn
+                icon="mdi-delete"
+                color="error"
+                variant="text"
+                :title="t('workspace.actions.deleteFolder')"
+                :disabled="isReloading"
+                @click="openDeleteDialog"
+              />
+            </v-toolbar>
+            <v-divider />
+            <v-card-text>
+              <div class="d-flex flex-wrap align-center gap-2 mb-4">
+                <v-chip
+                  color="primary"
+                  variant="tonal"
+                  size="small"
+                  prepend-icon="mdi-file-tree"
+                >
+                  {{ selectedFolderItemsLabel }}
+                </v-chip>
+                <v-chip
+                  color="secondary"
+                  variant="tonal"
+                  size="small"
+                  prepend-icon="mdi-file"
+                >
+                  {{ selectedFolderFilesLabel }}
+                </v-chip>
+                <v-chip
+                  v-if="selectedFolder.isPrivate"
+                  color="error"
+                  variant="tonal"
+                  size="small"
+                  prepend-icon="mdi-lock"
+                >
+                  {{ t('workspace.details.private') }}
+                </v-chip>
+                <v-chip
+                  v-if="selectedFolder.isFavorite"
+                  color="warning"
+                  variant="tonal"
+                  size="small"
+                  prepend-icon="mdi-star"
+                >
+                  {{ t('workspace.details.favorite') }}
+                </v-chip>
+              </div>
+              <div class="d-flex align-center mb-2">
+                <h2 class="text-h6 mb-0">
+                  {{ t('workspace.files.title') }}
+                </h2>
+                <v-spacer />
+                <v-btn
+                  variant="text"
+                  :disabled="isReloading"
+                  prepend-icon="mdi-refresh"
+                  @click="loadFolders({ selectId: selectedFolder.id })"
+                >
+                  {{ t('workspace.actions.refresh') }}
+                </v-btn>
+              </div>
               <v-alert
                 v-if="isReloading"
                 type="info"
@@ -786,312 +654,447 @@ onMounted(() => {
               >
                 {{ t('workspace.messages.refreshing') }}
               </v-alert>
-              <v-list
-                class="workspace-root-list"
-                density="comfortable"
-                lines="two"
+              <v-table density="comfortable" class="workspace-table">
+                <thead>
+                  <tr>
+                    <th>{{ t('workspace.files.headers.name') }}</th>
+                    <th>{{ t('workspace.files.headers.type') }}</th>
+                    <th>{{ t('workspace.files.headers.extension') }}</th>
+                    <th class="text-end">
+                      {{ t('workspace.files.headers.size') }}
+                    </th>
+                    <th class="text-end">
+                      {{ t('workspace.files.headers.actions') }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-if="selectedFolderFiles.length === 0">
+                    <td :colspan="5" class="text-center text-medium-emphasis">
+                      {{ t('workspace.files.empty') }}
+                    </td>
+                  </tr>
+                  <tr v-for="file in selectedFolderFiles" :key="file.id">
+                    <td>
+                      <div class="d-flex align-center gap-2">
+                        <v-icon
+                          :icon="file.isPrivate ? 'mdi-lock' : 'mdi-file'"
+                          size="small"
+                        />
+                        <span>{{ file.name }}</span>
+                        <v-chip
+                          v-if="file.isFavorite"
+                          size="x-small"
+                          color="warning"
+                          variant="tonal"
+                        >
+                          {{ t('workspace.files.favorite') }}
+                        </v-chip>
+                      </div>
+                    </td>
+                    <td>{{ file.type }}</td>
+                    <td>{{ file.extension }}</td>
+                    <td class="text-end">
+                      {{ formatFileSize(file.size) }}
+                    </td>
+                    <td class="text-end">
+                      <div class="d-flex justify-end gap-2">
+                        <v-btn
+                          :href="resolveFileUrl(file)"
+                          target="_blank"
+                          variant="text"
+                          size="small"
+                          prepend-icon="mdi-open-in-new"
+                        >
+                          {{ t('workspace.files.actions.open') }}
+                        </v-btn>
+                        <v-btn
+                          color="error"
+                          variant="text"
+                          size="small"
+                          prepend-icon="mdi-delete"
+                          @click="openDeleteFileDialog(file)"
+                        >
+                          {{ t('workspace.files.actions.delete') }}
+                        </v-btn>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </v-table>
+            </v-card-text>
+          </v-card>
+          <v-card v-else class="workspace-root" rounded="xl">
+            <v-toolbar flat color="transparent" class="px-4">
+              <v-toolbar-title class="text-h5">
+                {{ t('workspace.tree.title') }}
+              </v-toolbar-title>
+              <v-spacer />
+              <v-btn
+                color="primary"
+                class="me-2"
+                prepend-icon="mdi-folder-plus"
+                :disabled="isLoading || isReloading"
+                @click="openCreateDialog(null)"
               >
-                <v-list-item
-                  v-for="folder in folders"
-                  :key="folder.id"
-                  :title="folder.name"
-                  class="workspace-root-list-item"
-                  link
-                  @click="workspaceStore.selectFolder(folder.id)"
+                {{ t('workspace.tree.actions.createRoot') }}
+              </v-btn>
+              <v-btn
+                variant="tonal"
+                class="me-2"
+                prepend-icon="mdi-cloud-upload"
+                :disabled="isLoading || isReloading"
+                @click="openUploadDialog(null)"
+              >
+                {{ t('workspace.actions.uploadFile') }}
+              </v-btn>
+              <v-btn
+                variant="text"
+                :disabled="isReloading"
+                prepend-icon="mdi-refresh"
+                @click="loadFolders({ selectId: null })"
+              >
+                {{ t('workspace.actions.refresh') }}
+              </v-btn>
+            </v-toolbar>
+            <v-divider />
+            <v-card-text>
+              <v-alert
+                v-if="loadError"
+                type="error"
+                variant="tonal"
+                class="mb-4"
+                density="compact"
+              >
+                {{ loadError }}
+              </v-alert>
+              <div v-if="isLoading" class="py-4">
+                <v-skeleton-loader type="list-item" class="mb-2" />
+                <v-skeleton-loader type="list-item" class="mb-2" />
+                <v-skeleton-loader type="list-item" />
+              </div>
+              <div
+                v-else-if="folders.length === 0"
+                class="text-medium-emphasis"
+              >
+                {{ t('workspace.tree.empty') }}
+              </div>
+              <div v-else>
+                <v-alert
+                  v-if="isReloading"
+                  type="info"
+                  variant="tonal"
+                  density="compact"
+                  class="mb-4"
                 >
-                  <template #prepend>
-                    <v-avatar color="primary" variant="tonal">
-                      <v-icon icon="mdi-folder" />
-                    </v-avatar>
-                  </template>
-                  <template #subtitle>
-                    <div class="d-flex flex-wrap align-center gap-2 mt-2">
-                      <v-chip
-                        color="primary"
-                        variant="tonal"
-                        size="x-small"
-                        prepend-icon="mdi-file-tree"
-                      >
-                        {{ resolveFolderChildrenLabel(folder) }}
-                      </v-chip>
-                      <v-chip
-                        color="secondary"
-                        variant="tonal"
-                        size="x-small"
-                        prepend-icon="mdi-file"
-                      >
-                        {{ resolveFolderFilesLabel(folder) }}
-                      </v-chip>
-                      <v-chip
-                        v-if="folder.isPrivate"
-                        color="error"
-                        variant="tonal"
-                        size="x-small"
-                        prepend-icon="mdi-lock"
-                      >
-                        {{ t('workspace.details.private') }}
-                      </v-chip>
-                      <v-chip
-                        v-if="folder.isFavorite"
-                        color="warning"
-                        variant="tonal"
-                        size="x-small"
-                        prepend-icon="mdi-star"
-                      >
-                        {{ t('workspace.details.favorite') }}
-                      </v-chip>
-                    </div>
-                  </template>
-                  <template #append>
-                    <v-btn
-                      icon="mdi-chevron-right"
-                      variant="text"
-                      @click.stop="workspaceStore.selectFolder(folder.id)"
-                    />
-                  </template>
-                </v-list-item>
-              </v-list>
-            </div>
+                  {{ t('workspace.messages.refreshing') }}
+                </v-alert>
+                <v-list
+                  class="workspace-root-list"
+                  density="comfortable"
+                  lines="two"
+                >
+                  <v-list-item
+                    v-for="folder in folders"
+                    :key="folder.id"
+                    :title="folder.name"
+                    class="workspace-root-list-item"
+                    link
+                    @click="workspaceStore.selectFolder(folder.id)"
+                  >
+                    <template #prepend>
+                      <v-avatar color="primary" variant="tonal">
+                        <v-icon icon="mdi-folder" />
+                      </v-avatar>
+                    </template>
+                    <template #subtitle>
+                      <div class="d-flex flex-wrap align-center gap-2 mt-2">
+                        <v-chip
+                          color="primary"
+                          variant="tonal"
+                          size="x-small"
+                          prepend-icon="mdi-file-tree"
+                        >
+                          {{ resolveFolderChildrenLabel(folder) }}
+                        </v-chip>
+                        <v-chip
+                          color="secondary"
+                          variant="tonal"
+                          size="x-small"
+                          prepend-icon="mdi-file"
+                        >
+                          {{ resolveFolderFilesLabel(folder) }}
+                        </v-chip>
+                        <v-chip
+                          v-if="folder.isPrivate"
+                          color="error"
+                          variant="tonal"
+                          size="x-small"
+                          prepend-icon="mdi-lock"
+                        >
+                          {{ t('workspace.details.private') }}
+                        </v-chip>
+                        <v-chip
+                          v-if="folder.isFavorite"
+                          color="warning"
+                          variant="tonal"
+                          size="x-small"
+                          prepend-icon="mdi-star"
+                        >
+                          {{ t('workspace.details.favorite') }}
+                        </v-chip>
+                      </div>
+                    </template>
+                    <template #append>
+                      <v-btn
+                        icon="mdi-chevron-right"
+                        variant="text"
+                        @click.stop="workspaceStore.selectFolder(folder.id)"
+                      />
+                    </template>
+                  </v-list-item>
+                </v-list>
+              </div>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+
+      <v-dialog v-model="createDialog" max-width="480">
+        <v-card>
+          <v-card-title class="text-wrap">
+            {{ t('workspace.dialogs.create.title') }}
+          </v-card-title>
+          <v-divider />
+          <v-card-text>
+            <p class="text-body-2 text-medium-emphasis mb-4">
+              {{ t('workspace.dialogs.create.subtitle') }}
+            </p>
+            <v-alert
+              v-if="createError"
+              type="error"
+              variant="tonal"
+              density="compact"
+              class="mb-4"
+            >
+              {{ createError }}
+            </v-alert>
+            <v-form @submit.prevent="submitCreateFolder">
+              <v-text-field
+                v-model="createForm.name"
+                :label="t('workspace.dialogs.fields.name')"
+                :disabled="isCreating"
+                required
+              />
+              <v-select
+                v-model="createForm.parentId"
+                :items="folderOptions"
+                :label="t('workspace.dialogs.fields.parent')"
+                :disabled="isCreating || folderOptions.length === 0"
+                clearable
+                hide-details
+                class="mb-4"
+              />
+              <div class="d-flex flex-column gap-2 mb-4">
+                <v-checkbox
+                  v-model="createForm.isPrivate"
+                  :label="t('workspace.dialogs.fields.private')"
+                  :disabled="isCreating"
+                  hide-details
+                />
+                <v-checkbox
+                  v-model="createForm.isFavorite"
+                  :label="t('workspace.dialogs.fields.favorite')"
+                  :disabled="isCreating"
+                  hide-details
+                />
+              </div>
+              <div class="d-flex justify-end gap-2">
+                <v-btn
+                  variant="text"
+                  :disabled="isCreating"
+                  @click="createDialog = false"
+                >
+                  {{ t('workspace.dialogs.actions.cancel') }}
+                </v-btn>
+                <v-btn color="primary" type="submit" :loading="isCreating">
+                  {{ t('workspace.dialogs.actions.create') }}
+                </v-btn>
+              </div>
+            </v-form>
           </v-card-text>
         </v-card>
-      </v-col>
-    </v-row>
+      </v-dialog>
 
-    <v-dialog v-model="createDialog" max-width="480">
-      <v-card>
-        <v-card-title class="text-wrap">
-          {{ t('workspace.dialogs.create.title') }}
-        </v-card-title>
-        <v-divider />
-        <v-card-text>
-          <p class="text-body-2 text-medium-emphasis mb-4">
-            {{ t('workspace.dialogs.create.subtitle') }}
-          </p>
-          <v-alert
-            v-if="createError"
-            type="error"
-            variant="tonal"
-            density="compact"
-            class="mb-4"
-          >
-            {{ createError }}
-          </v-alert>
-          <v-form @submit.prevent="submitCreateFolder">
-            <v-text-field
-              v-model="createForm.name"
-              :label="t('workspace.dialogs.fields.name')"
-              :disabled="isCreating"
-              required
-            />
-            <v-select
-              v-model="createForm.parentId"
-              :items="folderOptions"
-              :label="t('workspace.dialogs.fields.parent')"
-              :disabled="isCreating || folderOptions.length === 0"
-              clearable
-              hide-details
+      <v-dialog v-model="editDialog" max-width="480">
+        <v-card>
+          <v-card-title class="text-wrap">
+            {{ t('workspace.dialogs.edit.title') }}
+          </v-card-title>
+          <v-divider />
+          <v-card-text>
+            <v-alert
+              v-if="editError"
+              type="error"
+              variant="tonal"
+              density="compact"
               class="mb-4"
-            />
-            <div class="d-flex flex-column gap-2 mb-4">
-              <v-checkbox
-                v-model="createForm.isPrivate"
-                :label="t('workspace.dialogs.fields.private')"
-                :disabled="isCreating"
-                hide-details
-              />
-              <v-checkbox
-                v-model="createForm.isFavorite"
-                :label="t('workspace.dialogs.fields.favorite')"
-                :disabled="isCreating"
-                hide-details
-              />
-            </div>
-            <div class="d-flex justify-end gap-2">
-              <v-btn
-                variant="text"
-                :disabled="isCreating"
-                @click="createDialog = false"
-              >
-                {{ t('workspace.dialogs.actions.cancel') }}
-              </v-btn>
-              <v-btn color="primary" type="submit" :loading="isCreating">
-                {{ t('workspace.dialogs.actions.create') }}
-              </v-btn>
-            </div>
-          </v-form>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-
-    <v-dialog v-model="editDialog" max-width="480">
-      <v-card>
-        <v-card-title class="text-wrap">
-          {{ t('workspace.dialogs.edit.title') }}
-        </v-card-title>
-        <v-divider />
-        <v-card-text>
-          <v-alert
-            v-if="editError"
-            type="error"
-            variant="tonal"
-            density="compact"
-            class="mb-4"
-          >
-            {{ editError }}
-          </v-alert>
-          <v-form @submit.prevent="submitEditFolder">
-            <v-text-field
-              v-model="editForm.name"
-              :label="t('workspace.dialogs.fields.name')"
-              :disabled="isEditing"
-              required
-            />
-            <div class="d-flex flex-column gap-2 mb-4">
-              <v-checkbox
-                v-model="editForm.isPrivate"
-                :label="t('workspace.dialogs.fields.private')"
+            >
+              {{ editError }}
+            </v-alert>
+            <v-form @submit.prevent="submitEditFolder">
+              <v-text-field
+                v-model="editForm.name"
+                :label="t('workspace.dialogs.fields.name')"
                 :disabled="isEditing"
-                hide-details
+                required
               />
-              <v-checkbox
-                v-model="editForm.isFavorite"
-                :label="t('workspace.dialogs.fields.favorite')"
-                :disabled="isEditing"
-                hide-details
-              />
-            </div>
-            <div class="d-flex justify-end gap-2">
-              <v-btn
-                variant="text"
-                :disabled="isEditing"
-                @click="editDialog = false"
-              >
-                {{ t('workspace.dialogs.actions.cancel') }}
-              </v-btn>
-              <v-btn color="primary" type="submit" :loading="isEditing">
-                {{ t('workspace.dialogs.actions.save') }}
-              </v-btn>
-            </div>
-          </v-form>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+              <div class="d-flex flex-column gap-2 mb-4">
+                <v-checkbox
+                  v-model="editForm.isPrivate"
+                  :label="t('workspace.dialogs.fields.private')"
+                  :disabled="isEditing"
+                  hide-details
+                />
+                <v-checkbox
+                  v-model="editForm.isFavorite"
+                  :label="t('workspace.dialogs.fields.favorite')"
+                  :disabled="isEditing"
+                  hide-details
+                />
+              </div>
+              <div class="d-flex justify-end gap-2">
+                <v-btn
+                  variant="text"
+                  :disabled="isEditing"
+                  @click="editDialog = false"
+                >
+                  {{ t('workspace.dialogs.actions.cancel') }}
+                </v-btn>
+                <v-btn color="primary" type="submit" :loading="isEditing">
+                  {{ t('workspace.dialogs.actions.save') }}
+                </v-btn>
+              </div>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
 
-    <v-dialog v-model="deleteDialog" max-width="420">
-      <v-card>
-        <v-card-title class="text-wrap">
-          {{ t('workspace.dialogs.delete.title') }}
-        </v-card-title>
-        <v-divider />
-        <v-card-text>
-          <p class="text-body-2 text-medium-emphasis">
-            {{ t('workspace.dialogs.delete.message') }}
-          </p>
-        </v-card-text>
-        <v-card-actions class="justify-end gap-2">
-          <v-btn
-            variant="text"
-            :disabled="isDeleting"
-            @click="deleteDialog = false"
-          >
-            {{ t('workspace.dialogs.actions.cancel') }}
-          </v-btn>
-          <v-btn
-            color="error"
-            :loading="isDeleting"
-            @click="confirmDeleteFolder"
-          >
-            {{ t('workspace.dialogs.actions.delete') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+      <v-dialog v-model="deleteDialog" max-width="420">
+        <v-card>
+          <v-card-title class="text-wrap">
+            {{ t('workspace.dialogs.delete.title') }}
+          </v-card-title>
+          <v-divider />
+          <v-card-text>
+            <p class="text-body-2 text-medium-emphasis">
+              {{ t('workspace.dialogs.delete.message') }}
+            </p>
+          </v-card-text>
+          <v-card-actions class="justify-end gap-2">
+            <v-btn
+              variant="text"
+              :disabled="isDeleting"
+              @click="deleteDialog = false"
+            >
+              {{ t('workspace.dialogs.actions.cancel') }}
+            </v-btn>
+            <v-btn
+              color="error"
+              :loading="isDeleting"
+              @click="confirmDeleteFolder"
+            >
+              {{ t('workspace.dialogs.actions.delete') }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 
-    <v-dialog v-model="uploadDialog" max-width="480">
-      <v-card>
-        <v-card-title class="text-wrap">
-          {{ t('workspace.dialogs.upload.title') }}
-        </v-card-title>
-        <v-divider />
-        <v-card-text>
-          <p class="text-body-2 text-medium-emphasis mb-4">
-            {{ t('workspace.dialogs.upload.subtitle') }}
-          </p>
-          <v-alert
-            v-if="uploadError"
-            type="error"
-            variant="tonal"
-            density="compact"
-            class="mb-4"
-          >
-            {{ uploadError }}
-          </v-alert>
-          <v-form @submit.prevent="submitUpload">
-            <v-file-input
-              v-model="uploadForm.files"
-              :label="t('workspace.dialogs.fields.file')"
-              :disabled="isUploading"
-              accept="*/*"
-              prepend-icon="mdi-paperclip"
-              show-size
-            />
-            <v-checkbox
-              v-model="uploadForm.isPrivate"
-              :label="t('workspace.dialogs.fields.private')"
-              :disabled="isUploading"
-              hide-details
-              class="mt-2"
-            />
-            <div class="d-flex justify-end gap-2 mt-4">
-              <v-btn
-                variant="text"
+      <v-dialog v-model="uploadDialog" max-width="480">
+        <v-card>
+          <v-card-title class="text-wrap">
+            {{ t('workspace.dialogs.upload.title') }}
+          </v-card-title>
+          <v-divider />
+          <v-card-text>
+            <p class="text-body-2 text-medium-emphasis mb-4">
+              {{ t('workspace.dialogs.upload.subtitle') }}
+            </p>
+            <v-alert
+              v-if="uploadError"
+              type="error"
+              variant="tonal"
+              density="compact"
+              class="mb-4"
+            >
+              {{ uploadError }}
+            </v-alert>
+            <v-form @submit.prevent="submitUpload">
+              <v-file-input
+                v-model="uploadForm.files"
+                :label="t('workspace.dialogs.fields.file')"
                 :disabled="isUploading"
-                @click="uploadDialog = false"
-              >
-                {{ t('workspace.dialogs.actions.cancel') }}
-              </v-btn>
-              <v-btn color="primary" type="submit" :loading="isUploading">
-                {{ t('workspace.dialogs.actions.upload') }}
-              </v-btn>
-            </div>
-          </v-form>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+                accept="*/*"
+                prepend-icon="mdi-paperclip"
+                show-size
+              />
+              <v-checkbox
+                v-model="uploadForm.isPrivate"
+                :label="t('workspace.dialogs.fields.private')"
+                :disabled="isUploading"
+                hide-details
+                class="mt-2"
+              />
+              <div class="d-flex justify-end gap-2 mt-4">
+                <v-btn
+                  variant="text"
+                  :disabled="isUploading"
+                  @click="uploadDialog = false"
+                >
+                  {{ t('workspace.dialogs.actions.cancel') }}
+                </v-btn>
+                <v-btn color="primary" type="submit" :loading="isUploading">
+                  {{ t('workspace.dialogs.actions.upload') }}
+                </v-btn>
+              </div>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
 
-    <v-dialog v-model="deleteFileDialog" max-width="420">
-      <v-card>
-        <v-card-title class="text-wrap">
-          {{ t('workspace.dialogs.deleteFile.title') }}
-        </v-card-title>
-        <v-divider />
-        <v-card-text>
-          <p class="text-body-2 text-medium-emphasis">
-            {{ t('workspace.dialogs.deleteFile.message') }}
-          </p>
-          <p v-if="fileToDelete" class="text-body-2 mt-2">
-            <strong>{{ fileToDelete.name }}</strong>
-          </p>
-        </v-card-text>
-        <v-card-actions class="justify-end gap-2">
-          <v-btn
-            variant="text"
-            :disabled="isDeletingFile"
-            @click="deleteFileDialog = false"
-          >
-            {{ t('workspace.dialogs.actions.cancel') }}
-          </v-btn>
-          <v-btn
-            color="error"
-            :loading="isDeletingFile"
-            @click="confirmDeleteFile"
-          >
-            {{ t('workspace.dialogs.actions.delete') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </ProfilePageShell>
+      <v-dialog v-model="deleteFileDialog" max-width="420">
+        <v-card>
+          <v-card-title class="text-wrap">
+            {{ t('workspace.dialogs.deleteFile.title') }}
+          </v-card-title>
+          <v-divider />
+          <v-card-text>
+            <p class="text-body-2 text-medium-emphasis">
+              {{ t('workspace.dialogs.deleteFile.message') }}
+            </p>
+            <p v-if="fileToDelete" class="text-body-2 mt-2">
+              <strong>{{ fileToDelete.name }}</strong>
+            </p>
+          </v-card-text>
+          <v-card-actions class="justify-end gap-2">
+            <v-btn
+              variant="text"
+              :disabled="isDeletingFile"
+              @click="deleteFileDialog = false"
+            >
+              {{ t('workspace.dialogs.actions.cancel') }}
+            </v-btn>
+            <v-btn
+              color="error"
+              :loading="isDeletingFile"
+              @click="confirmDeleteFile"
+            >
+              {{ t('workspace.dialogs.actions.delete') }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </ProfilePageShell>
   </div>
 </template>
 

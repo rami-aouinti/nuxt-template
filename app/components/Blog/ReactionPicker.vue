@@ -76,7 +76,9 @@ const showCount = computed(
   () => props.showCount && typeof props.count === 'number' && props.count >= 0,
 )
 
-const buttonSize = computed(() => (props.size === 'small' ? 'small' : undefined))
+const buttonSize = computed(() =>
+  props.size === 'small' ? 'small' : undefined,
+)
 const buttonDensity = computed(() =>
   props.density === 'default' ? undefined : props.density,
 )

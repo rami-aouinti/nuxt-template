@@ -1651,7 +1651,7 @@ await loadPosts(1, { replace: true })
             >
               <v-card-text class="d-flex align-center gap-3">
                 <NuxtLink
-                  style="color: rgba(var(--v-theme-on-surface), 0.92);"
+                  style="color: rgba(var(--v-theme-on-surface), 0.92)"
                   class="workplace-card__link d-flex align-center gap-3 flex-grow-1 text-decoration-none"
                   :to="`/world/${encodeURIComponent(workplace.slug)}`"
                 >
@@ -1686,7 +1686,9 @@ await loadPosts(1, { replace: true })
           </v-alert>
 
           <p v-else class="text-body-2 text-medium-emphasis mb-0">
-            {{ translate('workplace.drawer.emptyList', 'You have no worlds yet.') }}
+            {{
+              translate('workplace.drawer.emptyList', 'You have no worlds yet.')
+            }}
           </p>
         </template>
 
@@ -1705,8 +1707,7 @@ await loadPosts(1, { replace: true })
       </teleport>
     </client-only>
     <client-only>
-      <teleport to="#app-drawer-right"
-        >
+      <teleport to="#app-drawer-right">
         <div class="animated-badge mb-4">
           <span class="animated-badge__pulse" />
           {{ t('blog.sidebar.myBlogsTitle') }}
@@ -1753,7 +1754,7 @@ await loadPosts(1, { replace: true })
               class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
             >
               <NuxtLink
-                style="color: rgba(var(--v-theme-on-surface), 0.92);"
+                style="color: rgba(var(--v-theme-on-surface), 0.92)"
                 class="text-decoration-none"
                 :to="`/blog/${blog.id}`"
               >

@@ -18,10 +18,8 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<FrontendWorkplaceUpdatePayload>(event)
 
-  return await requestFrontendWithJsonBody<Workplace, FrontendWorkplaceUpdatePayload>(
-    event,
-    `/workplaces/${encodeURIComponent(workplace)}`,
-    'PUT',
-    body,
-  )
+  return await requestFrontendWithJsonBody<
+    Workplace,
+    FrontendWorkplaceUpdatePayload
+  >(event, `/workplaces/${encodeURIComponent(workplace)}`, 'PUT', body)
 })

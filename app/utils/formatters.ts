@@ -5,11 +5,11 @@ export type DateInput = string | number | Date | null | undefined
 
 export const createDateFormatter = (
   locale: MaybeRef<string | undefined>,
-  options: Intl.DateTimeFormatOptions = { dateStyle: 'medium', timeStyle: 'short' },
-) =>
-  computed(
-    () => new Intl.DateTimeFormat(unref(locale) ?? 'en', options),
-  )
+  options: Intl.DateTimeFormatOptions = {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  },
+) => computed(() => new Intl.DateTimeFormat(unref(locale) ?? 'en', options))
 
 export const formatDateValue = (
   value: DateInput,

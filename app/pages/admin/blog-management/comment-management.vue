@@ -180,7 +180,11 @@ const dateFormatter = createDateFormatter(locale)
 const numberFormatter = createNumberFormatter(locale)
 
 const formatDate = (value: DateInput) =>
-  formatDateValue(value, dateFormatter.value, t('admin.blogManagement.common.none'))
+  formatDateValue(
+    value,
+    dateFormatter.value,
+    t('admin.blogManagement.common.none'),
+  )
 
 function truncateContent(content: string | null | undefined) {
   if (!content) {

@@ -150,72 +150,72 @@ const sections = computed<SettingsSection[]>(() => {
 <template>
   <div class="profile-settings-page">
     <client-only>
-      <teleport to="#app-drawer-right"/>
-  </client-only>
-  <ProfilePageShell>
-    <v-row class="d-flex">
-      <v-col cols="12">
-        <v-card class="pa-6" elevation="2" rounded="xl">
-          <v-card-title class="text-h4 font-weight-bold pb-2">
-            {{ t('pages.settings.title') }}
-          </v-card-title>
-          <v-card-subtitle class="text-body-1 pb-6">
-            {{ t('pages.settings.subtitle') }}
-          </v-card-subtitle>
-          <v-divider class="mb-6" />
-          <v-row dense>
-            <v-col
-              v-for="section in sections"
-              :key="section.key"
-              cols="12"
-              sm="4"
-              class="d-flex"
-            >
-              <v-sheet elevation="1" rounded="lg" class="pa-4 flex-grow-1">
-                <div class="d-flex align-center mb-3">
-                  <v-icon
-                    :icon="section.icon"
-                    size="32"
-                    class="mr-3 text-primary"
-                  />
-                  <h2 class="text-h6 font-weight-medium mb-0">
-                    {{ section.title }}
-                  </h2>
-                </div>
-                <p class="text-body-1 mb-0">
-                  {{ section.description }}
-                </p>
-                <template
-                  v-if="section.key === 'profile' && section.fields?.length"
-                >
-                  <v-divider class="my-4" />
-                  <div class="d-flex flex-column gap-3">
-                    <div
-                      v-for="field in section.fields"
-                      :key="`${section.key}-${field.label}`"
-                      class="d-flex flex-column"
-                    >
-                      <span class="text-caption text-medium-emphasis">
-                        {{ field.label }}
-                      </span>
-                      <span class="text-subtitle-2 font-weight-medium">
-                        {{ field.value }}
-                      </span>
-                    </div>
+      <teleport to="#app-drawer-right" />
+    </client-only>
+    <ProfilePageShell>
+      <v-row class="d-flex">
+        <v-col cols="12">
+          <v-card class="pa-6" elevation="2" rounded="xl">
+            <v-card-title class="text-h4 font-weight-bold pb-2">
+              {{ t('pages.settings.title') }}
+            </v-card-title>
+            <v-card-subtitle class="text-body-1 pb-6">
+              {{ t('pages.settings.subtitle') }}
+            </v-card-subtitle>
+            <v-divider class="mb-6" />
+            <v-row dense>
+              <v-col
+                v-for="section in sections"
+                :key="section.key"
+                cols="12"
+                sm="4"
+                class="d-flex"
+              >
+                <v-sheet elevation="1" rounded="lg" class="pa-4 flex-grow-1">
+                  <div class="d-flex align-center mb-3">
+                    <v-icon
+                      :icon="section.icon"
+                      size="32"
+                      class="mr-3 text-primary"
+                    />
+                    <h2 class="text-h6 font-weight-medium mb-0">
+                      {{ section.title }}
+                    </h2>
                   </div>
-                </template>
-              </v-sheet>
-            </v-col>
-          </v-row>
-          <v-alert class="mt-6" type="info" variant="tonal" rounded="lg">
-            <strong class="d-block mb-1">{{
-              t('pages.settings.tips.title')
-            }}</strong>
-            <span>{{ t('pages.settings.tips.description') }}</span>
-          </v-alert>
-        </v-card>
-      </v-col>
-    </v-row>
-  </ProfilePageShell>
+                  <p class="text-body-1 mb-0">
+                    {{ section.description }}
+                  </p>
+                  <template
+                    v-if="section.key === 'profile' && section.fields?.length"
+                  >
+                    <v-divider class="my-4" />
+                    <div class="d-flex flex-column gap-3">
+                      <div
+                        v-for="field in section.fields"
+                        :key="`${section.key}-${field.label}`"
+                        class="d-flex flex-column"
+                      >
+                        <span class="text-caption text-medium-emphasis">
+                          {{ field.label }}
+                        </span>
+                        <span class="text-subtitle-2 font-weight-medium">
+                          {{ field.value }}
+                        </span>
+                      </div>
+                    </div>
+                  </template>
+                </v-sheet>
+              </v-col>
+            </v-row>
+            <v-alert class="mt-6" type="info" variant="tonal" rounded="lg">
+              <strong class="d-block mb-1">{{
+                t('pages.settings.tips.title')
+              }}</strong>
+              <span>{{ t('pages.settings.tips.description') }}</span>
+            </v-alert>
+          </v-card>
+        </v-col>
+      </v-row>
+    </ProfilePageShell>
   </div>
 </template>

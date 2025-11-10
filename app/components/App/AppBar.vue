@@ -332,7 +332,10 @@ watch(loggedIn, (value) => {
             class="dock-navbar__action-button dock-navbar__language-trigger"
             v-bind="props"
           >
-            <FlagSpan :code="currentLanguage?.code" class="dock-navbar__language-flag" />
+            <FlagSpan
+              :code="currentLanguage?.code"
+              class="dock-navbar__language-flag"
+            />
           </v-btn>
         </template>
 
@@ -419,7 +422,6 @@ watch(loggedIn, (value) => {
   display: none;
 }
 
-
 .dock-navbar__language-trigger {
   padding: 0;
 }
@@ -487,6 +489,4 @@ watch(loggedIn, (value) => {
   text-decoration: none;
   color: inherit;
 }
-
-
 </style>

@@ -309,10 +309,7 @@ watch(loggedIn, (value) => {
         class="dock-navbar__menu"
       >
         <template #activator="{ props }">
-          <v-btn
-            icon
-            v-bind="props"
-          >
+          <v-btn icon v-bind="props">
             <FlagSpan :code="currentLanguage?.code" />
           </v-btn>
         </template>
