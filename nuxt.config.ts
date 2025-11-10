@@ -53,7 +53,6 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'vuetify-nuxt-module',
     'nuxt-auth-utils',
-    'nuxt-echarts',
     '@nuxtjs/i18n',
     '@nuxt/icon',
     '@nuxt/eslint',
@@ -96,20 +95,6 @@ export default defineNuxtConfig({
         prefix: 'custom',
         dir: './app/assets/icons',
       },
-    ],
-  },
-  echarts: {
-    charts: ['LineChart', 'BarChart', 'PieChart', 'RadarChart'],
-    renderer: 'svg',
-    components: [
-      'DataZoomComponent',
-      'LegendComponent',
-      'TooltipComponent',
-      'ToolboxComponent',
-      'GridComponent',
-      'TitleComponent',
-      'DatasetComponent',
-      'VisualMapComponent',
     ],
   },
   vite: {
