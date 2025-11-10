@@ -1,0 +1,18 @@
+@use 'flag-icons/sass/variables' with (
+  $flag-icons-included-countries: (
+    'xx',
+    'ar',
+    'cn',
+    'de',
+    'es',
+    'fr',
+    'gb',
+    'it',
+    'ru',
+    'tn'
+  ),
+  $flag-icons-use-square: true
+);
+
+@use 'flag-icons/sass/flag-icons-base';
+@use 'flag-icons/sass/flag-icons-list';

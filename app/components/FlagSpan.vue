@@ -23,14 +23,35 @@ const props = withDefaults(
     square: false,
     rounded: true,
     size: '1.5rem',
+    title: undefined,
   },
 )
 
 // Normalisation : si on reçoit 'en', on affiche le drapeau 'gb'
+const FALLBACK_FLAG = 'xx'
+
+const flagOverrides: Record<string, string> = {
+  en: 'gb',
+  ar: 'tn',
+  zh: 'cn',
+  'zh-cn': 'cn',
+}
+
 const flagCode = computed(() => {
-  const c = (props.code || '').trim().toLowerCase()
-  if (c === 'en') return 'gb' // <- la règle demandée
-  return c
+  const sanitized = (props.code || '').trim().toLowerCase()
+  if (!sanitized) {
+    return FALLBACK_FLAG
+  }
+
+  const segments = sanitized.split('-')
+  const languageSegment = segments[segments.length - 1] ?? sanitized
+
+  const resolved =
+    flagOverrides[sanitized] ||
+    flagOverrides[languageSegment] ||
+    languageSegment
+
+  return /^[a-z]{2}$/.test(resolved) ? resolved : FALLBACK_FLAG
 })
 
 const cls = computed(() => [

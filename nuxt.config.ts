@@ -3,6 +3,7 @@ import { defineNuxtConfig } from 'nuxt/config'
 import { createHash } from 'node:crypto'
 import { fileURLToPath } from 'node:url'
 import { resolve } from 'node:path'
+import { splitVendorChunkPlugin } from 'vite'
 
 const projectRoot = fileURLToPath(new URL('./', import.meta.url))
 const localeDirectory = resolve(projectRoot, 'app/i18n/locales')
@@ -59,7 +60,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/test-utils/module',
   ],
-  css: ['~/assets/styles/index.css', 'flag-icons/css/flag-icons.min.css'],
+  css: ['~/assets/styles/index.css', '~/assets/styles/flag-icons.scss'],
   experimental: { typedPages: true },
   typescript: {
     shim: false,
@@ -113,6 +114,7 @@ export default defineNuxtConfig({
     ],
   },
   vite: {
+    plugins: [splitVendorChunkPlugin()],
     resolve: {
       alias: {
         i18n: projectRoot,
@@ -120,7 +122,30 @@ export default defineNuxtConfig({
     },
     build: {
       sourcemap: false,
-      cssCodeSplit: false,
+      cssCodeSplit: true,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (!id.includes('node_modules')) {
+              return undefined
+            }
+
+            if (id.includes('vuetify')) {
+              return 'vendor-vuetify'
+            }
+
+            if (id.includes('echarts')) {
+              return 'vendor-echarts'
+            }
+
+            if (id.includes('vue-i18n') || id.includes('@intlify')) {
+              return 'vendor-i18n'
+            }
+
+            return undefined
+          },
+        },
+      },
     },
   },
   nitro: {
