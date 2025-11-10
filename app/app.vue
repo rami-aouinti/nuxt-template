@@ -1,12 +1,13 @@
 <script setup lang="ts">
 const theme = useTheme()
 const { t, locale } = useI18n()
-const routeLoading = useRouteLoading()
+const route = useRoute()
+
 provide(
   THEME_KEY,
   computed(() => (theme.current.value.dark ? 'dark' : undefined)),
 )
-const route = useRoute()
+
 const pageTitle = computed(() => {
   const rawTitle = route.meta?.title || route.matched[0]?.meta?.title
   if (!rawTitle) {
@@ -18,6 +19,19 @@ const pageTitle = computed(() => {
 })
 
 const defaultTitle = computed(() => t('app.title'))
+
+const layoutName = computed(() => {
+  const metaLayout = route.meta?.layout
+  if (metaLayout === false) {
+    return false
+  }
+
+  if (typeof metaLayout === 'string') {
+    return metaLayout
+  }
+
+  return route.path.startsWith('/admin') ? 'admin' : 'default'
+})
 
 useHead(() => ({
   title: pageTitle.value || defaultTitle.value,
@@ -43,60 +57,8 @@ useSeoMeta(() => ({
 </script>
 
 <template>
-  <v-app>
-    <AppDrawer />
-    <AppBar />
-    <v-main>
-      <div class="route-container">
-        <div v-show="!routeLoading" class="route-container__page">
-          <div class="page-surface">
-            <span class="floating-shape floating-shape--one" />
-            <span class="floating-shape floating-shape--two" />
-            <div class="page-surface__inner">
-              <NuxtPage :key="route.fullPath" />
-            </div>
-          </div>
-        </div>
-        <AppRouteLoader v-if="routeLoading" class="route-container__loader" />
-      </div>
-    </v-main>
-    <AppFooter />
-  </v-app>
+  <NuxtLayout v-if="layoutName" :name="layoutName">
+    <NuxtPage :key="route.fullPath" />
+  </NuxtLayout>
+  <NuxtPage v-else :key="route.fullPath" />
 </template>
-
-<style scoped>
-/* replace padding with margin to limit scrollbar in v-main */
-.v-main {
-  padding-top: 0;
-  padding-bottom: 0;
-  /* https://github.com/vuetifyjs/vuetify/issues/15202 */
-  margin-top: 64px;
-  margin-bottom: 32px;
-  height: calc(100vh - 64px - 32px);
-  /* margin-top: var(--v-layout-top);
-  margin-bottom: var(--v-layout-bottom);
-  height: calc(100vh - var(--v-layout-top) - var(--v-layout-bottom)); */
-  overflow-y: auto;
-  transition-property: padding;
-}
-
-.route-container {
-  position: relative;
-  display: flex;
-  height: 100%;
-}
-
-.route-container__page {
-  flex: 1;
-}
-
-.route-container__loader {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* reuse transition defined in AppRouteLoader */
-</style>
