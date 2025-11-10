@@ -45,7 +45,9 @@
     "about": "About",
     "contact": "Contact",
     "pluginManagement": "Plugin management",
-    "plugins": "Plugins"
+    "plugins": "Plugins",
+    "mediaManagement": "Media management",
+    "media": "Media library"
   },
   "messenger": {
     "title": "Messenger",
@@ -316,6 +318,33 @@
           "updatedAt": "Updated",
           "visibility": "Visibility"
         }
+      }
+    },
+    "mediaManagement": {
+      "title": "Media library",
+      "subtitle": "Browse and manage the media assets stored on the platform. Total: {count}.",
+      "table": {
+        "title": "Title",
+        "fileName": "File name",
+        "context": "Context",
+        "mimeType": "MIME type",
+        "fileSize": "Size",
+        "visibility": "Visibility",
+        "favorite": "Favorite",
+        "createdAt": "Uploaded",
+        "updatedAt": "Updated"
+      },
+      "labels": {
+        "private": "Private",
+        "public": "Public",
+        "favorite": "Favourite",
+        "notFavorite": "Not favourite",
+        "noContext": "No context",
+        "notAvailable": "Not available",
+        "untitled": "Untitled media"
+      },
+      "errors": {
+        "loadFailed": "Unable to load the media entries."
       }
     },
     "workplaces": "Number of workplaces",

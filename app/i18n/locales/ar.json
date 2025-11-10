@@ -45,7 +45,9 @@
     "about": "معلومات عنا",
     "contact": "اتصل بنا",
     "pluginManagement": "Plugin management",
-    "plugins": "Plugins"
+    "plugins": "Plugins",
+    "mediaManagement": "إدارة الوسائط",
+    "media": "مكتبة الوسائط"
   },
   "messenger": {
     "title": "الرسائل",
@@ -307,6 +309,33 @@
           "updatedAt": "تاريخ التحديث",
           "visibility": "الحالة"
         }
+      }
+    },
+    "mediaManagement": {
+      "title": "مكتبة الوسائط",
+      "subtitle": "استعرض وأدر الوسائط المخزنة على المنصة. الإجمالي: {count}.",
+      "table": {
+        "title": "العنوان",
+        "fileName": "اسم الملف",
+        "context": "السياق",
+        "mimeType": "نوع MIME",
+        "fileSize": "الحجم",
+        "visibility": "إمكانية العرض",
+        "favorite": "مفضل",
+        "createdAt": "تاريخ الرفع",
+        "updatedAt": "تاريخ التحديث"
+      },
+      "labels": {
+        "private": "خاص",
+        "public": "عام",
+        "favorite": "مفضل",
+        "notFavorite": "غير مفضل",
+        "noContext": "لا يوجد سياق",
+        "notAvailable": "غير متوفر",
+        "untitled": "وسيط بلا عنوان"
+      },
+      "errors": {
+        "loadFailed": "تعذّر تحميل الوسائط."
       }
     },
     "workplaces": "Number of workplaces",

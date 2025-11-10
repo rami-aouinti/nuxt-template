@@ -45,7 +45,9 @@
     "about": "À propos",
     "contact": "Contact",
     "pluginManagement": "Gestion des plugins",
-    "plugins": "Plugins"
+    "plugins": "Plugins",
+    "mediaManagement": "Gestion des médias",
+    "media": "Médiathèque"
   },
   "messenger": {
     "title": "Messagerie",
@@ -316,6 +318,33 @@
           "updatedAt": "Mis à jour le",
           "visibility": "Visibilité"
         }
+      }
+    },
+    "mediaManagement": {
+      "title": "Médiathèque",
+      "subtitle": "Parcourez et gérez les médias stockés sur la plateforme. Total : {count}.",
+      "table": {
+        "title": "Titre",
+        "fileName": "Nom de fichier",
+        "context": "Contexte",
+        "mimeType": "Type MIME",
+        "fileSize": "Taille",
+        "visibility": "Visibilité",
+        "favorite": "Favori",
+        "createdAt": "Téléversé",
+        "updatedAt": "Mis à jour"
+      },
+      "labels": {
+        "private": "Privé",
+        "public": "Public",
+        "favorite": "Favori",
+        "notFavorite": "Non favori",
+        "noContext": "Aucun contexte",
+        "notAvailable": "Non disponible",
+        "untitled": "Média sans titre"
+      },
+      "errors": {
+        "loadFailed": "Impossible de charger les médias."
       }
     },
     "workplaces": "Number of workplaces",

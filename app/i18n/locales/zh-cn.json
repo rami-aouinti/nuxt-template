@@ -45,7 +45,9 @@
     "about": "关于我们",
     "contact": "联系我们",
     "pluginManagement": "Plugin management",
-    "plugins": "Plugins"
+    "plugins": "Plugins",
+    "mediaManagement": "媒体管理",
+    "media": "媒体库"
   },
   "messenger": {
     "title": "消息",
@@ -307,6 +309,33 @@
           "updatedAt": "更新时间",
           "visibility": "可见性"
         }
+      }
+    },
+    "mediaManagement": {
+      "title": "媒体库",
+      "subtitle": "浏览并管理平台中存储的媒体资源。总数：{count}。",
+      "table": {
+        "title": "标题",
+        "fileName": "文件名",
+        "context": "上下文",
+        "mimeType": "MIME 类型",
+        "fileSize": "大小",
+        "visibility": "可见性",
+        "favorite": "收藏",
+        "createdAt": "上传时间",
+        "updatedAt": "更新时间"
+      },
+      "labels": {
+        "private": "私有",
+        "public": "公开",
+        "favorite": "已收藏",
+        "notFavorite": "未收藏",
+        "noContext": "无上下文",
+        "notAvailable": "不可用",
+        "untitled": "未命名媒体"
+      },
+      "errors": {
+        "loadFailed": "无法加载媒体资源。"
       }
     },
     "workplaces": "Number of workplaces",
