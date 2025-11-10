@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 
 const drawerState = useState('drawerRight', () => true)
+const appBarReady = useState('appBarReady', () => false)
 
 const { mobile, lgAndUp, width } = useDisplay()
 const drawer = computed({
@@ -19,6 +20,7 @@ drawerState.value = lgAndUp.value && width.value >= 1280
 
 <template>
   <v-navigation-drawer
+    v-if="appBarReady"
     v-model="drawer"
     :expand-on-hover="rail"
     :rail="rail"

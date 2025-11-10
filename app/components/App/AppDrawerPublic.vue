@@ -4,6 +4,7 @@ import { computed } from 'vue'
 const router = useRouter()
 const routes = router.getRoutes().filter((r) => r.path.lastIndexOf('/') === 0)
 const drawerState = useState('drawer', () => true)
+const appBarReady = useState('appBarReady', () => false)
 
 const { mobile, lgAndUp, width } = useDisplay()
 const { t } = useI18n()
@@ -53,6 +54,7 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
 
 <template>
   <v-navigation-drawer
+    v-if="appBarReady"
     v-model="drawer"
     :expand-on-hover="rail"
     :rail="rail"
