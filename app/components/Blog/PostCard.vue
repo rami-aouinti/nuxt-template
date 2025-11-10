@@ -53,11 +53,57 @@ const postLink = computed(() => localePath(`/post/${props.post.slug}`))
 const authorName = computed(() => getAuthorName(props.post.user))
 const authorLink = computed(() => getAuthorProfileLink(props.post.user))
 const authorAvatar = computed(() => getAuthorAvatar(props.post.user))
-const postExcerpt = computed(() => props.excerpt.trim())
-const hasExcerpt = computed(() => postExcerpt.value.length > 0)
+const excerptState = computed(() => {
+  const trimmedExcerpt = props.excerpt.trim()
+
+  if (trimmedExcerpt.length > 0) {
+    return {
+      text: trimmedExcerpt,
+      isMuted: false,
+    }
+  }
+
+  return {
+    text: t('blog.placeholders.noSummary'),
+    isMuted: true,
+  }
+})
 const reactionType = computed(() =>
   resolveReactionType(props.post.isReacted ?? null),
 )
+const reactionCount = computed(() => props.post.reactions_count ?? 0)
+const commentCount = computed(() => props.post.totalComments ?? 0)
+const shareCount = computed(() => props.post.sharedFrom?.length ?? 0)
+
+const commentsToggleLabel = computed(() => {
+  const baseKey = props.post.ui?.commentsVisible
+    ? 'blog.actions.hideComments'
+    : 'blog.actions.showComments'
+  const base = t(baseKey)
+  if (commentCount.value <= 0) {
+    return base
+  }
+
+  return `${base} (${t('blog.stats.comments', { count: commentCount.value })})`
+})
+
+const reactionsButtonLabel = computed(() => {
+  const base = t('blog.actions.viewReactions')
+  if (reactionCount.value <= 0) {
+    return base
+  }
+
+  return `${base} (${t('blog.stats.reactions', { count: reactionCount.value })})`
+})
+
+const shareButtonLabel = computed(() => {
+  const base = t('blog.actions.sharePost')
+  if (shareCount.value <= 0) {
+    return base
+  }
+
+  return `${base} (${t('blog.stats.shares', { count: shareCount.value })})`
+})
 
 const isMenuOpen = ref(false)
 const isDeleteLoading = computed(() => props.post.ui?.deleteLoading ?? false)
@@ -92,22 +138,11 @@ const onDeletePost = () => {
           v-if="authorLink"
           :to="authorLink"
           class="facebook-post-card__avatar-link text-decoration-none"
+          :aria-label="authorName"
         >
-          <v-avatar size="48">
-            <v-img :src="authorAvatar" :alt="authorName">
-              <template #error>
-                <v-icon icon="mdi-account-circle" size="48" />
-              </template>
-            </v-img>
-          </v-avatar>
+          <AppAvatar :src="authorAvatar" :alt="authorName" size="48" />
         </NuxtLink>
-        <v-avatar v-else size="48">
-          <v-img :src="authorAvatar" :alt="authorName">
-            <template #error>
-              <v-icon icon="mdi-account-circle" size="48" />
-            </template>
-          </v-img>
-        </v-avatar>
+        <AppAvatar v-else :src="authorAvatar" :alt="authorName" size="48" />
       </div>
       <div class="facebook-post-card__header-info">
         <div class="facebook-post-card__author">
@@ -115,6 +150,7 @@ const onDeletePost = () => {
             v-if="authorLink"
             :to="authorLink"
             class="facebook-post-card__author-link text-decoration-none"
+            :aria-label="authorName"
           >
             {{ authorName }}
           </NuxtLink>
@@ -188,9 +224,9 @@ const onDeletePost = () => {
       </NuxtLink>
       <p
         class="facebook-post-card__text"
-        :class="{ 'facebook-post-card__text--muted': !hasExcerpt }"
+        :class="{ 'facebook-post-card__text--muted': excerptState.isMuted }"
       >
-        {{ hasExcerpt ? postExcerpt : t('blog.placeholders.noSummary') }}
+        {{ excerptState.text }}
       </p>
     </div>
 
@@ -221,7 +257,7 @@ const onDeletePost = () => {
             size="small"
             density="comfortable"
             :model-value="reactionType"
-            :count="post.reactions_count ?? 0"
+            :count="reactionCount"
             :loading="post.ui.likeLoading"
             :disabled="!loggedIn"
             :show-caret="loggedIn"
@@ -232,9 +268,10 @@ const onDeletePost = () => {
           <v-btn
             variant="text"
             class="facebook-post-card__action-btn facebook-post-card__count-btn"
+            :aria-label="reactionsButtonLabel"
             @click="emit('show-reactions', post)"
           >
-            {{ post.reactions_count ?? 0 }}
+            {{ reactionCount }}
           </v-btn>
         </div>
       </div>
@@ -243,6 +280,7 @@ const onDeletePost = () => {
           variant="text"
           class="facebook-post-card__action-btn"
           :loading="post.ui.commentsLoading"
+          :aria-label="commentsToggleLabel"
           @click="emit('toggle-comments', post)"
         >
           <v-icon
@@ -253,15 +291,16 @@ const onDeletePost = () => {
             "
             class="mr-1"
           />
-          {{ post.totalComments }}
+          {{ commentCount }}
         </v-btn>
         <v-btn
           variant="text"
           class="facebook-post-card__action-btn"
+          :aria-label="shareButtonLabel"
           @click="emit('share', post)"
         >
           <v-icon icon="mdi-share" class="mr-1" />
-          {{ post.sharedFrom?.length }}
+          {{ shareCount }}
         </v-btn>
       </div>
     </div>
@@ -499,6 +538,16 @@ a.facebook-post-card__author-link:focus-visible {
 .facebook-post-card__reaction-picker {
   display: inline-flex;
   align-items: center;
+}
+
+.facebook-post-card__reaction-picker--placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 72px;
+  block-size: 32px;
+  border-radius: 16px;
+  background-color: rgba(var(--v-theme-surface-variant), 0.35);
 }
 
 .facebook-post-card__reaction-picker :deep(.blog-reaction-picker__action) {

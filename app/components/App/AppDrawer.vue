@@ -168,9 +168,7 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
 
 <style>
 .v-navigation-drawer {
-  transition-property:
-    box-shadow, transform, visibility, width, height, left, right, top, bottom,
-    border-radius !important;
+  transition-property: box-shadow, transform, opacity, border-radius !important;
   overflow: hidden;
   &.v-navigation-drawer--rail {
     border-top-right-radius: 0px;
@@ -187,8 +185,7 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
         transform: translateX(-160px);
       }
       .drawer-header-icon {
-        height: 1em !important;
-        width: 1em !important;
+        transform: scale(0.83);
       }
       .v-list-group {
         --list-indent-size: 0px;
@@ -209,21 +206,23 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
     }
   }
   .drawer-footer {
-    transition: all 0.2s;
+    transition: transform 0.2s ease, opacity 0.2s ease;
     min-height: 30px;
   }
   .drawer-header-icon {
     opacity: 1 !important;
     height: 1.2em !important;
     width: 1.2em !important;
-    transition: all 0.2s;
+    transform: scale(1);
+    transition: transform 0.2s ease, opacity 0.2s ease;
     margin-right: -10px;
   }
   .v-list-group {
     --prepend-width: 10px;
   }
   .v-list-item {
-    transition: all 0.2s;
+    transition: background-color 0.2s ease, color 0.2s ease,
+      transform 0.2s ease;
   }
 }
 </style>

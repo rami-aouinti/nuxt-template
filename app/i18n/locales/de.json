@@ -102,12 +102,14 @@
       "read": "Artikel lesen",
       "showComments": "Alle Kommentare anzeigen",
       "hideComments": "Kommentare ausblenden",
+      "viewReactions": "Reaktionen anzeigen",
       "like": "Gefällt mir",
       "unlike": "Reaktion entfernen",
       "addComment": "Kommentar veröffentlichen",
       "reply": "Antworten",
       "editBlog": "Blog bearbeiten",
-      "deleteBlog": "Blog löschen"
+      "deleteBlog": "Blog löschen",
+      "sharePost": "Beitrag teilen"
     },
     "feed": {
       "composer": {
@@ -131,7 +133,8 @@
     },
     "stats": {
       "reactions": "{count} Reaktionen",
-      "comments": "{count} Kommentare"
+      "comments": "{count} Kommentare",
+      "shares": "{count} Mal geteilt"
     },
     "empty": {
       "title": "Noch keine Beiträge veröffentlicht",

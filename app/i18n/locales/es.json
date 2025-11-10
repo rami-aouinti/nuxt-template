@@ -102,12 +102,14 @@
       "read": "Leer el artículo",
       "showComments": "Mostrar todos los comentarios",
       "hideComments": "Ocultar comentarios",
+      "viewReactions": "Ver reacciones",
       "like": "Me gusta",
       "unlike": "Quitar reacción",
       "addComment": "Publicar comentario",
       "reply": "Responder",
       "editBlog": "Editar blog",
-      "deleteBlog": "Eliminar blog"
+      "deleteBlog": "Eliminar blog",
+      "sharePost": "Compartir publicación"
     },
     "feed": {
       "composer": {
@@ -131,7 +133,8 @@
     },
     "stats": {
       "reactions": "{count} reacciones",
-      "comments": "{count} comentarios"
+      "comments": "{count} comentarios",
+      "shares": "{count} veces compartido"
     },
     "empty": {
       "title": "Aún no hay artículos publicados",
