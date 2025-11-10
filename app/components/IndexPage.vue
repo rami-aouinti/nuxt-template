@@ -8,6 +8,11 @@ const translate = (key: string, fallback: string) => {
   return value && value !== key ? value : fallback
 }
 
+const buildChildPath = (childPath: string) => {
+  const current = route.path.endsWith('/') ? route.path.slice(0, -1) : route.path
+  return `${current}/${childPath}`
+}
+
 const items = computed(() =>
   route.matched
     ?.filter((v) => v.path === route.path)[0]
@@ -15,12 +20,20 @@ const items = computed(() =>
     .toSorted(
       (a, b) => (a.meta?.drawerIndex ?? 99) - (b.meta?.drawerIndex ?? 98),
     )
-    .map((c) => ({
-      title: c.meta?.title,
-      to: localePath(c.name) ? c : `${route.path}/${c.path}`,
-      prependIcon: c.meta?.icon,
-      subtitle: c.meta?.subtitle,
-    })),
+    .map((c) => {
+      const hasName = typeof c.name === 'string' && c.name.length > 0
+      const to = hasName
+        ? localePath({ name: c.name })
+        : buildChildPath(String(c.path))
+
+      return {
+        title: c.meta?.title,
+        to,
+        prependIcon: c.meta?.icon,
+        subtitle: c.meta?.subtitle,
+      }
+    })
+    .filter((item) => Boolean(item.to)),
 )
 </script>
 
