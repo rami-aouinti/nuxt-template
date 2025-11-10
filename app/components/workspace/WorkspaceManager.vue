@@ -500,7 +500,7 @@ onMounted(() => {
       <v-col cols="12" md="4" lg="3">
         <v-card class="workspace-tree h-100"  rounded="xl">
           <v-card-title class="d-flex align-center gap-2">
-            <v-icon icon="mdi:folder-tree" class="me-2" />
+            <v-icon icon="mdi-folder-tree" class="me-2" />
             {{ t('workspace.tree.title') }}
             <v-spacer />
             <v-btn
