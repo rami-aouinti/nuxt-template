@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 
-definePageMeta({
-  title: 'navigation.profileWorkspace',
-  middleware: 'auth',
-})
-
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { FetchError } from 'ofetch'
 import { storeToRefs } from 'pinia'
@@ -17,6 +12,11 @@ import type {
   WorkspaceFolder,
 } from '~/types/workspace'
 import { useWorkspaceStore } from '~/stores/workspace'
+
+definePageMeta({
+  title: 'navigation.profileWorkspace',
+  middleware: 'auth',
+})
 
 const WORKSPACE_BASE_URL = 'https://bro-world.org'
 
@@ -501,8 +501,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <client-only>
-    <teleport to="#app-drawer-right">
+  <div class="profile-workspace-page">
+    <client-only>
+      <teleport to="#app-drawer-right">
       <v-card-title class="d-flex align-center gap-2">
         <v-icon icon="mdi-folder-tree" class="me-2" />
         {{ t('workspace.tree.title') }}
@@ -1090,6 +1091,7 @@ onMounted(() => {
       </v-card>
     </v-dialog>
   </ProfilePageShell>
+  </div>
 </template>
 
 <style scoped>

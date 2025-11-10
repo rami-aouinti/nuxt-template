@@ -148,9 +148,9 @@ const sections = computed<SettingsSection[]>(() => {
 </script>
 
 <template>
-  <client-only>
-    <teleport to="#app-drawer-right">
-    </teleport>
+  <div class="profile-settings-page">
+    <client-only>
+      <teleport to="#app-drawer-right"/>
   </client-only>
   <ProfilePageShell>
     <v-row class="d-flex">
@@ -217,4 +217,5 @@ const sections = computed<SettingsSection[]>(() => {
       </v-col>
     </v-row>
   </ProfilePageShell>
+  </div>
 </template>

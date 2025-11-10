@@ -8,8 +8,6 @@ const translate = (key: string, fallback: string) => {
   const value = t(key)
   return value && value !== key ? value : fallback
 }
-const route = useRoute()
-
 interface NavigationItem {
   value: string
   to: string
@@ -98,24 +96,6 @@ const items = computed<NavigationItem[]>(() => [
   ...pluginItems.value,
 ])
 
-function normalizePath(path: string) {
-  if (path === '/') {
-    return path
-  }
-
-  return path.replace(/\/+$/, '') || '/'
-}
-
-const activeValue = computed(() => {
-  const currentPath = normalizePath(route.path)
-  const match = items.value.find((item) => item.match?.(currentPath))
-
-  if (match) {
-    return match.value
-  }
-
-  return items.value[0]?.value ?? null
-})
 </script>
 
 <template>

@@ -5,7 +5,6 @@ import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 import type { AuthProfile } from '~/types/auth'
 import type { Configuration } from '~/types/configuration'
 import { Notify } from '~/stores/notification'
-import ProfileNavigation from "~/components/profile/ProfileNavigation.vue";
 
 definePageMeta({
   title: 'navigation.profile',
@@ -66,20 +65,6 @@ const initials = computed(() => {
   }
 
   return profile.value.username.slice(0, 2).toUpperCase()
-})
-
-const roles = computed(() => {
-  const rawRoles = profile.value?.roles
-  if (!Array.isArray(rawRoles)) {
-    return [] as string[]
-  }
-
-  return rawRoles
-    .filter(
-      (role): role is string =>
-        typeof role === 'string' && role.trim().length > 0,
-    )
-    .map((role) => role.trim())
 })
 
 type ProfileForm = {
@@ -671,8 +656,9 @@ async function submit() {
 </script>
 
 <template>
-  <client-only>
-    <teleport to="#app-drawer-right">
+  <div class="profile-index-page">
+    <client-only>
+      <teleport to="#app-drawer-right">
       <v-alert v-if="!profile" type="info" variant="tonal" class="ma-auto">
         {{ t('profile.page.alerts.emptyProfile') }}
       </v-alert>
@@ -1069,5 +1055,6 @@ async function submit() {
       </v-col>
     </v-row>
   </ProfilePageShell>
+  </div>
 </template>
 
