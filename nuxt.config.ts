@@ -7,6 +7,20 @@ import { resolve } from 'node:path'
 const projectRoot = fileURLToPath(new URL('./', import.meta.url))
 const localeDirectory = resolve(projectRoot, 'app/i18n/locales')
 
+const DEFAULT_MERCURE_URL = 'http://bro-world.org:3000/.well-known/mercure'
+const DEFAULT_MERCURE_PUBLIC_URL =
+  'http://bro-world.org/.well-known/mercure'
+const DEFAULT_MESSENGER_API_BASE = 'https://bro-world.org/api/v1/messenger'
+const DEFAULT_MESSENGER_NOTIFICATION_TOPIC =
+  '/notifications/3d2abda8-bdb9-11f0-8da8-9d776028aeca'
+
+const mercureUrl = process.env.MERCURE_URL || DEFAULT_MERCURE_URL
+const mercurePublicUrl =
+  process.env.MERCURE_PUBLIC_URL ||
+  process.env.NUXT_PUBLIC_MESSENGER_HUB_URL ||
+  DEFAULT_MERCURE_PUBLIC_URL
+const mercureJwtSecret = process.env.MERCURE_JWT_SECRET || ''
+
 function createOAuthConfig() {
   return { clientId: '', clientSecret: '' }
 }
@@ -187,6 +201,11 @@ export default defineNuxtConfig({
     vueI18n: './app/i18n/i18n.config.ts',
   },
   runtimeConfig: {
+    mercure: {
+      url: mercureUrl,
+      publicUrl: mercurePublicUrl,
+      jwtSecret: mercureJwtSecret,
+    },
     oauth: {
       github: createOAuthConfig(),
       google: createOAuthConfig(),
@@ -223,16 +242,18 @@ export default defineNuxtConfig({
       ),
     },
     public: {
+      mercure: {
+        hubUrl: mercurePublicUrl,
+      },
       messenger: {
         apiBase:
           process.env.NUXT_PUBLIC_MESSENGER_API_BASE ||
-          'https://bro-world.org/api/v1/messenger',
+          DEFAULT_MESSENGER_API_BASE,
         mercureHubUrl:
-          process.env.NUXT_PUBLIC_MESSENGER_HUB_URL ||
-          'http://bro-world.org:3000/.well-known/mercure',
+          process.env.NUXT_PUBLIC_MESSENGER_HUB_URL || mercurePublicUrl,
         notificationTopic:
           process.env.NUXT_PUBLIC_MESSENGER_NOTIFICATION_TOPIC ||
-          '/notifications/3d2abda8-bdb9-11f0-8da8-9d776028aeca',
+          DEFAULT_MESSENGER_NOTIFICATION_TOPIC,
         notificationReconnectDelay: toPositiveInteger(
           process.env.NUXT_PUBLIC_MESSENGER_NOTIFICATION_RECONNECT_DELAY,
           5000,
