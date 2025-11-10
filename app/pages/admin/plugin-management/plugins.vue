@@ -547,7 +547,7 @@ watch(viewDialog, (value) => {
 
           <template #[`item.actions`]="{ item }">
             <div class="d-flex justify-end gap-1">
-              <v-tooltip location="top">
+              <v-tooltip :text="t('pluginManagement.plugins.actions.view')" location="top">
                 <template #activator="{ props }">
                   <v-btn
                     v-bind="props"
@@ -557,10 +557,9 @@ watch(viewDialog, (value) => {
                     @click="openView(item as AdminPlugin)"
                   />
                 </template>
-                {{ t('pluginManagement.plugins.actions.view') }}
               </v-tooltip>
 
-              <v-tooltip location="top">
+              <v-tooltip :text="t('pluginManagement.plugins.actions.edit')" location="top">
                 <template #activator="{ props }">
                   <v-btn
                     v-bind="props"
@@ -570,10 +569,9 @@ watch(viewDialog, (value) => {
                     @click="openEdit(item as AdminPlugin)"
                   />
                 </template>
-                {{ t('pluginManagement.plugins.actions.edit') }}
               </v-tooltip>
 
-              <v-tooltip location="top">
+              <v-tooltip :text="t('pluginManagement.plugins.actions.delete')" location="top">
                 <template #activator="{ props }">
                   <v-btn
                     v-bind="props"
@@ -583,7 +581,6 @@ watch(viewDialog, (value) => {
                     @click="openDelete(item as AdminPlugin)"
                   />
                 </template>
-                {{ t('pluginManagement.plugins.actions.delete') }}
               </v-tooltip>
             </div>
           </template>
