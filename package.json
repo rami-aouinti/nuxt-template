@@ -33,6 +33,7 @@
     "@nuxtjs/i18n": "^10.2.0",
     "@pinia/nuxt": "^0.11.2",
     "@vueuse/nuxt": "^13.9.0",
+    "ddd": "^0.0.4",
     "flag-icons": "^7.5.0",
     "ioredis": "^5.8.1",
     "jspdf": "^2.5.2",
