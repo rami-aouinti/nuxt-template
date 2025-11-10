@@ -326,9 +326,10 @@ watch(loggedIn, (value) => {
         <template #activator="{ props }">
           <v-btn
             icon
+            class="dock-navbar__action-button dock-navbar__language-trigger"
             v-bind="props"
           >
-            <FlagSpan :code="currentLanguage?.code" />
+            <FlagSpan :code="currentLanguage?.code" class="dock-navbar__language-flag" />
           </v-btn>
         </template>
 
@@ -415,16 +416,24 @@ watch(loggedIn, (value) => {
   display: none;
 }
 
-.dock-navbar__language-button {
-  display: inline-flex;
+
+.dock-navbar__language-trigger {
+  padding: 0;
+}
+
+.dock-navbar__language-trigger :deep(.v-btn__content) {
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 9999px;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .dock-navbar__language-flag {
-  font-size: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
   line-height: 1;
   font-family:
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
@@ -476,7 +485,5 @@ watch(loggedIn, (value) => {
   color: inherit;
 }
 
-.dock-navbar__language-button:hover {
-  background-color: rgba(var(--v-theme-surface-variant), 0.24);
-}
+
 </style>
