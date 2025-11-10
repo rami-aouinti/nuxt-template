@@ -6,8 +6,10 @@ import { useMessengerStore } from '~/stores/messenger'
 import type {
   ConversationSummary,
   MessengerMessageSummary,
+  MessengerUserSummary,
 } from '~/types/messenger'
 import { Notify } from '~/stores/notification'
+import type { PublicProfileData } from '~/types/profile'
 
 definePageMeta({
   title: 'navigation.messenger',
@@ -35,6 +37,184 @@ const hasMoreMessages = ref(false)
 const isUpdatingRoute = ref(false)
 
 const currentUserId = computed(() => session.value?.profile?.id ?? '')
+
+const fallbackSender = computed<MessengerUserSummary>(() => {
+  const profile = session.value?.profile as PublicProfileData | null | undefined
+
+  const firstName =
+    typeof profile?.firstName === 'string' ? profile.firstName.trim() : ''
+  const lastName =
+    typeof profile?.lastName === 'string' ? profile.lastName.trim() : ''
+  const username =
+    typeof profile?.username === 'string' ? profile.username.trim() : ''
+
+  const displayName =
+    [firstName, lastName].filter((part) => part.length > 0).join(' ') || username
+
+  let avatarUrl: string | null = null
+  const photo =
+    typeof profile?.photo === 'string' && profile.photo.trim().length > 0
+      ? profile.photo.trim()
+      : null
+
+  if (photo) {
+    avatarUrl = photo
+  } else if (profile?.profile && typeof profile.profile === 'object') {
+    const record = profile.profile as Record<string, unknown>
+    const candidate =
+      typeof record.avatarUrl === 'string'
+        ? record.avatarUrl
+        : typeof record.avatar === 'string'
+          ? record.avatar
+          : null
+
+    avatarUrl =
+      candidate && candidate.trim().length > 0 ? candidate.trim() : null
+  }
+
+  return {
+    id: currentUserId.value,
+    username,
+    displayName: displayName.length > 0 ? displayName : null,
+    avatarUrl,
+  }
+})
+
+const resolveSender = (sender: MessengerUserSummary): MessengerUserSummary => {
+  const fallback = fallbackSender.value
+
+  const senderDisplayName =
+    typeof sender.displayName === 'string' ? sender.displayName.trim() : ''
+  const fallbackDisplayName =
+    typeof fallback.displayName === 'string' ? fallback.displayName.trim() : ''
+
+  const resolvedDisplayName =
+    senderDisplayName.length > 0
+      ? senderDisplayName
+      : fallbackDisplayName.length > 0
+        ? fallbackDisplayName
+        : null
+
+  const senderUsername = sender.username?.trim() ?? ''
+  const fallbackUsername = fallback.username?.trim() ?? ''
+
+  const resolvedUsername =
+    senderUsername.length > 0 ? senderUsername : fallbackUsername
+
+  const resolvedId =
+    sender.id && sender.id.trim().length > 0 ? sender.id : fallback.id
+
+  const avatarUrl =
+    sender.avatarUrl && sender.avatarUrl.trim().length > 0
+      ? sender.avatarUrl.trim()
+      : fallback.avatarUrl ?? null
+
+  return {
+    id: resolvedId,
+    username: resolvedUsername,
+    displayName: resolvedDisplayName,
+    avatarUrl,
+  }
+}
+
+const prepareMessage = (
+  message: MessengerMessageSummary,
+  fallbackText?: string,
+  fallbackConversationId?: string,
+): MessengerMessageSummary => ({
+  ...message,
+  conversationId:
+    message.conversationId && message.conversationId.length > 0
+      ? message.conversationId
+      : fallbackConversationId ?? selectedConversationId.value,
+  text: message.text ?? fallbackText ?? null,
+  sender: resolveSender(message.sender),
+})
+
+const normalizeConversationSummaryData = (
+  conversation: ConversationSummary,
+): ConversationSummary => ({
+  ...conversation,
+  lastMessage: conversation.lastMessage
+    ? prepareMessage(conversation.lastMessage, undefined, conversation.id)
+    : conversation.lastMessage ?? null,
+})
+
+const getSenderName = (sender: MessengerUserSummary) => {
+  const displayName = sender.displayName?.trim()
+  const username = sender.username?.trim()
+
+  return displayName?.length
+    ? displayName
+    : username?.length
+      ? username
+      : t('messenger.someone')
+}
+
+const getSenderInitials = (sender: MessengerUserSummary) => {
+  const name = getSenderName(sender)
+  const words = name.split(/\s+/).filter((word) => word.length > 0)
+
+  if (words.length === 0) {
+    return '?'
+  }
+
+  if (words.length === 1) {
+    return words[0].slice(0, 2).toUpperCase()
+  }
+
+  const first = words[0][0]
+  const last = words[words.length - 1][0]
+  return `${first}${last}`.toUpperCase()
+}
+
+const formatRelativeTime = (timestamp: string) => {
+  const date = new Date(timestamp)
+  if (Number.isNaN(date.getTime())) {
+    return ''
+  }
+
+  const secondsDiff = Math.max(
+    0,
+    Math.round((Date.now() - date.getTime()) / 1000),
+  )
+
+  if (secondsDiff < 5) {
+    return 'Just now'
+  }
+
+  if (secondsDiff < 60) {
+    return `${secondsDiff}s ago`
+  }
+
+  const minutes = Math.floor(secondsDiff / 60)
+  if (minutes < 60) {
+    return `${minutes}m ago`
+  }
+
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) {
+    return `${hours}h ago`
+  }
+
+  const days = Math.floor(hours / 24)
+  if (days < 7) {
+    return `${days}d ago`
+  }
+
+  const weeks = Math.floor(days / 7)
+  if (weeks < 5) {
+    return `${weeks}w ago`
+  }
+
+  const months = Math.floor(days / 30)
+  if (months < 12) {
+    return `${months}mo ago`
+  }
+
+  const years = Math.floor(days / 365)
+  return `${years}y ago`
+}
 
 const selectedConversation = computed(
   () =>
@@ -94,7 +274,8 @@ const loadConversations = async () => {
   isLoadingConversations.value = true
   try {
     const response = await messengerApi.fetchConversations({ limit: 30 })
-    conversations.value = response.items
+    const normalizedItems = response.items.map(normalizeConversationSummaryData)
+    conversations.value = normalizedItems
 
     const routeConversationId = getRouteConversationId()
 
@@ -116,14 +297,15 @@ const loadConversations = async () => {
 }
 
 const upsertConversation = (conversation: ConversationSummary) => {
+  const normalized = normalizeConversationSummaryData(conversation)
   const existingIndex = conversations.value.findIndex(
-    (item) => item.id === conversation.id,
+    (item) => item.id === normalized.id,
   )
   if (existingIndex !== -1) {
     conversations.value.splice(existingIndex, 1)
   }
 
-  conversations.value.unshift(conversation)
+  conversations.value.unshift(normalized)
 }
 
 const removeConversation = (conversationId: string) => {
@@ -166,7 +348,9 @@ const loadMessages = async (conversationId: string) => {
   try {
     const response =
       await messengerApi.fetchConversationMessages(conversationId)
-    messages.value = response.items
+    messages.value = response.items.map((item) =>
+      prepareMessage(item, undefined, conversationId),
+    )
     messageCursor.value = response.previousCursor ?? null
     hasMoreMessages.value = Boolean(response.previousCursor)
 
@@ -197,7 +381,12 @@ const loadMoreMessages = async () => {
         direction: 'backward',
       },
     )
-    messages.value = [...response.items, ...messages.value]
+    messages.value = [
+      ...response.items.map((item) =>
+        prepareMessage(item, undefined, selectedConversationId.value),
+      ),
+      ...messages.value,
+    ]
     messageCursor.value = response.previousCursor ?? null
     hasMoreMessages.value = Boolean(response.previousCursor)
   } catch (error) {
@@ -219,7 +408,10 @@ const sendMessage = async () => {
       selectedConversationId.value,
       { text },
     )
-    messages.value = [...messages.value, message]
+    messages.value = [
+      ...messages.value,
+      prepareMessage(message, text, selectedConversationId.value),
+    ]
     messageInput.value = ''
     await loadConversations()
     await messengerApi.markConversationAsRead(selectedConversationId.value, {
@@ -259,7 +451,10 @@ watch(
       upsertConversation(event.conversation)
 
       if (event.conversation.id === selectedConversationId.value) {
-        messages.value = [...messages.value, event.message]
+        messages.value = [
+          ...messages.value,
+          prepareMessage(event.message, undefined, event.conversation.id),
+        ]
         void messengerApi.markConversationAsRead(event.conversation.id, {
           messageId: event.message.id,
         })
@@ -407,16 +602,27 @@ onMounted(async () => {
                       message.sender.id !== currentUserId,
                   }"
                 >
-                  <div class="message-metadata">
-                    <span class="message-author">{{
-                      message.sender.displayName || message.sender.username
-                    }}</span>
-                    <span class="message-time">{{
-                      new Date(message.createdAt).toLocaleString()
-                    }}</span>
-                  </div>
-                  <div class="message-content">
-                    {{ message.text || t('messenger.unsupportedContent') }}
+                  <v-avatar class="message-avatar" size="36">
+                    <v-img
+                      v-if="message.sender.avatarUrl"
+                      :src="message.sender.avatarUrl"
+                      :alt="getSenderName(message.sender)"
+                      cover
+                    />
+                    <span v-else>{{ getSenderInitials(message.sender) }}</span>
+                  </v-avatar>
+                  <div class="message-body">
+                    <div class="message-header">
+                      <span class="message-author">
+                        {{ getSenderName(message.sender) }}
+                      </span>
+                      <span class="message-time">
+                        {{ formatRelativeTime(message.createdAt) }}
+                      </span>
+                    </div>
+                    <div class="message-content">
+                      {{ message.text || t('messenger.unsupportedContent') }}
+                    </div>
                   </div>
                 </div>
               </template>
@@ -482,27 +688,70 @@ onMounted(async () => {
 }
 
 .message-item {
-  max-width: 70%;
-  padding: 12px;
-  border-radius: 12px;
-  background-color: rgba(var(--v-theme-on-surface), 0.05);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 75%;
 }
 
 .message-item--outgoing {
   align-self: flex-end;
-  background-color: rgba(var(--v-theme-primary), 0.15);
+  flex-direction: row-reverse;
+  text-align: right;
 }
 
 .message-item--incoming {
   align-self: flex-start;
 }
 
-.message-metadata {
+.message-avatar {
+  flex-shrink: 0;
+}
+
+.message-avatar span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  font-weight: 600;
+}
+
+.message-body {
+  background-color: rgba(var(--v-theme-on-surface), 0.05);
+  border-radius: 12px;
+  padding: 12px;
+  max-width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.message-item--outgoing .message-body {
+  background-color: rgba(var(--v-theme-primary), 0.15);
+}
+
+.message-header {
   display: flex;
   justify-content: space-between;
   font-size: 0.75rem;
   margin-bottom: 6px;
   color: rgba(var(--v-theme-on-surface), 0.6);
+  gap: 8px;
+}
+
+.message-item--outgoing .message-header {
+  flex-direction: row-reverse;
+}
+
+.message-author {
+  font-weight: 600;
+  color: rgba(var(--v-theme-on-surface), 0.87);
+}
+
+.message-time {
+  white-space: nowrap;
 }
 
 .message-content {
