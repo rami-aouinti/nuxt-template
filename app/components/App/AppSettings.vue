@@ -131,3 +131,22 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
     </v-card>
   </v-menu>
 </template>
+
+<style scoped>
+.app-settings-card {
+  max-height: 520px;
+}
+
+.app-settings-card__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+.app-settings-card__body :deep(.v-btn-toggle) {
+  width: 100%;
+}
+</style>

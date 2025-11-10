@@ -118,7 +118,10 @@ export default defineNuxtConfig({
         i18n: projectRoot,
       },
     },
-    build: { sourcemap: false },
+    build: {
+      sourcemap: false,
+      cssCodeSplit: false,
+    },
   },
   nitro: {
     alias: {
