@@ -395,6 +395,10 @@
       "selectGroup": "请选择群组",
       "selectUser": "请选择用户",
       "selectWorkplace": "请选择工作区"
+    },
+    "pagination": {
+      "rowsPerPage": "每页行数",
+      "range": "显示第 {start}–{end} 条，共 {total} 条"
     }
   },
   "profile": {

@@ -395,6 +395,10 @@
       "selectGroup": "Выберите группу",
       "selectUser": "Выберите пользователя",
       "selectWorkplace": "Выберите рабочее пространство"
+    },
+    "pagination": {
+      "rowsPerPage": "Строк на странице",
+      "range": "Показаны {start}–{end} из {total}"
     }
   },
   "profile": {

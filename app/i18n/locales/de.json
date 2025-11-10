@@ -395,6 +395,10 @@
       "selectGroup": "Gruppe auswählen",
       "selectUser": "Benutzer auswählen",
       "selectWorkplace": "Arbeitsbereich auswählen"
+    },
+    "pagination": {
+      "rowsPerPage": "Zeilen pro Seite",
+      "range": "Angezeigt {start}–{end} von {total}"
     }
   },
   "profile": {
