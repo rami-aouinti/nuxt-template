@@ -4,6 +4,7 @@ import { useIntersectionObserver } from '@vueuse/core'
 import BlogReactionsDialog from '~/components/Blog/ReactionsDialog.vue'
 import BlogPostCard from '~/components/Blog/PostCard.vue'
 import DialogConfirm from '~/components/DialogConfirm.vue'
+import WorkplaceManagerDialog from '~/components/workplace/WorkplaceManagerDialog.vue'
 import {
   BLOG_POSTS_DEFAULT_LIMIT,
   AuthenticationRequiredError,
@@ -152,6 +153,8 @@ const filteredMyBlogs = computed(() => {
 })
 const myBlogsLoading = ref(false)
 const myBlogsError = ref<string | null>(null)
+
+const addWorldDialogOpen = ref(false)
 
 const createBlogDialog = reactive({
   open: false,
@@ -734,6 +737,12 @@ function resetCreatePostForm() {
   createPostDialog.form.summary = ''
   createPostDialog.form.content = ''
   createPostDialog.form.url = ''
+}
+
+function openAddWorldDialog() {
+  if (!ensureAuthenticated()) return
+
+  addWorldDialogOpen.value = true
 }
 
 function openCreateBlogDialog() {
@@ -1550,7 +1559,7 @@ await loadPosts(1, { replace: true })
       <teleport to="#app-drawer">
         <div class="animated-badge mb-4">
           <span class="animated-badge__pulse" />
-          {{ t('blog.sidebar.myWords') }}
+          {{ translate('workplace.drawer.title', 'World') }}
         </div>
         <p class="text-body-2 text-medium-emphasis mb-4">
           {{
@@ -1565,11 +1574,11 @@ await loadPosts(1, { replace: true })
             block
             color="primary"
             variant="tonal"
-            prepend-icon="mdi-note-plus"
+            prepend-icon="mdi-earth-plus"
             :disabled="!loggedIn"
-            @click="openCreateBlogDialog"
+            @click="openAddWorldDialog"
           >
-            {{ t('blog.sidebar.createBlog') }}
+            {{ translate('workplace.drawer.addWorld', 'Add world') }}
           </v-btn>
         </div>
         <div class="animated-badge mb-4">
@@ -2075,6 +2084,8 @@ await loadPosts(1, { replace: true })
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <WorkplaceManagerDialog v-model="addWorldDialogOpen" />
 
     <v-dialog v-model="createBlogDialog.open" max-width="520" persistent>
       <v-card>

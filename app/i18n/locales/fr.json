@@ -1242,5 +1242,55 @@
         "delete": "Supprimer le plugin"
       }
     }
+  },
+  "workplace": {
+    "drawer": {
+      "title": "World",
+      "addWorld": "Add world"
+    },
+    "dialog": {
+      "title": "Manage your world",
+      "tabs": {
+        "plugins": "Plugins",
+        "members": "Members"
+      },
+      "fields": {
+        "name": "World name",
+        "optionalName": "World name (optional)",
+        "identifier": "World identifier",
+        "isPrivate": "Private world",
+        "enabled": "Enable world",
+        "plugins": "Plugin identifiers",
+        "members": "Member identifiers"
+      },
+      "hints": {
+        "identifier": "Use the slug or ID of the world.",
+        "list": "Use commas or line breaks to separate values."
+      },
+      "actions": {
+        "create": "Create world",
+        "update": "Save changes",
+        "delete": "Delete world",
+        "addPlugins": "Add plugins",
+        "removePlugins": "Remove plugins",
+        "addMembers": "Add members",
+        "removeMembers": "Remove members"
+      },
+      "messages": {
+        "createSuccess": "World created successfully.",
+        "updateSuccess": "World updated successfully.",
+        "deleteSuccess": "World deleted successfully.",
+        "addPluginsSuccess": "Plugins added successfully.",
+        "removePluginsSuccess": "Plugins removed successfully.",
+        "addMembersSuccess": "Members added successfully.",
+        "removeMembersSuccess": "Members removed successfully."
+      },
+      "validation": {
+        "nameRequired": "The world name is required.",
+        "identifierRequired": "The world identifier is required.",
+        "pluginsRequired": "At least one plugin identifier is required.",
+        "membersRequired": "At least one member identifier is required."
+      }
+    }
   }
 }
