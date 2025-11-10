@@ -13,7 +13,7 @@ import { Notify } from '~/stores/notification'
 
 const theme = useTheme()
 const drawer = useState('drawer')
-const appBarReady = useState('appBarReady', () => false)
+const appBarReady = useState('appBarReady', () => true)
 const route = useRoute()
 const router = useRouter()
 const { t, locale, locales } = useI18n()

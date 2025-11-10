@@ -86,6 +86,9 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
         </div>
       </v-card>
     </v-menu>
+    <template #fallback>
+      <span class="dock-navbar__action-placeholder" aria-hidden="true" />
+    </template>
   </ClientOnly>
 </template>
 
@@ -136,5 +139,14 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
   padding: 24px 12px;
   color: rgba(var(--v-theme-on-surface), 0.6);
   font-size: 0.9rem;
+}
+
+.dock-navbar__action-placeholder {
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  pointer-events: none;
+  flex-shrink: 0;
 }
 </style>

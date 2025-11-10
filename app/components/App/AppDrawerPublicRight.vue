@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 
 const drawerState = useState('drawerRight', () => true)
-const appBarReady = useState('appBarReady', () => false)
+const appBarReady = useState('appBarReady', () => true)
 
 const { mobile, lgAndUp, width } = useDisplay()
 const drawer = computed({
@@ -20,13 +20,13 @@ drawerState.value = lgAndUp.value && width.value >= 1280
 
 <template>
   <v-navigation-drawer
-    v-if="appBarReady"
     v-model="drawer"
     :expand-on-hover="rail"
     :rail="rail"
     location="right"
     width="320"
     floating
+    :class="{ 'app-drawer--hydrating': !appBarReady }"
   >
     <v-card class="drawer-nav mt-5" elevation="20" rounded="xl">
       <div id="app-drawer-right" />
@@ -45,6 +45,10 @@ drawerState.value = lgAndUp.value && width.value >= 1280
 .v-navigation-drawer {
   transition-property: box-shadow, transform, opacity, border-radius !important;
   overflow: hidden;
+  &.app-drawer--hydrating {
+    visibility: hidden;
+    pointer-events: none;
+  }
   &.v-navigation-drawer--rail {
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
