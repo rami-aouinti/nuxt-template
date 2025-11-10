@@ -28,7 +28,7 @@ const router = useRouter()
 const conversations = ref<ConversationSummary[]>([])
 const selectedConversationId = ref<string>('')
 const messages = ref<MessengerMessageSummary[]>([])
-const isLoadingConversations = ref(false)
+const isLoadingConversations = ref(true)
 const isLoadingMessages = ref(false)
 const isSending = ref(false)
 const messageInput = ref('')
@@ -222,6 +222,10 @@ const selectedConversation = computed(
     conversations.value.find(
       (conversation) => conversation.id === selectedConversationId.value,
     ) ?? null,
+)
+
+const isInitialConversationLoading = computed(
+  () => isLoadingConversations.value && conversations.value.length === 0,
 )
 
 const sortedMessages = computed(() =>
@@ -536,44 +540,77 @@ onMounted(async () => {
           </v-toolbar>
           <v-divider />
           <div class="conversation-scroll">
-            <v-list nav density="comfortable">
-              <v-list-item
-                v-for="conversation in conversations"
-                :key="conversation.id"
-                :active="conversation.id === selectedConversationId"
-                @click="handleSelectConversation(conversation.id)"
+            <template v-if="isInitialConversationLoading">
+              <v-skeleton-loader
+                v-for="index in 5"
+                :key="index"
+                type="list-item-two-line"
+                class="conversation-skeleton"
+              />
+            </template>
+            <template v-else>
+              <v-list nav density="comfortable">
+                <v-list-item
+                  v-for="conversation in conversations"
+                  :key="conversation.id"
+                  :active="conversation.id === selectedConversationId"
+                  @click="handleSelectConversation(conversation.id)"
+                >
+                  <v-list-item-title>
+                    {{ formatConversationTitle(conversation) }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle>
+                    {{
+                      conversation.lastMessage?.text ||
+                      t('messenger.noMessagesYet')
+                    }}
+                  </v-list-item-subtitle>
+                  <template #append>
+                    <v-badge
+                      v-if="conversation.unreadCount > 0"
+                      :content="conversation.unreadCount"
+                      color="error"
+                      inline
+                    />
+                  </template>
+                </v-list-item>
+              </v-list>
+              <div
+                v-if="!conversations.length"
+                class="empty-state"
               >
-                <v-list-item-title>
-                  {{ formatConversationTitle(conversation) }}
-                </v-list-item-title>
-                <v-list-item-subtitle>
-                  {{
-                    conversation.lastMessage?.text ||
-                    t('messenger.noMessagesYet')
-                  }}
-                </v-list-item-subtitle>
-                <template #append>
-                  <v-badge
-                    v-if="conversation.unreadCount > 0"
-                    :content="conversation.unreadCount"
-                    color="error"
-                    inline
-                  />
-                </template>
-              </v-list-item>
-            </v-list>
-            <div
-              v-if="!conversations.length && !isLoadingConversations"
-              class="empty-state"
-            >
-              {{ t('messenger.noConversations') }}
-            </div>
+                {{ t('messenger.noConversations') }}
+              </div>
+            </template>
           </div>
         </v-card>
       </v-col>
       <v-col cols="12" md="8" class="mt-4 mt-md-0">
         <v-card class="message-panel" elevation="2" rounded="xl">
-          <template v-if="selectedConversation">
+          <template v-if="isInitialConversationLoading">
+            <div class="message-skeleton">
+              <div class="message-skeleton__toolbar">
+                <v-skeleton-loader type="text" class="message-skeleton__title" />
+              </div>
+              <v-divider />
+              <div class="message-history">
+                <v-skeleton-loader
+                  v-for="index in 4"
+                  :key="index"
+                  type="list-item-three-line"
+                  class="message-history__skeleton"
+                />
+              </div>
+              <v-divider />
+              <div class="message-input">
+                <v-skeleton-loader type="paragraph" class="message-input__skeleton" />
+                <div class="message-actions">
+                  <v-skeleton-loader type="button" class="message-actions__skeleton" />
+                </div>
+              </div>
+            </div>
+          </template>
+          <template v-else-if="selectedConversation">
             <v-toolbar flat density="compact">
               <v-toolbar-title class="text-subtitle-1 font-weight-medium">
                 {{ formatConversationTitle(selectedConversation) }}
@@ -682,6 +719,10 @@ onMounted(async () => {
   overflow-y: auto;
 }
 
+.conversation-skeleton {
+  padding: 12px 16px;
+}
+
 .message-history {
   flex: 1;
   overflow-y: auto;
@@ -689,6 +730,10 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.message-history__skeleton {
+  margin-bottom: 8px;
 }
 
 .message-item {
@@ -769,6 +814,24 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.message-input__skeleton {
+  width: 100%;
+}
+
+.message-actions__skeleton {
+  width: 96px;
+  align-self: flex-end;
+}
+
+.message-skeleton__toolbar {
+  padding: 12px 16px;
+}
+
+.message-skeleton__title {
+  width: 60%;
+  height: 24px;
 }
 
 .message-actions {
