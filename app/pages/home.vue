@@ -4,6 +4,7 @@ import { useIntersectionObserver } from '@vueuse/core'
 import BlogReactionsDialog from '~/components/Blog/ReactionsDialog.vue'
 import BlogPostCard from '~/components/Blog/PostCard.vue'
 import DialogConfirm from '~/components/DialogConfirm.vue'
+import WorkplaceActionMenu from '~/components/workplace/WorkplaceActionMenu.vue'
 import WorkplaceManagerDialog from '~/components/workplace/WorkplaceManagerDialog.vue'
 import {
   BLOG_POSTS_DEFAULT_LIMIT,
@@ -757,6 +758,10 @@ async function loadMyWorkplaceList() {
   } finally {
     myWorkplacesLoading.value = false
   }
+}
+
+async function refreshWorkplaces() {
+  await loadMyWorkplaceList()
 }
 
 function resetCreateBlogForm() {
@@ -1650,35 +1655,38 @@ await loadPosts(1, { replace: true })
           </v-alert>
 
           <template v-else-if="filteredMyWorkplaces.length">
-            <div
+            <v-card
               v-for="workplace in filteredMyWorkplaces"
               :key="workplace.id || workplace.slug"
-              class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
+              class="workplace-card mb-3"
+              elevation="2"
             >
-              <NuxtLink
-                class="d-flex align-center text-decoration-none text-primary gap-3 flex-grow-1 py-3"
-                :to="`/world/${encodeURIComponent(workplace.slug)}`"
-              >
-                <v-avatar
-                  size="36"
-                  class="mr-2"
-                  color="primary"
-                  variant="tonal"
+              <v-card-text class="d-flex align-center gap-3">
+                <NuxtLink
+                  class="workplace-card__link d-flex align-center gap-3 flex-grow-1 text-decoration-none"
+                  :to="`/world/${encodeURIComponent(workplace.slug)}`"
                 >
-                  <span class="blog-avatar__initials">
-                    {{ getBlogInitials(workplace.name || workplace.slug) }}
-                  </span>
-                </v-avatar>
-                <div class="d-flex flex-column">
-                  <span class="text-body-2 font-weight-medium">
-                    {{ workplace.name || workplace.slug }}
-                  </span>
-                  <span class="text-caption text-medium-emphasis">
-                    {{ workplace.slug }}
-                  </span>
-                </div>
-              </NuxtLink>
-            </div>
+                  <v-avatar size="40" color="primary" variant="tonal">
+                    <span class="blog-avatar__initials">
+                      {{ getBlogInitials(workplace.name || workplace.slug) }}
+                    </span>
+                  </v-avatar>
+                  <div class="d-flex flex-column">
+                    <span class="text-body-1 font-weight-medium text-truncate">
+                      {{ workplace.name || workplace.slug }}
+                    </span>
+                    <span class="text-caption text-medium-emphasis">
+                      {{ workplace.slug }}
+                    </span>
+                  </div>
+                </NuxtLink>
+                <WorkplaceActionMenu
+                  :workplace="workplace"
+                  @refresh="refreshWorkplaces"
+                  @deleted="refreshWorkplaces"
+                />
+              </v-card-text>
+            </v-card>
           </template>
 
           <v-alert
@@ -2499,6 +2507,25 @@ await loadPosts(1, { replace: true })
 .blog-avatar__initials {
   font-weight: 600;
   letter-spacing: 0.08em;
+}
+
+.workplace-card {
+  border-radius: 18px;
+  background: linear-gradient(
+    135deg,
+    rgba(var(--v-theme-primary), 0.08),
+    rgba(var(--v-theme-surface), 0.9)
+  );
+  border: 1px solid rgba(var(--v-theme-primary), 0.1);
+}
+
+.workplace-card__link {
+  padding: 8px 0;
+  color: rgba(var(--v-theme-on-surface), 0.87);
+}
+
+.workplace-card__link:hover .text-body-1 {
+  color: rgb(var(--v-theme-primary));
 }
 
 .blog-infinite-trigger {

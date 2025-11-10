@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import WorkplaceActionMenu from '~/components/workplace/WorkplaceActionMenu.vue'
 import type { Workplace } from '~/types/workplace'
 
 const { t } = useI18n()
@@ -82,6 +83,16 @@ useHead(() => ({
   title: pageTitle.value,
 }))
 
+const router = useRouter()
+
+async function handleWorkplaceRefresh() {
+  await refresh()
+}
+
+async function handleWorkplaceDeleted() {
+  await router.push('/')
+}
+
 const errorMessage = computed(() => {
   if (!error.value) {
     return null
@@ -138,35 +149,99 @@ const errorMessage = computed(() => {
           </div>
         </v-alert>
 
-        <v-card v-else class="rounded-xl" elevation="2">
-          <v-card-text>
-            <div class="d-flex align-center gap-3 mb-4">
-              <v-avatar size="48" color="primary" variant="tonal">
-                <span class="text-h6 font-weight-medium">
-                  {{ getInitials(workplace?.name || workplace?.slug || slug) }}
-                </span>
-              </v-avatar>
-              <div>
-                <h1 class="text-h5 mb-1">
-                  {{ workplace?.name || slug }}
-                </h1>
-                <p class="text-body-2 text-medium-emphasis mb-0">
-                  {{ workplace?.slug || slug }}
-                </p>
+        <v-card v-else class="workplace-hero" elevation="4">
+          <v-card-item>
+            <div class="d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-4">
+              <div class="d-flex align-center gap-4">
+                <v-avatar size="72" color="primary" variant="tonal">
+                  <span class="text-h5 font-weight-medium">
+                    {{ getInitials(workplace?.name || workplace?.slug || slug) }}
+                  </span>
+                </v-avatar>
+                <div>
+                  <h1 class="text-h4 text-sm-h5 mb-2">
+                    {{ workplace?.name || slug }}
+                  </h1>
+                  <div class="d-flex flex-wrap align-center gap-2">
+                    <v-chip color="primary" variant="tonal" size="small">
+                      <v-icon size="18" class="me-1">mdi-link-variant</v-icon>
+                      {{ workplace?.slug || slug }}
+                    </v-chip>
+                    <v-chip color="secondary" variant="tonal" size="small">
+                      <v-icon size="18" class="me-1">mdi-earth</v-icon>
+                      {{ translate('workplace.drawer.title', 'World') }}
+                    </v-chip>
+                  </div>
+                </div>
+              </div>
+              <div v-if="workplace" class="d-flex align-center">
+                <WorkplaceActionMenu
+                  :workplace="workplace"
+                  @refresh="handleWorkplaceRefresh"
+                  @deleted="handleWorkplaceDeleted"
+                />
               </div>
             </div>
-
-            <p class="text-body-1 mb-0">
-              {{
-                translate(
-                  'workplace.page.placeholder',
-                  'This world is ready for new adventures.',
-                )
-              }}
-            </p>
+          </v-card-item>
+          <v-divider class="my-2" />
+          <v-card-text>
+            <div class="workplace-hero__body">
+              <p class="text-body-1 mb-4">
+                {{
+                  translate(
+                    'workplace.page.placeholder',
+                    'This world is ready for new adventures.',
+                  )
+                }}
+              </p>
+              <v-alert
+                type="info"
+                variant="tonal"
+                border="start"
+                density="comfortable"
+                class="workplace-hero__hint"
+              >
+                <v-icon icon="mdi-lightbulb-on" size="18" class="me-2" />
+                {{
+                  translate(
+                    'workplace.page.tip',
+                    'Use the menu to invite teammates or install new plugins.',
+                  )
+                }}
+              </v-alert>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
+
+<style scoped>
+.workplace-hero {
+  border-radius: 28px;
+  background: linear-gradient(
+      135deg,
+      rgba(var(--v-theme-primary), 0.06),
+      rgba(var(--v-theme-surface), 0.92)
+    ),
+    rgba(var(--v-theme-surface), 0.94);
+  border: 1px solid rgba(var(--v-theme-primary), 0.1);
+}
+
+.workplace-hero__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.workplace-hero__hint {
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .workplace-hero {
+    border-radius: 22px;
+  }
+}
+</style>
