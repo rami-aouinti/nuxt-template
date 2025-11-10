@@ -5,7 +5,6 @@ import type { Blog } from '~/types/blog'
 import type { BlogPost } from '~/types/blogPost'
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
 import {
-  normalizeCollection,
   pickString,
   resolveFirstAvailableNumber,
   resolvePostUrl,
@@ -13,6 +12,14 @@ import {
   resolveUserName,
   resolveVisibilityFlag,
 } from '~/utils/blog/admin'
+import { normalizeCollection } from '~/utils/collections'
+import {
+  createDateFormatter,
+  createNumberFormatter,
+  formatDateValue,
+  formatNumberValue,
+} from '~/utils/formatters'
+import type { DateInput } from '~/utils/formatters'
 
 definePageMeta({
   title: 'navigation.posts',
@@ -183,45 +190,14 @@ const errorMessage = computed(() => {
   )
 })
 
-const dateFormatter = computed(
-  () =>
-    new Intl.DateTimeFormat(locale.value ?? 'en', {
-      dateStyle: 'medium',
-      timeStyle: 'short',
-    }),
-)
+const dateFormatter = createDateFormatter(locale)
+const numberFormatter = createNumberFormatter(locale)
 
-const numberFormatter = computed(
-  () => new Intl.NumberFormat(locale.value ?? 'en'),
-)
+const formatDate = (value: DateInput) =>
+  formatDateValue(value, dateFormatter.value, t('admin.blogManagement.common.none'))
 
-function formatDate(value: string | number | Date | null | undefined) {
-  if (value == null) {
-    return t('admin.blogManagement.common.none')
-  }
-
-  const date = value instanceof Date ? value : new Date(value)
-  if (Number.isNaN(date.getTime())) {
-    return typeof value === 'string'
-      ? value
-      : t('admin.blogManagement.common.none')
-  }
-
-  return dateFormatter.value.format(date)
-}
-
-function formatNumber(value: number | string | null | undefined) {
-  if (value == null) {
-    return '0'
-  }
-
-  const numeric = typeof value === 'number' ? value : Number(value)
-  if (Number.isNaN(numeric) || !Number.isFinite(numeric)) {
-    return String(value)
-  }
-
-  return numberFormatter.value.format(numeric)
-}
+const formatNumber = (value: number | string | null | undefined) =>
+  formatNumberValue(value, numberFormatter.value)
 </script>
 
 <template>
