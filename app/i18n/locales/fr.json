@@ -1,4 +1,5 @@
 {
+  "All": "Tous",
   "app": {
     "title": "Vitify Admin",
     "description": "Vuetify 3 + Nuxt 3, modèle d'administration opinioné",
