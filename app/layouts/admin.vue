@@ -4,7 +4,9 @@ const routeLoading = useRouteLoading()
 
 <template>
   <v-app>
-    <v-main class="admin-layout">
+    <AppDrawer />
+    <AppBar />
+    <v-main>
       <AppRouteLoader v-if="routeLoading" class="admin-layout__loader" />
       <div v-else class="admin-layout__wrapper">
         <aside class="admin-layout__sidebar">

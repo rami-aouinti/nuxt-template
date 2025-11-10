@@ -57,27 +57,20 @@ const submit = async () => {
 </script>
 
 <template>
-  <v-container class="py-10" fluid>
+  <v-container fluid>
     <v-row justify="center">
-      <v-col cols="12" lg="10">
-        <div class="text-center mb-8">
-          <h1 class="text-h4 text-md-h3 font-weight-bold mb-2">
+      <v-col cols="12">
+        <div class="text-center mb-2">
+          <h3 class="text-h6 text-md-h5 font-weight-bold mb-2">
             {{ t('pages.contact.title') }}
-          </h1>
+          </h3>
           <p class="text-body-1 text-medium-emphasis">
             {{ t('pages.contact.subtitle') }}
           </p>
         </div>
         <v-row align="stretch" dense>
           <v-col cols="12" md="6" class="d-flex">
-            <v-card class="pa-6 flex-grow-1" elevation="2">
-              <h2 class="text-h5 font-weight-medium mb-2">
-                {{ t('pages.contact.form.title') }}
-              </h2>
-              <p class="text-body-2 text-medium-emphasis mb-6">
-                {{ t('pages.contact.form.description') }}
-              </p>
-
+            <v-card class="pa-3 flex-grow-1" elevation="2">
               <v-alert
                 v-if="submissionState === 'success'"
                 type="success"
@@ -103,8 +96,9 @@ const submit = async () => {
                   :label="t('pages.contact.form.fields.subject')"
                   :rules="[rules.required]"
                   autocomplete="off"
-                  class="mb-4"
+                  class="mb-2"
                   variant="outlined"
+                  rounded
                 />
                 <v-text-field
                   v-model="form.email"
@@ -112,8 +106,9 @@ const submit = async () => {
                   :rules="[rules.required, rules.email]"
                   type="email"
                   autocomplete="email"
-                  class="mb-4"
+                  class="mb-2"
                   variant="outlined"
+                  rounded
                 />
                 <v-textarea
                   v-model="form.message"
@@ -122,8 +117,9 @@ const submit = async () => {
                   rows="5"
                   auto-grow
                   variant="outlined"
+                  rounded
                 />
-                <div class="d-flex justify-end mt-6">
+                <div class="d-flex justify-end mt-3">
                   <v-btn
                     color="primary"
                     size="large"

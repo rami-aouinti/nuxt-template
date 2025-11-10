@@ -685,7 +685,7 @@ async function submit() {
             v-if="formError"
             type="error"
             variant="tonal"
-            class="mb-4"
+            class="mb-2"
             density="compact"
           >
             {{ formError }}
@@ -698,6 +698,7 @@ async function submit() {
                   :label="t('userManagement.users.fields.firstName')"
                   autocomplete="given-name"
                   :disabled="isSaving"
+                  rounded
                 />
               </v-col>
               <v-col cols="12" sm="6">
@@ -706,6 +707,7 @@ async function submit() {
                   :label="t('userManagement.users.fields.lastName')"
                   autocomplete="family-name"
                   :disabled="isSaving"
+                  rounded
                 />
               </v-col>
               <v-col cols="12" sm="6">
@@ -713,6 +715,7 @@ async function submit() {
                   v-model="form.title"
                   :label="t('profile.fields.title')"
                   :disabled="isSaving"
+                  rounded
                 />
               </v-col>
               <v-col cols="12" sm="6">
@@ -720,6 +723,7 @@ async function submit() {
                   v-model="form.gender"
                   :label="t('profile.fields.gender')"
                   :disabled="isSaving"
+                  rounded
                 />
               </v-col>
               <v-col cols="12" sm="6">
@@ -729,6 +733,7 @@ async function submit() {
                   type="tel"
                   autocomplete="tel"
                   :disabled="isSaving"
+                  rounded
                 />
               </v-col>
               <v-col cols="12" sm="6">
@@ -737,6 +742,7 @@ async function submit() {
                   :label="t('profile.fields.address')"
                   autocomplete="street-address"
                   :disabled="isSaving"
+                  rounded
                 />
               </v-col>
               <v-col cols="12" sm="6">
@@ -745,6 +751,7 @@ async function submit() {
                   :label="t('profile.fields.birthday')"
                   type="date"
                   :disabled="isSaving"
+                  rounded
                 />
               </v-col>
               <v-col cols="12">

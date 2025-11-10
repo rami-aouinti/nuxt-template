@@ -410,6 +410,7 @@ function closeDialog() {
                   density="comfortable"
                   hide-details
                   style="max-width: 200px"
+                  rounded
                 />
               </div>
 
@@ -547,6 +548,7 @@ function closeDialog() {
               required
               density="comfortable"
               class="mb-3"
+              rounded
             />
             <v-textarea
               v-model="form.description"
@@ -554,12 +556,14 @@ function closeDialog() {
               rows="3"
               density="comfortable"
               class="mb-3"
+              rounded
             />
             <v-text-field
               v-model="form.location"
               :label="t('profile.calendar.form.location')"
               density="comfortable"
               class="mb-3"
+              rounded
             />
             <v-color-picker
               v-model="form.color"
@@ -590,6 +594,7 @@ function closeDialog() {
                   :label="t('profile.calendar.form.startDate')"
                   density="comfortable"
                   class="flex-grow-1"
+                  rounded
                 />
                 <v-text-field
                   v-model="form.startTime"
@@ -598,6 +603,7 @@ function closeDialog() {
                   density="comfortable"
                   class="flex-grow-1"
                   :disabled="form.allDay"
+                  rounded
                 />
               </div>
               <div class="d-flex gap-3 flex-wrap">
@@ -607,6 +613,7 @@ function closeDialog() {
                   :label="t('profile.calendar.form.endDate')"
                   density="comfortable"
                   class="flex-grow-1"
+                  rounded
                 />
                 <v-text-field
                   v-model="form.endTime"
@@ -615,6 +622,7 @@ function closeDialog() {
                   density="comfortable"
                   class="flex-grow-1"
                   :disabled="form.allDay"
+                  rounded
                 />
               </div>
             </div>

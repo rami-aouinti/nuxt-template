@@ -1992,6 +1992,7 @@ await loadPosts(1, { replace: true })
             :label="t('blog.forms.createBlog.title')"
             :disabled="editBlogDialog.loading"
             variant="outlined"
+            rounded
             density="comfortable"
             autofocus
           />
@@ -2001,6 +2002,7 @@ await loadPosts(1, { replace: true })
             :disabled="editBlogDialog.loading"
             variant="outlined"
             density="comfortable"
+            rounded
           />
         </v-card-text>
         <v-card-actions class="justify-end">
@@ -2033,11 +2035,13 @@ await loadPosts(1, { replace: true })
             :label="t('blog.forms.createBlog.title')"
             :disabled="createBlogDialog.loading"
             required
+            rounded
           />
           <v-text-field
             v-model="createBlogDialog.form.subtitle"
             :label="t('blog.forms.createBlog.subtitle')"
             :disabled="createBlogDialog.loading"
+            rounded
           />
         </v-card-text>
         <v-card-actions>
@@ -2072,17 +2076,20 @@ await loadPosts(1, { replace: true })
             item-value="value"
             :label="t('blog.forms.createPost.blog')"
             :disabled="createPostDialog.loading"
+            rounded
           />
           <v-text-field
             v-model="createPostDialog.form.title"
             :label="t('blog.forms.createPost.title')"
             :disabled="createPostDialog.loading"
             required
+            rounded
           />
           <v-text-field
             v-model="createPostDialog.form.summary"
             :label="t('blog.forms.createPost.summary')"
             :disabled="createPostDialog.loading"
+            rounded
           />
           <v-textarea
             v-model="createPostDialog.form.content"
@@ -2090,11 +2097,13 @@ await loadPosts(1, { replace: true })
             :disabled="createPostDialog.loading"
             rows="6"
             auto-grow
+            rounded
           />
           <v-text-field
             v-model="createPostDialog.form.url"
             :label="t('blog.forms.createPost.url')"
             :disabled="createPostDialog.loading"
+            rounded
             type="url"
           />
         </v-card-text>

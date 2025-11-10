@@ -521,6 +521,7 @@ async function submitCreate() {
                   "
                   :disabled="createLoading"
                   required
+                  rounded
                   autocomplete="off"
                 />
               </v-col>
@@ -534,6 +535,7 @@ async function submitCreate() {
                   "
                   :disabled="createLoading"
                   required
+                  rounded
                   autocomplete="off"
                 />
               </v-col>
@@ -544,6 +546,7 @@ async function submitCreate() {
                     t('configurationManagement.configurations.fields.contextId')
                   "
                   :disabled="createLoading"
+                  rounded
                   autocomplete="off"
                 />
               </v-col>
@@ -589,6 +592,7 @@ async function submitCreate() {
                   "
                   persistent-hint
                   :disabled="createLoading"
+                  rounded
                   autocomplete="off"
                 />
               </v-col>
