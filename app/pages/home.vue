@@ -1554,6 +1554,172 @@ await loadPosts(1, { replace: true })
 <template>
   <v-container fluid class="blog-page px-6 px-md-10">
     <client-only>
+      <teleport to="#app-drawer">
+        <div class="animated-badge mb-4">
+          <span class="animated-badge__pulse" />
+          {{ t('blog.sidebar.myWords') }}
+        </div>
+        <p class="text-body-2 text-medium-emphasis mb-4">
+          {{
+            translate(
+              'blog.sidebar.intro',
+              "Retrouvez vos espaces d'écriture et créez un nouvel article.",
+            )
+          }}
+        </p>
+        <div class="d-flex flex-column gap-3 mt-6 mb-4">
+          <v-btn
+            block
+            color="primary"
+            variant="tonal"
+            prepend-icon="mdi-note-plus"
+            :disabled="!loggedIn"
+            @click="openCreateBlogDialog"
+          >
+            {{ t('blog.sidebar.createBlog') }}
+          </v-btn>
+        </div>
+        <div class="animated-badge mb-4">
+          <span class="animated-badge__pulse" />
+          {{ t('blog.sidebar.friends') }}
+        </div>
+        <p class="text-body-2 text-medium-emphasis mb-4">
+          {{
+            translate(
+              'blog.sidebar.intro',
+              "Retrouvez vos espaces d'écriture et créez un nouvel article.",
+            )
+          }}
+        </p>
+      </teleport>
+    </client-only>
+    <client-only>
+      <teleport to="#app-drawer-right">
+        <div class="animated-badge mb-4">
+          <span class="animated-badge__pulse" />
+          {{ t('blog.sidebar.myBlogsTitle') }}
+        </div>
+        <p class="text-body-2 text-medium-emphasis mb-4">
+          {{
+            translate(
+              'blog.sidebar.intro',
+              "Retrouvez vos espaces d'écriture et créez un nouvel article.",
+            )
+          }}
+        </p>
+        <v-alert
+          v-if="!loggedIn"
+          type="info"
+          variant="tonal"
+          density="comfortable"
+          class="mb-4"
+        >
+          {{ t('blog.sidebar.loginToManage') }}
+        </v-alert>
+
+        <template v-else>
+          <v-skeleton-loader
+            v-if="myBlogsLoading"
+            type="list-item-two-line@3"
+            class="rounded mb-4"
+          />
+
+          <v-alert
+            v-else-if="myBlogsError"
+            type="error"
+            variant="tonal"
+            density="comfortable"
+            class="mb-4"
+          >
+            {{ myBlogsError }}
+          </v-alert>
+
+          <div v-else-if="filteredMyBlogs.length" v-for="blog in filteredMyBlogs" class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3">
+            <NuxtLink class="text-decoration-none text-primary" :to="`/blog/${blog.id}`">
+              <v-avatar
+              size="36"
+              class="mr-3"
+              color="primary"
+              variant="tonal"
+            >
+              <template v-if="blog.logo">
+                <v-img :src="blog.logo || undefined" :alt="blog.title">
+                  <template #error>
+                          <span class="blog-avatar__initials">
+                            {{ getBlogInitials(blog.title) }}
+                          </span>
+                  </template>
+                </v-img>
+              </template>
+              <template v-else>
+                      <span class="blog-avatar__initials">
+                        {{ getBlogInitials(blog.title) }}
+                      </span>
+              </template>
+            </v-avatar>
+              {{ blog.title }}
+            </NuxtLink>
+            <v-spacer />
+            <v-btn
+              icon="mdi-pencil"
+              variant="text"
+              size="sm"
+              density="compact"
+              :aria-label="t('blog.actions.editBlog')"
+              :title="t('blog.actions.editBlog')"
+              :disabled="
+                        editBlogDialog.loading && editBlogDialog.blogId === blog.id
+                      "
+              :loading="
+                        editBlogDialog.loading && editBlogDialog.blogId === blog.id
+                      "
+              @click.stop="openEditBlogDialog(blog)"
+            />
+            <v-btn
+              icon="mdi-delete"
+              variant="text"
+              color="error"
+              size="sm"
+              density="compact"
+              :aria-label="t('blog.actions.deleteBlog')"
+              :title="t('blog.actions.deleteBlog')"
+              :loading="blogDeleteLoadingId === blog.id"
+              :disabled="blogDeleteLoadingId === blog.id"
+              @click.stop="confirmDeleteBlog(blog)"
+            />
+          </div>
+
+          <v-alert
+            v-else-if="hasSearchTerm && myBlogs.length"
+            type="info"
+            variant="tonal"
+            density="comfortable"
+            class="mb-4"
+          >
+            {{ t('blog.search.noResults') }}
+          </v-alert>
+
+          <p v-else class="text-body-2 text-medium-emphasis mb-0">
+            {{ t('blog.sidebar.myBlogsEmpty') }}
+          </p>
+
+        </template>
+
+        <div class="d-flex flex-column gap-3 mt-6">
+          <v-btn
+            block
+            color="primary"
+            variant="tonal"
+            prepend-icon="mdi-note-plus"
+            :disabled="!loggedIn"
+            @click="openCreateBlogDialog"
+          >
+            {{ t('blog.sidebar.createBlog') }}
+          </v-btn>
+        </div>
+      </teleport>
+    </client-only>
+    <client-only>
       <teleport to="#app-bar">
         <div class="d-flex align-items">
           <v-text-field
@@ -1573,8 +1739,7 @@ await loadPosts(1, { replace: true })
             style="width: 250px"
           />
           <v-btn
-            color="primary"
-            variant="outlined"
+            variant="text"
             :loading="isInitialLoading"
             class="dock-navbar__action-button"
             @click="refreshPosts"
@@ -1584,8 +1749,8 @@ await loadPosts(1, { replace: true })
         </div>
       </teleport>
     </client-only>
-    <v-row class="blog-layout g-8 justify-center">
-      <v-col cols="12" lg="8" xl="9">
+    <v-row class="blog-layout justify-center">
+      <v-col cols="12">
           <v-alert
             v-if="postsError"
             type="error"
@@ -1737,150 +1902,6 @@ await loadPosts(1, { replace: true })
             ref="loadMoreTrigger"
             class="blog-infinite-trigger"
           />
-      </v-col>
-
-      <v-col cols="12" lg="4" xl="3" class="blog-sidebar-column">
-        <div class="blog-sidebar glass-card pa-4 pa-md-6 mb-6">
-          <div class="animated-badge mb-4">
-            <span class="animated-badge__pulse" />
-            {{ t('blog.sidebar.myBlogsTitle') }}
-          </div>
-          <p class="text-body-2 text-medium-emphasis mb-4">
-            {{
-              translate(
-                'blog.sidebar.intro',
-                "Retrouvez vos espaces d'écriture et créez un nouvel article.",
-              )
-            }}
-          </p>
-          <v-alert
-            v-if="!loggedIn"
-            type="info"
-            variant="tonal"
-            density="comfortable"
-            class="mb-4"
-          >
-            {{ t('blog.sidebar.loginToManage') }}
-          </v-alert>
-
-          <template v-else>
-            <v-skeleton-loader
-              v-if="myBlogsLoading"
-              type="list-item-two-line@3"
-              class="rounded mb-4"
-            />
-
-            <v-alert
-              v-else-if="myBlogsError"
-              type="error"
-              variant="tonal"
-              density="comfortable"
-              class="mb-4"
-            >
-              {{ myBlogsError }}
-            </v-alert>
-
-            <v-list
-              v-else-if="filteredMyBlogs.length"
-              density="comfortable"
-              lines="two"
-              class="blog-sidebar__list"
-            >
-              <v-list-item
-                v-for="blog in filteredMyBlogs"
-                :key="blog.id"
-                :to="resolveBlogLink(blog) || undefined"
-                :link="Boolean(resolveBlogLink(blog))"
-                class="stat-card gap-3 mb-3"
-                rounded="xl"
-              >
-                <template #prepend>
-                  <v-avatar
-                    size="36"
-                    class="mr-3"
-                    color="primary"
-                    variant="tonal"
-                  >
-                    <template v-if="blog.logo">
-                      <v-img :src="blog.logo || undefined" :alt="blog.title">
-                        <template #error>
-                          <span class="blog-avatar__initials">
-                            {{ getBlogInitials(blog.title) }}
-                          </span>
-                        </template>
-                      </v-img>
-                    </template>
-                    <template v-else>
-                      <span class="blog-avatar__initials">
-                        {{ getBlogInitials(blog.title) }}
-                      </span>
-                    </template>
-                  </v-avatar>
-                </template>
-                <v-list-item-title>{{ blog.title }}</v-list-item-title>
-                <v-list-item-subtitle v-if="blog.blogSubtitle">
-                  {{ blog.blogSubtitle }}
-                </v-list-item-subtitle>
-                <template #append>
-                  <div class="d-flex align-center ga-2">
-                    <v-btn
-                      icon="mdi-pencil"
-                      variant="text"
-                      density="comfortable"
-                      :aria-label="t('blog.actions.editBlog')"
-                      :title="t('blog.actions.editBlog')"
-                      :disabled="
-                        editBlogDialog.loading && editBlogDialog.blogId === blog.id
-                      "
-                      :loading="
-                        editBlogDialog.loading && editBlogDialog.blogId === blog.id
-                      "
-                      @click.stop="openEditBlogDialog(blog)"
-                    />
-                    <v-btn
-                      icon="mdi-delete"
-                      variant="text"
-                      color="error"
-                      density="comfortable"
-                      :aria-label="t('blog.actions.deleteBlog')"
-                      :title="t('blog.actions.deleteBlog')"
-                      :loading="blogDeleteLoadingId === blog.id"
-                      :disabled="blogDeleteLoadingId === blog.id"
-                      @click.stop="confirmDeleteBlog(blog)"
-                    />
-                  </div>
-                </template>
-              </v-list-item>
-            </v-list>
-
-            <v-alert
-              v-else-if="hasSearchTerm && myBlogs.length"
-              type="info"
-              variant="tonal"
-              density="comfortable"
-              class="mb-4"
-            >
-              {{ t('blog.search.noResults') }}
-            </v-alert>
-
-            <p v-else class="text-body-2 text-medium-emphasis mb-0">
-              {{ t('blog.sidebar.myBlogsEmpty') }}
-            </p>
-          </template>
-
-          <div class="d-flex flex-column gap-3 mt-6">
-            <v-btn
-              block
-              color="primary"
-              variant="tonal"
-              prepend-icon="mdi-note-plus"
-              :disabled="!loggedIn"
-              @click="openCreateBlogDialog"
-            >
-              {{ t('blog.sidebar.createBlog') }}
-            </v-btn>
-          </div>
-        </div>
       </v-col>
     </v-row>
 
@@ -2322,8 +2343,7 @@ await loadPosts(1, { replace: true })
 }
 
 .blog-sidebar__list {
-  border-radius: 16px;
-  padding: 16px;
+  background: transparent;
 }
 
 .blog-avatar__initials {

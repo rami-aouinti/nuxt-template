@@ -3,8 +3,12 @@ import ProfileNavigation from '~/components/profile/ProfileNavigation.vue'
 </script>
 
 <template>
-  <v-container fluid class="py-6">
-    <ProfileNavigation class="mb-6" />
+  <v-container fluid>
+    <client-only>
+      <teleport to="#app-drawer">
+        <ProfileNavigation class="mb-6" />
+      </teleport>
+    </client-only>
     <slot />
   </v-container>
 </template>

@@ -4,6 +4,10 @@ import { computed } from 'vue'
 import { useProfilePluginsStore } from '~/stores/profile-plugins'
 
 const { t } = useI18n()
+const translate = (key: string, fallback: string) => {
+  const value = t(key)
+  return value && value !== key ? value : fallback
+}
 const route = useRoute()
 
 interface NavigationItem {
@@ -115,26 +119,26 @@ const activeValue = computed(() => {
 </script>
 
 <template>
-  <v-sheet color="transparent" class="profile-navigation" rounded="xl">
-    <v-tabs
-      :model-value="activeValue"
-      color="primary"
-      density="comfortable"
-      grow
-      stacked
-    >
-      <v-tab
-        v-for="item in items"
-        :key="item.value"
-        :value="item.value"
-        :to="item.to"
-        :prepend-icon="item.icon"
-        rounded="xl"
-      >
-        {{ item.label }}
-      </v-tab>
-    </v-tabs>
-  </v-sheet>
+  <div class="animated-badge mb-4">
+    <span class="animated-badge__pulse" />
+    {{ t('blog.sidebar.mySection') }}
+  </div>
+  <p class="text-body-2 text-medium-emphasis mb-4">
+    {{
+      translate(
+        'blog.sidebar.intro',
+        "Retrouvez vos espaces d'écriture et créez un nouvel article.",
+      )
+    }}
+  </p>
+  <div v-for="section in items" :key="section.value" class="w-100 ">
+    <NuxtLink class="text-decoration-none text-primary" :to="section.to">
+      <div class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3">
+        <v-icon :icon="section.icon" size="24" />
+        {{ section.label }}
+      </div>
+    </NuxtLink>
+  </div>
 </template>
 
 <style scoped>

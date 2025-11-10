@@ -380,10 +380,93 @@ function closeDialog() {
 </script>
 
 <template>
+  <client-only>
+    <teleport to="#app-drawer-right">
+      <v-card-title class="d-flex align-center justify-space-between">
+              <span class="text-subtitle-1 font-weight-medium">
+                {{ t('profile.calendar.list.title') }}
+              </span>
+        <v-btn
+          icon="mdi-plus"
+          size="small"
+          variant="text"
+          @click="openCreateDialog()"
+        />
+        <v-btn
+          size="small"
+          variant="text"
+          prepend-icon="mdi-refresh"
+          :loading="isLoading"
+          @click="loadEvents"
+        />
+      </v-card-title>
+      <v-divider />
+      <v-card-text>
+        <v-skeleton-loader
+          v-if="isLoading && events.length === 0"
+          type="list-item-three-line"
+        />
+        <template v-else>
+          <v-alert
+            v-if="loadError"
+            type="error"
+            variant="tonal"
+            class="mb-4"
+          >
+            {{ loadError }}
+          </v-alert>
+
+          <v-alert
+            v-else-if="sortedEvents.length === 0"
+            variant="tonal"
+            type="info"
+          >
+            {{ t('profile.calendar.list.empty') }}
+          </v-alert>
+
+          <v-list v-else>
+            <v-list-item
+              v-for="event in sortedEvents"
+              :key="event.id"
+              :title="event.title"
+              :subtitle="formatEventRange(event)"
+            >
+              <template #prepend>
+                <v-avatar
+                  size="36"
+                  :color="event.color ?? 'primary'"
+                  class="text-white"
+                >
+                  <v-icon>mdi-calendar</v-icon>
+                </v-avatar>
+              </template>
+              <template #append>
+                <div class="d-flex align-center gap-1">
+                  <v-btn
+                    icon="mdi-pencil"
+                    size="small"
+                    variant="text"
+                    @click="openEditDialog(event)"
+                  />
+                  <v-btn
+                    icon="mdi-delete"
+                    size="small"
+                    variant="text"
+                    color="error"
+                    @click="requestDelete(event)"
+                  />
+                </div>
+              </template>
+            </v-list-item>
+          </v-list>
+        </template>
+      </v-card-text>
+    </teleport>
+  </client-only>
   <ProfilePageShell>
     <div class="profile-calendar">
       <v-row dense>
-        <v-col cols="12" lg="8">
+        <v-col cols="12">
           <v-card class="h-100" rounded="xl">
             <v-card-text>
               <div
@@ -437,90 +520,6 @@ function closeDialog() {
                   @click:event="handleCalendarEventClick"
                   @click:date="handleCalendarDateClick"
                 />
-              </template>
-            </v-card-text>
-          </v-card>
-        </v-col>
-
-        <v-col cols="12" lg="4">
-          <v-card class="h-100" rounded="xl">
-            <v-card-title class="d-flex align-center justify-space-between">
-              <span class="text-subtitle-1 font-weight-medium">
-                {{ t('profile.calendar.list.title') }}
-              </span>
-              <v-btn
-                icon="mdi-plus"
-                size="small"
-                variant="text"
-                @click="openCreateDialog()"
-              />
-              <v-btn
-                size="small"
-                variant="text"
-                prepend-icon="mdi-refresh"
-                :loading="isLoading"
-                @click="loadEvents"
-              />
-            </v-card-title>
-            <v-divider />
-            <v-card-text>
-              <v-skeleton-loader
-                v-if="isLoading && events.length === 0"
-                type="list-item-three-line"
-              />
-              <template v-else>
-                <v-alert
-                  v-if="loadError"
-                  type="error"
-                  variant="tonal"
-                  class="mb-4"
-                >
-                  {{ loadError }}
-                </v-alert>
-
-                <v-alert
-                  v-else-if="sortedEvents.length === 0"
-                  variant="tonal"
-                  type="info"
-                >
-                  {{ t('profile.calendar.list.empty') }}
-                </v-alert>
-
-                <v-list v-else>
-                  <v-list-item
-                    v-for="event in sortedEvents"
-                    :key="event.id"
-                    :title="event.title"
-                    :subtitle="formatEventRange(event)"
-                  >
-                    <template #prepend>
-                      <v-avatar
-                        size="36"
-                        :color="event.color ?? 'primary'"
-                        class="text-white"
-                      >
-                        <v-icon>mdi-calendar</v-icon>
-                      </v-avatar>
-                    </template>
-                    <template #append>
-                      <div class="d-flex align-center gap-1">
-                        <v-btn
-                          icon="mdi-pencil"
-                          size="small"
-                          variant="text"
-                          @click="openEditDialog(event)"
-                        />
-                        <v-btn
-                          icon="mdi-delete"
-                          size="small"
-                          variant="text"
-                          color="error"
-                          @click="requestDelete(event)"
-                        />
-                      </div>
-                    </template>
-                  </v-list-item>
-                </v-list>
               </template>
             </v-card-text>
           </v-card>

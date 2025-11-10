@@ -6,6 +6,7 @@ import { Notify } from '~/stores/notification'
 
 const theme = useTheme()
 const drawer = useState('drawer')
+const drawerRight = useState('drawerRight')
 const route = useRoute()
 const router = useRouter()
 const { t, locale, locales } = useI18n()
@@ -204,7 +205,6 @@ watch(loggedIn, (value) => {
   <v-app-bar flat>
     <AuthCredentialsDialog v-model="credentialsDialog" />
     <v-app-bar-nav-icon @click="drawer = !drawer" />
-    <v-breadcrumbs :items="breadcrumbs" />
     <v-spacer />
     <div id="app-bar" />
     <div class="dock-navbar__actions">
@@ -214,7 +214,7 @@ watch(loggedIn, (value) => {
             :aria-label="t('navigation.goBack')"
             :disabled="!canGoBack"
             class="dock-navbar__action-button"
-            variant="outlined"
+            variant="text"
             v-bind="tooltip"
             @click="handleGoBack"
           >
@@ -223,6 +223,9 @@ watch(loggedIn, (value) => {
         </template>
         <span>{{ t('navigation.goBack') }}</span>
       </v-tooltip>
+      <v-app-bar-nav-icon @click="drawerRight = !drawerRight" />
+      <AppMessenger />
+      <AppNotification />
       <v-switch
         v-model="isDark"
         color=""
@@ -231,7 +234,7 @@ watch(loggedIn, (value) => {
         class="dock-navbar__theme-switch"
         false-icon="mdi-white-balance-sunny"
         true-icon="mdi-weather-night"
-        variant="outlined"
+        variant="text"
       />
       <v-menu location="bottom" class="dock-navbar__menu" min-width="200">
         <template #activator="{ props: menu }">

@@ -116,7 +116,7 @@ const items = computed(() =>
   position: relative;
   z-index: 1;
   --admin-card-background: rgba(255, 255, 255, 0.88);
-  --admin-card-box-shadow: 0 14px 36px rgba(25, 118, 210, 0.16);
+  --admin-card-box-shadow: 0 14px 36px rgba(var(--v-theme-primary), 92%);
 }
 
 .admin-index__hero {
@@ -158,7 +158,7 @@ const items = computed(() =>
 
 .admin-index__card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 44px rgba(25, 118, 210, 0.22);
+  box-shadow: 0 20px 44px rgba(var(--v-theme-primary), 92%);
 }
 
 .admin-index__card:hover::after {

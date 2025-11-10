@@ -148,8 +148,12 @@ const sections = computed<SettingsSection[]>(() => {
 </script>
 
 <template>
+  <client-only>
+    <teleport to="#app-drawer-right">
+    </teleport>
+  </client-only>
   <ProfilePageShell>
-    <v-row justify="center">
+    <v-row class="d-flex">
       <v-col cols="12">
         <v-card class="pa-6" elevation="2"  rounded="xl">
           <v-card-title class="text-h4 font-weight-bold pb-2">
@@ -205,8 +209,8 @@ const sections = computed<SettingsSection[]>(() => {
           </v-row>
           <v-alert class="mt-6" type="info" variant="tonal" rounded="lg">
             <strong class="d-block mb-1">{{
-              t('pages.settings.tips.title')
-            }}</strong>
+                t('pages.settings.tips.title')
+              }}</strong>
             <span>{{ t('pages.settings.tips.description') }}</span>
           </v-alert>
         </v-card>

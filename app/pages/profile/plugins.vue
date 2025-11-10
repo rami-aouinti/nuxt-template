@@ -215,8 +215,6 @@ await loadPlugins()
               v-for="plugin in plugins"
               :key="plugin.id || plugin.key"
               cols="12"
-              sm="6"
-              lg="4"
               class="d-flex"
             >
               <v-card

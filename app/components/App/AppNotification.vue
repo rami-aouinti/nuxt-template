@@ -29,8 +29,7 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
           :aria-label="
             notifications.length ? 'Notifications (new)' : 'Notifications'
           "
-          color="primary"
-          variant="outlined"
+          variant="text"
           class="dock-navbar__action-button"
         >
           <v-badge

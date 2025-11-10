@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import AppDrawerPublic from "~/components/App/AppDrawerPublic.vue";
+import AppBarPublic from "~/components/App/AppBarPublic.vue";
+import AppDrawerPublicRight from "~/components/App/AppDrawerPublicRight.vue";
+
 const routeLoading = useRouteLoading()
 </script>
 
 <template>
   <v-app>
-    <AppDrawer />
-    <AppBar />
+    <AppDrawerPublic />
+    <AppBarPublic />
+    <AppDrawerPublicRight />
     <v-main>
       <div class="route-container">
         <div v-show="!routeLoading" class="route-container__page">
