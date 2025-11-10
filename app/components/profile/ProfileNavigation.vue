@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { useProfilePluginsStore } from '~/stores/profile-plugins'
+
 const { t } = useI18n()
 const route = useRoute()
 
@@ -12,13 +14,23 @@ interface NavigationItem {
   match?: (path: string) => boolean
 }
 
-const items = computed<NavigationItem[]>(() => [
+const pluginsStore = useProfilePluginsStore()
+
+function resolvePluginPath(key: string) {
+  if (!key) {
+    return '/profile/plugins'
+  }
+
+  return `/plugin/${encodeURIComponent(key)}`
+}
+
+const baseItems = computed<NavigationItem[]>(() => [
   {
     value: 'profile',
     to: '/profile',
     label: t('navigation.profile'),
     icon: 'mdi-account-circle',
-    match: (path) => path.startsWith('/profile'),
+    match: (path) => path === '/profile',
   },
   {
     value: 'post',
@@ -42,12 +54,44 @@ const items = computed<NavigationItem[]>(() => [
     match: (path) => path.startsWith('/profile/workspace'),
   },
   {
+    value: 'plugins',
+    to: '/profile/plugins',
+    label: t('profile.sections.plugins.title'),
+    icon: 'mdi-puzzle',
+    match: (path) => path.startsWith('/profile/plugins'),
+  },
+  {
     value: 'settings',
     to: '/profile/settings',
     label: t('navigation.settings'),
     icon: 'mdi-cog',
     match: (path) => path.startsWith('/settings'),
   },
+])
+
+const pluginItems = computed<NavigationItem[]>(() =>
+  pluginsStore.activePlugins.map((plugin) => {
+    const path = resolvePluginPath(plugin.key)
+
+    return {
+      value: `plugin-${plugin.key}`,
+      to: path,
+      label: plugin.name,
+      icon: plugin.icon || 'mdi-puzzle',
+      match: (currentPath) => currentPath.startsWith(path),
+    }
+  }),
+)
+
+try {
+  await pluginsStore.load()
+} catch (error) {
+  // Ignore plugin navigation loading errors here; they are handled in dedicated pages.
+}
+
+const items = computed<NavigationItem[]>(() => [
+  ...baseItems.value,
+  ...pluginItems.value,
 ])
 
 function normalizePath(path: string) {
