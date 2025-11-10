@@ -167,7 +167,7 @@ await loadPlugins()
                 {{ t('profile.sections.plugins.description') }}
               </p>
             </div>
-            <v-tooltip location="bottom">
+            <v-tooltip :text="t('profile.sections.plugins.actions.refresh')" location="bottom">
               <template #activator="{ props }">
                 <v-btn
                   v-bind="props"
@@ -179,7 +179,6 @@ await loadPlugins()
                   @click="loadPlugins(true)"
                 />
               </template>
-              <span>{{ t('profile.sections.plugins.actions.refresh') }}</span>
             </v-tooltip>
           </div>
         </v-sheet>
