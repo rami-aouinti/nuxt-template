@@ -23,6 +23,7 @@ import type {
   BlogSummary,
 } from '~/types/blog'
 import type { PublicProfileData } from '~/types/profile'
+import type { Workplace } from '~/types/workplace'
 import { Notify } from '~/stores/notification'
 import { useBlogAuthor } from '~/composables/useBlogAuthor'
 import { DEFAULT_REACTION_TYPE, resolveReactionType } from '~/utils/reactions'
@@ -153,6 +154,19 @@ const filteredMyBlogs = computed(() => {
 })
 const myBlogsLoading = ref(false)
 const myBlogsError = ref<string | null>(null)
+
+const myWorkplaces = ref<Workplace[]>([])
+const filteredMyWorkplaces = computed(() => {
+  if (!hasSearchTerm.value) {
+    return myWorkplaces.value
+  }
+
+  return myWorkplaces.value.filter((workplace) =>
+    [workplace.name, workplace.slug].some((field) => matchesSearchTerm(field)),
+  )
+})
+const myWorkplacesLoading = ref(false)
+const myWorkplacesError = ref<string | null>(null)
 
 const addWorldDialogOpen = ref(false)
 
@@ -654,10 +668,11 @@ async function loadPosts(
 async function refreshPosts() {
   posts.value = []
   myBlogs.value = []
+  myWorkplaces.value = []
   pagination.page = 1
   pagination.total = 0
   await loadPosts(1, { replace: true })
-  await loadMyBlogList()
+  await Promise.all([loadMyBlogList(), loadMyWorkplaceList()])
 }
 
 async function loadMorePosts() {
@@ -717,6 +732,30 @@ async function loadMyBlogList() {
     )
   } finally {
     myBlogsLoading.value = false
+  }
+}
+
+async function loadMyWorkplaceList() {
+  if (!loggedIn.value) {
+    myWorkplaces.value = []
+    myWorkplacesError.value = null
+    myWorkplacesLoading.value = false
+    return
+  }
+
+  myWorkplacesLoading.value = true
+  myWorkplacesError.value = null
+
+  try {
+    const workplaces = await $fetch<Workplace[]>('/api/frontend/workplaces')
+    myWorkplaces.value = Array.isArray(workplaces) ? workplaces : []
+  } catch (error) {
+    myWorkplacesError.value = extractErrorMessage(
+      error,
+      t('common.unexpectedError'),
+    )
+  } finally {
+    myWorkplacesLoading.value = false
   }
 }
 
@@ -1519,13 +1558,15 @@ watch(
     if (value === previousLoggedIn) return
     previousLoggedIn = value
 
-    if (value) {
-      void loadMyBlogList()
-    } else {
+    if (!value) {
       myBlogs.value = []
       myBlogsError.value = null
+      myWorkplaces.value = []
+      myWorkplacesError.value = null
+      myWorkplacesLoading.value = false
       createBlogDialog.open = false
       createPostDialog.open = false
+      addWorldDialogOpen.value = false
     }
 
     void refreshPosts()
@@ -1547,7 +1588,7 @@ if (import.meta.client) {
 await loadPublicBlogList()
 
 if (loggedIn.value) {
-  await loadMyBlogList()
+  await Promise.all([loadMyBlogList(), loadMyWorkplaceList()])
 }
 
 await loadPosts(1, { replace: true })
@@ -1581,6 +1622,91 @@ await loadPosts(1, { replace: true })
             {{ translate('workplace.drawer.addWorld', 'Add world') }}
           </v-btn>
         </div>
+        <div class="animated-badge mb-4">
+          <span class="animated-badge__pulse" />
+          {{ translate('blog.sidebar.myWords', 'Words') }}
+        </div>
+        <p class="text-body-2 text-medium-emphasis mb-4">
+          {{
+            translate(
+              'blog.sidebar.intro',
+              "Retrouvez vos espaces d'écriture et créez un nouvel article.",
+            )
+          }}
+        </p>
+        <v-alert
+          v-if="!loggedIn"
+          type="info"
+          variant="tonal"
+          density="comfortable"
+          class="mb-4"
+        >
+          {{ t('blog.sidebar.loginToManage') }}
+        </v-alert>
+
+        <template v-else>
+          <v-skeleton-loader
+            v-if="myWorkplacesLoading"
+            type="list-item-two-line@3"
+            class="rounded mb-4"
+          />
+
+          <v-alert
+            v-else-if="myWorkplacesError"
+            type="error"
+            variant="tonal"
+            density="comfortable"
+            class="mb-4"
+          >
+            {{ myWorkplacesError }}
+          </v-alert>
+
+          <template v-else-if="filteredMyWorkplaces.length">
+            <div
+              v-for="workplace in filteredMyWorkplaces"
+              :key="workplace.id || workplace.slug"
+              class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
+            >
+              <NuxtLink
+                class="d-flex align-center text-decoration-none text-primary gap-3 flex-grow-1 py-3"
+                :to="`/world/${encodeURIComponent(workplace.slug)}`"
+              >
+                <v-avatar
+                  size="36"
+                  class="mr-2"
+                  color="primary"
+                  variant="tonal"
+                >
+                  <span class="blog-avatar__initials">
+                    {{ getBlogInitials(workplace.name || workplace.slug) }}
+                  </span>
+                </v-avatar>
+                <div class="d-flex flex-column">
+                  <span class="text-body-2 font-weight-medium">
+                    {{ workplace.name || workplace.slug }}
+                  </span>
+                  <span class="text-caption text-medium-emphasis">
+                    {{ workplace.slug }}
+                  </span>
+                </div>
+              </NuxtLink>
+            </div>
+          </template>
+
+          <v-alert
+            v-else-if="hasSearchTerm && myWorkplaces.length"
+            type="info"
+            variant="tonal"
+            density="comfortable"
+            class="mb-4"
+          >
+            {{ t('blog.search.noResults') }}
+          </v-alert>
+
+          <p v-else class="text-body-2 text-medium-emphasis mb-0">
+            {{ translate('workplace.drawer.emptyList', 'You have no worlds yet.') }}
+          </p>
+        </template>
         <div class="animated-badge mb-4">
           <span class="animated-badge__pulse" />
           {{ t('blog.sidebar.friends') }}
