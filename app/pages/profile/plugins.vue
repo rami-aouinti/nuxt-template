@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import { storeToRefs } from 'pinia'
 
 import ProfileNavigation from '~/components/profile/ProfileNavigation.vue'
 import type { ProfilePlugin } from '~/types/plugin'
@@ -18,8 +19,7 @@ const pluginsError = ref('')
 const pluginToggleLoading = reactive<Record<string, boolean>>({})
 
 const pluginsStore = useProfilePluginsStore()
-const plugins = computed(() => pluginsStore.plugins)
-const pluginsLoading = computed(() => pluginsStore.isLoading)
+const { plugins, isLoading: pluginsLoading } = storeToRefs(pluginsStore)
 const hasPlugins = computed(() => plugins.value.length > 0)
 
 function resolvePluginRoute(key: string) {
