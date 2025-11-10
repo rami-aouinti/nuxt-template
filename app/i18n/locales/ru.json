@@ -86,7 +86,9 @@
       "like": "Нравится",
       "unlike": "Удалить реакцию",
       "addComment": "Опубликовать комментарий",
-      "reply": "Ответить"
+      "reply": "Ответить",
+      "editBlog": "Редактировать блог",
+      "deleteBlog": "Удалить блог"
     },
     "feed": {
       "composer": {
@@ -149,8 +151,10 @@
       "commentUnliked": "Реакция удалена с комментария.",
       "postUpdated": "Запись успешно обновлена.",
       "postDeleted": "Запись успешно удалена.",
-      "blogCreated": "Blog created successfully.",
-      "postCreated": "Post created successfully.",
+      "blogCreated": "Блог успешно создан.",
+      "blogUpdated": "Блог успешно обновлён.",
+      "blogDeleted": "Блог успешно удалён.",
+      "postCreated": "Запись успешно создана.",
       "postShared": "Запись успешно поделена."
     },
     "errors": {
@@ -160,10 +164,12 @@
       "likeFailed": "Не удалось обновить реакцию.",
       "updateFailed": "Не удалось обновить запись.",
       "deleteFailed": "Не удалось удалить запись.",
-      "createBlogFailed": "Unable to create the blog.",
-      "createPostFailed": "Unable to create the post.",
+      "createBlogFailed": "Не удалось создать блог.",
+      "updateBlogFailed": "Не удалось обновить блог.",
+      "deleteBlogFailed": "Не удалось удалить блог.",
+      "createPostFailed": "Не удалось создать запись.",
       "shareFailed": "Не удалось поделиться записью.",
-      "loadBlogsFailed": "Unable to load the list of blogs."
+      "loadBlogsFailed": "Не удалось загрузить список блогов."
     },
     "prompts": {
       "loginToComment": "Войдите, чтобы увидеть все комментарии и принять участие в обсуждении."
@@ -174,7 +180,9 @@
     },
     "dialogs": {
       "editTitle": "Редактирование записи",
+      "editBlogTitle": "Редактирование блога",
       "deleteConfirm": "Вы уверены, что хотите удалить эту запись? Это действие нельзя отменить.",
+      "deleteBlogConfirm": "Вы уверены, что хотите удалить этот блог? Это действие нельзя отменить.",
       "shareTitle": "Поделиться записью",
       "shareAudiencePublic": "Публично",
       "reactionsTitle": "Реакции",

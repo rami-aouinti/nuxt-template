@@ -86,7 +86,9 @@
       "like": "إعجاب",
       "unlike": "إزالة التفاعل",
       "addComment": "نشر تعليق",
-      "reply": "الرد"
+      "reply": "الرد",
+      "editBlog": "تعديل المدوّنة",
+      "deleteBlog": "حذف المدوّنة"
     },
     "feed": {
       "composer": {
@@ -149,8 +151,10 @@
       "commentUnliked": "تمت إزالة التفاعل من التعليق.",
       "postUpdated": "تم تحديث المنشور بنجاح.",
       "postDeleted": "تم حذف المنشور بنجاح.",
-      "blogCreated": "Blog created successfully.",
-      "postCreated": "Post created successfully.",
+      "blogCreated": "تم إنشاء المدوّنة بنجاح.",
+      "blogUpdated": "تم تحديث المدوّنة بنجاح.",
+      "blogDeleted": "تم حذف المدوّنة بنجاح.",
+      "postCreated": "تم إنشاء المنشور بنجاح.",
       "postShared": "تمت مشاركة المنشور بنجاح."
     },
     "errors": {
@@ -160,10 +164,12 @@
       "likeFailed": "تعذر تحديث التفاعل.",
       "updateFailed": "تعذر تحديث المنشور.",
       "deleteFailed": "تعذر حذف المنشور.",
-      "createBlogFailed": "Unable to create the blog.",
-      "createPostFailed": "Unable to create the post.",
+      "createBlogFailed": "تعذّر إنشاء المدوّنة.",
+      "updateBlogFailed": "تعذّر تحديث المدوّنة.",
+      "deleteBlogFailed": "تعذّر حذف المدوّنة.",
+      "createPostFailed": "تعذّر إنشاء المنشور.",
       "shareFailed": "تعذّر مشاركة المنشور.",
-      "loadBlogsFailed": "Unable to load the list of blogs."
+      "loadBlogsFailed": "تعذّر تحميل قائمة المدوّنات."
     },
     "prompts": {
       "loginToComment": "سجّل الدخول لعرض جميع التعليقات والمشاركة في النقاش."
@@ -174,7 +180,9 @@
     },
     "dialogs": {
       "editTitle": "تعديل المنشور",
+      "editBlogTitle": "تعديل المدوّنة",
       "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا المنشور؟ هذا الإجراء لا يمكن التراجع عنه.",
+      "deleteBlogConfirm": "هل أنت متأكد من حذف هذه المدوّنة؟ هذا الإجراء لا يمكن التراجع عنه.",
       "shareTitle": "مشاركة المنشور",
       "shareAudiencePublic": "عام",
       "reactionsTitle": "التفاعلات",

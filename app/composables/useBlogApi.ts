@@ -12,6 +12,7 @@ import type {
   BlogReactionType,
   BlogSummary,
   BlogSummaryListResponse,
+  BlogUpdatePayload,
 } from '~/types/blog'
 
 const PUBLIC_POSTS_ENDPOINT = 'https://blog.bro-world.org/public/post'
@@ -522,6 +523,28 @@ export const useBlogApi = () => {
     })
   }
 
+  const updateBlog = async (
+    blogId: string,
+    payload: BlogUpdatePayload,
+  ): Promise<BlogSummary | null> => {
+    const headers = getAuthHeaders(true)
+
+    return await $fetch<BlogSummary | null>(`${PRIVATE_BLOGS_ENDPOINT}/${blogId}`, {
+      method: 'PATCH',
+      body: payload,
+      headers,
+    })
+  }
+
+  const deleteBlog = async (blogId: string) => {
+    const headers = getAuthHeaders(true)
+
+    await $fetch(`${PRIVATE_BLOGS_ENDPOINT}/${blogId}`, {
+      method: 'DELETE',
+      headers,
+    })
+  }
+
   const createPost = async (
     payload: BlogPostCreatePayload,
   ): Promise<BlogPost> => {
@@ -568,6 +591,8 @@ export const useBlogApi = () => {
     updatePost,
     deletePost,
     createBlog,
+    updateBlog,
+    deleteBlog,
     createPost,
     sharePost,
   }
