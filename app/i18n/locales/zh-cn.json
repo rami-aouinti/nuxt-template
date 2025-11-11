@@ -426,6 +426,8 @@
       "save": "保存",
       "edit": "编辑",
       "close": "关闭",
+      "back": "返回",
+      "continue": "继续",
       "delete": "删除",
       "link": "关联",
       "share": "分享"
@@ -1309,6 +1311,10 @@
         "plugins": "Plugins",
         "members": "Members",
         "design": "Design"
+      },
+      "steps": {
+        "details": "World details",
+        "settings": "World settings"
       },
       "fields": {
         "name": "World name",

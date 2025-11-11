@@ -438,6 +438,8 @@
       "save": "Save",
       "edit": "Edit",
       "close": "Close",
+      "back": "Back",
+      "continue": "Continue",
       "delete": "Delete",
       "link": "Link",
       "share": "Share"
@@ -1321,6 +1323,10 @@
         "plugins": "Plugins",
         "members": "Members",
         "design": "Design"
+      },
+      "steps": {
+        "details": "World details",
+        "settings": "World settings"
       },
       "fields": {
         "name": "World name",

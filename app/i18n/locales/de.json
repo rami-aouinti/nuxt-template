@@ -426,6 +426,8 @@
       "save": "Speichern",
       "edit": "Bearbeiten",
       "close": "Schließen",
+      "back": "Zurück",
+      "continue": "Weiter",
       "delete": "Löschen",
       "link": "Verknüpfen",
       "share": "Teilen"
@@ -1309,6 +1311,10 @@
         "plugins": "Plugins",
         "members": "Members",
         "design": "Design"
+      },
+      "steps": {
+        "details": "World details",
+        "settings": "World settings"
       },
       "fields": {
         "name": "World name",

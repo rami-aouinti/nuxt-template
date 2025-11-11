@@ -435,6 +435,8 @@
       "save": "Enregistrer",
       "edit": "Modifier",
       "close": "Fermer",
+      "back": "Retour",
+      "continue": "Continuer",
       "delete": "Supprimer",
       "link": "Associer",
       "share": "Partager"
@@ -1318,6 +1320,10 @@
         "plugins": "Plugins",
         "members": "Members",
         "design": "Design"
+      },
+      "steps": {
+        "details": "Détails du monde",
+        "settings": "Paramètres du monde"
       },
       "fields": {
         "name": "World name",
