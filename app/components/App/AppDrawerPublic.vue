@@ -3,8 +3,8 @@ import { computed } from 'vue'
 
 const router = useRouter()
 const routes = router.getRoutes().filter((r) => r.path.lastIndexOf('/') === 0)
-const drawerState = useState('drawer', () => true)
-const appBarReady = useState('appBarReady', () => true)
+const drawerState = useState('drawer', () => false)
+const appBarReady = useState('appBarReady', () => false)
 
 const { mobile, lgAndUp, width } = useDisplay()
 const { t } = useI18n()
@@ -22,7 +22,47 @@ routes.sort((a, b) => (a.meta?.drawerIndex ?? 99) - (b.meta?.drawerIndex ?? 98))
 const localePath = useLocalePath()
 const home = computed(() => localePath('home') ?? '/')
 
-drawerState.value = lgAndUp.value && width.value >= 1280
+const toPositiveInteger = (value?: string | string[]) => {
+  const candidate = Array.isArray(value) ? value[0] : value
+  const parsed = Number.parseInt(candidate ?? '', 10)
+
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined
+}
+
+const resolveViewportWidth = () => {
+  if (import.meta.server) {
+    const event = useRequestEvent()
+    if (!event) {
+      return undefined
+    }
+
+    const header =
+      event.node.req.headers['sec-ch-viewport-width'] ??
+      event.node.req.headers['viewport-width']
+
+    return toPositiveInteger(header)
+  }
+
+  if (import.meta.client && typeof window !== 'undefined') {
+    return window.innerWidth
+  }
+
+  return undefined
+}
+
+const ensureInitialDrawerState = () => {
+  const viewportWidth = resolveViewportWidth()
+  const shouldExpand =
+    typeof viewportWidth === 'number'
+      ? viewportWidth >= 1280
+      : lgAndUp.value && width.value >= 1280
+
+  if (drawerState.value !== shouldExpand) {
+    drawerState.value = shouldExpand
+  }
+}
+
+ensureInitialDrawerState()
 
 const brandTitle = computed(() => t('app.brand.name'))
 const brandHighlight = computed(() => t('app.brand.highlight'))
