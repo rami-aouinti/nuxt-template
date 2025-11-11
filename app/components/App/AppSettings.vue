@@ -104,6 +104,7 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
         <v-label class="mb-2"> {{ t('app.settings.cornerRadius') }} </v-label>
         <v-btn-toggle
           v-model="rounded"
+          style="height: auto;"
           class="mb-4 text-left d-flex flex-column gap-2"
           density="comfortable"
           divided
@@ -127,6 +128,7 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
         <v-btn-toggle
           v-model="shadowPreset"
           class="text-left d-flex flex-column gap-2"
+          style="height: auto;"
           density="comfortable"
           divided
           mandatory
