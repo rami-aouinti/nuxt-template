@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import ContentCallToActionBanner from '~/components/Content/CallToActionBanner.vue'
+import ContentSectionGrid, {
+  type SectionGridItem,
+} from '~/components/Content/SectionGrid.vue'
+
 definePageMeta({
   title: 'navigation.help',
 })
@@ -17,7 +22,7 @@ const explanation = computed(() => ({
   ],
 }))
 
-const sections = computed(() => [
+const sections = computed<SectionGridItem[]>(() => [
   {
     icon: 'mdi-book-open-page-variant',
     title: t('pages.help.sections.guides.title'),
@@ -89,31 +94,7 @@ const contact = computed(() => ({
             </ul>
           </section>
           <v-divider class="mb-6" />
-          <v-row dense class="mb-4">
-            <v-col
-              v-for="section in sections"
-              :key="section.title"
-              cols="12"
-              sm="4"
-              class="d-flex"
-            >
-              <v-sheet elevation="1" rounded="lg" class="pa-4 flex-grow-1">
-                <div class="d-flex align-center mb-3">
-                  <v-icon
-                    :icon="section.icon"
-                    size="32"
-                    class="mr-3 text-primary"
-                  />
-                  <h2 class="text-h6 font-weight-medium mb-0">
-                    {{ section.title }}
-                  </h2>
-                </div>
-                <p class="text-body-1 mb-0">
-                  {{ section.description }}
-                </p>
-              </v-sheet>
-            </v-col>
-          </v-row>
+          <ContentSectionGrid :items="sections" class="mb-4" />
           <v-divider class="mb-6" />
           <section class="mb-6">
             <h2 class="text-h5 font-weight-semibold mb-3">
@@ -133,10 +114,12 @@ const contact = computed(() => ({
               </v-expansion-panel>
             </v-expansion-panels>
           </section>
-          <v-alert class="mt-6" type="success" variant="tonal" rounded="lg">
-            <strong class="d-block mb-1">{{ contact.title }}</strong>
-            <span>{{ contact.description }}</span>
-          </v-alert>
+          <ContentCallToActionBanner
+            class="mt-6"
+            type="success"
+            :title="contact.title"
+            :description="contact.description"
+          />
         </v-card>
       </v-col>
     </v-row>
