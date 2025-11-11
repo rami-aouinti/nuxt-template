@@ -82,6 +82,8 @@ ensureInitialDrawerState()
   margin: 20px;
   padding: 16px;
   min-height: calc(100vh - 160px);
+  border-radius: var(--app-rounded, 18px);
+  box-shadow: var(--app-shadow, 0 10px 26px rgba(15, 23, 42, 0.14));
 }
 
 .v-navigation-drawer.app-navigation-drawer {
