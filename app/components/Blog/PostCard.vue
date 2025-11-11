@@ -376,7 +376,6 @@ const onDeletePost = () => {
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
-  min-height: 288px;
   display: flex;
   flex-direction: column;
 }

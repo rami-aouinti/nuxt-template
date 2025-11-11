@@ -26,7 +26,7 @@
 
 <style scoped>
 .facebook-post-card-skeleton {
-  min-height: 288px;
+  min-height: 250px;
   display: flex;
   flex-direction: column;
   border-radius: 30px;
