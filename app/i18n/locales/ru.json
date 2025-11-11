@@ -1,7 +1,7 @@
 {
   "All": "Все",
   "app": {
-    "title": "Vitify Admin",
+  "title": "Bro World",
     "description": "Шаблон административной панели на Vuetify 3 и Nuxt 3",
     "brand": {
       "name": "Bro World",

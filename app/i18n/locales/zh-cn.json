@@ -1,7 +1,7 @@
 {
   "All": "全部",
   "app": {
-    "title": "Vitify Admin",
+  "title": "Bro World",
     "description": "基于 Vuetify 3 和 Nuxt 3 的主观管理模板",
     "brand": {
       "name": "Bro World",
