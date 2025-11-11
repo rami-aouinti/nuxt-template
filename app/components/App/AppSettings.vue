@@ -84,6 +84,8 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
             v-bind="mergeProps(menu, tooltip)"
             :rounded="0"
             :aria-label="themeMenuAriaLabel"
+            variant="text"
+            class="app-settings__trigger"
           />
         </template>
       </v-tooltip>
@@ -181,6 +183,20 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
 </template>
 
 <style scoped>
+.app-settings__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 9999px;
+}
+
+.app-settings__trigger :deep(.v-icon) {
+  font-size: 22px;
+}
+
 .app-settings-card {
   max-height: 520px;
 }
