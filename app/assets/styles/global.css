@@ -5,10 +5,14 @@
 }
 
 html {
-  overflow-y: auto;
+  overflow: hidden;
   &.dark {
     color-scheme: dark;
   }
+}
+
+body {
+  overflow: hidden;
 }
 
 .v-card--variant-elevated:not(.v-card--flat) {
