@@ -765,7 +765,47 @@ async function loadMyWorkplaceList() {
 
   try {
     const workplaces = await $fetch<Workplace[]>('/api/frontend/workplaces')
-    myWorkplaces.value = Array.isArray(workplaces) ? workplaces : []
+    myWorkplaces.value = Array.isArray(workplaces)
+      ? workplaces.reduce<Workplace[]>((accumulator, item) => {
+          if (!item || typeof item !== 'object') {
+            return accumulator
+          }
+
+          const record = item as Record<string, unknown>
+          const rawId = record.id
+          const rawSlug = record.slug
+          const rawName = record.name
+
+          const normalizedId =
+            typeof rawId === 'number'
+              ? String(rawId)
+              : typeof rawId === 'string'
+                ? rawId.trim()
+                : ''
+          const normalizedSlug =
+            typeof rawSlug === 'string' ? rawSlug.trim() : ''
+
+          if (!normalizedId || !normalizedSlug) {
+            return accumulator
+          }
+
+          const normalizedName =
+            typeof rawName === 'string' && rawName.trim().length > 0
+              ? rawName.trim()
+              : normalizedSlug
+
+          const sanitized = {
+            ...(record as Record<string, unknown>),
+            id: normalizedId,
+            name: normalizedName,
+            slug: normalizedSlug,
+          } as Workplace
+
+          accumulator.push(sanitized)
+
+          return accumulator
+        }, [])
+      : []
   } catch (error) {
     myWorkplacesError.value = extractErrorMessage(
       error,
