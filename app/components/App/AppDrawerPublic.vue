@@ -127,7 +127,7 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
         <span class="brand-title--italic">{{ brandTitleParts.after }}</span>
       </NuxtLink>
     </template>
-    <v-card class="drawer-nav mt-5" elevation="20" rounded="xl">
+    <v-card class="drawer-nav mt-5" variant="text">
       <div id="app-drawer" />
     </v-card>
     <v-spacer />
