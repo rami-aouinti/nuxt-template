@@ -1,6 +1,7 @@
 .page-surface {
   position: relative;
-  min-height: calc(100vh - 36px);
+  min-height: 100%;
+  box-sizing: border-box;
   background: var(--page-surface-background, rgb(var(--v-theme-background)));
   overflow: hidden;
   padding-bottom: var(--app-footer-height, 64px);
