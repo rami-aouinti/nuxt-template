@@ -1,10 +1,5 @@
 <template>
-  <v-card
-    class="facebook-post-card-skeleton"
-    elevation="0"
-    rounded="xl"
-    aria-hidden="true"
-  >
+  <v-card class="facebook-post-card-skeleton" elevation="0" aria-hidden="true">
     <div class="facebook-post-card-skeleton__header">
       <v-skeleton-loader type="avatar" />
       <div class="facebook-post-card-skeleton__header-info">
@@ -29,7 +24,7 @@
   min-height: 250px;
   display: flex;
   flex-direction: column;
-  border-radius: 30px;
+  border-radius: var(--app-rounded, 18px);
   background: rgba(var(--blog-post-card-background-rgb, 255, 255, 255), 0.95);
   padding-bottom: 12px;
 }
