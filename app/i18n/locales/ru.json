@@ -426,6 +426,8 @@
       "save": "Сохранить",
       "edit": "Редактировать",
       "close": "Закрыть",
+      "back": "Назад",
+      "continue": "Продолжить",
       "delete": "Удалить",
       "link": "Связать",
       "share": "Поделиться"
@@ -1309,6 +1311,10 @@
         "plugins": "Plugins",
         "members": "Members",
         "design": "Design"
+      },
+      "steps": {
+        "details": "Детали мира",
+        "settings": "Параметры мира"
       },
       "fields": {
         "name": "World name",

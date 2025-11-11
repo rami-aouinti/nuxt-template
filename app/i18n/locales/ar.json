@@ -426,6 +426,8 @@
       "save": "حفظ",
       "edit": "تحرير",
       "close": "إغلاق",
+      "back": "رجوع",
+      "continue": "متابعة",
       "delete": "حذف",
       "link": "ربط",
       "share": "مشاركة"
@@ -1309,6 +1311,10 @@
         "plugins": "Plugins",
         "members": "Members",
         "design": "Design"
+      },
+      "steps": {
+        "details": "تفاصيل العالم",
+        "settings": "إعدادات العالم"
       },
       "fields": {
         "name": "World name",
