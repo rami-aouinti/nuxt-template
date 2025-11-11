@@ -419,7 +419,7 @@
     "loginWithCredentials": "Se connecter avec ses identifiants",
     "loginSubtitle": "Ravis de vous revoir ! Connectez-vous pour continuer.",
     "oauthSignInPrompt": "Choisissez l'un des fournisseurs ci-dessous pour continuer.",
-    "credentialsSignInPrompt": "Ou utilisez vos identifiants pour vous connecter.",
+    "credentialsSignInPrompt": "Ou",
     "credentialsRegisterPrompt": "Utilisez votre e-mail et un mot de passe pour créer votre compte.",
     "register": "Créer un compte",
     "registerSubtitle": "Rejoignez la communauté en quelques secondes.",

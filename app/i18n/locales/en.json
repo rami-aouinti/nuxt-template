@@ -422,7 +422,7 @@
     "loginWithCredentials": "Sign in with credentials",
     "loginSubtitle": "Welcome back! Sign in to continue.",
     "oauthSignInPrompt": "Choose one of the social providers below to continue.",
-    "credentialsSignInPrompt": "Or use your username and password instead.",
+    "credentialsSignInPrompt": "Or",
     "credentialsRegisterPrompt": "Use your email and a password to create your account.",
     "register": "Create account",
     "registerSubtitle": "Join the community in just a few steps.",

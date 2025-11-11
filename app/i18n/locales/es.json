@@ -410,7 +410,7 @@
     "loginWithCredentials": "Iniciar sesión con credenciales",
     "loginSubtitle": "¡Nos alegra verte de nuevo! Inicia sesión para continuar.",
     "oauthSignInPrompt": "Elige uno de los proveedores siguientes para continuar.",
-    "credentialsSignInPrompt": "O usa tus credenciales para iniciar sesión.",
+    "credentialsSignInPrompt": "O",
     "credentialsRegisterPrompt": "Usa tu correo electrónico y una contraseña para crear tu cuenta.",
     "register": "Crear cuenta",
     "registerSubtitle": "Únete a la comunidad en solo unos pasos.",

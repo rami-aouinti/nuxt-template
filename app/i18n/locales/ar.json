@@ -410,7 +410,7 @@
     "loginWithCredentials": "تسجيل الدخول عبر بيانات الاعتماد",
     "loginSubtitle": "سعيدون بعودتك! سجّل الدخول للمتابعة.",
     "oauthSignInPrompt": "اختر أحد موفري الخدمة أدناه للمتابعة.",
-    "credentialsSignInPrompt": "أو استخدم بيانات اعتمادك لتسجيل الدخول.",
+    "credentialsSignInPrompt": "أو",
     "credentialsRegisterPrompt": "استخدم بريدك الإلكتروني وكلمة مرور لإنشاء حسابك.",
     "register": "إنشاء حساب",
     "registerSubtitle": "انضم إلى المجتمع في خطوات قليلة.",
