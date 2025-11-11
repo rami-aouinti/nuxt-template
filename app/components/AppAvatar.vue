@@ -17,6 +17,7 @@ const props = withDefaults(
 )
 
 const imageError = ref(false)
+const optimizedImageError = ref(false)
 
 const normalizedSrc = computed(() => {
   if (typeof props.src !== 'string') {
@@ -27,13 +28,102 @@ const normalizedSrc = computed(() => {
   return trimmed.length ? trimmed : null
 })
 
-watch(normalizedSrc, () => {
-  imageError.value = false
-})
-
 const shouldShowImage = computed(() => Boolean(normalizedSrc.value) && !imageError.value)
 
 const avatarSize = computed(() => props.size)
+
+const numericAvatarSize = computed(() => {
+  const size = avatarSize.value
+
+  if (typeof size === 'number') {
+    return Number.isFinite(size) ? Math.max(1, Math.round(size)) : undefined
+  }
+
+  if (typeof size === 'string') {
+    const parsed = Number.parseInt(size, 10)
+    return Number.isFinite(parsed) ? Math.max(1, parsed) : undefined
+  }
+
+  return undefined
+})
+
+watch([normalizedSrc, numericAvatarSize], () => {
+  imageError.value = false
+  optimizedImageError.value = false
+})
+
+function createOptimizedImageUrl(size: number) {
+  const source = normalizedSrc.value
+
+  if (!source) {
+    return null
+  }
+
+  try {
+    const parsed = new URL(source)
+    if (!['http:', 'https:'].includes(parsed.protocol)) {
+      return null
+    }
+  } catch {
+    return null
+  }
+
+  const targetSize = Math.max(1, Math.round(size))
+  const params = new URLSearchParams({
+    url: source,
+    w: String(targetSize),
+    h: String(targetSize),
+    fit: 'cover',
+    output: 'webp',
+  })
+
+  return `https://wsrv.nl/?${params.toString()}`
+}
+
+const optimizedSources = computed(() => {
+  const size = numericAvatarSize.value ?? 96
+  const retinaSize = Math.min(size * 2, 512)
+
+  return {
+    base: createOptimizedImageUrl(size),
+    retina: createOptimizedImageUrl(retinaSize),
+  }
+})
+
+const imageSrc = computed(() => {
+  if (!optimizedImageError.value) {
+    const optimized = optimizedSources.value.base
+    if (optimized) {
+      return optimized
+    }
+  }
+
+  return normalizedSrc.value
+})
+
+const imageSrcset = computed(() => {
+  if (optimizedImageError.value) {
+    return undefined
+  }
+
+  const entries: string[] = []
+  const { base, retina } = optimizedSources.value
+
+  if (base) {
+    entries.push(`${base} 1x`)
+  }
+
+  if (retina) {
+    entries.push(`${retina} 2x`)
+  }
+
+  return entries.length ? entries.join(', ') : undefined
+})
+
+const imageSizes = computed(() => {
+  const size = numericAvatarSize.value
+  return size ? `${size}px` : undefined
+})
 
 const fallbackAriaLabel = computed(() => {
   const label = typeof props.alt === 'string' ? props.alt.trim() : ''
@@ -43,6 +133,11 @@ const fallbackAriaLabel = computed(() => {
 const altText = computed(() => (typeof props.alt === 'string' ? props.alt : ''))
 
 const onImageError = () => {
+  if (!optimizedImageError.value && optimizedSources.value.base) {
+    optimizedImageError.value = true
+    return
+  }
+
   imageError.value = true
 }
 </script>
@@ -51,11 +146,15 @@ const onImageError = () => {
   <v-avatar :size="avatarSize" class="app-avatar">
     <img
       v-if="shouldShowImage && normalizedSrc"
-      :src="normalizedSrc"
+      :src="imageSrc"
       :alt="altText"
       class="app-avatar__img"
       loading="lazy"
       decoding="async"
+      :srcset="imageSrcset"
+      :sizes="imageSizes"
+      :width="numericAvatarSize"
+      :height="numericAvatarSize"
       @error="onImageError"
     />
     <template v-else>
