@@ -102,51 +102,79 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
         />
         <v-divider class="my-4" />
         <v-label class="mb-2"> {{ t('app.settings.cornerRadius') }} </v-label>
-        <v-btn-toggle
+        <v-item-group
           v-model="rounded"
-          style="height: auto;"
-          class="mb-4 text-left d-flex flex-column gap-2"
-          density="comfortable"
-          divided
+          class="app-settings-card__options app-settings-card__options--grid"
           mandatory
         >
-          <v-btn
+          <v-item
             v-for="option in radiusOptions"
             :key="option.value"
             :value="option.value"
-            variant="text"
-            class="justify-start text-left"
-            block
           >
-            <div class="text-start">
-              <div class="font-weight-medium">{{ option.label }}</div>
-              <div class="text-caption text-medium-emphasis">{{ option.description }}</div>
-            </div>
-          </v-btn>
-        </v-btn-toggle>
+            <template #default="{ isSelected, toggle }">
+              <v-sheet
+                class="app-settings-card__option"
+                border="thin opacity-50"
+                color="transparent"
+                rounded="lg"
+                :elevation="isSelected ? 2 : 0"
+                @click="toggle"
+              >
+                <v-checkbox-btn
+                  :model-value="isSelected"
+                  density="comfortable"
+                  color="primary"
+                  class="mr-3"
+                  hide-details
+                />
+                <div class="text-start">
+                  <div class="font-weight-medium">{{ option.label }}</div>
+                  <div class="text-caption text-medium-emphasis">
+                    {{ option.description }}
+                  </div>
+                </div>
+              </v-sheet>
+            </template>
+          </v-item>
+        </v-item-group>
         <v-label class="mb-2"> {{ t('app.settings.shadowDepth') }} </v-label>
-        <v-btn-toggle
+        <v-item-group
           v-model="shadowPreset"
-          class="text-left d-flex flex-column gap-2"
-          style="height: auto;"
-          density="comfortable"
-          divided
+          class="app-settings-card__options app-settings-card__options--grid"
           mandatory
         >
-          <v-btn
+          <v-item
             v-for="option in shadowOptions"
             :key="option.value"
             :value="option.value"
-            variant="text"
-            class="justify-start text-left"
-            block
           >
-            <div class="text-start">
-              <div class="font-weight-medium">{{ option.label }}</div>
-              <div class="text-caption text-medium-emphasis">{{ option.description }}</div>
-            </div>
-          </v-btn>
-        </v-btn-toggle>
+            <template #default="{ isSelected, toggle }">
+              <v-sheet
+                class="app-settings-card__option"
+                border="thin opacity-50"
+                color="transparent"
+                rounded="lg"
+                :elevation="isSelected ? 2 : 0"
+                @click="toggle"
+              >
+                <v-checkbox-btn
+                  :model-value="isSelected"
+                  density="comfortable"
+                  color="primary"
+                  class="mr-3"
+                  hide-details
+                />
+                <div class="text-start">
+                  <div class="font-weight-medium">{{ option.label }}</div>
+                  <div class="text-caption text-medium-emphasis">
+                    {{ option.description }}
+                  </div>
+                </div>
+              </v-sheet>
+            </template>
+          </v-item>
+        </v-item-group>
       </v-card-text>
     </v-card>
   </v-menu>
@@ -166,19 +194,33 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
   overflow-y: auto;
 }
 
-.app-settings-card__body :deep(.v-btn-toggle) {
-  width: 100%;
-}
-
-.app-settings-card__body :deep(.v-btn__content) {
-  width: 100%;
-  justify-content: flex-start;
-  align-items: flex-start;
-  text-align: left;
-  text-transform: none;
-}
-
 .app-settings-card__body :deep(.v-color-picker) {
   align-self: center;
+}
+
+.app-settings-card__options {
+  margin-bottom: 8px;
+}
+
+.app-settings-card__options--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.app-settings-card__option {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 16px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+}
+
+.app-settings-card__option:hover {
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+}
+
+.app-settings-card__option :deep(.v-selection-control) {
+  margin-inline-end: 12px;
 }
 </style>
