@@ -1,13 +1,37 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
 import { FetchError } from 'ofetch'
+import { useStorage } from '@vueuse/core'
+import { useTheme } from 'vuetify'
 
 import { useFrontendWorkplaceApi } from '~/composables/useFrontendWorkplaceApi'
+import {
+  applyRadiusPreset,
+  applyShadowPreset,
+  themeRadiusOptions,
+  themeShadowOptions,
+  type ThemeRadiusPreset,
+  type ThemeShadowPreset,
+  useThemePreferences,
+} from '~/composables/useThemePreferences'
 import { Notify } from '~/stores/notification'
-import type { FrontendWorkplaceUpdatePayload } from '~/types/workplace'
+import type { FrontendWorkplaceUpdatePayload, Workplace } from '~/types/workplace'
+
+type WorkplaceDesignSettings = {
+  primary: string
+  radius: ThemeRadiusPreset
+  shadow: ThemeShadowPreset
+}
+
+type WorkplaceOption = {
+  title: string
+  value: string
+  raw: Workplace
+}
 
 const props = defineProps<{
   modelValue: boolean
+  workplaces?: Workplace[]
 }>()
 
 const emit = defineEmits<{
@@ -30,9 +54,43 @@ const dialog = computed({
   },
 })
 
-const activeTab = ref<'create' | 'update' | 'delete' | 'plugins' | 'members'>(
-  'create',
+const theme = useTheme()
+const { radius: globalRadius, shadow: globalShadow } = useThemePreferences()
+
+const workplaceItems = computed<WorkplaceOption[]>(() =>
+  (props.workplaces ?? []).map((workplace) => ({
+    title: workplace.name,
+    value: workplace.slug || workplace.id,
+    raw: workplace,
+  })),
 )
+
+const designStorage = useStorage<Record<string, WorkplaceDesignSettings>>(
+  'workplace-design-preferences',
+  {},
+)
+
+const DEFAULT_PRIMARY_COLOR = '#1697f6'
+
+const colorSwatches = [
+  ['#1697f6', '#ff9800'],
+  ['#4CAF50', '#FF5252'],
+  ['#9C27b0', '#E91E63'],
+  ['#304156', '#3f51b5'],
+  ['#002FA7', '#492d22'],
+]
+
+function getCurrentPrimaryColor() {
+  return (
+    theme.themes.value.light?.colors?.primary ||
+    theme.themes.value.dark?.colors?.primary ||
+    DEFAULT_PRIMARY_COLOR
+  )
+}
+
+const activeTab = ref<
+  'create' | 'update' | 'delete' | 'plugins' | 'members' | 'design'
+>('create')
 
 const createState = reactive({
   name: '',
@@ -72,6 +130,54 @@ const memberState = reactive({
   loadingRemove: false,
   error: '',
 })
+
+const designState = reactive({
+  workplace: '',
+  color: getCurrentPrimaryColor(),
+  radius: globalRadius.value,
+  shadow: globalShadow.value,
+  saving: false,
+  error: '',
+})
+
+const shouldRestoreTheme = ref(true)
+
+const initialTheme = reactive<WorkplaceDesignSettings>({
+  primary: getCurrentPrimaryColor(),
+  radius: globalRadius.value,
+  shadow: globalShadow.value,
+})
+
+const designRadiusOptions = computed(() =>
+  themeRadiusOptions.map((option) => ({
+    ...option,
+    label: t(option.labelKey),
+    description: t(option.descriptionKey),
+  })),
+)
+
+const designShadowOptions = computed(() =>
+  themeShadowOptions.map((option) => ({
+    ...option,
+    label: t(option.labelKey),
+    description: t(option.descriptionKey),
+  })),
+)
+
+function createWorkplaceModel(target: { workplace: string }) {
+  return computed({
+    get: () => target.workplace,
+    set: (value: string | null | undefined) => {
+      target.workplace = typeof value === 'string' ? value.trim() : ''
+    },
+  })
+}
+
+const updateWorkplaceModel = createWorkplaceModel(updateState)
+const deleteWorkplaceModel = createWorkplaceModel(deleteState)
+const pluginWorkplaceModel = createWorkplaceModel(pluginState)
+const memberWorkplaceModel = createWorkplaceModel(memberState)
+const designWorkplaceModel = createWorkplaceModel(designState)
 
 const {
   createWorkplace,
@@ -113,15 +219,35 @@ function resetFormState() {
   memberState.loadingAdd = false
   memberState.loadingRemove = false
 
+  designState.workplace = ''
+  designState.color = getCurrentPrimaryColor()
+  designState.radius = globalRadius.value
+  designState.shadow = globalShadow.value
+  designState.error = ''
+  designState.saving = false
+
+  shouldRestoreTheme.value = true
+
   activeTab.value = 'create'
 }
 
 watch(
   () => dialog.value,
   (isOpen) => {
-    if (!isOpen) {
-      resetFormState()
+    if (isOpen) {
+      initialTheme.primary = getCurrentPrimaryColor()
+      initialTheme.radius = globalRadius.value
+      initialTheme.shadow = globalShadow.value
+      shouldRestoreTheme.value = true
+      return
     }
+
+    if (shouldRestoreTheme.value) {
+      applyDesign(initialTheme)
+    }
+
+    resetFormState()
+    shouldRestoreTheme.value = true
   },
 )
 
@@ -153,6 +279,66 @@ function parseIdentifiers(input: string) {
     .map((value) => value.trim())
     .filter((value) => value.length > 0)
 }
+
+function applyDesign(settings: WorkplaceDesignSettings) {
+  if (!import.meta.client) {
+    return
+  }
+
+  applyRadiusPreset(settings.radius)
+  applyShadowPreset(settings.shadow)
+
+  const lightTheme = theme.themes.value.light
+  const darkTheme = theme.themes.value.dark
+
+  if (lightTheme?.colors) {
+    lightTheme.colors.primary = settings.primary
+  }
+
+  if (darkTheme?.colors) {
+    darkTheme.colors.primary = settings.primary
+  }
+}
+
+watch(
+  () => designState.workplace,
+  (workplace) => {
+    if (!workplace) {
+      designState.color = getCurrentPrimaryColor()
+      designState.radius = globalRadius.value
+      designState.shadow = globalShadow.value
+      return
+    }
+
+    const savedDesign = designStorage.value[workplace]
+    if (savedDesign) {
+      designState.color = savedDesign.primary
+      designState.radius = savedDesign.radius
+      designState.shadow = savedDesign.shadow
+      return
+    }
+
+    designState.color = getCurrentPrimaryColor()
+    designState.radius = globalRadius.value
+    designState.shadow = globalShadow.value
+  },
+)
+
+watch(
+  () => [designState.color, designState.radius, designState.shadow],
+  () => {
+    if (!dialog.value || !designState.workplace) {
+      return
+    }
+
+    applyDesign({
+      primary: designState.color,
+      radius: designState.radius,
+      shadow: designState.shadow,
+    })
+  },
+  { deep: true },
+)
 
 async function handleCreate() {
   createState.error = ''
@@ -317,7 +503,7 @@ async function handlePluginAction(action: 'add' | 'remove') {
         ),
       )
     }
-    dialog.value = false
+    pluginState.values = ''
   } catch (error) {
     pluginState.error = extractErrorMessage(
       error,
@@ -378,7 +564,7 @@ async function handleMemberAction(action: 'add' | 'remove') {
         ),
       )
     }
-    dialog.value = false
+    memberState.values = ''
   } catch (error) {
     memberState.error = extractErrorMessage(
       error,
@@ -388,6 +574,45 @@ async function handleMemberAction(action: 'add' | 'remove') {
   } finally {
     memberState.loadingAdd = false
     memberState.loadingRemove = false
+  }
+}
+
+function handleDesignSave() {
+  designState.error = ''
+  const workplace = designState.workplace.trim()
+
+  if (!workplace) {
+    designState.error = translate(
+      'workplace.dialog.validation.identifierRequired',
+      'The world identifier is required.',
+    )
+    Notify.error(designState.error)
+    return
+  }
+
+  const settings: WorkplaceDesignSettings = {
+    primary: designState.color,
+    radius: designState.radius,
+    shadow: designState.shadow,
+  }
+
+  designState.saving = true
+  try {
+    designStorage.value = {
+      ...designStorage.value,
+      [workplace]: settings,
+    }
+    applyDesign(settings)
+    shouldRestoreTheme.value = false
+    Notify.success(
+      translate(
+        'workplace.dialog.messages.designSaved',
+        'Design saved successfully.',
+      ),
+    )
+    dialog.value = false
+  } finally {
+    designState.saving = false
   }
 }
 </script>
@@ -413,6 +638,9 @@ async function handleMemberAction(action: 'add' | 'remove') {
         }}</v-tab>
         <v-tab value="members">{{
           translate('workplace.dialog.tabs.members', 'Members')
+        }}</v-tab>
+        <v-tab value="design">{{
+          translate('workplace.dialog.tabs.design', 'Design')
         }}</v-tab>
       </v-tabs>
       <v-divider />
@@ -459,8 +687,11 @@ async function handleMemberAction(action: 'add' | 'remove') {
         </v-window-item>
         <v-window-item value="update">
           <v-card-text class="d-flex flex-column gap-4">
-            <v-text-field
-              v-model="updateState.workplace"
+            <v-combobox
+              v-model="updateWorkplaceModel"
+              :items="workplaceItems"
+              item-title="title"
+              item-value="value"
               :label="
                 translate(
                   'workplace.dialog.fields.identifier',
@@ -475,7 +706,23 @@ async function handleMemberAction(action: 'add' | 'remove') {
                 )
               "
               persistent-hint
-            />
+              clearable
+              hide-no-data
+              variant="outlined"
+            >
+              <template #item="{ props: itemProps, item }">
+                <v-list-item v-bind="itemProps">
+                  <v-list-item-title>{{ item.raw.name }}</v-list-item-title>
+                  <v-list-item-subtitle>
+                    {{
+                      item.raw.slug && item.raw.slug !== item.raw.id
+                        ? item.raw.slug + ' • ' + item.raw.id
+                        : item.raw.id
+                    }}
+                  </v-list-item-subtitle>
+                </v-list-item>
+              </template>
+            </v-combobox>
             <v-text-field
               v-model="updateState.name"
               :label="
@@ -520,8 +767,11 @@ async function handleMemberAction(action: 'add' | 'remove') {
         </v-window-item>
         <v-window-item value="delete">
           <v-card-text class="d-flex flex-column gap-4">
-            <v-text-field
-              v-model="deleteState.workplace"
+            <v-combobox
+              v-model="deleteWorkplaceModel"
+              :items="workplaceItems"
+              item-title="title"
+              item-value="value"
               :label="
                 translate(
                   'workplace.dialog.fields.identifier',
@@ -529,7 +779,23 @@ async function handleMemberAction(action: 'add' | 'remove') {
                 )
               "
               :disabled="deleteState.loading"
-            />
+              clearable
+              hide-no-data
+              variant="outlined"
+            >
+              <template #item="{ props: itemProps, item }">
+                <v-list-item v-bind="itemProps">
+                  <v-list-item-title>{{ item.raw.name }}</v-list-item-title>
+                  <v-list-item-subtitle>
+                    {{
+                      item.raw.slug && item.raw.slug !== item.raw.id
+                        ? item.raw.slug + ' • ' + item.raw.id
+                        : item.raw.id
+                    }}
+                  </v-list-item-subtitle>
+                </v-list-item>
+              </template>
+            </v-combobox>
           </v-card-text>
           <v-card-actions class="justify-end">
             <v-btn
@@ -550,8 +816,11 @@ async function handleMemberAction(action: 'add' | 'remove') {
         </v-window-item>
         <v-window-item value="plugins">
           <v-card-text class="d-flex flex-column gap-4">
-            <v-text-field
-              v-model="pluginState.workplace"
+            <v-combobox
+              v-model="pluginWorkplaceModel"
+              :items="workplaceItems"
+              item-title="title"
+              item-value="value"
               :label="
                 translate(
                   'workplace.dialog.fields.identifier',
@@ -559,7 +828,23 @@ async function handleMemberAction(action: 'add' | 'remove') {
                 )
               "
               :disabled="pluginState.loadingAdd || pluginState.loadingRemove"
-            />
+              clearable
+              hide-no-data
+              variant="outlined"
+            >
+              <template #item="{ props: itemProps, item }">
+                <v-list-item v-bind="itemProps">
+                  <v-list-item-title>{{ item.raw.name }}</v-list-item-title>
+                  <v-list-item-subtitle>
+                    {{
+                      item.raw.slug && item.raw.slug !== item.raw.id
+                        ? item.raw.slug + ' • ' + item.raw.id
+                        : item.raw.id
+                    }}
+                  </v-list-item-subtitle>
+                </v-list-item>
+              </template>
+            </v-combobox>
             <v-textarea
               v-model="pluginState.values"
               :label="
@@ -609,8 +894,11 @@ async function handleMemberAction(action: 'add' | 'remove') {
         </v-window-item>
         <v-window-item value="members">
           <v-card-text class="d-flex flex-column gap-4">
-            <v-text-field
-              v-model="memberState.workplace"
+            <v-combobox
+              v-model="memberWorkplaceModel"
+              :items="workplaceItems"
+              item-title="title"
+              item-value="value"
               :label="
                 translate(
                   'workplace.dialog.fields.identifier',
@@ -618,7 +906,23 @@ async function handleMemberAction(action: 'add' | 'remove') {
                 )
               "
               :disabled="memberState.loadingAdd || memberState.loadingRemove"
-            />
+              clearable
+              hide-no-data
+              variant="outlined"
+            >
+              <template #item="{ props: itemProps, item }">
+                <v-list-item v-bind="itemProps">
+                  <v-list-item-title>{{ item.raw.name }}</v-list-item-title>
+                  <v-list-item-subtitle>
+                    {{
+                      item.raw.slug && item.raw.slug !== item.raw.id
+                        ? item.raw.slug + ' • ' + item.raw.id
+                        : item.raw.id
+                    }}
+                  </v-list-item-subtitle>
+                </v-list-item>
+              </template>
+            </v-combobox>
             <v-textarea
               v-model="memberState.values"
               :label="
@@ -666,7 +970,187 @@ async function handleMemberAction(action: 'add' | 'remove') {
             </v-btn>
           </v-card-actions>
         </v-window-item>
+        <v-window-item value="design">
+          <v-card-text class="workplace-dialog__design">
+            <v-combobox
+              v-model="designWorkplaceModel"
+              :items="workplaceItems"
+              item-title="title"
+              item-value="value"
+              :label="
+                translate(
+                  'workplace.dialog.fields.identifier',
+                  'World identifier',
+                )
+              "
+              :hint="
+                translate(
+                  'workplace.dialog.hints.identifier',
+                  'Use the slug or ID of the world.',
+                )
+              "
+              persistent-hint
+              clearable
+              hide-no-data
+              variant="outlined"
+            >
+              <template #item="{ props: itemProps, item }">
+                <v-list-item v-bind="itemProps">
+                  <v-list-item-title>{{ item.raw.name }}</v-list-item-title>
+                  <v-list-item-subtitle>
+                    {{
+                      item.raw.slug && item.raw.slug !== item.raw.id
+                        ? item.raw.slug + ' • ' + item.raw.id
+                        : item.raw.id
+                    }}
+                  </v-list-item-subtitle>
+                </v-list-item>
+              </template>
+            </v-combobox>
+            <v-label class="mb-2">
+              {{ translate('app.settings.themePalette', 'Theme palette') }}
+            </v-label>
+            <v-color-picker
+              v-model="designState.color"
+              show-swatches
+              elevation="0"
+              width="288"
+              mode="rgb"
+              :modes="['rgb', 'hex', 'hsl']"
+              :swatches="colorSwatches"
+            />
+            <v-divider class="my-4" />
+            <v-label class="mb-2">
+              {{ translate('app.settings.cornerRadius', 'Corner radius') }}
+            </v-label>
+            <v-item-group
+              v-model="designState.radius"
+              class="workplace-dialog__design-options"
+              mandatory
+            >
+              <v-item
+                v-for="option in designRadiusOptions"
+                :key="option.value"
+                :value="option.value"
+              >
+                <template #default="{ isSelected, toggle }">
+                  <v-sheet
+                    class="workplace-dialog__design-option"
+                    border="thin opacity-50"
+                    color="transparent"
+                    rounded="lg"
+                    :elevation="isSelected ? 2 : 0"
+                    @click="toggle"
+                  >
+                    <v-checkbox-btn
+                      :model-value="isSelected"
+                      density="comfortable"
+                      color="primary"
+                      class="mr-3"
+                      hide-details
+                    />
+                    <div class="text-start">
+                      <div class="font-weight-medium">{{ option.label }}</div>
+                      <div class="text-caption text-medium-emphasis">
+                        {{ option.description }}
+                      </div>
+                    </div>
+                  </v-sheet>
+                </template>
+              </v-item>
+            </v-item-group>
+            <v-label class="mb-2">
+              {{ translate('app.settings.shadowDepth', 'Shadow depth') }}
+            </v-label>
+            <v-item-group
+              v-model="designState.shadow"
+              class="workplace-dialog__design-options"
+              mandatory
+            >
+              <v-item
+                v-for="option in designShadowOptions"
+                :key="option.value"
+                :value="option.value"
+              >
+                <template #default="{ isSelected, toggle }">
+                  <v-sheet
+                    class="workplace-dialog__design-option"
+                    border="thin opacity-50"
+                    color="transparent"
+                    rounded="lg"
+                    :elevation="isSelected ? 2 : 0"
+                    @click="toggle"
+                  >
+                    <v-checkbox-btn
+                      :model-value="isSelected"
+                      density="comfortable"
+                      color="primary"
+                      class="mr-3"
+                      hide-details
+                    />
+                    <div class="text-start">
+                      <div class="font-weight-medium">{{ option.label }}</div>
+                      <div class="text-caption text-medium-emphasis">
+                        {{ option.description }}
+                      </div>
+                    </div>
+                  </v-sheet>
+                </template>
+              </v-item>
+            </v-item-group>
+          </v-card-text>
+          <v-card-actions class="justify-end">
+            <v-btn
+              variant="text"
+              :disabled="designState.saving"
+              @click="dialog = false"
+            >
+              {{ translate('common.actions.close', 'Close') }}
+            </v-btn>
+            <v-btn
+              color="primary"
+              :loading="designState.saving"
+              @click="handleDesignSave"
+            >
+              {{ translate('workplace.dialog.actions.saveDesign', 'Save design') }}
+            </v-btn>
+          </v-card-actions>
+        </v-window-item>
       </v-window>
     </v-card>
   </v-dialog>
 </template>
+
+<style scoped>
+.workplace-dialog__design {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.workplace-dialog__design :deep(.v-color-picker) {
+  align-self: center;
+}
+
+.workplace-dialog__design-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.workplace-dialog__design-option {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 16px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+}
+
+.workplace-dialog__design-option:hover {
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+}
+
+.workplace-dialog__design-option :deep(.v-selection-control) {
+  margin-inline-end: 12px;
+}
+</style>
