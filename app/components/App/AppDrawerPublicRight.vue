@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-const drawerState = useState('drawerRight', () => true)
-const appBarReady = useState('appBarReady', () => true)
+const drawerState = useState('drawerRight', () => false)
+const appBarReady = useState('appBarReady', () => false)
 
 const { mobile, lgAndUp, width } = useDisplay()
 const drawer = computed({
@@ -15,7 +15,47 @@ const drawer = computed({
 })
 const rail = computed(() => !drawerState.value && !mobile.value)
 
-drawerState.value = lgAndUp.value && width.value >= 1280
+const toPositiveInteger = (value?: string | string[]) => {
+  const candidate = Array.isArray(value) ? value[0] : value
+  const parsed = Number.parseInt(candidate ?? '', 10)
+
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined
+}
+
+const resolveViewportWidth = () => {
+  if (import.meta.server) {
+    const event = useRequestEvent()
+    if (!event) {
+      return undefined
+    }
+
+    const header =
+      event.node.req.headers['sec-ch-viewport-width'] ??
+      event.node.req.headers['viewport-width']
+
+    return toPositiveInteger(header)
+  }
+
+  if (import.meta.client && typeof window !== 'undefined') {
+    return window.innerWidth
+  }
+
+  return undefined
+}
+
+const ensureInitialDrawerState = () => {
+  const viewportWidth = resolveViewportWidth()
+  const shouldExpand =
+    typeof viewportWidth === 'number'
+      ? viewportWidth >= 1280
+      : lgAndUp.value && width.value >= 1280
+
+  if (drawerState.value !== shouldExpand) {
+    drawerState.value = shouldExpand
+  }
+}
+
+ensureInitialDrawerState()
 </script>
 
 <template>

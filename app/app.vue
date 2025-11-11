@@ -65,7 +65,10 @@ useHead(() => ({
       content: metaDescription.value,
     },
   ],
-  link: [{ rel: 'icon', href: '/favicon.ico' }],
+  link: [
+    { rel: 'icon', href: '/favicon.ico' },
+    { rel: 'canonical', href: canonicalUrl.value },
+  ],
 }))
 
 useSeoMeta(() => ({

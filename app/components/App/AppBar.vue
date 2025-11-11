@@ -13,7 +13,7 @@ import { Notify } from '~/stores/notification'
 
 const theme = useTheme()
 const drawer = useState('drawer')
-const appBarReady = useState('appBarReady', () => true)
+const appBarReady = useState('appBarReady', () => false)
 const route = useRoute()
 const router = useRouter()
 const { t, locale, locales } = useI18n()
@@ -299,7 +299,7 @@ watch(loggedIn, (value) => {
                 <AppAvatar
                   v-else
                   :src="user?.avatar_url"
-                  :alt="user?.login || undefined"
+                  :alt="accountAvatarAlt"
                   size="36"
                   color="primary"
                 />
