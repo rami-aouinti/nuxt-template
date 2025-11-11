@@ -152,6 +152,7 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
 
 <template>
   <v-navigation-drawer
+    class="app-navigation-drawer"
     v-model="drawer"
     :expand-on-hover="rail"
     :rail="rail"
@@ -207,10 +208,13 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
 </template>
 
 <style>
+.v-navigation-drawer.app-navigation-drawer {
+  background-color: transparent !important;
+  box-shadow: none;
+  }
 .brand-title--italic {
   font-style: italic;
 }
-
 .v-navigation-drawer {
   transition-property: box-shadow, transform, opacity, border-radius !important;
   overflow: hidden;

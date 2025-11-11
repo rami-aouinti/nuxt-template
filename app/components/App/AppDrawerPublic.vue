@@ -94,6 +94,7 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
 
 <template>
   <v-navigation-drawer
+    class="app-navigation-drawer"
     v-model="drawer"
     :expand-on-hover="rail"
     :rail="rail"
@@ -155,6 +156,11 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
   margin: 20px;
   padding: 16px;
   min-height: calc(100vh - 160px);
+}
+
+.v-navigation-drawer.app-navigation-drawer {
+  background-color: transparent !important;
+  box-shadow: none;
 }
 
 .v-navigation-drawer {
