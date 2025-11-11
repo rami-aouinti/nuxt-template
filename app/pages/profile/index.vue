@@ -101,11 +101,15 @@ const DEFAULT_PROFILE_SETTINGS: ProfileSettingsState = {
   allowNotification: false,
 }
 
+type EditContext = 'personal' | 'details' | 'avatar'
+
 const editDialog = ref(false)
+const editContext = ref<EditContext | null>(null)
 const isSaving = ref(false)
 const formError = ref('')
 const photoFiles = ref<File[] | File | null>(null)
 const selectedFile = ref<File | null>(null)
+const avatarFileInput = ref<HTMLInputElement | null>(null)
 const settings = reactive<ProfileSettingsState>({ ...DEFAULT_PROFILE_SETTINGS })
 const settingsLoading = ref(true)
 const settingsError = ref('')
@@ -547,23 +551,32 @@ watch(editDialog, (value) => {
     formError.value = ''
     photoFiles.value = null
     selectedFile.value = null
+    editContext.value = null
     resetFormFromProfile(profile.value)
   }
 })
 
 const hasChanges = computed(() => {
   if (!profile.value) return false
-  const current = profile.value
 
-  const fields: (keyof ProfileForm)[] = [
-    'firstName',
-    'lastName',
+  const context = editContext.value
+  if (!context) return false
+
+  if (context === 'avatar') {
+    return Boolean(selectedFile.value)
+  }
+
+  const current = profile.value
+  const personalFields: (keyof ProfileForm)[] = ['firstName', 'lastName']
+  const detailFields: (keyof ProfileForm)[] = [
     'title',
-    'description',
     'gender',
     'phone',
     'address',
+    'description',
   ]
+
+  const fields = context === 'personal' ? personalFields : detailFields
 
   for (const field of fields) {
     const profileValue = getProfileStringValue(current, field)
@@ -572,15 +585,17 @@ const hasChanges = computed(() => {
     }
   }
 
-  const originalBirthday = formatDateForInput(
-    getProfileStringValue(current, 'birthday'),
-  )
-  if ((form.birthday || '') !== originalBirthday) {
-    return true
-  }
+  if (context === 'details') {
+    const originalBirthday = formatDateForInput(
+      getProfileStringValue(current, 'birthday'),
+    )
+    if ((form.birthday || '') !== originalBirthday) {
+      return true
+    }
 
-  if (selectedFile.value) {
-    return true
+    if (selectedFile.value) {
+      return true
+    }
   }
 
   return false
@@ -590,35 +605,93 @@ const formattedBirthday = computed(() =>
   formatDateForDisplay(getProfileStringValue(profile.value, 'birthday')),
 )
 
+function openEditDialog(context: Exclude<EditContext, 'avatar'>) {
+  if (isSaving.value) return
+
+  editContext.value = context
+  formError.value = ''
+  photoFiles.value = null
+  selectedFile.value = null
+  resetFormFromProfile(profile.value)
+  editDialog.value = true
+}
+
+function triggerAvatarUpload() {
+  if (isSaving.value) return
+
+  avatarFileInput.value?.click()
+}
+
+async function handleAvatarFileChange(event: Event) {
+  if (isSaving.value) return
+
+  const input = event.target as HTMLInputElement | null
+  const file = input?.files?.[0] ?? null
+
+  if (input) {
+    input.value = ''
+  }
+
+  if (!file) {
+    selectedFile.value = null
+    editContext.value = null
+    return
+  }
+
+  selectedFile.value = file
+  editContext.value = 'avatar'
+  await submit()
+}
+
 async function submit() {
-  if (!profile.value || !hasChanges.value || isSaving.value) {
+  const context = editContext.value
+
+  if (!profile.value || !context || isSaving.value) {
+    return
+  }
+
+  if (context !== 'avatar' && !hasChanges.value) {
+    return
+  }
+
+  if (context === 'avatar' && !selectedFile.value) {
     return
   }
 
   isSaving.value = true
-  formError.value = ''
+  if (context !== 'avatar') {
+    formError.value = ''
+  }
 
   try {
     const formData = new FormData()
-    const fields: (keyof ProfileForm)[] = [
-      'firstName',
-      'lastName',
-      'title',
-      'description',
-      'gender',
-      'phone',
-      'address',
-    ]
 
-    for (const field of fields) {
-      formData.append(field, form[field])
-    }
+    if (context === 'personal') {
+      const personalFields: (keyof ProfileForm)[] = ['firstName', 'lastName']
+      for (const field of personalFields) {
+        formData.append(field, form[field])
+      }
+    } else if (context === 'details') {
+      const detailFields: (keyof ProfileForm)[] = [
+        'title',
+        'gender',
+        'phone',
+        'address',
+        'description',
+      ]
 
-    if (form.birthday && form.birthday.trim().length > 0) {
-      formData.append('birthday', form.birthday)
-    }
+      for (const field of detailFields) {
+        formData.append(field, form[field])
+      }
 
-    if (selectedFile.value) {
+      if (form.birthday && form.birthday.trim().length > 0) {
+        formData.append('birthday', form.birthday)
+      }
+
+      if (selectedFile.value) {
+        formData.append('files[]', selectedFile.value)
+      }
+    } else if (context === 'avatar') {
       formData.append('files[]', selectedFile.value)
     }
 
@@ -630,7 +703,12 @@ async function submit() {
     profileCache.value = updatedProfile
     await refreshSession()
     Notify.success(t('profile.updateSuccess'))
-    editDialog.value = false
+
+    if (context === 'avatar') {
+      editContext.value = null
+    } else {
+      editDialog.value = false
+    }
   } catch (error) {
     let message = t('profile.updateFailed')
 
@@ -645,9 +723,16 @@ async function submit() {
       message = error.message
     }
 
-    formError.value = message
+    if (context !== 'avatar') {
+      formError.value = message
+    }
     Notify.error(message)
   } finally {
+    if (context === 'avatar') {
+      editContext.value = null
+      selectedFile.value = null
+      photoFiles.value = null
+    }
     isSaving.value = false
   }
 }
@@ -663,19 +748,39 @@ async function submit() {
         <div v-else>
           <v-row no-gutters class="align-center mb-4">
             <v-col cols="auto">
-              <AppAvatar
-                :src="avatarUrl"
-                :alt="t('profile.page.avatar.alt')"
-                size="72"
-                color="primary"
-                class="elevation-2"
-              >
-                <template #fallback>
-                  <span class="text-h4 font-weight-medium text-white">{{
-                    initials
-                  }}</span>
-                </template>
-              </AppAvatar>
+              <div class="profile-avatar-wrapper">
+                <AppAvatar
+                  :src="avatarUrl"
+                  :alt="t('profile.page.avatar.alt')"
+                  size="72"
+                  color="primary"
+                  class="elevation-2"
+                >
+                  <template #fallback>
+                    <span class="text-h4 font-weight-medium text-white">{{
+                      initials
+                    }}</span>
+                  </template>
+                </AppAvatar>
+                <v-btn
+                  class="profile-avatar-edit-btn"
+                  color="primary"
+                  density="comfortable"
+                  icon="mdi-pencil"
+                  size="small"
+                  variant="flat"
+                  :disabled="isSaving"
+                  :aria-label="t('profile.fields.photo')"
+                  @click="triggerAvatarUpload"
+                />
+                <input
+                  ref="avatarFileInput"
+                  class="profile-avatar-file-input"
+                  type="file"
+                  accept="image/*"
+                  @change="handleAvatarFileChange"
+                />
+              </div>
             </v-col>
             <v-col class="px-4">
               <div class="text-h6 font-weight-medium">
@@ -736,90 +841,94 @@ async function submit() {
             >
               {{ formError }}
             </v-alert>
-            <v-form @submit.prevent="submit">
+            <v-form v-if="editContext" @submit.prevent="submit">
               <v-row dense>
-                <v-col cols="12" sm="6">
-                  <v-text-field
-                    v-model="form.firstName"
-                    :label="t('userManagement.users.fields.firstName')"
-                    autocomplete="given-name"
-                    :disabled="isSaving"
-                    rounded
-                  />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field
-                    v-model="form.lastName"
-                    :label="t('userManagement.users.fields.lastName')"
-                    autocomplete="family-name"
-                    :disabled="isSaving"
-                    rounded
-                  />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field
-                    v-model="form.title"
-                    :label="t('profile.fields.title')"
-                    :disabled="isSaving"
-                    rounded
-                  />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field
-                    v-model="form.gender"
-                    :label="t('profile.fields.gender')"
-                    :disabled="isSaving"
-                    rounded
-                  />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field
-                    v-model="form.phone"
-                    :label="t('profile.fields.phone')"
-                    type="tel"
-                    autocomplete="tel"
-                    :disabled="isSaving"
-                    rounded
-                  />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field
-                    v-model="form.address"
-                    :label="t('profile.fields.address')"
-                    autocomplete="street-address"
-                    :disabled="isSaving"
-                    rounded
-                  />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field
-                    v-model="form.birthday"
-                    :label="t('profile.fields.birthday')"
-                    type="date"
-                    :disabled="isSaving"
-                    rounded
-                  />
-                </v-col>
-                <v-col cols="12">
-                  <v-textarea
-                    v-model="form.description"
-                    :label="t('profile.fields.description')"
-                    auto-grow
-                    rows="3"
-                    :disabled="isSaving"
-                  />
-                </v-col>
-                <v-col cols="12">
-                  <v-file-input
-                    v-model="photoFiles"
-                    :label="t('profile.fields.photo')"
-                    accept="image/*"
-                    prepend-icon="mdi-camera"
-                    clearable
-                    show-size
-                    :disabled="isSaving"
-                  />
-                </v-col>
+                <template v-if="editContext === 'personal'">
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="form.firstName"
+                      :label="t('userManagement.users.fields.firstName')"
+                      autocomplete="given-name"
+                      :disabled="isSaving"
+                      rounded
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="form.lastName"
+                      :label="t('userManagement.users.fields.lastName')"
+                      autocomplete="family-name"
+                      :disabled="isSaving"
+                      rounded
+                    />
+                  </v-col>
+                </template>
+                <template v-else-if="editContext === 'details'">
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="form.title"
+                      :label="t('profile.fields.title')"
+                      :disabled="isSaving"
+                      rounded
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="form.gender"
+                      :label="t('profile.fields.gender')"
+                      :disabled="isSaving"
+                      rounded
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="form.phone"
+                      :label="t('profile.fields.phone')"
+                      type="tel"
+                      autocomplete="tel"
+                      :disabled="isSaving"
+                      rounded
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="form.address"
+                      :label="t('profile.fields.address')"
+                      autocomplete="street-address"
+                      :disabled="isSaving"
+                      rounded
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="form.birthday"
+                      :label="t('profile.fields.birthday')"
+                      type="date"
+                      :disabled="isSaving"
+                      rounded
+                    />
+                  </v-col>
+                  <v-col cols="12">
+                    <v-textarea
+                      v-model="form.description"
+                      :label="t('profile.fields.description')"
+                      auto-grow
+                      rows="3"
+                      :disabled="isSaving"
+                    />
+                  </v-col>
+                  <v-col cols="12">
+                    <v-file-input
+                      v-model="photoFiles"
+                      :label="t('profile.fields.photo')"
+                      accept="image/*"
+                      prepend-icon="mdi-camera"
+                      clearable
+                      show-size
+                      :disabled="isSaving"
+                    />
+                  </v-col>
+                </template>
               </v-row>
             </v-form>
           </v-card-text>
@@ -859,7 +968,7 @@ async function submit() {
                     variant="text"
                     prepend-icon="mdi-pencil"
                     :disabled="isSaving"
-                    @click="editDialog = true"
+                    @click="openEditDialog('personal')"
                   >
                     {{ t('common.actions.edit') }}
                   </v-btn>
@@ -906,8 +1015,18 @@ async function submit() {
 
             <v-col cols="12">
               <v-card elevation="2" rounded="xl" variant="text">
-                <v-card-title>
-                  {{ t('profile.sections.details.title') }}
+                <v-card-title class="d-flex align-center gap-4">
+                  <span>{{ t('profile.sections.details.title') }}</span>
+                  <v-spacer />
+                  <v-btn
+                    color="primary"
+                    variant="text"
+                    prepend-icon="mdi-pencil"
+                    :disabled="isSaving"
+                    @click="openEditDialog('details')"
+                  >
+                    {{ t('common.actions.edit') }}
+                  </v-btn>
                 </v-card-title>
                 <v-divider />
                 <v-card-text>
@@ -1058,3 +1177,21 @@ async function submit() {
     </ProfilePageShell>
   </div>
 </template>
+
+<style scoped>
+.profile-avatar-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-avatar-edit-btn {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  box-shadow: var(--v-theme-shadow, 0 2px 6px rgba(0, 0, 0, 0.25));
+}
+
+.profile-avatar-file-input {
+  display: none;
+}
+</style>
