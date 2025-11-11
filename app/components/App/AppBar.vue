@@ -315,6 +315,7 @@ watch(loggedIn, (value) => {
             :to="localePath('profile')"
           />
           <v-list-item
+            v-if="loggedIn"
             :title="t('navigation.admin')"
             prepend-icon="mdi-shield-account"
             :to="localePath('admin')"
@@ -379,8 +380,20 @@ watch(loggedIn, (value) => {
             v-bind="props"
             :aria-label="languageMenuAriaLabel"
           >
+            <v-icon
+              v-if="currentLanguage?.flagIcon"
+              :icon="currentLanguage.flagIcon"
+              size="24"
+            />
+            <span
+              v-else-if="currentLanguage?.flag"
+              class="dock-navbar__language-flag"
+            >
+              {{ currentLanguage.flag }}
+            </span>
             <FlagSpan
-              :code="currentLanguage?.code"
+              v-else
+              :code="currentLanguage?.code ?? locale"
               class="dock-navbar__language-flag"
             />
           </v-btn>
@@ -400,7 +413,23 @@ watch(loggedIn, (value) => {
             <NuxtLink :to="language.to" class="dock-navbar__language-link">
               <div class="dock-navbar__language-item">
                 <div class="dock-navbar__language-info">
-                  <FlagSpan :code="language?.code" class="mr-1" />
+                  <v-icon
+                    v-if="language.flagIcon"
+                    :icon="language.flagIcon"
+                    :size="controlChevronSize"
+                    class="dock-navbar__language-flag dock-navbar__language-flag--item mr-1"
+                  />
+                  <span
+                    v-else-if="language.flag"
+                    class="dock-navbar__language-flag dock-navbar__language-flag--item mr-1"
+                  >
+                    {{ language.flag }}
+                  </span>
+                  <FlagSpan
+                    v-else
+                    :code="language?.code ?? locale"
+                    class="dock-navbar__language-flag dock-navbar__language-flag--item mr-1"
+                  />
                   <span class="dock-navbar__language-name">{{
                     language.name
                   }}</span>
