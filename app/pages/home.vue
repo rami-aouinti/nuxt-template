@@ -1672,37 +1672,35 @@ if (import.meta.client) {
         />
       </teleport>
     </client-only>
-    <client-only>
-      <teleport to="#app-bar">
-        <div class="d-flex align-items">
-          <v-text-field
-            v-model="localSearch"
-            class="mr-2"
-            prepend-inner-icon="mdi-magnify"
-            label="Search"
-            single-line
-            hide-details
-            density="compact"
-            rounded="xl"
-            flat
-            icon-color
-            glow
-            color="primary"
-            variant="outlined"
-            style="width: 250px"
-          />
-          <v-btn
-            variant="text"
-            :loading="isInitialLoading"
-            class="dock-navbar__action-button"
-            :aria-label="t('blog.actions.refresh')"
-            @click="refreshPosts"
-          >
-            <v-icon icon="mdi-refresh" />
-          </v-btn>
-        </div>
-      </teleport>
-    </client-only>
+    <teleport to="#app-bar">
+      <div class="d-flex align-items">
+        <v-text-field
+          v-model="localSearch"
+          class="mr-2"
+          prepend-inner-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+          density="compact"
+          rounded="xl"
+          flat
+          icon-color
+          glow
+          color="primary"
+          variant="outlined"
+          style="width: 250px"
+        />
+        <v-btn
+          variant="text"
+          :loading="isInitialLoading"
+          class="dock-navbar__action-button"
+          :aria-label="t('blog.actions.refresh')"
+          @click="refreshPosts"
+        >
+          <v-icon icon="mdi-refresh" />
+        </v-btn>
+      </div>
+    </teleport>
     <v-row class="blog-layout justify-center">
       <v-col cols="12">
         <v-alert
