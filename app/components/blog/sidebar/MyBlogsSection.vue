@@ -36,6 +36,18 @@ const emit = defineEmits<{
     :login-message="loginMessage"
   >
     <template #default>
+      <div class="d-flex flex-column gap-3 mb-4">
+        <v-btn
+          block
+          color="primary"
+          variant="tonal"
+          prepend-icon="mdi-note-plus"
+          :disabled="!loggedIn"
+          @click="emit('create')"
+        >
+          {{ createLabel }}
+        </v-btn>
+      </div>
       <v-skeleton-loader
         v-if="loading"
         type="list-item-two-line@3"
@@ -143,19 +155,6 @@ const emit = defineEmits<{
       <p v-else class="text-body-2 text-medium-emphasis mb-0">
         {{ emptyMessage }}
       </p>
-    </template>
-
-    <template #actions>
-      <v-btn
-        block
-        color="primary"
-        variant="tonal"
-        prepend-icon="mdi-note-plus"
-        :disabled="!loggedIn"
-        @click="emit('create')"
-      >
-        {{ createLabel }}
-      </v-btn>
     </template>
   </SidebarSection>
 </template>
