@@ -1,11 +1,11 @@
 {
   "All": "Alle",
   "app": {
-  "title": "Bro World",
+  "title": "Bro world",
     "description": "Vuetify 3 + Nuxt 3, meinungsstarkes Admin-Template",
     "brand": {
-      "name": "Bro World",
-      "highlight": "World"
+      "name": "Bro world",
+      "highlight": "world"
     },
     "footer": {
       "copyright": "© {year} Bro World",
