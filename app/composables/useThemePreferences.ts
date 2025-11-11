@@ -85,6 +85,14 @@ const shadowValues: Record<ThemeShadowPreset, string> = {
   deep: '0 24px 52px rgba(var(--v-theme-primary), 0.28)',
 }
 
+const shadowHoverValues: Record<ThemeShadowPreset, string> = {
+  none: 'none',
+  soft: '0 12px 30px rgba(15, 23, 42, 0.14)',
+  regular: '0 18px 44px rgba(15, 23, 42, 0.2)',
+  bold: '0 26px 56px rgba(15, 23, 42, 0.26)',
+  deep: '0 32px 68px rgba(var(--v-theme-primary), 0.34)',
+}
+
 const RADIUS_STORAGE_KEY = 'theme-rounded'
 const SHADOW_STORAGE_KEY = 'theme-shadow'
 
@@ -157,6 +165,7 @@ export {
   applyShadowPreset,
   radiusValues,
   shadowValues,
+  shadowHoverValues,
   RADIUS_STORAGE_KEY,
   SHADOW_STORAGE_KEY,
 }

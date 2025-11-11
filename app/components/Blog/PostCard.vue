@@ -8,6 +8,12 @@ import type {
 } from '~/types/blog'
 import { resolveReactionType } from '~/utils/reactions'
 import { useBlogAuthor } from '~/composables/useBlogAuthor'
+import {
+  useThemePreferences,
+  radiusValues,
+  shadowValues,
+  shadowHoverValues,
+} from '~/composables/useThemePreferences'
 
 defineOptions({ name: 'BlogPostCard' })
 
@@ -48,6 +54,20 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const localePath = useLocalePath()
 const { getAuthorName, getAuthorProfileLink, getAuthorAvatar } = useBlogAuthor()
+const { radius, shadow } = useThemePreferences()
+
+const postCardStyle = computed(() => {
+  const radiusValue = radiusValues[radius.value] ?? radiusValues.md
+  const shadowValue = shadowValues[shadow.value] ?? shadowValues.regular
+  const hoverShadowValue =
+    shadowHoverValues[shadow.value] ?? shadowHoverValues.regular
+
+  return {
+    '--blog-post-card-radius': radiusValue,
+    '--blog-post-card-shadow': shadowValue,
+    '--blog-post-card-hover-shadow': hoverShadowValue,
+  }
+})
 
 const postLink = computed(() => localePath(`/post/${props.post.slug}`))
 const authorName = computed(() => getAuthorName(props.post.user))
@@ -131,7 +151,7 @@ const onDeletePost = () => {
 </script>
 
 <template>
-<v-card class="facebook-post-card" elevation="0">
+<v-card class="facebook-post-card" elevation="0" :style="postCardStyle">
     <div class="facebook-post-card__header">
       <div class="facebook-post-card__avatar">
         <NuxtLink
@@ -370,8 +390,14 @@ const onDeletePost = () => {
 
 <style scoped>
 .facebook-post-card {
-  border-radius: var(--app-rounded, 18px);
-  background: rgba(var(--blog-post-card-background-rgb), 0.95);
+  border-radius: var(
+    --blog-post-card-radius,
+    var(--app-rounded, 18px)
+  );
+  background: var(
+    --blog-post-card-background,
+    rgba(var(--blog-post-card-background-rgb, 255, 255, 255), 0.95)
+  );
   box-shadow: var(
     --blog-post-card-shadow,
     var(--app-shadow, 0 10px 26px rgba(15, 23, 42, 0.14))
@@ -592,7 +618,7 @@ a.facebook-post-card__author-link:focus-visible {
 
 .facebook-post-card__comments-section {
   border-top: 1px solid rgba(var(--v-theme-on-surface), 0.08);
-  background: rgba(var(--blog-post-card-background-rgb), 0.98);
+  background: rgba(var(--blog-post-card-background-rgb, 255, 255, 255), 0.98);
   padding-bottom: 20px;
 }
 
