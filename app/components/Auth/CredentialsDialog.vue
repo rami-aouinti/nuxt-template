@@ -194,12 +194,11 @@ function toggleMode() {
       <v-card-text class="pt-6 pb-0 px-6">
         <v-expand-transition>
           <div v-if="!isRegisterMode" key="login" class="mb-6">
-            <p class="text-body-2 text-medium-emphasis mb-4">
-              {{ t('auth.oauthSignInPrompt') }}
-            </p>
             <div class="credentials-dialog__providers">
               <v-btn
+                icon
                 v-for="provider in oauthProviders"
+                size="small"
                 :key="provider.key"
                 variant="outlined"
                 color="primary"
@@ -209,9 +208,7 @@ function toggleMode() {
                 :aria-label="t(provider.translationKey)"
                 :disabled="loading"
               >
-                <template #prepend>
                   <v-icon :icon="provider.icon" />
-                </template>
               </v-btn>
             </div>
             <div class="credentials-dialog__divider">
