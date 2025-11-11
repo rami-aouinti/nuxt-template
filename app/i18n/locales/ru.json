@@ -410,7 +410,7 @@
     "loginWithCredentials": "Войти по учётным данным",
     "loginSubtitle": "С возвращением! Войдите, чтобы продолжить.",
     "oauthSignInPrompt": "Выберите одного из провайдеров ниже, чтобы продолжить.",
-    "credentialsSignInPrompt": "Или используйте свои учетные данные для входа.",
+    "credentialsSignInPrompt": "Или",
     "credentialsRegisterPrompt": "Используйте email и пароль, чтобы создать аккаунт.",
     "register": "Создать аккаунт",
     "registerSubtitle": "Присоединяйтесь к сообществу за пару шагов.",

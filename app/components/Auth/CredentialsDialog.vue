@@ -201,7 +201,6 @@ function toggleMode() {
               <v-btn
                 v-for="provider in oauthProviders"
                 :key="provider.key"
-                block
                 variant="outlined"
                 color="primary"
                 class="text-none"
@@ -374,8 +373,11 @@ function toggleMode() {
 
 .credentials-dialog__providers {
   display: flex;
-  flex-direction: column;
   gap: 12px;
+}
+
+.credentials-dialog__providers :deep(.v-btn) {
+  flex: 1;
 }
 
 .credentials-dialog__divider {

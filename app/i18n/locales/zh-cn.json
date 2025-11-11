@@ -410,7 +410,7 @@
     "loginWithCredentials": "使用凭据登录",
     "loginSubtitle": "欢迎回来！请登录继续。",
     "oauthSignInPrompt": "请选择以下任一服务继续。",
-    "credentialsSignInPrompt": "或使用用户名和密码登录。",
+    "credentialsSignInPrompt": "或",
     "credentialsRegisterPrompt": "使用电子邮箱和密码创建你的账户。",
     "register": "创建账户",
     "registerSubtitle": "几步之内即可加入社区。",

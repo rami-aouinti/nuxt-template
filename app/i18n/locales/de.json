@@ -410,7 +410,7 @@
     "loginWithCredentials": "Mit Zugangsdaten anmelden",
     "loginSubtitle": "Schön, dass du wieder da bist! Melde dich an, um fortzufahren.",
     "oauthSignInPrompt": "Wähle einen der folgenden Anbieter, um fortzufahren.",
-    "credentialsSignInPrompt": "Oder melde dich mit deinen Zugangsdaten an.",
+    "credentialsSignInPrompt": "Oder",
     "credentialsRegisterPrompt": "Verwende deine E-Mail und ein Passwort, um dein Konto zu erstellen.",
     "register": "Konto erstellen",
     "registerSubtitle": "Tritt der Community in wenigen Schritten bei.",
