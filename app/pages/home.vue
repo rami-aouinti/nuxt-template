@@ -2028,7 +2028,10 @@ if (import.meta.client) {
       </v-card>
     </v-dialog>
 
-    <WorkplaceManagerDialog v-model="addWorldDialogOpen" />
+    <WorkplaceManagerDialog
+      v-model="addWorldDialogOpen"
+      :workplaces="myWorkplaces"
+    />
 
     <v-dialog v-model="createBlogDialog.open" max-width="520" persistent>
       <v-card>

@@ -1316,7 +1316,8 @@
       "title": "Manage your world",
       "tabs": {
         "plugins": "Plugins",
-        "members": "Members"
+        "members": "Members",
+        "design": "Design"
       },
       "fields": {
         "name": "World name",
@@ -1338,7 +1339,8 @@
         "addPlugins": "Add plugins",
         "removePlugins": "Remove plugins",
         "addMembers": "Add members",
-        "removeMembers": "Remove members"
+        "removeMembers": "Remove members",
+        "saveDesign": "Save design"
       },
       "messages": {
         "createSuccess": "World created successfully.",
@@ -1347,7 +1349,8 @@
         "addPluginsSuccess": "Plugins added successfully.",
         "removePluginsSuccess": "Plugins removed successfully.",
         "addMembersSuccess": "Members added successfully.",
-        "removeMembersSuccess": "Members removed successfully."
+        "removeMembersSuccess": "Members removed successfully.",
+        "designSaved": "Design saved successfully."
       },
       "validation": {
         "nameRequired": "The world name is required.",
