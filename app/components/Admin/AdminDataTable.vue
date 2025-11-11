@@ -561,26 +561,24 @@ function refresh() {
 
     <slot name="toolbar" />
 
-    <client-only v-if="showSearch">
-      <teleport to="#app-bar">
-        <v-text-field
-          v-model="localSearch"
-          class="mr-2"
-          prepend-inner-icon="mdi-magnify"
-          :label="computedSearchPlaceholder"
-          single-line
-          hide-details
-          density="compact"
-          rounded="xl"
-          flat
-          icon-color
-          glow
-          color="primary"
-          variant="outlined"
-          style="width: 250px"
-        />
-      </teleport>
-    </client-only>
+    <teleport v-if="showSearch" to="#app-bar">
+      <v-text-field
+        v-model="localSearch"
+        class="mr-2"
+        prepend-inner-icon="mdi-magnify"
+        :label="computedSearchPlaceholder"
+        single-line
+        hide-details
+        density="compact"
+        rounded="xl"
+        flat
+        icon-color
+        glow
+        color="primary"
+        variant="outlined"
+        style="width: 250px"
+      />
+    </teleport>
 
     <v-expand-transition>
       <v-alert v-if="hasError" class="mx-6 mt-4" type="error" variant="tonal">
