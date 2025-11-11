@@ -114,16 +114,16 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
           class="drawer-header-icon mx-4"
           color="primary"
         />
-        <span class="text-h4 text-decoration-none">{{
+        <span class="text-h4 text-decoration-none brand-title--italic">{{
           brandTitleParts.before
         }}</span>
         <span
           v-if="brandTitleParts.highlight"
-          class="text-h4 text-primary text-decoration-none"
+          class="text-h4 text-primary text-decoration-none brand-title--italic"
         >
           {{ brandTitleParts.highlight }}
         </span>
-        <span>{{ brandTitleParts.after }}</span>
+        <span class="brand-title--italic">{{ brandTitleParts.after }}</span>
       </NuxtLink>
     </template>
     <v-card class="drawer-nav mt-5" elevation="20" rounded="xl">
@@ -147,6 +147,10 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
 </template>
 
 <style>
+.brand-title--italic {
+  font-style: italic;
+}
+
 .drawer-nav {
   background: transparent;
   margin: 20px;
