@@ -5,7 +5,6 @@ import BlogReactionsDialog from '~/components/Blog/ReactionsDialog.vue'
 import BlogPostCard from '~/components/Blog/PostCard.vue'
 import BlogPostCardSkeleton from '~/components/Blog/PostCardSkeleton.vue'
 import DialogConfirm from '~/components/DialogConfirm.vue'
-import WorkplaceActionMenu from '~/components/workplace/WorkplaceActionMenu.vue'
 import WorkplaceManagerDialog from '~/components/workplace/WorkplaceManagerDialog.vue'
 import {
   BLOG_POSTS_DEFAULT_LIMIT,
@@ -171,6 +170,22 @@ const myWorkplacesLoading = ref(false)
 const myWorkplacesError = ref<string | null>(null)
 
 const addWorldDialogOpen = ref(false)
+
+const sidebarIntro = computed(() =>
+  translate(
+    'blog.sidebar.intro',
+    "Retrouvez vos espaces d'écriture et créez un nouvel article.",
+  ),
+)
+const workplaceDrawerTitle = computed(() =>
+  translate('workplace.drawer.title', 'World'),
+)
+const workplaceEmptyMessage = computed(() =>
+  translate('workplace.drawer.emptyList', 'You have no worlds yet.'),
+)
+const addWorldLabel = computed(() =>
+  translate('workplace.drawer.addWorld', 'Add world'),
+)
 
 const createBlogDialog = reactive({
   open: false,
@@ -1612,262 +1627,49 @@ if (import.meta.client) {
   <v-container fluid class="blog-page px-6 px-md-10">
     <client-only>
       <teleport to="#app-drawer">
-        <div class="animated-badge mb-4">
-          <span class="animated-badge__pulse" />
-          {{ translate('workplace.drawer.title', 'World') }}
-        </div>
-        <p class="text-body-2 text-medium-emphasis mb-4">
-          {{
-            translate(
-              'blog.sidebar.intro',
-              "Retrouvez vos espaces d'écriture et créez un nouvel article.",
-            )
-          }}
-        </p>
-        <v-alert
-          v-if="!loggedIn"
-          type="info"
-          variant="tonal"
-          density="comfortable"
-          class="mb-4"
-        >
-          {{ t('blog.sidebar.loginToManage') }}
-        </v-alert>
-
-        <template v-else>
-          <v-skeleton-loader
-            v-if="myWorkplacesLoading"
-            type="list-item-two-line@3"
-            class="rounded mb-4"
-          />
-
-          <v-alert
-            v-else-if="myWorkplacesError"
-            type="error"
-            variant="tonal"
-            density="comfortable"
-            class="mb-4"
-          >
-            {{ myWorkplacesError }}
-          </v-alert>
-
-          <template v-else-if="filteredMyWorkplaces.length">
-            <v-card
-              v-for="workplace in filteredMyWorkplaces"
-              :key="workplace.id || workplace.slug"
-              class="workplace-card mb-3"
-              elevation="2"
-            >
-              <v-card-text class="d-flex align-center gap-3">
-                <NuxtLink
-                  style="color: rgba(var(--v-theme-on-surface), 0.92)"
-                  class="workplace-card__link d-flex align-center gap-3 flex-grow-1 text-decoration-none"
-                  :to="`/world/${encodeURIComponent(workplace.slug)}`"
-                >
-                  <v-avatar size="40" color="primary" variant="tonal">
-                    <span class="blog-avatar__initials">
-                      {{ getBlogInitials(workplace.name || workplace.slug) }}
-                    </span>
-                  </v-avatar>
-                  <div class="d-flex flex-column px-2">
-                    <span class="text-body-1 font-weight-medium text-truncate">
-                      {{ workplace.name || workplace.slug }}
-                    </span>
-                  </div>
-                </NuxtLink>
-                <WorkplaceActionMenu
-                  :workplace="workplace"
-                  @refresh="refreshWorkplaces"
-                  @deleted="refreshWorkplaces"
-                />
-              </v-card-text>
-            </v-card>
-          </template>
-
-          <v-alert
-            v-else-if="hasSearchTerm && myWorkplaces.length"
-            type="info"
-            variant="tonal"
-            density="comfortable"
-            class="mb-4"
-          >
-            {{ t('blog.search.noResults') }}
-          </v-alert>
-
-          <p v-else class="text-body-2 text-medium-emphasis mb-0">
-            {{
-              translate('workplace.drawer.emptyList', 'You have no worlds yet.')
-            }}
-          </p>
-        </template>
-
-        <div class="d-flex flex-column gap-3 mt-6 mb-4">
-          <v-btn
-            block
-            color="primary"
-            variant="tonal"
-            prepend-icon="mdi-earth-plus"
-            :disabled="!loggedIn"
-            @click="openAddWorldDialog"
-          >
-            {{ translate('workplace.drawer.addWorld', 'Add world') }}
-          </v-btn>
-        </div>
+        <BlogSidebarMyWorkplacesSection
+          :title="workplaceDrawerTitle"
+          :description="sidebarIntro"
+          :logged-in="loggedIn"
+          :login-message="t('blog.sidebar.loginToManage')"
+          :loading="myWorkplacesLoading"
+          :error="myWorkplacesError"
+          :workplaces="myWorkplaces"
+          :filtered-workplaces="filteredMyWorkplaces"
+          :has-search-term="hasSearchTerm"
+          :no-results-message="t('blog.search.noResults')"
+          :empty-message="workplaceEmptyMessage"
+          :add-world-label="addWorldLabel"
+          :get-initials="getBlogInitials"
+          @refresh="refreshWorkplaces"
+          @add-world="openAddWorldDialog"
+        />
       </teleport>
     </client-only>
     <client-only>
       <teleport to="#app-drawer-right">
-        <div class="animated-badge mb-4">
-          <span class="animated-badge__pulse" />
-          {{ t('blog.sidebar.myBlogsTitle') }}
-        </div>
-        <p class="text-body-2 text-medium-emphasis mb-4">
-          {{
-            translate(
-              'blog.sidebar.intro',
-              "Retrouvez vos espaces d'écriture et créez un nouvel article.",
-            )
-          }}
-        </p>
-        <v-alert
-          v-if="!loggedIn"
-          type="info"
-          variant="tonal"
-          density="comfortable"
-          class="mb-4"
-        >
-          {{ t('blog.sidebar.loginToManage') }}
-        </v-alert>
-
-        <template v-else>
-          <v-skeleton-loader
-            v-if="myBlogsLoading"
-            type="list-item-two-line@3"
-            class="rounded mb-4"
-          />
-
-          <v-alert
-            v-else-if="myBlogsError"
-            type="error"
-            variant="tonal"
-            density="comfortable"
-            class="mb-4"
-          >
-            {{ myBlogsError }}
-          </v-alert>
-
-          <template v-else-if="filteredMyBlogs.length">
-            <div
-              v-for="blog in filteredMyBlogs"
-              :key="blog.id"
-              class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
-            >
-              <NuxtLink
-                style="color: rgba(var(--v-theme-on-surface), 0.92)"
-                class="text-decoration-none"
-                :to="`/blog/${blog.id}`"
-              >
-                <AppAvatar
-                  :src="blog.logo || undefined"
-                  :alt="blog.title"
-                  size="36"
-                  class="mr-3"
-                  color="primary"
-                  variant="tonal"
-                >
-                  <template #fallback>
-                    <span class="blog-avatar__initials">
-                      {{ getBlogInitials(blog.title) }}
-                    </span>
-                  </template>
-                </AppAvatar>
-                {{ blog.title }}
-              </NuxtLink>
-              <v-spacer />
-              <v-menu location="bottom end" offset="8">
-                <template #activator="{ props: activatorProps }">
-                  <v-btn
-                    icon
-                    variant="text"
-                    size="small"
-                    density="compact"
-                    class="blog-sidebar__menu-btn"
-                    v-bind="activatorProps"
-                    :disabled="
-                      activatorProps.disabled || isBlogMenuDisabled(blog.id)
-                    "
-                    :loading="isBlogDeleting(blog.id)"
-                    @click.stop="activatorProps.onClick?.($event)"
-                  >
-                    <v-icon size="small" icon="mdi-dots-vertical" />
-                  </v-btn>
-                </template>
-
-                <v-list density="compact" nav>
-                  <v-list-item
-                    :disabled="isBlogMenuDisabled(blog.id)"
-                    @click.stop="openEditBlogDialog(blog)"
-                  >
-                    <template #prepend>
-                      <v-icon size="small" icon="mdi-pencil" />
-                    </template>
-                    <v-list-item-title>
-                      {{ t('blog.actions.editBlog') }}
-                    </v-list-item-title>
-                  </v-list-item>
-                  <v-list-item
-                    :disabled="isBlogMenuDisabled(blog.id)"
-                    @click.stop="confirmDeleteBlog(blog)"
-                  >
-                    <template #prepend>
-                      <v-icon
-                        v-if="!isBlogDeleting(blog.id)"
-                        size="small"
-                        icon="mdi-trash-can-outline"
-                      />
-                      <v-progress-circular
-                        v-else
-                        indeterminate
-                        size="16"
-                        width="2"
-                      />
-                    </template>
-                    <v-list-item-title>
-                      {{ t('blog.actions.deleteBlog') }}
-                    </v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </div>
-          </template>
-
-          <v-alert
-            v-else-if="hasSearchTerm && myBlogs.length"
-            type="info"
-            variant="tonal"
-            density="comfortable"
-            class="mb-4"
-          >
-            {{ t('blog.search.noResults') }}
-          </v-alert>
-
-          <p v-else class="text-body-2 text-medium-emphasis mb-0">
-            {{ t('blog.sidebar.myBlogsEmpty') }}
-          </p>
-        </template>
-
-        <div class="d-flex flex-column gap-3 mt-6">
-          <v-btn
-            block
-            color="primary"
-            variant="tonal"
-            prepend-icon="mdi-note-plus"
-            :disabled="!loggedIn"
-            @click="openCreateBlogDialog"
-          >
-            {{ t('blog.sidebar.createBlog') }}
-          </v-btn>
-        </div>
+        <BlogSidebarMyBlogsSection
+          :title="t('blog.sidebar.myBlogsTitle')"
+          :description="sidebarIntro"
+          :logged-in="loggedIn"
+          :login-message="t('blog.sidebar.loginToManage')"
+          :loading="myBlogsLoading"
+          :error="myBlogsError"
+          :blogs="myBlogs"
+          :filtered-blogs="filteredMyBlogs"
+          :has-search-term="hasSearchTerm"
+          :no-results-message="t('blog.search.noResults')"
+          :empty-message="t('blog.sidebar.myBlogsEmpty')"
+          :create-label="t('blog.sidebar.createBlog')"
+          :edit-label="t('blog.actions.editBlog')"
+          :delete-label="t('blog.actions.deleteBlog')"
+          :get-initials="getBlogInitials"
+          :is-menu-disabled="isBlogMenuDisabled"
+          :is-deleting="isBlogDeleting"
+          @create="openCreateBlogDialog"
+          @edit="openEditBlogDialog"
+          @delete="confirmDeleteBlog"
+        />
       </teleport>
     </client-only>
     <client-only>
