@@ -281,6 +281,7 @@ watch(loggedIn, (value) => {
         variant="outlined"
         :aria-label="themeSwitchLabel"
       />
+      <AppSettings />
       <v-menu location="bottom" class="dock-navbar__menu" min-width="200">
         <template #activator="{ props: menu }">
           <v-tooltip

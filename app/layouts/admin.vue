@@ -20,7 +20,6 @@ const routeLoading = useRouteLoading()
         <AppRouteLoader v-if="routeLoading" class="route-container__loader" />
       </div>
     </v-main>
-    <AppFooter />
   </v-app>
 </template>
 
@@ -31,8 +30,8 @@ const routeLoading = useRouteLoading()
   padding-bottom: 0;
   /* https://github.com/vuetifyjs/vuetify/issues/15202 */
   margin-top: 64px;
-  margin-bottom: 32px;
-  height: calc(100vh - 64px - 32px);
+  margin-bottom: 0;
+  height: calc(100vh - 64px);
   /* margin-top: var(--v-layout-top);
   margin-bottom: var(--v-layout-bottom);
   height: calc(100vh - var(--v-layout-top) - var(--v-layout-bottom)); */

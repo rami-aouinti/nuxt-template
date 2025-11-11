@@ -255,7 +255,6 @@ watch(loggedIn, (value) => {
         @click="drawerRight = !drawerRight"
       />
       <AppMessenger />
-      <AppNotification />
       <v-switch
         v-model="isDark"
         color=""
@@ -267,6 +266,8 @@ watch(loggedIn, (value) => {
         variant="text"
         :aria-label="themeSwitchLabel"
       />
+      <AppSettings />
+      <AppNotification />
       <v-menu location="bottom" class="dock-navbar__menu" min-width="200">
         <template #activator="{ props: menu }">
           <v-tooltip
