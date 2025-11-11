@@ -168,6 +168,14 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
   width: 100%;
 }
 
+.app-settings-card__body :deep(.v-btn__content) {
+  width: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  text-transform: none;
+}
+
 .app-settings-card__body :deep(.v-color-picker) {
   align-self: center;
 }
