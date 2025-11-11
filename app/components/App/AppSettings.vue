@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mergeProps } from 'vue'
+import { mergeProps, computed } from 'vue'
 import { useStorage } from '@vueuse/core'
 import {
   useThemePreferences,
@@ -47,6 +47,20 @@ const colors = [
 ]
 const menuShow = ref(false)
 const { t } = useI18n()
+const radiusOptions = computed(() =>
+  themeRadiusOptions.map((option) => ({
+    ...option,
+    label: t(option.labelKey),
+    description: t(option.descriptionKey),
+  })),
+)
+const shadowOptions = computed(() =>
+  themeShadowOptions.map((option) => ({
+    ...option,
+    label: t(option.labelKey),
+    description: t(option.descriptionKey),
+  })),
+)
 const themePaletteLabel = computed(() => t('app.settings.themePalette'))
 const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
 </script>
@@ -96,7 +110,7 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
           mandatory
         >
           <v-btn
-            v-for="option in themeRadiusOptions"
+            v-for="option in radiusOptions"
             :key="option.value"
             :value="option.value"
             variant="text"
@@ -118,7 +132,7 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
           mandatory
         >
           <v-btn
-            v-for="option in themeShadowOptions"
+            v-for="option in shadowOptions"
             :key="option.value"
             :value="option.value"
             variant="text"

@@ -19,7 +19,51 @@
       "themePalette": "Theme palette",
       "openThemeMenu": "Open theme palette",
       "cornerRadius": "Corner radius",
-      "shadowDepth": "Shadow depth"
+      "shadowDepth": "Shadow depth",
+      "cornerRadiusOptions": {
+        "none": {
+          "label": "Carré",
+          "description": "Coins nets sans aucun arrondi."
+        },
+        "xs": {
+          "label": "Subtil",
+          "description": "Un très léger arrondi pour des courbes discrètes."
+        },
+        "sm": {
+          "label": "Doux",
+          "description": "Arrondi équilibré pour la plupart des surfaces."
+        },
+        "md": {
+          "label": "Arrondi",
+          "description": "Courbes généreuses pour une interface accueillante."
+        },
+        "lg": {
+          "label": "Pilule",
+          "description": "Bords totalement arrondis pour des éléments en forme de pilule."
+        }
+      },
+      "shadowDepthOptions": {
+        "none": {
+          "label": "Aucune",
+          "description": "Supprime toutes les ombres d'élévation."
+        },
+        "soft": {
+          "label": "Légère",
+          "description": "Une lueur douce à peine visible."
+        },
+        "regular": {
+          "label": "Classique",
+          "description": "Ombre équilibrée pour un usage quotidien."
+        },
+        "bold": {
+          "label": "Marquée",
+          "description": "Élévation prononcée avec une profondeur nette."
+        },
+        "deep": {
+          "label": "Accentuée",
+          "description": "Profonde et vibrante avec l'accent du thème."
+        }
+      }
     }
   },
   "navigation": {
