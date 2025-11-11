@@ -27,6 +27,7 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
         <v-tooltip text="Notifications" aria-label="Notifications">
           <template #activator="{ props: tooltip }">
             <v-btn
+              icon
               :disabled="!loggedIn"
               v-bind="mergeProps(props, tooltip)"
               :aria-label="

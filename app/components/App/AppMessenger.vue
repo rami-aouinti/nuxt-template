@@ -147,6 +147,7 @@ onBeforeUnmount(() => {
     >
       <template #activator="{ props }">
         <v-btn
+          icon
           v-bind="props"
           :disabled="!loggedIn"
           :aria-label="t('messenger.ariaLabel', { unread: unreadCount })"

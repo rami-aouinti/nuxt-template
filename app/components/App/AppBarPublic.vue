@@ -281,12 +281,12 @@ watch(loggedIn, (value) => {
                 v-bind="mergeProps(menu, tooltip)"
                 class="dock-navbar__action-button"
               >
-                <v-icon v-if="!loggedIn" icon="mdi-account-circle" size="36" />
+                <v-icon v-if="!loggedIn" icon="mdi-account-circle" size="32" />
                 <AppAvatar
                   v-else
                   :src="user?.avatar_url"
                   :alt="accountAvatarAlt"
-                  size="36"
+                  size="32"
                   color="primary"
                 />
               </v-btn>
@@ -364,7 +364,7 @@ watch(loggedIn, (value) => {
             <v-icon
               v-if="currentLanguage?.flagIcon"
               :icon="currentLanguage.flagIcon"
-              size="24"
+              size="32"
             />
             <span
               v-else-if="currentLanguage?.flag"
