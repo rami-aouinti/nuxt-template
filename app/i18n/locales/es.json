@@ -19,7 +19,51 @@
       "themePalette": "Theme palette",
       "openThemeMenu": "Open theme palette",
       "cornerRadius": "Corner radius",
-      "shadowDepth": "Shadow depth"
+      "shadowDepth": "Shadow depth",
+      "cornerRadiusOptions": {
+        "none": {
+          "label": "Square",
+          "description": "Sharp corners without any rounding."
+        },
+        "xs": {
+          "label": "Subtle",
+          "description": "Very small rounding for minimal curves."
+        },
+        "sm": {
+          "label": "Soft",
+          "description": "Balanced rounding for most surfaces."
+        },
+        "md": {
+          "label": "Rounded",
+          "description": "Generous curves for a friendly layout."
+        },
+        "lg": {
+          "label": "Pill",
+          "description": "Fully rounded edges for pill-shaped elements."
+        }
+      },
+      "shadowDepthOptions": {
+        "none": {
+          "label": "None",
+          "description": "Removes all elevation shadows."
+        },
+        "soft": {
+          "label": "Feather",
+          "description": "A barely visible soft glow."
+        },
+        "regular": {
+          "label": "Classic",
+          "description": "Balanced shadow for everyday use."
+        },
+        "bold": {
+          "label": "Strong",
+          "description": "Pronounced elevation with clear depth."
+        },
+        "deep": {
+          "label": "Focus",
+          "description": "Deep and vibrant with theme accent."
+        }
+      }
     }
   },
   "navigation": {

@@ -5,29 +5,69 @@ import { watch } from 'vue'
 type ThemeRadiusPreset = 'none' | 'xs' | 'sm' | 'md' | 'lg'
 type ThemeShadowPreset = 'none' | 'soft' | 'regular' | 'bold' | 'deep'
 
-export const themeRadiusOptions: ReadonlyArray<{
-  label: string
-  description: string
-  value: ThemeRadiusPreset
-}> = [
-  { label: 'Square', description: 'Sharp corners without any rounding.', value: 'none' },
-  { label: 'Subtle', description: 'Very small rounding for minimal curves.', value: 'xs' },
-  { label: 'Soft', description: 'Balanced rounding for most surfaces.', value: 'sm' },
-  { label: 'Rounded', description: 'Generous curves for a friendly layout.', value: 'md' },
-  { label: 'Pill', description: 'Fully rounded edges for pill-shaped elements.', value: 'lg' },
+type ThemeOption<TValue> = {
+  value: TValue
+  labelKey: string
+  descriptionKey: string
+}
+
+export const themeRadiusOptions: ReadonlyArray<ThemeOption<ThemeRadiusPreset>> = [
+  {
+    value: 'none',
+    labelKey: 'app.settings.cornerRadiusOptions.none.label',
+    descriptionKey: 'app.settings.cornerRadiusOptions.none.description',
+  },
+  {
+    value: 'xs',
+    labelKey: 'app.settings.cornerRadiusOptions.xs.label',
+    descriptionKey: 'app.settings.cornerRadiusOptions.xs.description',
+  },
+  {
+    value: 'sm',
+    labelKey: 'app.settings.cornerRadiusOptions.sm.label',
+    descriptionKey: 'app.settings.cornerRadiusOptions.sm.description',
+  },
+  {
+    value: 'md',
+    labelKey: 'app.settings.cornerRadiusOptions.md.label',
+    descriptionKey: 'app.settings.cornerRadiusOptions.md.description',
+  },
+  {
+    value: 'lg',
+    labelKey: 'app.settings.cornerRadiusOptions.lg.label',
+    descriptionKey: 'app.settings.cornerRadiusOptions.lg.description',
+  },
 ]
 
-export const themeShadowOptions: ReadonlyArray<{
-  label: string
-  description: string
-  value: ThemeShadowPreset
-}> = [
-  { label: 'None', description: 'Removes all elevation shadows.', value: 'none' },
-  { label: 'Feather', description: 'A barely visible soft glow.', value: 'soft' },
-  { label: 'Classic', description: 'Balanced shadow for everyday use.', value: 'regular' },
-  { label: 'Strong', description: 'Pronounced elevation with clear depth.', value: 'bold' },
-  { label: 'Focus', description: 'Deep and vibrant with theme accent.', value: 'deep' },
+export const themeShadowOptions: ReadonlyArray<ThemeOption<ThemeShadowPreset>> = [
+  {
+    value: 'none',
+    labelKey: 'app.settings.shadowDepthOptions.none.label',
+    descriptionKey: 'app.settings.shadowDepthOptions.none.description',
+  },
+  {
+    value: 'soft',
+    labelKey: 'app.settings.shadowDepthOptions.soft.label',
+    descriptionKey: 'app.settings.shadowDepthOptions.soft.description',
+  },
+  {
+    value: 'regular',
+    labelKey: 'app.settings.shadowDepthOptions.regular.label',
+    descriptionKey: 'app.settings.shadowDepthOptions.regular.description',
+  },
+  {
+    value: 'bold',
+    labelKey: 'app.settings.shadowDepthOptions.bold.label',
+    descriptionKey: 'app.settings.shadowDepthOptions.bold.description',
+  },
+  {
+    value: 'deep',
+    labelKey: 'app.settings.shadowDepthOptions.deep.label',
+    descriptionKey: 'app.settings.shadowDepthOptions.deep.description',
+  },
 ]
+
+export type { ThemeOption }
 
 const radiusValues: Record<ThemeRadiusPreset, string> = {
   none: '0px',
