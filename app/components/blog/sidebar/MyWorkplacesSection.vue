@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppAvatar from '~/components/AppAvatar.vue'
 import SidebarSection from './SidebarSection.vue'
 import WorkplaceActionMenu from '~/components/workplace/WorkplaceActionMenu.vue'
 import type { Workplace } from '~/types/workplace'
@@ -30,9 +31,21 @@ const emit = defineEmits<{
     :description="description"
     :logged-in="loggedIn"
     :login-message="loginMessage"
-    actions-class="mt-6 mb-4"
   >
     <template #default>
+      <div class="d-flex flex-column gap-3 mb-4">
+        <v-btn
+          block
+          color="primary"
+          variant="tonal"
+          prepend-icon="mdi-earth-plus"
+          :disabled="!loggedIn"
+          @click="emit('add-world')"
+        >
+          {{ addWorldLabel }}
+        </v-btn>
+      </div>
+
       <v-skeleton-loader
         v-if="loading"
         type="list-item-two-line@3"
@@ -48,36 +61,40 @@ const emit = defineEmits<{
         {{ error }}
       </v-alert>
       <template v-else-if="filteredWorkplaces.length">
-        <v-card
+        <div
           v-for="workplace in filteredWorkplaces"
           :key="workplace.id || workplace.slug"
-          class="workplace-card mb-3"
-          elevation="2"
+          class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
         >
-          <v-card-text class="d-flex align-center gap-3">
-            <NuxtLink
-              style="color: rgba(var(--v-theme-on-surface), 0.92)"
-              class="workplace-card__link d-flex align-center gap-3 flex-grow-1 text-decoration-none"
-              :to="`/world/${encodeURIComponent(workplace.slug)}`"
+          <NuxtLink
+            style="color: rgba(var(--v-theme-on-surface), 0.92)"
+            class="d-flex align-center gap-3 flex-grow-1 text-decoration-none"
+            :to="`/world/${encodeURIComponent(workplace.slug)}`"
+          >
+            <AppAvatar
+              :alt="workplace.name || workplace.slug"
+              size="36"
+              class="mr-3"
+              color="primary"
+              variant="tonal"
             >
-              <v-avatar size="40" color="primary" variant="tonal">
+              <template #fallback>
                 <span class="blog-avatar__initials">
                   {{ getInitials(workplace.name || workplace.slug) }}
                 </span>
-              </v-avatar>
-              <div class="d-flex flex-column px-2">
-                <span class="text-body-1 font-weight-medium text-truncate">
-                  {{ workplace.name || workplace.slug }}
-                </span>
-              </div>
-            </NuxtLink>
-            <WorkplaceActionMenu
-              :workplace="workplace"
-              @refresh="emit('refresh')"
-              @deleted="emit('refresh')"
-            />
-          </v-card-text>
-        </v-card>
+              </template>
+            </AppAvatar>
+            <span class="text-body-1 font-weight-medium text-truncate">
+              {{ workplace.name || workplace.slug }}
+            </span>
+          </NuxtLink>
+          <v-spacer />
+          <WorkplaceActionMenu
+            :workplace="workplace"
+            @refresh="emit('refresh')"
+            @deleted="emit('refresh')"
+          />
+        </div>
       </template>
       <v-alert
         v-else-if="hasSearchTerm && workplaces.length"
@@ -91,19 +108,6 @@ const emit = defineEmits<{
       <p v-else class="text-body-2 text-medium-emphasis mb-0">
         {{ emptyMessage }}
       </p>
-    </template>
-
-    <template #actions>
-      <v-btn
-        block
-        color="primary"
-        variant="tonal"
-        prepend-icon="mdi-earth-plus"
-        :disabled="!loggedIn"
-        @click="emit('add-world')"
-      >
-        {{ addWorldLabel }}
-      </v-btn>
     </template>
   </SidebarSection>
 </template>
