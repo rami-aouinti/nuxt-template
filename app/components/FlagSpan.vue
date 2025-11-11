@@ -15,13 +15,14 @@ import { computed } from 'vue'
 
 const props = withDefaults(
   defineProps<{
-    code: string
+    code?: string | null
     square?: boolean
     rounded?: boolean
     size?: string
     title?: string
   }>(),
   {
+    code: undefined,
     square: false,
     rounded: true,
     size: '1.5rem',
@@ -29,8 +30,8 @@ const props = withDefaults(
   },
 )
 
-const normalizeFlagCode = (code: string) => {
-  const trimmed = code.trim().toLowerCase()
+const normalizeFlagCode = (code: string | null | undefined) => {
+  const trimmed = (code ?? '').trim().toLowerCase()
   if (!trimmed) return ''
 
   if (trimmed === 'en') return 'gb'
