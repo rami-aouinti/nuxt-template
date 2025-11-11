@@ -223,7 +223,7 @@ watch(loggedIn, (value) => {
 </script>
 
 <template>
-  <v-app-bar flat>
+  <v-app-bar flat elevation="0">
     <AuthCredentialsDialog v-model="credentialsDialog" />
     <v-app-bar-nav-icon
       :aria-label="drawerToggleLabel"

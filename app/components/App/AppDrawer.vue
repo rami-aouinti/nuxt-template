@@ -158,6 +158,7 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
     :rail="rail"
     floating
     :class="{ 'app-drawer--hydrating': !appBarReady }"
+    elevation="0"
   >
     <template #prepend>
       <NuxtLink

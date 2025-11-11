@@ -68,6 +68,7 @@ ensureInitialDrawerState()
     width="320"
     floating
     :class="{ 'app-drawer--hydrating': !appBarReady }"
+    elevation="0"
   >
     <v-card class="drawer-nav mt-5" elevation="20" rounded="xl">
       <div id="app-drawer-right" />
