@@ -170,16 +170,16 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
           class="drawer-header-icon mx-4"
           color="primary"
         />
-        <span class="text-h4 text-decoration-none">{{
+        <span class="text-h4 text-decoration-none brand-title--italic">{{
           brandTitleParts.before
         }}</span>
         <span
           v-if="brandTitleParts.highlight"
-          class="text-h4 text-primary text-decoration-none"
+          class="text-h4 text-primary text-decoration-none brand-title--italic"
         >
           {{ brandTitleParts.highlight }}
         </span>
-        <span>{{ brandTitleParts.after }}</span>
+        <span class="brand-title--italic">{{ brandTitleParts.after }}</span>
       </NuxtLink>
     </template>
     <v-list nav density="compact">
@@ -207,6 +207,10 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
 </template>
 
 <style>
+.brand-title--italic {
+  font-style: italic;
+}
+
 .v-navigation-drawer {
   transition-property: box-shadow, transform, opacity, border-radius !important;
   overflow: hidden;
