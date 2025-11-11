@@ -254,7 +254,6 @@ watch(loggedIn, (value) => {
         :aria-label="secondaryDrawerToggleLabel"
         @click="drawerRight = !drawerRight"
       />
-      <AppMessenger />
       <v-switch
         v-model="isDark"
         color=""
@@ -267,6 +266,7 @@ watch(loggedIn, (value) => {
         :aria-label="themeSwitchLabel"
       />
       <AppSettings />
+      <AppMessenger />
       <AppNotification />
       <v-menu location="bottom" class="dock-navbar__menu" min-width="200">
         <template #activator="{ props: menu }">
@@ -295,18 +295,27 @@ watch(loggedIn, (value) => {
           </v-tooltip>
         </template>
         <v-list>
-          <v-list-item
-            v-if="loggedIn"
-            :title="t('navigation.profile')"
-            prepend-icon="mdi-face"
-            :to="localePath('profile')"
-          />
-          <v-list-item
-            v-if="loggedIn"
-            :title="t('navigation.admin')"
-            prepend-icon="mdi-shield-account"
-            :to="localePath('admin')"
-          />
+          <template v-if="loggedIn">
+            <v-list-item
+              v-if="loggedIn"
+              :title="t('navigation.profile')"
+              prepend-icon="mdi-face"
+              :to="localePath('profile')"
+            />
+            <v-list-item
+              v-if="loggedIn"
+              :title="t('navigation.admin')"
+              prepend-icon="mdi-shield-account"
+              :to="localePath('admin')"
+            />
+          </template>
+          <template v-else>
+            <v-list-item
+              :title="t('auth.loginWithCredentials')"
+              prepend-icon="mdi-lock"
+              @click="credentialsDialog = true"
+            />
+          </template>
           <v-list-item
             :title="t('navigation.help')"
             prepend-icon="mdi-lifebuoy"
@@ -322,34 +331,12 @@ watch(loggedIn, (value) => {
             prepend-icon="mdi-email-outline"
             :to="localePath('contact')"
           />
-          <v-divider class="my-2" />
           <template v-if="loggedIn">
+            <v-divider class="my-2" />
             <v-list-item
               :title="t('auth.logout')"
               prepend-icon="mdi-logout"
               @click="handleLogout"
-            />
-          </template>
-          <template v-else>
-            <v-list-item
-              :title="t('auth.loginWithGithub')"
-              prepend-icon="mdi-github"
-              href="/api/auth/github"
-            />
-            <v-list-item
-              :title="t('auth.loginWithGoogle')"
-              prepend-icon="mdi-google"
-              href="/api/auth/google"
-            />
-            <v-list-item
-              :title="t('auth.loginWithFacebook')"
-              prepend-icon="mdi-facebook"
-              href="/api/auth/facebook"
-            />
-            <v-list-item
-              :title="t('auth.loginWithCredentials')"
-              prepend-icon="mdi-lock"
-              @click="credentialsDialog = true"
             />
           </template>
         </v-list>

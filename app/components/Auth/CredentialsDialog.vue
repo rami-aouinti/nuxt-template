@@ -204,7 +204,6 @@ function toggleMode() {
                 block
                 variant="outlined"
                 color="primary"
-                size="large"
                 class="text-none"
                 :href="provider.href"
                 rel="external"
@@ -214,7 +213,6 @@ function toggleMode() {
                 <template #prepend>
                   <v-icon :icon="provider.icon" />
                 </template>
-                {{ t(provider.translationKey) }}
               </v-btn>
             </div>
             <div class="credentials-dialog__divider">
