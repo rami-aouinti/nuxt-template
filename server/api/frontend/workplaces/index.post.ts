@@ -1,3 +1,4 @@
+import { invalidateUserWorkplaces } from '~~/server/utils/cache/workplace'
 import { requestFrontendWithJsonBody } from '~~/server/utils/crud'
 import type {
   FrontendWorkplaceCreatePayload,
@@ -7,8 +8,12 @@ import type {
 export default defineEventHandler(async (event) => {
   const body = await readBody<FrontendWorkplaceCreatePayload>(event)
 
-  return await requestFrontendWithJsonBody<
+  const workplace = await requestFrontendWithJsonBody<
     Workplace,
     FrontendWorkplaceCreatePayload
   >(event, '/workplaces', 'POST', body)
+
+  await invalidateUserWorkplaces(event)
+
+  return workplace
 })
