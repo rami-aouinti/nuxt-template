@@ -25,6 +25,8 @@ body {
 }
 
 :where(
+    form,
+    .v-form,
     .v-card,
     .v-sheet,
     .v-navigation-drawer,
@@ -33,6 +35,7 @@ body {
     .v-dialog,
     .v-overlay__content > .v-card,
     .v-list,
+    .v-list-item,
     .v-btn,
     .v-chip,
     .v-alert,
@@ -40,13 +43,16 @@ body {
     .v-expansion-panel,
     .v-data-table,
     .v-field,
+    .v-field__input,
     .v-text-field,
     .v-select,
     .v-textarea,
     .v-toolbar,
     .v-tabs,
     .v-pagination,
-    .v-window
+    .v-window,
+    input,
+    textarea
   ) {
   border-radius: var(--app-rounded, 18px) !important;
 }
