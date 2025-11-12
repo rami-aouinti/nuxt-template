@@ -10,7 +10,7 @@ import {
 } from '~/composables/useThemePreferences'
 
 const theme = useTheme()
-const primary = useStorage('theme-primary', '#1697f6')
+const primary = useStorage('theme-primary', '#f30775')
 const { radius, shadow } = useThemePreferences()
 const color = computed({
   get() {
