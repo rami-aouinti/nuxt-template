@@ -1131,12 +1131,15 @@
       "title": "Справочный центр",
       "subtitle": "Находите ответы быстро — в документации, часто задаваемых вопросах и обсуждениях сообщества.",
       "explanation": {
-        "title": "What is Bro World?",
-        "description": "Bro World centralizes your team's communication, knowledge, and workflows so you can stay focused on delivering value.",
+        "title": "Что такое Bro World?",
+        "description": "Bro World объединяет коммуникацию, знания и рабочие процессы команды, помогая сосредоточиться на создании ценности.",
         "highlights": {
-          "workspace": "Organize projects, documents, and discussions in dedicated workspaces for each initiative.",
-          "collaboration": "Collaborate in real time with shared notes, integrated messaging, and timely notifications.",
-          "support": "Monitor progress from interactive dashboards and reach our team whenever you need guidance."
+          "workspace": "Организуйте проекты, документы и обсуждения в отдельных пространствах для каждой инициативы.",
+          "collaboration": "Работайте совместно в реальном времени с общими заметками, встроенным чатом и своевременными уведомлениями.",
+          "support": "Отслеживайте прогресс на интерактивных панелях и обращайтесь к нашей команде, когда нужна помощь.",
+          "automation": "Автоматизируйте повторяющиеся задачи с помощью сценариев, запускающих действия во всех подключённых сервисах.",
+          "integrations": "Интегрируйте Bro World с GitHub, Slack, Figma и десятками партнёров, чтобы данные синхронизировались.",
+          "aiAssistant": "Используйте ИИ-помощника для мгновенных резюме, подготовки обновлений и подсказок дальнейших шагов."
         }
       },
       "sections": {
@@ -1151,28 +1154,48 @@
         "community": {
           "title": "Сообщество",
           "description": "Общайтесь с другими участниками, делитесь советами и голосуйте за новые возможности."
+        },
+        "automation": {
+          "title": "Библиотека автоматизаций",
+          "description": "Изучайте готовые схемы, которые связывают рабочие процессы, согласования и отчёты за считанные минуты."
+        },
+        "updates": {
+          "title": "Новости и релизы",
+          "description": "Следите за свежими анонсами продукта, ключевыми пунктами дорожной карты и бета-программами."
         }
       },
       "questions": {
-        "title": "Common questions",
+        "title": "Популярные вопросы",
         "items": {
           "accountAccess": {
-            "question": "How do I access my account?",
-            "answer": "Sign in with the email you used to register. If you run into issues, reset your password from the login page or reach out to support."
+            "question": "Как получить доступ к своему аккаунту?",
+            "answer": "Войдите с электронной почтой, которую использовали при регистрации. Если возникли сложности, сбросьте пароль на странице входа или обратитесь в поддержку."
           },
           "inviteTeam": {
-            "question": "Can I invite my teammates?",
-            "answer": "Yes. Open your workspace settings, choose \"Members,\" and send invitations by email to collaborate instantly."
+            "question": "Могу ли я пригласить команду?",
+            "answer": "Да. Откройте настройки рабочего пространства, выберите «Участники» и отправьте приглашения по электронной почте для мгновенного совместного доступа."
           },
           "getSupport": {
-            "question": "Where can I get more help?",
-            "answer": "Browse the guides above for step-by-step tutorials or contact us directly and we will follow up with tailored assistance."
+            "question": "Где получить дополнительную помощь?",
+            "answer": "Изучите руководства выше для пошаговых инструкций или напишите нам напрямую, чтобы получить персональную поддержку."
+          },
+          "automationTemplates": {
+            "question": "Как включить новые шаблоны автоматизации?",
+            "answer": "Откройте библиотеку автоматизаций в Справочном центре, выберите сценарий и сопоставьте шаги с подключёнными интеграциями вашего пространства."
+          },
+          "mobileAccess": {
+            "question": "Есть ли мобильное приложение?",
+            "answer": "Да. Установите приложение для iOS или Android, чтобы получать пуш-уведомления, согласовывать процессы и общаться с командой в пути."
+          },
+          "billing": {
+            "question": "Где управлять оплатой?",
+            "answer": "Администраторы могут открыть Настройки → Оплата, чтобы обновить способы оплаты, скачать счета или изменить количество лицензий."
           }
         }
       },
       "contact": {
         "title": "Всё ещё нужна помощь?",
-        "description": "Отправьте сообщение через страницу контактов — наши специалисты ответят в ближайшее время."
+        "description": "Напишите нам через страницу контактов, запустите живой чат или запишитесь на встречу с командой Customer Success."
       }
     },
     "about": {

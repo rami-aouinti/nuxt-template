@@ -1131,12 +1131,15 @@
       "title": "帮助中心",
       "subtitle": "通过精选文档、常见问题和社区讨论快速找到答案。",
       "explanation": {
-        "title": "What is Bro World?",
-        "description": "Bro World centralizes your team's communication, knowledge, and workflows so you can stay focused on delivering value.",
+        "title": "Bro World 是什么？",
+        "description": "Bro World 将团队的沟通、知识与工作流集中在一起，让你专注于创造价值。",
         "highlights": {
-          "workspace": "Organize projects, documents, and discussions in dedicated workspaces for each initiative.",
-          "collaboration": "Collaborate in real time with shared notes, integrated messaging, and timely notifications.",
-          "support": "Monitor progress from interactive dashboards and reach our team whenever you need guidance."
+          "workspace": "在为每个项目准备的专属空间中管理项目、文档与讨论。",
+          "collaboration": "借助共享笔记、内置消息与及时通知实时协作。",
+          "support": "通过交互式仪表盘跟踪进度，并在需要指导时联系到我们的团队。",
+          "automation": "使用编排模板自动化重复任务，在各类工具之间触发动作。",
+          "integrations": "将 Bro World 与 GitHub、Slack、Figma 及众多伙伴连接，保持数据同步。",
+          "aiAssistant": "利用 AI 助手即时生成摘要、撰写更新并给出下一步建议。"
         }
       },
       "sections": {
@@ -1151,28 +1154,48 @@
         "community": {
           "title": "社区论坛",
           "description": "与其他成员交流心得、分享技巧并为新功能投票。"
+        },
+        "automation": {
+          "title": "自动化库",
+          "description": "探索即插即用的剧本，在几分钟内串联工作流、审批与报表。"
+        },
+        "updates": {
+          "title": "产品动态",
+          "description": "了解最新版本公告、路线图亮点以及测试计划机会。"
         }
       },
       "questions": {
-        "title": "Common questions",
+        "title": "常见问题",
         "items": {
           "accountAccess": {
-            "question": "How do I access my account?",
-            "answer": "Sign in with the email you used to register. If you run into issues, reset your password from the login page or reach out to support."
+            "question": "如何访问我的账户？",
+            "answer": "使用注册时的邮箱登录。如果遇到问题，可在登录页重置密码或联系支持团队。"
           },
           "inviteTeam": {
-            "question": "Can I invite my teammates?",
-            "answer": "Yes. Open your workspace settings, choose \"Members,\" and send invitations by email to collaborate instantly."
+            "question": "可以邀请团队成员吗？",
+            "answer": "可以。打开工作区设置，选择“成员”，通过电子邮件发送邀请即可立即协作。"
           },
           "getSupport": {
-            "question": "Where can I get more help?",
-            "answer": "Browse the guides above for step-by-step tutorials or contact us directly and we will follow up with tailored assistance."
+            "question": "我还能在哪里获得帮助？",
+            "answer": "查看上方指南获取分步教程，或直接联系我们以获得定制化支持。"
+          },
+          "automationTemplates": {
+            "question": "如何启用新的自动化模板？",
+            "answer": "在帮助中心打开自动化库，挑选一个模板，然后将各步骤映射到工作区已连接的集成。"
+          },
+          "mobileAccess": {
+            "question": "是否提供移动端体验？",
+            "answer": "提供。安装 iOS 或 Android 应用，即可接收推送通知、审批流程并随时与团队沟通。"
+          },
+          "billing": {
+            "question": "在哪里管理账单设置？",
+            "answer": "管理员可前往 设置 → 账单，更新支付方式、下载发票或调整套餐席位数量。"
           }
         }
       },
       "contact": {
         "title": "仍需帮助？",
-        "description": "通过联系我们页面发送消息，我们的团队会尽快回复。"
+        "description": "可在联系我们页面留言、开启在线聊天，或预约客户成功团队的专题会议。"
       }
     },
     "about": {
