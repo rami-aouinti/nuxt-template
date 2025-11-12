@@ -1177,24 +1177,57 @@
     },
     "about": {
       "title": "关于 Bro World",
-      "subtitle": "了解 Bro World 如何凭借现代技术栈带来无缝协作体验。",
+      "subtitle": "了解这套功能丰富的平台如何为 Bro World 的团队、产品与社区提供动力。",
+      "intro": "Bro World 已发展为一个统一的数字化工作空间，将社区、内容发布、消息通信与自动化整合为一体化体验。",
+      "mission": "我们的使命是通过模块化构件，帮助团队快速验证原型、更快上线，并自信地管理日常运营。",
+      "vision": "从 AI 辅助的工作流到实时协作看板，每项功能都能随着您的组织一起灵活演进。",
       "sections": {
         "frontend": {
           "title": "前端体验",
-          "description": "Nuxt 3、Vue 3、TypeScript 与 Vuetify 3 打造兼具可访问性与高性能的界面，适配所有设备。"
+          "description": "Nuxt 3、Vue 3、TypeScript 与 Vuetify 3 打造具备微前端、离线缓存与响应式设计的可访问界面，确保在所有设备上保持流畅。"
         },
         "backend": {
           "title": "后端基础",
-          "description": "Node.js 服务负责自动化、数据处理以及 PostgreSQL 持久化，为平台提供稳固支撑。"
+          "description": "Node.js 服务在幕后协调整个队列、WebSocket、搜索索引以及 PostgreSQL 持久化。"
         },
         "api": {
           "title": "Symfony 微服务",
-          "description": "基于 Symfony 的解耦 API 微服务向合作伙伴与集成提供安全的 REST 与 GraphQL 接口。"
+          "description": "解耦的 Symfony 微服务提供安全的 REST 与 GraphQL API，并附带即插即用的集成与 Webhook。"
+        },
+        "realtime": {
+          "title": "实时协作",
+          "description": "实时在线状态、共享评论与 WebSocket 事件让团队在秒级更新中保持一致。"
+        },
+        "automation": {
+          "title": "自动化与智能",
+          "description": "后台任务、AI 助手与计划任务替您处理重复工作，并提示下一步最佳行动。"
+        },
+        "devops": {
+          "title": "DevOps 与安全",
+          "description": "基础架构即代码流水线、容器化部署与持续安全扫描守护每一次发布。"
+        }
+      },
+      "highlights": {
+        "collaboration": {
+          "title": "工作空间协作",
+          "description": "多租户工作区、基于角色的权限以及共享日历为分布式团队提供支持。"
+        },
+        "analytics": {
+          "title": "可执行分析",
+          "description": "交互式仪表盘、可导出的报表与统一指标让产品健康状况一目了然。"
+        },
+        "customization": {
+          "title": "深度定制",
+          "description": "主题构建器、扩展钩子与精细设置让界面完全贴合您的品牌。"
+        },
+        "marketplace": {
+          "title": "生态市集",
+          "description": "精选插件、集成工具包与开放 API 加速新功能交付。"
         }
       },
       "callToAction": {
         "title": "与 Bro World 共建",
-        "description": "想扩展平台或集成您的工具？欢迎联系我们，一起规划下一项能力。"
+        "description": "准备扩展平台或接入您的技术栈了吗？欢迎联系，让我们共同规划下一代功能。"
       }
     },
     "contact": {

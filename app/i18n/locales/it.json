@@ -1177,24 +1177,57 @@
     },
     "about": {
       "title": "Informazioni su Bro World",
-      "subtitle": "Scopri come Bro World offre una collaborazione senza attriti grazie a uno stack tecnologico moderno.",
+      "subtitle": "Scopri la piattaforma ricca di funzionalità che alimenta Bro World per team, prodotti e community.",
+      "intro": "Bro World è diventata uno spazio di lavoro digitale unificato che riunisce community, pubblicazione di contenuti, messaggistica e automazione in un'unica esperienza coerente.",
+      "mission": "La nostra missione è aiutare i team a prototipare rapidamente, lanciare più in fretta e gestire le attività quotidiane con sicurezza grazie a blocchi modulari.",
+      "vision": "Dai flussi di lavoro assistiti dall'IA alle dashboard collaborative in tempo reale, ogni funzionalità è progettata per adattarsi all'evoluzione della tua organizzazione.",
       "sections": {
         "frontend": {
           "title": "Esperienza front-end",
-          "description": "Nuxt 3, Vue 3, TypeScript e Vuetify 3 garantiscono un'interfaccia accessibile e reattiva su ogni dispositivo."
+          "description": "Nuxt 3, Vue 3, TypeScript e Vuetify 3 alimentano un'interfaccia accessibile con micro-frontends, cache offline e design responsive sempre veloce su ogni dispositivo."
         },
         "backend": {
           "title": "Fondamenta back-end",
-          "description": "Servizi Node.js coordinano automazione, elaborazione dei dati e persistenza su PostgreSQL dietro le quinte."
+          "description": "I servizi Node.js orchestrano code, WebSocket, indicizzazione della ricerca e persistenza PostgreSQL dietro le quinte."
         },
         "api": {
           "title": "Microservizi Symfony",
-          "description": "Microservizi API Symfony disaccoppiati offrono endpoint REST e GraphQL sicuri per partner e integrazioni."
+          "description": "Microservizi Symfony disaccoppiati espongono API REST e GraphQL sicure insieme a integrazioni chiavi in mano e webhook."
+        },
+        "realtime": {
+          "title": "Collaborazione in tempo reale",
+          "description": "Presenza live, commenti condivisi ed eventi WebSocket mantengono i team allineati mentre le novità arrivano in pochi secondi."
+        },
+        "automation": {
+          "title": "Automazione e intelligenza",
+          "description": "Job in background, assistenti IA e workflow pianificati eliminano le attività ripetitive e suggeriscono la prossima azione migliore."
+        },
+        "devops": {
+          "title": "DevOps e sicurezza",
+          "description": "Pipeline Infrastructure-as-Code, deployment containerizzati e scansioni di sicurezza continue proteggono ogni rilascio."
+        }
+      },
+      "highlights": {
+        "collaboration": {
+          "title": "Collaborazione negli spazi di lavoro",
+          "description": "Workspace multi-tenant, permessi basati sui ruoli e calendari condivisi supportano team distribuiti."
+        },
+        "analytics": {
+          "title": "Analisi azionabili",
+          "description": "Dashboard interattive, report esportabili e metriche unificate rivelano lo stato del prodotto in pochi secondi."
+        },
+        "customization": {
+          "title": "Personalizzazione profonda",
+          "description": "Theme builder, hook di estensione e impostazioni granulari permettono di adattare ogni superficie al tuo brand."
+        },
+        "marketplace": {
+          "title": "Marketplace dell'ecosistema",
+          "description": "Plugin curati, kit di integrazione e API aperte accelerano la consegna di nuove funzionalità."
         }
       },
       "callToAction": {
         "title": "Costruisci con Bro World",
-        "description": "Vuoi estendere la piattaforma o integrare i tuoi strumenti? Scrivici e progettiamo insieme la prossima funzionalità."
+        "description": "Pronto ad ampliare la piattaforma o collegare il tuo stack? Contattaci e progettiamo insieme la prossima generazione di funzionalità."
       }
     },
     "contact": {

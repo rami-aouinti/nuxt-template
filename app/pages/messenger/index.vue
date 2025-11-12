@@ -587,8 +587,7 @@ onMounted(async () => {
       </teleport>
     </client-only>
     <client-only>
-      <teleport to="#app-drawer-right">
-      </teleport>
+      <teleport to="#app-drawer-right"/>
     </client-only>
     <v-row>
       <v-col cols="12">

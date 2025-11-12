@@ -1177,24 +1177,57 @@
     },
     "about": {
       "title": "Über Bro World",
-      "subtitle": "Entdecke, wie Bro World mit einem modernen Technologiestack nahtlose Zusammenarbeit ermöglicht.",
+      "subtitle": "Entdecke die funktionsreiche Plattform, die Bro World für Teams, Produkte und Communities antreibt.",
+      "intro": "Bro World hat sich zu einem einheitlichen digitalen Arbeitsplatz entwickelt, der Community, Content-Publishing, Messaging und Automatisierung in einem Erlebnis vereint.",
+      "mission": "Unsere Mission ist es, Teams dabei zu helfen, schneller Prototypen zu bauen, früher zu launchen und den Tagesbetrieb mit modularen Bausteinen sicher zu steuern.",
+      "vision": "Von KI-gestützten Workflows bis hin zu Echtzeit-Dashboards ist jede Funktion darauf ausgelegt, sich mit deiner Organisation weiterzuentwickeln.",
       "sections": {
         "frontend": {
           "title": "Frontend-Erlebnis",
-          "description": "Nuxt 3, Vue 3, TypeScript und Vuetify 3 liefern eine barrierearme, schnelle Oberfläche auf jedem Gerät."
+          "description": "Nuxt 3, Vue 3, TypeScript und Vuetify 3 liefern eine barrierefreie Oberfläche mit Micro-Frontends, Offline-Cache und responsivem Design, die sich auf jedem Gerät schnell anfühlt."
         },
         "backend": {
           "title": "Backend-Grundlage",
-          "description": "Node.js-Services koordinieren Automatisierung, Datenverarbeitung und PostgreSQL-Persistenz im Hintergrund."
+          "description": "Node.js-Services orchestrieren Queues, WebSockets, Suchindizierung und PostgreSQL-Persistenz im Hintergrund."
         },
         "api": {
           "title": "Symfony-Microservices",
-          "description": "Entkoppelte Symfony-APIs stellen sichere REST- und GraphQL-Endpunkte für Partner und Integrationen bereit."
+          "description": "Entkoppelte Symfony-Microservices stellen sichere REST- und GraphQL-APIs sowie schlüsselfertige Integrationen und Webhooks bereit."
+        },
+        "realtime": {
+          "title": "Echtzeit-Zusammenarbeit",
+          "description": "Live-Präsenz, geteilte Kommentare und WebSocket-Ereignisse halten Teams synchron, während Updates in Sekunden erscheinen."
+        },
+        "automation": {
+          "title": "Automatisierung & Intelligenz",
+          "description": "Hintergrundjobs, KI-Assistenten und geplante Workflows nehmen Routineaufgaben ab und schlagen nächste Schritte vor."
+        },
+        "devops": {
+          "title": "DevOps & Sicherheit",
+          "description": "Infrastructure-as-Code-Pipelines, containerisierte Deployments und kontinuierliche Sicherheits-Scans schützen jedes Release."
+        }
+      },
+      "highlights": {
+        "collaboration": {
+          "title": "Workspace-Zusammenarbeit",
+          "description": "Mandantenfähige Workspaces, rollenbasierte Berechtigungen und geteilte Kalender unterstützen verteilte Teams."
+        },
+        "analytics": {
+          "title": "Handlungsorientierte Analysen",
+          "description": "Interaktive Dashboards, exportierbare Reports und vereinte Kennzahlen zeigen den Produktstatus in Sekunden."
+        },
+        "customization": {
+          "title": "Tiefe Anpassung",
+          "description": "Theme-Builder, Erweiterungs-Hooks und granulare Einstellungen passen jede Oberfläche an deine Marke an."
+        },
+        "marketplace": {
+          "title": "Ökosystem-Marktplatz",
+          "description": "Kurierte Plugins, Integrations-Kits und offene APIs beschleunigen die Bereitstellung neuer Features."
         }
       },
       "callToAction": {
         "title": "Gestalte mit Bro World",
-        "description": "Du möchtest die Plattform erweitern oder deine Tools integrieren? Melde dich und wir planen das nächste Feature gemeinsam."
+        "description": "Bereit, die Plattform zu erweitern oder deinen Stack anzubinden? Lass uns gemeinsam die nächste Generation an Funktionen planen."
       }
     },
     "contact": {

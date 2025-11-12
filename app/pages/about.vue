@@ -29,6 +29,44 @@ const sections = computed<SectionGridItem[]>(() => [
     title: t('pages.about.sections.api.title'),
     description: t('pages.about.sections.api.description'),
   },
+  {
+    icon: 'mdi-rocket-launch-outline',
+    title: t('pages.about.sections.realtime.title'),
+    description: t('pages.about.sections.realtime.description'),
+  },
+  {
+    icon: 'mdi-cog-sync-outline',
+    title: t('pages.about.sections.automation.title'),
+    description: t('pages.about.sections.automation.description'),
+  },
+  {
+    icon: 'mdi-cloud-lock-outline',
+    title: t('pages.about.sections.devops.title'),
+    description: t('pages.about.sections.devops.description'),
+  },
+])
+
+const highlights = computed<SectionGridItem[]>(() => [
+  {
+    icon: 'mdi-account-group-outline',
+    title: t('pages.about.highlights.collaboration.title'),
+    description: t('pages.about.highlights.collaboration.description'),
+  },
+  {
+    icon: 'mdi-chart-bell-curve-cumulative',
+    title: t('pages.about.highlights.analytics.title'),
+    description: t('pages.about.highlights.analytics.description'),
+  },
+  {
+    icon: 'mdi-palette-swatch-outline',
+    title: t('pages.about.highlights.customization.title'),
+    description: t('pages.about.highlights.customization.description'),
+  },
+  {
+    icon: 'mdi-puzzle-star-outline',
+    title: t('pages.about.highlights.marketplace.title'),
+    description: t('pages.about.highlights.marketplace.description'),
+  },
 ])
 
 const callToAction = computed(() => ({
@@ -60,8 +98,29 @@ const callToAction = computed(() => ({
     </client-only>
     <v-row justify="center">
       <v-col cols="12">
+        <AppCard class="pa-6 mb-6" elevation="2">
+          <div class="d-flex flex-column gap-4">
+            <p class="text-body-1 mb-0">
+              {{ t('pages.about.intro') }}
+            </p>
+            <p class="text-body-1 mb-0">
+              {{ t('pages.about.mission') }}
+            </p>
+            <p class="text-body-1 mb-0">
+              {{ t('pages.about.vision') }}
+            </p>
+          </div>
+        </AppCard>
+        <AppCard class="pa-6 mb-6" elevation="2">
+          <ContentSectionGrid :items="sections" :item-props="{ sm: 6 }" />
+        </AppCard>
         <AppCard class="pa-6" elevation="2">
-          <ContentSectionGrid :items="sections" />
+          <ContentSectionGrid
+            :items="highlights"
+            :item-props="{ sm: 6 }"
+            :sheet-props="{ class: ['pa-4', 'flex-grow-1', 'bg-surface-variant'] }"
+            icon-color="secondary"
+          />
         </AppCard>
       </v-col>
     </v-row>
