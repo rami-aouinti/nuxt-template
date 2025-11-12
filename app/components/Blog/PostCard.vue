@@ -14,6 +14,7 @@ import {
   shadowValues,
   shadowHoverValues,
 } from '~/composables/useThemePreferences'
+import AppCard from "~/components/ui/AppCard.vue";
 
 defineOptions({ name: 'BlogPostCard' })
 
@@ -151,7 +152,7 @@ const onDeletePost = () => {
 </script>
 
 <template>
-<v-card class="facebook-post-card" elevation="0" :style="postCardStyle">
+<AppCard class="facebook-post-card" :style="postCardStyle">
     <div class="facebook-post-card__header">
       <div class="facebook-post-card__avatar">
         <NuxtLink
@@ -235,7 +236,7 @@ const onDeletePost = () => {
       </v-menu>
     </div>
 
-    <div class="facebook-post-card__body">
+    <div class="facebook-post-card__body my-2">
       <NuxtLink
         :to="postLink"
         class="facebook-post-card__title text-decoration-none"
@@ -385,36 +386,16 @@ const onDeletePost = () => {
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-card>
+  </AppCard>
 </template>
 
 <style scoped>
 .facebook-post-card {
-  border-radius: var(
-    --blog-post-card-radius,
-    var(--app-rounded, 18px)
-  );
-  background: var(
-    --blog-post-card-background,
-    rgba(var(--blog-post-card-background-rgb, 255, 255, 255), 0.95)
-  );
-  box-shadow: var(
-    --blog-post-card-shadow,
-    var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14))
-  );
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
-}
-
-.facebook-post-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(
-    --blog-post-card-hover-shadow,
-    var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14))
-  );
 }
 
 .facebook-post-card__header {
@@ -618,7 +599,6 @@ a.facebook-post-card__author-link:focus-visible {
 
 .facebook-post-card__comments-section {
   border-top: 1px solid rgba(var(--v-theme-on-surface), 0.08);
-  background: rgba(var(--blog-post-card-background-rgb, 255, 255, 255), 0.98);
   padding-bottom: 20px;
 }
 
