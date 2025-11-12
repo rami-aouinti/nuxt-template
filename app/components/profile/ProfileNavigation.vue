@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import AppNavigationList, {
+  type AppNavigationListItem,
+} from '~/components/AppNavigationList.vue'
 import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
 import { useProfilePluginsStore } from '~/stores/profile-plugins'
 
 const { t } = useI18n()
 const translate = useTranslateWithFallback()
-interface NavigationItem {
-  value: string
-  to: string
-  label: string
-  icon: string
+
+interface NavigationItem extends AppNavigationListItem {
   match?: (path: string) => boolean
 }
 
@@ -93,31 +93,24 @@ const items = computed<NavigationItem[]>(() => [
   ...baseItems.value,
   ...pluginItems.value,
 ])
+
+const navigationTitle = computed(() => t('blog.sidebar.mySection'))
+
+const navigationDescription = computed(() =>
+  translate(
+    'blog.sidebar.intro',
+    "Retrouvez vos espaces d'écriture et créez un nouvel article.",
+  ),
+)
 </script>
 
 <template>
-  <div class="profile-navigation" v-bind="$attrs">
-    <div class="animated-badge mb-4">
-      <span class="animated-badge__pulse" />
-      {{ t('blog.sidebar.mySection') }}
-    </div>
-    <p class="text-body-2 text-medium-emphasis mb-4">
-      {{
-        translate(
-          'blog.sidebar.intro',
-          "Retrouvez vos espaces d'écriture et créez un nouvel article.",
-        )
-      }}
-    </p>
-    <div v-for="section in items" :key="section.value" class="w-100">
-      <NuxtLink class="text-decoration-none" :to="section.to" style="color: inherit">
-        <div class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3">
-          <v-icon :icon="section.icon" size="24" />
-          <span class="px-2">{{ section.label }}</span>
-        </div>
-      </NuxtLink>
-    </div>
-  </div>
+  <AppNavigationList
+    class="profile-navigation"
+    :items="items"
+    :title="navigationTitle"
+    :description="navigationDescription"
+  />
 </template>
 
 <style scoped>
