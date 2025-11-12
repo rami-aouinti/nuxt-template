@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   if (!body?.token) {
     throw new Error('Missing token in request body')
   }
-  const { data } = await axios.post<LoginResponse>(
+  const { data } = await axios.post<Any>(
     'https://bro-world.org/api/v1/auth/verification_email',
     {
       token: body.token
