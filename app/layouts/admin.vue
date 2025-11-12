@@ -11,8 +11,6 @@ const routeLoading = useRouteLoading()
       <div class="route-container">
         <div v-show="!routeLoading" class="route-container__page">
           <div class="page-surface">
-            <span class="floating-shape floating-shape--one" />
-            <span class="floating-shape floating-shape--two" />
             <div class="page-surface__inner">
               <slot />
             </div>
