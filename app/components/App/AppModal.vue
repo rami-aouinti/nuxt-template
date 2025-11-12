@@ -121,14 +121,13 @@ const handleClose = () => {
   border-radius: 22px;
   overflow: hidden;
   box-shadow: 0 24px 48px rgba(var(--v-theme-primary), 0.24);
-  background: rgb(var(--v-theme-surface));
 }
 
 .app-modal__header {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 22px 24px;
+  padding: 6px 6px;
   background: linear-gradient(
     135deg,
     rgba(var(--v-theme-primary), 0.22),
