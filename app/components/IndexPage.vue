@@ -1,12 +1,10 @@
 <script setup lang="ts">
+import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
+
 const route = useRoute()
 const localePath = useLocalePath()
-const { t } = useI18n()
 
-const translate = (key: string, fallback: string) => {
-  const value = t(key)
-  return value && value !== key ? value : fallback
-}
+const translate = useTranslateWithFallback()
 
 const buildChildPath = (childPath: string) => {
   const current = route.path.endsWith('/')

@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
 import { useProfilePluginsStore } from '~/stores/profile-plugins'
 
 const { t } = useI18n()
-const translate = (key: string, fallback: string) => {
-  const value = t(key)
-  return value && value !== key ? value : fallback
-}
+const translate = useTranslateWithFallback()
 interface NavigationItem {
   value: string
   to: string

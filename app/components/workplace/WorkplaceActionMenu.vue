@@ -3,6 +3,7 @@ import { computed, reactive, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { useFrontendWorkplaceApi } from '~/composables/useFrontendWorkplaceApi'
+import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
 import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
 import type { AdminPlugin } from '~/types/plugin'
@@ -17,11 +18,7 @@ const emit = defineEmits<{
   (e: 'refresh' | 'deleted'): void
 }>()
 
-const { t } = useI18n()
-const translate = (key: string, fallback: string) => {
-  const value = t(key)
-  return value && value !== key ? value : fallback
-}
+const translate = useTranslateWithFallback()
 
 const menu = ref(false)
 const editDialog = ref(false)

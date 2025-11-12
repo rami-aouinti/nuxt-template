@@ -28,6 +28,7 @@ import { Notify } from '~/stores/notification'
 import { useBlogAuthor } from '~/composables/useBlogAuthor'
 import { DEFAULT_REACTION_TYPE, resolveReactionType } from '~/utils/reactions'
 import { extractCommentLikes, extractCommentList } from '~/utils/blogComments'
+import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
 import AppButton from "~/components/ui/AppButton.vue";
 import AppCard from "~/components/ui/AppCard.vue";
 import {
@@ -41,10 +42,7 @@ definePageMeta({
 })
 
 const { t, locale } = useI18n()
-const translate = (key: string, fallback: string) => {
-  const value = t(key)
-  return value && value !== key ? value : fallback
-}
+const translate = useTranslateWithFallback()
 const { session, loggedIn } = useUserSession()
 
 const currentUsername = computed(
@@ -1957,9 +1955,13 @@ if (import.meta.client) {
       :workplaces="myWorkplaces"
     />
 
-    <AppModal icon="mdi-blogger"
-              :title="t('blog.sidebar.createBlog')"
-              v-model="createBlogDialog.open" max-width="520" persistent>
+    <AppModal
+      v-model="createBlogDialog.open"
+      icon="mdi-blogger"
+      :title="t('blog.sidebar.createBlog')"
+      max-width="520"
+      persistent
+    >
       <v-card-text>
         <v-text-field
           v-model="createBlogDialog.form.title"
