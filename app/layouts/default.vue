@@ -20,7 +20,6 @@ const routeLoading = useRouteLoading()
             <span class="floating-shape floating-shape--two" />
             <div class="page-surface__inner">
               <slot />
-              <AppUiShowcase />
             </div>
           </div>
         </div>
