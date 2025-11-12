@@ -134,6 +134,7 @@ const onToggleReply = () => emit('toggle-reply')
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding: 6px 0;
 }
 
 .blog-comment-card__card {

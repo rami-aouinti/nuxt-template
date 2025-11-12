@@ -57,7 +57,7 @@ const resolveProfileLink = (user: BlogPostUser) => getAuthorProfileLink(user)
     <BlogCommentEditor
       v-if="loggedIn"
       v-model="post.ui.commentContent"
-      class="mb-4"
+      card-variant="flat"
       :placeholder="t('blog.forms.commentPlaceholder')"
       :loading="post.ui.commentLoading"
       @submit="emit('submit-comment')"
@@ -65,30 +65,33 @@ const resolveProfileLink = (user: BlogPostUser) => getAuthorProfileLink(user)
       <template #actions-left="{ disabled }">
         <AppButton
           variant="text"
-          color="primary"
-          icon="mdi-paperclip"
+          icon
           density="compact"
           :disabled="disabled"
-        />
+        >
+          <v-icon>mdi-paperclip</v-icon>
+        </AppButton>
         <AppButton
           variant="text"
-          color="primary"
-          icon="mdi-microphone-outline"
+          icon
           density="compact"
           :disabled="disabled"
-        />
+        >
+          <v-icon>mdi-microphone-outline</v-icon>
+        </AppButton>
       </template>
-      <template #actions-right="{ loading, canSubmit, submit }">
+      <template #actions-right="{ loading, canSubmit, submit, cancel }">
         <AppButton
-          color="primary"
           variant="text"
-          icon="mdi-send"
+          icon
           :loading="loading"
           :disabled="!canSubmit"
           :aria-label="t('blog.actions.addComment')"
           density="compact"
           @click="submit"
-        />
+        >
+          <v-icon>mdi-send</v-icon>
+        </AppButton>
       </template>
     </BlogCommentEditor>
 

@@ -815,17 +815,7 @@ watch(
 <template>
   <v-container fluid>
     <v-row class="justify-center">
-      <v-col cols="12" lg="9" xl="8">
-        <AppButton
-          class="mb-4"
-          color="primary"
-          variant="text"
-          prepend-icon="mdi-arrow-left"
-          to="/blog"
-        >
-          {{ t('common.actions.back') }}
-        </AppButton>
-
+      <v-col cols="12">
         <v-alert
           v-if="postError"
           type="error"
@@ -874,68 +864,6 @@ watch(
           "
         />
 
-        <AppCard
-          v-if="post"
-          class="rounded-xl mt-4"
-          elevation="1"
-        >
-          <v-card-item>
-            <v-card-title class="text-h5 text-wrap">
-              {{ post.title }}
-            </v-card-title>
-            <v-card-subtitle v-if="post.blog" class="d-flex align-center mt-1">
-              <v-icon icon="mdi-rss" size="18" class="mr-1" />
-              <NuxtLink
-                v-if="resolveBlogLink(post.blog)"
-                :to="resolveBlogLink(post.blog) || undefined"
-                class="text-primary text-decoration-none"
-              >
-                {{ post.blog?.title }}
-              </NuxtLink>
-              <span v-else>{{ post.blog?.title }}</span>
-            </v-card-subtitle>
-          </v-card-item>
-
-          <v-card-text>
-            <p v-if="post.summary" class="text-body-1 font-weight-medium mb-4">
-              {{ post.summary }}
-            </p>
-            <div v-if="post.content" class="post-content text-body-1">
-              <p
-                v-for="(paragraph, index) in post.content.split('\n')"
-                :key="index"
-                class="mb-2"
-              >
-                {{ paragraph }}
-              </p>
-            </div>
-          </v-card-text>
-
-          <v-card-actions v-if="post.url" class="px-4 pb-4 pt-0">
-            <AppButton
-              :href="post.url || undefined"
-              target="_blank"
-              variant="text"
-              color="primary"
-              append-icon="mdi-open-in-new"
-            >
-              {{ t('blog.actions.read') }}
-            </AppButton>
-          </v-card-actions>
-        </AppCard>
-
-        <v-sheet
-          v-else
-          class="d-flex flex-column align-center justify-center py-16 text-center"
-          elevation="1"
-          rounded="xl"
-        >
-          <v-icon icon="mdi-post-outline" size="64" class="mb-4" />
-          <h2 class="text-h5 mb-2">{{ t('blog.empty.title') }}</h2>
-          <p class="text-medium-emphasis mb-0">
-            {{ t('blog.empty.description') }}
-          </p>
-        </v-sheet>
       </v-col>
     </v-row>
     <BlogReactionsDialog

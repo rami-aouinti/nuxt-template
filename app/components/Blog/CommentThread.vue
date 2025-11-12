@@ -77,21 +77,35 @@ const toggleReply = (comment: BlogCommentViewModel) => {
                 @submit="emit('submit-reply', comment)"
                 @cancel="toggleReply(comment)"
               >
+                <template #actions-left="{ disabled }">
+                  <AppButton
+                    variant="text"
+                    icon
+                    density="compact"
+                    :disabled="disabled"
+                  >
+                    <v-icon>mdi-paperclip</v-icon>
+                  </AppButton>
+                  <AppButton
+                    variant="text"
+                    icon
+                    density="compact"
+                    :disabled="disabled"
+                  >
+                    <v-icon>mdi-microphone-outline</v-icon>
+                  </AppButton>
+                </template>
                 <template #actions-right="{ loading, canSubmit, submit, cancel }">
                   <AppButton
                     variant="text"
-                    :disabled="loading"
-                    @click="cancel"
-                  >
-                    {{ t('common.actions.cancel') }}
-                  </AppButton>
-                  <AppButton
-                    color="primary"
+                    icon
                     :loading="loading"
                     :disabled="!canSubmit"
+                    :aria-label="t('blog.actions.addComment')"
+                    density="compact"
                     @click="submit"
                   >
-                    {{ t('blog.actions.addComment') }}
+                    <v-icon>mdi-send</v-icon>
                   </AppButton>
                 </template>
               </BlogCommentEditor>

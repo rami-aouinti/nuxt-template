@@ -60,11 +60,8 @@ const textareaDisabled = computed(() => isLoading.value || isDisabled.value)
         :model-value="content"
         :placeholder="placeholder"
         :rows="rows"
-        :auto-grow="autoGrow"
         :disabled="textareaDisabled"
-        variant="plain"
         hide-details
-        class="blog-comment-editor__textarea"
         @update:model-value="updateContent"
       />
     </div>
@@ -92,9 +89,11 @@ const textareaDisabled = computed(() => isLoading.value || isDisabled.value)
             variant="text"
             :loading="isLoading"
             :disabled="!canSubmit"
-            icon="mdi-send"
+            icon
             @click="submit"
-          />
+          >
+            <v-icon>mdi-send</v-icon>
+          </AppButton>
         </slot>
       </div>
     </div>
