@@ -526,69 +526,73 @@ onMounted(async () => {
 
 <template>
   <v-container fluid class="messenger-page">
-    <v-row>
-      <v-col cols="12" md="4" class="pr-md-4">
-        <AppCard class="conversation-list" elevation="2" rounded="xl">
-          <v-toolbar flat density="compact">
-            <v-toolbar-title class="text-subtitle-1 font-weight-medium">
-              {{ t('messenger.conversations') }}
-            </v-toolbar-title>
-            <AppButton
-              icon="mdi-refresh"
-              size="small"
-              :loading="isLoadingConversations"
-              @click="loadConversations"
+    <client-only>
+      <teleport to="#app-drawer">
+        <v-toolbar flat density="compact">
+          <v-toolbar-title class="text-subtitle-1 font-weight-medium">
+            {{ t('messenger.conversations') }}
+          </v-toolbar-title>
+          <AppButton
+            icon="mdi-refresh"
+            size="small"
+            :loading="isLoadingConversations"
+            @click="loadConversations"
+          />
+        </v-toolbar>
+        <v-divider />
+        <div class="conversation-scroll">
+          <template v-if="isInitialConversationLoading">
+            <v-skeleton-loader
+              v-for="index in 5"
+              :key="index"
+              type="list-item-two-line"
+              class="conversation-skeleton"
             />
-          </v-toolbar>
-          <v-divider />
-          <div class="conversation-scroll">
-            <template v-if="isInitialConversationLoading">
-              <v-skeleton-loader
-                v-for="index in 5"
-                :key="index"
-                type="list-item-two-line"
-                class="conversation-skeleton"
-              />
-            </template>
-            <template v-else>
-              <AppList nav density="comfortable">
-                <v-list-item
-                  v-for="conversation in conversations"
-                  :key="conversation.id"
-                  :active="conversation.id === selectedConversationId"
-                  @click="handleSelectConversation(conversation.id)"
-                >
-                  <v-list-item-title>
-                    {{ formatConversationTitle(conversation) }}
-                  </v-list-item-title>
-                  <v-list-item-subtitle>
-                    {{
-                      conversation.lastMessage?.text ||
-                      t('messenger.noMessagesYet')
-                    }}
-                  </v-list-item-subtitle>
-                  <template #append>
-                    <v-badge
-                      v-if="conversation.unreadCount > 0"
-                      :content="conversation.unreadCount"
-                      color="error"
-                      inline
-                    />
-                  </template>
-                </v-list-item>
-              </AppList>
-              <div
-                v-if="!conversations.length"
-                class="empty-state"
+          </template>
+          <template v-else>
+            <AppList nav density="comfortable">
+              <v-list-item
+                v-for="conversation in conversations"
+                :key="conversation.id"
+                :active="conversation.id === selectedConversationId"
+                @click="handleSelectConversation(conversation.id)"
               >
-                {{ t('messenger.noConversations') }}
-              </div>
-            </template>
-          </div>
-        </AppCard>
-      </v-col>
-      <v-col cols="12" md="8" class="mt-4 mt-md-0">
-        <AppCard class="message-panel" elevation="2" rounded="xl">
+                <v-list-item-title>
+                  {{ formatConversationTitle(conversation) }}
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  {{
+                    conversation.lastMessage?.text ||
+                    t('messenger.noMessagesYet')
+                  }}
+                </v-list-item-subtitle>
+                <template #append>
+                  <v-badge
+                    v-if="conversation.unreadCount > 0"
+                    :content="conversation.unreadCount"
+                    color="error"
+                    inline
+                  />
+                </template>
+              </v-list-item>
+            </AppList>
+            <div
+              v-if="!conversations.length"
+              class="empty-state"
+            >
+              {{ t('messenger.noConversations') }}
+            </div>
+          </template>
+        </div>
+      </teleport>
+    </client-only>
+    <client-only>
+      <teleport to="#app-drawer-right">
+      </teleport>
+    </client-only>
+    <v-row>
+      <v-col cols="12">
+        <AppCard class="message-panel" variant="text">
           <template v-if="isInitialConversationLoading">
             <div class="message-skeleton">
               <div class="message-skeleton__toolbar">
