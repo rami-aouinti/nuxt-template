@@ -5,6 +5,7 @@ import ContentCallToActionBanner from '~/components/Content/CallToActionBanner.v
 import ContentSectionGrid, {
   type SectionGridItem,
 } from '~/components/Content/SectionGrid.vue'
+import AppCard from "~/components/ui/AppCard.vue";
 
 definePageMeta({
   title: 'navigation.help',
@@ -66,36 +67,48 @@ const contact = computed(() => ({
 
 <template>
   <v-container fluid>
+    <client-only>
+      <teleport to="#app-drawer">
+        <v-card-title class="text-h4 font-weight-bold pb-2">
+          {{ t('pages.help.title') }}
+        </v-card-title>
+        <v-card-subtitle class="text-body-1">
+          {{ t('pages.help.subtitle') }}
+        </v-card-subtitle>
+        <v-divider class="mb-6" />
+        <section class="mb-8">
+          <h2 class="text-h5 font-weight-semibold mb-3">
+            {{ explanation.title }}
+          </h2>
+          <p class="text-body-1 mb-4">
+            {{ explanation.description }}
+          </p>
+          <ul class="text-body-1 pl-6 mb-0">
+            <li
+              v-for="point in explanation.highlights"
+              :key="point"
+              class="mb-2"
+            >
+              {{ point }}
+            </li>
+          </ul>
+        </section>
+      </teleport>
+    </client-only>
+    <client-only>
+      <teleport to="#app-drawer-right">
+        <ContentCallToActionBanner
+          class="mt-6"
+          type="success"
+          :title="contact.title"
+          :description="contact.description"
+        />
+
+      </teleport>
+    </client-only>
     <v-row justify="center">
       <v-col cols="12">
         <AppCard class="pa-6" elevation="2">
-          <v-card-title class="text-h4 font-weight-bold pb-2">
-            {{ t('pages.help.title') }}
-          </v-card-title>
-          <v-card-subtitle class="text-body-1 pb-6">
-            {{ t('pages.help.subtitle') }}
-          </v-card-subtitle>
-          <v-divider class="mb-6" />
-          <section class="mb-8">
-            <h2 class="text-h5 font-weight-semibold mb-3">
-              {{ explanation.title }}
-            </h2>
-            <p class="text-body-1 mb-4">
-              {{ explanation.description }}
-            </p>
-            <ul class="text-body-1 pl-6 mb-0">
-              <li
-                v-for="point in explanation.highlights"
-                :key="point"
-                class="mb-2"
-              >
-                {{ point }}
-              </li>
-            </ul>
-          </section>
-          <v-divider class="mb-6" />
-          <ContentSectionGrid :items="sections" class="mb-4" />
-          <v-divider class="mb-6" />
           <section class="mb-6">
             <h2 class="text-h5 font-weight-semibold mb-3">
               {{ questions.title }}
@@ -114,12 +127,7 @@ const contact = computed(() => ({
               </v-expansion-panel>
             </v-expansion-panels>
           </section>
-          <ContentCallToActionBanner
-            class="mt-6"
-            type="success"
-            :title="contact.title"
-            :description="contact.description"
-          />
+          <ContentSectionGrid :items="sections" class="mb-4" />
         </AppCard>
       </v-col>
     </v-row>

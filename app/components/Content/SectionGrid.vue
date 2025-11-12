@@ -91,21 +91,16 @@ const iconClasses = computed(() => {
   <v-row v-bind="rowProps">
     <v-col v-for="item in items" :key="item.title" v-bind="itemProps">
       <v-sheet v-bind="sheetProps">
-        <div v-if="item.icon" class="d-flex align-center mb-3">
+        <div class="d-flex align-center mb-3">
           <v-icon
-            :icon="item.icon"
-            :size="iconSize"
+            :icon="item.icon ? item.icon : 'mdi-earth'"
+            :size="iconSize ?? '32px'"
             :class="iconClasses"
           />
           <h2 :class="titleClass" class="ml-3">
             {{ item.title }}
           </h2>
         </div>
-        <template v-else>
-          <h2 :class="titleClass">
-            {{ item.title }}
-          </h2>
-        </template>
         <p :class="descriptionClass">
           {{ item.description }}
         </p>

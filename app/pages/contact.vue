@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import type { VForm } from 'vuetify/components'
+import AppCard from "~/components/ui/AppCard.vue";
 
 definePageMeta({
   title: 'navigation.contact',
@@ -58,6 +59,14 @@ const submit = async () => {
 
 <template>
   <v-container fluid>
+    <client-only>
+      <teleport to="#app-drawer">
+      </teleport>
+    </client-only>
+    <client-only>
+      <teleport to="#app-drawer-right">
+      </teleport>
+    </client-only>
     <v-row justify="center">
       <v-col cols="12">
         <div class="text-center mb-2">
