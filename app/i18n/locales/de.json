@@ -85,6 +85,7 @@
     "profile": "Profil",
     "profileCalendar": "Profilkalender",
     "profileWorkspace": "Profil-Arbeitsbereich",
+    "profileNotifications": "Benachrichtigungen",
     "blog": "Blog",
     "messenger": "Messenger",
     "goBack": "Zurück",
@@ -558,6 +559,28 @@
         "saveFailed": "Ihre Einstellungen konnten nicht gespeichert werden. Bitte versuchen Sie es später erneut.",
         "metadataMissing": "Die zum Speichern benötigten Kennungen konnten nicht ermittelt werden.",
         "noConfiguration": "Es wurden noch keine gespeicherten Einstellungen gefunden."
+      }
+    },
+    "notifications": {
+      "page": {
+        "title": "Benachrichtigungen",
+        "subtitle": "Sehen Sie sich Ihre neuesten Hinweise an und bleiben Sie auf dem Laufenden."
+      },
+      "actions": {
+        "refresh": "Aktualisieren"
+      },
+      "states": {
+        "loading": "Benachrichtigungen werden geladen…",
+        "retry": "Erneut versuchen",
+        "error": "Ihre Benachrichtigungen konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+        "empty": "Alles erledigt! Keine Benachrichtigungen anzuzeigen."
+      },
+      "labels": {
+        "unread": "Ungelesen",
+        "receivedAt": "Erhalten am {date}"
+      },
+      "fallback": {
+        "title": "Benachrichtigung"
       }
     },
     "public": {

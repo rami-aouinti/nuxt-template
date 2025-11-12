@@ -85,6 +85,7 @@
     "profile": "Profil",
     "profileCalendar": "Calendrier",
     "profileWorkspace": "Espace de travail",
+    "profileNotifications": "Notifications",
     "blog": "Blog",
     "messenger": "Messagerie",
     "goBack": "Retour",
@@ -567,6 +568,28 @@
         "saveFailed": "Impossible d'enregistrer vos préférences. Veuillez réessayer plus tard.",
         "metadataMissing": "Les identifiants nécessaires pour enregistrer ces préférences sont introuvables.",
         "noConfiguration": "Aucune préférence enregistrée n'a encore été trouvée."
+      }
+    },
+    "notifications": {
+      "page": {
+        "title": "Notifications",
+        "subtitle": "Consultez vos dernières alertes et restez informé."
+      },
+      "actions": {
+        "refresh": "Actualiser"
+      },
+      "states": {
+        "loading": "Chargement des notifications…",
+        "retry": "Réessayer",
+        "error": "Impossible de charger vos notifications. Veuillez réessayer plus tard.",
+        "empty": "Vous êtes à jour ! Aucune notification à afficher."
+      },
+      "labels": {
+        "unread": "Non lue",
+        "receivedAt": "Reçue le {date}"
+      },
+      "fallback": {
+        "title": "Notification"
       }
     },
     "public": {

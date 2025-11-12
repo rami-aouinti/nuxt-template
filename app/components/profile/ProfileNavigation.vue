@@ -54,6 +54,13 @@ const baseItems = computed<NavigationItem[]>(() => [
     match: (path) => path.startsWith('/profile/workspace'),
   },
   {
+    value: 'notifications',
+    to: '/profile/notifications',
+    label: t('navigation.profileNotifications'),
+    icon: 'mdi-bell',
+    match: (path) => path.startsWith('/profile/notifications'),
+  },
+  {
     value: 'plugins',
     to: '/profile/plugins',
     label: t('profile.sections.plugins.title'),

@@ -85,6 +85,7 @@
     "profile": "Profile",
     "profileCalendar": "Profile calendar",
     "profileWorkspace": "Profile workspace",
+    "profileNotifications": "Notifications",
     "blog": "Blog",
     "messenger": "Messenger",
     "goBack": "Go back",
@@ -567,6 +568,28 @@
         "saveFailed": "Unable to save your preferences. Please try again later.",
         "metadataMissing": "We are unable to determine the identifiers required to save these preferences.",
         "noConfiguration": "No saved preferences were found yet."
+      }
+    },
+    "notifications": {
+      "page": {
+        "title": "Notifications",
+        "subtitle": "Review your latest alerts and stay up to date."
+      },
+      "actions": {
+        "refresh": "Refresh"
+      },
+      "states": {
+        "loading": "Loading notifications…",
+        "retry": "Try again",
+        "error": "Unable to load your notifications. Please try again later.",
+        "empty": "You're all caught up! No notifications to display."
+      },
+      "labels": {
+        "unread": "Unread",
+        "receivedAt": "Received on {date}"
+      },
+      "fallback": {
+        "title": "Notification"
       }
     },
     "public": {
