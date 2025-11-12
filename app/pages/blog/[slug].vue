@@ -3,6 +3,10 @@ import { computed, reactive, ref, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { BLOG_POSTS_DEFAULT_LIMIT, useBlogApi } from '~/composables/useBlogApi'
 import type { BlogPost, BlogSummary } from '~/types/blog'
+import {
+  truncateText,
+  formatPublishedAt as formatBlogPublishedAt,
+} from '~/utils/formatters'
 
 definePageMeta({
   icon: 'mdi-rss',
@@ -41,30 +45,19 @@ const hasMore = computed(
 )
 
 const formatPublishedAt = (publishedAt: string) =>
-  new Intl.DateTimeFormat(locale.value, {
-    dateStyle: 'long',
-    timeStyle: 'short',
-  }).format(new Date(publishedAt))
-
-function truncateText(text: string, maxLength: number) {
-  const normalized = text.replace(/\s+/g, ' ').trim()
-  if (normalized.length <= maxLength) {
-    return normalized
-  }
-
-  return `${normalized.slice(0, maxLength).trimEnd()}…`
-}
+  formatBlogPublishedAt(publishedAt, locale.value)
 
 function getPostExcerpt(post: BlogPost, maxLength = 50) {
   const summary = typeof post.summary === 'string' ? post.summary : ''
   const content = typeof post.content === 'string' ? post.content : ''
   const source = summary.trim().length ? summary : content
+  const normalized = source.replace(/\s+/g, ' ').trim()
 
-  if (!source.trim().length) {
+  if (!normalized.length) {
     return t('blog.placeholders.noSummary')
   }
 
-  return truncateText(source, maxLength)
+  return truncateText(normalized, maxLength)
 }
 
 async function loadPosts(

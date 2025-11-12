@@ -10,6 +10,7 @@ import type {BlogPostViewModel, BlogSummary} from '~/types/blog'
 import AppButton from "~/components/ui/AppButton.vue";
 import AppCard from "~/components/ui/AppCard.vue";
 import BlogPostCard from "~/components/Blog/PostCard.vue";
+import { truncateText, formatPublishedAt as formatBlogPublishedAt } from '~/utils/formatters'
 
 definePageMeta({
   title: 'navigation.profile',
@@ -139,14 +140,6 @@ function getPostExcerpt(post: BlogPostViewModel) {
   return ''
 }
 
-function truncateText(text: string, maxLength: number) {
-  if (text.length <= maxLength) {
-    return text
-  }
-
-  return `${text.slice(0, maxLength).trimEnd()}…`
-}
-
 function getPostPlainContent(content: string | null | undefined) {
   if (!content) {
     return ''
@@ -165,48 +158,8 @@ function getPostPlainContent(content: string | null | undefined) {
     .trim()
 }
 
-function formatRelativePublishedAt(publishedAt: string) {
-  const target = new Date(publishedAt)
-  if (Number.isNaN(target.getTime())) {
-    return formatPublishedAt(publishedAt)
-  }
-
-  const diffInSeconds = Math.round((target.getTime() - Date.now()) / 1000)
-  const thresholds: { unit: Intl.RelativeTimeFormatUnit; seconds: number }[] = [
-    { unit: 'year', seconds: 60 * 60 * 24 * 365 },
-    { unit: 'month', seconds: 60 * 60 * 24 * 30 },
-    { unit: 'week', seconds: 60 * 60 * 24 * 7 },
-    { unit: 'day', seconds: 60 * 60 * 24 },
-    { unit: 'hour', seconds: 60 * 60 },
-    { unit: 'minute', seconds: 60 },
-    { unit: 'second', seconds: 1 },
-  ]
-
-  for (const { unit, seconds } of thresholds) {
-    if (Math.abs(diffInSeconds) >= seconds || unit === 'second') {
-      if (unit === 'second' && Math.abs(diffInSeconds) < 45) {
-        return relativeTimeFormat.value.format(0, 'second')
-      }
-
-      const value = Math.round(diffInSeconds / seconds)
-      return relativeTimeFormat.value.format(value, unit)
-    }
-  }
-
-  return formatPublishedAt(publishedAt)
-}
-
-const formatPublishedAt = (publishedAt: string) => {
-  const date = new Date(publishedAt)
-  if (Number.isNaN(date.getTime())) {
-    return publishedAt
-  }
-
-  return new Intl.DateTimeFormat(locale.value, {
-    dateStyle: 'long',
-    timeStyle: 'short',
-  }).format(date)
-}
+const formatPublishedAt = (publishedAt: string) =>
+  formatBlogPublishedAt(publishedAt, locale.value)
 
 watch(
   () => loggedIn.value,

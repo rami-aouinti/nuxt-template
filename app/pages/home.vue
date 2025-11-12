@@ -30,6 +30,11 @@ import { DEFAULT_REACTION_TYPE, resolveReactionType } from '~/utils/reactions'
 import { extractCommentLikes, extractCommentList } from '~/utils/blogComments'
 import AppButton from "~/components/ui/AppButton.vue";
 import AppCard from "~/components/ui/AppCard.vue";
+import {
+  truncateText,
+  formatPublishedAt as formatBlogPublishedAt,
+  formatRelativePublishedAt as formatBlogRelativePublishedAt,
+} from '~/utils/formatters'
 
 definePageMeta({
   title: 'navigation.home',
@@ -1125,14 +1130,6 @@ async function loadComments(post: BlogPostViewModel) {
   }
 }
 
-function truncateText(text: string, maxLength: number) {
-  if (text.length <= maxLength) {
-    return text
-  }
-
-  return `${text.slice(0, maxLength).trimEnd()}…`
-}
-
 function getPostPlainContent(content: string | null | undefined) {
   if (!content) {
     return ''
@@ -1165,55 +1162,11 @@ function getPostExcerpt(post: BlogPostViewModel) {
   return ''
 }
 
-const formatPublishedAt = (publishedAt: string) => {
-  const date = new Date(publishedAt)
-  if (Number.isNaN(date.getTime())) {
-    return publishedAt
-  }
+const formatPublishedAt = (publishedAt: string) =>
+  formatBlogPublishedAt(publishedAt, locale.value)
 
-  return new Intl.DateTimeFormat(locale.value, {
-    dateStyle: 'long',
-    timeStyle: 'short',
-  }).format(date)
-}
-
-const relativeTimeFormat = computed(
-  () =>
-    new Intl.RelativeTimeFormat(locale.value, {
-      numeric: 'auto',
-    }),
-)
-
-function formatRelativePublishedAt(publishedAt: string) {
-  const target = new Date(publishedAt)
-  if (Number.isNaN(target.getTime())) {
-    return formatPublishedAt(publishedAt)
-  }
-
-  const diffInSeconds = Math.round((target.getTime() - Date.now()) / 1000)
-  const thresholds: { unit: Intl.RelativeTimeFormatUnit; seconds: number }[] = [
-    { unit: 'year', seconds: 60 * 60 * 24 * 365 },
-    { unit: 'month', seconds: 60 * 60 * 24 * 30 },
-    { unit: 'week', seconds: 60 * 60 * 24 * 7 },
-    { unit: 'day', seconds: 60 * 60 * 24 },
-    { unit: 'hour', seconds: 60 * 60 },
-    { unit: 'minute', seconds: 60 },
-    { unit: 'second', seconds: 1 },
-  ]
-
-  for (const { unit, seconds } of thresholds) {
-    if (Math.abs(diffInSeconds) >= seconds || unit === 'second') {
-      if (unit === 'second' && Math.abs(diffInSeconds) < 45) {
-        return relativeTimeFormat.value.format(0, 'second')
-      }
-
-      const value = Math.round(diffInSeconds / seconds)
-      return relativeTimeFormat.value.format(value, unit)
-    }
-  }
-
-  return formatPublishedAt(publishedAt)
-}
+const formatRelativePublishedAt = (publishedAt: string) =>
+  formatBlogRelativePublishedAt(publishedAt, locale.value)
 
 function canEditPost(post: BlogPostViewModel) {
   return loggedIn.value && post.user.username === currentUsername.value
