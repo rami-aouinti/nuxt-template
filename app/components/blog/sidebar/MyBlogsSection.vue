@@ -63,10 +63,14 @@ const emit = defineEmits<{
         {{ error }}
       </v-alert>
       <template v-else-if="filteredBlogs.length">
-        <AppListingCard v-for="blog in filteredBlogs" :key="blog.id">
+        <div
+          v-for="blog in filteredBlogs"
+          :key="blog.id"
+          class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
+        >
           <NuxtLink
             style="color: rgba(var(--v-theme-on-surface), 0.92)"
-            class="d-flex align-center gap-3 flex-grow-1 text-decoration-none"
+            class="text-decoration-none"
             :to="`/blog/${blog.id}`"
           >
             <AppAvatar
@@ -137,7 +141,7 @@ const emit = defineEmits<{
               </v-list-item>
             </v-list>
           </v-menu>
-        </AppListingCard>
+        </div>
       </template>
       <v-alert
         v-else-if="hasSearchTerm && blogs.length"

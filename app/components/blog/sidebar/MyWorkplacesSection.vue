@@ -61,9 +61,10 @@ const emit = defineEmits<{
         {{ error }}
       </v-alert>
       <template v-else-if="filteredWorkplaces.length">
-        <AppListingCard
+        <div
           v-for="workplace in filteredWorkplaces"
           :key="workplace.id || workplace.slug"
+          class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
         >
           <NuxtLink
             style="color: rgba(var(--v-theme-on-surface), 0.92)"
@@ -93,7 +94,7 @@ const emit = defineEmits<{
             @refresh="emit('refresh')"
             @deleted="emit('refresh')"
           />
-        </AppListingCard>
+        </div>
       </template>
       <v-alert
         v-else-if="hasSearchTerm && workplaces.length"
