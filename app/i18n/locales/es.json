@@ -104,7 +104,8 @@
     "pluginManagement": "Gestión de plugins",
     "plugins": "Plugins",
     "mediaManagement": "Gestión de medios",
-    "media": "Biblioteca multimedia"
+    "media": "Biblioteca multimedia",
+    "notificationManagement": "Gestión de notificaciones"
   },
   "messenger": {
     "title": "Mensajería",
@@ -1373,6 +1374,86 @@
         "edit": "Edit plugin",
         "delete": "Delete plugin"
       }
+    }
+  },
+  "notificationManagement": {
+    "title": "Gestión de notificaciones",
+    "subtitle": "Supervisa las notificaciones del sistema y resuelve incidencias de entrega desde un único lugar.",
+    "table": {
+      "subject": "Asunto",
+      "channel": "Canal",
+      "recipient": "Destinatario",
+      "status": "Estado",
+      "createdAt": "Creada",
+      "scheduledFor": "Programada",
+      "sentAt": "Enviada"
+    },
+    "filters": {
+      "search": "Buscar por asunto, canal o destinatario"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "processing": "En curso",
+      "sent": "Enviada",
+      "failed": "Fallida",
+      "cancelled": "Cancelada",
+      "canceled": "Cancelada",
+      "queued": "En cola",
+      "delivered": "Entregada",
+      "errored": "Fallida",
+      "unknown": "Desconocido"
+    },
+    "channels": {
+      "email": "Correo electrónico",
+      "sms": "SMS",
+      "push": "Notificación push",
+      "in_app": "En la aplicación",
+      "inapp": "En la aplicación",
+      "webhook": "Webhook",
+      "unknown": "Otro"
+    },
+    "labels": {
+      "subject": "Asunto",
+      "status": "Estado",
+      "recipient": "Destinatario",
+      "channel": "Canal",
+      "createdAt": "Creada el",
+      "updatedAt": "Última actualización",
+      "scheduledFor": "Programada para",
+      "sentAt": "Enviada el",
+      "message": "Mensaje",
+      "metadata": "Metadatos",
+      "payload": "Payload",
+      "context": "Contexto",
+      "attempts": "Intentos de entrega",
+      "emptyMetadata": "No hay detalles adicionales disponibles para esta notificación.",
+      "notAvailable": "No disponible"
+    },
+    "actions": {
+      "view": "Ver notificación {subject}",
+      "updateStatus": "Actualizar estado de {subject}"
+    },
+    "dialogs": {
+      "view": {
+        "title": "Detalles de la notificación"
+      },
+      "status": {
+        "title": "Actualizar estado de la notificación",
+        "description": "Elige el estado que debe aplicarse a esta notificación."
+      }
+    },
+    "forms": {
+      "status": {
+        "label": "Estado",
+        "hint": "Selecciona el estado de entrega que mejor describa la situación actual.",
+        "submit": "Guardar estado"
+      }
+    },
+    "notifications": {
+      "loadFailed": "No se pudieron cargar las notificaciones.",
+      "detailLoadFailed": "No se pudieron cargar los detalles de la notificación.",
+      "statusUpdated": "El estado de la notificación se actualizó a {status}.",
+      "statusUpdateFailed": "No se pudo actualizar el estado de la notificación."
     }
   },
   "workplace": {

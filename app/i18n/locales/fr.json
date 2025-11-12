@@ -104,7 +104,8 @@
     "pluginManagement": "Gestion des plugins",
     "plugins": "Plugins",
     "mediaManagement": "Gestion des médias",
-    "media": "Médiathèque"
+    "media": "Médiathèque",
+    "notificationManagement": "Gestion des notifications"
   },
   "messenger": {
     "title": "Messagerie",
@@ -1393,6 +1394,86 @@
         "edit": "Modifier le plugin",
         "delete": "Supprimer le plugin"
       }
+    }
+  },
+  "notificationManagement": {
+    "title": "Gestion des notifications",
+    "subtitle": "Surveillez les notifications système et résolvez les problèmes de livraison depuis un point unique.",
+    "table": {
+      "subject": "Objet",
+      "channel": "Canal",
+      "recipient": "Destinataire",
+      "status": "Statut",
+      "createdAt": "Créée",
+      "scheduledFor": "Planifiée",
+      "sentAt": "Envoyée"
+    },
+    "filters": {
+      "search": "Rechercher par objet, canal ou destinataire"
+    },
+    "status": {
+      "pending": "En attente",
+      "processing": "En cours",
+      "sent": "Envoyée",
+      "failed": "Échouée",
+      "cancelled": "Annulée",
+      "canceled": "Annulée",
+      "queued": "En file d'attente",
+      "delivered": "Livrée",
+      "errored": "Échouée",
+      "unknown": "Inconnu"
+    },
+    "channels": {
+      "email": "E-mail",
+      "sms": "SMS",
+      "push": "Notification push",
+      "in_app": "Dans l'application",
+      "inapp": "Dans l'application",
+      "webhook": "Webhook",
+      "unknown": "Autre"
+    },
+    "labels": {
+      "subject": "Objet",
+      "status": "Statut",
+      "recipient": "Destinataire",
+      "channel": "Canal",
+      "createdAt": "Créée le",
+      "updatedAt": "Dernière mise à jour",
+      "scheduledFor": "Planifiée pour",
+      "sentAt": "Envoyée le",
+      "message": "Message",
+      "metadata": "Métadonnées",
+      "payload": "Payload",
+      "context": "Contexte",
+      "attempts": "Tentatives de livraison",
+      "emptyMetadata": "Aucun détail supplémentaire n’est disponible pour cette notification.",
+      "notAvailable": "Non disponible"
+    },
+    "actions": {
+      "view": "Afficher la notification {subject}",
+      "updateStatus": "Mettre à jour le statut de {subject}"
+    },
+    "dialogs": {
+      "view": {
+        "title": "Détails de la notification"
+      },
+      "status": {
+        "title": "Mettre à jour le statut de la notification",
+        "description": "Choisissez le statut à appliquer à cette notification."
+      }
+    },
+    "forms": {
+      "status": {
+        "label": "Statut",
+        "hint": "Sélectionnez le statut de livraison qui représente le mieux la situation actuelle.",
+        "submit": "Enregistrer le statut"
+      }
+    },
+    "notifications": {
+      "loadFailed": "Impossible de charger les notifications.",
+      "detailLoadFailed": "Impossible de charger les détails de la notification.",
+      "statusUpdated": "Le statut de la notification a été mis à jour sur {status}.",
+      "statusUpdateFailed": "Impossible de mettre à jour le statut de la notification."
     }
   },
   "workplace": {

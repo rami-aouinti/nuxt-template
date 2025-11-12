@@ -104,7 +104,8 @@
     "pluginManagement": "插件管理",
     "plugins": "Plugins",
     "mediaManagement": "媒体管理",
-    "media": "媒体库"
+    "media": "媒体库",
+    "notificationManagement": "通知管理"
   },
   "messenger": {
     "title": "消息",
@@ -1373,6 +1374,86 @@
         "edit": "Edit plugin",
         "delete": "Delete plugin"
       }
+    }
+  },
+  "notificationManagement": {
+    "title": "通知管理",
+    "subtitle": "在一个入口集中监控系统通知并排查投递问题。",
+    "table": {
+      "subject": "主题",
+      "channel": "渠道",
+      "recipient": "收件人",
+      "status": "状态",
+      "createdAt": "创建时间",
+      "scheduledFor": "计划时间",
+      "sentAt": "发送时间"
+    },
+    "filters": {
+      "search": "按主题、渠道或收件人搜索"
+    },
+    "status": {
+      "pending": "待处理",
+      "processing": "处理中",
+      "sent": "已发送",
+      "failed": "发送失败",
+      "cancelled": "已取消",
+      "canceled": "已取消",
+      "queued": "排队中",
+      "delivered": "已送达",
+      "errored": "发送失败",
+      "unknown": "未知"
+    },
+    "channels": {
+      "email": "电子邮件",
+      "sms": "短信",
+      "push": "推送通知",
+      "in_app": "应用内",
+      "inapp": "应用内",
+      "webhook": "Webhook",
+      "unknown": "其他"
+    },
+    "labels": {
+      "subject": "主题",
+      "status": "状态",
+      "recipient": "收件人",
+      "channel": "渠道",
+      "createdAt": "创建时间",
+      "updatedAt": "最后更新",
+      "scheduledFor": "计划时间",
+      "sentAt": "发送时间",
+      "message": "消息内容",
+      "metadata": "元数据",
+      "payload": "Payload",
+      "context": "上下文",
+      "attempts": "投递尝试",
+      "emptyMetadata": "暂无更多可用的通知详情。",
+      "notAvailable": "暂无"
+    },
+    "actions": {
+      "view": "查看通知 {subject}",
+      "updateStatus": "更新 {subject} 的状态"
+    },
+    "dialogs": {
+      "view": {
+        "title": "通知详情"
+      },
+      "status": {
+        "title": "更新通知状态",
+        "description": "请选择要应用到该通知的状态。"
+      }
+    },
+    "forms": {
+      "status": {
+        "label": "状态",
+        "hint": "选择最符合当前情况的投递状态。",
+        "submit": "保存状态"
+      }
+    },
+    "notifications": {
+      "loadFailed": "无法加载通知。",
+      "detailLoadFailed": "无法加载通知详情。",
+      "statusUpdated": "通知状态已更新为 {status}。",
+      "statusUpdateFailed": "无法更新通知状态。"
     }
   },
   "workplace": {

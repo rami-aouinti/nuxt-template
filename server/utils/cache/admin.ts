@@ -12,6 +12,7 @@ export type AdminResource =
   | 'user_group'
   | 'workplace'
   | 'media'
+  | 'notification'
 
 type CacheType = 'list' | 'count' | 'detail'
 

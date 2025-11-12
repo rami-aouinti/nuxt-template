@@ -104,7 +104,8 @@
     "pluginManagement": "Управление плагинами",
     "plugins": "Plugins",
     "mediaManagement": "Управление медиа",
-    "media": "Медиатека"
+    "media": "Медиатека",
+    "notificationManagement": "Управление уведомлениями"
   },
   "messenger": {
     "title": "Мессенджер",
@@ -1373,6 +1374,86 @@
         "edit": "Edit plugin",
         "delete": "Delete plugin"
       }
+    }
+  },
+  "notificationManagement": {
+    "title": "Управление уведомлениями",
+    "subtitle": "Отслеживайте системные уведомления и устраняйте проблемы доставки в одном месте.",
+    "table": {
+      "subject": "Тема",
+      "channel": "Канал",
+      "recipient": "Получатель",
+      "status": "Статус",
+      "createdAt": "Создано",
+      "scheduledFor": "Запланировано",
+      "sentAt": "Отправлено"
+    },
+    "filters": {
+      "search": "Поиск по теме, каналу или получателю"
+    },
+    "status": {
+      "pending": "В ожидании",
+      "processing": "В обработке",
+      "sent": "Отправлено",
+      "failed": "Ошибка",
+      "cancelled": "Отменено",
+      "canceled": "Отменено",
+      "queued": "В очереди",
+      "delivered": "Доставлено",
+      "errored": "Ошибка",
+      "unknown": "Неизвестно"
+    },
+    "channels": {
+      "email": "Email",
+      "sms": "SMS",
+      "push": "Push-уведомление",
+      "in_app": "В приложении",
+      "inapp": "В приложении",
+      "webhook": "Webhook",
+      "unknown": "Другое"
+    },
+    "labels": {
+      "subject": "Тема",
+      "status": "Статус",
+      "recipient": "Получатель",
+      "channel": "Канал",
+      "createdAt": "Создано",
+      "updatedAt": "Последнее обновление",
+      "scheduledFor": "Запланировано на",
+      "sentAt": "Отправлено",
+      "message": "Сообщение",
+      "metadata": "Метаданные",
+      "payload": "Payload",
+      "context": "Контекст",
+      "attempts": "Попытки доставки",
+      "emptyMetadata": "Дополнительные сведения для этого уведомления отсутствуют.",
+      "notAvailable": "Нет данных"
+    },
+    "actions": {
+      "view": "Просмотреть уведомление {subject}",
+      "updateStatus": "Изменить статус {subject}"
+    },
+    "dialogs": {
+      "view": {
+        "title": "Детали уведомления"
+      },
+      "status": {
+        "title": "Изменить статус уведомления",
+        "description": "Выберите статус, который следует применить к этому уведомлению."
+      }
+    },
+    "forms": {
+      "status": {
+        "label": "Статус",
+        "hint": "Выберите статус доставки, который лучше всего описывает текущую ситуацию.",
+        "submit": "Сохранить статус"
+      }
+    },
+    "notifications": {
+      "loadFailed": "Не удалось загрузить уведомления.",
+      "detailLoadFailed": "Не удалось загрузить детали уведомления.",
+      "statusUpdated": "Статус уведомления обновлён на {status}.",
+      "statusUpdateFailed": "Не удалось обновить статус уведомления."
     }
   },
   "workplace": {
