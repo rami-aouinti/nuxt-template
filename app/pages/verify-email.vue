@@ -18,7 +18,7 @@ const handleVerification = async () => {
   isLoading.value = true
 
   try {
-    const { data, error } = await useFetch('/api/verify', {
+    const { data, error } = await useFetch('/api/auth/verify', {
       method: 'POST',
       body: {
         token: route.query.token,
