@@ -7,6 +7,7 @@ import type {
   BlogReactionType,
 } from '~/types/blog'
 import { useBlogAuthor } from '~/composables/useBlogAuthor'
+import AppButton from "~/components/ui/AppButton.vue";
 
 defineOptions({ name: 'BlogPostComments' })
 

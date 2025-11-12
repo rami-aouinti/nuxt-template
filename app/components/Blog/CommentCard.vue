@@ -6,6 +6,8 @@ import type {
   BlogReactionType,
 } from '~/types/blog'
 import { resolveReactionType } from '~/utils/reactions'
+import AppCard from "~/components/ui/AppCard.vue";
+import AppButton from "~/components/ui/AppButton.vue";
 
 const props = defineProps<{
   comment: BlogCommentViewModel

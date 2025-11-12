@@ -152,7 +152,7 @@ const onDeletePost = () => {
 </script>
 
 <template>
-<AppCard class="facebook-post-card" :style="postCardStyle">
+<AppCard variant="text"  class="facebook-post-card" :style="postCardStyle">
     <div class="facebook-post-card__header">
       <div class="facebook-post-card__avatar">
         <NuxtLink

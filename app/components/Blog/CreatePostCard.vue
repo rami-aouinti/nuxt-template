@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import AppCard from "~/components/ui/AppCard.vue";
+import AppButton from "~/components/ui/AppButton.vue";
 
 type ComposerAction = {
   id: string
@@ -25,7 +27,7 @@ const onSelect = (action: ComposerAction) => emit('select', action)
 </script>
 
 <template>
-  <AppCard class="blog-create-post-card" elevation="0">
+  <AppCard variant="text" class="blog-create-post-card" elevation="0">
     <v-card-text class="blog-create-post-card__body">
       <button
         type="button"
