@@ -2,7 +2,6 @@
 import AppDrawerPublic from '~/components/App/AppDrawerPublic.vue'
 import AppBarPublic from '~/components/App/AppBarPublic.vue'
 import AppDrawerPublicRight from '~/components/App/AppDrawerPublicRight.vue'
-import AppUiShowcase from '~/components/ui/AppUiShowcase.vue'
 
 const routeLoading = useRouteLoading()
 </script>

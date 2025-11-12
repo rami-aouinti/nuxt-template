@@ -152,8 +152,8 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
 
 <template>
   <v-navigation-drawer
-    class="app-navigation-drawer"
     v-model="drawer"
+    class="app-navigation-drawer"
     :expand-on-hover="rail"
     :rail="rail"
     floating

@@ -477,10 +477,10 @@ watch(deleteDialog, (value) => {
                 density="compact"
                 color="primary"
               >
-                <v-btn value="v1">{{ versionLabels.v1 }}</v-btn>
-                <v-btn value="v2">{{ versionLabels.v2 }}</v-btn>
+                <AppButton value="v1">{{ versionLabels.v1 }}</AppButton>
+                <AppButton value="v2">{{ versionLabels.v2 }}</AppButton>
               </v-btn-toggle>
-              <v-btn
+              <AppButton
                 color="primary"
                 prepend-icon="mdi-plus"
                 :disabled="currentPending"
@@ -491,12 +491,12 @@ watch(deleteDialog, (value) => {
                     version: currentVersionLabel,
                   })
                 }}
-              </v-btn>
+              </AppButton>
             </div>
           </template>
           <template #item.actions="{ item }">
             <div class="d-flex align-center justify-end" style="gap: 4px">
-              <v-btn
+              <AppButton
                 icon
                 variant="text"
                 color="primary"
@@ -510,8 +510,8 @@ watch(deleteDialog, (value) => {
                 @click="openView(tab, item.raw)"
               >
                 <v-icon icon="mdi-eye-outline" />
-              </v-btn>
-              <v-btn
+              </AppButton>
+              <AppButton
                 icon
                 variant="text"
                 color="warning"
@@ -525,8 +525,8 @@ watch(deleteDialog, (value) => {
                 @click="openEdit(tab, item.raw)"
               >
                 <v-icon icon="mdi-pencil-outline" />
-              </v-btn>
-              <v-btn
+              </AppButton>
+              <AppButton
                 icon
                 variant="text"
                 color="error"
@@ -540,7 +540,7 @@ watch(deleteDialog, (value) => {
                 @click="openDelete(tab, item.raw)"
               >
                 <v-icon icon="mdi-delete-outline" />
-              </v-btn>
+              </AppButton>
             </div>
           </template>
         </AdminDataTable>
@@ -572,17 +572,17 @@ watch(deleteDialog, (value) => {
       </v-form>
 
       <template #actions>
-        <v-btn variant="text" :disabled="actionLoading" @click="closeCreate">
+        <AppButton variant="text" :disabled="actionLoading" @click="closeCreate">
           {{ t('common.actions.cancel') }}
-        </v-btn>
-        <v-btn
+        </AppButton>
+        <AppButton
           color="primary"
           :loading="actionLoading"
           :disabled="!canSubmitCreate"
           @click="submitCreate"
         >
           {{ t('common.actions.create') }}
-        </v-btn>
+        </AppButton>
       </template>
     </AppModal>
 
@@ -612,8 +612,8 @@ watch(deleteDialog, (value) => {
         color="primary"
         class="mb-4"
       >
-        <v-btn value="PUT">Remplacer (PUT)</v-btn>
-        <v-btn value="PATCH">Modifier (PATCH)</v-btn>
+        <AppButton value="PUT">Remplacer (PUT)</AppButton>
+        <AppButton value="PATCH">Modifier (PATCH)</AppButton>
       </v-btn-toggle>
       <v-form @submit.prevent="submitEdit">
         <v-text-field
@@ -635,17 +635,17 @@ watch(deleteDialog, (value) => {
       </v-form>
 
       <template #actions>
-        <v-btn variant="text" :disabled="actionLoading" @click="closeEdit">
+        <AppButton variant="text" :disabled="actionLoading" @click="closeEdit">
           {{ t('common.actions.cancel') }}
-        </v-btn>
-        <v-btn
+        </AppButton>
+        <AppButton
           color="primary"
           :loading="actionLoading"
           :disabled="actionLoading"
           @click="submitEdit"
         >
           {{ t('common.actions.save') }}
-        </v-btn>
+        </AppButton>
       </template>
     </AppModal>
 
@@ -703,14 +703,14 @@ watch(deleteDialog, (value) => {
       </div>
 
       <template #actions>
-        <v-btn variant="text" :disabled="viewLoading" @click="closeView">
+        <AppButton variant="text" :disabled="viewLoading" @click="closeView">
           {{ t('common.actions.close') }}
-        </v-btn>
+        </AppButton>
       </template>
     </AppModal>
 
-    <v-dialog v-model="deleteDialog" max-width="480">
-      <v-card>
+    <AppModal v-model="deleteDialog" max-width="480">
+      <AppCard>
         <v-card-title>{{
           t('userManagement.apiKeys.dialogs.delete.title')
         }}</v-card-title>
@@ -731,19 +731,19 @@ watch(deleteDialog, (value) => {
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn variant="text" :disabled="deleteLoading" @click="closeDelete">
+          <AppButton variant="text" :disabled="deleteLoading" @click="closeDelete">
             {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn
+          </AppButton>
+          <AppButton
             color="error"
             :loading="deleteLoading"
             :disabled="deleteLoading"
             @click="confirmDelete"
           >
             {{ t('common.actions.delete') }}
-          </v-btn>
+          </AppButton>
         </v-card-actions>
-      </v-card>
-    </v-dialog>
+      </AppCard>
+    </AppModal>
   </v-container>
 </template>

@@ -529,14 +529,14 @@ watch(attachDialog, (value) => {
           @refresh="refresh()"
         >
           <template #header-actions>
-            <v-btn
+            <AppButton
               color="primary"
               prepend-icon="mdi-plus"
               :disabled="pending"
               @click="openCreate"
             >
               {{ t('userManagement.users.actions.new') }}
-            </v-btn>
+            </AppButton>
           </template>
           <template #item.firstName="{ value }">
             {{ value || '—' }}
@@ -564,7 +564,7 @@ watch(attachDialog, (value) => {
           </template>
           <template #item.actions="{ item }">
             <div class="d-flex align-center justify-end" style="gap: 4px">
-              <v-btn
+              <AppButton
                 icon
                 variant="text"
                 color="primary"
@@ -578,8 +578,8 @@ watch(attachDialog, (value) => {
                 @click="openView(item)"
               >
                 <v-icon icon="mdi-eye-outline" />
-              </v-btn>
-              <v-btn
+              </AppButton>
+              <AppButton
                 icon
                 variant="text"
                 color="warning"
@@ -593,8 +593,8 @@ watch(attachDialog, (value) => {
                 @click="openEdit(item)"
               >
                 <v-icon icon="mdi-pencil-outline" />
-              </v-btn>
-              <v-btn
+              </AppButton>
+              <AppButton
                 icon
                 variant="text"
                 color="error"
@@ -608,7 +608,7 @@ watch(attachDialog, (value) => {
                 @click="openDelete(item)"
               >
                 <v-icon icon="mdi-delete-outline" />
-              </v-btn>
+              </AppButton>
             </div>
           </template>
         </AdminDataTable>
@@ -710,17 +710,17 @@ watch(attachDialog, (value) => {
       </v-form>
 
       <template #actions>
-        <v-btn variant="text" :disabled="actionLoading" @click="closeCreate">
+        <AppButton variant="text" :disabled="actionLoading" @click="closeCreate">
           {{ t('common.actions.cancel') }}
-        </v-btn>
-        <v-btn
+        </AppButton>
+        <AppButton
           color="primary"
           :loading="actionLoading"
           :disabled="!canSubmit"
           @click="submitCreate"
         >
           {{ t('common.actions.create') }}
-        </v-btn>
+        </AppButton>
       </template>
     </AppModal>
 
@@ -826,17 +826,17 @@ watch(attachDialog, (value) => {
       </v-form>
 
       <template #actions>
-        <v-btn variant="text" :disabled="actionLoading" @click="closeEdit">
+        <AppButton variant="text" :disabled="actionLoading" @click="closeEdit">
           {{ t('common.actions.cancel') }}
-        </v-btn>
-        <v-btn
+        </AppButton>
+        <AppButton
           color="primary"
           :loading="actionLoading"
           :disabled="!canSubmit"
           @click="submitEdit"
         >
           {{ t('common.actions.save') }}
-        </v-btn>
+        </AppButton>
       </template>
     </AppModal>
 
@@ -943,7 +943,7 @@ watch(attachDialog, (value) => {
               <span class="text-caption text-medium-emphasis">
                 {{ t('userManagement.users.details.groups.title') }}
               </span>
-              <v-btn
+              <AppButton
                 size="small"
                 color="primary"
                 variant="tonal"
@@ -952,7 +952,7 @@ watch(attachDialog, (value) => {
                 @click="openAttachDialog"
               >
                 {{ t('userManagement.users.details.groups.actions.link') }}
-              </v-btn>
+              </AppButton>
             </div>
             <v-progress-linear
               v-if="userGroupsLoading"
@@ -996,14 +996,14 @@ watch(attachDialog, (value) => {
       </div>
 
       <template #actions>
-        <v-btn variant="text" :disabled="viewLoading" @click="closeView">
+        <AppButton variant="text" :disabled="viewLoading" @click="closeView">
           {{ t('common.actions.close') }}
-        </v-btn>
+        </AppButton>
       </template>
     </AppModal>
 
-    <v-dialog v-model="attachDialog" max-width="480">
-      <v-card>
+    <AppModal v-model="attachDialog" max-width="480">
+      <AppCard>
         <v-card-title>{{
           t('userManagement.users.dialogs.attachGroup.title')
         }}</v-card-title>
@@ -1026,27 +1026,27 @@ watch(attachDialog, (value) => {
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn
+          <AppButton
             variant="text"
             :disabled="groupActionLoading"
             @click="closeAttachDialog"
           >
             {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn
+          </AppButton>
+          <AppButton
             color="primary"
             :disabled="groupActionLoading || !attachForm.groupId"
             :loading="groupActionLoading"
             @click="submitAttach"
           >
             {{ t('common.actions.link') }}
-          </v-btn>
+          </AppButton>
         </v-card-actions>
-      </v-card>
-    </v-dialog>
+      </AppCard>
+    </AppModal>
 
-    <v-dialog v-model="deleteDialog" max-width="480">
-      <v-card>
+    <AppModal v-model="deleteDialog" max-width="480">
+      <AppCard>
         <v-card-title>{{
           t('userManagement.users.dialogs.delete.title')
         }}</v-card-title>
@@ -1067,19 +1067,19 @@ watch(attachDialog, (value) => {
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn variant="text" :disabled="deleteLoading" @click="closeDelete">
+          <AppButton variant="text" :disabled="deleteLoading" @click="closeDelete">
             {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn
+          </AppButton>
+          <AppButton
             color="error"
             :loading="deleteLoading"
             :disabled="!deletingUser"
             @click="confirmDelete"
           >
             {{ t('common.actions.delete') }}
-          </v-btn>
+          </AppButton>
         </v-card-actions>
-      </v-card>
-    </v-dialog>
+      </AppCard>
+    </AppModal>
   </v-container>
 </template>

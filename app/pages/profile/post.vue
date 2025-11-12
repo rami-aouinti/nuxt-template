@@ -152,14 +152,14 @@ watch(
                 {{ t('blog.sidebar.myBlogsTitle') }}
               </p>
             </div>
-            <v-btn
+            <AppButton
               color="primary"
               variant="tonal"
               prepend-icon="mdi-note-plus"
               to="/blog"
             >
               {{ t('blog.sidebar.createPost') }}
-            </v-btn>
+            </AppButton>
           </div>
         </v-sheet>
 
@@ -183,7 +183,7 @@ watch(
         <template v-else>
           <v-row v-if="posts.length">
             <v-col v-for="post in posts" :key="post.id" cols="12" class="pb-6">
-              <v-card class="rounded-xl" elevation="2">
+              <AppCard class="rounded-xl" elevation="2">
                 <v-card-item>
                   <v-card-title class="text-h5 text-wrap">
                     <NuxtLink :to="`/post/${post.slug}`" class="blog-post-link">
@@ -210,7 +210,7 @@ watch(
                 </v-card-text>
 
                 <v-card-actions class="pt-0 pb-4 px-4">
-                  <v-btn
+                  <AppButton
                     :href="post.url || undefined"
                     :disabled="!post.url"
                     target="_blank"
@@ -219,9 +219,9 @@ watch(
                     append-icon="mdi-open-in-new"
                   >
                     {{ t('blog.actions.read') }}
-                  </v-btn>
+                  </AppButton>
                 </v-card-actions>
-              </v-card>
+              </AppCard>
             </v-col>
           </v-row>
 

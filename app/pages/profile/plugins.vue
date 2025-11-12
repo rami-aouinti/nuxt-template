@@ -173,7 +173,7 @@ await loadPlugins()
               location="bottom"
             >
               <template #activator="{ props }">
-                <v-btn
+                <AppButton
                   v-bind="props"
                   variant="text"
                   density="comfortable"
@@ -220,7 +220,7 @@ await loadPlugins()
               cols="12"
               class="d-flex"
             >
-              <v-card
+              <AppCard
                 :elevation="plugin.active ? 8 : 2"
                 rounded="xl"
                 border
@@ -295,7 +295,7 @@ await loadPlugins()
                 </div>
 
                 <div class="profile-plugin-card__footer">
-                  <v-btn
+                  <AppButton
                     :color="plugin.active ? 'secondary' : 'primary'"
                     :variant="plugin.active ? 'tonal' : 'flat'"
                     :loading="pluginToggleLoading[plugin.key]"
@@ -309,16 +309,16 @@ await loadPlugins()
                         ? t('profile.sections.plugins.actions.deactivate')
                         : t('profile.sections.plugins.actions.activate')
                     }}
-                  </v-btn>
-                  <v-btn
+                  </AppButton>
+                  <AppButton
                     :to="resolvePluginRoute(plugin.key)"
                     variant="text"
                     prepend-icon="mdi-open-in-new"
                     class="profile-plugin-card__action"
                   >
                     {{ t('profile.sections.plugins.actions.open') }}
-                  </v-btn>
-                  <v-btn
+                  </AppButton>
+                  <AppButton
                     v-if="
                       !plugin.installed &&
                       plugin.action === 'install' &&
@@ -333,9 +333,9 @@ await loadPlugins()
                     class="profile-plugin-card__action"
                   >
                     {{ t('profile.sections.plugins.actions.install') }}
-                  </v-btn>
+                  </AppButton>
                 </div>
-              </v-card>
+              </AppCard>
             </v-col>
           </v-row>
         </template>

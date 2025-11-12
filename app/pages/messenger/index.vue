@@ -526,12 +526,12 @@ onMounted(async () => {
   <v-container fluid class="messenger-page">
     <v-row>
       <v-col cols="12" md="4" class="pr-md-4">
-        <v-card class="conversation-list" elevation="2" rounded="xl">
+        <AppCard class="conversation-list" elevation="2" rounded="xl">
           <v-toolbar flat density="compact">
             <v-toolbar-title class="text-subtitle-1 font-weight-medium">
               {{ t('messenger.conversations') }}
             </v-toolbar-title>
-            <v-btn
+            <AppButton
               icon="mdi-refresh"
               size="small"
               :loading="isLoadingConversations"
@@ -549,7 +549,7 @@ onMounted(async () => {
               />
             </template>
             <template v-else>
-              <v-list nav density="comfortable">
+              <AppList nav density="comfortable">
                 <v-list-item
                   v-for="conversation in conversations"
                   :key="conversation.id"
@@ -574,7 +574,7 @@ onMounted(async () => {
                     />
                   </template>
                 </v-list-item>
-              </v-list>
+              </AppList>
               <div
                 v-if="!conversations.length"
                 class="empty-state"
@@ -583,10 +583,10 @@ onMounted(async () => {
               </div>
             </template>
           </div>
-        </v-card>
+        </AppCard>
       </v-col>
       <v-col cols="12" md="8" class="mt-4 mt-md-0">
-        <v-card class="message-panel" elevation="2" rounded="xl">
+        <AppCard class="message-panel" elevation="2" rounded="xl">
           <template v-if="isInitialConversationLoading">
             <div class="message-skeleton">
               <div class="message-skeleton__toolbar">
@@ -619,14 +619,14 @@ onMounted(async () => {
             <v-divider />
             <div class="message-history">
               <div v-if="hasMoreMessages" class="load-more">
-                <v-btn
+                <AppButton
                   size="small"
                   variant="text"
                   :loading="isLoadingMessages"
                   @click="loadMoreMessages"
                 >
                   {{ t('messenger.loadPrevious') }}
-                </v-btn>
+                </AppButton>
               </div>
               <div v-if="isLoadingMessages" class="loading-state">
                 <v-progress-circular indeterminate size="32" />
@@ -680,14 +680,14 @@ onMounted(async () => {
                 clearable
               />
               <div class="message-actions">
-                <v-btn
+                <AppButton
                   color="primary"
                   :disabled="!canSendMessage"
                   :loading="isSending"
                   @click="sendMessage"
                 >
                   {{ t('messenger.send') }}
-                </v-btn>
+                </AppButton>
               </div>
             </div>
           </template>
@@ -696,7 +696,7 @@ onMounted(async () => {
               {{ t('messenger.selectConversation') }}
             </div>
           </template>
-        </v-card>
+        </AppCard>
       </v-col>
     </v-row>
   </v-container>

@@ -196,10 +196,10 @@ function toggleMode() {
           <div v-if="!isRegisterMode" key="login" class="mb-6">
             <div class="credentials-dialog__providers">
               <v-btn
-                icon
                 v-for="provider in oauthProviders"
-                size="small"
                 :key="provider.key"
+                icon
+                size="small"
                 variant="outlined"
                 color="primary"
                 class="text-none"

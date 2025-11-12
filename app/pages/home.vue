@@ -1730,7 +1730,7 @@ if (import.meta.client) {
           variant="outlined"
           style="width: 250px"
         />
-        <v-btn
+        <AppButton
           variant="text"
           :loading="isInitialLoading"
           class="dock-navbar__action-button"
@@ -1738,7 +1738,7 @@ if (import.meta.client) {
           @click="refreshPosts"
         >
           <v-icon icon="mdi-refresh" />
-        </v-btn>
+        </AppButton>
       </div>
     </teleport>
     <v-row class="blog-layout justify-center">
@@ -1761,7 +1761,7 @@ if (import.meta.client) {
         </v-row>
 
         <template v-else>
-          <v-card
+          <AppCard
             v-if="loggedIn"
             class="create-post-card mb-6"
             elevation="0"
@@ -1789,7 +1789,7 @@ if (import.meta.client) {
               </div>
               <v-divider class="my-4" />
               <div class="create-post-card__actions">
-                <v-btn
+                <AppButton
                   variant="text"
                   class="create-post-card__action"
                   color="error"
@@ -1797,8 +1797,8 @@ if (import.meta.client) {
                   @click="openCreatePostDialog"
                 >
                   {{ t('blog.feed.composer.actions.liveVideo') }}
-                </v-btn>
-                <v-btn
+                </AppButton>
+                <AppButton
                   variant="text"
                   class="create-post-card__action"
                   color="success"
@@ -1806,8 +1806,8 @@ if (import.meta.client) {
                   @click="openCreatePostDialog"
                 >
                   {{ t('blog.feed.composer.actions.photoVideo') }}
-                </v-btn>
-                <v-btn
+                </AppButton>
+                <AppButton
                   variant="text"
                   class="create-post-card__action"
                   color="warning"
@@ -1815,10 +1815,10 @@ if (import.meta.client) {
                   @click="openCreatePostDialog"
                 >
                   {{ t('blog.feed.composer.actions.feelingActivity') }}
-                </v-btn>
+                </AppButton>
               </div>
             </v-card-text>
-          </v-card>
+          </AppCard>
           <v-row v-if="filteredPosts.length" class="g-6">
             <v-col v-for="post in filteredPosts" :key="post.id" cols="12">
               <BlogPostCard
@@ -1892,19 +1892,19 @@ if (import.meta.client) {
       </v-col>
     </v-row>
 
-    <v-dialog v-model="shareDialog.open" max-width="640">
-      <v-card class="share-dialog">
+    <AppModal v-model="shareDialog.open" max-width="640">
+      <AppCard class="share-dialog">
         <v-card-title class="d-flex align-center">
           <span>{{ t('blog.dialogs.shareTitle') }}</span>
           <v-spacer />
-          <v-btn
+          <AppButton
             icon
             variant="text"
             :disabled="shareDialog.loading"
             @click="closeShareDialog"
           >
             <v-icon icon="mdi-close" />
-          </v-btn>
+          </AppButton>
         </v-card-title>
         <v-divider />
         <v-card-text>
@@ -1966,27 +1966,27 @@ if (import.meta.client) {
         <v-divider />
         <v-card-actions>
           <v-spacer />
-          <v-btn
+          <AppButton
             variant="text"
             :disabled="shareDialog.loading"
             @click="closeShareDialog"
           >
             {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn
+          </AppButton>
+          <AppButton
             color="primary"
             :disabled="!shareDialog.post || shareDialog.loading"
             :loading="shareDialog.loading"
             @click="submitShare"
           >
             {{ t('common.actions.share') }}
-          </v-btn>
+          </AppButton>
         </v-card-actions>
-      </v-card>
-    </v-dialog>
+      </AppCard>
+    </AppModal>
 
-    <v-dialog v-model="editBlogDialog.open" max-width="520" persistent>
-      <v-card>
+    <AppModal v-model="editBlogDialog.open" max-width="520" persistent>
+      <AppCard>
         <v-card-title>{{ t('blog.dialogs.editBlogTitle') }}</v-card-title>
         <v-card-text class="d-flex flex-column gap-4">
           <v-text-field
@@ -2008,14 +2008,14 @@ if (import.meta.client) {
           />
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn
+          <AppButton
             variant="text"
             :disabled="editBlogDialog.loading"
             @click="closeEditBlogDialog"
           >
             {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn
+          </AppButton>
+          <AppButton
             color="primary"
             variant="flat"
             :loading="editBlogDialog.loading"
@@ -2023,18 +2023,18 @@ if (import.meta.client) {
             @click="submitEditBlog"
           >
             {{ t('common.actions.save') }}
-          </v-btn>
+          </AppButton>
         </v-card-actions>
-      </v-card>
-    </v-dialog>
+      </AppCard>
+    </AppModal>
 
     <WorkplaceManagerDialog
       v-model="addWorldDialogOpen"
       :workplaces="myWorkplaces"
     />
 
-    <v-dialog v-model="createBlogDialog.open" max-width="520" persistent>
-      <v-card>
+    <AppModal v-model="createBlogDialog.open" max-width="520" persistent>
+      <AppCard>
         <v-card-title>{{ t('blog.sidebar.createBlog') }}</v-card-title>
         <v-card-text>
           <v-text-field
@@ -2053,27 +2053,27 @@ if (import.meta.client) {
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn
+          <AppButton
             variant="text"
             :disabled="createBlogDialog.loading"
             @click="createBlogDialog.open = false"
           >
             {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn
+          </AppButton>
+          <AppButton
             color="primary"
             :loading="createBlogDialog.loading"
             :disabled="!createBlogDialog.form.title.trim().length"
             @click="submitCreateBlog"
           >
             {{ t('common.actions.create') }}
-          </v-btn>
+          </AppButton>
         </v-card-actions>
-      </v-card>
-    </v-dialog>
+      </AppCard>
+    </AppModal>
 
-    <v-dialog v-model="createPostDialog.open" max-width="640" persistent>
-      <v-card>
+    <AppModal v-model="createPostDialog.open" max-width="640" persistent>
+      <AppCard>
         <v-card-title>{{ t('blog.sidebar.createPost') }}</v-card-title>
         <v-card-text>
           <v-select
@@ -2116,14 +2116,14 @@ if (import.meta.client) {
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn
+          <AppButton
             variant="text"
             :disabled="createPostDialog.loading"
             @click="createPostDialog.open = false"
           >
             {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn
+          </AppButton>
+          <AppButton
             color="primary"
             :loading="createPostDialog.loading"
             :disabled="
@@ -2133,10 +2133,10 @@ if (import.meta.client) {
             @click="submitCreatePost"
           >
             {{ t('common.actions.create') }}
-          </v-btn>
+          </AppButton>
         </v-card-actions>
-      </v-card>
-    </v-dialog>
+      </AppCard>
+    </AppModal>
     <BlogReactionsDialog
       v-model="reactionsDialog.open"
       :reactions="reactionsDialog.items"

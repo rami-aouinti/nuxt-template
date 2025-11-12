@@ -387,13 +387,13 @@ function closeDialog() {
           <span class="text-subtitle-1 font-weight-medium">
             {{ t('profile.calendar.list.title') }}
           </span>
-          <v-btn
+          <AppButton
             icon="mdi-plus"
             size="small"
             variant="text"
             @click="openCreateDialog()"
           />
-          <v-btn
+          <AppButton
             size="small"
             variant="text"
             prepend-icon="mdi-refresh"
@@ -420,7 +420,7 @@ function closeDialog() {
               {{ t('profile.calendar.list.empty') }}
             </v-alert>
 
-            <v-list v-else>
+            <AppList v-else>
               <v-list-item
                 v-for="event in sortedEvents"
                 :key="event.id"
@@ -438,13 +438,13 @@ function closeDialog() {
                 </template>
                 <template #append>
                   <div class="d-flex align-center gap-1">
-                    <v-btn
+                    <AppButton
                       icon="mdi-pencil"
                       size="small"
                       variant="text"
                       @click="openEditDialog(event)"
                     />
-                    <v-btn
+                    <AppButton
                       icon="mdi-delete"
                       size="small"
                       variant="text"
@@ -454,7 +454,7 @@ function closeDialog() {
                   </div>
                 </template>
               </v-list-item>
-            </v-list>
+            </AppList>
           </template>
         </v-card-text>
       </teleport>
@@ -463,7 +463,7 @@ function closeDialog() {
       <div class="profile-calendar">
         <v-row dense>
           <v-col cols="12">
-            <v-card class="h-100" rounded="xl">
+            <AppCard class="h-100" rounded="xl">
               <v-card-text>
                 <div
                   class="d-flex flex-wrap align-center justify-space-between gap-4 mb-4"
@@ -473,15 +473,15 @@ function closeDialog() {
                     mandatory
                     density="comfortable"
                   >
-                    <v-btn value="month">
+                    <AppButton value="month">
                       {{ t('profile.calendar.view.month') }}
-                    </v-btn>
-                    <v-btn value="week">
+                    </AppButton>
+                    <AppButton value="week">
                       {{ t('profile.calendar.view.week') }}
-                    </v-btn>
-                    <v-btn value="day">
+                    </AppButton>
+                    <AppButton value="day">
                       {{ t('profile.calendar.view.day') }}
-                    </v-btn>
+                    </AppButton>
                   </v-btn-toggle>
                   <v-text-field
                     v-model="focus"
@@ -518,13 +518,13 @@ function closeDialog() {
                   />
                 </template>
               </v-card-text>
-            </v-card>
+            </AppCard>
           </v-col>
         </v-row>
       </div>
 
-      <v-dialog v-model="isDialogOpen" max-width="520">
-        <v-card>
+      <AppModal v-model="isDialogOpen" max-width="520">
+        <AppCard>
           <v-card-title>
             {{
               editingEvent
@@ -625,33 +625,33 @@ function closeDialog() {
           </v-card-text>
           <v-card-actions class="justify-space-between">
             <div>
-              <v-btn
+              <AppButton
                 v-if="editingEvent"
                 color="error"
                 variant="text"
                 @click="requestDelete(editingEvent)"
               >
                 {{ t('profile.calendar.actions.delete') }}
-              </v-btn>
+              </AppButton>
             </div>
             <div class="d-flex gap-2">
-              <v-btn variant="text" @click="closeDialog">
+              <AppButton variant="text" @click="closeDialog">
                 {{ t('profile.calendar.dialog.cancel') }}
-              </v-btn>
-              <v-btn color="primary" :loading="isSaving" @click="submitEvent">
+              </AppButton>
+              <AppButton color="primary" :loading="isSaving" @click="submitEvent">
                 {{
                   editingEvent
                     ? t('profile.calendar.dialog.save')
                     : t('profile.calendar.dialog.submit')
                 }}
-              </v-btn>
+              </AppButton>
             </div>
           </v-card-actions>
-        </v-card>
-      </v-dialog>
+        </AppCard>
+      </AppModal>
 
-      <v-dialog v-model="isDeleteDialogOpen" max-width="420">
-        <v-card>
+      <AppModal v-model="isDeleteDialogOpen" max-width="420">
+        <AppCard>
           <v-card-title class="text-h6">
             {{ t('profile.calendar.delete.title') }}
           </v-card-title>
@@ -659,15 +659,15 @@ function closeDialog() {
             {{ t('profile.calendar.delete.message') }}
           </v-card-text>
           <v-card-actions class="justify-end">
-            <v-btn variant="text" @click="isDeleteDialogOpen = false">
+            <AppButton variant="text" @click="isDeleteDialogOpen = false">
               {{ t('profile.calendar.dialog.cancel') }}
-            </v-btn>
-            <v-btn color="error" :loading="isDeleting" @click="confirmDelete">
+            </AppButton>
+            <AppButton color="error" :loading="isDeleting" @click="confirmDelete">
               {{ t('profile.calendar.actions.delete') }}
-            </v-btn>
+            </AppButton>
           </v-card-actions>
-        </v-card>
-      </v-dialog>
+        </AppCard>
+      </AppModal>
     </ProfilePageShell>
   </div>
 </template>

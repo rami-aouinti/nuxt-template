@@ -462,22 +462,22 @@ async function submitCreate() {
       @refresh="refreshAll"
     >
       <template #header-actions>
-        <v-btn
+        <AppButton
           color="primary"
           prepend-icon="mdi-plus"
           :disabled="loading"
           @click="openCreate"
         >
           {{ t('configurationManagement.configurations.actions.new') }}
-        </v-btn>
+        </AppButton>
       </template>
       <template #item.valuePreview="{ item }">
         <span class="text-body-2 text-mono">{{ item.valuePreview }}</span>
       </template>
     </AdminDataTable>
 
-    <v-dialog v-model="createDialog" max-width="640">
-      <v-card>
+    <AppModal v-model="createDialog" max-width="640">
+      <AppCard>
         <v-card-title>
           {{ t('configurationManagement.configurations.dialogs.create.title') }}
         </v-card-title>
@@ -575,14 +575,14 @@ async function submitCreate() {
           </v-form>
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn
+          <AppButton
             variant="text"
             :disabled="createLoading"
             @click="createDialog = false"
           >
             {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn
+          </AppButton>
+          <AppButton
             color="primary"
             :loading="createLoading"
             :disabled="createLoading"
@@ -591,10 +591,10 @@ async function submitCreate() {
             {{
               t('configurationManagement.configurations.dialogs.create.submit')
             }}
-          </v-btn>
+          </AppButton>
         </v-card-actions>
-      </v-card>
-    </v-dialog>
+      </AppCard>
+    </AppModal>
   </v-container>
 </template>
 

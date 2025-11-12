@@ -762,7 +762,7 @@ async function submit() {
                     }}</span>
                   </template>
                 </AppAvatar>
-                <v-btn
+                <AppButton
                   class="profile-avatar-edit-btn"
                   color="primary"
                   density="comfortable"
@@ -822,8 +822,8 @@ async function submit() {
       </teleport>
     </client-only>
     <ProfilePageShell>
-      <v-dialog v-model="editDialog" max-width="640">
-        <v-card>
+      <AppModal v-model="editDialog" max-width="640">
+        <AppCard>
           <v-card-title class="text-wrap">
             {{ t('profile.page.edit.title') }}
           </v-card-title>
@@ -934,24 +934,24 @@ async function submit() {
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn
+            <AppButton
               variant="text"
               :disabled="isSaving"
               @click="editDialog = false"
             >
               {{ t('common.actions.cancel') }}
-            </v-btn>
-            <v-btn
+            </AppButton>
+            <AppButton
               color="primary"
               :disabled="!hasChanges || isSaving"
               :loading="isSaving"
               @click="submit"
             >
               {{ t('common.actions.save') }}
-            </v-btn>
+            </AppButton>
           </v-card-actions>
-        </v-card>
-      </v-dialog>
+        </AppCard>
+      </AppModal>
       <v-alert v-if="!profile" type="info" variant="tonal" class="ma-auto">
         {{ t('profile.page.alerts.emptyProfile') }}
       </v-alert>
@@ -959,11 +959,11 @@ async function submit() {
         <v-col cols="12">
           <v-row>
             <v-col cols="12">
-              <v-card elevation="2" rounded="xl" variant="text">
+              <AppCard elevation="2" rounded="xl" variant="text">
                 <v-card-title class="d-flex align-center gap-4">
                   <span>{{ t('profile.sections.personalInfo.title') }}</span>
                   <v-spacer />
-                  <v-btn
+                  <AppButton
                     color="primary"
                     variant="text"
                     prepend-icon="mdi-pencil"
@@ -971,7 +971,7 @@ async function submit() {
                     @click="openEditDialog('personal')"
                   >
                     {{ t('common.actions.edit') }}
-                  </v-btn>
+                  </AppButton>
                 </v-card-title>
                 <v-divider />
                 <v-card-text>
@@ -1010,15 +1010,15 @@ async function submit() {
                     </v-col>
                   </v-row>
                 </v-card-text>
-              </v-card>
+              </AppCard>
             </v-col>
 
             <v-col cols="12">
-              <v-card elevation="2" rounded="xl" variant="text">
+              <AppCard elevation="2" rounded="xl" variant="text">
                 <v-card-title class="d-flex align-center gap-4">
                   <span>{{ t('profile.sections.details.title') }}</span>
                   <v-spacer />
-                  <v-btn
+                  <AppButton
                     color="primary"
                     variant="text"
                     prepend-icon="mdi-pencil"
@@ -1026,7 +1026,7 @@ async function submit() {
                     @click="openEditDialog('details')"
                   >
                     {{ t('common.actions.edit') }}
-                  </v-btn>
+                  </AppButton>
                 </v-card-title>
                 <v-divider />
                 <v-card-text>
@@ -1081,11 +1081,11 @@ async function submit() {
                     </v-col>
                   </v-row>
                 </v-card-text>
-              </v-card>
+              </AppCard>
             </v-col>
 
             <v-col cols="12">
-              <v-card elevation="2" rounded="xl" variant="text">
+              <AppCard elevation="2" rounded="xl" variant="text">
                 <v-card-title class="d-flex align-center gap-3">
                   <span>{{ t('profile.sections.settings.title') }}</span>
                   <v-spacer />
@@ -1095,7 +1095,7 @@ async function submit() {
                     location="bottom"
                   >
                     <template #activator="{ props }">
-                      <v-btn
+                      <AppButton
                         v-bind="props"
                         variant="text"
                         density="comfortable"
@@ -1137,7 +1137,7 @@ async function submit() {
                       class="mb-3"
                     />
                   </div>
-                  <v-list v-else density="comfortable" lines="two">
+                  <AppList v-else density="comfortable" lines="two">
                     <v-list-item
                       v-for="definition in profileSettingsDefinitions"
                       :key="definition.id"
@@ -1167,9 +1167,9 @@ async function submit() {
                         />
                       </template>
                     </v-list-item>
-                  </v-list>
+                  </AppList>
                 </v-card-text>
-              </v-card>
+              </AppCard>
             </v-col>
           </v-row>
         </v-col>
