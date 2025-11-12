@@ -13,6 +13,7 @@ const props = defineProps<{
   comments: BlogCommentViewModel[]
   formatAuthor: (user: BlogPostUser) => string
   formatDate: (date: string) => string
+  formatRelativeDate?: (date: string) => string
   canInteract: boolean
   resolveProfileLink?: (user: BlogPostUser) => string | null | undefined
 }>()
@@ -28,6 +29,9 @@ const emit = defineEmits<{
 const { t } = useI18n()
 
 const hasComments = computed(() => props.comments?.length > 0)
+
+const formatRelative = (date: string) =>
+  props.formatRelativeDate?.(date) ?? props.formatDate(date)
 
 const getProfileLink = (user: BlogPostUser) => {
   const link = props.resolveProfileLink?.(user)
@@ -89,8 +93,11 @@ const resolveCommentReaction = (
                   </NuxtLink>
                   <span v-else>{{ formatAuthor(comment.user) }}</span>
                 </p>
-                <p class="text-caption text-medium-emphasis mb-3">
-                  {{ formatDate(comment.publishedAt) }}
+                <p
+                  class="text-caption text-medium-emphasis mb-3"
+                  :title="formatDate(comment.publishedAt)"
+                >
+                  {{ formatRelative(comment.publishedAt) }}
                 </p>
               </div>
             </div>
@@ -164,6 +171,7 @@ const resolveCommentReaction = (
         :comments="comment.replies"
         :format-author="formatAuthor"
         :format-date="formatDate"
+        :format-relative-date="formatRelativeDate"
         :can-interact="canInteract"
         @select-reaction="emit('select-reaction', $event)"
         @remove-reaction="emit('remove-reaction', $event)"
