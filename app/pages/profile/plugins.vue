@@ -6,8 +6,8 @@ import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 import type { ProfilePlugin } from '~/types/plugin'
 import { Notify } from '~/stores/notification'
 import { useProfilePluginsStore } from '~/stores/profile-plugins'
-import AppButton from "~/components/ui/AppButton.vue";
-import AppCard from "~/components/ui/AppCard.vue";
+import AppButton from '~/components/ui/AppButton.vue'
+import AppCard from '~/components/ui/AppCard.vue'
 
 definePageMeta({
   title: 'profile.sections.plugins.title',

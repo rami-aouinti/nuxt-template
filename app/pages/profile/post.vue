@@ -36,7 +36,11 @@ import {
   normalizeReaction,
   normalizeReactionsPreview,
 } from '~/utils/blog/posts'
-import { truncateText, formatPublishedAt as formatBlogPublishedAt, formatRelativePublishedAt as formatBlogRelativePublishedAt } from '~/utils/formatters'
+import {
+  truncateText,
+  formatPublishedAt as formatBlogPublishedAt,
+  formatRelativePublishedAt as formatBlogRelativePublishedAt,
+} from '~/utils/formatters'
 
 definePageMeta({
   title: 'navigation.profile',
@@ -236,7 +240,8 @@ const myBlogsLoading = ref(false)
 const myBlogsError = ref<string | null>(null)
 
 const hasMore = computed(
-  () => rawPosts.value.length < pagination.value.total && rawPosts.value.length > 0,
+  () =>
+    rawPosts.value.length < pagination.value.total && rawPosts.value.length > 0,
 )
 
 let activeRequest = 0
@@ -378,10 +383,7 @@ async function loadMyBlogs() {
   try {
     myBlogs.value = await fetchUserBlogs()
   } catch (error) {
-    myBlogsError.value = extractErrorMessage(
-      error,
-      t('blog.alerts.loadFailed'),
-    )
+    myBlogsError.value = extractErrorMessage(error, t('blog.alerts.loadFailed'))
   } finally {
     myBlogsLoading.value = false
   }
@@ -502,7 +504,10 @@ async function submitCommentReply(
   }
 }
 
-async function applyPostReaction(post: BlogPostViewModel, type: BlogReactionType) {
+async function applyPostReaction(
+  post: BlogPostViewModel,
+  type: BlogReactionType,
+) {
   if (!ensureAuthenticated()) return
   if (post.ui.likeLoading) return
 
@@ -848,7 +853,10 @@ async function submitShare() {
     const sharedPost = await sharePostRequest(postId, payload)
     const viewModel = buildPostViewModel(sharedPost)
     profilePostsStore.setPosts(
-      [sharedPost, ...rawPosts.value.filter((item) => item.id !== viewModel.id)],
+      [
+        sharedPost,
+        ...rawPosts.value.filter((item) => item.id !== viewModel.id),
+      ],
       { replace: true },
     )
     refreshPostViewModels()
@@ -945,7 +953,12 @@ watch(
 
           <template v-else>
             <v-row v-if="postViewModels.length">
-              <v-col v-for="post in postViewModels" :key="post.id" cols="12" class="pb-6">
+              <v-col
+                v-for="post in postViewModels"
+                :key="post.id"
+                cols="12"
+                class="pb-6"
+              >
                 <BlogPostCard
                   :post="post"
                   :logged-in="loggedIn"
@@ -956,7 +969,10 @@ watch(
                   @request-edit="openEditDialog"
                   @submit-edit="submitEdit"
                   @delete="confirmDeletePost"
-                  @select-reaction="({ post: cardPost, type }) => applyPostReaction(cardPost, type)"
+                  @select-reaction="
+                    ({ post: cardPost, type }) =>
+                      applyPostReaction(cardPost, type)
+                  "
                   @remove-reaction="removePostReactionFromPost"
                   @show-reactions="openPostReactions"
                   @toggle-comments="toggleCommentsVisibility"
@@ -1077,7 +1093,7 @@ watch(
               <p class="share-dialog__preview-text">
                 {{
                   getPostExcerpt(shareDialog.post) ||
-                    t('blog.placeholders.noSummary')
+                  t('blog.placeholders.noSummary')
                 }}
               </p>
             </div>

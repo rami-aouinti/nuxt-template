@@ -69,14 +69,14 @@ const emit = defineEmits<{
           class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
         >
           <NuxtLink
-            style="color: rgba(var(--v-theme-on-surface), 0.92)"
+            style="color: inherit"
             class="text-decoration-none"
             :to="`/blog/${blog.id}`"
           >
             <AppAvatar
               :src="blog.logo || undefined"
               :alt="blog.title"
-              size="36"
+              size="24"
               class="mr-3"
               color="primary"
               variant="tonal"

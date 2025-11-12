@@ -17,12 +17,17 @@ type CardProps = {
 
 const props = defineProps<CardProps>()
 
-const normalizedVariant = computed<CardVariant>(() => props.variant ?? 'elevated')
+const normalizedVariant = computed<CardVariant>(
+  () => props.variant ?? 'elevated',
+)
 const isLoading = computed(() => props.loading ?? false)
 const hasShadow = computed(() => {
   if (props.shadow !== undefined) return props.shadow
   if (props.elevation !== undefined) {
-    const value = typeof props.elevation === 'number' ? props.elevation : Number(props.elevation)
+    const value =
+      typeof props.elevation === 'number'
+        ? props.elevation
+        : Number(props.elevation)
     return Number.isNaN(value) ? true : value > 0
   }
   return normalizedVariant.value === 'elevated'
@@ -79,15 +84,23 @@ const cardClasses = computed(() => [
 .app-card {
   position: relative;
   border-radius: var(--app-rounded, 18px) !important;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
 
 .app-card--shadow {
-  box-shadow: var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14)) !important;
+  box-shadow: var(
+    --app-shadow,
+    0 10px 26px rgba(var(--v-theme-primary), 0.14)
+  ) !important;
 }
 
 .app-card--hoverable:hover {
-  box-shadow: var(--app-shadow-hover, 0 18px 44px rgba(var(--v-theme-primary), 0.2)) !important;
+  box-shadow: var(
+    --app-shadow-hover,
+    0 18px 44px rgba(var(--v-theme-primary), 0.2)
+  ) !important;
   transform: translateY(-4px);
 }
 

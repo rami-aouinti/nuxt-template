@@ -11,11 +11,14 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const response = await axios.post('https://bro-world.org/api/v1/auth/register', {
-      email,
-      password,
-      repeatPassword,
-    })
+    const response = await axios.post(
+      'https://bro-world.org/api/v1/auth/register',
+      {
+        email,
+        password,
+        repeatPassword,
+      },
+    )
 
     return !!response.data
   } catch (error: any) {

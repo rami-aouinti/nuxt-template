@@ -232,7 +232,9 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
   display: flex;
   align-items: flex-start;
   padding: 12px 16px;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
   cursor: pointer;
 }
 

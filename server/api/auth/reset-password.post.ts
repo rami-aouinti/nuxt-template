@@ -27,7 +27,8 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const token = body.token && body.token.trim().length > 0 ? body.token : randomUUID()
+  const token =
+    body.token && body.token.trim().length > 0 ? body.token : randomUUID()
 
   try {
     const { data } = await axios.post<ResetPasswordResponse>(

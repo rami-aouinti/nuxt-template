@@ -16,12 +16,10 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<WorkplaceMemberPayload>(event)
 
-  const response = await requestFrontendWithJsonBody<Workplace, WorkplaceMemberPayload>(
-    event,
-    `/workplaces/${encodeURIComponent(workplace)}/members`,
-    'POST',
-    body,
-  )
+  const response = await requestFrontendWithJsonBody<
+    Workplace,
+    WorkplaceMemberPayload
+  >(event, `/workplaces/${encodeURIComponent(workplace)}/members`, 'POST', body)
 
   await invalidateUserWorkplaces(event)
 

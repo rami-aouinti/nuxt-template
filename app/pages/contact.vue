@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import type { VForm } from 'vuetify/components'
-import AppCard from "~/components/ui/AppCard.vue";
-import AppButton from "~/components/ui/AppButton.vue";
+import AppCard from '~/components/ui/AppCard.vue'
+import AppButton from '~/components/ui/AppButton.vue'
 
 definePageMeta({
   title: 'navigation.contact',

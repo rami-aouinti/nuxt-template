@@ -10,9 +10,9 @@ import type {
 } from '~/types/messenger'
 import { Notify } from '~/stores/notification'
 import type { PublicProfileData } from '~/types/profile'
-import AppCard from "~/components/ui/AppCard.vue";
-import AppButton from "~/components/ui/AppButton.vue";
-import AppList from "~/components/ui/AppList.vue";
+import AppCard from '~/components/ui/AppCard.vue'
+import AppButton from '~/components/ui/AppButton.vue'
+import AppList from '~/components/ui/AppList.vue'
 
 definePageMeta({
   title: 'navigation.messenger',
@@ -555,9 +555,9 @@ onMounted(async () => {
           <template v-else>
             <AppList density="comfortable" lines="two">
               <v-list-item
-                class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
                 v-for="conversation in conversations"
                 :key="conversation.id"
+                class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
                 :active="conversation.id === selectedConversationId"
                 @click="handleSelectConversation(conversation.id)"
               >
@@ -580,10 +580,7 @@ onMounted(async () => {
                 </template>
               </v-list-item>
             </AppList>
-            <div
-              v-if="!conversations.length"
-              class="empty-state"
-            >
+            <div v-if="!conversations.length" class="empty-state">
               {{ t('messenger.noConversations') }}
             </div>
           </template>
@@ -591,7 +588,7 @@ onMounted(async () => {
       </teleport>
     </client-only>
     <client-only>
-      <teleport to="#app-drawer-right"/>
+      <teleport to="#app-drawer-right" />
     </client-only>
     <v-row>
       <v-col cols="12">
@@ -599,7 +596,10 @@ onMounted(async () => {
           <template v-if="isInitialConversationLoading">
             <div class="message-skeleton">
               <div class="message-skeleton__toolbar">
-                <v-skeleton-loader type="text" class="message-skeleton__title" />
+                <v-skeleton-loader
+                  type="text"
+                  class="message-skeleton__title"
+                />
               </div>
               <v-divider />
               <div class="message-history">
@@ -612,9 +612,15 @@ onMounted(async () => {
               </div>
               <v-divider />
               <div class="message-input">
-                <v-skeleton-loader type="paragraph" class="message-input__skeleton" />
+                <v-skeleton-loader
+                  type="paragraph"
+                  class="message-input__skeleton"
+                />
                 <div class="message-actions">
-                  <v-skeleton-loader type="button" class="message-actions__skeleton" />
+                  <v-skeleton-loader
+                    type="button"
+                    class="message-actions__skeleton"
+                  />
                 </div>
               </div>
             </div>

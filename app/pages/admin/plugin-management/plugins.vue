@@ -6,8 +6,8 @@ import type { DataTableHeader } from 'vuetify'
 import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
 import type { AdminPlugin, AdminPluginPayload } from '~/types/plugin'
-import AppButton from "~/components/ui/AppButton.vue";
-import AppList from "~/components/ui/AppList.vue";
+import AppButton from '~/components/ui/AppButton.vue'
+import AppList from '~/components/ui/AppList.vue'
 
 definePageMeta({
   title: 'navigation.plugins',
@@ -713,7 +713,11 @@ watch(viewDialog, (value) => {
       </v-form>
 
       <template #actions>
-        <AppButton variant="text" :disabled="actionLoading" @click="closeCreate">
+        <AppButton
+          variant="text"
+          :disabled="actionLoading"
+          @click="closeCreate"
+        >
           {{ t('common.actions.cancel') }}
         </AppButton>
         <AppButton
@@ -881,7 +885,11 @@ watch(viewDialog, (value) => {
       </p>
 
       <template #actions>
-        <AppButton variant="text" :disabled="deleteLoading" @click="closeDelete">
+        <AppButton
+          variant="text"
+          :disabled="deleteLoading"
+          @click="closeDelete"
+        >
           {{ t('common.actions.cancel') }}
         </AppButton>
         <AppButton

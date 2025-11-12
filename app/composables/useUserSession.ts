@@ -56,7 +56,9 @@ export function useUserSession() {
     const width = size.width ?? 960
     const height = size.height ?? 600
     const top =
-      (window.top?.outerHeight ?? 0) / 2 + (window.top?.screenY ?? 0) - height / 2
+      (window.top?.outerHeight ?? 0) / 2 +
+      (window.top?.screenY ?? 0) -
+      height / 2
     const left =
       (window.top?.outerWidth ?? 0) / 2 + (window.top?.screenX ?? 0) - width / 2
 

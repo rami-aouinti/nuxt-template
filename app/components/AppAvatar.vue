@@ -28,7 +28,9 @@ const normalizedSrc = computed(() => {
   return trimmed.length ? trimmed : null
 })
 
-const shouldShowImage = computed(() => Boolean(normalizedSrc.value) && !imageError.value)
+const shouldShowImage = computed(
+  () => Boolean(normalizedSrc.value) && !imageError.value,
+)
 
 const avatarSize = computed(() => props.size)
 
@@ -39,10 +41,8 @@ const numericAvatarSize = computed(() => {
     return Number.isFinite(size) ? Math.max(1, Math.round(size)) : undefined
   }
 
-  if (typeof size === 'string') {
-    const parsed = Number.parseInt(size, 10)
-    return Number.isFinite(parsed) ? Math.max(1, parsed) : undefined
-  }
+  const parsed = Number.parseInt(size, 10)
+  return Number.isFinite(parsed) ? Math.max(1, parsed) : undefined
 
   return undefined
 })
@@ -126,11 +126,11 @@ const imageSizes = computed(() => {
 })
 
 const fallbackAriaLabel = computed(() => {
-  const label = typeof props.alt === 'string' ? props.alt.trim() : ''
+  const label = props.alt.trim()
   return label.length ? label : undefined
 })
 
-const altText = computed(() => (typeof props.alt === 'string' ? props.alt : ''))
+const altText = computed(() => props.alt)
 
 const onImageError = () => {
   if (!optimizedImageError.value && optimizedSources.value.base) {

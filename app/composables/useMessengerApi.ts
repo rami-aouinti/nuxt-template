@@ -234,8 +234,8 @@ const isIgnorableSubscriptionError = (error: unknown) => {
       : typeof record.statusCode === 'number'
         ? (record.statusCode as number)
         : typeof record.response === 'object' && record.response
-            ? (record.response as { status?: number }).status
-            : undefined
+          ? (record.response as { status?: number }).status
+          : undefined
 
   return status === 404
 }

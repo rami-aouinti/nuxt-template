@@ -55,7 +55,10 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
             class="font-weight-light text-body-1"
             :text="hasNotifications ? 'Notifications' : 'No New Notifications'"
           />
-          <v-tooltip text="Clear All Notifications" aria-label="Clear All Notifications">
+          <v-tooltip
+            text="Clear All Notifications"
+            aria-label="Clear All Notifications"
+          >
             <template #activator="{ props: tooltip }">
               <v-btn
                 size="small"

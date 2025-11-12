@@ -34,12 +34,19 @@ const itemKey = (item: AppNavigationListItem, index: number) =>
         {{ title }}
       </slot>
     </div>
-    <p v-if="$slots.description || description" class="text-body-2 text-medium-emphasis mb-4">
+    <p
+      v-if="$slots.description || description"
+      class="text-body-2 text-medium-emphasis mb-4"
+    >
       <slot name="description">
         {{ description }}
       </slot>
     </p>
-    <div v-for="(item, index) in items" :key="itemKey(item, index)" class="w-100">
+    <div
+      v-for="(item, index) in items"
+      :key="itemKey(item, index)"
+      class="w-100"
+    >
       <NuxtLink
         v-if="item.to"
         class="text-decoration-none"

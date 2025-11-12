@@ -3,18 +3,39 @@
     <div class="facebook-post-card-skeleton__header">
       <v-skeleton-loader type="avatar" />
       <div class="facebook-post-card-skeleton__header-info">
-        <v-skeleton-loader type="text" class="facebook-post-card-skeleton__line" />
-        <v-skeleton-loader type="text" class="facebook-post-card-skeleton__line facebook-post-card-skeleton__line--short" />
+        <v-skeleton-loader
+          type="text"
+          class="facebook-post-card-skeleton__line"
+        />
+        <v-skeleton-loader
+          type="text"
+          class="facebook-post-card-skeleton__line facebook-post-card-skeleton__line--short"
+        />
       </div>
-      <v-skeleton-loader type="button" class="facebook-post-card-skeleton__action" />
+      <v-skeleton-loader
+        type="button"
+        class="facebook-post-card-skeleton__action"
+      />
     </div>
     <div class="facebook-post-card-skeleton__body">
-      <v-skeleton-loader type="heading" class="facebook-post-card-skeleton__line" />
-      <v-skeleton-loader type="paragraph" class="facebook-post-card-skeleton__paragraph" />
+      <v-skeleton-loader
+        type="heading"
+        class="facebook-post-card-skeleton__line"
+      />
+      <v-skeleton-loader
+        type="paragraph"
+        class="facebook-post-card-skeleton__paragraph"
+      />
     </div>
     <div class="facebook-post-card-skeleton__stats">
-      <v-skeleton-loader type="chip" class="facebook-post-card-skeleton__chip" />
-      <v-skeleton-loader type="actions" class="facebook-post-card-skeleton__actions" />
+      <v-skeleton-loader
+        type="chip"
+        class="facebook-post-card-skeleton__chip"
+      />
+      <v-skeleton-loader
+        type="actions"
+        class="facebook-post-card-skeleton__actions"
+      />
     </div>
   </v-card>
 </template>
@@ -24,10 +45,7 @@
   min-height: 250px;
   display: flex;
   flex-direction: column;
-  border-radius: var(
-    --blog-post-card-radius,
-    var(--app-rounded, 18px)
-  );
+  border-radius: var(--blog-post-card-radius, var(--app-rounded, 18px));
   box-shadow: var(
     --blog-post-card-shadow,
     var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14))

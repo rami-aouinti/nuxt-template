@@ -84,7 +84,7 @@ function getBlogInitials(title: string | null | undefined): string {
           <AppAvatar
             :src="blog.logo || undefined"
             :alt="blog.title"
-            size="36"
+            size="20"
             color="primary"
             variant="tonal"
           >

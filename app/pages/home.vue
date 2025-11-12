@@ -34,8 +34,8 @@ import {
   normalizeReactionsPreview,
 } from '~/utils/blog/posts'
 import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
-import AppButton from "~/components/ui/AppButton.vue";
-import AppCard from "~/components/ui/AppCard.vue";
+import AppButton from '~/components/ui/AppButton.vue'
+import AppCard from '~/components/ui/AppCard.vue'
 import {
   truncateText,
   formatPublishedAt as formatBlogPublishedAt,
@@ -450,7 +450,6 @@ const buildCommentViewModel = (comment: BlogComment) =>
 
 const buildPostViewModel = (postValue: BlogPost) =>
   createPostViewModel(postValue, { currentUserId: currentUserId.value })
-
 
 function extractErrorMessage(error: unknown, fallback: string) {
   if (error instanceof AuthenticationRequiredError) {
@@ -2063,26 +2062,14 @@ if (import.meta.client) {
 @media (prefers-color-scheme: dark) {
   .blog-page {
     --blog-hero-background: rgba(var(--blog-surface-rgb), 0.88);
-    --blog-hero-shadow: var(
-      --app-shadow,
-      0 24px 60px rgba(0, 0, 0, 0.55)
-    );
+    --blog-hero-shadow: var(--app-shadow, 0 24px 60px rgba(0, 0, 0, 0.55));
     --blog-feed-background: rgba(var(--blog-surface-rgb), 0.88);
-    --blog-feed-shadow: var(
-      --app-shadow,
-      0 24px 60px rgba(0, 0, 0, 0.55)
-    );
+    --blog-feed-shadow: var(--app-shadow, 0 24px 60px rgba(0, 0, 0, 0.55));
     --blog-sidebar-background: rgba(var(--blog-surface-rgb), 0.88);
-    --blog-sidebar-shadow: var(
-      --app-shadow,
-      0 24px 60px rgba(0, 0, 0, 0.55)
-    );
+    --blog-sidebar-shadow: var(--app-shadow, 0 24px 60px rgba(0, 0, 0, 0.55));
     --blog-feed-empty-background: rgba(var(--blog-surface-variant-rgb), 0.18);
     --blog-post-card-background: rgba(var(--blog-surface-rgb), 0.9);
-    --blog-post-card-shadow: var(
-      --app-shadow,
-      0 24px 60px rgba(0, 0, 0, 0.55)
-    );
+    --blog-post-card-shadow: var(--app-shadow, 0 24px 60px rgba(0, 0, 0, 0.55));
     --blog-post-card-hover-shadow: var(
       --app-shadow,
       0 30px 68px rgba(0, 0, 0, 0.6)
@@ -2096,26 +2083,14 @@ if (import.meta.client) {
 
 :global(.v-theme--dark) .blog-page {
   --blog-hero-background: rgba(var(--blog-surface-rgb), 0.88);
-  --blog-hero-shadow: var(
-    --app-shadow,
-    0 24px 60px rgba(0, 0, 0, 0.55)
-  );
+  --blog-hero-shadow: var(--app-shadow, 0 24px 60px rgba(0, 0, 0, 0.55));
   --blog-feed-background: rgba(var(--blog-surface-rgb), 0.88);
-  --blog-feed-shadow: var(
-    --app-shadow,
-    0 24px 60px rgba(0, 0, 0, 0.55)
-  );
+  --blog-feed-shadow: var(--app-shadow, 0 24px 60px rgba(0, 0, 0, 0.55));
   --blog-sidebar-background: rgba(var(--blog-surface-rgb), 0.88);
-  --blog-sidebar-shadow: var(
-    --app-shadow,
-    0 24px 60px rgba(0, 0, 0, 0.55)
-  );
+  --blog-sidebar-shadow: var(--app-shadow, 0 24px 60px rgba(0, 0, 0, 0.55));
   --blog-feed-empty-background: rgba(var(--blog-surface-variant-rgb), 0.18);
   --blog-post-card-background: rgba(var(--blog-surface-rgb), 0.9);
-  --blog-post-card-shadow: var(
-    --app-shadow,
-    0 24px 60px rgba(0, 0, 0, 0.55)
-  );
+  --blog-post-card-shadow: var(--app-shadow, 0 24px 60px rgba(0, 0, 0, 0.55));
   --blog-post-card-hover-shadow: var(
     --app-shadow,
     0 30px 68px rgba(0, 0, 0, 0.6)

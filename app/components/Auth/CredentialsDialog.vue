@@ -157,7 +157,9 @@ async function submit() {
 
       errorMessage.value =
         responseMessage ||
-        (isRegisterMode.value ? t('auth.registerFailed') : t('auth.loginFailed'))
+        (isRegisterMode.value
+          ? t('auth.registerFailed')
+          : t('auth.loginFailed'))
     } else if (error instanceof Error) {
       errorMessage.value = error.message
     } else {
@@ -183,7 +185,11 @@ function toggleMode() {
   <v-dialog v-model="model" max-width="460" persistent>
     <v-card class="credentials-dialog">
       <div class="credentials-dialog__header">
-        <v-avatar color="white" size="46" class="credentials-dialog__header-avatar">
+        <v-avatar
+          color="white"
+          size="46"
+          class="credentials-dialog__header-avatar"
+        >
           <v-icon :icon="headerIcon" color="primary" size="30" />
         </v-avatar>
         <div>
@@ -208,7 +214,7 @@ function toggleMode() {
                 :aria-label="t(provider.translationKey)"
                 :disabled="loading"
               >
-                  <v-icon :icon="provider.icon" />
+                <v-icon :icon="provider.icon" />
               </v-btn>
             </div>
             <div class="credentials-dialog__divider">
@@ -304,7 +310,9 @@ function toggleMode() {
               required
               :disabled="loading"
               :error="passwordMismatch"
-              :error-messages="passwordMismatch ? [t('auth.passwordMismatch')] : []"
+              :error-messages="
+                passwordMismatch ? [t('auth.passwordMismatch')] : []
+              "
             />
           </template>
         </v-form>
@@ -318,7 +326,12 @@ function toggleMode() {
                 : t('auth.noAccountPrompt')
             }}
           </span>
-          <v-btn variant="plain" color="primary" class="px-1 text-none" @click="toggleMode">
+          <v-btn
+            variant="plain"
+            color="primary"
+            class="px-1 text-none"
+            @click="toggleMode"
+          >
             {{
               isRegisterMode
                 ? t('auth.switchToLogin')

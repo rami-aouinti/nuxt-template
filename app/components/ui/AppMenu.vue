@@ -40,17 +40,26 @@ const isOpen = computed({
   },
 })
 
-const normalizedCloseOnContentClick = computed(() => props.closeOnContentClick ?? true)
-const normalizedLocation = computed<MenuLocation>(() => props.location ?? 'bottom end')
+const normalizedCloseOnContentClick = computed(
+  () => props.closeOnContentClick ?? true,
+)
+const normalizedLocation = computed<MenuLocation>(
+  () => props.location ?? 'bottom end',
+)
 const normalizedOffset = computed<OffsetValue>(() => props.offset ?? 12)
-const normalizedTransition = computed(() => props.transition ?? 'scale-transition')
+const normalizedTransition = computed(
+  () => props.transition ?? 'scale-transition',
+)
 const normalizedMaxHeight = computed(() => props.maxHeight ?? 360)
 const normalizedWidth = computed(() => props.width ?? undefined)
 const isPersistent = computed(() => props.persistent ?? false)
 const hasShadow = computed(() => props.shadow ?? true)
 
 const contentClass = computed(() =>
-  ['app-menu', hasShadow.value ? 'app-menu--shadow' : 'app-menu--no-shadow'].join(' '),
+  [
+    'app-menu',
+    hasShadow.value ? 'app-menu--shadow' : 'app-menu--no-shadow',
+  ].join(' '),
 )
 
 watch(isOpen, (value, oldValue) => {
@@ -92,7 +101,10 @@ watch(isOpen, (value, oldValue) => {
 
 .app-menu--shadow:hover,
 .app-menu--shadow:focus-within {
-  box-shadow: var(--app-shadow-hover, 0 18px 44px rgba(var(--v-theme-primary), 0.2));
+  box-shadow: var(
+    --app-shadow-hover,
+    0 18px 44px rgba(var(--v-theme-primary), 0.2)
+  );
 }
 
 .app-menu--no-shadow {

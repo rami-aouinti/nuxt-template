@@ -25,56 +25,59 @@ body {
 }
 
 :where(
-    form,
-    .v-form,
-    .v-card,
-    .v-sheet,
-    .v-navigation-drawer,
-    .v-footer,
-    .v-app-bar,
-    .v-dialog,
-    .v-overlay__content > .v-card,
-    .v-list,
-    .v-list-item,
-    .v-btn,
-    .v-chip,
-    .v-alert,
-    .v-expansion-panels,
-    .v-expansion-panel,
-    .v-data-table,
-    .v-field,
-    .v-field__input,
-    .v-text-field,
-    .v-select,
-    .v-textarea,
-    .v-toolbar,
-    .v-tabs,
-    .v-pagination,
-    .v-window,
-    input,
-    textarea
-  ) {
+  form,
+  .v-form,
+  .v-card,
+  .v-sheet,
+  .v-navigation-drawer,
+  .v-footer,
+  .v-app-bar,
+  .v-dialog,
+  .v-overlay__content > .v-card,
+  .v-list,
+  .v-list-item,
+  .v-btn,
+  .v-chip,
+  .v-alert,
+  .v-expansion-panels,
+  .v-expansion-panel,
+  .v-data-table,
+  .v-field,
+  .v-field__input,
+  .v-text-field,
+  .v-select,
+  .v-textarea,
+  .v-toolbar,
+  .v-tabs,
+  .v-pagination,
+  .v-window,
+  input,
+  textarea
+) {
   border-radius: var(--app-rounded, 18px) !important;
 }
 
 :where(
-    .v-card--variant-elevated:not(.v-card--flat),
-    .v-sheet.v-sheet--elevated,
-    .v-navigation-drawer,
-    .v-footer,
-    .v-app-bar,
-    .v-dialog,
-    .v-overlay__content > .v-card,
-.v-alert.v-alert--elevated,
-    .v-btn.v-btn--elevated,
-    .v-sheet[role='menu'],
-    .v-menu .v-overlay__content,
-    .v-tooltip .v-overlay__content,
-    .v-hover .v-card,
-    .v-list.v-sheet,
-    .v-window-item
-  ) {
-  box-shadow: var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14)) !important;
+  .v-card--variant-elevated:not(.v-card--flat),
+  .v-sheet.v-sheet--elevated,
+  .v-navigation-drawer,
+  .v-footer,
+  .v-app-bar,
+  .v-dialog,
+  .v-overlay__content > .v-card,
+  .v-alert.v-alert--elevated,
+  .v-btn.v-btn--elevated,
+  .v-sheet[role='menu'],
+  .v-menu .v-overlay__content,
+  .v-tooltip .v-overlay__content,
+  .v-hover .v-card,
+  .v-list.v-sheet,
+  .v-window-item
+) {
+  box-shadow: var(
+    --app-shadow,
+    0 10px 26px rgba(var(--v-theme-primary), 0.14)
+  ) !important;
 }
 
 .v-alert.v-alert--variant-tonal {

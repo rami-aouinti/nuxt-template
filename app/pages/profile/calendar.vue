@@ -5,9 +5,9 @@ import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 import type { ProfileEvent, UpsertProfileEventPayload } from '~/types/events'
 import { Notify } from '~/stores/notification'
 import { useProfileEventsStore } from '~/stores/profile-events'
-import AppButton from "~/components/ui/AppButton.vue";
-import AppList from "~/components/ui/AppList.vue";
-import AppCard from "~/components/ui/AppCard.vue";
+import AppButton from '~/components/ui/AppButton.vue'
+import AppList from '~/components/ui/AppList.vue'
+import AppCard from '~/components/ui/AppCard.vue'
 
 definePageMeta({
   title: 'navigation.profileCalendar',
@@ -641,7 +641,11 @@ function closeDialog() {
               <AppButton variant="text" @click="closeDialog">
                 {{ t('profile.calendar.dialog.cancel') }}
               </AppButton>
-              <AppButton color="primary" :loading="isSaving" @click="submitEvent">
+              <AppButton
+                color="primary"
+                :loading="isSaving"
+                @click="submitEvent"
+              >
                 {{
                   editingEvent
                     ? t('profile.calendar.dialog.save')
@@ -665,7 +669,11 @@ function closeDialog() {
             <AppButton variant="text" @click="isDeleteDialogOpen = false">
               {{ t('profile.calendar.dialog.cancel') }}
             </AppButton>
-            <AppButton color="error" :loading="isDeleting" @click="confirmDelete">
+            <AppButton
+              color="error"
+              :loading="isDeleting"
+              @click="confirmDelete"
+            >
               {{ t('profile.calendar.actions.delete') }}
             </AppButton>
           </v-card-actions>

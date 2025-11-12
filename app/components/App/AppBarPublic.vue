@@ -115,13 +115,16 @@ const handleGoBack = () => {
 }
 
 const drawerToggleLabel = computed(() => t('navigation.toggleNavigationDrawer'))
-const secondaryDrawerToggleLabel = computed(() => t('navigation.toggleSecondaryNavigationDrawer'))
+const secondaryDrawerToggleLabel = computed(() =>
+  t('navigation.toggleSecondaryNavigationDrawer'),
+)
 const themeSwitchLabel = computed(() => t('navigation.toggleTheme'))
 const accountMenuAriaLabel = computed(() => {
   if (loggedIn.value) {
     const username = user.value?.login?.trim()
     return t('navigation.openAccountMenu', {
-      name: username && username.length > 0 ? username : t('navigation.profile'),
+      name:
+        username && username.length > 0 ? username : t('navigation.profile'),
     })
   }
 

@@ -11,7 +11,7 @@ const DEFAULT_APP_DESCRIPTION =
   'Vuetify 3 + Nuxt 3, Opinionated Admin Starter Template'
 
 const htmlThemeClass = computed(() =>
-  theme.current.value.dark ? 'dark' : undefined
+  theme.current.value.dark ? 'dark' : undefined,
 )
 
 const pageTitle = computed(() => {

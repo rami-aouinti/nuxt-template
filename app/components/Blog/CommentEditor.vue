@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import AppCard from "~/components/ui/AppCard.vue";
-import AppButton from "~/components/ui/AppButton.vue";
+import AppCard from '~/components/ui/AppCard.vue'
+import AppButton from '~/components/ui/AppButton.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -34,7 +34,8 @@ const content = computed(() => props.modelValue ?? '')
 const isLoading = computed(() => props.loading ?? false)
 const isDisabled = computed(() => props.disabled ?? false)
 const canSubmit = computed(
-  () => !isLoading.value && !isDisabled.value && content.value.trim().length > 0,
+  () =>
+    !isLoading.value && !isDisabled.value && content.value.trim().length > 0,
 )
 
 const normalizedVariant = computed(() => props.cardVariant ?? 'outlined')

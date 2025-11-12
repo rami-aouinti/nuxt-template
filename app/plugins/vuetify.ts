@@ -16,7 +16,10 @@ const resolveVueI18nInstance = (
   (nuxtApp as NuxtApp & { _nuxtI18n?: { vueI18n?: VueI18nInstance } })._nuxtI18n
     ?.vueI18n
 
-const vuetifyLocaleLoaders: Record<string, () => Promise<Record<string, unknown>>> = {
+const vuetifyLocaleLoaders: Record<
+  string,
+  () => Promise<Record<string, unknown>>
+> = {
   ar: async () => (await import('vuetify/lib/locale/ar')).default,
   de: async () => (await import('vuetify/lib/locale/de')).default,
   en: async () => (await import('vuetify/lib/locale/en')).default,

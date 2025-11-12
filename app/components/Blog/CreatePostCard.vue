@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import AppCard from "~/components/ui/AppCard.vue";
-import AppButton from "~/components/ui/AppButton.vue";
+import AppCard from '~/components/ui/AppCard.vue'
+import AppButton from '~/components/ui/AppButton.vue'
 
 type ComposerAction = {
   id: string
@@ -80,7 +80,9 @@ const onSelect = (action: ComposerAction) => emit('select', action)
   background-color: rgba(var(--v-theme-surface), 0.9);
   cursor: pointer;
   text-align: left;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .blog-create-post-card__composer:hover,

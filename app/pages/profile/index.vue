@@ -5,9 +5,9 @@ import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 import type { AuthProfile } from '~/types/auth'
 import type { Configuration } from '~/types/configuration'
 import { Notify } from '~/stores/notification'
-import AppButton from "~/components/ui/AppButton.vue";
-import AppCard from "~/components/ui/AppCard.vue";
-import AppList from "~/components/ui/AppList.vue";
+import AppButton from '~/components/ui/AppButton.vue'
+import AppCard from '~/components/ui/AppCard.vue'
+import AppList from '~/components/ui/AppList.vue'
 
 definePageMeta({
   title: 'navigation.profile',

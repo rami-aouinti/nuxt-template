@@ -140,7 +140,8 @@ const accountMenuAriaLabel = computed(() => {
   if (loggedIn.value) {
     const username = user.value?.login?.trim()
     return t('navigation.openAccountMenu', {
-      name: username && username.length > 0 ? username : t('navigation.profile'),
+      name:
+        username && username.length > 0 ? username : t('navigation.profile'),
     })
   }
 

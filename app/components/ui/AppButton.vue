@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-type ButtonVariant = 'elevated' | 'flat' | 'tonal' | 'outlined' | 'text' | 'plain'
+type ButtonVariant =
+  | 'elevated'
+  | 'flat'
+  | 'tonal'
+  | 'outlined'
+  | 'text'
+  | 'plain'
 type ButtonSize = 'x-small' | 'small' | 'default' | 'large' | 'x-large'
 type ButtonDensity = 'default' | 'comfortable' | 'compact'
 type ButtonType = 'button' | 'submit' | 'reset'
@@ -25,19 +31,26 @@ const props = defineProps<{
   elevation?: ButtonElevation
 }>()
 
-const normalizedVariant = computed<ButtonVariant>(() => props.variant ?? 'elevated')
+const normalizedVariant = computed<ButtonVariant>(
+  () => props.variant ?? 'elevated',
+)
 const normalizedColor = computed(() => props.color ?? 'primary')
 const normalizedBlock = computed(() => props.block ?? false)
 const normalizedLoading = computed(() => props.loading ?? false)
 const normalizedDisabled = computed(() => props.disabled ?? false)
 const normalizedSize = computed<ButtonSize>(() => props.size ?? 'default')
-const normalizedDensity = computed<ButtonDensity>(() => props.density ?? 'default')
+const normalizedDensity = computed<ButtonDensity>(
+  () => props.density ?? 'default',
+)
 const normalizedType = computed<ButtonType>(() => props.type ?? 'button')
 
 const hasShadow = computed(() => {
   if (props.shadow !== undefined) return props.shadow
   if (props.elevation !== undefined) {
-    const value = typeof props.elevation === 'number' ? props.elevation : Number(props.elevation)
+    const value =
+      typeof props.elevation === 'number'
+        ? props.elevation
+        : Number(props.elevation)
     return Number.isNaN(value) ? true : value > 0
   }
   return normalizedVariant.value === 'elevated'
@@ -78,7 +91,10 @@ const normalizedElevation = computed<ButtonElevation | undefined>(() => {
   border-radius: var(--app-rounded, 18px) !important;
   font-weight: 600;
   letter-spacing: 0.01em;
-  transition: box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .app-button--block {
@@ -86,12 +102,18 @@ const normalizedElevation = computed<ButtonElevation | undefined>(() => {
 }
 
 .app-button--shadow {
-  box-shadow: var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14)) !important;
+  box-shadow: var(
+    --app-shadow,
+    0 10px 26px rgba(var(--v-theme-primary), 0.14)
+  ) !important;
 }
 
 .app-button--shadow:hover,
 .app-button--shadow:focus-visible {
-  box-shadow: var(--app-shadow-hover, 0 18px 44px rgba(var(--v-theme-primary), 0.2)) !important;
+  box-shadow: var(
+    --app-shadow-hover,
+    0 18px 44px rgba(var(--v-theme-primary), 0.2)
+  ) !important;
   transform: translateY(-1px);
 }
 

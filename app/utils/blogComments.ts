@@ -9,7 +9,11 @@ function isValidUser(value: unknown): value is BlogPostUser {
   return typeof record.id === 'string' && record.id.trim().length > 0
 }
 
-function toArray<T>(value: unknown, keys: string[], predicate: (item: unknown) => item is T): T[] {
+function toArray<T>(
+  value: unknown,
+  keys: string[],
+  predicate: (item: unknown) => item is T,
+): T[] {
   if (!value) {
     return []
   }
@@ -35,14 +39,18 @@ function toArray<T>(value: unknown, keys: string[], predicate: (item: unknown) =
 }
 
 export function extractCommentLikes(value: unknown): BlogCommentLike[] {
-  return toArray<BlogCommentLike>(value, ['data', 'items', 'results', 'likes'], (item): item is BlogCommentLike => {
-    if (!item || typeof item !== 'object') {
-      return false
-    }
+  return toArray<BlogCommentLike>(
+    value,
+    ['data', 'items', 'results', 'likes'],
+    (item): item is BlogCommentLike => {
+      if (!item || typeof item !== 'object') {
+        return false
+      }
 
-    const record = item as BlogCommentLike
-    return isValidUser(record.user ?? null)
-  })
+      const record = item as BlogCommentLike
+      return isValidUser(record.user ?? null)
+    },
+  )
 }
 
 export function extractCommentList(value: unknown): BlogComment[] {
@@ -59,4 +67,3 @@ export function extractCommentList(value: unknown): BlogComment[] {
     },
   )
 }
-

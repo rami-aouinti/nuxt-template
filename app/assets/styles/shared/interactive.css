@@ -30,7 +30,7 @@
     rgba(var(--v-theme-primary), 0.12),
     rgba(255, 255, 255, 0.9)
   );
-  --stat-card-box-shadow: 0 18px 50px rgba(33, 150, 243, 0.18);
+  --stat-card-box-shadow: 0 18px 50px var(--v-theme-primary);
   background: var(--stat-card-background);
   box-shadow: var(--stat-card-box-shadow);
   transition:
@@ -40,7 +40,7 @@
 
 .stat-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 18px 10px rgba(var(--v-theme-primary), 0.56);
+  box-shadow: 0 8px 5px rgba(var(--v-theme-primary), 0.56);
 }
 
 .animated-badge {

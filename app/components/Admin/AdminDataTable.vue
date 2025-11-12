@@ -132,14 +132,17 @@ const itemsPerPageSelectOptions = computed<NormalizedItemsPerPageOption[]>(() =>
             ? option.title
             : undefined
 
-      const title = rawTitle && rawTitle.trim().length > 0 ? rawTitle : fallbackTitle
+      const title =
+        rawTitle && rawTitle.trim().length > 0 ? rawTitle : fallbackTitle
 
       return {
         value: rawValue,
         title,
       }
     })
-    .filter((option): option is NormalizedItemsPerPageOption => option !== null),
+    .filter(
+      (option): option is NormalizedItemsPerPageOption => option !== null,
+    ),
 )
 
 const page = ref(1)
@@ -157,7 +160,9 @@ watch(
   { immediate: true },
 )
 
-const itemCount = computed(() => (Array.isArray(items.value) ? items.value.length : 0))
+const itemCount = computed(() =>
+  Array.isArray(items.value) ? items.value.length : 0,
+)
 
 const pageCount = computed(() => {
   if (itemCount.value === 0) {
@@ -222,9 +227,13 @@ const paginationSummary = computed(() =>
 )
 
 const showPaginationButtons = computed(() => pageCount.value > 1)
-const showItemsPerPageSelect = computed(() => itemsPerPageSelectOptions.value.length > 1)
+const showItemsPerPageSelect = computed(
+  () => itemsPerPageSelectOptions.value.length > 1,
+)
 
-const canGoToPreviousPage = computed(() => page.value > 1 && itemCount.value > 0)
+const canGoToPreviousPage = computed(
+  () => page.value > 1 && itemCount.value > 0,
+)
 const canGoToNextPage = computed(
   () => page.value < pageCount.value && itemCount.value > 0,
 )

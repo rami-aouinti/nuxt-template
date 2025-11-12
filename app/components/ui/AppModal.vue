@@ -31,11 +31,16 @@ const normalizedMaxWidth = computed<MaxWidth>(() => props.maxWidth ?? 520)
 const isFullscreen = computed(() => props.fullscreen ?? false)
 const isPersistent = computed(() => props.persistent ?? false)
 const isScrollable = computed(() => props.scrollable ?? false)
-const normalizedTransition = computed(() => props.transition ?? 'dialog-bottom-transition')
+const normalizedTransition = computed(
+  () => props.transition ?? 'dialog-bottom-transition',
+)
 const hasShadow = computed(() => props.shadow ?? true)
 
 const contentClass = computed(() =>
-  ['app-modal', hasShadow.value ? 'app-modal--shadow' : 'app-modal--no-shadow'].join(' '),
+  [
+    'app-modal',
+    hasShadow.value ? 'app-modal--shadow' : 'app-modal--no-shadow',
+  ].join(' '),
 )
 
 watch(isOpen, (value, oldValue) => {
@@ -82,7 +87,10 @@ watch(isOpen, (value, oldValue) => {
 
 .app-modal--shadow:focus-within,
 .app-modal--shadow:hover {
-  box-shadow: var(--app-shadow-hover, 0 18px 44px rgba(var(--v-theme-primary), 0.2));
+  box-shadow: var(
+    --app-shadow-hover,
+    0 18px 44px rgba(var(--v-theme-primary), 0.2)
+  );
 }
 
 .app-modal--no-shadow {

@@ -198,100 +198,101 @@ async function handleCreate() {
     max-width="520"
     persistent
   >
-      <v-card-text class="pt-6">
-        <v-stepper v-model="activeStep" class="workplace-dialog__stepper" flat>
-          <v-stepper-header>
-            <v-stepper-item
-              v-for="(step, index) in stepperItems"
-              :key="step.value"
-              :value="step.value"
-              :complete="index < currentStepIndex"
-              :title="translate(step.titleKey, step.titleFallback)"
-            />
-          </v-stepper-header>
-          <v-stepper-window>
-            <v-stepper-window-item value="details">
-              <div class="workplace-dialog__step-content">
-                <v-text-field
-                  v-model="createState.name"
-                  :label="
-                    translate('workplace.dialog.fields.name', 'World name')
-                  "
-                  :disabled="createState.loading"
-                  variant="outlined"
-                  :error-messages="
-                    createState.nameError ? [createState.nameError] : []
-                  "
-                  hide-details="auto"
-                />
-              </div>
-            </v-stepper-window-item>
-            <v-stepper-window-item value="settings">
-              <div class="workplace-dialog__step-content">
-                <v-switch
-                  v-model="createState.isPrivate"
-                  :label="
-                    translate('workplace.dialog.fields.isPrivate', 'Private world')
-                  "
-                  :disabled="createState.loading"
-                />
-                <v-switch
-                  v-model="createState.enabled"
-                  :label="
-                    translate('workplace.dialog.fields.enabled', 'Enable world')
-                  "
-                  :disabled="createState.loading"
-                />
-              </div>
-            </v-stepper-window-item>
-          </v-stepper-window>
-        </v-stepper>
-        <v-alert
-          v-if="createState.error"
-          class="mt-4"
-          density="compact"
-          type="error"
-          variant="tonal"
-        >
-          {{ createState.error }}
-        </v-alert>
-      </v-card-text>
-      <v-divider />
-      <v-card-actions class="justify-space-between align-center flex-wrap gap-3">
+    <v-card-text class="pt-6">
+      <v-stepper v-model="activeStep" class="workplace-dialog__stepper" flat>
+        <v-stepper-header>
+          <v-stepper-item
+            v-for="(step, index) in stepperItems"
+            :key="step.value"
+            :value="step.value"
+            :complete="index < currentStepIndex"
+            :title="translate(step.titleKey, step.titleFallback)"
+          />
+        </v-stepper-header>
+        <v-stepper-window>
+          <v-stepper-window-item value="details">
+            <div class="workplace-dialog__step-content">
+              <v-text-field
+                v-model="createState.name"
+                :label="translate('workplace.dialog.fields.name', 'World name')"
+                :disabled="createState.loading"
+                variant="outlined"
+                :error-messages="
+                  createState.nameError ? [createState.nameError] : []
+                "
+                hide-details="auto"
+              />
+            </div>
+          </v-stepper-window-item>
+          <v-stepper-window-item value="settings">
+            <div class="workplace-dialog__step-content">
+              <v-switch
+                v-model="createState.isPrivate"
+                :label="
+                  translate(
+                    'workplace.dialog.fields.isPrivate',
+                    'Private world',
+                  )
+                "
+                :disabled="createState.loading"
+              />
+              <v-switch
+                v-model="createState.enabled"
+                :label="
+                  translate('workplace.dialog.fields.enabled', 'Enable world')
+                "
+                :disabled="createState.loading"
+              />
+            </div>
+          </v-stepper-window-item>
+        </v-stepper-window>
+      </v-stepper>
+      <v-alert
+        v-if="createState.error"
+        class="mt-4"
+        density="compact"
+        type="error"
+        variant="tonal"
+      >
+        {{ createState.error }}
+      </v-alert>
+    </v-card-text>
+    <v-divider />
+    <v-card-actions class="justify-space-between align-center flex-wrap gap-3">
+      <v-btn
+        variant="text"
+        :disabled="createState.loading"
+        @click="dialog = false"
+      >
+        {{ translate('common.actions.close', 'Close') }}
+      </v-btn>
+      <div class="workplace-dialog__actions">
         <v-btn
           variant="text"
-          :disabled="createState.loading"
-          @click="dialog = false"
+          :disabled="createState.loading || isFirstStep"
+          @click="goToPreviousStep"
         >
-          {{ translate('common.actions.close', 'Close') }}
+          {{ translate('common.actions.back', 'Back') }}
         </v-btn>
-        <div class="workplace-dialog__actions">
-          <v-btn
-            variant="text"
-            :disabled="createState.loading || isFirstStep"
-            @click="goToPreviousStep"
-          >
-            {{ translate('common.actions.back', 'Back') }}
-          </v-btn>
-          <v-btn
-            v-if="!isLastStep"
-            color="primary"
-            :disabled="createState.loading"
-            @click="goToNextStep"
-          >
-            {{ translate('common.actions.continue', 'Continue') }}
-          </v-btn>
-          <v-btn
-            v-else
-            color="primary"
-            :loading="createState.loading"
-            @click="handleCreate"
-          >
-            {{ translate('workplace.dialog.actions.create', 'Create world') }}
-          </v-btn>
-        </div>
-      </v-card-actions>
-    </AppModal>
+        <v-btn
+          v-if="!isLastStep"
+          color="primary"
+          :disabled="createState.loading"
+          @click="goToNextStep"
+        >
+          {{ translate('common.actions.continue', 'Continue') }}
+        </v-btn>
+        <v-btn
+          v-else
+          color="primary"
+          :loading="createState.loading"
+          @click="handleCreate"
+        >
+          {{ translate('workplace.dialog.actions.create', 'Create world') }}
+        </v-btn>
+      </div>
+    </v-card-actions>
+  </AppModal>
 </template>
 
 <style scoped>

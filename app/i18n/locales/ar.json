@@ -1,7 +1,7 @@
 {
   "All": "الكل",
   "app": {
-  "title": "Bro world",
+    "title": "Bro world",
     "description": "قالب إدارة برأي يعتمد على Vuetify 3 و Nuxt 3",
     "brand": {
       "name": "Bro world",

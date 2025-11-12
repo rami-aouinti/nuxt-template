@@ -1,4 +1,9 @@
-import { createSharedComposable, syncRefs, useSessionStorage, useStorage } from '@vueuse/core'
+import {
+  createSharedComposable,
+  syncRefs,
+  useSessionStorage,
+  useStorage,
+} from '@vueuse/core'
 import { useCookie } from 'nuxt/app'
 import { watch } from 'vue'
 
@@ -11,61 +16,63 @@ type ThemeOption<TValue> = {
   descriptionKey: string
 }
 
-export const themeRadiusOptions: ReadonlyArray<ThemeOption<ThemeRadiusPreset>> = [
-  {
-    value: 'none',
-    labelKey: 'app.settings.cornerRadiusOptions.none.label',
-    descriptionKey: 'app.settings.cornerRadiusOptions.none.description',
-  },
-  {
-    value: 'xs',
-    labelKey: 'app.settings.cornerRadiusOptions.xs.label',
-    descriptionKey: 'app.settings.cornerRadiusOptions.xs.description',
-  },
-  {
-    value: 'sm',
-    labelKey: 'app.settings.cornerRadiusOptions.sm.label',
-    descriptionKey: 'app.settings.cornerRadiusOptions.sm.description',
-  },
-  {
-    value: 'md',
-    labelKey: 'app.settings.cornerRadiusOptions.md.label',
-    descriptionKey: 'app.settings.cornerRadiusOptions.md.description',
-  },
-  {
-    value: 'lg',
-    labelKey: 'app.settings.cornerRadiusOptions.lg.label',
-    descriptionKey: 'app.settings.cornerRadiusOptions.lg.description',
-  },
-]
+export const themeRadiusOptions: ReadonlyArray<ThemeOption<ThemeRadiusPreset>> =
+  [
+    {
+      value: 'none',
+      labelKey: 'app.settings.cornerRadiusOptions.none.label',
+      descriptionKey: 'app.settings.cornerRadiusOptions.none.description',
+    },
+    {
+      value: 'xs',
+      labelKey: 'app.settings.cornerRadiusOptions.xs.label',
+      descriptionKey: 'app.settings.cornerRadiusOptions.xs.description',
+    },
+    {
+      value: 'sm',
+      labelKey: 'app.settings.cornerRadiusOptions.sm.label',
+      descriptionKey: 'app.settings.cornerRadiusOptions.sm.description',
+    },
+    {
+      value: 'md',
+      labelKey: 'app.settings.cornerRadiusOptions.md.label',
+      descriptionKey: 'app.settings.cornerRadiusOptions.md.description',
+    },
+    {
+      value: 'lg',
+      labelKey: 'app.settings.cornerRadiusOptions.lg.label',
+      descriptionKey: 'app.settings.cornerRadiusOptions.lg.description',
+    },
+  ]
 
-export const themeShadowOptions: ReadonlyArray<ThemeOption<ThemeShadowPreset>> = [
-  {
-    value: 'none',
-    labelKey: 'app.settings.shadowDepthOptions.none.label',
-    descriptionKey: 'app.settings.shadowDepthOptions.none.description',
-  },
-  {
-    value: 'soft',
-    labelKey: 'app.settings.shadowDepthOptions.soft.label',
-    descriptionKey: 'app.settings.shadowDepthOptions.soft.description',
-  },
-  {
-    value: 'regular',
-    labelKey: 'app.settings.shadowDepthOptions.regular.label',
-    descriptionKey: 'app.settings.shadowDepthOptions.regular.description',
-  },
-  {
-    value: 'bold',
-    labelKey: 'app.settings.shadowDepthOptions.bold.label',
-    descriptionKey: 'app.settings.shadowDepthOptions.bold.description',
-  },
-  {
-    value: 'deep',
-    labelKey: 'app.settings.shadowDepthOptions.deep.label',
-    descriptionKey: 'app.settings.shadowDepthOptions.deep.description',
-  },
-]
+export const themeShadowOptions: ReadonlyArray<ThemeOption<ThemeShadowPreset>> =
+  [
+    {
+      value: 'none',
+      labelKey: 'app.settings.shadowDepthOptions.none.label',
+      descriptionKey: 'app.settings.shadowDepthOptions.none.description',
+    },
+    {
+      value: 'soft',
+      labelKey: 'app.settings.shadowDepthOptions.soft.label',
+      descriptionKey: 'app.settings.shadowDepthOptions.soft.description',
+    },
+    {
+      value: 'regular',
+      labelKey: 'app.settings.shadowDepthOptions.regular.label',
+      descriptionKey: 'app.settings.shadowDepthOptions.regular.description',
+    },
+    {
+      value: 'bold',
+      labelKey: 'app.settings.shadowDepthOptions.bold.label',
+      descriptionKey: 'app.settings.shadowDepthOptions.bold.description',
+    },
+    {
+      value: 'deep',
+      labelKey: 'app.settings.shadowDepthOptions.deep.label',
+      descriptionKey: 'app.settings.shadowDepthOptions.deep.description',
+    },
+  ]
 
 export type { ThemeOption }
 
@@ -114,7 +121,10 @@ function applyShadowPreset(preset: ThemeShadowPreset) {
 
 const useThemePreferencesShared = createSharedComposable(() => {
   const radiusStorage = useStorage<ThemeRadiusPreset>(RADIUS_STORAGE_KEY, 'md')
-  const radiusSession = useSessionStorage<ThemeRadiusPreset>(RADIUS_STORAGE_KEY, radiusStorage.value)
+  const radiusSession = useSessionStorage<ThemeRadiusPreset>(
+    RADIUS_STORAGE_KEY,
+    radiusStorage.value,
+  )
   const radiusCookie = useCookie<ThemeRadiusPreset>(RADIUS_STORAGE_KEY, {
     sameSite: 'lax',
     default: () => radiusStorage.value,
@@ -123,8 +133,14 @@ const useThemePreferencesShared = createSharedComposable(() => {
   syncRefs(radiusStorage, radiusSession, { immediate: true })
   syncRefs(radiusStorage, radiusCookie, { immediate: true })
 
-  const shadowStorage = useStorage<ThemeShadowPreset>(SHADOW_STORAGE_KEY, 'regular')
-  const shadowSession = useSessionStorage<ThemeShadowPreset>(SHADOW_STORAGE_KEY, shadowStorage.value)
+  const shadowStorage = useStorage<ThemeShadowPreset>(
+    SHADOW_STORAGE_KEY,
+    'regular',
+  )
+  const shadowSession = useSessionStorage<ThemeShadowPreset>(
+    SHADOW_STORAGE_KEY,
+    shadowStorage.value,
+  )
   const shadowCookie = useCookie<ThemeShadowPreset>(SHADOW_STORAGE_KEY, {
     sameSite: 'lax',
     default: () => shadowStorage.value,

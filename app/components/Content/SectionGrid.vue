@@ -70,7 +70,11 @@ const sheetProps = computed(() => {
     elevation: 1,
     rounded: 'lg',
     ...incoming,
-    class: ['pa-4', 'flex-grow-1', ...toClassArray(incoming.class as ClassValue)],
+    class: [
+      'pa-4',
+      'flex-grow-1',
+      ...toClassArray(incoming.class as ClassValue),
+    ],
   }
 })
 

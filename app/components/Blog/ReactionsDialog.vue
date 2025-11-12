@@ -122,7 +122,9 @@ const userAvatar = (user: BlogPostUser) => {
     <v-card>
       <v-card-title class="d-flex align-center justify-space-between">
         <div class="d-flex align-center">
-          <span class="font-weight-medium">{{ t('blog.dialogs.reactionsTitle') }}</span>
+          <span class="font-weight-medium">{{
+            t('blog.dialogs.reactionsTitle')
+          }}</span>
           <v-chip
             v-if="totalReactions"
             size="small"
@@ -159,10 +161,14 @@ const userAvatar = (user: BlogPostUser) => {
                 />
               </template>
               <template #title>
-                <span class="blog-reactions-dialog__title">{{ reaction.displayName }}</span>
+                <span class="blog-reactions-dialog__title">{{
+                  reaction.displayName
+                }}</span>
               </template>
               <template #subtitle>
-                <span class="blog-reactions-dialog__subtitle">{{ reaction.label }}</span>
+                <span class="blog-reactions-dialog__subtitle">{{
+                  reaction.label
+                }}</span>
               </template>
               <template #append>
                 <v-avatar
@@ -208,7 +214,9 @@ const userAvatar = (user: BlogPostUser) => {
 
 .blog-reactions-dialog__item {
   border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .blog-reactions-dialog__item + .blog-reactions-dialog__item {

@@ -5,9 +5,9 @@ import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
 import type { Workplace, WorkplacePayload } from '~/types/workplace'
 import { storeToRefs } from 'pinia'
-import AppButton from "~/components/ui/AppButton.vue";
-import AppCard from "~/components/ui/AppCard.vue";
-import AppList from "~/components/ui/AppList.vue";
+import AppButton from '~/components/ui/AppButton.vue'
+import AppCard from '~/components/ui/AppCard.vue'
+import AppList from '~/components/ui/AppList.vue'
 
 definePageMeta({
   title: 'navigation.workplaces',
@@ -435,10 +435,18 @@ watch(deleteDialog, (value) => {
       </v-form>
 
       <template #actions>
-        <AppButton variant="text" :disabled="actionLoading" @click="closeCreate">
+        <AppButton
+          variant="text"
+          :disabled="actionLoading"
+          @click="closeCreate"
+        >
           {{ t('common.actions.cancel') }}
         </AppButton>
-        <AppButton color="primary" :loading="actionLoading" @click="submitCreate">
+        <AppButton
+          color="primary"
+          :loading="actionLoading"
+          @click="submitCreate"
+        >
           {{ t('common.actions.create') }}
         </AppButton>
       </template>
@@ -532,10 +540,18 @@ watch(deleteDialog, (value) => {
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <AppButton variant="text" :disabled="deleteLoading" @click="closeDelete">
+          <AppButton
+            variant="text"
+            :disabled="deleteLoading"
+            @click="closeDelete"
+          >
             {{ t('common.actions.cancel') }}
           </AppButton>
-          <AppButton color="error" :loading="deleteLoading" @click="confirmDelete">
+          <AppButton
+            color="error"
+            :loading="deleteLoading"
+            @click="confirmDelete"
+          >
             {{ t('common.actions.delete') }}
           </AppButton>
         </v-card-actions>

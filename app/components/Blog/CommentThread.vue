@@ -5,7 +5,7 @@ import type {
   BlogPostUser,
   BlogReactionType,
 } from '~/types/blog'
-import AppButton from "~/components/ui/AppButton.vue";
+import AppButton from '~/components/ui/AppButton.vue'
 
 defineOptions({ name: 'BlogCommentThread' })
 
@@ -95,7 +95,9 @@ const toggleReply = (comment: BlogCommentViewModel) => {
                     <v-icon>mdi-microphone-outline</v-icon>
                   </AppButton>
                 </template>
-                <template #actions-right="{ loading, canSubmit, submit, cancel }">
+                <template
+                  #actions-right="{ loading, canSubmit, submit, cancel }"
+                >
                   <AppButton
                     variant="text"
                     icon
@@ -113,7 +115,10 @@ const toggleReply = (comment: BlogCommentViewModel) => {
           </v-expand-transition>
         </template>
         <template #children>
-          <div v-if="comment.replies?.length" class="blog-comment-thread__children">
+          <div
+            v-if="comment.replies?.length"
+            class="blog-comment-thread__children"
+          >
             <BlogCommentThread
               :comments="comment.replies"
               :format-author="formatAuthor"

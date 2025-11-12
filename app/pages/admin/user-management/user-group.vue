@@ -5,9 +5,9 @@ import type { DataTableHeader } from 'vuetify'
 import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
 import type { User } from '~/types/user'
-import AppButton from "~/components/ui/AppButton.vue";
-import AppCard from "~/components/ui/AppCard.vue";
-import AppList from "~/components/ui/AppList.vue";
+import AppButton from '~/components/ui/AppButton.vue'
+import AppCard from '~/components/ui/AppCard.vue'
+import AppList from '~/components/ui/AppList.vue'
 
 definePageMeta({
   title: 'navigation.userGroups',
@@ -583,7 +583,11 @@ watch(attachUserDialog, (value) => {
       </v-form>
 
       <template #actions>
-        <AppButton variant="text" :disabled="actionLoading" @click="closeCreate">
+        <AppButton
+          variant="text"
+          :disabled="actionLoading"
+          @click="closeCreate"
+        >
           {{ t('common.actions.cancel') }}
         </AppButton>
         <AppButton
@@ -826,7 +830,11 @@ watch(attachUserDialog, (value) => {
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <AppButton variant="text" :disabled="deleteLoading" @click="closeDelete">
+          <AppButton
+            variant="text"
+            :disabled="deleteLoading"
+            @click="closeDelete"
+          >
             {{ t('common.actions.cancel') }}
           </AppButton>
           <AppButton

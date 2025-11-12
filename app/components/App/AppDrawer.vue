@@ -212,7 +212,7 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
 .v-navigation-drawer.app-navigation-drawer {
   background-color: transparent !important;
   box-shadow: none;
-  }
+}
 .brand-title--italic {
   font-style: italic;
 }
@@ -259,7 +259,9 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
     }
   }
   .drawer-footer {
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease;
     min-height: 30px;
   }
   .drawer-header-icon {
@@ -267,14 +269,18 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
     height: 1.2em !important;
     width: 1.2em !important;
     transform: scale(1);
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease;
     margin-right: -10px;
   }
   .v-list-group {
     --prepend-width: 10px;
   }
   .v-list-item {
-    transition: background-color 0.2s ease, color 0.2s ease,
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
       transform 0.2s ease;
   }
 }

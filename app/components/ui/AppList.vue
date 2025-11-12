@@ -26,7 +26,9 @@ const props = defineProps<{
 }>()
 
 const normalizedLines = computed<ListLines>(() => props.lines ?? 'one')
-const normalizedDensity = computed<ListDensity>(() => props.density ?? 'comfortable')
+const normalizedDensity = computed<ListDensity>(
+  () => props.density ?? 'comfortable',
+)
 const isNav = computed(() => props.nav ?? false)
 const hasShadow = computed(() => props.shadow ?? false)
 const hasBorder = computed(() => props.border ?? false)
@@ -74,15 +76,23 @@ const listClasses = computed(() => [
 <style scoped>
 .app-list {
   border-radius: var(--app-rounded, 18px) !important;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .app-list--shadow {
-  box-shadow: var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14)) !important;
+  box-shadow: var(
+    --app-shadow,
+    0 10px 26px rgba(var(--v-theme-primary), 0.14)
+  ) !important;
 }
 
 .app-list--shadow:hover {
-  box-shadow: var(--app-shadow-hover, 0 18px 44px rgba(var(--v-theme-primary), 0.2)) !important;
+  box-shadow: var(
+    --app-shadow-hover,
+    0 18px 44px rgba(var(--v-theme-primary), 0.2)
+  ) !important;
 }
 
 .app-list--no-shadow {

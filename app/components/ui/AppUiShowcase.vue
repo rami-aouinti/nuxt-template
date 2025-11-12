@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import AppCard from "~/components/ui/AppCard.vue";
-import AppList from "~/components/ui/AppList.vue";
-import AppButton from "~/components/ui/AppButton.vue";
-import AppMenu from "~/components/ui/AppMenu.vue";
+import AppCard from '~/components/ui/AppCard.vue'
+import AppList from '~/components/ui/AppList.vue'
+import AppButton from '~/components/ui/AppButton.vue'
+import AppMenu from '~/components/ui/AppMenu.vue'
 
 const isModalOpen = ref(false)
 const isMenuOpen = ref(false)
@@ -60,9 +60,15 @@ const menuItems = [
       <template #default>
         <div class="app-ui-showcase__card-content">
           <p class="app-ui-showcase__description">
-            Utilisez ces composants sur toutes vos pages pour assurer une expérience utilisateur cohérente et moderne.
+            Utilisez ces composants sur toutes vos pages pour assurer une
+            expérience utilisateur cohérente et moderne.
           </p>
-          <AppList :items="shortcuts" lines="two" density="comfortable" shadow />
+          <AppList
+            :items="shortcuts"
+            lines="two"
+            density="comfortable"
+            shadow
+          />
         </div>
       </template>
       <template #actions>
@@ -70,7 +76,11 @@ const menuItems = [
           <AppButton color="primary" @click="isModalOpen = true">
             Ouvrir la modale
           </AppButton>
-          <AppButton color="secondary" variant="tonal" prepend-icon="mdi-lightning-bolt">
+          <AppButton
+            color="secondary"
+            variant="tonal"
+            prepend-icon="mdi-lightning-bolt"
+          >
             Action rapide
           </AppButton>
         </div>
@@ -80,7 +90,12 @@ const menuItems = [
     <div class="app-ui-showcase__interactions">
       <AppMenu v-model="isMenuOpen" shadow>
         <template #activator="{ props }">
-          <AppButton v-bind="props" color="primary" variant="outlined" append-icon="mdi-menu-down">
+          <AppButton
+            v-bind="props"
+            color="primary"
+            variant="outlined"
+            append-icon="mdi-menu-down"
+          >
             Menu principal
           </AppButton>
         </template>
@@ -91,17 +106,26 @@ const menuItems = [
         <template #header>
           <div class="app-ui-showcase__modal-header">
             <h3>Modale d'exemple</h3>
-            <AppButton variant="text" prepend-icon="mdi-close" @click="isModalOpen = false">
+            <AppButton
+              variant="text"
+              prepend-icon="mdi-close"
+              @click="isModalOpen = false"
+            >
               Fermer
             </AppButton>
           </div>
         </template>
         <div class="app-ui-showcase__modal-body">
           <p>
-            Cette modale démontre comment vous pouvez réutiliser le composant AppModal dans toutes vos pages avec un contenu
-            personnalisé.
+            Cette modale démontre comment vous pouvez réutiliser le composant
+            AppModal dans toutes vos pages avec un contenu personnalisé.
           </p>
-          <AppButton block color="primary" prepend-icon="mdi-check" @click="isModalOpen = false">
+          <AppButton
+            block
+            color="primary"
+            prepend-icon="mdi-check"
+            @click="isModalOpen = false"
+          >
             Compris
           </AppButton>
         </div>

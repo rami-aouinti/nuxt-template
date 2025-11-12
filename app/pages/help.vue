@@ -5,7 +5,7 @@ import ContentCallToActionBanner from '~/components/Content/CallToActionBanner.v
 import ContentSectionGrid, {
   type SectionGridItem,
 } from '~/components/Content/SectionGrid.vue'
-import AppCard from "~/components/ui/AppCard.vue";
+import AppCard from '~/components/ui/AppCard.vue'
 
 definePageMeta({
   title: 'navigation.help',
@@ -128,7 +128,6 @@ const contact = computed(() => ({
           :title="contact.title"
           :description="contact.description"
         />
-
       </teleport>
     </client-only>
     <v-row justify="center">

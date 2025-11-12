@@ -7,7 +7,7 @@ import type {
   BlogReactionType,
 } from '~/types/blog'
 import { useBlogAuthor } from '~/composables/useBlogAuthor'
-import AppButton from "~/components/ui/AppButton.vue";
+import AppButton from '~/components/ui/AppButton.vue'
 
 defineOptions({ name: 'BlogPostComments' })
 
@@ -63,20 +63,10 @@ const resolveProfileLink = (user: BlogPostUser) => getAuthorProfileLink(user)
       @submit="emit('submit-comment')"
     >
       <template #actions-left="{ disabled }">
-        <AppButton
-          variant="text"
-          icon
-          density="compact"
-          :disabled="disabled"
-        >
+        <AppButton variant="text" icon density="compact" :disabled="disabled">
           <v-icon>mdi-paperclip</v-icon>
         </AppButton>
-        <AppButton
-          variant="text"
-          icon
-          density="compact"
-          :disabled="disabled"
-        >
+        <AppButton variant="text" icon density="compact" :disabled="disabled">
           <v-icon>mdi-microphone-outline</v-icon>
         </AppButton>
       </template>

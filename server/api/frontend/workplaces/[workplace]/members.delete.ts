@@ -16,7 +16,10 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<WorkplaceMemberPayload>(event)
 
-  const response = await requestFrontendWithJsonBody<Workplace, WorkplaceMemberPayload>(
+  const response = await requestFrontendWithJsonBody<
+    Workplace,
+    WorkplaceMemberPayload
+  >(
     event,
     `/workplaces/${encodeURIComponent(workplace)}/members`,
     'DELETE',

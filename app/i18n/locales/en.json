@@ -1,7 +1,7 @@
 {
   "All": "All",
   "app": {
-  "title": "Bro world",
+    "title": "Bro world",
     "description": "Vuetify 3 + Nuxt 3, Opinionated Admin Starter Template",
     "brand": {
       "name": "Bro world",

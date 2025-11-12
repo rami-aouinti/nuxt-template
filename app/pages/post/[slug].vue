@@ -563,7 +563,11 @@ async function removeCommentReactionFromComment(
 function toggleCommentsVisibility(postValue: BlogPostViewModel) {
   postValue.ui.commentsVisible = !postValue.ui.commentsVisible
 
-  if (postValue.ui.commentsVisible && !postValue.ui.commentsLoaded && loggedIn.value) {
+  if (
+    postValue.ui.commentsVisible &&
+    !postValue.ui.commentsLoaded &&
+    loggedIn.value
+  ) {
     void loadComments(postValue)
   }
 }
@@ -596,7 +600,8 @@ function getPostPlainContent(content: string | null | undefined) {
 }
 
 function getPostExcerpt(postValue: BlogPostViewModel) {
-  const summary = typeof postValue.summary === 'string' ? postValue.summary.trim() : ''
+  const summary =
+    typeof postValue.summary === 'string' ? postValue.summary.trim() : ''
   if (summary.length) {
     return truncateText(summary, POST_EXCERPT_MAX_LENGTH)
   }
@@ -844,7 +849,9 @@ watch(
           @request-edit="openEditDialog"
           @submit-edit="submitEdit"
           @delete="confirmDeletePost"
-          @select-reaction="({ post: cardPost, type }) => applyPostReaction(cardPost, type)"
+          @select-reaction="
+            ({ post: cardPost, type }) => applyPostReaction(cardPost, type)
+          "
           @remove-reaction="removePostReactionFromPost"
           @show-reactions="openPostReactions"
           @toggle-comments="toggleCommentsVisibility"
@@ -863,7 +870,6 @@ watch(
               submitCommentReply(cardPost, comment)
           "
         />
-
       </v-col>
     </v-row>
     <BlogReactionsDialog
@@ -935,7 +941,7 @@ watch(
               <p class="share-dialog__preview-text">
                 {{
                   getPostExcerpt(shareDialog.post) ||
-                    t('blog.placeholders.noSummary')
+                  t('blog.placeholders.noSummary')
                 }}
               </p>
             </div>

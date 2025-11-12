@@ -1,7 +1,7 @@
 {
   "All": "Todos",
   "app": {
-  "title": "Bro world",
+    "title": "Bro world",
     "description": "Vuetify 3 + Nuxt 3, plantilla de administración con opinión",
     "brand": {
       "name": "Bro world",

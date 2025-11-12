@@ -6,8 +6,8 @@ import type {
   BlogReactionType,
 } from '~/types/blog'
 import { resolveReactionType } from '~/utils/reactions'
-import AppCard from "~/components/ui/AppCard.vue";
-import AppButton from "~/components/ui/AppButton.vue";
+import AppCard from '~/components/ui/AppCard.vue'
+import AppButton from '~/components/ui/AppButton.vue'
 
 const props = defineProps<{
   comment: BlogCommentViewModel
@@ -27,9 +27,10 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 
-const formattedRelativeDate = computed(() =>
-  props.formatRelativeDate?.(props.comment.publishedAt) ??
-  props.formatDate(props.comment.publishedAt),
+const formattedRelativeDate = computed(
+  () =>
+    props.formatRelativeDate?.(props.comment.publishedAt) ??
+    props.formatDate(props.comment.publishedAt),
 )
 
 const resolvedProfileLink = computed(() => {
@@ -88,7 +89,10 @@ const onToggleReply = () => emit('toggle-reply')
               </NuxtLink>
               <span v-else>{{ formatAuthor(comment.user) }}</span>
             </p>
-            <p class="blog-comment-card__date" :title="formatDate(comment.publishedAt)">
+            <p
+              class="blog-comment-card__date"
+              :title="formatDate(comment.publishedAt)"
+            >
               {{ formattedRelativeDate }}
             </p>
           </div>

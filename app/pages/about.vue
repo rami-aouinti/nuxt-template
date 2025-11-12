@@ -5,7 +5,7 @@ import ContentCallToActionBanner from '~/components/Content/CallToActionBanner.v
 import ContentSectionGrid, {
   type SectionGridItem,
 } from '~/components/Content/SectionGrid.vue'
-import AppCard from "~/components/ui/AppCard.vue";
+import AppCard from '~/components/ui/AppCard.vue'
 
 definePageMeta({
   title: 'navigation.about',
@@ -118,7 +118,9 @@ const callToAction = computed(() => ({
           <ContentSectionGrid
             :items="highlights"
             :item-props="{ sm: 6 }"
-            :sheet-props="{ class: ['pa-4', 'flex-grow-1', 'bg-surface-variant'] }"
+            :sheet-props="{
+              class: ['pa-4', 'flex-grow-1', 'bg-surface-variant'],
+            }"
             icon-color="secondary"
           />
         </AppCard>

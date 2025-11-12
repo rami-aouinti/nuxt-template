@@ -13,7 +13,9 @@ const getErrorMessage = (error: AxiosError<{ message?: string }>) =>
   'message' in error.response.data &&
   typeof error.response.data.message === 'string'
     ? error.response.data.message
-    : null) || error.response?.statusText || AUTHENTICATION_FAILED
+    : null) ||
+  error.response?.statusText ||
+  AUTHENTICATION_FAILED
 
 const toSessionPayload = (data: LoginResponse) => ({
   user: {

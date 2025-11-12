@@ -83,7 +83,10 @@ ensureInitialDrawerState()
   padding: 16px;
   min-height: calc(100vh - 160px);
   border-radius: var(--app-rounded, 18px) !important;
-  box-shadow: var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14)) !important;
+  box-shadow: var(
+    --app-shadow,
+    0 10px 26px rgba(var(--v-theme-primary), 0.14)
+  ) !important;
 }
 
 .v-navigation-drawer.app-navigation-drawer {
@@ -134,7 +137,9 @@ ensureInitialDrawerState()
     }
   }
   .drawer-footer {
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease;
     min-height: 30px;
   }
   .drawer-header-icon {
@@ -142,14 +147,18 @@ ensureInitialDrawerState()
     height: 1.2em !important;
     width: 1.2em !important;
     transform: scale(1);
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease;
     margin-right: -10px;
   }
   .v-list-group {
     --prepend-width: 10px;
   }
   .v-list-item {
-    transition: background-color 0.2s ease, color 0.2s ease,
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
       transform 0.2s ease;
   }
 }

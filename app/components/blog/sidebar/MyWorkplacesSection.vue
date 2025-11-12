@@ -67,13 +67,13 @@ const emit = defineEmits<{
           class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
         >
           <NuxtLink
-            style="color: rgba(var(--v-theme-on-surface), 0.92)"
-            class="d-flex align-center gap-3 flex-grow-1 text-decoration-none"
+            style="color: inherit"
+            class="text-decoration-none"
             :to="`/world/${encodeURIComponent(workplace.slug)}`"
           >
             <AppAvatar
               :alt="workplace.name || workplace.slug"
-              size="36"
+              size="20"
               class="mr-3"
               color="primary"
               variant="tonal"
@@ -84,9 +84,7 @@ const emit = defineEmits<{
                 </span>
               </template>
             </AppAvatar>
-            <span class="text-body-1 font-weight-medium text-truncate">
-              {{ workplace.name || workplace.slug }}
-            </span>
+            {{ workplace.name || workplace.slug }}
           </NuxtLink>
           <v-spacer />
           <WorkplaceActionMenu
