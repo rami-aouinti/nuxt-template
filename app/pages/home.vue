@@ -26,8 +26,13 @@ import type { PublicProfileData } from '~/types/profile'
 import type { Workplace } from '~/types/workplace'
 import { Notify } from '~/stores/notification'
 import { useBlogAuthor } from '~/composables/useBlogAuthor'
-import { DEFAULT_REACTION_TYPE, resolveReactionType } from '~/utils/reactions'
-import { extractCommentLikes, extractCommentList } from '~/utils/blogComments'
+import { resolveReactionType } from '~/utils/reactions'
+import {
+  createPostViewModel,
+  createCommentViewModel,
+  normalizeReaction,
+  normalizeReactionsPreview,
+} from '~/utils/blog/posts'
 import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
 import AppButton from "~/components/ui/AppButton.vue";
 import AppCard from "~/components/ui/AppCard.vue";
@@ -440,195 +445,12 @@ function getBlogInitials(title: string | null | undefined): string {
 let activeRequest = 0
 let previousLoggedIn = loggedIn.value
 
-function normalizeComment(comment: BlogComment): BlogComment {
-  const likes = extractCommentLikes(comment.likes)
+const buildCommentViewModel = (comment: BlogComment) =>
+  createCommentViewModel(comment, { currentUserId: currentUserId.value })
 
-  const reactionsCount =
-    typeof comment.reactions_count === 'number'
-      ? comment.reactions_count
-      : typeof comment.likes_count === 'number'
-        ? comment.likes_count
-        : likes.length
+const buildPostViewModel = (postValue: BlogPost) =>
+  createPostViewModel(postValue, { currentUserId: currentUserId.value })
 
-  const repliesPreview = extractCommentList(comment.comments_preview)
-  const replies = repliesPreview.length
-    ? repliesPreview
-    : extractCommentList(comment.children)
-
-  let isReacted: BlogComment['isReacted'] = resolveReactionType(
-    comment.isReacted ?? null,
-  )
-
-  if (!isReacted && currentUserId.value) {
-    const selfReaction = likes.find(
-      (like) => like.user.id === currentUserId.value,
-    )
-    if (selfReaction) {
-      isReacted =
-        resolveReactionType(selfReaction.type ?? null) ?? DEFAULT_REACTION_TYPE
-    }
-  }
-
-  const reactionsPreview: BlogReactionPreview[] =
-    Array.isArray(comment.reactions_preview) && comment.reactions_preview.length
-      ? comment.reactions_preview
-      : likes
-          .map((like) => {
-            if (!like.user) {
-              return null
-            }
-
-            return {
-              id: like.id ?? `${comment.id}-${like.user.id}`,
-              type:
-                resolveReactionType(like.type ?? null) ?? DEFAULT_REACTION_TYPE,
-              user: like.user,
-            }
-          })
-          .filter((preview): preview is BlogReactionPreview => Boolean(preview))
-
-  return {
-    ...comment,
-    reactions_count: reactionsCount,
-    likes_count:
-      typeof comment.likes_count === 'number'
-        ? comment.likes_count
-        : reactionsCount,
-    isReacted,
-    reactions_preview: reactionsPreview,
-    comments_preview: replies,
-  }
-}
-
-function createCommentViewModel(comment: BlogComment): BlogCommentViewModel {
-  const normalized = normalizeComment(comment)
-
-  return {
-    ...normalized,
-    replies: (normalized.comments_preview ?? []).map(createCommentViewModel),
-    ui: {
-      replyOpen: false,
-      replyContent: '',
-      replyLoading: false,
-      likeLoading: false,
-    },
-  }
-}
-
-function resolvePostComments(post: BlogPost): BlogComment[] {
-  const preview = extractCommentList(post.comments_preview)
-  if (preview.length) {
-    return preview
-  }
-
-  const withComments = post as BlogPost & { comments?: unknown }
-  const comments = extractCommentList(withComments.comments)
-  if (comments.length) {
-    return comments
-  }
-
-  return []
-}
-
-function normalizeReaction(
-  reaction: BlogReactionPreview | null | undefined,
-): BlogReactionPreview | null {
-  if (!reaction || typeof reaction !== 'object') {
-    return null
-  }
-
-  const user = (reaction as { user?: BlogPostUser | null }).user
-  if (!user || typeof user !== 'object') {
-    return null
-  }
-
-  const id = user.id.trim().length ? user.id.trim() : null
-  if (!id) {
-    return null
-  }
-
-  const type =
-    resolveReactionType(reaction.type ?? null) ?? DEFAULT_REACTION_TYPE
-
-  const firstName =
-    typeof user.firstName === 'string' && user.firstName.trim().length
-      ? user.firstName
-      : undefined
-  const lastName =
-    typeof user.lastName === 'string' && user.lastName.trim().length
-      ? user.lastName
-      : undefined
-  const username = user.username.trim().length
-    ? user.username.trim()
-    : undefined
-  const email =
-    typeof user.email === 'string' && user.email.trim().length
-      ? user.email.trim()
-      : undefined
-  const photo =
-    typeof user.photo === 'string' && user.photo.trim().length
-      ? user.photo
-      : undefined
-
-  return {
-    id: reaction.id.trim().length ? reaction.id : `${id}-${type}`,
-    type,
-    user: {
-      id,
-      firstName,
-      lastName,
-      username: username ?? email ?? id,
-      email,
-      photo,
-    },
-  }
-}
-
-function normalizeReactionsPreview(
-  reactions: BlogReactionPreview[] | null | undefined,
-): BlogReactionPreview[] {
-  if (!Array.isArray(reactions)) {
-    return []
-  }
-
-  const normalized = reactions
-    .map((reaction) => normalizeReaction(reaction))
-    .filter((reaction): reaction is BlogReactionPreview => Boolean(reaction))
-
-  const unique = new Map<string, BlogReactionPreview>()
-  for (const reaction of normalized) {
-    unique.set(reaction.user.id, reaction)
-  }
-
-  return Array.from(unique.values())
-}
-
-function createPostViewModel(post: BlogPost): BlogPostViewModel {
-  const reactionsPreview = normalizeReactionsPreview(post.reactions_preview)
-
-  return {
-    ...post,
-    reactions_preview: reactionsPreview,
-    comments: resolvePostComments(post).map(createCommentViewModel),
-    ui: {
-      commentsVisible: false,
-      commentsLoaded: false,
-      commentsLoading: false,
-      commentsError: null,
-      commentContent: '',
-      commentLoading: false,
-      likeLoading: false,
-      deleteLoading: false,
-      editDialog: false,
-      editForm: {
-        title: post.title,
-        summary: post.summary ?? '',
-        content: post.content ?? '',
-        loading: false,
-      },
-    },
-  }
-}
 
 function extractErrorMessage(error: unknown, fallback: string) {
   if (error instanceof AuthenticationRequiredError) {
@@ -671,7 +493,7 @@ async function loadPosts(
     const response = await fetchPosts(pageNumber, pagination.limit)
     if (requestId !== activeRequest) return
 
-    const mapped = response.data.map(createPostViewModel)
+    const mapped = response.data.map(buildPostViewModel)
 
     if (replace) {
       posts.value = mapped
@@ -1070,7 +892,7 @@ async function submitCreatePost() {
       url: url.length ? url : null,
     })
 
-    const newPost = createPostViewModel(created)
+    const newPost = buildPostViewModel(created)
     posts.value = [
       newPost,
       ...posts.value.filter((post) => post.id !== newPost.id),
@@ -1105,7 +927,7 @@ async function loadComments(post: BlogPostViewModel) {
 
     while (true) {
       const response = await fetchComments(post.id, page, limit)
-      const mapped = response.data.map(createCommentViewModel)
+      const mapped = response.data.map(buildCommentViewModel)
       allComments.push(...mapped)
 
       const loaded = page * response.limit
@@ -1527,7 +1349,7 @@ async function submitShare() {
   shareDialog.loading = true
   try {
     const sharedPost = await sharePostRequest(postId, payload)
-    const viewModel = createPostViewModel(sharedPost)
+    const viewModel = buildPostViewModel(sharedPost)
     const previousPosts = posts.value
     const existingIds = new Set(previousPosts.map((item) => item.id))
 
