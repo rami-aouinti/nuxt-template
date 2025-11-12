@@ -600,10 +600,4 @@ async function submitCreate() {
   </v-container>
 </template>
 
-<style scoped>
-.text-mono {
-  font-family: 'Fira Code', 'Source Code Pro', monospace;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-</style>
+<style scoped src="~/assets/styles/pages/admin/setting-management/configuration-management.css"></style>

@@ -161,19 +161,4 @@ const submit = async () => {
   </v-container>
 </template>
 
-<style scoped>
-.contact-map {
-  position: relative;
-  padding-bottom: 65%;
-  height: 0;
-}
-
-.contact-map iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-</style>
+<style scoped src="~/assets/styles/pages/contact.css"></style>

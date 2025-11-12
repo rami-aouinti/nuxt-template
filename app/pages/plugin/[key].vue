@@ -365,30 +365,4 @@ async function handlePluginToggle(current: ProfilePlugin | null) {
   </ProfilePageShell>
 </template>
 
-<style scoped>
-.plugin-detail-card {
-  overflow: hidden;
-}
-
-.plugin-detail-card__header {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.plugin-detail-card__logo {
-  background-color: rgba(var(--v-theme-surface-variant), 0.5);
-}
-
-.plugin-detail-card__meta {
-  min-width: 160px;
-}
-
-@media (min-width: 960px) {
-  .plugin-detail-card__header {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
-</style>
+<style scoped src="~/assets/styles/pages/plugin/key.css"></style>

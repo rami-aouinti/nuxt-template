@@ -216,32 +216,4 @@ const errorMessage = computed(() => {
   </v-container>
 </template>
 
-<style scoped>
-.workplace-hero {
-  border-radius: 28px;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(var(--v-theme-primary), 0.06),
-      rgba(var(--v-theme-surface), 0.92)
-    ),
-    rgba(var(--v-theme-surface), 0.94);
-  border: 1px solid rgba(var(--v-theme-primary), 0.1);
-}
-
-.workplace-hero__body {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.workplace-hero__hint {
-  align-items: center;
-}
-
-@media (max-width: 600px) {
-  .workplace-hero {
-    border-radius: 22px;
-  }
-}
-</style>
+<style scoped src="~/assets/styles/pages/world/slug.css"></style>

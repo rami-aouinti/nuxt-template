@@ -683,14 +683,4 @@ function closeDialog() {
   </div>
 </template>
 
-<style scoped>
-.profile-calendar {
-  min-height: 100%;
-}
-
-.v-calendar-weekly__head-weeknumber,
-.v-calendar-weekly__weeknumber,
-.v-calendar-weekly__scroll-area {
-  scrollbar-width: thin;
-}
-</style>
+<style scoped src="~/assets/styles/pages/profile/calendar.css"></style>

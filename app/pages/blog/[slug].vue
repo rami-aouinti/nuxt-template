@@ -284,18 +284,4 @@ watch(
   </v-container>
 </template>
 
-<style scoped>
-.blog-post-link {
-  color: inherit;
-  text-decoration: none;
-}
-
-.blog-post-link:hover,
-.blog-post-link:focus-visible {
-  text-decoration: underline;
-}
-
-.blog-infinite-trigger {
-  height: 1px;
-}
-</style>
+<style scoped src="~/assets/styles/pages/blog/slug.css"></style>

@@ -1183,20 +1183,4 @@ async function submit() {
   </div>
 </template>
 
-<style scoped>
-.profile-avatar-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-.profile-avatar-edit-btn {
-  position: absolute;
-  right: -6px;
-  bottom: -6px;
-  box-shadow: var(--v-theme-shadow, 0 2px 6px rgba(0, 0, 0, 0.25));
-}
-
-.profile-avatar-file-input {
-  display: none;
-}
-</style>
+<style scoped src="~/assets/styles/pages/profile/index.css"></style>
