@@ -1011,7 +1011,18 @@
         },
         "security": {
           "title": "Sécurité et confidentialité",
-          "description": "Consultez vos sessions actives, activez l'authentification multi-facteurs et gérez les applications connectées."
+          "description": "Consultez vos sessions actives, activez l'authentification multi-facteurs et gérez les applications connectées.",
+          "form": {
+            "description": "Mettez à jour votre mot de passe pour garder votre compte sécurisé. Nous vous enverrons un lien de confirmation par e-mail pour finaliser la procédure.",
+            "emailInfo": "Les instructions de réinitialisation seront envoyées à {email}.",
+            "emailMissing": "Aucune adresse e-mail n'est associée à votre profil. Ajoutez-en une dans votre profil avant de changer votre mot de passe.",
+            "newPasswordLabel": "Nouveau mot de passe",
+            "confirmPasswordLabel": "Confirmer le nouveau mot de passe",
+            "submit": "Modifier le mot de passe",
+            "success": "Demande de réinitialisation envoyée. Consultez votre boîte mail pour confirmer le changement.",
+            "error": "Impossible de modifier le mot de passe. Veuillez réessayer plus tard.",
+            "passwordMismatch": "Les mots de passe ne correspondent pas."
+          }
         },
         "notifications": {
           "title": "Notifications",
