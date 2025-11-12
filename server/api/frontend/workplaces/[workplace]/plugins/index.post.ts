@@ -1,4 +1,5 @@
 import { createError, getRouterParam } from 'h3'
+import { invalidateUserWorkplaces } from '~~/server/utils/cache/workplace'
 import { requestFrontendWithJsonBody } from '~~/server/utils/crud'
 import type { Workplace, WorkplacePluginPayload } from '~/types/workplace'
 
@@ -15,10 +16,14 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<WorkplacePluginPayload>(event)
 
-  return await requestFrontendWithJsonBody<Workplace, WorkplacePluginPayload>(
+  const response = await requestFrontendWithJsonBody<Workplace, WorkplacePluginPayload>(
     event,
     `/workplaces/${encodeURIComponent(workplace)}/plugins`,
     'POST',
     body,
   )
+
+  await invalidateUserWorkplaces(event)
+
+  return response
 })

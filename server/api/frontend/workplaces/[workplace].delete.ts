@@ -1,5 +1,6 @@
 import { createError, getRouterParam } from 'h3'
 import { broWorldFrontendRequest } from '~~/server/utils/broWorldFrontendApi'
+import { invalidateUserWorkplaces } from '~~/server/utils/cache/workplace'
 
 export default defineEventHandler(async (event) => {
   const workplace = getRouterParam(event, 'workplace')
@@ -12,11 +13,15 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  return await broWorldFrontendRequest<unknown>(
+  const response = await broWorldFrontendRequest<unknown>(
     event,
     `/workplaces/${encodeURIComponent(workplace)}`,
     {
       method: 'DELETE',
     },
   )
+
+  await invalidateUserWorkplaces(event)
+
+  return response
 })

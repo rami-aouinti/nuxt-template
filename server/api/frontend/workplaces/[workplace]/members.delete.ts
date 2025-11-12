@@ -1,4 +1,5 @@
 import { createError, getRouterParam } from 'h3'
+import { invalidateUserWorkplaces } from '~~/server/utils/cache/workplace'
 import { requestFrontendWithJsonBody } from '~~/server/utils/crud'
 import type { Workplace, WorkplaceMemberPayload } from '~/types/workplace'
 
@@ -15,10 +16,14 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<WorkplaceMemberPayload>(event)
 
-  return await requestFrontendWithJsonBody<Workplace, WorkplaceMemberPayload>(
+  const response = await requestFrontendWithJsonBody<Workplace, WorkplaceMemberPayload>(
     event,
     `/workplaces/${encodeURIComponent(workplace)}/members`,
     'DELETE',
     body,
   )
+
+  await invalidateUserWorkplaces(event)
+
+  return response
 })
