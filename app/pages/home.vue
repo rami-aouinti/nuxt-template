@@ -13,7 +13,6 @@ import {
 } from '~/composables/useBlogApi'
 import type {
   BlogComment,
-  BlogCommentLike,
   BlogCommentViewModel,
   BlogPost,
   BlogPostSharePayload,
@@ -28,6 +27,7 @@ import type { Workplace } from '~/types/workplace'
 import { Notify } from '~/stores/notification'
 import { useBlogAuthor } from '~/composables/useBlogAuthor'
 import { DEFAULT_REACTION_TYPE, resolveReactionType } from '~/utils/reactions'
+import { extractCommentLikes, extractCommentList } from '~/utils/blogComments'
 import AppButton from "~/components/ui/AppButton.vue";
 import AppCard from "~/components/ui/AppCard.vue";
 
@@ -438,22 +438,7 @@ let activeRequest = 0
 let previousLoggedIn = loggedIn.value
 
 function normalizeComment(comment: BlogComment): BlogComment {
-  const likes = Array.isArray(comment.likes)
-    ? comment.likes.filter((like): like is BlogCommentLike => {
-        if (!like || typeof like !== 'object') {
-          return false
-        }
-
-        const user = (like as { user?: BlogPostUser | null }).user
-        return Boolean(
-          user &&
-            typeof user === 'object' &&
-            'id' in user &&
-            typeof user.id === 'string' &&
-            user.id.trim().length > 0,
-        )
-      })
-    : []
+  const likes = extractCommentLikes(comment.likes)
 
   const reactionsCount =
     typeof comment.reactions_count === 'number'
@@ -462,12 +447,10 @@ function normalizeComment(comment: BlogComment): BlogComment {
         ? comment.likes_count
         : likes.length
 
-  const replies =
-    Array.isArray(comment.comments_preview) && comment.comments_preview.length
-      ? comment.comments_preview
-      : Array.isArray(comment.children)
-        ? comment.children
-        : []
+  const repliesPreview = extractCommentList(comment.comments_preview)
+  const replies = repliesPreview.length
+    ? repliesPreview
+    : extractCommentList(comment.children)
 
   let isReacted: BlogComment['isReacted'] = resolveReactionType(
     comment.isReacted ?? null,
@@ -530,13 +513,15 @@ function createCommentViewModel(comment: BlogComment): BlogCommentViewModel {
 }
 
 function resolvePostComments(post: BlogPost): BlogComment[] {
-  if (Array.isArray(post.comments_preview) && post.comments_preview.length) {
-    return post.comments_preview
+  const preview = extractCommentList(post.comments_preview)
+  if (preview.length) {
+    return preview
   }
 
-  const withComments = post as BlogPost & { comments?: BlogComment[] | null }
-  if (Array.isArray(withComments.comments)) {
-    return withComments.comments
+  const withComments = post as BlogPost & { comments?: unknown }
+  const comments = extractCommentList(withComments.comments)
+  if (comments.length) {
+    return comments
   }
 
   return []
