@@ -5,6 +5,7 @@ import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
 import type { Workplace, WorkplacePayload } from '~/types/workplace'
 import { storeToRefs } from 'pinia'
+import AppButton from "~/components/ui/AppButton.vue";
 
 definePageMeta({
   title: 'navigation.workplaces',
