@@ -16,52 +16,52 @@
       "subtitle": "请稍候…"
     },
     "settings": {
-      "themePalette": "Theme palette",
-      "openThemeMenu": "Open theme palette",
-      "cornerRadius": "Corner radius",
-      "shadowDepth": "Shadow depth",
+      "themePalette": "主题调色板",
+      "openThemeMenu": "打开主题调色板",
+      "cornerRadius": "圆角半径",
+      "shadowDepth": "阴影深度",
       "cornerRadiusOptions": {
         "none": {
-          "label": "Square",
-          "description": "Sharp corners without any rounding."
+          "label": "方形",
+          "description": "尖角设计，不带任何圆角。"
         },
         "xs": {
-          "label": "Subtle",
-          "description": "Very small rounding for minimal curves."
+          "label": "轻微",
+          "description": "非常小的圆角，呈现细微的弧度。"
         },
         "sm": {
-          "label": "Soft",
-          "description": "Balanced rounding for most surfaces."
+          "label": "柔和",
+          "description": "平衡的圆角，适用于大多数界面。"
         },
         "md": {
-          "label": "Rounded",
-          "description": "Generous curves for a friendly layout."
+          "label": "圆润",
+          "description": "大幅圆角，营造亲切的布局。"
         },
         "lg": {
-          "label": "Pill",
-          "description": "Fully rounded edges for pill-shaped elements."
+          "label": "胶囊",
+          "description": "完全圆润的边缘，呈胶囊形状。"
         }
       },
       "shadowDepthOptions": {
         "none": {
-          "label": "None",
-          "description": "Removes all elevation shadows."
+          "label": "无",
+          "description": "移除所有投影效果。"
         },
         "soft": {
-          "label": "Feather",
-          "description": "A barely visible soft glow."
+          "label": "羽化",
+          "description": "几乎不可见的柔和光晕。"
         },
         "regular": {
-          "label": "Classic",
-          "description": "Balanced shadow for everyday use."
+          "label": "经典",
+          "description": "适合日常使用的平衡阴影。"
         },
         "bold": {
-          "label": "Strong",
-          "description": "Pronounced elevation with clear depth."
+          "label": "强烈",
+          "description": "层次分明的阴影，强调立体感。"
         },
         "deep": {
-          "label": "Focus",
-          "description": "Deep and vibrant with theme accent."
+          "label": "聚焦",
+          "description": "深沉鲜明，带有主题强调色。"
         }
       }
     }
@@ -80,7 +80,7 @@
     "users": "用户",
     "roles": "角色",
     "userGroups": "用户群组",
-    "workplaces": "Workplaces",
+    "workplaces": "工作区",
     "apiKeys": "API 密钥",
     "profile": "个人资料",
     "profileCalendar": "日历",
@@ -88,20 +88,20 @@
     "blog": "博客",
     "messenger": "消息",
     "goBack": "返回",
-    "toggleNavigationDrawer": "Toggle navigation drawer",
-    "toggleSecondaryNavigationDrawer": "Toggle secondary navigation drawer",
-    "toggleTheme": "Toggle color theme",
-    "openAccountMenu": "Open account menu for {name}",
+    "toggleNavigationDrawer": "切换主导航抽屉",
+    "toggleSecondaryNavigationDrawer": "切换辅助导航抽屉",
+    "toggleTheme": "切换配色主题",
+    "openAccountMenu": "打开 {name} 的账户菜单",
     "accountAvatarAlt": "{name} 的个人资料照片",
-    "openAccountMenuGuest": "Open sign-in menu",
-    "openLanguageMenu": "Open language menu ({language})",
+    "openAccountMenuGuest": "打开登录菜单",
+    "openLanguageMenu": "打开语言菜单（{language}）",
     "language": "切换语言",
-    "workspace": "Workspace",
+    "workspace": "工作空间",
     "settings": "设置",
     "help": "帮助",
     "about": "关于我们",
     "contact": "联系我们",
-    "pluginManagement": "Plugin management",
+    "pluginManagement": "插件管理",
     "plugins": "Plugins",
     "mediaManagement": "媒体管理",
     "media": "媒体库"
@@ -131,15 +131,18 @@
     "title": "博客",
     "description": "随时了解 Bro World 的最新动态。",
     "sidebar": {
-      "myBlogsTitle": "My blogs",
-      "intro": "Access your writing spaces and create a new article.",
-      "myBlogsEmpty": "You are not subscribed to any blogs yet.",
-      "publicBlogsTitle": "Public blogs",
-      "publicBlogsEmpty": "No public blogs are available right now.",
-      "loginToManage": "Sign in to manage your blogs and posts.",
-      "createBlog": "Create a blog",
-      "createPost": "Create a post",
-      "noBlogs": "You need at least one blog before creating a post."
+      "myBlogsTitle": "我的博客",
+      "mySection": "我的栏目",
+      "myWords": "我的文字",
+      "friends": "好友",
+      "intro": "进入你的写作空间并创建新文章。",
+      "myBlogsEmpty": "你尚未订阅任何博客。",
+      "publicBlogsTitle": "公开博客",
+      "publicBlogsEmpty": "目前没有可用的公开博客。",
+      "loginToManage": "登录以管理你的博客和文章。",
+      "createBlog": "创建博客",
+      "createPost": "创建文章",
+      "noBlogs": "创建文章前你至少需要一个博客。"
     },
     "actions": {
       "refresh": "刷新",
@@ -196,15 +199,15 @@
         "content": "内容"
       },
       "createBlog": {
-        "title": "Blog title",
-        "subtitle": "Subtitle"
+        "title": "博客标题",
+        "subtitle": "副标题"
       },
       "createPost": {
-        "blog": "Blog",
-        "title": "Post title",
-        "summary": "Summary",
-        "content": "Content",
-        "url": "External URL"
+        "blog": "博客",
+        "title": "文章标题",
+        "summary": "摘要",
+        "content": "内容",
+        "url": "外部链接"
       },
       "sharePlaceholder": "说点关于这篇文章的内容…"
     },

@@ -16,52 +16,52 @@
       "subtitle": "Пожалуйста, подождите…"
     },
     "settings": {
-      "themePalette": "Theme palette",
-      "openThemeMenu": "Open theme palette",
-      "cornerRadius": "Corner radius",
-      "shadowDepth": "Shadow depth",
+      "themePalette": "Палитра темы",
+      "openThemeMenu": "Открыть палитру темы",
+      "cornerRadius": "Радиус скругления",
+      "shadowDepth": "Глубина тени",
       "cornerRadiusOptions": {
         "none": {
-          "label": "Square",
-          "description": "Sharp corners without any rounding."
+          "label": "Прямые",
+          "description": "Острые углы без скругления."
         },
         "xs": {
-          "label": "Subtle",
-          "description": "Very small rounding for minimal curves."
+          "label": "Лёгкое",
+          "description": "Очень небольшое скругление для минимальных изгибов."
         },
         "sm": {
-          "label": "Soft",
-          "description": "Balanced rounding for most surfaces."
+          "label": "Мягкое",
+          "description": "Сбалансированное скругление для большинства поверхностей."
         },
         "md": {
-          "label": "Rounded",
-          "description": "Generous curves for a friendly layout."
+          "label": "Скруглённое",
+          "description": "Щедрые изгибы для дружелюбного интерфейса."
         },
         "lg": {
-          "label": "Pill",
-          "description": "Fully rounded edges for pill-shaped elements."
+          "label": "Капсула",
+          "description": "Полностью скруглённые края для элементов в форме капсулы."
         }
       },
       "shadowDepthOptions": {
         "none": {
-          "label": "None",
-          "description": "Removes all elevation shadows."
+          "label": "Нет",
+          "description": "Убирает все тени возвышения."
         },
         "soft": {
-          "label": "Feather",
-          "description": "A barely visible soft glow."
+          "label": "Лёгкая",
+          "description": "Едва заметное мягкое свечение."
         },
         "regular": {
-          "label": "Classic",
-          "description": "Balanced shadow for everyday use."
+          "label": "Классическая",
+          "description": "Сбалансированная тень для ежедневного использования."
         },
         "bold": {
-          "label": "Strong",
-          "description": "Pronounced elevation with clear depth."
+          "label": "Выразительная",
+          "description": "Выраженное возвышение с отчётливой глубиной."
         },
         "deep": {
-          "label": "Focus",
-          "description": "Deep and vibrant with theme accent."
+          "label": "Фокус",
+          "description": "Глубокая и насыщенная с акцентом темы."
         }
       }
     }
@@ -80,7 +80,7 @@
     "users": "Пользователи",
     "roles": "Роли",
     "userGroups": "Группы пользователей",
-    "workplaces": "Workplaces",
+    "workplaces": "Рабочие пространства",
     "apiKeys": "Ключи API",
     "profile": "Профиль",
     "profileCalendar": "Календарь",
@@ -88,20 +88,20 @@
     "blog": "Блог",
     "messenger": "Мессенджер",
     "goBack": "Назад",
-    "toggleNavigationDrawer": "Toggle navigation drawer",
-    "toggleSecondaryNavigationDrawer": "Toggle secondary navigation drawer",
-    "toggleTheme": "Toggle color theme",
-    "openAccountMenu": "Open account menu for {name}",
+    "toggleNavigationDrawer": "Показать/скрыть главное меню",
+    "toggleSecondaryNavigationDrawer": "Показать/скрыть дополнительное меню",
+    "toggleTheme": "Переключить цветовую тему",
+    "openAccountMenu": "Открыть меню аккаунта для {name}",
     "accountAvatarAlt": "Фото профиля {name}",
-    "openAccountMenuGuest": "Open sign-in menu",
-    "openLanguageMenu": "Open language menu ({language})",
+    "openAccountMenuGuest": "Открыть меню входа",
+    "openLanguageMenu": "Открыть меню языка ({language})",
     "language": "Сменить язык",
-    "workspace": "Workspace",
+    "workspace": "Рабочая область",
     "settings": "Настройки",
     "help": "Помощь",
     "about": "О нас",
     "contact": "Контакты",
-    "pluginManagement": "Plugin management",
+    "pluginManagement": "Управление плагинами",
     "plugins": "Plugins",
     "mediaManagement": "Управление медиа",
     "media": "Медиатека"
@@ -131,15 +131,18 @@
     "title": "Блог",
     "description": "Будьте в курсе последних новостей Bro World.",
     "sidebar": {
-      "myBlogsTitle": "My blogs",
-      "intro": "Access your writing spaces and create a new article.",
-      "myBlogsEmpty": "You are not subscribed to any blogs yet.",
-      "publicBlogsTitle": "Public blogs",
-      "publicBlogsEmpty": "No public blogs are available right now.",
-      "loginToManage": "Sign in to manage your blogs and posts.",
-      "createBlog": "Create a blog",
-      "createPost": "Create a post",
-      "noBlogs": "You need at least one blog before creating a post."
+      "myBlogsTitle": "Мои блоги",
+      "mySection": "Мой раздел",
+      "myWords": "Мои слова",
+      "friends": "Друзья",
+      "intro": "Откройте свои пространства для письма и создайте новую статью.",
+      "myBlogsEmpty": "Вы ещё не подписаны ни на один блог.",
+      "publicBlogsTitle": "Публичные блоги",
+      "publicBlogsEmpty": "Пока нет доступных публичных блогов.",
+      "loginToManage": "Войдите, чтобы управлять своими блогами и публикациями.",
+      "createBlog": "Создать блог",
+      "createPost": "Создать запись",
+      "noBlogs": "Создайте хотя бы один блог, прежде чем публиковать запись."
     },
     "actions": {
       "refresh": "Обновить",
@@ -196,15 +199,15 @@
         "content": "Содержимое"
       },
       "createBlog": {
-        "title": "Blog title",
-        "subtitle": "Subtitle"
+        "title": "Название блога",
+        "subtitle": "Подзаголовок"
       },
       "createPost": {
-        "blog": "Blog",
-        "title": "Post title",
-        "summary": "Summary",
-        "content": "Content",
-        "url": "External URL"
+        "blog": "Блог",
+        "title": "Заголовок записи",
+        "summary": "Краткое описание",
+        "content": "Содержимое",
+        "url": "Внешняя ссылка"
       },
       "sharePlaceholder": "Расскажите что-нибудь об этой записи..."
     },

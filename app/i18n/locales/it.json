@@ -16,52 +16,52 @@
       "subtitle": "Attendere un momento…"
     },
     "settings": {
-      "themePalette": "Theme palette",
-      "openThemeMenu": "Open theme palette",
-      "cornerRadius": "Corner radius",
-      "shadowDepth": "Shadow depth",
+      "themePalette": "Palette del tema",
+      "openThemeMenu": "Apri la palette del tema",
+      "cornerRadius": "Raggio degli angoli",
+      "shadowDepth": "Profondità dell'ombra",
       "cornerRadiusOptions": {
         "none": {
-          "label": "Square",
-          "description": "Sharp corners without any rounding."
+          "label": "Quadrato",
+          "description": "Angoli netti senza alcun arrotondamento."
         },
         "xs": {
-          "label": "Subtle",
-          "description": "Very small rounding for minimal curves."
+          "label": "Sottile",
+          "description": "Arrotondamento molto piccolo per curve minime."
         },
         "sm": {
-          "label": "Soft",
-          "description": "Balanced rounding for most surfaces."
+          "label": "Morbido",
+          "description": "Arrotondamento equilibrato per la maggior parte delle superfici."
         },
         "md": {
-          "label": "Rounded",
-          "description": "Generous curves for a friendly layout."
+          "label": "Arrotondato",
+          "description": "Curve generose per un layout accogliente."
         },
         "lg": {
-          "label": "Pill",
-          "description": "Fully rounded edges for pill-shaped elements."
+          "label": "Capsula",
+          "description": "Bordi completamente arrotondati per elementi a forma di capsula."
         }
       },
       "shadowDepthOptions": {
         "none": {
-          "label": "None",
-          "description": "Removes all elevation shadows."
+          "label": "Nessuna",
+          "description": "Rimuove tutte le ombre di elevazione."
         },
         "soft": {
-          "label": "Feather",
-          "description": "A barely visible soft glow."
+          "label": "Soffice",
+          "description": "Un bagliore morbido appena percettibile."
         },
         "regular": {
-          "label": "Classic",
-          "description": "Balanced shadow for everyday use."
+          "label": "Classica",
+          "description": "Ombra equilibrata per l'uso quotidiano."
         },
         "bold": {
-          "label": "Strong",
-          "description": "Pronounced elevation with clear depth."
+          "label": "Marcata",
+          "description": "Elevazione pronunciata con profondità evidente."
         },
         "deep": {
           "label": "Focus",
-          "description": "Deep and vibrant with theme accent."
+          "description": "Profonda e vibrante con l'accento del tema."
         }
       }
     }
@@ -80,7 +80,7 @@
     "users": "Utenti",
     "roles": "Ruoli",
     "userGroups": "Gruppi di utenti",
-    "workplaces": "Workplaces",
+    "workplaces": "Spazi di lavoro",
     "apiKeys": "Chiavi API",
     "profile": "Profilo",
     "profileCalendar": "Calendario",
@@ -88,20 +88,20 @@
     "blog": "Blog",
     "messenger": "Messaggistica",
     "goBack": "Torna indietro",
-    "toggleNavigationDrawer": "Toggle navigation drawer",
-    "toggleSecondaryNavigationDrawer": "Toggle secondary navigation drawer",
-    "toggleTheme": "Toggle color theme",
-    "openAccountMenu": "Open account menu for {name}",
+    "toggleNavigationDrawer": "Mostra/nascondi il pannello di navigazione",
+    "toggleSecondaryNavigationDrawer": "Mostra/nascondi il pannello di navigazione secondario",
+    "toggleTheme": "Cambia tema colore",
+    "openAccountMenu": "Apri il menu dell'account per {name}",
     "accountAvatarAlt": "Foto profilo di {name}",
-    "openAccountMenuGuest": "Open sign-in menu",
-    "openLanguageMenu": "Open language menu ({language})",
+    "openAccountMenuGuest": "Apri il menu di accesso",
+    "openLanguageMenu": "Apri il menu della lingua ({language})",
     "language": "Cambia lingua",
-    "workspace": "Workspace",
+    "workspace": "Spazio di lavoro",
     "settings": "Impostazioni",
     "help": "Guida",
     "about": "Informazioni",
     "contact": "Contatti",
-    "pluginManagement": "Plugin management",
+    "pluginManagement": "Gestione plugin",
     "plugins": "Plugins",
     "mediaManagement": "Gestione media",
     "media": "Libreria media"
@@ -131,15 +131,18 @@
     "title": "Blog",
     "description": "Rimani aggiornato sulle ultime novità di Bro World.",
     "sidebar": {
-      "myBlogsTitle": "My blogs",
-      "intro": "Access your writing spaces and create a new article.",
-      "myBlogsEmpty": "You are not subscribed to any blogs yet.",
-      "publicBlogsTitle": "Public blogs",
-      "publicBlogsEmpty": "No public blogs are available right now.",
-      "loginToManage": "Sign in to manage your blogs and posts.",
-      "createBlog": "Create a blog",
-      "createPost": "Create a post",
-      "noBlogs": "You need at least one blog before creating a post."
+      "myBlogsTitle": "I miei blog",
+      "mySection": "La mia sezione",
+      "myWords": "Le mie parole",
+      "friends": "Amici",
+      "intro": "Accedi ai tuoi spazi di scrittura e crea un nuovo articolo.",
+      "myBlogsEmpty": "Non sei ancora iscritto a nessun blog.",
+      "publicBlogsTitle": "Blog pubblici",
+      "publicBlogsEmpty": "Nessun blog pubblico disponibile al momento.",
+      "loginToManage": "Accedi per gestire i tuoi blog e i tuoi post.",
+      "createBlog": "Crea un blog",
+      "createPost": "Crea un post",
+      "noBlogs": "Hai bisogno di almeno un blog prima di creare un post."
     },
     "actions": {
       "refresh": "Aggiorna",
@@ -196,15 +199,15 @@
         "content": "Contenuto"
       },
       "createBlog": {
-        "title": "Blog title",
-        "subtitle": "Subtitle"
+        "title": "Titolo del blog",
+        "subtitle": "Sottotitolo"
       },
       "createPost": {
         "blog": "Blog",
-        "title": "Post title",
-        "summary": "Summary",
-        "content": "Content",
-        "url": "External URL"
+        "title": "Titolo del post",
+        "summary": "Sommario",
+        "content": "Contenuto",
+        "url": "URL esterno"
       },
       "sharePlaceholder": "Di qualcosa su questo post..."
     },
