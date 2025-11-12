@@ -104,7 +104,8 @@
     "pluginManagement": "Plugin management",
     "plugins": "Plugins",
     "mediaManagement": "Media management",
-    "media": "Media library"
+    "media": "Media library",
+    "notificationManagement": "Notification management"
   },
   "messenger": {
     "title": "Messenger",
@@ -1393,6 +1394,86 @@
         "edit": "Edit plugin",
         "delete": "Delete plugin"
       }
+    }
+  },
+  "notificationManagement": {
+    "title": "Notification management",
+    "subtitle": "Monitor system notifications and troubleshoot delivery issues from a single place.",
+    "table": {
+      "subject": "Subject",
+      "channel": "Channel",
+      "recipient": "Recipient",
+      "status": "Status",
+      "createdAt": "Created",
+      "scheduledFor": "Scheduled",
+      "sentAt": "Sent"
+    },
+    "filters": {
+      "search": "Search by subject, channel or recipient"
+    },
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "sent": "Sent",
+      "failed": "Failed",
+      "cancelled": "Cancelled",
+      "canceled": "Cancelled",
+      "queued": "Queued",
+      "delivered": "Delivered",
+      "errored": "Failed",
+      "unknown": "Unknown"
+    },
+    "channels": {
+      "email": "Email",
+      "sms": "SMS",
+      "push": "Push",
+      "in_app": "In-app",
+      "inapp": "In-app",
+      "webhook": "Webhook",
+      "unknown": "Other"
+    },
+    "labels": {
+      "subject": "Subject",
+      "status": "Status",
+      "recipient": "Recipient",
+      "channel": "Channel",
+      "createdAt": "Created at",
+      "updatedAt": "Last update",
+      "scheduledFor": "Scheduled for",
+      "sentAt": "Sent at",
+      "message": "Message",
+      "metadata": "Metadata",
+      "payload": "Payload",
+      "context": "Context",
+      "attempts": "Delivery attempts",
+      "emptyMetadata": "No additional details are available for this notification.",
+      "notAvailable": "Not available"
+    },
+    "actions": {
+      "view": "View notification {subject}",
+      "updateStatus": "Update status for {subject}"
+    },
+    "dialogs": {
+      "view": {
+        "title": "Notification details"
+      },
+      "status": {
+        "title": "Update notification status",
+        "description": "Choose the status that should be applied to this notification."
+      }
+    },
+    "forms": {
+      "status": {
+        "label": "Status",
+        "hint": "Select the delivery status that best represents the current situation.",
+        "submit": "Save status"
+      }
+    },
+    "notifications": {
+      "loadFailed": "Unable to load notifications.",
+      "detailLoadFailed": "Unable to load the notification details.",
+      "statusUpdated": "Notification status updated to {status}.",
+      "statusUpdateFailed": "Unable to update the notification status."
     }
   },
   "workplace": {

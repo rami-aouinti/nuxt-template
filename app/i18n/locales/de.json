@@ -104,7 +104,8 @@
     "pluginManagement": "Plugin-Verwaltung",
     "plugins": "Plugins",
     "mediaManagement": "Medienverwaltung",
-    "media": "Mediathek"
+    "media": "Mediathek",
+    "notificationManagement": "Benachrichtigungsverwaltung"
   },
   "messenger": {
     "title": "Messenger",
@@ -1373,6 +1374,86 @@
         "edit": "Edit plugin",
         "delete": "Delete plugin"
       }
+    }
+  },
+  "notificationManagement": {
+    "title": "Benachrichtigungsverwaltung",
+    "subtitle": "Überwachen Sie Systembenachrichtigungen und beheben Sie Zustellungsprobleme zentral.",
+    "table": {
+      "subject": "Betreff",
+      "channel": "Kanal",
+      "recipient": "Empfänger",
+      "status": "Status",
+      "createdAt": "Erstellt",
+      "scheduledFor": "Geplant",
+      "sentAt": "Gesendet"
+    },
+    "filters": {
+      "search": "Nach Betreff, Kanal oder Empfänger suchen"
+    },
+    "status": {
+      "pending": "Ausstehend",
+      "processing": "In Bearbeitung",
+      "sent": "Gesendet",
+      "failed": "Fehlgeschlagen",
+      "cancelled": "Abgebrochen",
+      "canceled": "Abgebrochen",
+      "queued": "In Warteschlange",
+      "delivered": "Zugestellt",
+      "errored": "Fehlgeschlagen",
+      "unknown": "Unbekannt"
+    },
+    "channels": {
+      "email": "E-Mail",
+      "sms": "SMS",
+      "push": "Push",
+      "in_app": "In-App",
+      "inapp": "In-App",
+      "webhook": "Webhook",
+      "unknown": "Andere"
+    },
+    "labels": {
+      "subject": "Betreff",
+      "status": "Status",
+      "recipient": "Empfänger",
+      "channel": "Kanal",
+      "createdAt": "Erstellt am",
+      "updatedAt": "Zuletzt aktualisiert",
+      "scheduledFor": "Geplant für",
+      "sentAt": "Gesendet am",
+      "message": "Nachricht",
+      "metadata": "Metadaten",
+      "payload": "Payload",
+      "context": "Kontext",
+      "attempts": "Zustellversuche",
+      "emptyMetadata": "Keine zusätzlichen Details für diese Benachrichtigung verfügbar.",
+      "notAvailable": "Nicht verfügbar"
+    },
+    "actions": {
+      "view": "Benachrichtigung {subject} anzeigen",
+      "updateStatus": "Status für {subject} aktualisieren"
+    },
+    "dialogs": {
+      "view": {
+        "title": "Benachrichtigungsdetails"
+      },
+      "status": {
+        "title": "Benachrichtigungsstatus aktualisieren",
+        "description": "Wählen Sie den Status, der auf diese Benachrichtigung angewendet werden soll."
+      }
+    },
+    "forms": {
+      "status": {
+        "label": "Status",
+        "hint": "Wählen Sie den Zustellstatus, der die aktuelle Situation am besten beschreibt.",
+        "submit": "Status speichern"
+      }
+    },
+    "notifications": {
+      "loadFailed": "Benachrichtigungen konnten nicht geladen werden.",
+      "detailLoadFailed": "Die Benachrichtigungsdetails konnten nicht geladen werden.",
+      "statusUpdated": "Benachrichtigungsstatus wurde auf {status} aktualisiert.",
+      "statusUpdateFailed": "Der Benachrichtigungsstatus konnte nicht aktualisiert werden."
     }
   },
   "workplace": {

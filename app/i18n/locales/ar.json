@@ -104,7 +104,8 @@
     "pluginManagement": "إدارة الإضافات",
     "plugins": "Plugins",
     "mediaManagement": "إدارة الوسائط",
-    "media": "مكتبة الوسائط"
+    "media": "مكتبة الوسائط",
+    "notificationManagement": "إدارة الإشعارات"
   },
   "messenger": {
     "title": "الرسائل",
@@ -1373,6 +1374,86 @@
         "edit": "Edit plugin",
         "delete": "Delete plugin"
       }
+    }
+  },
+  "notificationManagement": {
+    "title": "إدارة الإشعارات",
+    "subtitle": "مراقبة إشعارات النظام ومعالجة مشكلات التسليم من مكان واحد.",
+    "table": {
+      "subject": "الموضوع",
+      "channel": "القناة",
+      "recipient": "المستلم",
+      "status": "الحالة",
+      "createdAt": "تاريخ الإنشاء",
+      "scheduledFor": "الجدولة",
+      "sentAt": "تاريخ الإرسال"
+    },
+    "filters": {
+      "search": "ابحث حسب الموضوع أو القناة أو المستلم"
+    },
+    "status": {
+      "pending": "قيد الانتظار",
+      "processing": "قيد المعالجة",
+      "sent": "تم الإرسال",
+      "failed": "فشل",
+      "cancelled": "ملغى",
+      "canceled": "ملغى",
+      "queued": "في قائمة الانتظار",
+      "delivered": "تم التسليم",
+      "errored": "خطأ",
+      "unknown": "غير معروف"
+    },
+    "channels": {
+      "email": "البريد الإلكتروني",
+      "sms": "رسالة نصية",
+      "push": "إشعار دفع",
+      "in_app": "داخل التطبيق",
+      "inapp": "داخل التطبيق",
+      "webhook": "Webhook",
+      "unknown": "أخرى"
+    },
+    "labels": {
+      "subject": "الموضوع",
+      "status": "الحالة",
+      "recipient": "المستلم",
+      "channel": "القناة",
+      "createdAt": "تاريخ الإنشاء",
+      "updatedAt": "آخر تحديث",
+      "scheduledFor": "تاريخ الجدولة",
+      "sentAt": "تاريخ الإرسال",
+      "message": "الرسالة",
+      "metadata": "البيانات الوصفية",
+      "payload": "البيانات",
+      "context": "السياق",
+      "attempts": "محاولات التسليم",
+      "emptyMetadata": "لا توجد تفاصيل إضافية متاحة لهذا الإشعار.",
+      "notAvailable": "غير متوفر"
+    },
+    "actions": {
+      "view": "عرض الإشعار {subject}",
+      "updateStatus": "تحديث حالة {subject}"
+    },
+    "dialogs": {
+      "view": {
+        "title": "تفاصيل الإشعار"
+      },
+      "status": {
+        "title": "تحديث حالة الإشعار",
+        "description": "اختر الحالة التي يجب تطبيقها على هذا الإشعار."
+      }
+    },
+    "forms": {
+      "status": {
+        "label": "الحالة",
+        "hint": "اختر حالة التسليم التي تعكس الوضع الحالي.",
+        "submit": "حفظ الحالة"
+      }
+    },
+    "notifications": {
+      "loadFailed": "تعذر تحميل الإشعارات.",
+      "detailLoadFailed": "تعذر تحميل تفاصيل الإشعار.",
+      "statusUpdated": "تم تحديث حالة الإشعار إلى {status}.",
+      "statusUpdateFailed": "تعذر تحديث حالة الإشعار."
     }
   },
   "workplace": {
