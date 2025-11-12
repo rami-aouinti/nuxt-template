@@ -124,7 +124,7 @@ export interface BlogPostCreatePayload {
   summary?: string | null
   content?: string | null
   url?: string | null
-  blog: string
+  blog?: string | null
 }
 
 export interface BlogCommentUiState {

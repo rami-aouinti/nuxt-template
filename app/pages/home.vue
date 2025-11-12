@@ -15,6 +15,7 @@ import type {
   BlogComment,
   BlogCommentViewModel,
   BlogPost,
+  BlogPostCreatePayload,
   BlogPostSharePayload,
   BlogPostViewModel,
   BlogPostUser,
@@ -671,7 +672,7 @@ function resetEditBlogForm() {
 }
 
 function resetCreatePostForm() {
-  createPostDialog.form.blogId = myBlogs.value[0]?.id ?? ''
+  createPostDialog.form.blogId = ''
   createPostDialog.form.title = ''
   createPostDialog.form.summary = ''
   createPostDialog.form.content = ''
@@ -839,7 +840,7 @@ async function confirmDeleteBlog(blog: BlogSummary) {
     myBlogs.value = myBlogs.value.filter((item) => item.id !== blogId)
 
     if (createPostDialog.form.blogId === blogId) {
-      createPostDialog.form.blogId = myBlogs.value[0]?.id ?? ''
+      createPostDialog.form.blogId = ''
     }
 
     Notify.success(t('blog.notifications.blogDeleted'))
@@ -850,15 +851,13 @@ async function confirmDeleteBlog(blog: BlogSummary) {
   }
 }
 
-function openCreatePostDialog() {
+function openCreatePostDialog(blogId?: string) {
   if (!ensureAuthenticated()) return
 
-  if (!myBlogs.value.length) {
-    Notify.warning(t('blog.sidebar.noBlogs'))
-    return
-  }
-
   resetCreatePostForm()
+  if (typeof blogId === 'string' && blogId.trim().length) {
+    createPostDialog.form.blogId = blogId.trim()
+  }
   createPostDialog.open = true
 }
 
@@ -875,7 +874,7 @@ async function submitCreatePost() {
   const content = createPostDialog.form.content.trim()
   const url = createPostDialog.form.url.trim()
 
-  if (!blogId || !title.length) {
+  if (!title.length) {
     Notify.warning(t('blog.errors.createPostFailed'))
     return
   }
@@ -883,13 +882,15 @@ async function submitCreatePost() {
   createPostDialog.loading = true
 
   try {
-    const created = await createPost({
-      blog: blogId,
+    const payload: BlogPostCreatePayload = {
       title,
       summary: summary.length ? summary : null,
       content: content.length ? content : null,
       url: url.length ? url : null,
-    })
+      ...(blogId ? { blog: blogId } : {}),
+    }
+
+    const created = await createPost(payload)
 
     const newPost = buildPostViewModel(created)
     posts.value = [
@@ -1373,22 +1374,8 @@ async function submitShare() {
 watch(
   () => myBlogs.value.map((blog) => blog.id),
   (ids) => {
-    if (!ids.length) {
-      createPostDialog.form.blogId = ''
-      return
-    }
-
     if (!ids.includes(createPostDialog.form.blogId)) {
-      createPostDialog.form.blogId = ids[0]
-    }
-  },
-)
-
-watch(
-  () => createPostDialog.open,
-  (open) => {
-    if (open && myBlogs.value.length && !createPostDialog.form.blogId) {
-      createPostDialog.form.blogId = myBlogs.value[0].id
+      createPostDialog.form.blogId = ''
     }
   },
 )
@@ -1872,10 +1859,7 @@ if (import.meta.client) {
           <AppButton
             color="primary"
             :loading="createPostDialog.loading"
-            :disabled="
-              !createPostDialog.form.title.trim().length ||
-              !createPostDialog.form.blogId
-            "
+            :disabled="!createPostDialog.form.title.trim().length"
             @click="submitCreatePost"
           >
             {{ t('common.actions.create') }}
