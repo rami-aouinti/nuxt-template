@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
-import BlogCommentThread from '~/components/Blog/CommentThread.vue'
+import BlogPostCard from '~/components/Blog/PostCard.vue'
 import BlogReactionsDialog from '~/components/Blog/ReactionsDialog.vue'
+import AppAvatar from '~/components/AppAvatar.vue'
+import AppButton from '~/components/ui/AppButton.vue'
+import AppCard from '~/components/ui/AppCard.vue'
+import AppModal from '~/components/ui/AppModal.vue'
 import {
   AuthenticationRequiredError,
   useBlogApi,
@@ -11,6 +15,7 @@ import type {
   BlogComment,
   BlogCommentViewModel,
   BlogPost,
+  BlogPostSharePayload,
   BlogPostUser,
   BlogPostViewModel,
   BlogReactionPreview,
@@ -26,7 +31,11 @@ import {
   normalizeReaction,
   normalizeReactionsPreview,
 } from '~/utils/blog/posts'
-import { formatPublishedAt as formatBlogPublishedAt } from '~/utils/formatters'
+import {
+  formatPublishedAt as formatBlogPublishedAt,
+  formatRelativePublishedAt as formatBlogRelativePublishedAt,
+  truncateText,
+} from '~/utils/formatters'
 
 definePageMeta({
   icon: 'mdi-post-outline',
@@ -41,6 +50,8 @@ const { session, loggedIn } = useUserSession()
 const currentUsername = computed(
   () => session.value?.user?.login || session.value?.profile?.username || null,
 )
+
+const POST_EXCERPT_MAX_LENGTH = 150
 
 const currentProfile = computed<PublicProfileData | null>(() => {
   const profile = session.value?.profile
@@ -61,6 +72,37 @@ const currentSessionUser = computed(
       } | null
     )?.user ?? null,
 )
+
+const currentUserDisplayName = computed(() => {
+  const profile = currentProfile.value
+  if (profile) {
+    const firstName =
+      typeof profile.firstName === 'string' ? profile.firstName.trim() : ''
+    const lastName =
+      typeof profile.lastName === 'string' ? profile.lastName.trim() : ''
+    const fullName = [firstName, lastName].filter(Boolean).join(' ').trim()
+    if (fullName.length) {
+      return fullName
+    }
+
+    const username =
+      typeof profile.username === 'string' ? profile.username.trim() : ''
+    if (username.length) {
+      return username
+    }
+  }
+
+  const login =
+    typeof currentSessionUser.value?.login === 'string'
+      ? currentSessionUser.value.login.trim()
+      : ''
+
+  if (login.length) {
+    return login
+  }
+
+  return t('auth.guest')
+})
 
 const currentUserAvatar = computed(() => {
   const profilePhoto =
@@ -155,7 +197,7 @@ const currentUserReactionUser = computed<BlogPostUser | null>(() => {
   }
 })
 
-const { getAuthorName, getAuthorProfileLink } = useBlogAuthor()
+const { getAuthorName, getAuthorAvatar } = useBlogAuthor()
 
 const {
   fetchPostBySlug,
@@ -166,6 +208,9 @@ const {
   removePostReaction,
   reactToComment,
   removeCommentReaction,
+  updatePost,
+  deletePost,
+  sharePost: sharePostRequest,
 } = useBlogApi()
 
 const post = ref<BlogPostViewModel | null>(null)
@@ -175,6 +220,13 @@ const postError = ref<string | null>(null)
 const reactionsDialog = reactive({
   open: false,
   items: [] as BlogReactionPreview[],
+})
+
+const shareDialog = reactive({
+  open: false,
+  post: null as BlogPostViewModel | null,
+  message: '',
+  loading: false,
 })
 
 const slug = computed(() => {
@@ -229,6 +281,9 @@ function extractErrorMessage(error: unknown, fallback: string) {
 
 const formatPublishedAt = (publishedAt: string) =>
   formatBlogPublishedAt(publishedAt, locale.value)
+
+const formatRelativePublishedAt = (publishedAt: string) =>
+  formatBlogRelativePublishedAt(publishedAt, locale.value)
 
 function ensureAuthenticated(showNotification = true) {
   if (!loggedIn.value) {
@@ -505,9 +560,187 @@ async function removeCommentReactionFromComment(
   }
 }
 
+function toggleCommentsVisibility(postValue: BlogPostViewModel) {
+  postValue.ui.commentsVisible = !postValue.ui.commentsVisible
+
+  if (postValue.ui.commentsVisible && !postValue.ui.commentsLoaded && loggedIn.value) {
+    void loadComments(postValue)
+  }
+}
+
 function openPostReactions(postValue: BlogPostViewModel) {
   reactionsDialog.items = normalizeReactionsPreview(postValue.reactions_preview)
   reactionsDialog.open = true
+}
+
+function canEditPost(postValue: BlogPostViewModel) {
+  return loggedIn.value && postValue.user.username === currentUsername.value
+}
+
+function getPostPlainContent(content: string | null | undefined) {
+  if (!content) {
+    return ''
+  }
+
+  if (typeof window !== 'undefined' && 'DOMParser' in window) {
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(content, 'text/html')
+    const text = doc.body.textContent || ''
+    return text.replace(/\s+/g, ' ').trim()
+  }
+
+  return content
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function getPostExcerpt(postValue: BlogPostViewModel) {
+  const summary = typeof postValue.summary === 'string' ? postValue.summary.trim() : ''
+  if (summary.length) {
+    return truncateText(summary, POST_EXCERPT_MAX_LENGTH)
+  }
+
+  const content = getPostPlainContent(postValue.content)
+  if (content.length) {
+    return truncateText(content, POST_EXCERPT_MAX_LENGTH)
+  }
+
+  return ''
+}
+
+function openEditDialog(postValue: BlogPostViewModel) {
+  postValue.ui.editForm.title = postValue.title
+  postValue.ui.editForm.summary = postValue.summary ?? ''
+  postValue.ui.editForm.content = postValue.content ?? ''
+  postValue.ui.editDialog = true
+}
+
+async function submitEdit(postValue: BlogPostViewModel) {
+  if (!ensureAuthenticated()) return
+
+  const form = postValue.ui.editForm
+  const title = form.title.trim()
+
+  if (!title) {
+    Notify.warning(t('blog.errors.updateFailed'))
+    return
+  }
+
+  form.loading = true
+  try {
+    const summary = form.summary.trim()
+    const content = form.content.trim()
+
+    const updated = await updatePost(postValue.id, {
+      title,
+      summary: summary.length ? summary : null,
+      content: content.length ? content : null,
+    })
+
+    if (updated && typeof updated === 'object') {
+      if ('title' in updated && typeof updated.title === 'string') {
+        postValue.title = updated.title
+      } else {
+        postValue.title = title
+      }
+
+      if ('summary' in updated) {
+        postValue.summary = (updated as BlogPost).summary ?? null
+      } else {
+        postValue.summary = summary.length ? summary : null
+      }
+
+      if ('content' in updated) {
+        postValue.content = (updated as BlogPost).content ?? null
+      } else {
+        postValue.content = content.length ? content : null
+      }
+    } else {
+      postValue.title = title
+      postValue.summary = summary.length ? summary : null
+      postValue.content = content.length ? content : null
+    }
+
+    postValue.ui.editDialog = false
+    Notify.success(t('blog.notifications.postUpdated'))
+  } catch (error) {
+    Notify.error(extractErrorMessage(error, t('blog.errors.updateFailed')))
+  } finally {
+    form.loading = false
+  }
+}
+
+async function confirmDeletePost(postValue: BlogPostViewModel) {
+  if (!ensureAuthenticated()) return
+
+  if (!import.meta.client) {
+    return
+  }
+
+  const confirmation = window.confirm(t('blog.dialogs.deleteConfirm'))
+  if (!confirmation) {
+    return
+  }
+
+  postValue.ui.deleteLoading = true
+  try {
+    await deletePost(postValue.id)
+    post.value = null
+    postError.value = t('blog.notifications.postDeleted')
+    Notify.success(t('blog.notifications.postDeleted'))
+  } catch (error) {
+    Notify.error(extractErrorMessage(error, t('blog.errors.deleteFailed')))
+  } finally {
+    postValue.ui.deleteLoading = false
+  }
+}
+
+function openShareDialog(postValue: BlogPostViewModel) {
+  if (!ensureAuthenticated()) {
+    return
+  }
+
+  shareDialog.post = postValue
+  shareDialog.message = ''
+  shareDialog.open = true
+}
+
+function closeShareDialog() {
+  if (shareDialog.loading) {
+    return
+  }
+
+  shareDialog.open = false
+}
+
+async function submitShare() {
+  if (!ensureAuthenticated()) return
+
+  const postToShare = shareDialog.post
+  if (!postToShare || shareDialog.loading) return
+
+  const postId = postToShare.id
+  if (!postId) {
+    Notify.error(t('blog.errors.shareFailed'))
+    return
+  }
+
+  const message = shareDialog.message.trim()
+  const payload: BlogPostSharePayload = message.length
+    ? { content: message }
+    : {}
+
+  shareDialog.loading = true
+  try {
+    await sharePostRequest(postId, payload)
+    Notify.success(t('blog.notifications.postShared'))
+    shareDialog.open = false
+  } catch (error) {
+    Notify.error(extractErrorMessage(error, t('blog.errors.shareFailed')))
+  } finally {
+    shareDialog.loading = false
+  }
 }
 
 async function loadPost(slugValue: string) {
@@ -538,6 +771,17 @@ async function loadPost(slugValue: string) {
 }
 
 await loadPost(slug.value)
+
+watch(
+  () => shareDialog.open,
+  (open) => {
+    if (!open) {
+      shareDialog.post = null
+      shareDialog.message = ''
+      shareDialog.loading = false
+    }
+  },
+)
 
 watch(
   () => slug.value,
@@ -599,16 +843,44 @@ watch(
           class="rounded-xl"
         />
 
-        <AppCard v-else-if="post" class="rounded-xl" elevation="2">
+        <BlogPostCard
+          v-else-if="post"
+          :post="post"
+          :logged-in="loggedIn"
+          :can-edit="canEditPost(post)"
+          :excerpt="getPostExcerpt(post)"
+          :format-relative-published-at="formatRelativePublishedAt"
+          :format-published-at="formatPublishedAt"
+          @request-edit="openEditDialog"
+          @submit-edit="submitEdit"
+          @delete="confirmDeletePost"
+          @select-reaction="({ post: cardPost, type }) => applyPostReaction(cardPost, type)"
+          @remove-reaction="removePostReactionFromPost"
+          @show-reactions="openPostReactions"
+          @toggle-comments="toggleCommentsVisibility"
+          @share="openShareDialog"
+          @submit-comment="submitPostComment"
+          @select-comment-reaction="
+            ({ post: cardPost, comment, type }) =>
+              applyCommentReaction(cardPost, comment, type)
+          "
+          @remove-comment-reaction="
+            ({ post: cardPost, comment }) =>
+              removeCommentReactionFromComment(cardPost, comment)
+          "
+          @submit-comment-reply="
+            ({ post: cardPost, comment }) =>
+              submitCommentReply(cardPost, comment)
+          "
+        />
+
+        <AppCard
+          v-if="post"
+          class="rounded-xl mt-4"
+          elevation="1"
+        >
           <v-card-item>
-            <BlogPostAuthor
-              class="mb-3"
-              :user="post.user"
-              :published-at="post.publishedAt"
-              :format-date="formatPublishedAt"
-              :avatar-size="56"
-            />
-            <v-card-title class="text-h4 text-wrap">
+            <v-card-title class="text-h5 text-wrap">
               {{ post.title }}
             </v-card-title>
             <v-card-subtitle v-if="post.blog" class="d-flex align-center mt-1">
@@ -624,11 +896,11 @@ watch(
             </v-card-subtitle>
           </v-card-item>
 
-          <v-card-text class="pt-0">
+          <v-card-text>
             <p v-if="post.summary" class="text-body-1 font-weight-medium mb-4">
               {{ post.summary }}
             </p>
-            <div v-if="post.content" class="post-content text-body-1 mb-6">
+            <div v-if="post.content" class="post-content text-body-1">
               <p
                 v-for="(paragraph, index) in post.content.split('\n')"
                 :key="index"
@@ -637,18 +909,10 @@ watch(
                 {{ paragraph }}
               </p>
             </div>
-            <BlogReactionBar
-              class="mb-2"
-              :reactions-count="post.reactions_count ?? 0"
-              :comments-count="post.totalComments ?? 0"
-              clickable
-              @click:reactions="openPostReactions(post)"
-            />
           </v-card-text>
 
-          <v-card-actions class="px-4 pb-4 pt-0 flex-wrap">
+          <v-card-actions v-if="post.url" class="px-4 pb-4 pt-0">
             <AppButton
-              v-if="post.url"
               :href="post.url || undefined"
               target="_blank"
               variant="text"
@@ -657,100 +921,7 @@ watch(
             >
               {{ t('blog.actions.read') }}
             </AppButton>
-            <BlogReactionPicker
-              class="ml-auto ml-sm-4"
-              :model-value="resolveReactionType(post.isReacted ?? null)"
-              :count="post.reactions_count ?? 0"
-              :loading="post.ui.likeLoading"
-              :disabled="!loggedIn"
-              :show-caret="loggedIn"
-              :show-count="false"
-              @select="(type) => applyPostReaction(post, type)"
-              @remove="removePostReactionFromPost(post)"
-            />
           </v-card-actions>
-
-          <v-divider />
-
-          <div class="px-4 py-4">
-            <h2 class="text-h5 mb-4">{{ t('blog.sections.comments') }}</h2>
-
-            <v-alert
-              v-if="!loggedIn"
-              type="info"
-              variant="tonal"
-              class="mb-4"
-              density="comfortable"
-            >
-              {{ t('blog.prompts.loginToComment') }}
-            </v-alert>
-
-            <v-alert
-              v-if="post.ui.commentsError"
-              type="error"
-              variant="tonal"
-              class="mb-4"
-              density="comfortable"
-            >
-              {{ post.ui.commentsError }}
-            </v-alert>
-
-            <div v-if="loggedIn" class="mb-4">
-              <v-textarea
-                v-model="post.ui.commentContent"
-                :label="t('blog.forms.commentPlaceholder')"
-                auto-grow
-                rows="3"
-                variant="outlined"
-                :disabled="post.ui.commentLoading"
-              />
-              <div class="d-flex justify-end mt-2">
-                <AppButton
-                  color="primary"
-                  :loading="post.ui.commentLoading"
-                  :disabled="
-                    post.ui.commentLoading ||
-                    !post.ui.commentContent.trim().length
-                  "
-                  @click="submitPostComment(post)"
-                >
-                  {{ t('blog.actions.addComment') }}
-                </AppButton>
-              </div>
-            </div>
-
-            <BlogCommentThread
-              v-if="post.comments.length"
-              :comments="post.comments"
-              :format-author="getAuthorName"
-              :format-date="formatPublishedAt"
-              :can-interact="loggedIn"
-              :resolve-profile-link="getAuthorProfileLink"
-              @select-reaction="
-                (payload) =>
-                  applyCommentReaction(post, payload.comment, payload.type)
-              "
-              @remove-reaction="
-                (comment) => removeCommentReactionFromComment(post, comment)
-              "
-              @submit-reply="(comment) => submitCommentReply(post, comment)"
-            />
-
-            <v-sheet
-              v-else
-              class="py-8 px-4 text-center rounded-lg"
-              variant="tonal"
-              color="surface"
-            >
-              <v-icon icon="mdi-comment-outline" size="48" class="mb-3" />
-              <h3 class="text-h6 mb-1">
-                {{ t('blog.emptyComments.title') }}
-              </h3>
-              <p class="text-body-2 mb-0 text-medium-emphasis">
-                {{ t('blog.emptyComments.description') }}
-              </p>
-            </v-sheet>
-          </div>
         </AppCard>
 
         <v-sheet
@@ -771,11 +942,165 @@ watch(
       v-model="reactionsDialog.open"
       :reactions="reactionsDialog.items"
     />
+    <AppModal v-model="shareDialog.open" max-width="640">
+      <AppCard class="share-dialog">
+        <v-card-title class="d-flex align-center">
+          <span>{{ t('blog.dialogs.shareTitle') }}</span>
+          <v-spacer />
+          <AppButton
+            icon
+            variant="text"
+            :disabled="shareDialog.loading"
+            @click="closeShareDialog"
+          >
+            <v-icon icon="mdi-close" />
+          </AppButton>
+        </v-card-title>
+        <v-divider />
+        <v-card-text>
+          <div class="share-dialog__composer">
+            <AppAvatar
+              :src="currentUserAvatar"
+              :alt="currentUserDisplayName"
+              size="48"
+              class="share-dialog__avatar"
+            />
+            <div>
+              <div class="share-dialog__user-name">
+                {{ currentUserDisplayName }}
+              </div>
+              <div class="share-dialog__audience">
+                <v-icon icon="mdi-earth" size="16" class="mr-1" />
+                {{ t('blog.dialogs.shareAudiencePublic') }}
+              </div>
+            </div>
+          </div>
+          <v-textarea
+            v-model="shareDialog.message"
+            :placeholder="t('blog.forms.sharePlaceholder')"
+            rows="3"
+            auto-grow
+            variant="solo"
+            bg-color="rgba(var(--v-theme-surface-variant), 0.35)"
+            class="mt-4"
+          />
+          <div v-if="shareDialog.post" class="share-dialog__preview mt-4">
+            <div class="share-dialog__preview-header">
+              <AppAvatar
+                :src="getAuthorAvatar(shareDialog.post.user)"
+                :alt="getAuthorName(shareDialog.post.user)"
+                size="40"
+              />
+              <div>
+                <div class="share-dialog__preview-author">
+                  {{ getAuthorName(shareDialog.post.user) }}
+                </div>
+                <div class="share-dialog__preview-meta">
+                  {{ formatRelativePublishedAt(shareDialog.post.publishedAt) }}
+                </div>
+              </div>
+            </div>
+            <div class="share-dialog__preview-body">
+              <div class="share-dialog__preview-title">
+                {{ shareDialog.post.title }}
+              </div>
+              <p class="share-dialog__preview-text">
+                {{
+                  getPostExcerpt(shareDialog.post) ||
+                    t('blog.placeholders.noSummary')
+                }}
+              </p>
+            </div>
+          </div>
+        </v-card-text>
+        <v-divider />
+        <v-card-actions>
+          <v-spacer />
+          <AppButton
+            variant="text"
+            :disabled="shareDialog.loading"
+            @click="closeShareDialog"
+          >
+            {{ t('common.actions.cancel') }}
+          </AppButton>
+          <AppButton
+            color="primary"
+            :disabled="!shareDialog.post || shareDialog.loading"
+            :loading="shareDialog.loading"
+            @click="submitShare"
+          >
+            {{ t('common.actions.share') }}
+          </AppButton>
+        </v-card-actions>
+      </AppCard>
+    </AppModal>
   </v-container>
 </template>
 
 <style scoped>
 .post-content {
   white-space: pre-line;
+}
+
+.share-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.share-dialog__composer {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.share-dialog__avatar {
+  flex-shrink: 0;
+}
+
+.share-dialog__user-name {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.share-dialog__audience {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  color: rgba(var(--v-theme-on-surface), 0.6);
+}
+
+.share-dialog__preview {
+  border-radius: 16px;
+  border: 1px solid rgba(var(--v-theme-outline), 0.2);
+  background: rgba(var(--v-theme-surface-variant), 0.35);
+  padding: 16px;
+}
+
+.share-dialog__preview-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.share-dialog__preview-author {
+  font-weight: 600;
+}
+
+.share-dialog__preview-meta {
+  font-size: 0.875rem;
+  color: rgba(var(--v-theme-on-surface), 0.6);
+}
+
+.share-dialog__preview-title {
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+
+.share-dialog__preview-text {
+  margin: 0;
+  color: rgba(var(--v-theme-on-surface), 0.7);
 }
 </style>
