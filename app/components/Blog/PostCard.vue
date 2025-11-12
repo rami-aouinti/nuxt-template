@@ -335,6 +335,7 @@ const onDeletePost = () => {
           :post="post"
           :logged-in="loggedIn"
           :format-date="formatPublishedAt"
+          :format-relative-date="formatRelativePublishedAt"
           @submit-comment="onSubmitComment"
           @select-reaction="onSelectCommentReaction"
           @remove-reaction="onRemoveCommentReaction"
