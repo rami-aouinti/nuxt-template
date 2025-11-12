@@ -21,6 +21,7 @@ import type { PublicProfileData } from '~/types/profile'
 import { Notify } from '~/stores/notification'
 import { DEFAULT_REACTION_TYPE, resolveReactionType } from '~/utils/reactions'
 import { extractCommentLikes, extractCommentList } from '~/utils/blogComments'
+import { formatPublishedAt as formatBlogPublishedAt } from '~/utils/formatters'
 
 definePageMeta({
   icon: 'mdi-post-outline',
@@ -411,10 +412,7 @@ function extractErrorMessage(error: unknown, fallback: string) {
 }
 
 const formatPublishedAt = (publishedAt: string) =>
-  new Intl.DateTimeFormat(locale.value, {
-    dateStyle: 'long',
-    timeStyle: 'short',
-  }).format(new Date(publishedAt))
+  formatBlogPublishedAt(publishedAt, locale.value)
 
 function ensureAuthenticated(showNotification = true) {
   if (!loggedIn.value) {
