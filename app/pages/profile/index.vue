@@ -7,6 +7,7 @@ import type { Configuration } from '~/types/configuration'
 import { Notify } from '~/stores/notification'
 import AppButton from "~/components/ui/AppButton.vue";
 import AppCard from "~/components/ui/AppCard.vue";
+import AppList from "~/components/ui/AppList.vue";
 
 definePageMeta({
   title: 'navigation.profile',
@@ -767,14 +768,16 @@ async function submit() {
                 <AppButton
                   class="profile-avatar-edit-btn"
                   color="primary"
-                  density="comfortable"
-                  icon="mdi-pencil"
+                  icon
                   size="small"
+                  density="compact"
                   variant="flat"
                   :disabled="isSaving"
                   :aria-label="t('profile.fields.photo')"
                   @click="triggerAvatarUpload"
-                />
+                >
+                  <v-icon>mdi-pencil</v-icon>
+                </AppButton>
                 <input
                   ref="avatarFileInput"
                   class="profile-avatar-file-input"

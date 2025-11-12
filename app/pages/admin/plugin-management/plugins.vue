@@ -7,6 +7,7 @@ import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
 import type { AdminPlugin, AdminPluginPayload } from '~/types/plugin'
 import AppButton from "~/components/ui/AppButton.vue";
+import AppList from "~/components/ui/AppList.vue";
 
 definePageMeta({
   title: 'navigation.plugins',

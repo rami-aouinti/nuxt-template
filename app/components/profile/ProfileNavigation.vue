@@ -122,7 +122,7 @@ const items = computed<NavigationItem[]>(() => [
 
 <style scoped>
 .profile-navigation {
-  background-color: rgb(var(--v-theme-surface)) !important;
+  background-color: transparent !important;
   padding: 8px;
 }
 

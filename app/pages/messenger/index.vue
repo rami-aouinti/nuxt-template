@@ -12,6 +12,7 @@ import { Notify } from '~/stores/notification'
 import type { PublicProfileData } from '~/types/profile'
 import AppCard from "~/components/ui/AppCard.vue";
 import AppButton from "~/components/ui/AppButton.vue";
+import AppList from "~/components/ui/AppList.vue";
 
 definePageMeta({
   title: 'navigation.messenger',
@@ -528,16 +529,18 @@ onMounted(async () => {
   <v-container fluid class="messenger-page">
     <client-only>
       <teleport to="#app-drawer">
-        <v-toolbar flat density="compact">
+        <v-toolbar density="compact" variant="text">
           <v-toolbar-title class="text-subtitle-1 font-weight-medium">
             {{ t('messenger.conversations') }}
           </v-toolbar-title>
           <AppButton
-            icon="mdi-refresh"
+            icon
             size="small"
             :loading="isLoadingConversations"
             @click="loadConversations"
-          />
+          >
+            <v-icon>mdi-refresh</v-icon>
+          </AppButton>
         </v-toolbar>
         <v-divider />
         <div class="conversation-scroll">
@@ -550,8 +553,9 @@ onMounted(async () => {
             />
           </template>
           <template v-else>
-            <AppList nav density="comfortable">
+            <AppList density="comfortable" lines="two">
               <v-list-item
+                class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
                 v-for="conversation in conversations"
                 :key="conversation.id"
                 :active="conversation.id === selectedConversationId"

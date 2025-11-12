@@ -7,6 +7,7 @@ import { Notify } from '~/stores/notification'
 import type { User } from '~/types/user'
 import AppButton from "~/components/ui/AppButton.vue";
 import AppCard from "~/components/ui/AppCard.vue";
+import AppList from "~/components/ui/AppList.vue";
 
 definePageMeta({
   title: 'navigation.userGroups',

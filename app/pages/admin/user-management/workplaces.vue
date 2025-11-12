@@ -7,6 +7,7 @@ import type { Workplace, WorkplacePayload } from '~/types/workplace'
 import { storeToRefs } from 'pinia'
 import AppButton from "~/components/ui/AppButton.vue";
 import AppCard from "~/components/ui/AppCard.vue";
+import AppList from "~/components/ui/AppList.vue";
 
 definePageMeta({
   title: 'navigation.workplaces',
