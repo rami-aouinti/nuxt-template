@@ -299,6 +299,34 @@ const createPostPrompt = computed(() =>
   }),
 )
 
+const createPostComposerAction = computed(() => ({
+  id: 'composer',
+  label: createPostTitle.value,
+  icon: 'mdi-pencil-outline',
+  color: 'primary',
+}))
+
+const createPostActions = computed(() => [
+  {
+    id: 'live-video',
+    label: t('blog.feed.composer.actions.liveVideo'),
+    icon: 'mdi-video-outline',
+    color: 'error',
+  },
+  {
+    id: 'photo-video',
+    label: t('blog.feed.composer.actions.photoVideo'),
+    icon: 'mdi-image-multiple-outline',
+    color: 'success',
+  },
+  {
+    id: 'feeling-activity',
+    label: t('blog.feed.composer.actions.feelingActivity'),
+    icon: 'mdi-emoticon-happy-outline',
+    color: 'warning',
+  },
+])
+
 const currentUserAvatar = computed(() => {
   const profilePhoto =
     typeof currentProfile.value?.photo === 'string'
@@ -1023,6 +1051,10 @@ function openCreatePostDialog() {
 
   resetCreatePostForm()
   createPostDialog.open = true
+}
+
+function onSelectCreatePostAction(_: { id: string }) {
+  openCreatePostDialog()
 }
 
 async function submitCreatePost() {
@@ -1763,64 +1795,16 @@ if (import.meta.client) {
         </v-row>
 
         <template v-else>
-          <AppCard
+          <BlogCreatePostCard
             v-if="loggedIn"
-            class="create-post-card mb-6"
-            elevation="0"
-            rounded="xl"
-          >
-            <v-card-text class="create-post-card__body">
-              <div
-                class="create-post-card__composer"
-                role="button"
-                tabindex="0"
-                :aria-label="createPostTitle"
-                @click="openCreatePostDialog"
-                @keydown.enter.prevent="openCreatePostDialog"
-                @keydown.space.prevent="openCreatePostDialog"
-              >
-                <AppAvatar
-                  :src="currentUserAvatar"
-                  :alt="currentUserDisplayName"
-                  size="32"
-                  class="create-post-card__avatar"
-                />
-                <div class="create-post-card__placeholder">
-                  {{ createPostPrompt }}
-                </div>
-              </div>
-              <v-divider class="my-4" />
-              <div class="create-post-card__actions">
-                <AppButton
-                  variant="text"
-                  class="create-post-card__action"
-                  color="error"
-                  prepend-icon="mdi-video-outline"
-                  @click="openCreatePostDialog"
-                >
-                  {{ t('blog.feed.composer.actions.liveVideo') }}
-                </AppButton>
-                <AppButton
-                  variant="text"
-                  class="create-post-card__action"
-                  color="success"
-                  prepend-icon="mdi-image-multiple-outline"
-                  @click="openCreatePostDialog"
-                >
-                  {{ t('blog.feed.composer.actions.photoVideo') }}
-                </AppButton>
-                <AppButton
-                  variant="text"
-                  class="create-post-card__action"
-                  color="warning"
-                  prepend-icon="mdi-emoticon-happy-outline"
-                  @click="openCreatePostDialog"
-                >
-                  {{ t('blog.feed.composer.actions.feelingActivity') }}
-                </AppButton>
-              </div>
-            </v-card-text>
-          </AppCard>
+            class="mb-6"
+            :avatar="currentUserAvatar"
+            :display-name="currentUserDisplayName"
+            :prompt="createPostPrompt"
+            :composer-action="createPostComposerAction"
+            :actions="createPostActions"
+            @select="onSelectCreatePostAction"
+          />
           <v-row v-if="filteredPosts.length" class="g-6">
             <v-col v-for="post in filteredPosts" :key="post.id" cols="12">
               <BlogPostCard
@@ -2184,64 +2168,6 @@ if (import.meta.client) {
 
 .blog-feed {
   border-radius: 28px;
-}
-
-.create-post-card {
-  background: var(--blog-feed-background);
-  box-shadow: var(--blog-feed-shadow);
-}
-
-.create-post-card__body {
-  display: flex;
-  flex-direction: column;
-}
-
-.create-post-card__composer {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 12px 16px;
-  border-radius: 999px;
-  border: solid;
-  border-color: rgba(var(--v-theme-surface-variant), 0.5);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  outline: none;
-}
-
-.create-post-card__composer:hover,
-.create-post-card__composer:focus-visible {
-  background: rgba(var(--v-theme-surface-variant), 0.1);
-}
-
-.create-post-card__avatar {
-  flex-shrink: 0;
-}
-
-.create-post-card__placeholder {
-  flex: 1 1 auto;
-  color: rgba(var(--v-theme-on-surface), 0.6);
-  font-weight: 500;
-}
-
-.create-post-card__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: space-between;
-}
-
-.create-post-card__action {
-  flex: 1 1 auto;
-  justify-content: flex-start;
-  text-transform: none;
-  font-weight: 500;
-}
-
-@media (max-width: 600px) {
-  .create-post-card__actions {
-    flex-direction: column;
-  }
 }
 
 .blog-feed__empty {
