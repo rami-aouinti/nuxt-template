@@ -109,14 +109,14 @@ const items = computed<NavigationItem[]>(() => [
         )
       }}
     </p>
-    <AppListingCard
-      v-for="section in items"
-      :key="section.value"
-      :to="section.to"
-      :icon="section.icon"
-      :label="section.label"
-      class="text-decoration-none text-primary"
-    />
+    <div v-for="section in items" :key="section.value" class="w-100">
+      <NuxtLink class="text-decoration-none" :to="section.to" style="color: inherit">
+        <div class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3">
+          <v-icon :icon="section.icon" size="24" />
+          <span class="px-2">{{ section.label }}</span>
+        </div>
+      </NuxtLink>
+    </div>
   </div>
 </template>
 
