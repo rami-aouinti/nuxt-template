@@ -9,7 +9,6 @@ import {
 import { useBlogAuthor } from '~/composables/useBlogAuthor'
 import type {
   BlogComment,
-  BlogCommentLike,
   BlogCommentViewModel,
   BlogPost,
   BlogPostUser,
@@ -21,6 +20,7 @@ import type {
 import type { PublicProfileData } from '~/types/profile'
 import { Notify } from '~/stores/notification'
 import { DEFAULT_REACTION_TYPE, resolveReactionType } from '~/utils/reactions'
+import { extractCommentLikes, extractCommentList } from '~/utils/blogComments'
 
 definePageMeta({
   icon: 'mdi-post-outline',
@@ -181,22 +181,7 @@ const slug = computed(() => {
 })
 
 function normalizeComment(comment: BlogComment): BlogComment {
-  const likes = Array.isArray(comment.likes)
-    ? comment.likes.filter((like): like is BlogCommentLike => {
-        if (!like || typeof like !== 'object') {
-          return false
-        }
-
-        const user = (like as { user?: BlogPostUser | null }).user
-        return Boolean(
-          user &&
-            typeof user === 'object' &&
-            'id' in user &&
-            typeof user.id === 'string' &&
-            user.id.trim().length > 0,
-        )
-      })
-    : []
+  const likes = extractCommentLikes(comment.likes)
 
   const reactionsCount =
     typeof comment.reactions_count === 'number'
@@ -205,12 +190,10 @@ function normalizeComment(comment: BlogComment): BlogComment {
         ? comment.likes_count
         : likes.length
 
-  const replies =
-    Array.isArray(comment.comments_preview) && comment.comments_preview.length
-      ? comment.comments_preview
-      : Array.isArray(comment.children)
-        ? comment.children
-        : []
+  const repliesPreview = extractCommentList(comment.comments_preview)
+  const replies = repliesPreview.length
+    ? repliesPreview
+    : extractCommentList(comment.children)
 
   let isReacted: BlogComment['isReacted'] = resolveReactionType(
     comment.isReacted ?? null,
@@ -273,18 +256,15 @@ function createCommentViewModel(comment: BlogComment): BlogCommentViewModel {
 }
 
 function resolvePostComments(postValue: BlogPost): BlogComment[] {
-  if (
-    Array.isArray(postValue.comments_preview) &&
-    postValue.comments_preview.length
-  ) {
-    return postValue.comments_preview
+  const preview = extractCommentList(postValue.comments_preview)
+  if (preview.length) {
+    return preview
   }
 
-  const withComments = postValue as BlogPost & {
-    comments?: BlogComment[] | null
-  }
-  if (Array.isArray(withComments.comments)) {
-    return withComments.comments
+  const withComments = postValue as BlogPost & { comments?: unknown }
+  const comments = extractCommentList(withComments.comments)
+  if (comments.length) {
+    return comments
   }
 
   return []
