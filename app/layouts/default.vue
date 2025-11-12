@@ -2,6 +2,7 @@
 import AppDrawerPublic from '~/components/App/AppDrawerPublic.vue'
 import AppBarPublic from '~/components/App/AppBarPublic.vue'
 import AppDrawerPublicRight from '~/components/App/AppDrawerPublicRight.vue'
+import AppUiShowcase from '~/components/ui/AppUiShowcase.vue'
 
 const routeLoading = useRouteLoading()
 </script>
@@ -19,6 +20,7 @@ const routeLoading = useRouteLoading()
             <span class="floating-shape floating-shape--two" />
             <div class="page-surface__inner">
               <slot />
+              <AppUiShowcase />
             </div>
           </div>
         </div>
