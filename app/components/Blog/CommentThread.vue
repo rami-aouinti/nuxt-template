@@ -5,7 +5,6 @@ import type {
   BlogPostUser,
   BlogReactionType,
 } from '~/types/blog'
-import { resolveReactionType } from '~/utils/reactions'
 
 defineOptions({ name: 'BlogCommentThread' })
 
@@ -30,9 +29,6 @@ const { t } = useI18n()
 
 const hasComments = computed(() => props.comments?.length > 0)
 
-const formatRelative = (date: string) =>
-  props.formatRelativeDate?.(date) ?? props.formatDate(date)
-
 const getProfileLink = (user: BlogPostUser) => {
   const link = props.resolveProfileLink?.(user)
   if (typeof link === 'string' && link.trim().length) {
@@ -48,10 +44,6 @@ const toggleReply = (comment: BlogCommentViewModel) => {
     comment.ui.replyContent = ''
   }
 }
-
-const resolveCommentReaction = (
-  value: BlogCommentViewModel['isReacted'],
-): BlogReactionType | null => resolveReactionType(value ?? null)
 </script>
 
 <template>
@@ -61,122 +53,66 @@ const resolveCommentReaction = (
       :key="comment.id"
       class="blog-comment-thread__item"
     >
-      <v-sheet variant="outlined" class="pa-4 mb-4 rounded-lg" color="surface">
-        <div class="d-flex align-start">
-          <NuxtLink
-            v-if="getProfileLink(comment.user)"
-            :to="getProfileLink(comment.user)"
-            class="blog-comment-thread__avatar-link"
-          >
-            <AppAvatar
-              :src="comment.user.photo || undefined"
-              :alt="formatAuthor(comment.user)"
-              size="36"
-            />
-          </NuxtLink>
-          <AppAvatar
-            v-else
-            :src="comment.user.photo || undefined"
-            :alt="formatAuthor(comment.user)"
-            size="36"
-          />
-          <div class="flex-grow-1 ml-3">
-            <div class="d-flex align-start justify-space-between">
-              <div>
-                <p class="text-subtitle-2 mb-0">
-                  <NuxtLink
-                    v-if="getProfileLink(comment.user)"
-                    :to="getProfileLink(comment.user)"
-                    class="blog-comment-thread__author-link"
-                  >
-                    {{ formatAuthor(comment.user) }}
-                  </NuxtLink>
-                  <span v-else>{{ formatAuthor(comment.user) }}</span>
-                </p>
-                <p
-                  class="text-caption text-medium-emphasis mb-3"
-                  :title="formatDate(comment.publishedAt)"
-                >
-                  {{ formatRelative(comment.publishedAt) }}
-                </p>
-              </div>
-            </div>
-            <p class="text-body-2 mb-0">
-              {{ comment.content }}
-            </p>
-            <div class="d-flex align-center pa-3 blog-comment-thread__actions">
-              <BlogReactionPicker
-                class="mr-2"
-                size="small"
-                density="comfortable"
-                :model-value="resolveCommentReaction(comment.isReacted)"
-                :count="comment.reactions_count ?? comment.likes_count ?? 0"
-                :loading="comment.ui.likeLoading"
-                :disabled="!canInteract"
-                :show-caret="canInteract"
-                @select="(type) => emit('select-reaction', { comment, type })"
-                @remove="emit('remove-reaction', comment)"
-              />
-              <v-btn
-                v-if="canInteract"
-                variant="text"
-                size="small"
-                :disabled="comment.ui.replyLoading"
-                @click="toggleReply(comment)"
-              >
-                <v-icon icon="mdi-message" class="mr-1" />
-                {{ comment.replies?.length ?? comment.totalComments ?? 0 }}
-              </v-btn>
-            </div>
-          </div>
-        </div>
-      </v-sheet>
-
-      <v-expand-transition>
-        <div v-if="comment.ui.replyOpen" class="blog-comment-thread__reply">
-          <v-textarea
-            v-model="comment.ui.replyContent"
-            :label="t('blog.forms.replyPlaceholder')"
-            auto-grow
-            rows="2"
-            variant="outlined"
-            :disabled="comment.ui.replyLoading"
-          />
-          <div class="d-flex justify-end mt-2 mb-4">
-            <v-btn
-              class="mr-2"
-              variant="text"
-              :disabled="comment.ui.replyLoading"
-              @click="toggleReply(comment)"
-            >
-              {{ t('common.actions.cancel') }}
-            </v-btn>
-            <v-btn
-              color="primary"
-              :loading="comment.ui.replyLoading"
-              :disabled="
-                comment.ui.replyLoading ||
-                !comment.ui.replyContent.trim().length
-              "
-              @click="emit('submit-reply', comment)"
-            >
-              {{ t('blog.actions.addComment') }}
-            </v-btn>
-          </div>
-        </div>
-      </v-expand-transition>
-
-      <BlogCommentThread
-        v-if="comment.replies?.length"
-        :comments="comment.replies"
+      <BlogCommentCard
+        :comment="comment"
         :format-author="formatAuthor"
         :format-date="formatDate"
-        :format-relative-date="formatRelativeDate"
+        :format-relative-date="props.formatRelativeDate"
         :can-interact="canInteract"
-        @select-reaction="emit('select-reaction', $event)"
-        @remove-reaction="emit('remove-reaction', $event)"
-        @submit-reply="emit('submit-reply', $event)"
-      />
+        :resolve-profile-link="getProfileLink"
+        :reply-count="comment.replies?.length ?? comment.totalComments ?? 0"
+        @select-reaction="(type) => emit('select-reaction', { comment, type })"
+        @remove-reaction="emit('remove-reaction', comment)"
+        @toggle-reply="toggleReply(comment)"
+      >
+        <template #reply>
+          <v-expand-transition>
+            <div v-if="comment.ui.replyOpen" class="blog-comment-thread__reply">
+              <BlogCommentEditor
+                v-model="comment.ui.replyContent"
+                :placeholder="t('blog.forms.replyPlaceholder')"
+                :loading="comment.ui.replyLoading"
+                card-variant="flat"
+                @submit="emit('submit-reply', comment)"
+                @cancel="toggleReply(comment)"
+              >
+                <template #actions-right="{ loading, canSubmit, submit, cancel }">
+                  <AppButton
+                    variant="text"
+                    :disabled="loading"
+                    @click="cancel"
+                  >
+                    {{ t('common.actions.cancel') }}
+                  </AppButton>
+                  <AppButton
+                    color="primary"
+                    :loading="loading"
+                    :disabled="!canSubmit"
+                    @click="submit"
+                  >
+                    {{ t('blog.actions.addComment') }}
+                  </AppButton>
+                </template>
+              </BlogCommentEditor>
+            </div>
+          </v-expand-transition>
+        </template>
+        <template #children>
+          <div v-if="comment.replies?.length" class="blog-comment-thread__children">
+            <BlogCommentThread
+              :comments="comment.replies"
+              :format-author="formatAuthor"
+              :format-date="formatDate"
+              :format-relative-date="props.formatRelativeDate"
+              :can-interact="canInteract"
+              :resolve-profile-link="props.resolveProfileLink"
+              @select-reaction="emit('select-reaction', $event)"
+              @remove-reaction="emit('remove-reaction', $event)"
+              @submit-reply="emit('submit-reply', $event)"
+            />
+          </div>
+        </template>
+      </BlogCommentCard>
     </div>
   </div>
 </template>
@@ -187,24 +123,13 @@ const resolveCommentReaction = (
 }
 
 .blog-comment-thread__reply {
-  margin-left: 52px;
+  margin-left: 48px;
 }
 
-.blog-comment-thread__actions {
-  gap: 8px;
-}
-
-.blog-comment-thread__avatar-link {
-  display: inline-flex;
-}
-
-.blog-comment-thread__author-link {
-  color: inherit;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.blog-comment-thread__author-link:hover {
-  text-decoration: underline;
+.blog-comment-thread__children {
+  margin-left: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 </style>

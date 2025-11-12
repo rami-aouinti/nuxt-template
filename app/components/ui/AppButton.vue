@@ -7,7 +7,7 @@ type ButtonDensity = 'default' | 'comfortable' | 'compact'
 type ButtonType = 'button' | 'submit' | 'reset'
 type ButtonElevation = string | number
 
-type IconValue = string | undefined
+type IconValue = string | boolean | undefined
 
 const props = defineProps<{
   color?: string
@@ -18,8 +18,9 @@ const props = defineProps<{
   disabled?: boolean
   size?: ButtonSize
   density?: ButtonDensity
-  prependIcon?: IconValue
-  appendIcon?: IconValue
+  prependIcon?: Exclude<IconValue, boolean>
+  appendIcon?: Exclude<IconValue, boolean>
+  icon?: IconValue
   type?: ButtonType
   elevation?: ButtonElevation
 }>()
@@ -59,6 +60,7 @@ const normalizedElevation = computed<ButtonElevation | undefined>(() => {
     :density="normalizedDensity"
     :prepend-icon="prependIcon"
     :append-icon="appendIcon"
+    :icon="icon"
     :type="normalizedType"
     :elevation="normalizedElevation"
     :class="[

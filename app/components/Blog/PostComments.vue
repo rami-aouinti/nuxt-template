@@ -53,57 +53,43 @@ const resolveProfileLink = (user: BlogPostUser) => getAuthorProfileLink(user)
       {{ post.ui.commentsError }}
     </v-alert>
 
-    <div v-if="loggedIn" class="blog-comment-composer mb-4">
-      <v-sheet
-        class="blog-comment-composer__container"
-        color="surface"
-        variant="outlined"
-        rounded="lg"
-        border
-      >
-        <v-textarea
-          v-model="post.ui.commentContent"
-          :placeholder="t('blog.forms.commentPlaceholder')"
-          auto-grow
-          rows="2"
-          :disabled="post.ui.commentLoading"
+    <BlogCommentEditor
+      v-if="loggedIn"
+      v-model="post.ui.commentContent"
+      class="mb-4"
+      :placeholder="t('blog.forms.commentPlaceholder')"
+      :loading="post.ui.commentLoading"
+      @submit="emit('submit-comment')"
+    >
+      <template #actions-left="{ disabled }">
+        <AppButton
+          variant="text"
+          color="primary"
+          icon="mdi-paperclip"
+          density="compact"
+          :disabled="disabled"
         />
-        <div class="blog-comment-composer__actions">
-          <div class="blog-comment-composer__actions-left">
-            <v-btn
-              icon="mdi-paperclip"
-              variant="text"
-              color="primary"
-              density="compact"
-              class="blog-comment-composer__action"
-              :disabled="post.ui.commentLoading"
-            />
-            <v-btn
-              icon="mdi-microphone-outline"
-              variant="text"
-              color="primary"
-              density="compact"
-              class="blog-comment-composer__action"
-              :disabled="post.ui.commentLoading"
-            />
-          </div>
-          <v-spacer />
-          <v-btn
-            class="blog-comment-composer__submit"
-            color="primary"
-            variant="text"
-            density="compact"
-            icon="mdi-send"
-            :aria-label="t('blog.actions.addComment')"
-            :loading="post.ui.commentLoading"
-            :disabled="
-              post.ui.commentLoading || !post.ui.commentContent.trim().length
-            "
-            @click="emit('submit-comment')"
-          />
-        </div>
-      </v-sheet>
-    </div>
+        <AppButton
+          variant="text"
+          color="primary"
+          icon="mdi-microphone-outline"
+          density="compact"
+          :disabled="disabled"
+        />
+      </template>
+      <template #actions-right="{ loading, canSubmit, submit }">
+        <AppButton
+          color="primary"
+          variant="text"
+          icon="mdi-send"
+          :loading="loading"
+          :disabled="!canSubmit"
+          :aria-label="t('blog.actions.addComment')"
+          density="compact"
+          @click="submit"
+        />
+      </template>
+    </BlogCommentEditor>
 
     <BlogCommentThread
       v-if="post.comments.length"
@@ -139,43 +125,6 @@ const resolveProfileLink = (user: BlogPostUser) => getAuthorProfileLink(user)
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-
-.blog-comment-composer__container {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  background-color: rgba(var(--v-theme-surface-variant), 0.12);
-  border-radius: 18px;
-}
-
-.blog-comment-composer__textarea :deep(textarea) {
-  font-size: 0.95rem;
-  line-height: 1.5;
-  padding: 0;
-}
-
-.blog-comment-composer__actions {
-  display: flex;
-  align-items: center;
-}
-
-.blog-comment-composer__actions-left {
-  display: flex;
-  align-items: center;
-}
-
-.blog-comment-composer__action {
-  color: rgba(var(--v-theme-on-surface-variant), 0.8);
-}
-
-.blog-comment-composer__action:hover {
-  color: rgb(var(--v-theme-primary));
-}
-
-.blog-comment-composer__submit {
-  box-shadow: none;
 }
 
 .facebook-post-card__comments-empty {
