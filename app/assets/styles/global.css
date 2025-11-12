@@ -1,7 +1,7 @@
 :root {
   --app-rounded: 18px;
-  --app-shadow: 0 10px 26px rgba(15, 23, 42, 0.14);
-  --app-shadow-hover: 0 18px 44px rgba(15, 23, 42, 0.2);
+  --app-shadow: 0 10px 26px rgba(var(--v-theme-primary), 0.14);
+  --app-shadow-hover: 0 18px 44px rgba(var(--v-theme-primary), 0.2);
   --app-footer-height: 64px;
 }
 
@@ -17,7 +17,7 @@ body {
 }
 
 .v-card--variant-elevated:not(.v-card--flat) {
-  box-shadow: var(--app-shadow, 0 10px 26px rgba(15, 23, 42, 0.14));
+  box-shadow: var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14));
 }
 
 :where(div) {
@@ -68,7 +68,7 @@ body {
     .v-list.v-sheet,
     .v-window-item
   ) {
-  box-shadow: var(--app-shadow, 0 10px 26px rgba(15, 23, 42, 0.14)) !important;
+  box-shadow: var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14)) !important;
 }
 
 .v-theme--light {

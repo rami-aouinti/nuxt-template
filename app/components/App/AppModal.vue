@@ -120,7 +120,7 @@ const handleClose = () => {
 .app-modal {
   border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 24px 48px rgba(var(--v-theme-primary), 0.24);
   background: rgb(var(--v-theme-surface));
 }
 

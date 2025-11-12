@@ -400,7 +400,7 @@ const onDeletePost = () => {
   );
   box-shadow: var(
     --blog-post-card-shadow,
-    var(--app-shadow, 0 10px 26px rgba(15, 23, 42, 0.14))
+    var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14))
   );
   transition:
     transform 0.2s ease,
@@ -413,7 +413,7 @@ const onDeletePost = () => {
   transform: translateY(-4px);
   box-shadow: var(
     --blog-post-card-hover-shadow,
-    var(--app-shadow, 0 10px 26px rgba(15, 23, 42, 0.14))
+    var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14))
   );
 }
 

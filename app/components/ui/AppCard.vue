@@ -69,11 +69,11 @@ const cardClasses = computed(() => [
 }
 
 .app-card--shadow {
-  box-shadow: var(--app-shadow, 0 10px 26px rgba(15, 23, 42, 0.14)) !important;
+  box-shadow: var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14)) !important;
 }
 
 .app-card--hoverable:hover {
-  box-shadow: var(--app-shadow-hover, 0 18px 44px rgba(15, 23, 42, 0.2)) !important;
+  box-shadow: var(--app-shadow-hover, 0 18px 44px rgba(var(--v-theme-primary), 0.2)) !important;
   transform: translateY(-4px);
 }
 
