@@ -28,6 +28,8 @@ import type { Workplace } from '~/types/workplace'
 import { Notify } from '~/stores/notification'
 import { useBlogAuthor } from '~/composables/useBlogAuthor'
 import { DEFAULT_REACTION_TYPE, resolveReactionType } from '~/utils/reactions'
+import AppButton from "~/components/ui/AppButton.vue";
+import AppCard from "~/components/ui/AppCard.vue";
 
 definePageMeta({
   title: 'navigation.home',
