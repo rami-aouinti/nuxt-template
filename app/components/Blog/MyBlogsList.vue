@@ -72,31 +72,27 @@ function getBlogInitials(title: string | null | undefined): string {
     </v-alert>
 
     <template v-else-if="hasBlogs">
-      <div
+      <AppListingCard
         v-for="blog in blogs"
         :key="blog.id"
-        class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
+        :to="`/blog/${blog.id}`"
+        class="text-decoration-none text-primary"
       >
-        <NuxtLink
-          class="text-decoration-none text-primary d-flex align-center gap-3"
-          :to="`/blog/${blog.id}`"
+        <AppAvatar
+          :src="blog.logo || undefined"
+          :alt="blog.title"
+          size="36"
+          color="primary"
+          variant="tonal"
         >
-          <AppAvatar
-            :src="blog.logo || undefined"
-            :alt="blog.title"
-            size="36"
-            color="primary"
-            variant="tonal"
-          >
-            <template #fallback>
-              <span class="blog-avatar__initials">
-                {{ getBlogInitials(blog.title) }}
-              </span>
-            </template>
-          </AppAvatar>
-          <span>{{ blog.title }}</span>
-        </NuxtLink>
-      </div>
+          <template #fallback>
+            <span class="blog-avatar__initials">
+              {{ getBlogInitials(blog.title) }}
+            </span>
+          </template>
+        </AppAvatar>
+        <span>{{ blog.title }}</span>
+      </AppListingCard>
     </template>
 
     <p v-else class="text-body-2 text-medium-emphasis mb-0">
