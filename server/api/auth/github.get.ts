@@ -4,8 +4,6 @@ import { persistProfileState } from '../../utils/cache/profile'
 
 export default defineOAuthGitHubEventHandler({
   async onSuccess(event, { user }) {
-    await setUserSession(event, { user })
-    return sendRedirect(event, '/')
     try {
       const { data } = await axios.post<LoginResponse>(
         'https://bro-world.org/api/v1/user/github/verify',
