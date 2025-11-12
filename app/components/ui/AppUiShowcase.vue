@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import AppCard from "~/components/ui/AppCard.vue";
+import AppList from "~/components/ui/AppList.vue";
+import AppButton from "~/components/ui/AppButton.vue";
+import AppMenu from "~/components/ui/AppMenu.vue";
 
 const isModalOpen = ref(false)
 const isMenuOpen = ref(false)

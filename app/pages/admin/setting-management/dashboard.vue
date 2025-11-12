@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { normalizeRequestHeaders } from '~/utils/headers'
+import AppCard from "~/components/ui/AppCard.vue";
 
 definePageMeta({
   icon: 'mdi-monitor-dashboard',

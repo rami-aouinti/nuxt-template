@@ -4,6 +4,8 @@ import type { DataTableHeader } from 'vuetify'
 import { useAdminStore, type ApiVersion } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
 import type { ApiKey } from '~/types/apiKey'
+import AppButton from "~/components/ui/AppButton.vue";
+import AppCard from "~/components/ui/AppCard.vue";
 
 type ApiKeyFormState = {
   description: string

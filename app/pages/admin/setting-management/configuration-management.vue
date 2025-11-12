@@ -12,6 +12,7 @@ import { Notify } from '~/stores/notification'
 import { normalizeRequestHeaders } from '~/utils/headers'
 import { normalizeCollection } from '~/utils/collections'
 import AppCard from "~/components/ui/AppCard.vue";
+import AppButton from "~/components/ui/AppButton.vue";
 
 definePageMeta({
   title: 'configurationManagement.configurations.title',

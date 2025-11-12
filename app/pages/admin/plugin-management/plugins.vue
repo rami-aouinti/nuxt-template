@@ -6,6 +6,7 @@ import type { DataTableHeader } from 'vuetify'
 import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
 import type { AdminPlugin, AdminPluginPayload } from '~/types/plugin'
+import AppButton from "~/components/ui/AppButton.vue";
 
 definePageMeta({
   title: 'navigation.plugins',

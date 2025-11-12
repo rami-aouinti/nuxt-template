@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import AppCard from "~/components/ui/AppCard.vue";
+import AppButton from "~/components/ui/AppButton.vue";
 
 const props = withDefaults(
   defineProps<{

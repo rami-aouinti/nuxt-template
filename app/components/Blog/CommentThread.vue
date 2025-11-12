@@ -5,6 +5,7 @@ import type {
   BlogPostUser,
   BlogReactionType,
 } from '~/types/blog'
+import AppButton from "~/components/ui/AppButton.vue";
 
 defineOptions({ name: 'BlogCommentThread' })
 

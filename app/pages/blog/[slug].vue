@@ -7,6 +7,8 @@ import {
   truncateText,
   formatPublishedAt as formatBlogPublishedAt,
 } from '~/utils/formatters'
+import AppButton from "~/components/ui/AppButton.vue";
+import AppCard from "~/components/ui/AppCard.vue";
 
 definePageMeta({
   icon: 'mdi-rss',

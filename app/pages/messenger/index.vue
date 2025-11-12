@@ -10,6 +10,8 @@ import type {
 } from '~/types/messenger'
 import { Notify } from '~/stores/notification'
 import type { PublicProfileData } from '~/types/profile'
+import AppCard from "~/components/ui/AppCard.vue";
+import AppButton from "~/components/ui/AppButton.vue";
 
 definePageMeta({
   title: 'navigation.messenger',
