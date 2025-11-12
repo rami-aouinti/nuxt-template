@@ -1087,24 +1087,57 @@
     },
     "about": {
       "title": "Acerca de Bro World",
-      "subtitle": "Descubre cómo Bro World ofrece una colaboración sin fricciones gracias a un stack tecnológico moderno.",
+      "subtitle": "Descubre la plataforma llena de funciones que impulsa a Bro World en equipos, productos y comunidades.",
+      "intro": "Bro World se ha convertido en un espacio de trabajo digital unificado que combina comunidad, publicación de contenido, mensajería y automatización en una experiencia cohesionada.",
+      "mission": "Nuestra misión es ayudar a los equipos a prototipar rápido, lanzar antes y gestionar las operaciones diarias con confianza mediante bloques modulares.",
+      "vision": "Desde flujos de trabajo asistidos por IA hasta paneles de colaboración en tiempo real, cada función está diseñada para adaptarse a medida que evoluciona tu organización.",
       "sections": {
         "frontend": {
           "title": "Experiencia front-end",
-          "description": "Nuxt 3, Vue 3, TypeScript y Vuetify 3 ofrecen una interfaz accesible y veloz en cualquier dispositivo."
+          "description": "Nuxt 3, Vue 3, TypeScript y Vuetify 3 impulsan una interfaz accesible con microfrontends, caché sin conexión y un diseño responsivo que se siente veloz en cualquier dispositivo."
         },
         "backend": {
           "title": "Base back-end",
-          "description": "Servicios en Node.js coordinan la automatización, el procesamiento de datos y la persistencia en PostgreSQL tras bambalinas."
+          "description": "Los servicios de Node.js orquestan colas, WebSockets, indexación de búsqueda y persistencia en PostgreSQL detrás de escena."
         },
         "api": {
           "title": "Microservicios Symfony",
-          "description": "Microservicios de API en Symfony desacoplados exponen endpoints REST y GraphQL seguros para integraciones y socios."
+          "description": "Microservicios desacoplados de Symfony exponen API REST y GraphQL seguras junto con integraciones llave en mano y webhooks."
+        },
+        "realtime": {
+          "title": "Colaboración en tiempo real",
+          "description": "La presencia en vivo, los comentarios compartidos y los eventos WebSocket mantienen a los equipos alineados mientras las actualizaciones se publican en segundos."
+        },
+        "automation": {
+          "title": "Automatización e inteligencia",
+          "description": "Tareas en segundo plano, asistentes con IA y flujos programados eliminan el trabajo repetitivo y resaltan la próxima mejor acción."
+        },
+        "devops": {
+          "title": "DevOps y seguridad",
+          "description": "Canales de infraestructura como código, despliegues contenedorizados y escaneos de seguridad continuos protegen cada lanzamiento."
+        }
+      },
+      "highlights": {
+        "collaboration": {
+          "title": "Colaboración en workspaces",
+          "description": "Espacios de trabajo multi-tenant, permisos basados en roles y calendarios compartidos respaldan a los equipos distribuidos."
+        },
+        "analytics": {
+          "title": "Analítica accionable",
+          "description": "Paneles interactivos, reportes exportables y métricas unificadas revelan la salud del producto en segundos."
+        },
+        "customization": {
+          "title": "Personalización profunda",
+          "description": "El generador de temas, los hooks de extensión y los ajustes granulares permiten adaptar cada superficie a tu marca."
+        },
+        "marketplace": {
+          "title": "Marketplace del ecosistema",
+          "description": "Plugins curados, kits de integración y APIs abiertas aceleran la entrega de nuevas funciones."
         }
       },
       "callToAction": {
         "title": "Construye con Bro World",
-        "description": "¿Quieres ampliar la plataforma o integrar tus herramientas? Escríbenos y planifiquemos la próxima funcionalidad."
+        "description": "¿Listo para ampliar la plataforma o conectar tu stack? Ponte en contacto y diseñemos juntos la próxima generación de funciones."
       }
     },
     "contact": {

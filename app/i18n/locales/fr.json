@@ -1107,24 +1107,57 @@
     },
     "about": {
       "title": "À propos de Bro World",
-      "subtitle": "Découvrez comment Bro World offre une collaboration fluide grâce à une pile technologique moderne.",
+      "subtitle": "Découvrez la plateforme riche en fonctionnalités qui fait rayonner Bro World auprès des équipes, des produits et des communautés.",
+      "intro": "Bro World est devenu un espace de travail numérique unifié qui rassemble communauté, publication de contenu, messagerie et automatisation dans une expérience cohérente.",
+      "mission": "Notre mission est d'aider les équipes à prototyper rapidement, lancer plus vite et piloter leurs opérations quotidiennes en toute confiance grâce à des briques modulaires.",
+      "vision": "Des workflows assistés par l'IA aux tableaux de bord collaboratifs en temps réel, chaque fonctionnalité est conçue pour évoluer avec votre organisation.",
       "sections": {
         "frontend": {
           "title": "Expérience front-end",
-          "description": "Nuxt 3, Vue 3, TypeScript et Vuetify 3 proposent une interface accessible et rapide sur chaque appareil."
+          "description": "Nuxt 3, Vue 3, TypeScript et Vuetify 3 alimentent une interface accessible avec micro-frontends, cache hors ligne et design responsive qui reste fluide sur chaque appareil."
         },
         "backend": {
           "title": "Fondations back-end",
-          "description": "Des services Node.js coordonnent l'automatisation, les traitements de données et la persistance PostgreSQL."
+          "description": "Des services Node.js orchestrent files d'attente, WebSockets, indexation de recherche et persistance PostgreSQL en arrière-plan."
         },
         "api": {
           "title": "Microservices Symfony",
-          "description": "Des microservices API Symfony découplés exposent des endpoints REST et GraphQL sécurisés pour les intégrations."
+          "description": "Des microservices Symfony découplés exposent des API REST et GraphQL sécurisées ainsi que des intégrations clés en main et des webhooks."
+        },
+        "realtime": {
+          "title": "Collaboration en temps réel",
+          "description": "Présence en direct, commentaires partagés et événements WebSocket alignent les équipes à la seconde près."
+        },
+        "automation": {
+          "title": "Automatisation & intelligence",
+          "description": "Tâches en arrière-plan, assistants IA et workflows planifiés éliminent le travail répétitif et suggèrent la prochaine action idéale."
+        },
+        "devops": {
+          "title": "DevOps & sécurité",
+          "description": "Pipelines Infrastructure as Code, déploiements conteneurisés et analyses de sécurité continues protègent chaque version."
+        }
+      },
+      "highlights": {
+        "collaboration": {
+          "title": "Collaboration en workspace",
+          "description": "Espaces de travail multi-tenant, permissions basées sur les rôles et calendriers partagés soutiennent les équipes distribuées."
+        },
+        "analytics": {
+          "title": "Analytique actionnable",
+          "description": "Tableaux de bord interactifs, rapports exportables et métriques unifiées révèlent la santé du produit en quelques secondes."
+        },
+        "customization": {
+          "title": "Personnalisation poussée",
+          "description": "Theme builder, hooks d'extension et réglages granulaires adaptent chaque surface à votre marque."
+        },
+        "marketplace": {
+          "title": "Marketplace d'écosystème",
+          "description": "Plugins sélectionnés, kits d'intégration et APIs ouvertes accélèrent la livraison de nouvelles fonctionnalités."
         }
       },
       "callToAction": {
         "title": "Construisez avec Bro World",
-        "description": "Vous souhaitez étendre la plateforme ou connecter vos outils ? Contactez-nous pour imaginer la prochaine fonctionnalité."
+        "description": "Prêt à étendre la plateforme ou connecter votre stack ? Contactez-nous et imaginons ensemble la prochaine génération de fonctionnalités."
       }
     },
     "contact": {
