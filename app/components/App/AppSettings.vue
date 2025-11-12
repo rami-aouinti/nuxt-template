@@ -120,7 +120,9 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
                 border="thin opacity-50"
                 color="transparent"
                 rounded="lg"
-                :elevation="isSelected ? 2 : 0"
+                :class="{
+                  'app-settings-card__option--selected': isSelected,
+                }"
                 @click="toggle"
               >
                 <v-checkbox-btn
@@ -157,7 +159,9 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
                 border="thin opacity-50"
                 color="transparent"
                 rounded="lg"
-                :elevation="isSelected ? 2 : 0"
+                :class="{
+                  'app-settings-card__option--selected': isSelected,
+                }"
                 @click="toggle"
               >
                 <v-checkbox-btn
@@ -232,8 +236,23 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
   cursor: pointer;
 }
 
+.app-settings-card__option {
+  box-shadow: none;
+}
+
 .app-settings-card__option:hover {
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 6px 16px rgba(var(--v-theme-primary), 0.16);
+}
+
+.app-settings-card__option--selected {
+  box-shadow: var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14));
+}
+
+.app-settings-card__option--selected:hover {
+  box-shadow: var(
+    --app-shadow-hover,
+    0 18px 44px rgba(var(--v-theme-primary), 0.2)
+  );
 }
 
 .app-settings-card__option :deep(.v-selection-control) {

@@ -87,12 +87,12 @@ watch(isOpen, (value, oldValue) => {
 }
 
 .app-menu--shadow {
-  box-shadow: var(--app-shadow, 0 10px 26px rgba(15, 23, 42, 0.14));
+  box-shadow: var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14));
 }
 
 .app-menu--shadow:hover,
 .app-menu--shadow:focus-within {
-  box-shadow: var(--app-shadow-hover, 0 18px 44px rgba(15, 23, 42, 0.2));
+  box-shadow: var(--app-shadow-hover, 0 18px 44px rgba(var(--v-theme-primary), 0.2));
 }
 
 .app-menu--no-shadow {

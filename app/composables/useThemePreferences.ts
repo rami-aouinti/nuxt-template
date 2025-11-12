@@ -79,17 +79,17 @@ const radiusValues: Record<ThemeRadiusPreset, string> = {
 
 const shadowValues: Record<ThemeShadowPreset, string> = {
   none: 'none',
-  soft: '0 4px 12px rgba(15, 23, 42, 0.08)',
-  regular: '0 10px 26px rgba(15, 23, 42, 0.14)',
-  bold: '0 18px 42px rgba(15, 23, 42, 0.2)',
+  soft: '0 4px 12px rgba(var(--v-theme-primary), 0.08)',
+  regular: '0 10px 26px rgba(var(--v-theme-primary), 0.14)',
+  bold: '0 18px 42px rgba(var(--v-theme-primary), 0.2)',
   deep: '0 24px 52px rgba(var(--v-theme-primary), 0.28)',
 }
 
 const shadowHoverValues: Record<ThemeShadowPreset, string> = {
   none: 'none',
-  soft: '0 12px 30px rgba(15, 23, 42, 0.14)',
-  regular: '0 18px 44px rgba(15, 23, 42, 0.2)',
-  bold: '0 26px 56px rgba(15, 23, 42, 0.26)',
+  soft: '0 12px 30px rgba(var(--v-theme-primary), 0.14)',
+  regular: '0 18px 44px rgba(var(--v-theme-primary), 0.2)',
+  bold: '0 26px 56px rgba(var(--v-theme-primary), 0.26)',
   deep: '0 32px 68px rgba(var(--v-theme-primary), 0.34)',
 }
 
