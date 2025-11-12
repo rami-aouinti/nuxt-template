@@ -195,12 +195,9 @@ async function handleCreate() {
 </script>
 
 <template>
-  <v-dialog v-model="dialog" max-width="560" persistent>
-    <v-card class="workplace-dialog" rounded="xl" elevation="12">
-      <v-card-title class="text-h6 font-weight-semibold">
-        {{ translate('workplace.dialog.title', 'Manage your world') }}
-      </v-card-title>
-      <v-divider />
+  <AppModal icon="mdi-blogger"
+            :title="translate('workplace.dialog.title', 'Manage your world')"
+            v-model="dialog" max-width="520" persistent>
       <v-card-text class="pt-6">
         <v-stepper v-model="activeStep" class="workplace-dialog__stepper" flat>
           <v-stepper-header>
@@ -294,8 +291,7 @@ async function handleCreate() {
           </v-btn>
         </div>
       </v-card-actions>
-    </v-card>
-  </v-dialog>
+    </AppModal>
 </template>
 
 <style scoped>

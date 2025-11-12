@@ -129,11 +129,7 @@ const handleClose = () => {
   align-items: center;
   gap: 16px;
   padding: 22px 24px;
-  background: linear-gradient(
-    135deg,
-    rgba(var(--v-theme-primary), 0.96),
-    rgba(var(--v-theme-secondary), 0.9)
-  );
+  background: linear-gradient(135deg, rgba(var(--v-theme-primary), 0.22), rgba(20, 20, 20, 0.92));
   color: rgba(var(--v-theme-on-primary), 0.94);
 }
 

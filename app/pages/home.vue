@@ -2004,43 +2004,42 @@ if (import.meta.client) {
       :workplaces="myWorkplaces"
     />
 
-    <AppModal v-model="createBlogDialog.open" max-width="520" persistent>
-      <AppCard>
-        <v-card-title>{{ t('blog.sidebar.createBlog') }}</v-card-title>
-        <v-card-text>
-          <v-text-field
-            v-model="createBlogDialog.form.title"
-            :label="t('blog.forms.createBlog.title')"
-            :disabled="createBlogDialog.loading"
-            required
-            rounded
-          />
-          <v-text-field
-            v-model="createBlogDialog.form.subtitle"
-            :label="t('blog.forms.createBlog.subtitle')"
-            :disabled="createBlogDialog.loading"
-            rounded
-          />
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <AppButton
-            variant="text"
-            :disabled="createBlogDialog.loading"
-            @click="createBlogDialog.open = false"
-          >
-            {{ t('common.actions.cancel') }}
-          </AppButton>
-          <AppButton
-            color="primary"
-            :loading="createBlogDialog.loading"
-            :disabled="!createBlogDialog.form.title.trim().length"
-            @click="submitCreateBlog"
-          >
-            {{ t('common.actions.create') }}
-          </AppButton>
-        </v-card-actions>
-      </AppCard>
+    <AppModal icon="mdi-blogger"
+              :title="t('blog.sidebar.createBlog')"
+              v-model="createBlogDialog.open" max-width="520" persistent>
+      <v-card-text>
+        <v-text-field
+          v-model="createBlogDialog.form.title"
+          :label="t('blog.forms.createBlog.title')"
+          :disabled="createBlogDialog.loading"
+          required
+          rounded
+        />
+        <v-text-field
+          v-model="createBlogDialog.form.subtitle"
+          :label="t('blog.forms.createBlog.subtitle')"
+          :disabled="createBlogDialog.loading"
+          rounded
+        />
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer />
+        <AppButton
+          variant="text"
+          :disabled="createBlogDialog.loading"
+          @click="createBlogDialog.open = false"
+        >
+          {{ t('common.actions.cancel') }}
+        </AppButton>
+        <AppButton
+          color="primary"
+          :loading="createBlogDialog.loading"
+          :disabled="!createBlogDialog.form.title.trim().length"
+          @click="submitCreateBlog"
+        >
+          {{ t('common.actions.create') }}
+        </AppButton>
+      </v-card-actions>
     </AppModal>
 
     <AppModal v-model="createPostDialog.open" max-width="640" persistent>

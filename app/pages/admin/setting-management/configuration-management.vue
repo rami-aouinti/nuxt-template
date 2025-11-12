@@ -11,6 +11,7 @@ import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
 import { normalizeRequestHeaders } from '~/utils/headers'
 import { normalizeCollection } from '~/utils/collections'
+import AppCard from "~/components/ui/AppCard.vue";
 
 definePageMeta({
   title: 'configurationManagement.configurations.title',
