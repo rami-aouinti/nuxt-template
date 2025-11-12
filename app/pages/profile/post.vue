@@ -178,100 +178,7 @@ watch(
 </script>
 
 <template>
-  <ProfilePageShell>
-    <v-row class="justify-center">
-      <v-col cols="12">
-        <v-alert
-          v-if="postsError"
-          type="error"
-          variant="tonal"
-          border="start"
-          prominent
-          class="mb-4"
-        >
-          {{ postsError }}
-        </v-alert>
-
-        <v-row v-if="isInitialLoading">
-          <v-col v-for="index in 3" :key="index" cols="12" class="pb-6">
-            <v-skeleton-loader type="heading, paragraph" class="rounded-xl" />
-          </v-col>
-        </v-row>
-
-        <template v-else>
-          <v-row v-if="posts.length">
-            <v-col v-for="post in posts" :key="post.id" cols="12" class="pb-6">
-              <AppCard class="rounded-xl" elevation="2">
-                <v-card-item>
-                  <v-card-title class="text-h5 text-wrap">
-                    <NuxtLink :to="`/post/${post.slug}`" class="blog-post-link">
-                      {{ post.title }}
-                    </NuxtLink>
-                  </v-card-title>
-                  <BlogPostMeta
-                    tag="v-card-subtitle"
-                    class="text-body-2 text-medium-emphasis"
-                    :user="post.user"
-                    :published-at="post.publishedAt"
-                    :format-date="formatPublishedAt"
-                  />
-                </v-card-item>
-
-                <v-card-text>
-                  <p class="text-body-1 mb-4">
-                    {{ post.summary || t('blog.placeholders.noSummary') }}
-                  </p>
-                  <BlogReactionBar
-                    :reactions-count="post.reactions_count ?? 0"
-                    :comments-count="post.totalComments ?? 0"
-                  />
-                </v-card-text>
-
-                <v-card-actions class="pt-0 pb-4 px-4">
-                  <AppButton
-                    :href="post.url || undefined"
-                    :disabled="!post.url"
-                    target="_blank"
-                    color="primary"
-                    variant="text"
-                    append-icon="mdi-open-in-new"
-                  >
-                    {{ t('blog.actions.read') }}
-                  </AppButton>
-                </v-card-actions>
-              </AppCard>
-            </v-col>
-          </v-row>
-
-          <v-sheet
-            v-else
-            class="d-flex flex-column align-center justify-center py-16 text-center"
-            elevation="1"
-            rounded="xl"
-          >
-            <v-icon icon="mdi-post-outline" size="64" class="mb-4" />
-            <h2 class="text-h5 mb-2">{{ t('blog.empty.title') }}</h2>
-            <p class="text-medium-emphasis mb-0">
-              {{ t('blog.empty.description') }}
-            </p>
-          </v-sheet>
-        </template>
-
-        <div class="d-flex justify-center py-4">
-          <v-progress-circular
-            v-if="isLoadingMore"
-            indeterminate
-            color="primary"
-          />
-        </div>
-
-        <div
-          v-show="hasMore"
-          ref="loadMoreTrigger"
-          class="blog-infinite-trigger"
-        />
-      </v-col>
-    </v-row>
+  <div class="profile-post-page">
     <client-only>
       <teleport to="#app-drawer-right">
         <div class="animated-badge mb-4">
@@ -289,7 +196,102 @@ watch(
         />
       </teleport>
     </client-only>
-  </ProfilePageShell>
+    <ProfilePageShell>
+      <v-row class="justify-center">
+        <v-col cols="12">
+          <v-alert
+            v-if="postsError"
+            type="error"
+            variant="tonal"
+            border="start"
+            prominent
+            class="mb-4"
+          >
+            {{ postsError }}
+          </v-alert>
+
+          <v-row v-if="isInitialLoading">
+            <v-col v-for="index in 3" :key="index" cols="12" class="pb-6">
+              <v-skeleton-loader type="heading, paragraph" class="rounded-xl" />
+            </v-col>
+          </v-row>
+
+          <template v-else>
+            <v-row v-if="posts.length">
+              <v-col v-for="post in posts" :key="post.id" cols="12" class="pb-6">
+                <AppCard class="rounded-xl" elevation="2">
+                  <v-card-item>
+                    <v-card-title class="text-h5 text-wrap">
+                      <NuxtLink :to="`/post/${post.slug}`" class="blog-post-link">
+                        {{ post.title }}
+                      </NuxtLink>
+                    </v-card-title>
+                    <BlogPostMeta
+                      tag="v-card-subtitle"
+                      class="text-body-2 text-medium-emphasis"
+                      :user="post.user"
+                      :published-at="post.publishedAt"
+                      :format-date="formatPublishedAt"
+                    />
+                  </v-card-item>
+
+                  <v-card-text>
+                    <p class="text-body-1 mb-4">
+                      {{ post.summary || t('blog.placeholders.noSummary') }}
+                    </p>
+                    <BlogReactionBar
+                      :reactions-count="post.reactions_count ?? 0"
+                      :comments-count="post.totalComments ?? 0"
+                    />
+                  </v-card-text>
+
+                  <v-card-actions class="pt-0 pb-4 px-4">
+                    <AppButton
+                      :href="post.url || undefined"
+                      :disabled="!post.url"
+                      target="_blank"
+                      color="primary"
+                      variant="text"
+                      append-icon="mdi-open-in-new"
+                    >
+                      {{ t('blog.actions.read') }}
+                    </AppButton>
+                  </v-card-actions>
+                </AppCard>
+              </v-col>
+            </v-row>
+
+            <v-sheet
+              v-else
+              class="d-flex flex-column align-center justify-center py-16 text-center"
+              elevation="1"
+              rounded="xl"
+            >
+              <v-icon icon="mdi-post-outline" size="64" class="mb-4" />
+              <h2 class="text-h5 mb-2">{{ t('blog.empty.title') }}</h2>
+              <p class="text-medium-emphasis mb-0">
+                {{ t('blog.empty.description') }}
+              </p>
+            </v-sheet>
+          </template>
+
+          <div class="d-flex justify-center py-4">
+            <v-progress-circular
+              v-if="isLoadingMore"
+              indeterminate
+              color="primary"
+            />
+          </div>
+
+          <div
+            v-show="hasMore"
+            ref="loadMoreTrigger"
+            class="blog-infinite-trigger"
+          />
+        </v-col>
+      </v-row>
+    </ProfilePageShell>
+  </div>
 </template>
 
 <style scoped>
