@@ -3,6 +3,7 @@ import { computed, reactive, ref, watch } from 'vue'
 import { FetchError } from 'ofetch'
 
 import { useFrontendWorkplaceApi } from '~/composables/useFrontendWorkplaceApi'
+import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
 import { Notify } from '~/stores/notification'
 import type { Workplace } from '~/types/workplace'
 
@@ -15,12 +16,7 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
 }>()
 
-const { t } = useI18n()
-
-const translate = (key: string, fallback: string) => {
-  const value = t(key)
-  return value && value !== key ? value : fallback
-}
+const translate = useTranslateWithFallback()
 
 const dialog = computed({
   get() {
@@ -195,9 +191,13 @@ async function handleCreate() {
 </script>
 
 <template>
-  <AppModal icon="mdi-blogger"
-            :title="translate('workplace.dialog.title', 'Manage your world')"
-            v-model="dialog" max-width="520" persistent>
+  <AppModal
+    v-model="dialog"
+    icon="mdi-blogger"
+    :title="translate('workplace.dialog.title', 'Manage your world')"
+    max-width="520"
+    persistent
+  >
       <v-card-text class="pt-6">
         <v-stepper v-model="activeStep" class="workplace-dialog__stepper" flat>
           <v-stepper-header>

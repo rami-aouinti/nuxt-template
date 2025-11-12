@@ -4,12 +4,10 @@ import WorkplaceActionMenu from '~/components/workplace/WorkplaceActionMenu.vue'
 import type { Workplace } from '~/types/workplace'
 import AppButton from "~/components/ui/AppButton.vue";
 import AppCard from "~/components/ui/AppCard.vue";
+import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
 
 const { t } = useI18n()
-const translate = (key: string, fallback: string) => {
-  const value = t(key)
-  return value && value !== key ? value : fallback
-}
+const translate = useTranslateWithFallback()
 
 function getInitials(value: string | null | undefined): string {
   if (!value) {
