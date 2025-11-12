@@ -64,26 +64,25 @@ const resolveProfileLink = (user: BlogPostUser) => getAuthorProfileLink(user)
         <v-textarea
           v-model="post.ui.commentContent"
           :placeholder="t('blog.forms.commentPlaceholder')"
-          class="blog-comment-composer__textarea"
           auto-grow
-          rows="3"
-          variant="plain"
+          rows="2"
           :disabled="post.ui.commentLoading"
-          hide-details
         />
         <div class="blog-comment-composer__actions">
           <div class="blog-comment-composer__actions-left">
             <v-btn
               icon="mdi-paperclip"
               variant="text"
-              density="comfortable"
+              color="primary"
+              density="compact"
               class="blog-comment-composer__action"
               :disabled="post.ui.commentLoading"
             />
             <v-btn
               icon="mdi-microphone-outline"
               variant="text"
-              density="comfortable"
+              color="primary"
+              density="compact"
               class="blog-comment-composer__action"
               :disabled="post.ui.commentLoading"
             />
@@ -92,7 +91,8 @@ const resolveProfileLink = (user: BlogPostUser) => getAuthorProfileLink(user)
           <v-btn
             class="blog-comment-composer__submit"
             color="primary"
-            variant="flat"
+            variant="text"
+            density="compact"
             icon="mdi-send"
             :aria-label="t('blog.actions.addComment')"
             :loading="post.ui.commentLoading"
@@ -159,13 +159,11 @@ const resolveProfileLink = (user: BlogPostUser) => getAuthorProfileLink(user)
 .blog-comment-composer__actions {
   display: flex;
   align-items: center;
-  gap: 12px;
 }
 
 .blog-comment-composer__actions-left {
   display: flex;
   align-items: center;
-  gap: 4px;
 }
 
 .blog-comment-composer__action {
