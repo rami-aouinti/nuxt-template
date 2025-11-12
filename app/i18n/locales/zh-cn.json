@@ -85,6 +85,7 @@
     "profile": "个人资料",
     "profileCalendar": "日历",
     "profileWorkspace": "个人工作区",
+    "profileNotifications": "通知",
     "blog": "博客",
     "messenger": "消息",
     "goBack": "返回",
@@ -557,6 +558,28 @@
         "saveFailed": "无法保存您的偏好设置，请稍后重试。",
         "metadataMissing": "无法确定保存这些偏好设置所需的标识符。",
         "noConfiguration": "尚未找到已保存的偏好设置。"
+      }
+    },
+    "notifications": {
+      "page": {
+        "title": "通知",
+        "subtitle": "查看最新提醒，随时掌握动态。"
+      },
+      "actions": {
+        "refresh": "刷新"
+      },
+      "states": {
+        "loading": "正在加载通知…",
+        "retry": "重试",
+        "error": "无法加载通知，请稍后再试。",
+        "empty": "一切就绪！暂时没有通知。"
+      },
+      "labels": {
+        "unread": "未读",
+        "receivedAt": "接收于 {date}"
+      },
+      "fallback": {
+        "title": "通知"
       }
     },
     "public": {

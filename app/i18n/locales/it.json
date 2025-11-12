@@ -85,6 +85,7 @@
     "profile": "Profilo",
     "profileCalendar": "Calendario",
     "profileWorkspace": "Spazio di lavoro profilo",
+    "profileNotifications": "Notifiche",
     "blog": "Blog",
     "messenger": "Messaggistica",
     "goBack": "Torna indietro",
@@ -557,6 +558,28 @@
         "saveFailed": "Impossibile salvare le preferenze. Riprova più tardi.",
         "metadataMissing": "Impossibile determinare gli identificatori necessari per salvare queste preferenze.",
         "noConfiguration": "Non sono state ancora trovate preferenze salvate."
+      }
+    },
+    "notifications": {
+      "page": {
+        "title": "Notifiche",
+        "subtitle": "Consulta gli ultimi avvisi e resta aggiornato."
+      },
+      "actions": {
+        "refresh": "Aggiorna"
+      },
+      "states": {
+        "loading": "Caricamento delle notifiche…",
+        "retry": "Riprova",
+        "error": "Impossibile caricare le tue notifiche. Riprova più tardi.",
+        "empty": "Tutto fatto! Nessuna notifica da mostrare."
+      },
+      "labels": {
+        "unread": "Non letta",
+        "receivedAt": "Ricevuta il {date}"
+      },
+      "fallback": {
+        "title": "Notifica"
       }
     },
     "public": {

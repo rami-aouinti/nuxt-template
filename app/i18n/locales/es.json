@@ -85,6 +85,7 @@
     "profile": "Perfil",
     "profileCalendar": "Calendario",
     "profileWorkspace": "Espacio de trabajo del perfil",
+    "profileNotifications": "Notificaciones",
     "blog": "Blog",
     "messenger": "Mensajería",
     "goBack": "Volver",
@@ -557,6 +558,28 @@
         "saveFailed": "No se pudieron guardar sus preferencias. Inténtelo de nuevo más tarde.",
         "metadataMissing": "No se pudieron determinar los identificadores necesarios para guardar estas preferencias.",
         "noConfiguration": "Todavía no se encontraron preferencias guardadas."
+      }
+    },
+    "notifications": {
+      "page": {
+        "title": "Notificaciones",
+        "subtitle": "Revisa tus últimas alertas y mantente al día."
+      },
+      "actions": {
+        "refresh": "Actualizar"
+      },
+      "states": {
+        "loading": "Cargando notificaciones…",
+        "retry": "Intentar de nuevo",
+        "error": "No se pudieron cargar tus notificaciones. Por favor, inténtalo más tarde.",
+        "empty": "¡Todo en orden! No hay notificaciones para mostrar."
+      },
+      "labels": {
+        "unread": "Sin leer",
+        "receivedAt": "Recibida el {date}"
+      },
+      "fallback": {
+        "title": "Notificación"
       }
     },
     "public": {
