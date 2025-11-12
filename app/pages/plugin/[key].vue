@@ -200,7 +200,7 @@ async function handlePluginToggle(current: ProfilePlugin | null) {
             {{ t('profile.sections.plugins.empty') }} ({{ pluginKey }})
           </v-alert>
 
-          <v-card v-else class="plugin-detail-card" elevation="2" rounded="xl">
+          <AppCard v-else class="plugin-detail-card" elevation="2" rounded="xl">
             <v-card-text>
               <div class="plugin-detail-card__header">
                 <div class="d-flex align-center gap-4 flex-wrap">
@@ -250,14 +250,14 @@ async function handlePluginToggle(current: ProfilePlugin | null) {
                   </div>
                 </div>
                 <div class="d-flex flex-wrap gap-2">
-                  <v-btn
+                  <AppButton
                     variant="text"
                     prepend-icon="mdi-arrow-left"
                     :to="'/profile/plugins'"
                   >
                     {{ t('profile.sections.plugins.title') }}
-                  </v-btn>
-                  <v-btn
+                  </AppButton>
+                  <AppButton
                     :color="plugin?.active ? 'secondary' : 'primary'"
                     :variant="plugin?.active ? 'tonal' : 'flat'"
                     :loading="plugin && pluginToggleLoading[plugin.key]"
@@ -270,8 +270,8 @@ async function handlePluginToggle(current: ProfilePlugin | null) {
                         ? t('profile.sections.plugins.actions.deactivate')
                         : t('profile.sections.plugins.actions.activate')
                     }}
-                  </v-btn>
-                  <v-btn
+                  </AppButton>
+                  <AppButton
                     v-if="plugin?.link"
                     :href="plugin.link"
                     target="_blank"
@@ -281,8 +281,8 @@ async function handlePluginToggle(current: ProfilePlugin | null) {
                     prepend-icon="mdi-open-in-new"
                   >
                     {{ t('profile.sections.plugins.actions.open') }}
-                  </v-btn>
-                  <v-btn
+                  </AppButton>
+                  <AppButton
                     v-if="
                       plugin &&
                       !plugin.installed &&
@@ -297,7 +297,7 @@ async function handlePluginToggle(current: ProfilePlugin | null) {
                     prepend-icon="mdi-download"
                   >
                     {{ t('profile.sections.plugins.actions.install') }}
-                  </v-btn>
+                  </AppButton>
                 </div>
               </div>
 
@@ -358,7 +358,7 @@ async function handlePluginToggle(current: ProfilePlugin | null) {
                 </section>
               </div>
             </v-card-text>
-          </v-card>
+          </AppCard>
         </template>
       </v-col>
     </v-row>

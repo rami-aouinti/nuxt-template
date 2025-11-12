@@ -70,7 +70,7 @@ const submit = async () => {
         </div>
         <v-row align="stretch" dense>
           <v-col cols="12" md="6" class="d-flex">
-            <v-card class="pa-3 flex-grow-1" elevation="2">
+            <AppCard class="pa-3 flex-grow-1" elevation="2">
               <v-alert
                 v-if="submissionState === 'success'"
                 type="success"
@@ -120,20 +120,20 @@ const submit = async () => {
                   rounded
                 />
                 <div class="d-flex justify-end mt-3">
-                  <v-btn
+                  <AppButton
                     color="primary"
                     size="large"
                     type="submit"
                     :loading="isSubmitting"
                   >
                     {{ t('pages.contact.form.actions.submit') }}
-                  </v-btn>
+                  </AppButton>
                 </div>
               </v-form>
-            </v-card>
+            </AppCard>
           </v-col>
           <v-col cols="12" md="6" class="d-flex">
-            <v-card class="flex-grow-1 overflow-hidden" elevation="2">
+            <AppCard class="flex-grow-1 overflow-hidden" elevation="2">
               <v-card-text class="pb-0">
                 <h2 class="text-h5 font-weight-medium mb-2">
                   {{ t('pages.contact.location.title') }}
@@ -151,7 +151,7 @@ const submit = async () => {
                   referrerpolicy="no-referrer-when-downgrade"
                 />
               </div>
-            </v-card>
+            </AppCard>
           </v-col>
         </v-row>
       </v-col>

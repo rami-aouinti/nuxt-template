@@ -248,7 +248,7 @@ const openMessengerConversation = async () => {
               {{ t('profile.public.page.description') }}
             </p>
           </div>
-          <v-btn
+          <AppButton
             v-if="error"
             color="primary"
             variant="tonal"
@@ -256,7 +256,7 @@ const openMessengerConversation = async () => {
             @click="refresh"
           >
             {{ t('profile.public.actions.retry') }}
-          </v-btn>
+          </AppButton>
         </div>
 
         <v-alert
@@ -276,7 +276,7 @@ const openMessengerConversation = async () => {
           class="rounded-xl"
         />
 
-        <v-card v-else-if="profile" class="rounded-xl" elevation="2">
+        <AppCard v-else-if="profile" class="rounded-xl" elevation="2">
           <v-card-text class="pa-6">
             <div
               class="d-flex flex-column flex-md-row align-md-center gap-4 mb-6"
@@ -297,7 +297,7 @@ const openMessengerConversation = async () => {
                   >
                     {{ accountStatusLabel }}
                   </v-chip>
-                  <v-btn
+                  <AppButton
                     v-if="messengerButtonVisible"
                     color="primary"
                     variant="flat"
@@ -307,7 +307,7 @@ const openMessengerConversation = async () => {
                     @click="openMessengerConversation"
                   >
                     {{ t('profile.public.actions.message') }}
-                  </v-btn>
+                  </AppButton>
                 </div>
               </div>
             </div>
@@ -399,7 +399,7 @@ const openMessengerConversation = async () => {
               </v-row>
             </div>
           </v-card-text>
-        </v-card>
+        </AppCard>
 
         <v-sheet
           v-else

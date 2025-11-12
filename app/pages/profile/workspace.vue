@@ -509,7 +509,7 @@ onMounted(() => {
           <v-icon icon="mdi-folder-tree" class="me-2" />
           {{ t('workspace.tree.title') }}
           <v-spacer />
-          <v-btn
+          <AppButton
             icon="mdi-folder-plus"
             variant="text"
             :title="t('workspace.tree.actions.createRoot')"
@@ -552,13 +552,13 @@ onMounted(() => {
     <ProfilePageShell>
       <v-row class="d-flex">
         <v-col cols="12">
-          <v-card v-if="selectedFolder" class="workspace-details" rounded="xl">
+          <AppCard v-if="selectedFolder" class="workspace-details" rounded="xl">
             <v-toolbar flat color="transparent" class="px-4">
               <v-toolbar-title class="text-h5">
                 {{ selectedFolder.name }}
               </v-toolbar-title>
               <v-spacer />
-              <v-btn
+              <AppButton
                 color="primary"
                 class="me-2"
                 prepend-icon="mdi-folder-plus"
@@ -566,8 +566,8 @@ onMounted(() => {
                 @click="openCreateDialog(selectedFolder.id)"
               >
                 {{ t('workspace.actions.newFolder') }}
-              </v-btn>
-              <v-btn
+              </AppButton>
+              <AppButton
                 variant="tonal"
                 class="me-2"
                 prepend-icon="mdi-cloud-upload"
@@ -575,8 +575,8 @@ onMounted(() => {
                 @click="openUploadDialog"
               >
                 {{ t('workspace.actions.uploadFile') }}
-              </v-btn>
-              <v-btn
+              </AppButton>
+              <AppButton
                 icon="mdi-pencil"
                 variant="text"
                 class="me-1"
@@ -584,7 +584,7 @@ onMounted(() => {
                 :disabled="isReloading"
                 @click="openEditDialog"
               />
-              <v-btn
+              <AppButton
                 icon="mdi-delete"
                 color="error"
                 variant="text"
@@ -636,14 +636,14 @@ onMounted(() => {
                   {{ t('workspace.files.title') }}
                 </h2>
                 <v-spacer />
-                <v-btn
+                <AppButton
                   variant="text"
                   :disabled="isReloading"
                   prepend-icon="mdi-refresh"
                   @click="loadFolders({ selectId: selectedFolder.id })"
                 >
                   {{ t('workspace.actions.refresh') }}
-                </v-btn>
+                </AppButton>
               </div>
               <v-alert
                 v-if="isReloading"
@@ -699,7 +699,7 @@ onMounted(() => {
                     </td>
                     <td class="text-end">
                       <div class="d-flex justify-end gap-2">
-                        <v-btn
+                        <AppButton
                           :href="resolveFileUrl(file)"
                           target="_blank"
                           variant="text"
@@ -707,8 +707,8 @@ onMounted(() => {
                           prepend-icon="mdi-open-in-new"
                         >
                           {{ t('workspace.files.actions.open') }}
-                        </v-btn>
-                        <v-btn
+                        </AppButton>
+                        <AppButton
                           color="error"
                           variant="text"
                           size="small"
@@ -716,21 +716,21 @@ onMounted(() => {
                           @click="openDeleteFileDialog(file)"
                         >
                           {{ t('workspace.files.actions.delete') }}
-                        </v-btn>
+                        </AppButton>
                       </div>
                     </td>
                   </tr>
                 </tbody>
               </v-table>
             </v-card-text>
-          </v-card>
-          <v-card v-else class="workspace-root" rounded="xl">
+          </AppCard>
+          <AppCard v-else class="workspace-root" rounded="xl">
             <v-toolbar flat color="transparent" class="px-4">
               <v-toolbar-title class="text-h5">
                 {{ t('workspace.tree.title') }}
               </v-toolbar-title>
               <v-spacer />
-              <v-btn
+              <AppButton
                 color="primary"
                 class="me-2"
                 prepend-icon="mdi-folder-plus"
@@ -738,8 +738,8 @@ onMounted(() => {
                 @click="openCreateDialog(null)"
               >
                 {{ t('workspace.tree.actions.createRoot') }}
-              </v-btn>
-              <v-btn
+              </AppButton>
+              <AppButton
                 variant="tonal"
                 class="me-2"
                 prepend-icon="mdi-cloud-upload"
@@ -747,15 +747,15 @@ onMounted(() => {
                 @click="openUploadDialog(null)"
               >
                 {{ t('workspace.actions.uploadFile') }}
-              </v-btn>
-              <v-btn
+              </AppButton>
+              <AppButton
                 variant="text"
                 :disabled="isReloading"
                 prepend-icon="mdi-refresh"
                 @click="loadFolders({ selectId: null })"
               >
                 {{ t('workspace.actions.refresh') }}
-              </v-btn>
+              </AppButton>
             </v-toolbar>
             <v-divider />
             <v-card-text>
@@ -789,7 +789,7 @@ onMounted(() => {
                 >
                   {{ t('workspace.messages.refreshing') }}
                 </v-alert>
-                <v-list
+                <AppList
                   class="workspace-root-list"
                   density="comfortable"
                   lines="two"
@@ -846,22 +846,22 @@ onMounted(() => {
                       </div>
                     </template>
                     <template #append>
-                      <v-btn
+                      <AppButton
                         icon="mdi-chevron-right"
                         variant="text"
                         @click.stop="workspaceStore.selectFolder(folder.id)"
                       />
                     </template>
                   </v-list-item>
-                </v-list>
+                </AppList>
               </div>
             </v-card-text>
-          </v-card>
+          </AppCard>
         </v-col>
       </v-row>
 
-      <v-dialog v-model="createDialog" max-width="480">
-        <v-card>
+      <AppModal v-model="createDialog" max-width="480">
+        <AppCard>
           <v-card-title class="text-wrap">
             {{ t('workspace.dialogs.create.title') }}
           </v-card-title>
@@ -910,24 +910,24 @@ onMounted(() => {
                 />
               </div>
               <div class="d-flex justify-end gap-2">
-                <v-btn
+                <AppButton
                   variant="text"
                   :disabled="isCreating"
                   @click="createDialog = false"
                 >
                   {{ t('workspace.dialogs.actions.cancel') }}
-                </v-btn>
-                <v-btn color="primary" type="submit" :loading="isCreating">
+                </AppButton>
+                <AppButton color="primary" type="submit" :loading="isCreating">
                   {{ t('workspace.dialogs.actions.create') }}
-                </v-btn>
+                </AppButton>
               </div>
             </v-form>
           </v-card-text>
-        </v-card>
-      </v-dialog>
+        </AppCard>
+      </AppModal>
 
-      <v-dialog v-model="editDialog" max-width="480">
-        <v-card>
+      <AppModal v-model="editDialog" max-width="480">
+        <AppCard>
           <v-card-title class="text-wrap">
             {{ t('workspace.dialogs.edit.title') }}
           </v-card-title>
@@ -964,24 +964,24 @@ onMounted(() => {
                 />
               </div>
               <div class="d-flex justify-end gap-2">
-                <v-btn
+                <AppButton
                   variant="text"
                   :disabled="isEditing"
                   @click="editDialog = false"
                 >
                   {{ t('workspace.dialogs.actions.cancel') }}
-                </v-btn>
-                <v-btn color="primary" type="submit" :loading="isEditing">
+                </AppButton>
+                <AppButton color="primary" type="submit" :loading="isEditing">
                   {{ t('workspace.dialogs.actions.save') }}
-                </v-btn>
+                </AppButton>
               </div>
             </v-form>
           </v-card-text>
-        </v-card>
-      </v-dialog>
+        </AppCard>
+      </AppModal>
 
-      <v-dialog v-model="deleteDialog" max-width="420">
-        <v-card>
+      <AppModal v-model="deleteDialog" max-width="420">
+        <AppCard>
           <v-card-title class="text-wrap">
             {{ t('workspace.dialogs.delete.title') }}
           </v-card-title>
@@ -992,26 +992,26 @@ onMounted(() => {
             </p>
           </v-card-text>
           <v-card-actions class="justify-end gap-2">
-            <v-btn
+            <AppButton
               variant="text"
               :disabled="isDeleting"
               @click="deleteDialog = false"
             >
               {{ t('workspace.dialogs.actions.cancel') }}
-            </v-btn>
-            <v-btn
+            </AppButton>
+            <AppButton
               color="error"
               :loading="isDeleting"
               @click="confirmDeleteFolder"
             >
               {{ t('workspace.dialogs.actions.delete') }}
-            </v-btn>
+            </AppButton>
           </v-card-actions>
-        </v-card>
-      </v-dialog>
+        </AppCard>
+      </AppModal>
 
-      <v-dialog v-model="uploadDialog" max-width="480">
-        <v-card>
+      <AppModal v-model="uploadDialog" max-width="480">
+        <AppCard>
           <v-card-title class="text-wrap">
             {{ t('workspace.dialogs.upload.title') }}
           </v-card-title>
@@ -1046,24 +1046,24 @@ onMounted(() => {
                 class="mt-2"
               />
               <div class="d-flex justify-end gap-2 mt-4">
-                <v-btn
+                <AppButton
                   variant="text"
                   :disabled="isUploading"
                   @click="uploadDialog = false"
                 >
                   {{ t('workspace.dialogs.actions.cancel') }}
-                </v-btn>
-                <v-btn color="primary" type="submit" :loading="isUploading">
+                </AppButton>
+                <AppButton color="primary" type="submit" :loading="isUploading">
                   {{ t('workspace.dialogs.actions.upload') }}
-                </v-btn>
+                </AppButton>
               </div>
             </v-form>
           </v-card-text>
-        </v-card>
-      </v-dialog>
+        </AppCard>
+      </AppModal>
 
-      <v-dialog v-model="deleteFileDialog" max-width="420">
-        <v-card>
+      <AppModal v-model="deleteFileDialog" max-width="420">
+        <AppCard>
           <v-card-title class="text-wrap">
             {{ t('workspace.dialogs.deleteFile.title') }}
           </v-card-title>
@@ -1077,23 +1077,23 @@ onMounted(() => {
             </p>
           </v-card-text>
           <v-card-actions class="justify-end gap-2">
-            <v-btn
+            <AppButton
               variant="text"
               :disabled="isDeletingFile"
               @click="deleteFileDialog = false"
             >
               {{ t('workspace.dialogs.actions.cancel') }}
-            </v-btn>
-            <v-btn
+            </AppButton>
+            <AppButton
               color="error"
               :loading="isDeletingFile"
               @click="confirmDeleteFile"
             >
               {{ t('workspace.dialogs.actions.delete') }}
-            </v-btn>
+            </AppButton>
           </v-card-actions>
-        </v-card>
-      </v-dialog>
+        </AppCard>
+      </AppModal>
     </ProfilePageShell>
   </div>
 </template>

@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 
 type CardVariant = 'elevated' | 'flat' | 'tonal' | 'outlined' | 'text'
+type CardElevation = number | string
 
 type CardProps = {
   title?: string
@@ -11,14 +12,27 @@ type CardProps = {
   shadow?: boolean
   hover?: boolean
   loading?: boolean
+  elevation?: CardElevation
 }
 
 const props = defineProps<CardProps>()
 
 const normalizedVariant = computed<CardVariant>(() => props.variant ?? 'elevated')
 const isLoading = computed(() => props.loading ?? false)
-const hasShadow = computed(() => props.shadow ?? (normalizedVariant.value === 'elevated'))
+const hasShadow = computed(() => {
+  if (props.shadow !== undefined) return props.shadow
+  if (props.elevation !== undefined) {
+    const value = typeof props.elevation === 'number' ? props.elevation : Number(props.elevation)
+    return Number.isNaN(value) ? true : value > 0
+  }
+  return normalizedVariant.value === 'elevated'
+})
 const isHoverable = computed(() => props.hover ?? hasShadow.value)
+
+const normalizedElevation = computed<CardElevation | undefined>(() => {
+  if (props.elevation !== undefined) return props.elevation
+  return hasShadow.value ? undefined : 0
+})
 
 const cardClasses = computed(() => [
   'app-card',
@@ -31,7 +45,7 @@ const cardClasses = computed(() => [
   <v-card
     :variant="normalizedVariant"
     :loading="isLoading"
-    :elevation="hasShadow ? undefined : 0"
+    :elevation="normalizedElevation"
     :class="cardClasses"
   >
     <template v-if="props.title || $slots.title" #title>

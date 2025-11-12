@@ -504,10 +504,10 @@ watch(viewDialog, (value) => {
                   })
                 }}
               </v-chip>
-              <v-btn color="primary" @click="openCreate">
+              <AppButton color="primary" @click="openCreate">
                 <v-icon icon="mdi-plus" start />
                 {{ t('pluginManagement.plugins.dialogs.create.title') }}
-              </v-btn>
+              </AppButton>
             </div>
           </template>
 
@@ -553,7 +553,7 @@ watch(viewDialog, (value) => {
                 location="top"
               >
                 <template #activator="{ props }">
-                  <v-btn
+                  <AppButton
                     v-bind="props"
                     icon="mdi-eye-outline"
                     variant="text"
@@ -569,7 +569,7 @@ watch(viewDialog, (value) => {
                 location="top"
               >
                 <template #activator="{ props }">
-                  <v-btn
+                  <AppButton
                     v-bind="props"
                     icon="mdi-pencil-outline"
                     variant="text"
@@ -585,7 +585,7 @@ watch(viewDialog, (value) => {
                 location="top"
               >
                 <template #activator="{ props }">
-                  <v-btn
+                  <AppButton
                     v-bind="props"
                     icon="mdi-trash-can-outline"
                     variant="text"
@@ -711,17 +711,17 @@ watch(viewDialog, (value) => {
       </v-form>
 
       <template #actions>
-        <v-btn variant="text" :disabled="actionLoading" @click="closeCreate">
+        <AppButton variant="text" :disabled="actionLoading" @click="closeCreate">
           {{ t('common.actions.cancel') }}
-        </v-btn>
-        <v-btn
+        </AppButton>
+        <AppButton
           color="primary"
           :disabled="!canSubmit"
           :loading="actionLoading"
           @click="submitCreate"
         >
           {{ t('common.actions.create') }}
-        </v-btn>
+        </AppButton>
       </template>
     </AppModal>
 
@@ -842,17 +842,17 @@ watch(viewDialog, (value) => {
       </v-form>
 
       <template #actions>
-        <v-btn variant="text" :disabled="actionLoading" @click="closeEdit">
+        <AppButton variant="text" :disabled="actionLoading" @click="closeEdit">
           {{ t('common.actions.cancel') }}
-        </v-btn>
-        <v-btn
+        </AppButton>
+        <AppButton
           color="primary"
           :disabled="!canSubmit"
           :loading="actionLoading"
           @click="submitEdit"
         >
           {{ t('common.actions.save') }}
-        </v-btn>
+        </AppButton>
       </template>
     </AppModal>
 
@@ -879,17 +879,17 @@ watch(viewDialog, (value) => {
       </p>
 
       <template #actions>
-        <v-btn variant="text" :disabled="deleteLoading" @click="closeDelete">
+        <AppButton variant="text" :disabled="deleteLoading" @click="closeDelete">
           {{ t('common.actions.cancel') }}
-        </v-btn>
-        <v-btn
+        </AppButton>
+        <AppButton
           color="error"
           :loading="deleteLoading"
           :disabled="deleteLoading"
           @click="confirmDelete"
         >
           {{ t('common.actions.delete') }}
-        </v-btn>
+        </AppButton>
       </template>
     </AppModal>
 
@@ -945,7 +945,7 @@ watch(viewDialog, (value) => {
           </v-chip>
         </div>
 
-        <v-list lines="two" density="comfortable" class="rounded-lg">
+        <AppList lines="two" density="comfortable" class="rounded-lg">
           <v-list-item>
             <v-list-item-title class="text-medium-emphasis">
               {{ t('pluginManagement.plugins.fields.name') }}
@@ -1039,13 +1039,13 @@ watch(viewDialog, (value) => {
               {{ formatDate(viewPlugin?.updatedAt ?? null) }}
             </v-list-item-subtitle>
           </v-list-item>
-        </v-list>
+        </AppList>
       </div>
 
       <template #actions>
-        <v-btn variant="text" :disabled="viewLoading" @click="closeView">
+        <AppButton variant="text" :disabled="viewLoading" @click="closeView">
           {{ t('common.actions.close') }}
-        </v-btn>
+        </AppButton>
       </template>
     </AppModal>
   </v-container>

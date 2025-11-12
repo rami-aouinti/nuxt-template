@@ -778,7 +778,7 @@ watch(
   <v-container fluid>
     <v-row class="justify-center">
       <v-col cols="12" lg="9" xl="8">
-        <v-btn
+        <AppButton
           class="mb-4"
           color="primary"
           variant="text"
@@ -786,7 +786,7 @@ watch(
           to="/blog"
         >
           {{ t('common.actions.back') }}
-        </v-btn>
+        </AppButton>
 
         <v-alert
           v-if="postError"
@@ -805,7 +805,7 @@ watch(
           class="rounded-xl"
         />
 
-        <v-card v-else-if="post" class="rounded-xl" elevation="2">
+        <AppCard v-else-if="post" class="rounded-xl" elevation="2">
           <v-card-item>
             <BlogPostAuthor
               class="mb-3"
@@ -853,7 +853,7 @@ watch(
           </v-card-text>
 
           <v-card-actions class="px-4 pb-4 pt-0 flex-wrap">
-            <v-btn
+            <AppButton
               v-if="post.url"
               :href="post.url || undefined"
               target="_blank"
@@ -862,7 +862,7 @@ watch(
               append-icon="mdi-open-in-new"
             >
               {{ t('blog.actions.read') }}
-            </v-btn>
+            </AppButton>
             <BlogReactionPicker
               class="ml-auto ml-sm-4"
               :model-value="resolveReactionType(post.isReacted ?? null)"
@@ -911,7 +911,7 @@ watch(
                 :disabled="post.ui.commentLoading"
               />
               <div class="d-flex justify-end mt-2">
-                <v-btn
+                <AppButton
                   color="primary"
                   :loading="post.ui.commentLoading"
                   :disabled="
@@ -921,7 +921,7 @@ watch(
                   @click="submitPostComment(post)"
                 >
                   {{ t('blog.actions.addComment') }}
-                </v-btn>
+                </AppButton>
               </div>
             </div>
 
@@ -957,7 +957,7 @@ watch(
               </p>
             </v-sheet>
           </div>
-        </v-card>
+        </AppCard>
 
         <v-sheet
           v-else

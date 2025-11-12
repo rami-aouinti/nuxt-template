@@ -329,7 +329,7 @@ watch(deleteDialog, (value) => {
   <v-container fluid>
     <v-row>
       <v-col>
-        <v-card>
+        <AppCard>
           <v-card-text>
             <AdminDataTable
               v-model:search="search"
@@ -343,14 +343,14 @@ watch(deleteDialog, (value) => {
               @refresh="refresh()"
             >
               <template #header-actions>
-                <v-btn
+                <AppButton
                   color="primary"
                   prepend-icon="mdi-plus"
                   :disabled="pending"
                   @click="openCreate"
                 >
                   {{ t('userManagement.workplaces.actions.new') }}
-                </v-btn>
+                </AppButton>
               </template>
               <template #item.name="{ value }">
                 {{ value || '—' }}
@@ -363,7 +363,7 @@ watch(deleteDialog, (value) => {
               </template>
               <template #item.actions="{ item }">
                 <div class="d-flex align-center justify-end" style="gap: 4px">
-                  <v-btn
+                  <AppButton
                     icon
                     variant="text"
                     color="primary"
@@ -375,8 +375,8 @@ watch(deleteDialog, (value) => {
                     @click="openView(item)"
                   >
                     <v-icon icon="mdi-eye-outline" />
-                  </v-btn>
-                  <v-btn
+                  </AppButton>
+                  <AppButton
                     icon
                     variant="text"
                     color="warning"
@@ -388,8 +388,8 @@ watch(deleteDialog, (value) => {
                     @click="openEdit(item)"
                   >
                     <v-icon icon="mdi-pencil-outline" />
-                  </v-btn>
-                  <v-btn
+                  </AppButton>
+                  <AppButton
                     icon
                     variant="text"
                     color="error"
@@ -401,12 +401,12 @@ watch(deleteDialog, (value) => {
                     @click="openDelete(item)"
                   >
                     <v-icon icon="mdi-delete-outline" />
-                  </v-btn>
+                  </AppButton>
                 </div>
               </template>
             </AdminDataTable>
           </v-card-text>
-        </v-card>
+        </AppCard>
       </v-col>
     </v-row>
 
@@ -432,12 +432,12 @@ watch(deleteDialog, (value) => {
       </v-form>
 
       <template #actions>
-        <v-btn variant="text" :disabled="actionLoading" @click="closeCreate">
+        <AppButton variant="text" :disabled="actionLoading" @click="closeCreate">
           {{ t('common.actions.cancel') }}
-        </v-btn>
-        <v-btn color="primary" :loading="actionLoading" @click="submitCreate">
+        </AppButton>
+        <AppButton color="primary" :loading="actionLoading" @click="submitCreate">
           {{ t('common.actions.create') }}
-        </v-btn>
+        </AppButton>
       </template>
     </AppModal>
 
@@ -463,12 +463,12 @@ watch(deleteDialog, (value) => {
       </v-form>
 
       <template #actions>
-        <v-btn variant="text" :disabled="actionLoading" @click="closeEdit">
+        <AppButton variant="text" :disabled="actionLoading" @click="closeEdit">
           {{ t('common.actions.cancel') }}
-        </v-btn>
-        <v-btn color="primary" :loading="actionLoading" @click="submitEdit">
+        </AppButton>
+        <AppButton color="primary" :loading="actionLoading" @click="submitEdit">
           {{ t('common.actions.save') }}
-        </v-btn>
+        </AppButton>
       </template>
     </AppModal>
 
@@ -487,7 +487,7 @@ watch(deleteDialog, (value) => {
         type="list-item-two-line, list-item-two-line, list-item-two-line"
         class="mb-2"
       />
-      <v-list v-else-if="viewingWorkplace" density="compact">
+      <AppList v-else-if="viewingWorkplace" density="compact">
         <v-list-item
           :title="t('userManagement.workplaces.fields.name')"
           :subtitle="viewingWorkplace.name || '—'"
@@ -500,20 +500,20 @@ watch(deleteDialog, (value) => {
           :title="t('userManagement.workplaces.fields.id')"
           :subtitle="viewingWorkplace.id || '—'"
         />
-      </v-list>
+      </AppList>
       <div v-else class="text-medium-emphasis">
         {{ t('userManagement.workplaces.details.empty') }}
       </div>
 
       <template #actions>
-        <v-btn variant="text" @click="closeView">
+        <AppButton variant="text" @click="closeView">
           {{ t('common.actions.close') }}
-        </v-btn>
+        </AppButton>
       </template>
     </AppModal>
 
-    <v-dialog v-model="deleteDialog" max-width="540">
-      <v-card>
+    <AppModal v-model="deleteDialog" max-width="540">
+      <AppCard>
         <v-card-title>{{
           t('userManagement.workplaces.dialogs.delete.title')
         }}</v-card-title>
@@ -529,14 +529,14 @@ watch(deleteDialog, (value) => {
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn variant="text" :disabled="deleteLoading" @click="closeDelete">
+          <AppButton variant="text" :disabled="deleteLoading" @click="closeDelete">
             {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn color="error" :loading="deleteLoading" @click="confirmDelete">
+          </AppButton>
+          <AppButton color="error" :loading="deleteLoading" @click="confirmDelete">
             {{ t('common.actions.delete') }}
-          </v-btn>
+          </AppButton>
         </v-card-actions>
-      </v-card>
-    </v-dialog>
+      </AppCard>
+    </AppModal>
   </v-container>
 </template>

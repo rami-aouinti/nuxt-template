@@ -40,7 +40,7 @@ const callToAction = computed(() => ({
   <v-container fluid>
     <v-row justify="center">
       <v-col cols="12">
-        <v-card class="pa-6" elevation="2">
+        <AppCard class="pa-6" elevation="2">
           <v-card-title class="text-h4 font-weight-bold pb-2">
             {{ t('pages.about.title') }}
           </v-card-title>
@@ -54,7 +54,7 @@ const callToAction = computed(() => ({
             :title="callToAction.title"
             :description="callToAction.description"
           />
-        </v-card>
+        </AppCard>
       </v-col>
     </v-row>
   </v-container>

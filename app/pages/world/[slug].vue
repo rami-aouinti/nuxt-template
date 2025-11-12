@@ -133,18 +133,18 @@ const errorMessage = computed(() => {
         >
           <div class="d-flex align-center justify-space-between gap-4">
             <span>{{ errorMessage }}</span>
-            <v-btn
+            <AppButton
               color="primary"
               variant="tonal"
               prepend-icon="mdi-refresh"
               @click="refresh"
             >
               {{ t('common.retry') }}
-            </v-btn>
+            </AppButton>
           </div>
         </v-alert>
 
-        <v-card v-else class="workplace-hero" elevation="4">
+        <AppCard v-else class="workplace-hero" elevation="4">
           <v-card-item>
             <div
               class="d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-4"
@@ -210,7 +210,7 @@ const errorMessage = computed(() => {
               </v-alert>
             </div>
           </v-card-text>
-        </v-card>
+        </AppCard>
       </v-col>
     </v-row>
   </v-container>

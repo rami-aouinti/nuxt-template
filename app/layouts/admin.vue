@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AppUiShowcase from '~/components/ui/AppUiShowcase.vue'
 
 const routeLoading = useRouteLoading()
 </script>

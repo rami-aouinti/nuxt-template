@@ -73,24 +73,24 @@ const stats = computed(() => [
     </v-row>
     <v-row>
       <v-col cols="12" md="6" lg="12">
-        <v-card class="pa-2">
+        <AppCard class="pa-2">
           <ChartLine />
-        </v-card>
+        </AppCard>
       </v-col>
       <v-col cols="12" md="6" lg="4">
-        <v-card class="pa-2">
+        <AppCard class="pa-2">
           <ChartRadar />
-        </v-card>
+        </AppCard>
       </v-col>
       <v-col cols="12" md="6" lg="4">
-        <v-card class="pa-2">
+        <AppCard class="pa-2">
           <ChartPie />
-        </v-card>
+        </AppCard>
       </v-col>
       <v-col cols="12" md="6" lg="4">
-        <v-card class="pa-2">
+        <AppCard class="pa-2">
           <ChartBar />
-        </v-card>
+        </AppCard>
       </v-col>
     </v-row>
   </v-container>

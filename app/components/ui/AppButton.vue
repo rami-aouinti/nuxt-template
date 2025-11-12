@@ -5,6 +5,7 @@ type ButtonVariant = 'elevated' | 'flat' | 'tonal' | 'outlined' | 'text' | 'plai
 type ButtonSize = 'x-small' | 'small' | 'default' | 'large' | 'x-large'
 type ButtonDensity = 'default' | 'comfortable' | 'compact'
 type ButtonType = 'button' | 'submit' | 'reset'
+type ButtonElevation = string | number
 
 type IconValue = string | undefined
 
@@ -20,6 +21,7 @@ const props = defineProps<{
   prependIcon?: IconValue
   appendIcon?: IconValue
   type?: ButtonType
+  elevation?: ButtonElevation
 }>()
 
 const normalizedVariant = computed<ButtonVariant>(() => props.variant ?? 'elevated')
@@ -31,7 +33,19 @@ const normalizedSize = computed<ButtonSize>(() => props.size ?? 'default')
 const normalizedDensity = computed<ButtonDensity>(() => props.density ?? 'default')
 const normalizedType = computed<ButtonType>(() => props.type ?? 'button')
 
-const hasShadow = computed(() => props.shadow ?? (normalizedVariant.value === 'elevated'))
+const hasShadow = computed(() => {
+  if (props.shadow !== undefined) return props.shadow
+  if (props.elevation !== undefined) {
+    const value = typeof props.elevation === 'number' ? props.elevation : Number(props.elevation)
+    return Number.isNaN(value) ? true : value > 0
+  }
+  return normalizedVariant.value === 'elevated'
+})
+
+const normalizedElevation = computed<ButtonElevation | undefined>(() => {
+  if (props.elevation !== undefined) return props.elevation
+  return hasShadow.value ? undefined : 0
+})
 </script>
 
 <template>
@@ -46,7 +60,7 @@ const hasShadow = computed(() => props.shadow ?? (normalizedVariant.value === 'e
     :prepend-icon="prependIcon"
     :append-icon="appendIcon"
     :type="normalizedType"
-    :elevation="hasShadow ? undefined : 0"
+    :elevation="normalizedElevation"
     :class="[
       'app-button',
       hasShadow ? 'app-button--shadow' : 'app-button--no-shadow',
