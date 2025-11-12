@@ -38,7 +38,7 @@ body {
     .v-list-item,
     .v-btn,
     .v-chip,
-    .v-alert,
+.v-alert,
     .v-expansion-panels,
     .v-expansion-panel,
     .v-data-table,
@@ -65,7 +65,7 @@ body {
     .v-app-bar,
     .v-dialog,
     .v-overlay__content > .v-card,
-    .v-alert.v-alert--elevated,
+.v-alert.v-alert--elevated,
     .v-btn.v-btn--elevated,
     .v-sheet[role='menu'],
     .v-menu .v-overlay__content,
@@ -75,6 +75,23 @@ body {
     .v-window-item
   ) {
   box-shadow: var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14)) !important;
+}
+
+.v-alert.v-alert--variant-tonal {
+  background-color: rgba(var(--v-theme-primary), 0.14) !important;
+  color: rgb(var(--v-theme-on-surface)) !important;
+
+  .v-alert__content,
+  .v-alert-title,
+  .v-icon,
+  .v-alert__append,
+  .v-alert__prepend {
+    color: inherit;
+  }
+
+  .v-alert__prepend .v-icon {
+    color: rgb(var(--v-theme-primary));
+  }
 }
 
 .v-theme--light {
