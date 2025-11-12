@@ -6,9 +6,10 @@ import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 import BlogMyBlogsList from '~/components/Blog/MyBlogsList.vue'
 import { BLOG_POSTS_DEFAULT_LIMIT, useBlogApi } from '~/composables/useBlogApi'
 import { useProfilePostsStore } from '~/stores/profile-posts'
-import type { BlogSummary } from '~/types/blog'
+import type {BlogPostViewModel, BlogSummary} from '~/types/blog'
 import AppButton from "~/components/ui/AppButton.vue";
 import AppCard from "~/components/ui/AppCard.vue";
+import BlogPostCard from "~/components/Blog/PostCard.vue";
 
 definePageMeta({
   title: 'navigation.profile',
@@ -17,7 +18,11 @@ definePageMeta({
 
 const { t, locale } = useI18n()
 const { fetchProfilePosts, fetchUserBlogs } = useBlogApi()
-const { loggedIn } = useUserSession()
+const { session, loggedIn } = useUserSession()
+const POST_EXCERPT_MAX_LENGTH = 150
+const currentUsername = computed(
+  () => session.value?.user?.login || session.value?.profile?.username || null,
+)
 
 const profilePostsStore = useProfilePostsStore()
 const {
@@ -36,12 +41,6 @@ const myBlogsError = ref<string | null>(null)
 const hasMore = computed(
   () => posts.value.length < pagination.value.total && posts.value.length > 0,
 )
-
-const formatPublishedAt = (publishedAt: string) =>
-  new Intl.DateTimeFormat(locale.value, {
-    dateStyle: 'long',
-    timeStyle: 'short',
-  }).format(new Date(publishedAt))
 
 async function loadPosts(
   pageNumber: number,
@@ -122,6 +121,93 @@ if (loggedIn.value) {
   await Promise.all([loadPosts(1, { replace: true }), loadMyBlogs()])
 }
 
+function canEditPost(post: BlogPostViewModel) {
+  return loggedIn.value && post.user.username === currentUsername.value
+}
+
+function getPostExcerpt(post: BlogPostViewModel) {
+  const summary = typeof post.summary === 'string' ? post.summary.trim() : ''
+  if (summary.length) {
+    return truncateText(summary, POST_EXCERPT_MAX_LENGTH)
+  }
+
+  const content = getPostPlainContent(post.content)
+  if (content.length) {
+    return truncateText(content, POST_EXCERPT_MAX_LENGTH)
+  }
+
+  return ''
+}
+
+function truncateText(text: string, maxLength: number) {
+  if (text.length <= maxLength) {
+    return text
+  }
+
+  return `${text.slice(0, maxLength).trimEnd()}…`
+}
+
+function getPostPlainContent(content: string | null | undefined) {
+  if (!content) {
+    return ''
+  }
+
+  if (typeof window !== 'undefined' && 'DOMParser' in window) {
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(content, 'text/html')
+    const text = doc.body.textContent || ''
+    return text.replace(/\s+/g, ' ').trim()
+  }
+
+  return content
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function formatRelativePublishedAt(publishedAt: string) {
+  const target = new Date(publishedAt)
+  if (Number.isNaN(target.getTime())) {
+    return formatPublishedAt(publishedAt)
+  }
+
+  const diffInSeconds = Math.round((target.getTime() - Date.now()) / 1000)
+  const thresholds: { unit: Intl.RelativeTimeFormatUnit; seconds: number }[] = [
+    { unit: 'year', seconds: 60 * 60 * 24 * 365 },
+    { unit: 'month', seconds: 60 * 60 * 24 * 30 },
+    { unit: 'week', seconds: 60 * 60 * 24 * 7 },
+    { unit: 'day', seconds: 60 * 60 * 24 },
+    { unit: 'hour', seconds: 60 * 60 },
+    { unit: 'minute', seconds: 60 },
+    { unit: 'second', seconds: 1 },
+  ]
+
+  for (const { unit, seconds } of thresholds) {
+    if (Math.abs(diffInSeconds) >= seconds || unit === 'second') {
+      if (unit === 'second' && Math.abs(diffInSeconds) < 45) {
+        return relativeTimeFormat.value.format(0, 'second')
+      }
+
+      const value = Math.round(diffInSeconds / seconds)
+      return relativeTimeFormat.value.format(value, unit)
+    }
+  }
+
+  return formatPublishedAt(publishedAt)
+}
+
+const formatPublishedAt = (publishedAt: string) => {
+  const date = new Date(publishedAt)
+  if (Number.isNaN(date.getTime())) {
+    return publishedAt
+  }
+
+  return new Intl.DateTimeFormat(locale.value, {
+    dateStyle: 'long',
+    timeStyle: 'short',
+  }).format(date)
+}
+
 watch(
   () => loggedIn.value,
   (value) => {
@@ -141,30 +227,7 @@ watch(
 <template>
   <ProfilePageShell>
     <v-row class="justify-center">
-      <v-col cols="12" lg="8" xl="9">
-        <v-sheet class="rounded-xl mb-6" elevation="2">
-          <div
-            class="pa-6 d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-4"
-          >
-            <div>
-              <h1 class="text-h4 text-h3-md font-weight-bold mb-1">
-                {{ t('blog.title') }}
-              </h1>
-              <p class="text-body-1 text-medium-emphasis mb-0">
-                {{ t('blog.sidebar.myBlogsTitle') }}
-              </p>
-            </div>
-            <AppButton
-              color="primary"
-              variant="tonal"
-              prepend-icon="mdi-note-plus"
-              to="/blog"
-            >
-              {{ t('blog.sidebar.createPost') }}
-            </AppButton>
-          </div>
-        </v-sheet>
-
+      <v-col cols="12">
         <v-alert
           v-if="postsError"
           type="error"
@@ -254,23 +317,6 @@ watch(
           ref="loadMoreTrigger"
           class="blog-infinite-trigger"
         />
-      </v-col>
-      <v-col cols="12" lg="4" xl="3" class="blog-sidebar-column">
-        <div class="blog-sidebar glass-card pa-4 pa-md-6 mb-6">
-          <div class="animated-badge mb-4">
-            <span class="animated-badge__pulse" />
-            {{ t('blog.sidebar.myBlogsTitle') }}
-          </div>
-          <p class="text-body-2 text-medium-emphasis mb-4">
-            {{ t('blog.sidebar.intro') }}
-          </p>
-          <BlogMyBlogsList
-            :logged-in="loggedIn"
-            :blogs="myBlogs"
-            :loading="myBlogsLoading"
-            :error="myBlogsError"
-          />
-        </div>
       </v-col>
     </v-row>
     <client-only>
