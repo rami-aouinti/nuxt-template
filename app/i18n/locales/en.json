@@ -1046,7 +1046,10 @@
         "highlights": {
           "workspace": "Organize projects, documents, and discussions in dedicated workspaces for each initiative.",
           "collaboration": "Collaborate in real time with shared notes, integrated messaging, and timely notifications.",
-          "support": "Monitor progress from interactive dashboards and reach our team whenever you need guidance."
+          "support": "Monitor progress from interactive dashboards and reach our team whenever you need guidance.",
+          "automation": "Automate repetitive tasks with orchestration recipes that trigger actions across your tools.",
+          "integrations": "Connect Bro World with GitHub, Slack, Figma, and dozens of partners to keep data flowing.",
+          "aiAssistant": "Use the AI companion for instant summaries, drafting updates, and suggesting next steps."
         }
       },
       "sections": {
@@ -1061,6 +1064,14 @@
         "community": {
           "title": "Community forum",
           "description": "Join conversations with other members, share tips, and vote on feature requests."
+        },
+        "automation": {
+          "title": "Automation library",
+          "description": "Explore ready-made playbooks that connect workflows, approvals, and reporting in minutes."
+        },
+        "updates": {
+          "title": "Release updates",
+          "description": "Review the latest product announcements, roadmap highlights, and beta opportunities."
         }
       },
       "questions": {
@@ -1077,12 +1088,24 @@
           "getSupport": {
             "question": "Where can I get more help?",
             "answer": "Browse the guides above for step-by-step tutorials or contact us directly and we will follow up with tailored assistance."
+          },
+          "automationTemplates": {
+            "question": "How do I enable the new automation templates?",
+            "answer": "Open the Automation Library from the Help Center, choose a recipe, and map each step to the integrations connected to your workspace."
+          },
+          "mobileAccess": {
+            "question": "Is there a mobile experience?",
+            "answer": "Yes. Install the iOS or Android app to receive push notifications, approve workflows, and chat with teammates on the go."
+          },
+          "billing": {
+            "question": "Where can I manage billing settings?",
+            "answer": "Admins can visit Settings → Billing to update payment methods, download invoices, or adjust plan seats at any time."
           }
         }
       },
       "contact": {
         "title": "Still need help?",
-        "description": "Send us a message through the contact page and our specialists will respond shortly."
+        "description": "Send us a message through the contact page, start a live chat, or book a success session with our specialists."
       }
     },
     "about": {

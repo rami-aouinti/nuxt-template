@@ -1131,12 +1131,15 @@
       "title": "مركز المساعدة",
       "subtitle": "اعثر على الإجابات بسرعة من خلال الوثائق المختارة والأسئلة الشائعة ونقاشات المجتمع.",
       "explanation": {
-        "title": "What is Bro World?",
-        "description": "Bro World centralizes your team's communication, knowledge, and workflows so you can stay focused on delivering value.",
+        "title": "ما هو Bro World؟",
+        "description": "يوحّد Bro World اتصالات فريقك ومعرفته وتدفقات عمله حتى تركز على تقديم القيمة.",
         "highlights": {
-          "workspace": "Organize projects, documents, and discussions in dedicated workspaces for each initiative.",
-          "collaboration": "Collaborate in real time with shared notes, integrated messaging, and timely notifications.",
-          "support": "Monitor progress from interactive dashboards and reach our team whenever you need guidance."
+          "workspace": "نظِّم المشاريع والمستندات والمناقشات داخل مساحات عمل مخصصة لكل مبادرة.",
+          "collaboration": "تعاون في الوقت الفعلي باستخدام الملاحظات المشتركة والرسائل المدمجة والتنبيهات في اللحظة المناسبة.",
+          "support": "راقب التقدم من خلال لوحات معلومات تفاعلية وتواصل مع فريقنا متى احتجت إلى التوجيه.",
+          "automation": "قم بأتمتة المهام المتكررة عبر وصفات جاهزة تشغّل إجراءات في أدواتك المختلفة.",
+          "integrations": "اربط Bro World مع GitHub وSlack وFigma وعشرات الشركاء للحفاظ على تدفق البيانات.",
+          "aiAssistant": "استخدم المساعد المدعوم بالذكاء الاصطناعي للحصول على ملخصات فورية، وصياغة تحديثات، واقتراح الخطوات التالية."
         }
       },
       "sections": {
@@ -1151,28 +1154,48 @@
         "community": {
           "title": "منتدى المجتمع",
           "description": "شارك في النقاشات مع بقية الأعضاء، تبادل النصائح، وصوّت على الميزات المقترحة."
+        },
+        "automation": {
+          "title": "مكتبة الأتمتة",
+          "description": "استكشف مخططات جاهزة تربط تدفقات العمل والموافقات والتقارير في دقائق معدودة."
+        },
+        "updates": {
+          "title": "أحدث الإصدارات",
+          "description": "اطلع على آخر إعلانات المنتج، وملامح خارطة الطريق، وفرص برامج البيتا."
         }
       },
       "questions": {
-        "title": "Common questions",
+        "title": "أسئلة شائعة",
         "items": {
           "accountAccess": {
-            "question": "How do I access my account?",
-            "answer": "Sign in with the email you used to register. If you run into issues, reset your password from the login page or reach out to support."
+            "question": "كيف أصل إلى حسابي؟",
+            "answer": "سجّل الدخول باستخدام البريد الإلكتروني الذي استخدمته للتسجيل. إذا واجهت مشكلة، أعد تعيين كلمة المرور من صفحة تسجيل الدخول أو تواصل مع الدعم."
           },
           "inviteTeam": {
-            "question": "Can I invite my teammates?",
-            "answer": "Yes. Open your workspace settings, choose \"Members,\" and send invitations by email to collaborate instantly."
+            "question": "هل يمكنني دعوة فريقي؟",
+            "answer": "نعم. افتح إعدادات مساحة العمل، اختر \"الأعضاء\" وأرسل الدعوات عبر البريد الإلكتروني لبدء التعاون فورًا."
           },
           "getSupport": {
-            "question": "Where can I get more help?",
-            "answer": "Browse the guides above for step-by-step tutorials or contact us directly and we will follow up with tailored assistance."
+            "question": "أين أجد المزيد من المساعدة؟",
+            "answer": "استعرض الأدلة أعلاه للحصول على شروحات خطوة بخطوة أو تواصل معنا مباشرةً لنقدم لك دعمًا مخصصًا."
+          },
+          "automationTemplates": {
+            "question": "كيف أفعّل قوالب الأتمتة الجديدة؟",
+            "answer": "افتح مكتبة الأتمتة من مركز المساعدة، اختر مخططًا، ثم اربط كل خطوة بالتكاملات الموصولة بمساحة عملك."
+          },
+          "mobileAccess": {
+            "question": "هل توجد تجربة للهواتف المحمولة؟",
+            "answer": "نعم. ثبّت تطبيق iOS أو Android لتستقبل التنبيهات الفورية، وتوافق على تدفقات العمل، وتتواصل مع الفريق أثناء التنقل."
+          },
+          "billing": {
+            "question": "أين أدير إعدادات الفوترة؟",
+            "answer": "يمكن للمشرفين زيارة الإعدادات ← الفوترة لتحديث طرق الدفع، وتنزيل الفواتير، أو تعديل عدد المقاعد في الخطة."
           }
         }
       },
       "contact": {
         "title": "ما زلت تحتاج إلى مساعدة؟",
-        "description": "أرسل لنا رسالة عبر صفحة الاتصال وسيعاودك فريق المختصين قريبًا."
+        "description": "أرسل لنا رسالة من صفحة الاتصال، ابدأ محادثة مباشرة أو حدّد جلسة مع فريق نجاح العملاء لدينا."
       }
     },
     "about": {

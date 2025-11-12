@@ -20,6 +20,9 @@ const explanation = computed(() => ({
     t('pages.help.explanation.highlights.workspace'),
     t('pages.help.explanation.highlights.collaboration'),
     t('pages.help.explanation.highlights.support'),
+    t('pages.help.explanation.highlights.automation'),
+    t('pages.help.explanation.highlights.integrations'),
+    t('pages.help.explanation.highlights.aiAssistant'),
   ],
 }))
 
@@ -39,6 +42,16 @@ const sections = computed<SectionGridItem[]>(() => [
     title: t('pages.help.sections.community.title'),
     description: t('pages.help.sections.community.description'),
   },
+  {
+    icon: 'mdi-robot-outline',
+    title: t('pages.help.sections.automation.title'),
+    description: t('pages.help.sections.automation.description'),
+  },
+  {
+    icon: 'mdi-rocket-launch-outline',
+    title: t('pages.help.sections.updates.title'),
+    description: t('pages.help.sections.updates.description'),
+  },
 ])
 
 const questions = computed(() => ({
@@ -55,6 +68,18 @@ const questions = computed(() => ({
     {
       question: t('pages.help.questions.items.getSupport.question'),
       answer: t('pages.help.questions.items.getSupport.answer'),
+    },
+    {
+      question: t('pages.help.questions.items.automationTemplates.question'),
+      answer: t('pages.help.questions.items.automationTemplates.answer'),
+    },
+    {
+      question: t('pages.help.questions.items.mobileAccess.question'),
+      answer: t('pages.help.questions.items.mobileAccess.answer'),
+    },
+    {
+      question: t('pages.help.questions.items.billing.question'),
+      answer: t('pages.help.questions.items.billing.answer'),
     },
   ],
 }))

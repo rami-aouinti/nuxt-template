@@ -1018,12 +1018,15 @@
       "title": "Centro de ayuda",
       "subtitle": "Encuentra respuestas rápidas con documentación seleccionada, preguntas frecuentes y debates de la comunidad.",
       "explanation": {
-        "title": "What is Bro World?",
-        "description": "Bro World centralizes your team's communication, knowledge, and workflows so you can stay focused on delivering value.",
+        "title": "¿Qué es Bro World?",
+        "description": "Bro World centraliza la comunicación, el conocimiento y los flujos de trabajo de tu equipo para que puedas concentrarte en entregar valor.",
         "highlights": {
-          "workspace": "Organize projects, documents, and discussions in dedicated workspaces for each initiative.",
-          "collaboration": "Collaborate in real time with shared notes, integrated messaging, and timely notifications.",
-          "support": "Monitor progress from interactive dashboards and reach our team whenever you need guidance."
+          "workspace": "Organiza proyectos, documentos y debates en espacios dedicados a cada iniciativa.",
+          "collaboration": "Colabora en tiempo real con notas compartidas, mensajería integrada y notificaciones oportunas.",
+          "support": "Supervisa el progreso desde paneles interactivos y contacta a nuestro equipo cuando necesites orientación.",
+          "automation": "Automatiza tareas repetitivas con recetas de orquestación que activan acciones en tus herramientas.",
+          "integrations": "Conecta Bro World con GitHub, Slack, Figma y decenas de socios para mantener el flujo de datos.",
+          "aiAssistant": "Utiliza el asistente de IA para obtener resúmenes al instante, redactar actualizaciones y sugerir próximos pasos."
         }
       },
       "sections": {
@@ -1038,28 +1041,48 @@
         "community": {
           "title": "Foro de la comunidad",
           "description": "Únete a las conversaciones con otros miembros, comparte consejos y vota por nuevas funciones."
+        },
+        "automation": {
+          "title": "Biblioteca de automatizaciones",
+          "description": "Explora guías listas para conectar workflows, aprobaciones y reportes en cuestión de minutos."
+        },
+        "updates": {
+          "title": "Novedades y lanzamientos",
+          "description": "Revisa los anuncios más recientes, los hitos de la hoja de ruta y las oportunidades de programas beta."
         }
       },
       "questions": {
-        "title": "Common questions",
+        "title": "Preguntas habituales",
         "items": {
           "accountAccess": {
-            "question": "How do I access my account?",
-            "answer": "Sign in with the email you used to register. If you run into issues, reset your password from the login page or reach out to support."
+            "question": "¿Cómo accedo a mi cuenta?",
+            "answer": "Inicia sesión con el correo que utilizaste para registrarte. Si tienes problemas, restablece tu contraseña desde la página de acceso o contacta al soporte."
           },
           "inviteTeam": {
-            "question": "Can I invite my teammates?",
-            "answer": "Yes. Open your workspace settings, choose \"Members,\" and send invitations by email to collaborate instantly."
+            "question": "¿Puedo invitar a mi equipo?",
+            "answer": "Sí. Abre la configuración del espacio de trabajo, elige \"Miembros\" y envía invitaciones por correo para colaborar al instante."
           },
           "getSupport": {
-            "question": "Where can I get more help?",
-            "answer": "Browse the guides above for step-by-step tutorials or contact us directly and we will follow up with tailored assistance."
+            "question": "¿Dónde obtengo más ayuda?",
+            "answer": "Consulta las guías anteriores para seguir tutoriales paso a paso o escríbenos directamente para recibir asistencia personalizada."
+          },
+          "automationTemplates": {
+            "question": "¿Cómo habilito las nuevas plantillas de automatización?",
+            "answer": "Abre la biblioteca de automatizaciones desde el Centro de ayuda, elige una receta y vincula cada paso con las integraciones conectadas a tu espacio de trabajo."
+          },
+          "mobileAccess": {
+            "question": "¿Hay experiencia móvil?",
+            "answer": "Sí. Instala la aplicación para iOS o Android para recibir notificaciones push, aprobar flujos y chatear con tu equipo desde cualquier lugar."
+          },
+          "billing": {
+            "question": "¿Dónde gestiono la facturación?",
+            "answer": "Los administradores pueden ir a Configuración → Facturación para actualizar métodos de pago, descargar facturas o ajustar el número de licencias."
           }
         }
       },
       "contact": {
         "title": "¿Aún necesitas ayuda?",
-        "description": "Envíanos un mensaje a través de la página de contacto y nuestros especialistas responderán en breve."
+        "description": "Envíanos un mensaje desde la página de contacto, inicia un chat en vivo o agenda una sesión con nuestro equipo de éxito."
       }
     },
     "about": {

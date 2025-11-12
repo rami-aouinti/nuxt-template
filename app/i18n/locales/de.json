@@ -1131,12 +1131,15 @@
       "title": "Hilfe-Center",
       "subtitle": "Finde schnell Antworten in kuratierten Dokumentationen, häufigen Fragen und Community-Diskussionen.",
       "explanation": {
-        "title": "What is Bro World?",
-        "description": "Bro World centralizes your team's communication, knowledge, and workflows so you can stay focused on delivering value.",
+        "title": "Was ist Bro World?",
+        "description": "Bro World bündelt die Kommunikation, das Wissen und die Abläufe deines Teams, damit du dich auf das Wesentliche konzentrieren kannst.",
         "highlights": {
-          "workspace": "Organize projects, documents, and discussions in dedicated workspaces for each initiative.",
-          "collaboration": "Collaborate in real time with shared notes, integrated messaging, and timely notifications.",
-          "support": "Monitor progress from interactive dashboards and reach our team whenever you need guidance."
+          "workspace": "Organisiere Projekte, Dokumente und Diskussionen in eigenen Arbeitsbereichen je Initiative.",
+          "collaboration": "Arbeite in Echtzeit mit geteilten Notizen, integrierter Chatfunktion und gezielten Benachrichtigungen zusammen.",
+          "support": "Überwache den Fortschritt in interaktiven Dashboards und kontaktiere unser Team, wann immer du Unterstützung brauchst.",
+          "automation": "Automatisiere wiederkehrende Aufgaben mit Orchestrierungs-Workflows, die Aktionen in deinen Tools auslösen.",
+          "integrations": "Verbinde Bro World mit GitHub, Slack, Figma und zahlreichen Partnern, um Datenflüsse zu bündeln.",
+          "aiAssistant": "Nutze den KI-Assistenten für sofortige Zusammenfassungen, formulierte Updates und Empfehlungen für nächste Schritte."
         }
       },
       "sections": {
@@ -1151,28 +1154,48 @@
         "community": {
           "title": "Community-Forum",
           "description": "Beteilige dich an Gesprächen mit anderen Mitgliedern, teile Tipps und stimme über Funktionswünsche ab."
+        },
+        "automation": {
+          "title": "Automatisierungsbibliothek",
+          "description": "Entdecke einsatzbereite Playbooks, die Workflows, Freigaben und Berichte in wenigen Minuten verbinden."
+        },
+        "updates": {
+          "title": "Produktneuigkeiten",
+          "description": "Informiere dich über aktuelle Releases, Roadmap-Highlights und neue Beta-Programme."
         }
       },
       "questions": {
-        "title": "Common questions",
+        "title": "Häufig gestellte Fragen",
         "items": {
           "accountAccess": {
-            "question": "How do I access my account?",
-            "answer": "Sign in with the email you used to register. If you run into issues, reset your password from the login page or reach out to support."
+            "question": "Wie erhalte ich Zugriff auf mein Konto?",
+            "answer": "Melde dich mit der E-Mail-Adresse an, mit der du dich registriert hast. Bei Problemen kannst du dein Passwort auf der Login-Seite zurücksetzen oder den Support kontaktieren."
           },
           "inviteTeam": {
-            "question": "Can I invite my teammates?",
-            "answer": "Yes. Open your workspace settings, choose \"Members,\" and send invitations by email to collaborate instantly."
+            "question": "Kann ich mein Team einladen?",
+            "answer": "Ja. Öffne die Einstellungen deines Arbeitsbereichs, wähle \"Mitglieder\" und verschicke E-Mail-Einladungen für eine sofortige Zusammenarbeit."
           },
           "getSupport": {
-            "question": "Where can I get more help?",
-            "answer": "Browse the guides above for step-by-step tutorials or contact us directly and we will follow up with tailored assistance."
+            "question": "Wo finde ich weitere Hilfe?",
+            "answer": "Sieh dir die oben genannten Leitfäden für Schritt-für-Schritt-Anleitungen an oder schreibe uns direkt für individuelle Unterstützung."
+          },
+          "automationTemplates": {
+            "question": "Wie aktiviere ich die neuen Automatisierungsvorlagen?",
+            "answer": "Öffne im Hilfe-Center die Automatisierungsbibliothek, wähle ein Playbook und ordne die Schritte den verbundenen Integrationen deines Arbeitsbereichs zu."
+          },
+          "mobileAccess": {
+            "question": "Gibt es eine mobile Nutzung?",
+            "answer": "Ja. Installiere die iOS- oder Android-App, um Push-Benachrichtigungen zu erhalten, Workflows freizugeben und mit deinem Team unterwegs zu chatten."
+          },
+          "billing": {
+            "question": "Wo verwalte ich die Abrechnung?",
+            "answer": "Admins können unter Einstellungen → Abrechnung Zahlungsmethoden aktualisieren, Rechnungen herunterladen oder die Anzahl der Plätze anpassen."
           }
         }
       },
       "contact": {
         "title": "Noch Fragen?",
-        "description": "Sende uns eine Nachricht über die Kontaktseite und unser Team meldet sich in Kürze."
+        "description": "Sende uns eine Nachricht über die Kontaktseite, starte einen Live-Chat oder buche einen Termin mit unserem Customer-Success-Team."
       }
     },
     "about": {
