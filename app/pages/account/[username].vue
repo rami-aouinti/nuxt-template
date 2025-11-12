@@ -422,16 +422,4 @@ const openMessengerConversation = async () => {
   </v-container>
 </template>
 
-<style scoped>
-.profile-public__metadata {
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  border-radius: 12px;
-  padding: 16px;
-}
-
-.profile-public__stat {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-</style>
+<style scoped src="~/assets/styles/pages/account/username.css"></style>

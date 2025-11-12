@@ -1101,43 +1101,4 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped>
-.workspace-page {
-  min-height: calc(100vh - 160px);
-}
-
-.workspace-tree {
-  position: sticky;
-  top: 96px;
-}
-
-.workspace-table thead th {
-  font-weight: 600;
-}
-
-.workspace-table tbody tr:hover {
-  background-color: rgb(var(--v-theme-surface-variant) / 0.2);
-}
-
-.workspace-empty {
-  min-height: 420px;
-}
-
-.workspace-root {
-  min-height: 420px;
-}
-
-.workspace-root-list {
-  max-height: calc(100vh - 300px);
-  overflow-y: auto;
-}
-
-.workspace-root-list-item {
-  border-radius: 16px;
-  transition: background-color 0.2s ease;
-}
-
-.workspace-root-list-item:hover {
-  background-color: rgb(var(--v-theme-surface-variant) / 0.2);
-}
-</style>
+<style scoped src="~/assets/styles/pages/profile/workspace.css"></style>

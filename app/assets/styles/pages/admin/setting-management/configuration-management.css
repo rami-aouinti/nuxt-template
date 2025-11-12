@@ -1,0 +1,5 @@
+.text-mono {
+  font-family: 'Fira Code', 'Source Code Pro', monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

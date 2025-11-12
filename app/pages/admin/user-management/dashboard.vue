@@ -109,8 +109,4 @@ const stats = computed(() => [
   </v-container>
 </template>
 
-<style scoped>
-.v-card:not(.stats-card) {
-  height: 340px;
-}
-</style>
+<style scoped src="~/assets/styles/pages/admin/user-management/dashboard.css"></style>
