@@ -24,8 +24,18 @@
   min-height: 250px;
   display: flex;
   flex-direction: column;
-  border-radius: var(--app-rounded, 18px);
-  background: rgba(var(--blog-post-card-background-rgb, 255, 255, 255), 0.95);
+  border-radius: var(
+    --blog-post-card-radius,
+    var(--app-rounded, 18px)
+  );
+  box-shadow: var(
+    --blog-post-card-shadow,
+    var(--app-shadow, 0 10px 26px rgba(15, 23, 42, 0.14))
+  );
+  background: var(
+    --blog-post-card-background,
+    rgba(var(--blog-post-card-background-rgb, 255, 255, 255), 0.95)
+  );
   padding-bottom: 12px;
 }
 
