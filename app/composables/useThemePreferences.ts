@@ -107,7 +107,9 @@ function applyShadowPreset(preset: ThemeShadowPreset) {
   if (!import.meta.client) return
 
   const value = shadowValues[preset] ?? shadowValues.regular
+  const hoverValue = shadowHoverValues[preset] ?? shadowHoverValues.regular
   document.documentElement.style.setProperty('--app-shadow', value)
+  document.documentElement.style.setProperty('--app-shadow-hover', hoverValue)
 }
 
 const useThemePreferencesShared = createSharedComposable(() => {
