@@ -2,6 +2,8 @@
 import { computed } from 'vue'
 import WorkplaceActionMenu from '~/components/workplace/WorkplaceActionMenu.vue'
 import type { Workplace } from '~/types/workplace'
+import AppButton from "~/components/ui/AppButton.vue";
+import AppCard from "~/components/ui/AppCard.vue";
 
 const { t } = useI18n()
 const translate = (key: string, fallback: string) => {

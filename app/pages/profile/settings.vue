@@ -4,6 +4,7 @@ import { FetchError } from 'ofetch'
 import type { AuthProfile } from '~/types/auth'
 import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 import { Notify } from '~/stores/notification'
+import AppCard from "~/components/ui/AppCard.vue";
 
 definePageMeta({
   title: 'navigation.settings',

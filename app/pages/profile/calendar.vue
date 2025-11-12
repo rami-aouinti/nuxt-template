@@ -5,6 +5,9 @@ import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 import type { ProfileEvent, UpsertProfileEventPayload } from '~/types/events'
 import { Notify } from '~/stores/notification'
 import { useProfileEventsStore } from '~/stores/profile-events'
+import AppButton from "~/components/ui/AppButton.vue";
+import AppList from "~/components/ui/AppList.vue";
+import AppCard from "~/components/ui/AppCard.vue";
 
 definePageMeta({
   title: 'navigation.profileCalendar',

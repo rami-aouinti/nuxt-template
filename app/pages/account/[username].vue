@@ -6,6 +6,8 @@ import type { PublicProfileData } from '~/types/profile'
 import type { ConversationSummary } from '~/types/messenger'
 import { useMessengerApi } from '~/composables/useMessengerApi'
 import { Notify } from '~/stores/notification'
+import AppButton from "~/components/ui/AppButton.vue";
+import AppCard from "~/components/ui/AppCard.vue";
 
 definePageMeta({
   title: 'navigation.profile',

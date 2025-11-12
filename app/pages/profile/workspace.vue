@@ -12,6 +12,9 @@ import type {
   WorkspaceFolder,
 } from '~/types/workspace'
 import { useWorkspaceStore } from '~/stores/workspace'
+import AppButton from "~/components/ui/AppButton.vue";
+import AppCard from "~/components/ui/AppCard.vue";
+import AppList from "~/components/ui/AppList.vue";
 
 definePageMeta({
   title: 'navigation.profileWorkspace',

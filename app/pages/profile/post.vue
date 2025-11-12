@@ -7,6 +7,8 @@ import BlogMyBlogsList from '~/components/Blog/MyBlogsList.vue'
 import { BLOG_POSTS_DEFAULT_LIMIT, useBlogApi } from '~/composables/useBlogApi'
 import { useProfilePostsStore } from '~/stores/profile-posts'
 import type { BlogSummary } from '~/types/blog'
+import AppButton from "~/components/ui/AppButton.vue";
+import AppCard from "~/components/ui/AppCard.vue";
 
 definePageMeta({
   title: 'navigation.profile',
