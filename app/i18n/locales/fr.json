@@ -16,10 +16,10 @@
       "subtitle": "Merci de patienter un instant…"
     },
     "settings": {
-      "themePalette": "Theme palette",
-      "openThemeMenu": "Open theme palette",
-      "cornerRadius": "Corner radius",
-      "shadowDepth": "Shadow depth",
+      "themePalette": "Palette de thème",
+      "openThemeMenu": "Ouvrir la palette de thème",
+      "cornerRadius": "Rayon des coins",
+      "shadowDepth": "Profondeur des ombres",
       "cornerRadiusOptions": {
         "none": {
           "label": "Carré",
@@ -80,7 +80,7 @@
     "users": "Utilisateurs",
     "roles": "Rôles",
     "userGroups": "Groupes d'utilisateurs",
-    "workplaces": "Workplaces",
+    "workplaces": "Espaces de travail",
     "apiKeys": "Clés API",
     "profile": "Profil",
     "profileCalendar": "Calendrier",
@@ -88,13 +88,13 @@
     "blog": "Blog",
     "messenger": "Messagerie",
     "goBack": "Retour",
-    "toggleNavigationDrawer": "Toggle navigation drawer",
-    "toggleSecondaryNavigationDrawer": "Toggle secondary navigation drawer",
-    "toggleTheme": "Toggle color theme",
-    "openAccountMenu": "Open account menu for {name}",
+    "toggleNavigationDrawer": "Basculer le tiroir de navigation",
+    "toggleSecondaryNavigationDrawer": "Basculer le tiroir de navigation secondaire",
+    "toggleTheme": "Changer le thème de couleurs",
+    "openAccountMenu": "Ouvrir le menu du compte pour {name}",
     "accountAvatarAlt": "Photo de profil de {name}",
-    "openAccountMenuGuest": "Open sign-in menu",
-    "openLanguageMenu": "Open language menu ({language})",
+    "openAccountMenuGuest": "Ouvrir le menu de connexion",
+    "openLanguageMenu": "Ouvrir le menu des langues ({language})",
     "language": "Changer de langue",
     "workspace": "Espace de travail",
     "settings": "Paramètres",
@@ -131,15 +131,18 @@
     "title": "Blog",
     "description": "Restez informé des dernières actualités de Bro World.",
     "sidebar": {
-      "myBlogsTitle": "My blogs",
-      "intro": "Access your writing spaces and create a new article.",
-      "myBlogsEmpty": "You are not subscribed to any blogs yet.",
-      "publicBlogsTitle": "Public blogs",
-      "publicBlogsEmpty": "No public blogs are available right now.",
-      "loginToManage": "Sign in to manage your blogs and posts.",
-      "createBlog": "Create a blog",
-      "createPost": "Create a post",
-      "noBlogs": "You need at least one blog before creating a post."
+      "myBlogsTitle": "Mes blogs",
+      "mySection": "Ma section",
+      "myWords": "Mes mots",
+      "friends": "Amis",
+      "intro": "Accédez à vos espaces d’écriture et créez un nouvel article.",
+      "myBlogsEmpty": "Vous n’êtes encore abonné à aucun blog.",
+      "publicBlogsTitle": "Blogs publics",
+      "publicBlogsEmpty": "Aucun blog public n’est disponible pour le moment.",
+      "loginToManage": "Connectez-vous pour gérer vos blogs et articles.",
+      "createBlog": "Créer un blog",
+      "createPost": "Créer une publication",
+      "noBlogs": "Vous devez avoir au moins un blog avant de créer une publication."
     },
     "actions": {
       "refresh": "Actualiser",
@@ -196,15 +199,15 @@
         "content": "Contenu"
       },
       "createBlog": {
-        "title": "Blog title",
-        "subtitle": "Subtitle"
+        "title": "Titre du blog",
+        "subtitle": "Sous-titre"
       },
       "createPost": {
         "blog": "Blog",
-        "title": "Post title",
-        "summary": "Summary",
-        "content": "Content",
-        "url": "External URL"
+        "title": "Titre de la publication",
+        "summary": "Résumé",
+        "content": "Contenu",
+        "url": "URL externe"
       },
       "sharePlaceholder": "Dites quelque chose à propos de cette publication..."
     },

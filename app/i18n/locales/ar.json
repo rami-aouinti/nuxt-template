@@ -16,52 +16,52 @@
       "subtitle": "يرجى الانتظار لحظة…"
     },
     "settings": {
-      "themePalette": "Theme palette",
-      "openThemeMenu": "Open theme palette",
-      "cornerRadius": "Corner radius",
-      "shadowDepth": "Shadow depth",
+      "themePalette": "لوحة السمة",
+      "openThemeMenu": "فتح لوحة السمة",
+      "cornerRadius": "نصف قطر الزوايا",
+      "shadowDepth": "عمق الظل",
       "cornerRadiusOptions": {
         "none": {
-          "label": "Square",
-          "description": "Sharp corners without any rounding."
+          "label": "مربعة",
+          "description": "زوايا حادة دون أي تدوير."
         },
         "xs": {
-          "label": "Subtle",
-          "description": "Very small rounding for minimal curves."
+          "label": "طفيف",
+          "description": "تدوير صغير جدًا لانحناءات بسيطة."
         },
         "sm": {
-          "label": "Soft",
-          "description": "Balanced rounding for most surfaces."
+          "label": "ناعم",
+          "description": "تدوير متوازن لمعظم الأسطح."
         },
         "md": {
-          "label": "Rounded",
-          "description": "Generous curves for a friendly layout."
+          "label": "مستدير",
+          "description": "منحنيات سخية لتصميم ودود."
         },
         "lg": {
-          "label": "Pill",
-          "description": "Fully rounded edges for pill-shaped elements."
+          "label": "كبسولة",
+          "description": "حواف مستديرة بالكامل لعناصر على شكل كبسولة."
         }
       },
       "shadowDepthOptions": {
         "none": {
-          "label": "None",
-          "description": "Removes all elevation shadows."
+          "label": "بدون",
+          "description": "يزيل جميع ظلال الارتفاع."
         },
         "soft": {
-          "label": "Feather",
-          "description": "A barely visible soft glow."
+          "label": "خفيف",
+          "description": "توهج ناعم بالكاد يُرى."
         },
         "regular": {
-          "label": "Classic",
-          "description": "Balanced shadow for everyday use."
+          "label": "كلاسيكي",
+          "description": "ظل متوازن للاستخدام اليومي."
         },
         "bold": {
-          "label": "Strong",
-          "description": "Pronounced elevation with clear depth."
+          "label": "قوي",
+          "description": "ارتفاع واضح بعمق ملموس."
         },
         "deep": {
-          "label": "Focus",
-          "description": "Deep and vibrant with theme accent."
+          "label": "تركيز",
+          "description": "عميق وحيوي مع إبراز السمة."
         }
       }
     }
@@ -80,7 +80,7 @@
     "users": "المستخدمون",
     "roles": "الأدوار",
     "userGroups": "مجموعات المستخدمين",
-    "workplaces": "Workplaces",
+    "workplaces": "مساحات العمل",
     "apiKeys": "مفاتيح API",
     "profile": "الملف الشخصي",
     "profileCalendar": "تقويم الملف الشخصي",
@@ -88,20 +88,20 @@
     "blog": "المدونة",
     "messenger": "الرسائل",
     "goBack": "رجوع",
-    "toggleNavigationDrawer": "Toggle navigation drawer",
-    "toggleSecondaryNavigationDrawer": "Toggle secondary navigation drawer",
-    "toggleTheme": "Toggle color theme",
-    "openAccountMenu": "Open account menu for {name}",
+    "toggleNavigationDrawer": "تبديل قائمة التنقل",
+    "toggleSecondaryNavigationDrawer": "تبديل قائمة التنقل الثانوية",
+    "toggleTheme": "تبديل نظام الألوان",
+    "openAccountMenu": "فتح قائمة الحساب لـ {name}",
     "accountAvatarAlt": "صورة الملف الشخصي لـ {name}",
-    "openAccountMenuGuest": "Open sign-in menu",
-    "openLanguageMenu": "Open language menu ({language})",
+    "openAccountMenuGuest": "فتح قائمة تسجيل الدخول",
+    "openLanguageMenu": "فتح قائمة اللغة ({language})",
     "language": "تغيير اللغة",
-    "workspace": "Workspace",
+    "workspace": "مساحة العمل",
     "settings": "الإعدادات",
     "help": "المساعدة",
     "about": "معلومات عنا",
     "contact": "اتصل بنا",
-    "pluginManagement": "Plugin management",
+    "pluginManagement": "إدارة الإضافات",
     "plugins": "Plugins",
     "mediaManagement": "إدارة الوسائط",
     "media": "مكتبة الوسائط"
@@ -131,15 +131,18 @@
     "title": "المدونة",
     "description": "ابق على اطلاع بآخر أخبار Bro World.",
     "sidebar": {
-      "myBlogsTitle": "My blogs",
-      "intro": "Access your writing spaces and create a new article.",
-      "myBlogsEmpty": "You are not subscribed to any blogs yet.",
-      "publicBlogsTitle": "Public blogs",
-      "publicBlogsEmpty": "No public blogs are available right now.",
-      "loginToManage": "Sign in to manage your blogs and posts.",
-      "createBlog": "Create a blog",
-      "createPost": "Create a post",
-      "noBlogs": "You need at least one blog before creating a post."
+      "myBlogsTitle": "مدوناتي",
+      "mySection": "قسمي",
+      "myWords": "كلماتي",
+      "friends": "أصدقاء",
+      "intro": "الوصول إلى مساحات الكتابة الخاصة بك وإنشاء مقالة جديدة.",
+      "myBlogsEmpty": "لست مشتركًا في أي مدونات بعد.",
+      "publicBlogsTitle": "مدونات عامة",
+      "publicBlogsEmpty": "لا توجد مدونات عامة متاحة حاليًا.",
+      "loginToManage": "سجّل الدخول لإدارة مدوناتك ومنشوراتك.",
+      "createBlog": "إنشاء مدونة",
+      "createPost": "إنشاء منشور",
+      "noBlogs": "تحتاج إلى مدونة واحدة على الأقل قبل إنشاء منشور."
     },
     "actions": {
       "refresh": "تحديث",
@@ -196,15 +199,15 @@
         "content": "المحتوى"
       },
       "createBlog": {
-        "title": "Blog title",
-        "subtitle": "Subtitle"
+        "title": "عنوان المدونة",
+        "subtitle": "العنوان الفرعي"
       },
       "createPost": {
-        "blog": "Blog",
-        "title": "Post title",
-        "summary": "Summary",
-        "content": "Content",
-        "url": "External URL"
+        "blog": "مدونة",
+        "title": "عنوان المنشور",
+        "summary": "الملخص",
+        "content": "المحتوى",
+        "url": "رابط خارجي"
       },
       "sharePlaceholder": "قل شيئًا عن هذا المنشور..."
     },
