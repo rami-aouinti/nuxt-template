@@ -14,6 +14,7 @@ defineProps<{
   post: BlogPostViewModel
   loggedIn: boolean
   formatDate: (value: string) => string
+  formatRelativeDate?: (value: string) => string
 }>()
 
 const emit = defineEmits<{
@@ -52,27 +53,56 @@ const resolveProfileLink = (user: BlogPostUser) => getAuthorProfileLink(user)
       {{ post.ui.commentsError }}
     </v-alert>
 
-    <div v-if="loggedIn" class="mb-4">
-      <v-textarea
-        v-model="post.ui.commentContent"
-        :label="t('blog.forms.commentPlaceholder')"
-        auto-grow
-        rows="2"
+    <div v-if="loggedIn" class="blog-comment-composer mb-4">
+      <v-sheet
+        class="blog-comment-composer__container"
+        color="surface"
         variant="outlined"
-        :disabled="post.ui.commentLoading"
-      />
-      <div class="d-flex justify-end mt-2">
-        <v-btn
-          color="primary"
-          :loading="post.ui.commentLoading"
-          :disabled="
-            post.ui.commentLoading || !post.ui.commentContent.trim().length
-          "
-          @click="emit('submit-comment')"
-        >
-          {{ t('blog.actions.addComment') }}
-        </v-btn>
-      </div>
+        rounded="lg"
+        border
+      >
+        <v-textarea
+          v-model="post.ui.commentContent"
+          :placeholder="t('blog.forms.commentPlaceholder')"
+          class="blog-comment-composer__textarea"
+          auto-grow
+          rows="3"
+          variant="plain"
+          :disabled="post.ui.commentLoading"
+          hide-details
+        />
+        <div class="blog-comment-composer__actions">
+          <div class="blog-comment-composer__actions-left">
+            <v-btn
+              icon="mdi-paperclip"
+              variant="text"
+              density="comfortable"
+              class="blog-comment-composer__action"
+              :disabled="post.ui.commentLoading"
+            />
+            <v-btn
+              icon="mdi-microphone-outline"
+              variant="text"
+              density="comfortable"
+              class="blog-comment-composer__action"
+              :disabled="post.ui.commentLoading"
+            />
+          </div>
+          <v-spacer />
+          <v-btn
+            class="blog-comment-composer__submit"
+            color="primary"
+            variant="flat"
+            icon="mdi-send"
+            :aria-label="t('blog.actions.addComment')"
+            :loading="post.ui.commentLoading"
+            :disabled="
+              post.ui.commentLoading || !post.ui.commentContent.trim().length
+            "
+            @click="emit('submit-comment')"
+          />
+        </div>
+      </v-sheet>
     </div>
 
     <BlogCommentThread
@@ -80,6 +110,7 @@ const resolveProfileLink = (user: BlogPostUser) => getAuthorProfileLink(user)
       :comments="post.comments"
       :format-author="formatAuthor"
       :format-date="formatDate"
+      :format-relative-date="formatRelativeDate"
       :can-interact="loggedIn"
       :resolve-profile-link="resolveProfileLink"
       @select-reaction="emit('select-reaction', $event)"
@@ -108,6 +139,45 @@ const resolveProfileLink = (user: BlogPostUser) => getAuthorProfileLink(user)
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.blog-comment-composer__container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: rgba(var(--v-theme-surface-variant), 0.12);
+  border-radius: 18px;
+}
+
+.blog-comment-composer__textarea :deep(textarea) {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  padding: 0;
+}
+
+.blog-comment-composer__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.blog-comment-composer__actions-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.blog-comment-composer__action {
+  color: rgba(var(--v-theme-on-surface-variant), 0.8);
+}
+
+.blog-comment-composer__action:hover {
+  color: rgb(var(--v-theme-primary));
+}
+
+.blog-comment-composer__submit {
+  box-shadow: none;
 }
 
 .facebook-post-card__comments-empty {
