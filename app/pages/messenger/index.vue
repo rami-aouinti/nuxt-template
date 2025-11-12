@@ -554,10 +554,10 @@ onMounted(async () => {
           </template>
           <template v-else>
             <AppList density="comfortable" lines="two">
-              <v-list-item
-                class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
+              <AppListingCard
                 v-for="conversation in conversations"
                 :key="conversation.id"
+                component="v-list-item"
                 :active="conversation.id === selectedConversationId"
                 @click="handleSelectConversation(conversation.id)"
               >
@@ -578,7 +578,7 @@ onMounted(async () => {
                     inline
                   />
                 </template>
-              </v-list-item>
+              </AppListingCard>
             </AppList>
             <div
               v-if="!conversations.length"
