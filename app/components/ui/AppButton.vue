@@ -62,6 +62,41 @@ const normalizedIcon = computed<IconValue | true | undefined>(() =>
   normalizeIconProp(props.icon),
 )
 
+const buttonProps = computed(() => {
+  const baseProps = {
+    variant: normalizedVariant.value,
+    color: normalizedColor.value,
+    loading: normalizedLoading.value,
+    disabled: normalizedDisabled.value,
+    block: normalizedBlock.value,
+    size: normalizedSize.value,
+    density: normalizedDensity.value,
+    type: normalizedType.value,
+    elevation: normalizedElevation.value,
+  }
+
+  const iconProps: Partial<
+    Record<'prependIcon' | 'appendIcon' | 'icon', IconValue | true>
+  > = {}
+
+  if (normalizedPrependIcon.value !== undefined) {
+    iconProps.prependIcon = normalizedPrependIcon.value
+  }
+
+  if (normalizedAppendIcon.value !== undefined) {
+    iconProps.appendIcon = normalizedAppendIcon.value
+  }
+
+  if (normalizedIcon.value !== undefined) {
+    iconProps.icon = normalizedIcon.value
+  }
+
+  return {
+    ...baseProps,
+    ...iconProps,
+  }
+})
+
 const hasShadow = computed(() => {
   if (props.shadow !== undefined) return props.shadow
   if (props.elevation !== undefined) {
@@ -82,18 +117,7 @@ const normalizedElevation = computed<ButtonElevation | undefined>(() => {
 
 <template>
   <v-btn
-    :variant="normalizedVariant"
-    :color="normalizedColor"
-    :loading="normalizedLoading"
-    :disabled="normalizedDisabled"
-    :block="normalizedBlock"
-    :size="normalizedSize"
-    :density="normalizedDensity"
-    :prepend-icon="normalizedPrependIcon"
-    :append-icon="normalizedAppendIcon"
-    :icon="normalizedIcon"
-    :type="normalizedType"
-    :elevation="normalizedElevation"
+    v-bind="buttonProps"
     :class="[
       'app-button',
       hasShadow ? 'app-button--shadow' : 'app-button--no-shadow',
