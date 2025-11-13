@@ -162,7 +162,8 @@
       "commentMenu": "Kommentaroptionen",
       "editBlog": "Blog bearbeiten",
       "deleteBlog": "Blog löschen",
-      "sharePost": "Beitrag teilen"
+      "sharePost": "Beitrag teilen",
+      "viewImage": "Bild anzeigen"
     },
     "feed": {
       "composer": {
@@ -194,7 +195,11 @@
       "description": "Schau später noch einmal vorbei, um neue Beiträge zu entdecken."
     },
     "search": {
-      "noResults": "Keine Beiträge oder Blogs entsprechen deiner Suche."
+      "noResults": "Keine Beiträge oder Blogs entsprechen deiner Suche.",
+      "noTagResults": "Keine Beiträge für {tag} gefunden."
+    },
+    "filters": {
+      "activeTag": "Aktives Tag"
     },
     "forms": {
       "commentPlaceholder": "Teilen Sie Ihre Gedanken...",
@@ -215,7 +220,7 @@
         "content": "Inhalt",
         "url": "Externe URL",
         "additionalOptions": "Zusätzliche Details",
-        "images": "Bilder"
+        "images": "Bilder oder Videos"
       },
       "sharePlaceholder": "Sag etwas zu diesem Beitrag..."
     },

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /* eslint-disable vue/no-mutating-props */
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type {
   BlogCommentViewModel,
   BlogPostViewModel,
@@ -15,6 +15,7 @@ import {
   shadowHoverValues,
 } from '~/composables/useThemePreferences'
 import AppCard from '~/components/ui/AppCard.vue'
+import { resolvePostTags } from '~/utils/blog/posts'
 
 defineOptions({ name: 'BlogPostCard' })
 
@@ -61,6 +62,7 @@ const emit = defineEmits<{
   'delete-comment': [
     { post: BlogPostViewModel; comment: BlogCommentViewModel },
   ]
+  'select-tag': [{ post: BlogPostViewModel; tag: string; label: string }]
 }>()
 
 const { t } = useI18n()
@@ -300,6 +302,13 @@ const mediaGallery = computed<NormalizedMediaItem[]>(() => {
     .filter((media): media is NormalizedMediaItem => Boolean(media))
 })
 
+const postTags = computed(() =>
+  resolvePostTags(props.post).map((tag) => ({
+    value: tag,
+    label: tag.startsWith('#') ? tag : `#${tag}`,
+  })),
+)
+
 const hasVisualPreview = computed(
   () => Boolean(urlPreview.value && urlPreview.value.kind !== 'link'),
 )
@@ -343,6 +352,27 @@ const shareButtonLabel = computed(() => {
 
 const isMenuOpen = ref(false)
 const isDeleteLoading = computed(() => props.post.ui?.deleteLoading ?? false)
+const isMediaPreviewOpen = ref(false)
+const activeMedia = ref<NormalizedMediaItem | null>(null)
+
+const openMediaPreview = (media: NormalizedMediaItem) => {
+  if (media.kind !== 'image') {
+    return
+  }
+
+  activeMedia.value = media
+  isMediaPreviewOpen.value = true
+}
+
+const closeMediaPreview = () => {
+  isMediaPreviewOpen.value = false
+}
+
+watch(isMediaPreviewOpen, (value) => {
+  if (!value) {
+    activeMedia.value = null
+  }
+})
 
 const onSelectReaction = (type: BlogReactionType) =>
   emit('select-reaction', { post: props.post, type })
@@ -368,6 +398,10 @@ const onRequestEdit = () => {
 const onDeletePost = () => {
   emit('delete', props.post)
   isMenuOpen.value = false
+}
+
+const onSelectTag = (tag: { value: string; label: string }) => {
+  emit('select-tag', { post: props.post, tag: tag.value, label: tag.label })
 }
 </script>
 
@@ -469,6 +503,20 @@ const onDeletePost = () => {
       >
         {{ excerptState.text }}
       </p>
+      <div v-if="postTags.length" class="facebook-post-card__tags">
+        <v-chip
+          v-for="tag in postTags"
+          :key="tag.value"
+          class="facebook-post-card__tag"
+          color="primary"
+          variant="tonal"
+          size="small"
+          :ripple="false"
+          @click="onSelectTag(tag)"
+        >
+          {{ tag.label }}
+        </v-chip>
+      </div>
       <div
         v-if="urlPreview"
         class="facebook-post-card__preview"
@@ -552,6 +600,13 @@ const onDeletePost = () => {
             :alt="media.alt"
             cover
             class="facebook-post-card__media-image"
+            role="button"
+            tabindex="0"
+            :aria-label="t('blog.actions.viewImage')"
+            :title="t('blog.actions.viewImage')"
+            @click="openMediaPreview(media)"
+            @keyup.enter.prevent="openMediaPreview(media)"
+            @keyup.space.prevent="openMediaPreview(media)"
           >
             <template #placeholder>
               <div class="facebook-post-card__media-placeholder">
@@ -668,6 +723,26 @@ const onDeletePost = () => {
         />
       </div>
     </v-expand-transition>
+
+    <v-dialog v-model="isMediaPreviewOpen" max-width="1024">
+      <v-card class="facebook-post-card__media-dialog" elevation="0">
+        <v-card-text class="facebook-post-card__media-dialog-body">
+          <v-img
+            v-if="activeMedia?.kind === 'image'"
+            :src="activeMedia.src"
+            :alt="activeMedia.alt"
+            class="facebook-post-card__media-preview-image"
+            contain
+          />
+        </v-card-text>
+        <v-card-actions class="facebook-post-card__media-dialog-actions">
+          <v-spacer />
+          <v-btn variant="text" @click="closeMediaPreview">
+            {{ t('common.actions.close') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <v-dialog v-model="post.ui.editDialog" max-width="640" persistent>
       <v-card>
@@ -809,6 +884,18 @@ a.facebook-post-card__author-link:focus-visible {
   color: rgba(var(--v-theme-on-surface), 0.6);
 }
 
+.facebook-post-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.facebook-post-card__tag {
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .facebook-post-card__preview {
   display: flex;
   flex-direction: column;
@@ -921,6 +1008,15 @@ a.facebook-post-card__author-link:focus-visible {
   height: 100%;
 }
 
+.facebook-post-card__media-image[role='button'] {
+  cursor: zoom-in;
+}
+
+.facebook-post-card__media-image[role='button']:focus-visible {
+  outline: 2px solid rgba(var(--v-theme-primary));
+  outline-offset: 2px;
+}
+
 .facebook-post-card__media-placeholder {
   display: flex;
   align-items: center;
@@ -959,6 +1055,25 @@ a.facebook-post-card__author-link:focus-visible {
 .facebook-post-card__media-fallback span {
   font-size: 0.85rem;
   line-height: 1.4;
+}
+
+.facebook-post-card__media-dialog {
+  background: rgba(var(--v-theme-surface), 0.98);
+  border-radius: 18px;
+}
+
+.facebook-post-card__media-dialog-body {
+  padding: 20px 20px 0;
+}
+
+.facebook-post-card__media-preview-image {
+  border-radius: 12px;
+  max-height: min(80vh, 760px);
+  width: 100%;
+}
+
+.facebook-post-card__media-dialog-actions {
+  padding: 12px 16px 16px;
 }
 
 .facebook-post-card__stats {

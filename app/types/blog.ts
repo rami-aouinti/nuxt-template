@@ -101,6 +101,7 @@ export interface BlogPostUpdatePayload {
   title?: string
   summary?: string | null
   content?: string | null
+  tags?: string[]
 }
 
 export interface BlogPostSharePayload {
@@ -125,6 +126,7 @@ export interface BlogPostCreatePayload {
   content?: string | null
   url?: string | null
   blog?: string | null
+  tags?: string[]
 }
 
 export interface BlogCommentUiState {

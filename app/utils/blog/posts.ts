@@ -6,8 +6,10 @@ import type {
   BlogPostViewModel,
   BlogReactionPreview,
 } from '~/types/blog'
+import { pickString } from '~/utils/blog/admin'
 import { DEFAULT_REACTION_TYPE, resolveReactionType } from '~/utils/reactions'
 import { extractCommentLikes, extractCommentList } from '~/utils/blogComments'
+import { resolveStringList } from '~/utils/blog/admin'
 
 export interface CommentTransformOptions {
   currentUserId?: string | null
@@ -187,14 +189,99 @@ export interface CreatePostViewModelOptions extends CommentTransformOptions {
   commentsVisible?: boolean
 }
 
+export const normalizePostTagValue = (value: string) =>
+  value
+    .trim()
+    .replace(/^#+/, '')
+    .replace(/\s+/g, '')
+
+const normalizeTagValue = normalizePostTagValue
+
+export const resolvePostTags = (
+  post: BlogPost | BlogPostViewModel | null | undefined,
+): string[] => {
+  if (!post) {
+    return []
+  }
+
+  const source =
+    (post as BlogPost & {
+      tagList?: unknown
+      tagNames?: unknown
+      categories?: unknown
+    }).tags ??
+    (post as { tagList?: unknown }).tagList ??
+    (post as { tagNames?: unknown }).tagNames ??
+    (post as { categories?: unknown }).categories ??
+    []
+
+  const rawTags = resolveStringList(source, ['name', 'title', 'label', 'value'])
+
+  const unique = new Map<string, string>()
+  for (const tag of rawTags) {
+    const normalized = normalizeTagValue(tag)
+    if (!normalized) {
+      continue
+    }
+
+    const key = normalized.toLowerCase()
+    if (!unique.has(key)) {
+      unique.set(key, normalized)
+    }
+  }
+
+  return Array.from(unique.values())
+}
+
+const hashtagPattern = /(^|\s)#([\p{L}\p{N}_-]+)/giu
+
+export const extractPostTagsFromText = (value: string): string[] => {
+  if (typeof value !== 'string' || !value.trim()) {
+    return []
+  }
+
+  const matches = value.matchAll(hashtagPattern)
+  const unique = new Map<string, string>()
+
+  for (const match of matches) {
+    const tagValue = match[2] ?? ''
+    const normalized = normalizePostTagValue(tagValue)
+    if (!normalized) {
+      continue
+    }
+
+    const key = normalized.toLowerCase()
+    if (!unique.has(key)) {
+      unique.set(key, normalized)
+    }
+  }
+
+  return Array.from(unique.values())
+}
+
 export const createPostViewModel = (
   post: BlogPost,
   { currentUserId, commentsVisible = false }: CreatePostViewModelOptions = {},
 ): BlogPostViewModel => {
   const reactionsPreview = normalizeReactionsPreview(post.reactions_preview)
 
+  const normalizedTitle =
+    pickString(
+      post.title,
+      post.name,
+      post.slug,
+      post.identifier,
+      post.url,
+      post.permalink,
+      post.link,
+      post.href,
+    ) ?? ''
+  const normalizedSummary = pickString(post.summary, post.description) ?? ''
+  const normalizedContent = pickString(post.content) ?? ''
+
   return {
     ...post,
+    title: normalizedTitle,
     reactions_preview: reactionsPreview,
     comments: resolvePostComments(post).map((comment) =>
       createCommentViewModel(comment, { currentUserId }),
@@ -210,9 +297,9 @@ export const createPostViewModel = (
       deleteLoading: false,
       editDialog: false,
       editForm: {
-        title: post.title,
-        summary: post.summary ?? '',
-        content: post.content ?? '',
+        title: normalizedTitle,
+        summary: normalizedSummary,
+        content: normalizedContent,
         loading: false,
       },
     },
