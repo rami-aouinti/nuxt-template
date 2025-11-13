@@ -1,6 +1,7 @@
 import { axios, AxiosError } from '~/utils/axios'
 import type { LoginResponse } from '~/types/auth'
 import { persistProfileState } from '../../utils/cache/profile'
+import { scheduleProfileCacheWarmup } from '../../utils/cache/profile-warmup'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<{ username?: string; password?: string }>(event)
@@ -47,6 +48,8 @@ export default defineEventHandler(async (event) => {
     })
 
     await persistProfileState(event, data.profile)
+
+    scheduleProfileCacheWarmup(event)
 
     return data
   } catch (error) {
