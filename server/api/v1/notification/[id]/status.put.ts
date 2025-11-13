@@ -2,7 +2,10 @@ import type {
   AdminNotificationDetail,
   NotificationStatusUpdatePayload,
 } from '~/types/notification'
-import { requestWithJsonBody, requireEntityId } from '~~/server/utils/crud'
+import {
+  requestNotificationWithJsonBody,
+  requireEntityId,
+} from '~~/server/utils/crud'
 import {
   invalidateAdminDetail,
   invalidateAdminList,
@@ -13,7 +16,7 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<NotificationStatusUpdatePayload>(event)
 
-  const response = await requestWithJsonBody<
+  const response = await requestNotificationWithJsonBody<
     AdminNotificationDetail,
     NotificationStatusUpdatePayload
   >(event, `/notification/${id}/status`, 'PUT', body)
