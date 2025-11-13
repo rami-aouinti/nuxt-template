@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
+import type { IconValue } from 'vuetify/lib/composables/icons'
+import { normalizeIconValue, type IconInput } from '~/utils/icons'
 
 type ListLines = 'one' | 'two' | 'three'
 type ListDensity = 'default' | 'comfortable' | 'compact'
 
+type AppListIcon = IconInput
+
 type AppListItem = {
   title: string
   subtitle?: string
-  prependIcon?: string
-  appendIcon?: string
+  prependIcon?: AppListIcon
+  appendIcon?: AppListIcon
   value?: string | number
   to?: RouteLocationRaw
   disabled?: boolean
@@ -33,6 +37,34 @@ const isNav = computed(() => props.nav ?? false)
 const hasShadow = computed(() => props.shadow ?? false)
 const hasBorder = computed(() => props.border ?? false)
 
+type NormalizedAppListItem = Omit<AppListItem, 'prependIcon' | 'appendIcon'> & {
+  prependIcon?: IconValue
+  appendIcon?: IconValue
+}
+
+const normalizedItems = computed<NormalizedAppListItem[] | undefined>(() => {
+  if (!props.items?.length) {
+    return undefined
+  }
+
+  return props.items.map((item) => {
+    const { prependIcon, appendIcon, ...rest } = item
+
+    const normalizedPrepend = normalizeIconValue(prependIcon)
+    const normalizedAppend = normalizeIconValue(appendIcon)
+
+    return {
+      ...rest,
+      ...(normalizedPrepend !== undefined
+        ? { prependIcon: normalizedPrepend }
+        : {}),
+      ...(normalizedAppend !== undefined
+        ? { appendIcon: normalizedAppend }
+        : {}),
+    }
+  })
+})
+
 const listClasses = computed(() => [
   'app-list',
   hasShadow.value ? 'app-list--shadow' : 'app-list--no-shadow',
@@ -42,7 +74,7 @@ const listClasses = computed(() => [
 
 <template>
   <v-list
-    :items="props.items"
+    :items="normalizedItems"
     :lines="normalizedLines"
     :density="normalizedDensity"
     :nav="isNav"
