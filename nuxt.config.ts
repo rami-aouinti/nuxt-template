@@ -12,6 +12,8 @@ const DEFAULT_MERCURE_PUBLIC_URL = 'http://bro-world.org:3000/.well-known/mercur
 const DEFAULT_MESSENGER_API_BASE = 'https://bro-world.org/api/v1/messenger'
 const DEFAULT_MESSENGER_NOTIFICATION_TOPIC =
   'https://bro-world.org/notifications/'
+const DEFAULT_MESSENGER_SUBSCRIPTION_TOPIC =
+  '/messages/{userId}/{conversationId}'
 
 const mercureUrl = process.env.MERCURE_URL || DEFAULT_MERCURE_URL
 const mercurePublicUrl =
@@ -255,7 +257,9 @@ export default defineNuxtConfig({
             process.env.NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_HUB_URL ||
             process.env.NUXT_PUBLIC_MESSENGER_HUB_URL ||
             mercurePublicUrl,
-          topics: process.env.NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_TOPICS || '',
+          topics:
+            process.env.NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_TOPICS ||
+            DEFAULT_MESSENGER_SUBSCRIPTION_TOPIC,
           token: process.env.NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_TOKEN || '',
           withCredentials:
             process.env.NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_WITH_CREDENTIALS ||
