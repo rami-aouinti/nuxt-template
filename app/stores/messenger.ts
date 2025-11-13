@@ -1,11 +1,134 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import type {
   ConversationSummary,
   MessengerMercureEvent,
   MessengerSubscription,
 } from '~/types/messenger'
 import { useMessengerApi } from '~/composables/useMessengerApi'
+
+const USER_ID_PLACEHOLDER = '{userId}'
+const CONVERSATION_ID_PLACEHOLDER = '{conversationId}'
+
+function toNormalizedIdentifier(value: unknown) {
+  if (typeof value === 'string') {
+    const trimmed = value.trim()
+    return trimmed.length > 0 ? trimmed : ''
+  }
+
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return String(value)
+  }
+
+  return ''
+}
+
+function resolveSessionUserId(sessionValue: unknown) {
+  if (!sessionValue || typeof sessionValue !== 'object') {
+    return ''
+  }
+
+  const record = sessionValue as Record<string, unknown>
+
+  const profile =
+    record.profile && typeof record.profile === 'object'
+      ? (record.profile as Record<string, unknown>)
+      : null
+
+  const user =
+    record.user && typeof record.user === 'object'
+      ? (record.user as Record<string, unknown>)
+      : null
+
+  const candidates = [
+    profile?.id,
+    user?.id,
+    user?.userId,
+    user?.user_id,
+    record.userId,
+    record.user_id,
+    record.id,
+  ]
+
+  for (const candidate of candidates) {
+    const normalized = toNormalizedIdentifier(candidate)
+    if (normalized) {
+      return normalized
+    }
+  }
+
+  return ''
+}
+
+function replacePlaceholder(
+  value: string,
+  placeholder: string,
+  replacement: string,
+) {
+  return value.split(placeholder).join(replacement)
+}
+
+function expandSubscriptionTopics(
+  topics: string[],
+  context: { userId: string; conversationIds: string[] },
+) {
+  const result: string[] = []
+  const uniqueConversationIds = Array.from(
+    new Set(context.conversationIds.map((id) => toNormalizedIdentifier(id))),
+  ).filter((id) => Boolean(id))
+
+  const userId = toNormalizedIdentifier(context.userId)
+
+  for (const topic of topics) {
+    const normalizedTopic = toNormalizedIdentifier(topic)
+    if (!normalizedTopic) {
+      continue
+    }
+
+    const requiresUser = normalizedTopic.includes(USER_ID_PLACEHOLDER)
+    if (requiresUser && !userId) {
+      continue
+    }
+
+    const requiresConversation = normalizedTopic.includes(
+      CONVERSATION_ID_PLACEHOLDER,
+    )
+
+    const targetConversationIds = requiresConversation
+      ? uniqueConversationIds
+      : ['']
+
+    if (requiresConversation && targetConversationIds.length === 0) {
+      continue
+    }
+
+    for (const conversationId of targetConversationIds) {
+      let resolvedTopic = normalizedTopic
+
+      if (requiresUser) {
+        resolvedTopic = replacePlaceholder(
+          resolvedTopic,
+          USER_ID_PLACEHOLDER,
+          userId,
+        )
+      }
+
+      if (requiresConversation) {
+        resolvedTopic = replacePlaceholder(
+          resolvedTopic,
+          CONVERSATION_ID_PLACEHOLDER,
+          conversationId,
+        )
+      }
+
+      if (!result.includes(resolvedTopic)) {
+        result.push(resolvedTopic)
+      }
+    }
+  }
+
+  return result
+}
 
 interface MessengerEventRecord {
   event: MessengerMercureEvent
@@ -38,6 +161,7 @@ export const useMessengerStore = defineStore('messenger', () => {
   const loading = ref(false)
   const error = ref('')
   const subscription = ref<MessengerSubscription | null>(null)
+  const subscriptionTemplate = ref<MessengerSubscription | null>(null)
   const eventSource = ref<EventSource | null>(null)
   const isConnected = ref(false)
   const reconnectTimer = ref<ReturnType<typeof setTimeout> | null>(null)
@@ -54,9 +178,72 @@ export const useMessengerStore = defineStore('messenger', () => {
   const hasUnread = computed(() => unreadTotal.value > 0)
 
   const api = useMessengerApi()
+  const { session } = useUserSession()
+
+  const currentUserId = computed(() => resolveSessionUserId(session.value))
+
+  const conversationIds = computed(() => {
+    const uniqueIds = new Set<string>()
+
+    previews.value.forEach((conversation) => {
+      const identifier = toNormalizedIdentifier(conversation.id)
+      if (identifier) {
+        uniqueIds.add(identifier)
+      }
+    })
+
+    return Array.from(uniqueIds)
+  })
+
+  const refreshSubscriptionTopics = () => {
+    if (!subscriptionTemplate.value) {
+      return
+    }
+
+    const expandedTopics = expandSubscriptionTopics(
+      subscriptionTemplate.value.topics,
+      {
+        userId: currentUserId.value,
+        conversationIds: conversationIds.value,
+      },
+    )
+
+    const nextTopics =
+      expandedTopics.length > 0
+        ? expandedTopics
+        : subscriptionTemplate.value.topics.slice()
+
+    const previousTopics = subscription.value?.topics ?? []
+    const topicsChanged =
+      previousTopics.length !== nextTopics.length ||
+      previousTopics.some((topic, index) => topic !== nextTopics[index])
+
+    subscription.value = {
+      ...subscriptionTemplate.value,
+      topics: nextTopics,
+    }
+
+    if (topicsChanged && eventSource.value && !import.meta.server) {
+      closeEventSource()
+      connect()
+    }
+  }
+
+  watch(currentUserId, () => {
+    refreshSubscriptionTopics()
+  })
+
+  watch(
+    conversationIds,
+    () => {
+      refreshSubscriptionTopics()
+    },
+    { deep: false },
+  )
 
   const setPreviews = (items: ConversationSummary[]) => {
     previews.value = items.slice(0, previewLimit.value)
+    refreshSubscriptionTopics()
   }
 
   const upsertPreview = (conversation: ConversationSummary) => {
@@ -72,12 +259,15 @@ export const useMessengerStore = defineStore('messenger', () => {
     if (previews.value.length > previewLimit.value) {
       previews.value.length = previewLimit.value
     }
+
+    refreshSubscriptionTopics()
   }
 
   const removePreview = (conversationId: string) => {
     previews.value = previews.value.filter(
       (conversation) => conversation.id !== conversationId,
     )
+    refreshSubscriptionTopics()
   }
 
   const applyEvent = (event: MessengerMercureEvent) => {
@@ -140,6 +330,8 @@ export const useMessengerStore = defineStore('messenger', () => {
     if (import.meta.server) {
       return
     }
+
+    refreshSubscriptionTopics()
 
     if (!subscription.value || eventSource.value) {
       return
@@ -226,7 +418,9 @@ export const useMessengerStore = defineStore('messenger', () => {
     }
 
     try {
-      subscription.value = await api.fetchSubscription()
+      const fetchedSubscription = await api.fetchSubscription()
+      subscriptionTemplate.value = fetchedSubscription
+      refreshSubscriptionTopics()
       error.value = ''
     } catch (subscriptionError) {
       error.value = toErrorMessage(subscriptionError)
@@ -258,6 +452,7 @@ export const useMessengerStore = defineStore('messenger', () => {
     clearReconnectTimer()
     closeEventSource()
     subscription.value = null
+    subscriptionTemplate.value = null
     previews.value = []
     error.value = ''
     isInitialised.value = false
