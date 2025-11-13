@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const { data } = await axios.post<VerificationResponse>(
+    const { data } = await axios.post<Any>(
       'https://bro-world.org/api/v1/auth/verification_email',
       {
         token: body.token,

@@ -1,12 +1,29 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import {computed, onMounted, reactive, ref} from 'vue'
 import { useRoute } from 'vue-router'
 import { Notify } from '~/stores/notification'
-
+import {axios, AxiosError} from "~/utils/axios";
+import type {LoginResponse} from "~/types/auth";
+const { t } = useI18n()
 interface VerificationCredentials {
   email?: string
   password?: string
 }
+
+const credentials = reactive({
+  username: '',
+  password: '',
+})
+
+const { fetch } = useUserSession()
+const profileCache = useAuthProfileCache()
+
+const loading = ref(false)
+
+const canSubmit = computed(() => {
+  if (loading.value) return false
+  return Boolean(credentials.username && credentials.password)
+})
 
 interface VerificationResponse {
   success: boolean
@@ -28,35 +45,11 @@ const token = computed(() => {
 })
 const isLoading = ref(false)
 const error = ref<string | null>(null)
-const verificationResult = ref<VerificationResponse | null>(null)
+const verificationResult = ref<Any | null>(null)
 
-const credentials = computed<VerificationCredentials | null>(() => {
-  const result = verificationResult.value
-  if (!result) {
-    return null
-  }
-
-  if (result.credentials && typeof result.credentials === 'object') {
-    return result.credentials
-  }
-
-  const possibleEmail =
-    (result as Record<string, unknown>).email as string | undefined
-  const possiblePassword =
-    (result as Record<string, unknown>).password as string | undefined
-
-  if (possibleEmail || possiblePassword) {
-    return {
-      email: possibleEmail,
-      password: possiblePassword,
-    }
-  }
-
-  return null
-})
 
 const hasVerifiedSuccessfully = computed(() =>
-  Boolean(verificationResult.value?.success),
+  Boolean(verificationResult.value),
 )
 
 const handleVerification = async () => {
@@ -69,45 +62,71 @@ const handleVerification = async () => {
   error.value = null
 
   try {
-    const { data, error: fetchError } = await useFetch<VerificationResponse>(
-      '/api/auth/verify',
-      {
-        method: 'POST',
-        body: {
-          token: token.value,
-        },
+    const data = await $fetch<Any>('/api/auth/verify', {
+      method: 'POST',
+      body: {
+        token: token.value,
       },
-    )
+    })
 
-    if (fetchError.value) {
-      const message =
-        (fetchError.value.data as { message?: string } | null | undefined)
-          ?.message || fetchError.value.statusMessage ||
-        'Verification failed. Please try again later.'
-
-      error.value = message
-      return
-    }
-
-    if (!data.value) {
-      error.value = 'No response received from the verification service.'
-      return
-    }
-
-    verificationResult.value = data.value
-
-    if (data.value.success) {
-      Notify.success('Your email has been verified successfully.')
+    if (data) {
+      console.log('Verification successful:', data)
+      verificationResult.value = true
+      Notify.success(
+        data.message || 'Your email has been verified successfully.',
+      )
     } else {
       error.value =
-        data.value.message ||
+        data?.message ||
         'Verification failed. Please contact support if the issue persists.'
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error('Verification error:', err)
-    error.value = 'An error occurred during verification. Please try again.'
+
+    error.value =
+      err?.data?.message ||
+      err?.message ||
+      'An error occurred during verification. Please try again.'
   } finally {
     isLoading.value = false
+  }
+}
+
+async function submit() {
+  if (!canSubmit.value) return
+  loading.value = true
+  try {
+    const { data } = await axios.post<LoginResponse>('/api/auth/login', {
+      username: credentials.username,
+      password: credentials.password,
+    })
+    profileCache.value = data.profile
+    await fetch()
+    Notify.success(t('auth.loginSuccess'))
+    await navigateTo('/')
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      const responseMessage =
+        (error.response?.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data &&
+        typeof error.response.data.message === 'string'
+          ? error.response.data.message
+          : null) || error.response?.statusText
+
+      errorMessage.value =
+        responseMessage ||
+        (isRegisterMode.value
+          ? t('auth.registerFailed')
+          : t('auth.loginFailed'))
+    } else if (error instanceof Error) {
+      errorMessage.value = error.message
+    } else {
+      errorMessage.value = t('common.unexpectedError')
+    }
+    Notify.error(errorMessage.value)
+  } finally {
+    loading.value = false
   }
 }
 
@@ -150,29 +169,43 @@ onMounted(() => {
 
           <v-card class="mx-auto" max-width="400">
             <v-card-text>
-              <v-list density="comfortable">
-                <v-list-item>
-                  <template #prepend>
-                    <v-icon color="primary">mdi-email</v-icon>
-                  </template>
-                  <v-list-item-title>Email</v-list-item-title>
-                  <v-list-item-subtitle>
-                    {{ credentials?.email || 'Unavailable' }}
-                  </v-list-item-subtitle>
-                </v-list-item>
-
-                <v-divider class="my-2" />
-
-                <v-list-item>
-                  <template #prepend>
-                    <v-icon color="primary">mdi-lock</v-icon>
-                  </template>
-                  <v-list-item-title>Password</v-list-item-title>
-                  <v-list-item-subtitle>
-                    {{ credentials?.password || 'Unavailable' }}
-                  </v-list-item-subtitle>
-                </v-list-item>
-              </v-list>
+              <v-form class="credentials-dialog__form" @submit.prevent="submit">
+                  <v-text-field
+                    v-model="credentials.username"
+                    :label="t('auth.username')"
+                    autocomplete="username"
+                    prepend-inner-icon="mdi-account"
+                    variant="solo-filled"
+                    color="primary"
+                    class="mb-4"
+                    density="comfortable"
+                    required
+                    :disabled="loading"
+                  />
+                  <v-text-field
+                    v-model="credentials.password"
+                    :label="t('auth.password')"
+                    type="password"
+                    autocomplete="current-password"
+                    prepend-inner-icon="mdi-lock"
+                    variant="solo-filled"
+                    color="primary"
+                    class="mb-2"
+                    density="comfortable"
+                    required
+                    :disabled="loading"
+                  />
+              </v-form>
+              <v-btn
+                color="primary"
+                size="large"
+                class="text-none"
+                :loading="loading"
+                :disabled="!canSubmit"
+                @click="submit"
+              >
+                {{ t('auth.login') }}
+              </v-btn>
             </v-card-text>
           </v-card>
         </v-col>
