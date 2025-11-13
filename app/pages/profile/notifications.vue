@@ -11,8 +11,7 @@ definePageMeta({
   middleware: 'auth',
 })
 
-const NOTIFICATIONS_ENDPOINT =
-  'https://notification.bro-world.org/api/v1/profile/notifications'
+const NOTIFICATIONS_ENDPOINT = '/api/profile/notifications'
 
 interface NotificationViewModel {
   id: string
@@ -23,16 +22,9 @@ interface NotificationViewModel {
 }
 
 const { t, locale } = useI18n()
-const { loggedIn, session } = useUserSession()
+const { loggedIn } = useUserSession()
 
-const token = computed(() => {
-  const rawToken = session.value?.token
-  return typeof rawToken === 'string' ? rawToken : ''
-})
-
-const isAuthenticated = computed(
-  () => loggedIn.value && Boolean(token.value?.length),
-)
+const isAuthenticated = computed(() => Boolean(loggedIn.value))
 
 const notifications = ref<NotificationViewModel[]>([])
 const isLoading = ref(false)
@@ -315,7 +307,6 @@ async function loadNotifications() {
     const response = await $fetch<unknown>(NOTIFICATIONS_ENDPOINT, {
       headers: {
         accept: 'application/json',
-        Authorization: `Bearer ${token.value}`,
       },
       credentials: 'include',
     })
@@ -343,14 +334,6 @@ if (import.meta.client) {
     { immediate: true },
   )
 
-  watch(
-    token,
-    (newToken, oldToken) => {
-      if (newToken !== oldToken && newToken.length && isAuthenticated.value) {
-        loadNotifications()
-      }
-    },
-  )
 }
 
 function formatNotificationTimestamp(date: Date) {
