@@ -6,6 +6,7 @@ import type {
   BlogPostViewModel,
   BlogReactionPreview,
 } from '~/types/blog'
+import { pickString } from '~/utils/blog/admin'
 import { DEFAULT_REACTION_TYPE, resolveReactionType } from '~/utils/reactions'
 import { extractCommentLikes, extractCommentList } from '~/utils/blogComments'
 import { resolveStringList } from '~/utils/blog/admin'
@@ -264,8 +265,23 @@ export const createPostViewModel = (
 ): BlogPostViewModel => {
   const reactionsPreview = normalizeReactionsPreview(post.reactions_preview)
 
+  const normalizedTitle =
+    pickString(
+      post.title,
+      post.name,
+      post.slug,
+      post.identifier,
+      post.url,
+      post.permalink,
+      post.link,
+      post.href,
+    ) ?? ''
+  const normalizedSummary = pickString(post.summary, post.description) ?? ''
+  const normalizedContent = pickString(post.content) ?? ''
+
   return {
     ...post,
+    title: normalizedTitle,
     reactions_preview: reactionsPreview,
     comments: resolvePostComments(post).map((comment) =>
       createCommentViewModel(comment, { currentUserId }),
@@ -281,9 +297,9 @@ export const createPostViewModel = (
       deleteLoading: false,
       editDialog: false,
       editForm: {
-        title: post.title,
-        summary: post.summary ?? '',
-        content: post.content ?? '',
+        title: normalizedTitle,
+        summary: normalizedSummary,
+        content: normalizedContent,
         loading: false,
       },
     },
