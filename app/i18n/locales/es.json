@@ -156,6 +156,10 @@
       "unlike": "Quitar reacción",
       "addComment": "Publicar comentario",
       "reply": "Responder",
+      "editComment": "Editar comentario",
+      "cancelEdit": "Cancelar edición",
+      "deleteComment": "Eliminar comentario",
+      "commentMenu": "Opciones del comentario",
       "editBlog": "Editar blog",
       "deleteBlog": "Eliminar blog",
       "sharePost": "Compartir publicación"
@@ -213,8 +217,21 @@
       },
       "sharePlaceholder": "Di algo sobre esta publicación..."
     },
+    "comments": {
+      "filters": {
+        "label": "Ordenar comentarios",
+        "relevant": "Más relevantes",
+        "relevantDescription": "Mostrar primero los comentarios con más interacciones.",
+        "newest": "Más recientes",
+        "newestDescription": "Mostrar los comentarios más recientes en la parte superior.",
+        "all": "Todos los comentarios",
+        "allDescription": "Mostrar todos los comentarios en orden cronológico."
+      }
+    },
     "notifications": {
       "commentCreated": "Comentario publicado correctamente.",
+      "commentUpdated": "Comentario actualizado correctamente.",
+      "commentDeleted": "Comentario eliminado correctamente.",
       "replyCreated": "Respuesta publicada correctamente.",
       "postLiked": "Reacción añadida a la publicación.",
       "postUnliked": "Reacción eliminada de la publicación.",
@@ -232,6 +249,8 @@
       "authenticationRequired": "Debes iniciar sesión para realizar esta acción.",
       "loadCommentsFailed": "No se pudieron cargar los comentarios.",
       "commentFailed": "No se pudo publicar el comentario.",
+      "updateCommentFailed": "No se pudo actualizar el comentario.",
+      "deleteCommentFailed": "No se pudo eliminar el comentario.",
       "likeFailed": "No se pudo actualizar la reacción.",
       "updateFailed": "No se pudo actualizar la publicación.",
       "deleteFailed": "No se pudo eliminar la publicación.",
@@ -257,7 +276,8 @@
       "shareTitle": "Compartir publicación",
       "shareAudiencePublic": "Público",
       "reactionsTitle": "Reacciones",
-      "reactionsEmpty": "Aún no hay reacciones."
+      "reactionsEmpty": "Aún no hay reacciones.",
+      "deleteCommentConfirm": "¿Seguro que quieres eliminar este comentario? Esta acción no se puede deshacer."
     },
     "reactions": {
       "types": {

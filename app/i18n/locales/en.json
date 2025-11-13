@@ -156,6 +156,10 @@
       "unlike": "Remove reaction",
       "addComment": "Publish comment",
       "reply": "Reply",
+      "editComment": "Edit comment",
+      "cancelEdit": "Cancel editing",
+      "deleteComment": "Delete comment",
+      "commentMenu": "Comment options",
       "editBlog": "Edit blog",
       "deleteBlog": "Delete blog",
       "sharePost": "Share post"
@@ -213,8 +217,21 @@
       },
       "sharePlaceholder": "Say something about this post..."
     },
+    "comments": {
+      "filters": {
+        "label": "Order comments",
+        "relevant": "Most relevant",
+        "relevantDescription": "Show comments with the most interactions first.",
+        "newest": "Newest first",
+        "newestDescription": "Show the most recent comments at the top.",
+        "all": "All comments",
+        "allDescription": "Show every comment in chronological order."
+      }
+    },
     "notifications": {
       "commentCreated": "Comment published successfully.",
+      "commentUpdated": "Comment updated successfully.",
+      "commentDeleted": "Comment deleted successfully.",
       "replyCreated": "Reply published successfully.",
       "postLiked": "Reaction added to the post.",
       "postUnliked": "Reaction removed from the post.",
@@ -232,6 +249,8 @@
       "authenticationRequired": "You need to be signed in to perform this action.",
       "loadCommentsFailed": "Unable to load the comments.",
       "commentFailed": "Unable to publish the comment.",
+      "updateCommentFailed": "Unable to update the comment.",
+      "deleteCommentFailed": "Unable to delete the comment.",
       "likeFailed": "Unable to update the reaction.",
       "updateFailed": "Unable to update the post.",
       "deleteFailed": "Unable to delete the post.",
@@ -257,7 +276,8 @@
       "shareTitle": "Share post",
       "shareAudiencePublic": "Public",
       "reactionsTitle": "Reactions",
-      "reactionsEmpty": "No reactions yet."
+      "reactionsEmpty": "No reactions yet.",
+      "deleteCommentConfirm": "Are you sure you want to delete this comment? This action cannot be undone."
     },
     "reactions": {
       "types": {

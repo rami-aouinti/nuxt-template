@@ -99,6 +99,10 @@ export const createCommentViewModel = (
       replyContent: '',
       replyLoading: false,
       likeLoading: false,
+      editOpen: false,
+      editContent: normalized.content,
+      editLoading: false,
+      deleteLoading: false,
     },
   }
 }

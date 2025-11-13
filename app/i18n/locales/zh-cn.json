@@ -156,6 +156,10 @@
       "unlike": "取消反应",
       "addComment": "发布评论",
       "reply": "回复",
+      "editComment": "编辑评论",
+      "cancelEdit": "取消编辑",
+      "deleteComment": "删除评论",
+      "commentMenu": "评论选项",
       "editBlog": "编辑博客",
       "deleteBlog": "删除博客",
       "sharePost": "分享帖子"
@@ -213,8 +217,21 @@
       },
       "sharePlaceholder": "说点关于这篇文章的内容…"
     },
+    "comments": {
+      "filters": {
+        "label": "排序评论",
+        "relevant": "最相关",
+        "relevantDescription": "优先显示互动最多的评论。",
+        "newest": "最新优先",
+        "newestDescription": "最先显示最新的评论。",
+        "all": "所有评论",
+        "allDescription": "按时间顺序显示所有评论。"
+      }
+    },
     "notifications": {
       "commentCreated": "评论发布成功。",
+      "commentUpdated": "评论更新成功。",
+      "commentDeleted": "评论删除成功。",
       "replyCreated": "回复发布成功。",
       "postLiked": "已为文章添加反应。",
       "postUnliked": "已移除文章的反应。",
@@ -232,6 +249,8 @@
       "authenticationRequired": "您需要登录才能执行此操作。",
       "loadCommentsFailed": "无法加载评论。",
       "commentFailed": "无法发布评论。",
+      "updateCommentFailed": "无法更新评论。",
+      "deleteCommentFailed": "无法删除评论。",
       "likeFailed": "无法更新反应。",
       "updateFailed": "无法更新文章。",
       "deleteFailed": "无法删除文章。",
@@ -257,7 +276,8 @@
       "shareTitle": "分享文章",
       "shareAudiencePublic": "公开",
       "reactionsTitle": "反应",
-      "reactionsEmpty": "暂时还没有反应。"
+      "reactionsEmpty": "暂时还没有反应。",
+      "deleteCommentConfirm": "确定要删除此评论吗？此操作无法撤销。"
     },
     "reactions": {
       "types": {

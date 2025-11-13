@@ -25,6 +25,7 @@ const props = defineProps<{
   excerpt: string
   formatRelativePublishedAt: (value: string) => string
   formatPublishedAt: (value: string) => string
+  currentUserId?: string | null
 }>()
 
 const emit = defineEmits<{
@@ -48,6 +49,16 @@ const emit = defineEmits<{
     { post: BlogPostViewModel; comment: BlogCommentViewModel },
   ]
   'submit-comment-reply': [
+    { post: BlogPostViewModel; comment: BlogCommentViewModel },
+  ]
+  'submit-comment-edit': [
+    {
+      post: BlogPostViewModel
+      comment: BlogCommentViewModel
+      content: string
+    },
+  ]
+  'delete-comment': [
     { post: BlogPostViewModel; comment: BlogCommentViewModel },
   ]
 }>()
@@ -95,6 +106,7 @@ const reactionType = computed(() =>
 const reactionCount = computed(() => props.post.reactions_count ?? 0)
 const commentCount = computed(() => props.post.totalComments ?? 0)
 const shareCount = computed(() => props.post.sharedFrom?.length ?? 0)
+const currentUserId = computed(() => props.currentUserId ?? null)
 
 const commentsToggleLabel = computed(() => {
   const baseKey = props.post.ui?.commentsVisible
@@ -141,6 +153,11 @@ const onRemoveCommentReaction = (comment: BlogCommentViewModel) =>
   emit('remove-comment-reaction', { post: props.post, comment })
 const onSubmitCommentReply = (comment: BlogCommentViewModel) =>
   emit('submit-comment-reply', { post: props.post, comment })
+const onSubmitCommentEdit = (
+  payload: { comment: BlogCommentViewModel; content: string },
+) => emit('submit-comment-edit', { post: props.post, ...payload })
+const onDeleteComment = (comment: BlogCommentViewModel) =>
+  emit('delete-comment', { post: props.post, comment })
 const onRequestEdit = () => {
   emit('request-edit', props.post)
   isMenuOpen.value = false
@@ -336,10 +353,13 @@ const onDeletePost = () => {
           :logged-in="loggedIn"
           :format-date="formatPublishedAt"
           :format-relative-date="formatRelativePublishedAt"
+          :current-user-id="currentUserId"
           @submit-comment="onSubmitComment"
           @select-reaction="onSelectCommentReaction"
           @remove-reaction="onRemoveCommentReaction"
           @submit-reply="onSubmitCommentReply"
+          @submit-comment-edit="onSubmitCommentEdit"
+          @delete-comment="onDeleteComment"
         />
       </div>
     </v-expand-transition>

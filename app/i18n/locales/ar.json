@@ -156,6 +156,10 @@
       "unlike": "إزالة التفاعل",
       "addComment": "نشر تعليق",
       "reply": "الرد",
+      "editComment": "تعديل التعليق",
+      "cancelEdit": "إلغاء التعديل",
+      "deleteComment": "حذف التعليق",
+      "commentMenu": "خيارات التعليق",
       "editBlog": "تعديل المدوّنة",
       "deleteBlog": "حذف المدوّنة",
       "sharePost": "مشاركة المنشور"
@@ -213,8 +217,21 @@
       },
       "sharePlaceholder": "قل شيئًا عن هذا المنشور..."
     },
+    "comments": {
+      "filters": {
+        "label": "ترتيب التعليقات",
+        "relevant": "الأكثر صلة",
+        "relevantDescription": "عرض التعليقات ذات التفاعل الأعلى أولاً.",
+        "newest": "الأحدث أولاً",
+        "newestDescription": "عرض أحدث التعليقات في الأعلى.",
+        "all": "جميع التعليقات",
+        "allDescription": "عرض جميع التعليقات بالترتيب الزمني."
+      }
+    },
     "notifications": {
       "commentCreated": "تم نشر التعليق بنجاح.",
+      "commentUpdated": "تم تحديث التعليق بنجاح.",
+      "commentDeleted": "تم حذف التعليق بنجاح.",
       "replyCreated": "تم نشر الرد بنجاح.",
       "postLiked": "تمت إضافة تفاعل إلى المنشور.",
       "postUnliked": "تمت إزالة التفاعل من المنشور.",
@@ -232,6 +249,8 @@
       "authenticationRequired": "يجب تسجيل الدخول للقيام بهذا الإجراء.",
       "loadCommentsFailed": "تعذر تحميل التعليقات.",
       "commentFailed": "تعذر نشر التعليق.",
+      "updateCommentFailed": "تعذر تحديث التعليق.",
+      "deleteCommentFailed": "تعذر حذف التعليق.",
       "likeFailed": "تعذر تحديث التفاعل.",
       "updateFailed": "تعذر تحديث المنشور.",
       "deleteFailed": "تعذر حذف المنشور.",
@@ -257,7 +276,8 @@
       "shareTitle": "مشاركة المنشور",
       "shareAudiencePublic": "عام",
       "reactionsTitle": "التفاعلات",
-      "reactionsEmpty": "لا توجد تفاعلات بعد."
+      "reactionsEmpty": "لا توجد تفاعلات بعد.",
+      "deleteCommentConfirm": "هل أنت متأكد من حذف هذا التعليق؟ لا يمكن التراجع عن هذا الإجراء."
     },
     "reactions": {
       "types": {

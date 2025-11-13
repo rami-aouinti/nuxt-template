@@ -156,6 +156,10 @@
       "unlike": "Reaktion entfernen",
       "addComment": "Kommentar veröffentlichen",
       "reply": "Antworten",
+      "editComment": "Kommentar bearbeiten",
+      "cancelEdit": "Bearbeitung abbrechen",
+      "deleteComment": "Kommentar löschen",
+      "commentMenu": "Kommentaroptionen",
       "editBlog": "Blog bearbeiten",
       "deleteBlog": "Blog löschen",
       "sharePost": "Beitrag teilen"
@@ -213,8 +217,21 @@
       },
       "sharePlaceholder": "Sag etwas zu diesem Beitrag..."
     },
+    "comments": {
+      "filters": {
+        "label": "Kommentare sortieren",
+        "relevant": "Relevanteste zuerst",
+        "relevantDescription": "Zeigt Kommentare mit den meisten Interaktionen zuerst an.",
+        "newest": "Neueste zuerst",
+        "newestDescription": "Zeigt die neuesten Kommentare oben an.",
+        "all": "Alle Kommentare",
+        "allDescription": "Zeigt alle Kommentare in chronologischer Reihenfolge an."
+      }
+    },
     "notifications": {
       "commentCreated": "Kommentar erfolgreich veröffentlicht.",
+      "commentUpdated": "Kommentar erfolgreich aktualisiert.",
+      "commentDeleted": "Kommentar erfolgreich gelöscht.",
       "replyCreated": "Antwort erfolgreich veröffentlicht.",
       "postLiked": "Reaktion zum Beitrag hinzugefügt.",
       "postUnliked": "Reaktion vom Beitrag entfernt.",
@@ -232,6 +249,8 @@
       "authenticationRequired": "Sie müssen angemeldet sein, um diese Aktion auszuführen.",
       "loadCommentsFailed": "Kommentare konnten nicht geladen werden.",
       "commentFailed": "Der Kommentar konnte nicht veröffentlicht werden.",
+      "updateCommentFailed": "Der Kommentar konnte nicht aktualisiert werden.",
+      "deleteCommentFailed": "Der Kommentar konnte nicht gelöscht werden.",
       "likeFailed": "Die Reaktion konnte nicht aktualisiert werden.",
       "updateFailed": "Der Beitrag konnte nicht aktualisiert werden.",
       "deleteFailed": "Der Beitrag konnte nicht gelöscht werden.",
@@ -257,7 +276,8 @@
       "shareTitle": "Beitrag teilen",
       "shareAudiencePublic": "Öffentlich",
       "reactionsTitle": "Reaktionen",
-      "reactionsEmpty": "Noch keine Reaktionen."
+      "reactionsEmpty": "Noch keine Reaktionen.",
+      "deleteCommentConfirm": "Möchten Sie diesen Kommentar wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden."
     },
     "reactions": {
       "types": {
