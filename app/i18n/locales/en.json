@@ -194,7 +194,11 @@
       "description": "Please check back later for upcoming posts."
     },
     "search": {
-      "noResults": "No posts or blogs match your search."
+      "noResults": "No posts or blogs match your search.",
+      "noTagResults": "No posts found for {tag}."
+    },
+    "filters": {
+      "activeTag": "Active tag"
     },
     "forms": {
       "commentPlaceholder": "Share your thoughts...",
@@ -215,7 +219,7 @@
         "content": "Content",
         "url": "External URL",
         "additionalOptions": "Additional details",
-        "images": "Images"
+        "images": "Images or videos"
       },
       "sharePlaceholder": "Say something about this post..."
     },

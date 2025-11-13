@@ -541,7 +541,18 @@ export const useBlogApi = () => {
               return formData
             }
 
-            formData.append(key, value as string)
+            if (Array.isArray(value)) {
+              value.forEach((entry) => {
+                if (entry === undefined || entry === null) {
+                  return
+                }
+
+                formData.append(`${key}[]`, String(entry))
+              })
+              return formData
+            }
+
+            formData.append(key, String(value))
             return formData
           }, new FormData())
 
