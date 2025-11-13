@@ -213,7 +213,9 @@
         "title": "Post title",
         "summary": "Summary",
         "content": "Content",
-        "url": "External URL"
+        "url": "External URL",
+        "additionalOptions": "Additional details",
+        "images": "Images"
       },
       "sharePlaceholder": "Say something about this post..."
     },

@@ -213,7 +213,9 @@
         "title": "Titolo del post",
         "summary": "Sommario",
         "content": "Contenuto",
-        "url": "URL esterno"
+        "url": "URL esterno",
+        "additionalOptions": "Dettagli aggiuntivi",
+        "images": "Immagini"
       },
       "sharePlaceholder": "Di qualcosa su questo post..."
     },

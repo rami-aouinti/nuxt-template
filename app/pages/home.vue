@@ -230,12 +230,12 @@ const isBlogMenuDisabled = (blogId: string) =>
 const createPostDialog = reactive({
   open: false,
   loading: false,
+  panels: [] as string[],
   form: {
-    blogId: '',
     title: '',
     summary: '',
     content: '',
-    url: '',
+    files: [] as File[] | null,
   },
 })
 
@@ -407,13 +407,6 @@ const currentUserReactionUser = computed<BlogPostUser | null>(() => {
 
 const hasMore = computed(
   () => posts.value.length < pagination.total && posts.value.length > 0,
-)
-
-const myBlogsOptions = computed(() =>
-  myBlogs.value.map((blog) => ({
-    value: blog.id,
-    title: blog.title,
-  })),
 )
 
 function getBlogInitials(title: string | null | undefined): string {
@@ -674,11 +667,11 @@ function resetEditBlogForm() {
 }
 
 function resetCreatePostForm() {
-  createPostDialog.form.blogId = ''
+  createPostDialog.panels = []
   createPostDialog.form.title = ''
   createPostDialog.form.summary = ''
   createPostDialog.form.content = ''
-  createPostDialog.form.url = ''
+  createPostDialog.form.files = []
 }
 
 function openAddWorldDialog() {
@@ -841,10 +834,6 @@ async function confirmDeleteBlog(blog: BlogSummary) {
     await deleteBlog(blogId)
     myBlogs.value = myBlogs.value.filter((item) => item.id !== blogId)
 
-    if (createPostDialog.form.blogId === blogId) {
-      createPostDialog.form.blogId = ''
-    }
-
     Notify.success(t('blog.notifications.blogDeleted'))
   } catch (error) {
     Notify.error(extractErrorMessage(error, t('blog.errors.deleteBlogFailed')))
@@ -853,13 +842,10 @@ async function confirmDeleteBlog(blog: BlogSummary) {
   }
 }
 
-function openCreatePostDialog(blogId?: string) {
+function openCreatePostDialog() {
   if (!ensureAuthenticated()) return
 
   resetCreatePostForm()
-  if (typeof blogId === 'string' && blogId.trim().length) {
-    createPostDialog.form.blogId = blogId.trim()
-  }
   createPostDialog.open = true
 }
 
@@ -867,32 +853,71 @@ function onSelectCreatePostAction(_: { id: string }) {
   openCreatePostDialog()
 }
 
+const isValidHttpUrl = (value: string) => {
+  if (!value.trim().length) {
+    return false
+  }
+
+  try {
+    const url = new URL(value)
+    return url.protocol === 'http:' || url.protocol === 'https:'
+  } catch {
+    return false
+  }
+}
+
 async function submitCreatePost() {
   if (!ensureAuthenticated()) return
 
-  const blogId = createPostDialog.form.blogId
   const title = createPostDialog.form.title.trim()
   const summary = createPostDialog.form.summary.trim()
   const content = createPostDialog.form.content.trim()
-  const url = createPostDialog.form.url.trim()
+  const filesValue = createPostDialog.form.files
+  const files = Array.isArray(filesValue) ? filesValue : []
 
   if (!title.length) {
     Notify.warning(t('blog.errors.createPostFailed'))
     return
   }
 
+  const detectedUrl = isValidHttpUrl(title) ? title : ''
+
+  const payload: BlogPostCreatePayload = {
+    title,
+    summary: summary.length ? summary : null,
+    content: content.length ? content : null,
+    url: detectedUrl.length ? detectedUrl : null,
+  }
+
+  let requestBody: BlogPostCreatePayload | FormData = payload
+
+  if (files.length) {
+    const formData = new FormData()
+    formData.append('title', payload.title)
+
+    if (payload.summary) {
+      formData.append('summary', payload.summary)
+    }
+
+    if (payload.content) {
+      formData.append('content', payload.content)
+    }
+
+    if (payload.url) {
+      formData.append('url', payload.url)
+    }
+
+    for (const file of files) {
+      formData.append('files[]', file)
+    }
+
+    requestBody = formData
+  }
+
   createPostDialog.loading = true
 
   try {
-    const payload: BlogPostCreatePayload = {
-      title,
-      summary: summary.length ? summary : null,
-      content: content.length ? content : null,
-      url: url.length ? url : null,
-      ...(blogId ? { blog: blogId } : {}),
-    }
-
-    const created = await createPost(payload)
+    const created = await createPost(requestBody)
 
     const newPost = buildPostViewModel(created)
     posts.value = [
@@ -1443,15 +1468,6 @@ async function submitShare() {
 }
 
 watch(
-  () => myBlogs.value.map((blog) => blog.id),
-  (ids) => {
-    if (!ids.includes(createPostDialog.form.blogId)) {
-      createPostDialog.form.blogId = ''
-    }
-  },
-)
-
-watch(
   () => shareDialog.open,
   (open) => {
     if (!open) {
@@ -1889,15 +1905,6 @@ if (import.meta.client) {
       <AppCard>
         <v-card-title>{{ t('blog.sidebar.createPost') }}</v-card-title>
         <v-card-text>
-          <v-select
-            v-model="createPostDialog.form.blogId"
-            :items="myBlogsOptions"
-            item-title="title"
-            item-value="value"
-            :label="t('blog.forms.createPost.blog')"
-            :disabled="createPostDialog.loading"
-            rounded
-          />
           <v-text-field
             v-model="createPostDialog.form.title"
             :label="t('blog.forms.createPost.title')"
@@ -1905,27 +1912,46 @@ if (import.meta.client) {
             required
             rounded
           />
-          <v-text-field
-            v-model="createPostDialog.form.summary"
-            :label="t('blog.forms.createPost.summary')"
-            :disabled="createPostDialog.loading"
-            rounded
-          />
-          <v-textarea
-            v-model="createPostDialog.form.content"
-            :label="t('blog.forms.createPost.content')"
-            :disabled="createPostDialog.loading"
-            rows="6"
-            auto-grow
-            rounded
-          />
-          <v-text-field
-            v-model="createPostDialog.form.url"
-            :label="t('blog.forms.createPost.url')"
-            :disabled="createPostDialog.loading"
-            rounded
-            type="url"
-          />
+          <v-expansion-panels
+            v-model="createPostDialog.panels"
+            multiple
+            class="mt-4"
+          >
+            <v-expansion-panel
+              value="details"
+              :disabled="createPostDialog.loading"
+            >
+              <v-expansion-panel-title>
+                {{ t('blog.forms.createPost.additionalOptions') }}
+              </v-expansion-panel-title>
+              <v-expansion-panel-text class="d-flex flex-column gap-4">
+                <v-text-field
+                  v-model="createPostDialog.form.summary"
+                  :label="t('blog.forms.createPost.summary')"
+                  :disabled="createPostDialog.loading"
+                  rounded
+                />
+                <v-textarea
+                  v-model="createPostDialog.form.content"
+                  :label="t('blog.forms.createPost.content')"
+                  :disabled="createPostDialog.loading"
+                  rows="6"
+                  auto-grow
+                  rounded
+                />
+                <v-file-input
+                  v-model="createPostDialog.form.files"
+                  :label="t('blog.forms.createPost.images')"
+                  :disabled="createPostDialog.loading"
+                  accept="image/*"
+                  prepend-icon="mdi-image-multiple-outline"
+                  multiple
+                  show-size
+                  rounded
+                />
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </v-card-text>
         <v-card-actions>
           <v-spacer />

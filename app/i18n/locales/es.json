@@ -213,7 +213,9 @@
         "title": "Título de la publicación",
         "summary": "Resumen",
         "content": "Contenido",
-        "url": "URL externa"
+        "url": "URL externa",
+        "additionalOptions": "Detalles adicionales",
+        "images": "Imágenes"
       },
       "sharePlaceholder": "Di algo sobre esta publicación..."
     },
