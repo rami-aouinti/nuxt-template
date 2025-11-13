@@ -84,12 +84,49 @@ const submitEdit = (comment: BlogCommentViewModel) => {
   emit('submit-edit', { comment, content })
 }
 
+interface CommentMenuItem {
+  key: string
+  label?: string
+  divider?: boolean
+  onSelect?: () => void
+  disabled?: boolean
+  variant?: 'danger'
+}
+
 const requestDelete = (comment: BlogCommentViewModel) => {
   if (isCommentBusy(comment)) {
     return
   }
 
   emit('delete-comment', comment)
+}
+
+const buildCommentMenuItems = (comment: BlogCommentViewModel): CommentMenuItem[] => {
+  const busy = isCommentBusy(comment)
+
+  const items: CommentMenuItem[] = [
+    {
+      key: comment.ui.editOpen ? 'cancel-edit' : 'edit',
+      label: comment.ui.editOpen
+        ? t('blog.actions.cancelEdit')
+        : t('blog.actions.editComment'),
+      onSelect: () =>
+        comment.ui.editOpen ? cancelEdit(comment) : startEdit(comment),
+      disabled: busy,
+    },
+  ]
+
+  items.push({ key: 'divider', divider: true })
+
+  items.push({
+    key: 'delete',
+    label: t('blog.actions.deleteComment'),
+    onSelect: () => requestDelete(comment),
+    disabled: busy,
+    variant: 'danger',
+  })
+
+  return items
 }
 </script>
 
@@ -159,34 +196,22 @@ const requestDelete = (comment: BlogCommentViewModel) => {
               </AppButton>
             </template>
             <v-list density="compact" class="blog-comment-thread__menu">
-              <v-list-item
-                v-if="!comment.ui.editOpen"
-                :disabled="isCommentBusy(comment)"
-                @click="startEdit(comment)"
+              <template
+                v-for="item in buildCommentMenuItems(comment)"
+                :key="item.key"
               >
-                <v-list-item-title>
-                  {{ t('blog.actions.editComment') }}
-                </v-list-item-title>
-              </v-list-item>
-              <v-list-item
-                v-else
-                :disabled="isCommentBusy(comment)"
-                @click="cancelEdit(comment)"
-              >
-                <v-list-item-title>
-                  {{ t('blog.actions.cancelEdit') }}
-                </v-list-item-title>
-              </v-list-item>
-              <v-divider class="my-1" />
-              <v-list-item
-                class="text-error"
-                :disabled="isCommentBusy(comment)"
-                @click="requestDelete(comment)"
-              >
-                <v-list-item-title>
-                  {{ t('blog.actions.deleteComment') }}
-                </v-list-item-title>
-              </v-list-item>
+                <v-divider v-if="item.divider" class="my-1" />
+                <v-list-item
+                  v-else
+                  :class="{ 'text-error': item.variant === 'danger' }"
+                  :disabled="item.disabled"
+                  @click="item.onSelect?.()"
+                >
+                  <v-list-item-title>
+                    {{ item.label }}
+                  </v-list-item-title>
+                </v-list-item>
+              </template>
             </v-list>
           </AppMenu>
         </template>
