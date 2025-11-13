@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
+import { normalizeIconValue, type IconInput } from '~/utils/icons'
 
 const { item } = defineProps<{
   item: RouteRecordRaw
@@ -61,9 +62,28 @@ const hasRouteAccess = (route: RouteRecordRaw) => {
   return requiredRoles.some((role) => userRoles.value.includes(role))
 }
 
+const resolveIconInput = (value: unknown): IconInput => {
+  if (
+    value === null ||
+    value === undefined ||
+    value === false ||
+    typeof value === 'string' ||
+    Array.isArray(value) ||
+    typeof value === 'function' ||
+    (typeof value === 'object' && value !== null)
+  ) {
+    return value as IconInput
+  }
+
+  return undefined
+}
+
+const hasNormalizedIcon = (value: unknown) =>
+  normalizeIconValue(resolveIconInput(value)) !== undefined
+
 const visibleChildren = computed(() =>
   item.children
-    ?.filter((child) => child.meta?.icon && hasRouteAccess(child))
+    ?.filter((child) => hasNormalizedIcon(child.meta?.icon) && hasRouteAccess(child))
     .sort((a, b) => (a.meta?.drawerIndex ?? 99) - (b.meta?.drawerIndex ?? 98)),
 )
 const visibleChildrenNum = computed(() => visibleChildren.value?.length || 0)
@@ -78,7 +98,7 @@ const translatedTitle = computed(() => {
 
   return t(String(key))
 })
-const icon = toRef(() => item.meta?.icon)
+const icon = computed(() => normalizeIconValue(resolveIconInput(item.meta?.icon)))
 // @ts-expect-error unknown type miss match
 const to = computed<RouteRecordRaw>(() => ({
   name: item.name || visibleChildren.value?.[0]?.name,

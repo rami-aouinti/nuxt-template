@@ -1,5 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { IconValue } from 'vuetify/lib/composables/icons'
+import {
+  normalizeIconProp,
+  normalizeIconValue,
+  type IconInput,
+  type IconProp,
+} from '~/utils/icons'
 
 type ButtonVariant =
   | 'elevated'
@@ -13,7 +20,8 @@ type ButtonDensity = 'default' | 'comfortable' | 'compact'
 type ButtonType = 'button' | 'submit' | 'reset'
 type ButtonElevation = string | number
 
-type IconValue = string | boolean | undefined
+type ButtonIconInput = IconInput
+type ButtonIconProp = IconProp
 
 const props = defineProps<{
   color?: string
@@ -24,9 +32,9 @@ const props = defineProps<{
   disabled?: boolean
   size?: ButtonSize
   density?: ButtonDensity
-  prependIcon?: Exclude<IconValue, boolean>
-  appendIcon?: Exclude<IconValue, boolean>
-  icon?: IconValue
+  prependIcon?: ButtonIconInput
+  appendIcon?: ButtonIconInput
+  icon?: ButtonIconProp
   type?: ButtonType
   elevation?: ButtonElevation
 }>()
@@ -43,6 +51,16 @@ const normalizedDensity = computed<ButtonDensity>(
   () => props.density ?? 'default',
 )
 const normalizedType = computed<ButtonType>(() => props.type ?? 'button')
+
+const normalizedPrependIcon = computed<IconValue | undefined>(() =>
+  normalizeIconValue(props.prependIcon),
+)
+const normalizedAppendIcon = computed<IconValue | undefined>(() =>
+  normalizeIconValue(props.appendIcon),
+)
+const normalizedIcon = computed<IconValue | true | undefined>(() =>
+  normalizeIconProp(props.icon),
+)
 
 const hasShadow = computed(() => {
   if (props.shadow !== undefined) return props.shadow
@@ -71,9 +89,9 @@ const normalizedElevation = computed<ButtonElevation | undefined>(() => {
     :block="normalizedBlock"
     :size="normalizedSize"
     :density="normalizedDensity"
-    :prepend-icon="prependIcon"
-    :append-icon="appendIcon"
-    :icon="icon"
+    :prepend-icon="normalizedPrependIcon"
+    :append-icon="normalizedAppendIcon"
+    :icon="normalizedIcon"
     :type="normalizedType"
     :elevation="normalizedElevation"
     :class="[
