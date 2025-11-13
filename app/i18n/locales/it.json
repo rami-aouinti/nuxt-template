@@ -194,7 +194,11 @@
       "description": "Torna più tardi per scoprire i prossimi contenuti."
     },
     "search": {
-      "noResults": "Nessun articolo o blog corrisponde alla tua ricerca."
+      "noResults": "Nessun articolo o blog corrisponde alla tua ricerca.",
+      "noTagResults": "Nessun post trovato per {tag}."
+    },
+    "filters": {
+      "activeTag": "Tag attivo"
     },
     "forms": {
       "commentPlaceholder": "Condividi le tue idee...",
@@ -215,7 +219,7 @@
         "content": "Contenuto",
         "url": "URL esterno",
         "additionalOptions": "Dettagli aggiuntivi",
-        "images": "Immagini"
+        "images": "Immagini o video"
       },
       "sharePlaceholder": "Di qualcosa su questo post..."
     },

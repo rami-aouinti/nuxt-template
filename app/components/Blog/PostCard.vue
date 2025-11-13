@@ -15,6 +15,7 @@ import {
   shadowHoverValues,
 } from '~/composables/useThemePreferences'
 import AppCard from '~/components/ui/AppCard.vue'
+import { resolvePostTags } from '~/utils/blog/posts'
 
 defineOptions({ name: 'BlogPostCard' })
 
@@ -61,6 +62,7 @@ const emit = defineEmits<{
   'delete-comment': [
     { post: BlogPostViewModel; comment: BlogCommentViewModel },
   ]
+  'select-tag': [{ post: BlogPostViewModel; tag: string; label: string }]
 }>()
 
 const { t } = useI18n()
@@ -300,6 +302,13 @@ const mediaGallery = computed<NormalizedMediaItem[]>(() => {
     .filter((media): media is NormalizedMediaItem => Boolean(media))
 })
 
+const postTags = computed(() =>
+  resolvePostTags(props.post).map((tag) => ({
+    value: tag,
+    label: tag.startsWith('#') ? tag : `#${tag}`,
+  })),
+)
+
 const hasVisualPreview = computed(
   () => Boolean(urlPreview.value && urlPreview.value.kind !== 'link'),
 )
@@ -368,6 +377,10 @@ const onRequestEdit = () => {
 const onDeletePost = () => {
   emit('delete', props.post)
   isMenuOpen.value = false
+}
+
+const onSelectTag = (tag: { value: string; label: string }) => {
+  emit('select-tag', { post: props.post, tag: tag.value, label: tag.label })
 }
 </script>
 
@@ -469,6 +482,20 @@ const onDeletePost = () => {
       >
         {{ excerptState.text }}
       </p>
+      <div v-if="postTags.length" class="facebook-post-card__tags">
+        <v-chip
+          v-for="tag in postTags"
+          :key="tag.value"
+          class="facebook-post-card__tag"
+          color="primary"
+          variant="tonal"
+          size="small"
+          :ripple="false"
+          @click="onSelectTag(tag)"
+        >
+          {{ tag.label }}
+        </v-chip>
+      </div>
       <div
         v-if="urlPreview"
         class="facebook-post-card__preview"
@@ -807,6 +834,18 @@ a.facebook-post-card__author-link:focus-visible {
 
 .facebook-post-card__text--muted {
   color: rgba(var(--v-theme-on-surface), 0.6);
+}
+
+.facebook-post-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.facebook-post-card__tag {
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .facebook-post-card__preview {
