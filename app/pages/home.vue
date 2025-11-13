@@ -16,6 +16,7 @@ import type {
   BlogCommentViewModel,
   BlogPost,
   BlogPostCreatePayload,
+  BlogCreatePayload,
   BlogPostSharePayload,
   BlogPostViewModel,
   BlogPostUser,
@@ -250,6 +251,7 @@ const createBlogDialog = reactive({
   form: {
     title: '',
     subtitle: '',
+    logo: null as File | File[] | null,
   },
 })
 
@@ -708,6 +710,7 @@ async function refreshWorkplaces() {
 function resetCreateBlogForm() {
   createBlogDialog.form.title = ''
   createBlogDialog.form.subtitle = ''
+  createBlogDialog.form.logo = null
 }
 
 function resetEditBlogForm() {
@@ -767,6 +770,13 @@ async function submitCreateBlog() {
 
   const title = createBlogDialog.form.title.trim()
   const subtitle = createBlogDialog.form.subtitle.trim()
+  const logoValue = createBlogDialog.form.logo
+  const logo =
+    logoValue instanceof File
+      ? logoValue
+      : Array.isArray(logoValue)
+        ? logoValue.find((file): file is File => file instanceof File) ?? null
+        : null
 
   if (!title.length) {
     Notify.warning(t('blog.errors.createBlogFailed'))
@@ -776,10 +786,25 @@ async function submitCreateBlog() {
   createBlogDialog.loading = true
 
   try {
-    const created = await createBlog({
+    const payload: BlogCreatePayload = {
       title,
       blogSubtitle: subtitle.length ? subtitle : null,
-    })
+    }
+
+    let requestBody: BlogCreatePayload | FormData = payload
+
+    if (logo) {
+      const formData = new FormData()
+      formData.append('title', payload.title)
+      if (payload.blogSubtitle) {
+        formData.append('blogSubtitle', payload.blogSubtitle)
+        formData.append('description', payload.blogSubtitle)
+      }
+      formData.append('files', logo)
+      requestBody = formData
+    }
+
+    const created = await createBlog(requestBody)
 
     myBlogs.value = [
       created,
@@ -2002,6 +2027,15 @@ if (import.meta.client) {
           v-model="createBlogDialog.form.subtitle"
           :label="t('blog.forms.createBlog.subtitle')"
           :disabled="createBlogDialog.loading"
+          rounded
+        />
+        <v-file-input
+          v-model="createBlogDialog.form.logo"
+          :label="translate('blog.forms.createBlog.logo', 'Logo')"
+          :disabled="createBlogDialog.loading"
+          accept="image/*"
+          prepend-icon="mdi-image-outline"
+          show-size
           rounded
         />
       </v-card-text>
