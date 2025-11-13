@@ -11,7 +11,6 @@ import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
 import { normalizeRequestHeaders } from '~/utils/headers'
 import { normalizeCollection } from '~/utils/collections'
-import AppCard from '~/components/ui/AppCard.vue'
 import AppButton from '~/components/ui/AppButton.vue'
 
 definePageMeta({
@@ -478,124 +477,126 @@ async function submitCreate() {
       </template>
     </AdminDataTable>
 
-    <AppModal v-model="createDialog" max-width="640">
-      <AppCard>
-        <v-card-title>
-          {{ t('configurationManagement.configurations.dialogs.create.title') }}
-        </v-card-title>
-        <v-card-text>
-          <v-alert v-if="createError" type="error" variant="tonal" class="mb-4">
-            {{ createError }}
-          </v-alert>
+    <AppModal
+      v-model="createDialog"
+      icon="mdi-cog-plus-outline"
+      :title="t('configurationManagement.configurations.dialogs.create.title')"
+      max-width="640"
+      :close-disabled="createLoading"
+      @close="createDialog = false"
+    >
+      <v-card-text>
+        <v-alert v-if="createError" type="error" variant="tonal" class="mb-4">
+          {{ createError }}
+        </v-alert>
 
-          <v-form @submit.prevent="submitCreate">
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="form.configurationKey"
-                  :label="
-                    t('configurationManagement.configurations.fields.key')
-                  "
-                  :disabled="createLoading"
-                  required
-                  rounded
-                  autocomplete="off"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.contextKey"
-                  :label="
-                    t(
-                      'configurationManagement.configurations.fields.contextKey',
-                    )
-                  "
-                  :disabled="createLoading"
-                  required
-                  rounded
-                  autocomplete="off"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="form.contextId"
-                  :label="
-                    t('configurationManagement.configurations.fields.contextId')
-                  "
-                  :disabled="createLoading"
-                  rounded
-                  autocomplete="off"
-                />
-              </v-col>
-              <v-col cols="12">
-                <v-select
-                  v-model="form.workplaceId"
-                  :items="workplaceOptions"
-                  item-title="title"
-                  item-value="value"
-                  :label="
-                    t('configurationManagement.configurations.fields.workplace')
-                  "
-                  :placeholder="t('common.placeholders.selectWorkplace')"
-                  :loading="adminStore.workplacesPending"
-                  :disabled="createLoading"
-                  :error-messages="workplaceError ? [workplaceError] : []"
-                  clearable
-                />
-              </v-col>
-              <v-col cols="12">
-                <v-textarea
-                  v-model="form.configurationValue"
-                  :label="
-                    t('configurationManagement.configurations.fields.value')
-                  "
-                  :hint="
-                    t('configurationManagement.configurations.fields.valueHint')
-                  "
-                  persistent-hint
-                  :disabled="createLoading"
-                  auto-grow
-                  rows="3"
-                />
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="form.flags"
-                  :label="
-                    t('configurationManagement.configurations.fields.flags')
-                  "
-                  :hint="
-                    t('configurationManagement.configurations.fields.flagsHint')
-                  "
-                  persistent-hint
-                  :disabled="createLoading"
-                  rounded
-                  autocomplete="off"
-                />
-              </v-col>
-            </v-row>
-          </v-form>
-        </v-card-text>
-        <v-card-actions class="justify-end">
-          <AppButton
-            variant="text"
-            :disabled="createLoading"
-            @click="createDialog = false"
-          >
-            {{ t('common.actions.cancel') }}
-          </AppButton>
-          <AppButton
-            color="primary"
-            :loading="createLoading"
-            :disabled="createLoading"
-            @click="submitCreate"
-          >
-            {{
-              t('configurationManagement.configurations.dialogs.create.submit')
-            }}
-          </AppButton>
-        </v-card-actions>
-      </AppCard>
+        <v-form @submit.prevent="submitCreate">
+          <v-row>
+            <v-col cols="12">
+              <v-text-field
+                v-model="form.configurationKey"
+                :label="
+                  t('configurationManagement.configurations.fields.key')
+                "
+                :disabled="createLoading"
+                required
+                rounded
+                autocomplete="off"
+              />
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="form.contextKey"
+                :label="
+                  t(
+                    'configurationManagement.configurations.fields.contextKey',
+                  )
+                "
+                :disabled="createLoading"
+                required
+                rounded
+                autocomplete="off"
+              />
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="form.contextId"
+                :label="
+                  t('configurationManagement.configurations.fields.contextId')
+                "
+                :disabled="createLoading"
+                rounded
+                autocomplete="off"
+              />
+            </v-col>
+            <v-col cols="12">
+              <v-select
+                v-model="form.workplaceId"
+                :items="workplaceOptions"
+                item-title="title"
+                item-value="value"
+                :label="
+                  t('configurationManagement.configurations.fields.workplace')
+                "
+                :placeholder="t('common.placeholders.selectWorkplace')"
+                :loading="adminStore.workplacesPending"
+                :disabled="createLoading"
+                :error-messages="workplaceError ? [workplaceError] : []"
+                clearable
+              />
+            </v-col>
+            <v-col cols="12">
+              <v-textarea
+                v-model="form.configurationValue"
+                :label="
+                  t('configurationManagement.configurations.fields.value')
+                "
+                :hint="
+                  t('configurationManagement.configurations.fields.valueHint')
+                "
+                persistent-hint
+                :disabled="createLoading"
+                auto-grow
+                rows="3"
+              />
+            </v-col>
+            <v-col cols="12">
+              <v-text-field
+                v-model="form.flags"
+                :label="
+                  t('configurationManagement.configurations.fields.flags')
+                "
+                :hint="
+                  t('configurationManagement.configurations.fields.flagsHint')
+                "
+                persistent-hint
+                :disabled="createLoading"
+                rounded
+                autocomplete="off"
+              />
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card-text>
+      <template #actions>
+        <AppButton
+          variant="text"
+          :disabled="createLoading"
+          @click="createDialog = false"
+        >
+          {{ t('common.actions.cancel') }}
+        </AppButton>
+        <AppButton
+          color="primary"
+          :loading="createLoading"
+          :disabled="createLoading"
+          @click="submitCreate"
+        >
+          {{
+            t('configurationManagement.configurations.dialogs.create.submit')
+          }}
+        </AppButton>
+      </template>
     </AppModal>
   </v-container>
 </template>

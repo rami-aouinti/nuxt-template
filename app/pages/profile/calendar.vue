@@ -526,125 +526,128 @@ function closeDialog() {
         </v-row>
       </div>
 
-      <AppModal v-model="isDialogOpen" max-width="520">
-        <AppCard>
-          <v-card-title>
-            {{
-              editingEvent
-                ? t('profile.calendar.dialog.editTitle')
-                : t('profile.calendar.dialog.createTitle')
-            }}
-          </v-card-title>
-          <v-card-text>
-            <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
-              {{ formError }}
-            </v-alert>
-            <v-form @submit.prevent="submitEvent">
-              <v-text-field
-                v-model="form.title"
-                :label="t('profile.calendar.form.title')"
-                required
+      <AppModal
+        v-model="isDialogOpen"
+        icon="mdi-calendar-edit"
+        :title="
+          editingEvent
+            ? t('profile.calendar.dialog.editTitle')
+            : t('profile.calendar.dialog.createTitle')
+        "
+        max-width="520"
+        :close-disabled="isSaving"
+        @close="closeDialog"
+      >
+        <v-card-text>
+          <v-alert v-if="formError" type="error" variant="tonal" class="mb-4">
+            {{ formError }}
+          </v-alert>
+          <v-form id="calendar-event-form" @submit.prevent="submitEvent">
+            <v-text-field
+              v-model="form.title"
+              :label="t('profile.calendar.form.title')"
+              required
+              density="comfortable"
+              class="mb-3"
+              rounded
+            />
+            <v-textarea
+              v-model="form.description"
+              :label="t('profile.calendar.form.description')"
+              rows="3"
+              density="comfortable"
+              class="mb-3"
+              rounded
+            />
+            <v-text-field
+              v-model="form.location"
+              :label="t('profile.calendar.form.location')"
+              density="comfortable"
+              class="mb-3"
+              rounded
+            />
+            <v-color-picker
+              v-model="form.color"
+              hide-inputs
+              mode="hex"
+              class="mb-3"
+              width="280"
+            />
+            <div class="d-flex flex-column gap-3 mb-3">
+              <v-switch
+                v-model="form.allDay"
+                :label="t('profile.calendar.form.allDay')"
+                color="primary"
                 density="comfortable"
-                class="mb-3"
-                rounded
               />
-              <v-textarea
-                v-model="form.description"
-                :label="t('profile.calendar.form.description')"
-                rows="3"
+              <v-switch
+                v-model="form.isPrivate"
+                :label="t('profile.calendar.form.isPrivate')"
+                color="primary"
                 density="comfortable"
-                class="mb-3"
-                rounded
               />
-              <v-text-field
-                v-model="form.location"
-                :label="t('profile.calendar.form.location')"
-                density="comfortable"
-                class="mb-3"
-                rounded
-              />
-              <v-color-picker
-                v-model="form.color"
-                hide-inputs
-                mode="hex"
-                class="mb-3"
-                width="280"
-              />
-              <div class="d-flex flex-column gap-3 mb-3">
-                <v-switch
-                  v-model="form.allDay"
-                  :label="t('profile.calendar.form.allDay')"
-                  color="primary"
-                  density="comfortable"
-                />
-                <v-switch
-                  v-model="form.isPrivate"
-                  :label="t('profile.calendar.form.isPrivate')"
-                  color="primary"
-                  density="comfortable"
-                />
-              </div>
-              <div class="d-flex flex-column gap-3">
-                <div class="d-flex gap-3 flex-wrap">
-                  <v-text-field
-                    v-model="form.startDate"
-                    type="date"
-                    :label="t('profile.calendar.form.startDate')"
-                    density="comfortable"
-                    class="flex-grow-1"
-                    rounded
-                  />
-                  <v-text-field
-                    v-model="form.startTime"
-                    type="time"
-                    :label="t('profile.calendar.form.startTime')"
-                    density="comfortable"
-                    class="flex-grow-1"
-                    :disabled="form.allDay"
-                    rounded
-                  />
-                </div>
-                <div class="d-flex gap-3 flex-wrap">
-                  <v-text-field
-                    v-model="form.endDate"
-                    type="date"
-                    :label="t('profile.calendar.form.endDate')"
-                    density="comfortable"
-                    class="flex-grow-1"
-                    rounded
-                  />
-                  <v-text-field
-                    v-model="form.endTime"
-                    type="time"
-                    :label="t('profile.calendar.form.endTime')"
-                    density="comfortable"
-                    class="flex-grow-1"
-                    :disabled="form.allDay"
-                    rounded
-                  />
-                </div>
-              </div>
-            </v-form>
-          </v-card-text>
-          <v-card-actions class="justify-space-between">
-            <div>
-              <AppButton
-                v-if="editingEvent"
-                color="error"
-                variant="text"
-                @click="requestDelete(editingEvent)"
-              >
-                {{ t('profile.calendar.actions.delete') }}
-              </AppButton>
             </div>
-            <div class="d-flex gap-2">
+            <div class="d-flex flex-column gap-3">
+              <div class="d-flex gap-3 flex-wrap">
+                <v-text-field
+                  v-model="form.startDate"
+                  type="date"
+                  :label="t('profile.calendar.form.startDate')"
+                  density="comfortable"
+                  class="flex-grow-1"
+                  rounded
+                />
+                <v-text-field
+                  v-model="form.startTime"
+                  type="time"
+                  :label="t('profile.calendar.form.startTime')"
+                  density="comfortable"
+                  class="flex-grow-1"
+                  :disabled="form.allDay"
+                  rounded
+                />
+              </div>
+              <div class="d-flex gap-3 flex-wrap">
+                <v-text-field
+                  v-model="form.endDate"
+                  type="date"
+                  :label="t('profile.calendar.form.endDate')"
+                  density="comfortable"
+                  class="flex-grow-1"
+                  rounded
+                />
+                <v-text-field
+                  v-model="form.endTime"
+                  type="time"
+                  :label="t('profile.calendar.form.endTime')"
+                  density="comfortable"
+                  class="flex-grow-1"
+                  :disabled="form.allDay"
+                  rounded
+                />
+              </div>
+            </div>
+          </v-form>
+        </v-card-text>
+        <template #actions>
+          <div class="d-flex justify-space-between align-center flex-wrap gap-2 w-100">
+            <AppButton
+              v-if="editingEvent"
+              color="error"
+              variant="text"
+              @click="requestDelete(editingEvent)"
+            >
+              {{ t('profile.calendar.actions.delete') }}
+            </AppButton>
+            <div class="d-flex gap-2 ms-auto">
               <AppButton variant="text" @click="closeDialog">
                 {{ t('profile.calendar.dialog.cancel') }}
               </AppButton>
               <AppButton
                 color="primary"
                 :loading="isSaving"
-                @click="submitEvent"
+                type="submit"
+                form="calendar-event-form"
               >
                 {{
                   editingEvent
@@ -653,31 +656,32 @@ function closeDialog() {
                 }}
               </AppButton>
             </div>
-          </v-card-actions>
-        </AppCard>
+          </div>
+        </template>
       </AppModal>
 
-      <AppModal v-model="isDeleteDialogOpen" max-width="420">
-        <AppCard>
-          <v-card-title class="text-h6">
-            {{ t('profile.calendar.delete.title') }}
-          </v-card-title>
-          <v-card-text>
-            {{ t('profile.calendar.delete.message') }}
-          </v-card-text>
-          <v-card-actions class="justify-end">
-            <AppButton variant="text" @click="isDeleteDialogOpen = false">
-              {{ t('profile.calendar.dialog.cancel') }}
-            </AppButton>
-            <AppButton
-              color="error"
-              :loading="isDeleting"
-              @click="confirmDelete"
-            >
-              {{ t('profile.calendar.actions.delete') }}
-            </AppButton>
-          </v-card-actions>
-        </AppCard>
+      <AppModal
+        v-model="isDeleteDialogOpen"
+        icon="mdi-trash-can-outline"
+        :title="t('profile.calendar.delete.title')"
+        max-width="420"
+        :close-disabled="isDeleting"
+      >
+        <v-card-text>
+          {{ t('profile.calendar.delete.message') }}
+        </v-card-text>
+        <template #actions>
+          <AppButton variant="text" @click="isDeleteDialogOpen = false">
+            {{ t('profile.calendar.dialog.cancel') }}
+          </AppButton>
+          <AppButton
+            color="error"
+            :loading="isDeleting"
+            @click="confirmDelete"
+          >
+            {{ t('profile.calendar.actions.delete') }}
+          </AppButton>
+        </template>
       </AppModal>
     </ProfilePageShell>
   </div>

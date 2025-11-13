@@ -8,7 +8,6 @@ import BlogPostCard from '~/components/Blog/PostCard.vue'
 import BlogReactionsDialog from '~/components/Blog/ReactionsDialog.vue'
 import AppAvatar from '~/components/AppAvatar.vue'
 import AppButton from '~/components/ui/AppButton.vue'
-import AppCard from '~/components/ui/AppCard.vue'
 import AppModal from '~/components/ui/AppModal.vue'
 import {
   BLOG_POSTS_DEFAULT_LIMIT,
@@ -1108,97 +1107,87 @@ watch(
       v-model="reactionsDialog.open"
       :reactions="reactionsDialog.items"
     />
-    <AppModal v-model="shareDialog.open" max-width="640">
-      <AppCard class="share-dialog">
-        <v-card-title class="d-flex align-center">
-          <span>{{ t('blog.dialogs.shareTitle') }}</span>
-          <v-spacer />
-          <AppButton
-            icon
-            variant="text"
-            :disabled="shareDialog.loading"
-            @click="closeShareDialog"
-          >
-            <v-icon icon="mdi-close" />
-          </AppButton>
-        </v-card-title>
-        <v-divider />
-        <v-card-text>
-          <div class="share-dialog__composer">
+    <AppModal
+      v-model="shareDialog.open"
+      icon="mdi-share-variant"
+      :title="t('blog.dialogs.shareTitle')"
+      max-width="640"
+      :close-disabled="shareDialog.loading"
+      @close="closeShareDialog"
+    >
+      <div class="share-dialog">
+        <div class="share-dialog__composer">
+          <AppAvatar
+            :src="currentUserAvatar"
+            :alt="currentUserDisplayName"
+            size="48"
+            class="share-dialog__avatar"
+          />
+          <div>
+            <div class="share-dialog__user-name">
+              {{ currentUserDisplayName }}
+            </div>
+            <div class="share-dialog__audience">
+              <v-icon icon="mdi-earth" size="16" class="mr-1" />
+              {{ t('blog.dialogs.shareAudiencePublic') }}
+            </div>
+          </div>
+        </div>
+        <v-textarea
+          v-model="shareDialog.message"
+          :placeholder="t('blog.forms.sharePlaceholder')"
+          rows="3"
+          auto-grow
+          variant="solo"
+          bg-color="rgba(var(--v-theme-surface-variant), 0.35)"
+          class="mt-4"
+        />
+        <div v-if="shareDialog.post" class="share-dialog__preview mt-4">
+          <div class="share-dialog__preview-header">
             <AppAvatar
-              :src="currentUserAvatar"
-              :alt="currentUserDisplayName"
-              size="48"
-              class="share-dialog__avatar"
+              :src="getAuthorAvatar(shareDialog.post.user)"
+              :alt="getAuthorName(shareDialog.post.user)"
+              size="40"
             />
             <div>
-              <div class="share-dialog__user-name">
-                {{ currentUserDisplayName }}
+              <div class="share-dialog__preview-author">
+                {{ getAuthorName(shareDialog.post.user) }}
               </div>
-              <div class="share-dialog__audience">
-                <v-icon icon="mdi-earth" size="16" class="mr-1" />
-                {{ t('blog.dialogs.shareAudiencePublic') }}
+              <div class="share-dialog__preview-meta">
+                {{ formatRelativePublishedAt(shareDialog.post.publishedAt) }}
               </div>
             </div>
           </div>
-          <v-textarea
-            v-model="shareDialog.message"
-            :placeholder="t('blog.forms.sharePlaceholder')"
-            rows="3"
-            auto-grow
-            variant="solo"
-            bg-color="rgba(var(--v-theme-surface-variant), 0.35)"
-            class="mt-4"
-          />
-          <div v-if="shareDialog.post" class="share-dialog__preview mt-4">
-            <div class="share-dialog__preview-header">
-              <AppAvatar
-                :src="getAuthorAvatar(shareDialog.post.user)"
-                :alt="getAuthorName(shareDialog.post.user)"
-                size="40"
-              />
-              <div>
-                <div class="share-dialog__preview-author">
-                  {{ getAuthorName(shareDialog.post.user) }}
-                </div>
-                <div class="share-dialog__preview-meta">
-                  {{ formatRelativePublishedAt(shareDialog.post.publishedAt) }}
-                </div>
-              </div>
+          <div class="share-dialog__preview-body">
+            <div class="share-dialog__preview-title">
+              {{ shareDialog.post.title }}
             </div>
-            <div class="share-dialog__preview-body">
-              <div class="share-dialog__preview-title">
-                {{ shareDialog.post.title }}
-              </div>
-              <p class="share-dialog__preview-text">
-                {{
-                  getPostExcerpt(shareDialog.post) ||
-                  t('blog.placeholders.noSummary')
-                }}
-              </p>
-            </div>
+            <p class="share-dialog__preview-text">
+              {{
+                getPostExcerpt(shareDialog.post) ||
+                t('blog.placeholders.noSummary')
+              }}
+            </p>
           </div>
-        </v-card-text>
-        <v-divider />
-        <v-card-actions>
-          <v-spacer />
-          <AppButton
-            variant="text"
-            :disabled="shareDialog.loading"
-            @click="closeShareDialog"
-          >
-            {{ t('common.actions.cancel') }}
-          </AppButton>
-          <AppButton
-            color="primary"
-            :disabled="!shareDialog.post || shareDialog.loading"
-            :loading="shareDialog.loading"
-            @click="submitShare"
-          >
-            {{ t('common.actions.share') }}
-          </AppButton>
-        </v-card-actions>
-      </AppCard>
+        </div>
+      </div>
+      <template #actions>
+        <AppButton
+          variant="text"
+          :disabled="shareDialog.loading"
+          @click="closeShareDialog"
+        >
+          {{ t('common.actions.cancel') }}
+        </AppButton>
+        <AppButton
+          color="primary"
+          :disabled="!shareDialog.post || shareDialog.loading"
+          :loading="shareDialog.loading"
+          @click="submitShare"
+        >
+          {{ t('common.actions.share') }}
+        </AppButton>
+      </template>
     </AppModal>
   </div>
 </template>
