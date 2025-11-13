@@ -362,9 +362,13 @@ export const useMessengerStore = defineStore('messenger', () => {
         throw new Error('EventSource is not supported in this environment')
       }
 
-      const source = new EventSource(url.toString(), {
-        withCredentials: withCredentials ?? true,
-      })
+      const eventSourceOptions: EventSourceInit = {}
+
+      if (typeof withCredentials === 'boolean') {
+        eventSourceOptions.withCredentials = withCredentials
+      }
+
+      const source = new EventSource(url.toString(), eventSourceOptions)
 
       source.onopen = () => {
         isConnected.value = true
