@@ -162,7 +162,8 @@
       "commentMenu": "评论选项",
       "editBlog": "编辑博客",
       "deleteBlog": "删除博客",
-      "sharePost": "分享帖子"
+      "sharePost": "分享帖子",
+      "viewImage": "查看图片"
     },
     "feed": {
       "composer": {

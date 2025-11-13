@@ -162,7 +162,8 @@
       "commentMenu": "خيارات التعليق",
       "editBlog": "تعديل المدوّنة",
       "deleteBlog": "حذف المدوّنة",
-      "sharePost": "مشاركة المنشور"
+      "sharePost": "مشاركة المنشور",
+      "viewImage": "عرض الصورة"
     },
     "feed": {
       "composer": {

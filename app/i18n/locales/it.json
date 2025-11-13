@@ -162,7 +162,8 @@
       "commentMenu": "Opzioni commento",
       "editBlog": "Modifica blog",
       "deleteBlog": "Elimina blog",
-      "sharePost": "Condividi il post"
+      "sharePost": "Condividi il post",
+      "viewImage": "Visualizza immagine"
     },
     "feed": {
       "composer": {
