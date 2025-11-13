@@ -6,7 +6,6 @@ import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
 import type { User, UserPayload } from '~/types/user'
 import AppButton from '~/components/ui/AppButton.vue'
-import AppCard from '~/components/ui/AppCard.vue'
 
 definePageMeta({
   title: 'navigation.users',
@@ -1008,88 +1007,90 @@ watch(attachDialog, (value) => {
       </template>
     </AppModal>
 
-    <AppModal v-model="attachDialog" max-width="480">
-      <AppCard>
-        <v-card-title>{{
-          t('userManagement.users.dialogs.attachGroup.title')
-        }}</v-card-title>
-        <v-card-text>
-          <v-alert v-if="attachError" type="error" variant="tonal" class="mb-4">
-            {{ attachError }}
-          </v-alert>
-          <v-select
-            v-model="attachForm.groupId"
-            :items="availableGroupsForUser"
-            item-title="name"
-            item-value="id"
-            :label="t('common.labels.group')"
-            :disabled="groupActionLoading || userGroupsLoading"
-            :loading="userGroupsLoading"
-            density="comfortable"
-            :placeholder="t('common.placeholders.selectGroup')"
-            clearable
-          />
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <AppButton
-            variant="text"
-            :disabled="groupActionLoading"
-            @click="closeAttachDialog"
-          >
-            {{ t('common.actions.cancel') }}
-          </AppButton>
-          <AppButton
-            color="primary"
-            :disabled="groupActionLoading || !attachForm.groupId"
-            :loading="groupActionLoading"
-            @click="submitAttach"
-          >
-            {{ t('common.actions.link') }}
-          </AppButton>
-        </v-card-actions>
-      </AppCard>
+    <AppModal
+      v-model="attachDialog"
+      icon="mdi-account-group"
+      :title="t('userManagement.users.dialogs.attachGroup.title')"
+      max-width="480"
+      :close-disabled="groupActionLoading"
+      @close="closeAttachDialog"
+    >
+      <v-card-text>
+        <v-alert v-if="attachError" type="error" variant="tonal" class="mb-4">
+          {{ attachError }}
+        </v-alert>
+        <v-select
+          v-model="attachForm.groupId"
+          :items="availableGroupsForUser"
+          item-title="name"
+          item-value="id"
+          :label="t('common.labels.group')"
+          :disabled="groupActionLoading || userGroupsLoading"
+          :loading="userGroupsLoading"
+          density="comfortable"
+          :placeholder="t('common.placeholders.selectGroup')"
+          clearable
+        />
+      </v-card-text>
+      <template #actions>
+        <AppButton
+          variant="text"
+          :disabled="groupActionLoading"
+          @click="closeAttachDialog"
+        >
+          {{ t('common.actions.cancel') }}
+        </AppButton>
+        <AppButton
+          color="primary"
+          :disabled="groupActionLoading || !attachForm.groupId"
+          :loading="groupActionLoading"
+          @click="submitAttach"
+        >
+          {{ t('common.actions.link') }}
+        </AppButton>
+      </template>
     </AppModal>
 
-    <AppModal v-model="deleteDialog" max-width="480">
-      <AppCard>
-        <v-card-title>{{
-          t('userManagement.users.dialogs.delete.title')
-        }}</v-card-title>
-        <v-card-text>
-          <v-alert type="warning" variant="tonal" class="mb-4">
-            {{ t('userManagement.users.dialogs.delete.warningPrefix') }}
-            <strong>
-              {{
-                deletingUser?.username ??
-                t('userManagement.users.labels.userFallback')
-              }}
-            </strong>
-            {{ t('userManagement.users.dialogs.delete.warningSuffix') }}
-          </v-alert>
-          <v-alert v-if="deleteError" type="error" variant="tonal" class="mb-4">
-            {{ deleteError }}
-          </v-alert>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <AppButton
-            variant="text"
-            :disabled="deleteLoading"
-            @click="closeDelete"
-          >
-            {{ t('common.actions.cancel') }}
-          </AppButton>
-          <AppButton
-            color="error"
-            :loading="deleteLoading"
-            :disabled="!deletingUser"
-            @click="confirmDelete"
-          >
-            {{ t('common.actions.delete') }}
-          </AppButton>
-        </v-card-actions>
-      </AppCard>
+    <AppModal
+      v-model="deleteDialog"
+      icon="mdi-trash-can-outline"
+      :title="t('userManagement.users.dialogs.delete.title')"
+      max-width="480"
+      :close-disabled="deleteLoading"
+      @close="closeDelete"
+    >
+      <v-card-text>
+        <v-alert type="warning" variant="tonal" class="mb-4">
+          {{ t('userManagement.users.dialogs.delete.warningPrefix') }}
+          <strong>
+            {{
+              deletingUser?.username ??
+              t('userManagement.users.labels.userFallback')
+            }}
+          </strong>
+          {{ t('userManagement.users.dialogs.delete.warningSuffix') }}
+        </v-alert>
+        <v-alert v-if="deleteError" type="error" variant="tonal" class="mb-4">
+          {{ deleteError }}
+        </v-alert>
+      </v-card-text>
+      <template #actions>
+        <AppButton
+          variant="text"
+          :disabled="deleteLoading"
+          @click="closeDelete"
+        >
+          {{ t('common.actions.cancel') }}
+        </AppButton>
+        <AppButton
+          color="error"
+          :loading="deleteLoading"
+          :disabled="!deletingUser"
+          @click="confirmDelete"
+        >
+          {{ t('common.actions.delete') }}
+        </AppButton>
+      </template>
     </AppModal>
   </v-container>
 </template>

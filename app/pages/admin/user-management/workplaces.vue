@@ -6,7 +6,6 @@ import { Notify } from '~/stores/notification'
 import type { Workplace, WorkplacePayload } from '~/types/workplace'
 import { storeToRefs } from 'pinia'
 import AppButton from '~/components/ui/AppButton.vue'
-import AppCard from '~/components/ui/AppCard.vue'
 import AppList from '~/components/ui/AppList.vue'
 
 definePageMeta({
@@ -523,39 +522,40 @@ watch(deleteDialog, (value) => {
       </template>
     </AppModal>
 
-    <AppModal v-model="deleteDialog" max-width="540">
-      <AppCard>
-        <v-card-title>{{
-          t('userManagement.workplaces.dialogs.delete.title')
-        }}</v-card-title>
-        <v-card-text>
-          <v-alert v-if="deleteError" type="error" variant="tonal" class="mb-4">
-            {{ deleteError }}
-          </v-alert>
-          <p class="mb-0">
-            {{ t('userManagement.workplaces.dialogs.delete.warningPrefix') }}
-            {{ getWorkplaceLabel(deletingWorkplace.value) }}
-            {{ t('userManagement.workplaces.dialogs.delete.warningSuffix') }}
-          </p>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <AppButton
-            variant="text"
-            :disabled="deleteLoading"
-            @click="closeDelete"
-          >
-            {{ t('common.actions.cancel') }}
-          </AppButton>
-          <AppButton
-            color="error"
-            :loading="deleteLoading"
-            @click="confirmDelete"
-          >
-            {{ t('common.actions.delete') }}
-          </AppButton>
-        </v-card-actions>
-      </AppCard>
+    <AppModal
+      v-model="deleteDialog"
+      icon="mdi-trash-can-outline"
+      :title="t('userManagement.workplaces.dialogs.delete.title')"
+      max-width="540"
+      :close-disabled="deleteLoading"
+      @close="closeDelete"
+    >
+      <v-card-text>
+        <v-alert v-if="deleteError" type="error" variant="tonal" class="mb-4">
+          {{ deleteError }}
+        </v-alert>
+        <p class="mb-0">
+          {{ t('userManagement.workplaces.dialogs.delete.warningPrefix') }}
+          {{ getWorkplaceLabel(deletingWorkplace.value) }}
+          {{ t('userManagement.workplaces.dialogs.delete.warningSuffix') }}
+        </p>
+      </v-card-text>
+      <template #actions>
+        <AppButton
+          variant="text"
+          :disabled="deleteLoading"
+          @click="closeDelete"
+        >
+          {{ t('common.actions.cancel') }}
+        </AppButton>
+        <AppButton
+          color="error"
+          :loading="deleteLoading"
+          @click="confirmDelete"
+        >
+          {{ t('common.actions.delete') }}
+        </AppButton>
+      </template>
     </AppModal>
   </v-container>
 </template>

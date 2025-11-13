@@ -863,239 +863,250 @@ onMounted(() => {
         </v-col>
       </v-row>
 
-      <AppModal v-model="createDialog" max-width="480">
-        <AppCard>
-          <v-card-title class="text-wrap">
-            {{ t('workspace.dialogs.create.title') }}
-          </v-card-title>
-          <v-divider />
-          <v-card-text>
-            <p class="text-body-2 text-medium-emphasis mb-4">
-              {{ t('workspace.dialogs.create.subtitle') }}
-            </p>
-            <v-alert
-              v-if="createError"
-              type="error"
-              variant="tonal"
-              density="compact"
+      <AppModal
+        v-model="createDialog"
+        icon="mdi-folder-plus"
+        :title="t('workspace.dialogs.create.title')"
+        :subtitle="t('workspace.dialogs.create.subtitle')"
+        max-width="480"
+        :close-disabled="isCreating"
+      >
+        <v-card-text>
+          <v-alert
+            v-if="createError"
+            type="error"
+            variant="tonal"
+            density="compact"
+            class="mb-4"
+          >
+            {{ createError }}
+          </v-alert>
+          <v-form id="create-folder-form" @submit.prevent="submitCreateFolder">
+            <v-text-field
+              v-model="createForm.name"
+              :label="t('workspace.dialogs.fields.name')"
+              :disabled="isCreating"
+              required
+            />
+            <v-select
+              v-model="createForm.parentId"
+              :items="folderOptions"
+              :label="t('workspace.dialogs.fields.parent')"
+              :disabled="isCreating || folderOptions.length === 0"
+              clearable
+              hide-details
               class="mb-4"
-            >
-              {{ createError }}
-            </v-alert>
-            <v-form @submit.prevent="submitCreateFolder">
-              <v-text-field
-                v-model="createForm.name"
-                :label="t('workspace.dialogs.fields.name')"
+            />
+            <div class="d-flex flex-column gap-2 mb-4">
+              <v-checkbox
+                v-model="createForm.isPrivate"
+                :label="t('workspace.dialogs.fields.private')"
                 :disabled="isCreating"
-                required
-              />
-              <v-select
-                v-model="createForm.parentId"
-                :items="folderOptions"
-                :label="t('workspace.dialogs.fields.parent')"
-                :disabled="isCreating || folderOptions.length === 0"
-                clearable
                 hide-details
-                class="mb-4"
-              />
-              <div class="d-flex flex-column gap-2 mb-4">
-                <v-checkbox
-                  v-model="createForm.isPrivate"
-                  :label="t('workspace.dialogs.fields.private')"
-                  :disabled="isCreating"
-                  hide-details
-                />
-                <v-checkbox
-                  v-model="createForm.isFavorite"
-                  :label="t('workspace.dialogs.fields.favorite')"
-                  :disabled="isCreating"
-                  hide-details
-                />
-              </div>
-              <div class="d-flex justify-end gap-2">
-                <AppButton
-                  variant="text"
-                  :disabled="isCreating"
-                  @click="createDialog = false"
-                >
-                  {{ t('workspace.dialogs.actions.cancel') }}
-                </AppButton>
-                <AppButton color="primary" type="submit" :loading="isCreating">
-                  {{ t('workspace.dialogs.actions.create') }}
-                </AppButton>
-              </div>
-            </v-form>
-          </v-card-text>
-        </AppCard>
-      </AppModal>
-
-      <AppModal v-model="editDialog" max-width="480">
-        <AppCard>
-          <v-card-title class="text-wrap">
-            {{ t('workspace.dialogs.edit.title') }}
-          </v-card-title>
-          <v-divider />
-          <v-card-text>
-            <v-alert
-              v-if="editError"
-              type="error"
-              variant="tonal"
-              density="compact"
-              class="mb-4"
-            >
-              {{ editError }}
-            </v-alert>
-            <v-form @submit.prevent="submitEditFolder">
-              <v-text-field
-                v-model="editForm.name"
-                :label="t('workspace.dialogs.fields.name')"
-                :disabled="isEditing"
-                required
-              />
-              <div class="d-flex flex-column gap-2 mb-4">
-                <v-checkbox
-                  v-model="editForm.isPrivate"
-                  :label="t('workspace.dialogs.fields.private')"
-                  :disabled="isEditing"
-                  hide-details
-                />
-                <v-checkbox
-                  v-model="editForm.isFavorite"
-                  :label="t('workspace.dialogs.fields.favorite')"
-                  :disabled="isEditing"
-                  hide-details
-                />
-              </div>
-              <div class="d-flex justify-end gap-2">
-                <AppButton
-                  variant="text"
-                  :disabled="isEditing"
-                  @click="editDialog = false"
-                >
-                  {{ t('workspace.dialogs.actions.cancel') }}
-                </AppButton>
-                <AppButton color="primary" type="submit" :loading="isEditing">
-                  {{ t('workspace.dialogs.actions.save') }}
-                </AppButton>
-              </div>
-            </v-form>
-          </v-card-text>
-        </AppCard>
-      </AppModal>
-
-      <AppModal v-model="deleteDialog" max-width="420">
-        <AppCard>
-          <v-card-title class="text-wrap">
-            {{ t('workspace.dialogs.delete.title') }}
-          </v-card-title>
-          <v-divider />
-          <v-card-text>
-            <p class="text-body-2 text-medium-emphasis">
-              {{ t('workspace.dialogs.delete.message') }}
-            </p>
-          </v-card-text>
-          <v-card-actions class="justify-end gap-2">
-            <AppButton
-              variant="text"
-              :disabled="isDeleting"
-              @click="deleteDialog = false"
-            >
-              {{ t('workspace.dialogs.actions.cancel') }}
-            </AppButton>
-            <AppButton
-              color="error"
-              :loading="isDeleting"
-              @click="confirmDeleteFolder"
-            >
-              {{ t('workspace.dialogs.actions.delete') }}
-            </AppButton>
-          </v-card-actions>
-        </AppCard>
-      </AppModal>
-
-      <AppModal v-model="uploadDialog" max-width="480">
-        <AppCard>
-          <v-card-title class="text-wrap">
-            {{ t('workspace.dialogs.upload.title') }}
-          </v-card-title>
-          <v-divider />
-          <v-card-text>
-            <p class="text-body-2 text-medium-emphasis mb-4">
-              {{ t('workspace.dialogs.upload.subtitle') }}
-            </p>
-            <v-alert
-              v-if="uploadError"
-              type="error"
-              variant="tonal"
-              density="compact"
-              class="mb-4"
-            >
-              {{ uploadError }}
-            </v-alert>
-            <v-form @submit.prevent="submitUpload">
-              <v-file-input
-                v-model="uploadForm.files"
-                :label="t('workspace.dialogs.fields.file')"
-                :disabled="isUploading"
-                accept="*/*"
-                prepend-icon="mdi-paperclip"
-                show-size
               />
               <v-checkbox
-                v-model="uploadForm.isPrivate"
-                :label="t('workspace.dialogs.fields.private')"
-                :disabled="isUploading"
+                v-model="createForm.isFavorite"
+                :label="t('workspace.dialogs.fields.favorite')"
+                :disabled="isCreating"
                 hide-details
-                class="mt-2"
               />
-              <div class="d-flex justify-end gap-2 mt-4">
-                <AppButton
-                  variant="text"
-                  :disabled="isUploading"
-                  @click="uploadDialog = false"
-                >
-                  {{ t('workspace.dialogs.actions.cancel') }}
-                </AppButton>
-                <AppButton color="primary" type="submit" :loading="isUploading">
-                  {{ t('workspace.dialogs.actions.upload') }}
-                </AppButton>
-              </div>
-            </v-form>
-          </v-card-text>
-        </AppCard>
+            </div>
+          </v-form>
+        </v-card-text>
+        <template #actions>
+          <AppButton
+            variant="text"
+            :disabled="isCreating"
+            @click="createDialog = false"
+          >
+            {{ t('workspace.dialogs.actions.cancel') }}
+          </AppButton>
+          <AppButton
+            color="primary"
+            type="submit"
+            :loading="isCreating"
+            form="create-folder-form"
+          >
+            {{ t('workspace.dialogs.actions.create') }}
+          </AppButton>
+        </template>
       </AppModal>
 
-      <AppModal v-model="deleteFileDialog" max-width="420">
-        <AppCard>
-          <v-card-title class="text-wrap">
-            {{ t('workspace.dialogs.deleteFile.title') }}
-          </v-card-title>
-          <v-divider />
-          <v-card-text>
-            <p class="text-body-2 text-medium-emphasis">
-              {{ t('workspace.dialogs.deleteFile.message') }}
-            </p>
-            <p v-if="fileToDelete" class="text-body-2 mt-2">
-              <strong>{{ fileToDelete.name }}</strong>
-            </p>
-          </v-card-text>
-          <v-card-actions class="justify-end gap-2">
-            <AppButton
-              variant="text"
-              :disabled="isDeletingFile"
-              @click="deleteFileDialog = false"
-            >
-              {{ t('workspace.dialogs.actions.cancel') }}
-            </AppButton>
-            <AppButton
-              color="error"
-              :loading="isDeletingFile"
-              @click="confirmDeleteFile"
-            >
-              {{ t('workspace.dialogs.actions.delete') }}
-            </AppButton>
-          </v-card-actions>
-        </AppCard>
+      <AppModal
+        v-model="editDialog"
+        icon="mdi-pencil-outline"
+        :title="t('workspace.dialogs.edit.title')"
+        max-width="480"
+        :close-disabled="isEditing"
+      >
+        <v-card-text>
+          <v-alert
+            v-if="editError"
+            type="error"
+            variant="tonal"
+            density="compact"
+            class="mb-4"
+          >
+            {{ editError }}
+          </v-alert>
+          <v-form id="edit-folder-form" @submit.prevent="submitEditFolder">
+            <v-text-field
+              v-model="editForm.name"
+              :label="t('workspace.dialogs.fields.name')"
+              :disabled="isEditing"
+              required
+            />
+            <div class="d-flex flex-column gap-2 mb-4">
+              <v-checkbox
+                v-model="editForm.isPrivate"
+                :label="t('workspace.dialogs.fields.private')"
+                :disabled="isEditing"
+                hide-details
+              />
+              <v-checkbox
+                v-model="editForm.isFavorite"
+                :label="t('workspace.dialogs.fields.favorite')"
+                :disabled="isEditing"
+                hide-details
+              />
+            </div>
+          </v-form>
+        </v-card-text>
+        <template #actions>
+          <AppButton
+            variant="text"
+            :disabled="isEditing"
+            @click="editDialog = false"
+          >
+            {{ t('workspace.dialogs.actions.cancel') }}
+          </AppButton>
+          <AppButton
+            color="primary"
+            type="submit"
+            :loading="isEditing"
+            form="edit-folder-form"
+          >
+            {{ t('workspace.dialogs.actions.save') }}
+          </AppButton>
+        </template>
+      </AppModal>
+
+      <AppModal
+        v-model="deleteDialog"
+        icon="mdi-trash-can-outline"
+        :title="t('workspace.dialogs.delete.title')"
+        max-width="420"
+        :close-disabled="isDeleting"
+      >
+        <v-card-text>
+          <p class="text-body-2 text-medium-emphasis">
+            {{ t('workspace.dialogs.delete.message') }}
+          </p>
+        </v-card-text>
+        <template #actions>
+          <AppButton
+            variant="text"
+            :disabled="isDeleting"
+            @click="deleteDialog = false"
+          >
+            {{ t('workspace.dialogs.actions.cancel') }}
+          </AppButton>
+          <AppButton
+            color="error"
+            :loading="isDeleting"
+            @click="confirmDeleteFolder"
+          >
+            {{ t('workspace.dialogs.actions.delete') }}
+          </AppButton>
+        </template>
+      </AppModal>
+
+      <AppModal
+        v-model="uploadDialog"
+        icon="mdi-cloud-upload"
+        :title="t('workspace.dialogs.upload.title')"
+        :subtitle="t('workspace.dialogs.upload.subtitle')"
+        max-width="480"
+        :close-disabled="isUploading"
+      >
+        <v-card-text>
+          <v-alert
+            v-if="uploadError"
+            type="error"
+            variant="tonal"
+            density="compact"
+            class="mb-4"
+          >
+            {{ uploadError }}
+          </v-alert>
+          <v-form id="upload-file-form" @submit.prevent="submitUpload">
+            <v-file-input
+              v-model="uploadForm.files"
+              :label="t('workspace.dialogs.fields.file')"
+              :disabled="isUploading"
+              accept="*/*"
+              prepend-icon="mdi-paperclip"
+              show-size
+            />
+            <v-checkbox
+              v-model="uploadForm.isPrivate"
+              :label="t('workspace.dialogs.fields.private')"
+              :disabled="isUploading"
+              hide-details
+              class="mt-2"
+            />
+          </v-form>
+        </v-card-text>
+        <template #actions>
+          <AppButton
+            variant="text"
+            :disabled="isUploading"
+            @click="uploadDialog = false"
+          >
+            {{ t('workspace.dialogs.actions.cancel') }}
+          </AppButton>
+          <AppButton
+            color="primary"
+            type="submit"
+            :loading="isUploading"
+            form="upload-file-form"
+          >
+            {{ t('workspace.dialogs.actions.upload') }}
+          </AppButton>
+        </template>
+      </AppModal>
+
+      <AppModal
+        v-model="deleteFileDialog"
+        icon="mdi-file-remove-outline"
+        :title="t('workspace.dialogs.deleteFile.title')"
+        max-width="420"
+        :close-disabled="isDeletingFile"
+      >
+        <v-card-text>
+          <p class="text-body-2 text-medium-emphasis">
+            {{ t('workspace.dialogs.deleteFile.message') }}
+          </p>
+          <p v-if="fileToDelete" class="text-body-2 mt-2">
+            <strong>{{ fileToDelete.name }}</strong>
+          </p>
+        </v-card-text>
+        <template #actions>
+          <AppButton
+            variant="text"
+            :disabled="isDeletingFile"
+            @click="deleteFileDialog = false"
+          >
+            {{ t('workspace.dialogs.actions.cancel') }}
+          </AppButton>
+          <AppButton
+            color="error"
+            :loading="isDeletingFile"
+            @click="confirmDeleteFile"
+          >
+            {{ t('workspace.dialogs.actions.delete') }}
+          </AppButton>
+        </template>
       </AppModal>
     </ProfilePageShell>
   </div>

@@ -827,135 +827,132 @@ async function submit() {
       </teleport>
     </client-only>
     <ProfilePageShell>
-      <AppModal v-model="editDialog" max-width="640">
-        <AppCard>
-          <v-card-title class="text-wrap">
-            {{ t('profile.page.edit.title') }}
-          </v-card-title>
-          <v-divider />
-          <v-card-text>
-            <p class="text-body-2 text-medium-emphasis mb-4">
-              {{ t('profile.page.edit.description') }}
-            </p>
-            <v-alert
-              v-if="formError"
-              type="error"
-              variant="tonal"
-              class="mb-2"
-              density="compact"
-            >
-              {{ formError }}
-            </v-alert>
-            <v-form v-if="editContext" @submit.prevent="submit">
-              <v-row dense>
-                <template v-if="editContext === 'personal'">
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="form.firstName"
-                      :label="t('userManagement.users.fields.firstName')"
-                      autocomplete="given-name"
-                      :disabled="isSaving"
-                      rounded
-                    />
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="form.lastName"
-                      :label="t('userManagement.users.fields.lastName')"
-                      autocomplete="family-name"
-                      :disabled="isSaving"
-                      rounded
-                    />
-                  </v-col>
-                </template>
-                <template v-else-if="editContext === 'details'">
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="form.title"
-                      :label="t('profile.fields.title')"
-                      :disabled="isSaving"
-                      rounded
-                    />
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="form.gender"
-                      :label="t('profile.fields.gender')"
-                      :disabled="isSaving"
-                      rounded
-                    />
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="form.phone"
-                      :label="t('profile.fields.phone')"
-                      type="tel"
-                      autocomplete="tel"
-                      :disabled="isSaving"
-                      rounded
-                    />
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="form.address"
-                      :label="t('profile.fields.address')"
-                      autocomplete="street-address"
-                      :disabled="isSaving"
-                      rounded
-                    />
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="form.birthday"
-                      :label="t('profile.fields.birthday')"
-                      type="date"
-                      :disabled="isSaving"
-                      rounded
-                    />
-                  </v-col>
-                  <v-col cols="12">
-                    <v-textarea
-                      v-model="form.description"
-                      :label="t('profile.fields.description')"
-                      auto-grow
-                      rows="3"
-                      :disabled="isSaving"
-                    />
-                  </v-col>
-                  <v-col cols="12">
-                    <v-file-input
-                      v-model="photoFiles"
-                      :label="t('profile.fields.photo')"
-                      accept="image/*"
-                      prepend-icon="mdi-camera"
-                      clearable
-                      show-size
-                      :disabled="isSaving"
-                    />
-                  </v-col>
-                </template>
-              </v-row>
-            </v-form>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer />
-            <AppButton
-              variant="text"
-              :disabled="isSaving"
-              @click="editDialog = false"
-            >
-              {{ t('common.actions.cancel') }}
-            </AppButton>
-            <AppButton
-              color="primary"
-              :disabled="!hasChanges || isSaving"
-              :loading="isSaving"
-              @click="submit"
-            >
-              {{ t('common.actions.save') }}
-            </AppButton>
-          </v-card-actions>
-        </AppCard>
+      <AppModal
+        v-model="editDialog"
+        icon="mdi-account-edit"
+        :title="t('profile.page.edit.title')"
+        :subtitle="t('profile.page.edit.description')"
+        max-width="640"
+        :close-disabled="isSaving"
+      >
+        <v-card-text>
+          <v-alert
+            v-if="formError"
+            type="error"
+            variant="tonal"
+            class="mb-2"
+            density="compact"
+          >
+            {{ formError }}
+          </v-alert>
+          <v-form v-if="editContext" @submit.prevent="submit">
+            <v-row dense>
+              <template v-if="editContext === 'personal'">
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="form.firstName"
+                    :label="t('userManagement.users.fields.firstName')"
+                    autocomplete="given-name"
+                    :disabled="isSaving"
+                    rounded
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="form.lastName"
+                    :label="t('userManagement.users.fields.lastName')"
+                    autocomplete="family-name"
+                    :disabled="isSaving"
+                    rounded
+                  />
+                </v-col>
+              </template>
+              <template v-else-if="editContext === 'details'">
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="form.title"
+                    :label="t('profile.fields.title')"
+                    :disabled="isSaving"
+                    rounded
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="form.gender"
+                    :label="t('profile.fields.gender')"
+                    :disabled="isSaving"
+                    rounded
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="form.phone"
+                    :label="t('profile.fields.phone')"
+                    type="tel"
+                    autocomplete="tel"
+                    :disabled="isSaving"
+                    rounded
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="form.address"
+                    :label="t('profile.fields.address')"
+                    autocomplete="street-address"
+                    :disabled="isSaving"
+                    rounded
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    v-model="form.birthday"
+                    :label="t('profile.fields.birthday')"
+                    type="date"
+                    :disabled="isSaving"
+                    rounded
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <v-textarea
+                    v-model="form.description"
+                    :label="t('profile.fields.description')"
+                    auto-grow
+                    rows="3"
+                    :disabled="isSaving"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <v-file-input
+                    v-model="photoFiles"
+                    :label="t('profile.fields.photo')"
+                    accept="image/*"
+                    prepend-icon="mdi-camera"
+                    clearable
+                    show-size
+                    :disabled="isSaving"
+                  />
+                </v-col>
+              </template>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <template #actions>
+          <AppButton
+            variant="text"
+            :disabled="isSaving"
+            @click="editDialog = false"
+          >
+            {{ t('common.actions.cancel') }}
+          </AppButton>
+          <AppButton
+            color="primary"
+            :disabled="!hasChanges || isSaving"
+            :loading="isSaving"
+            @click="submit"
+          >
+            {{ t('common.actions.save') }}
+          </AppButton>
+        </template>
       </AppModal>
       <v-alert v-if="!profile" type="info" variant="tonal" class="ma-auto">
         {{ t('profile.page.alerts.emptyProfile') }}
