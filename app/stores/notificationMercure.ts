@@ -13,9 +13,9 @@ interface MercureNotificationPayload {
   scopeTarget?: unknown
 }
 
-const DEFAULT_HUB_URL = 'http://bro-world.org/.well-known/mercure'
+const DEFAULT_HUB_URL = 'http://bro-world.org:3000/.well-known/mercure'
 const DEFAULT_NOTIFICATION_TOPIC =
-  '/notifications/3d2abda8-bdb9-11f0-8da8-9d776028aeca'
+  'https://bro-world.org/notifications/'
 const DEFAULT_RECONNECT_DELAY = 5000
 const MAX_TRACKED_EVENT_IDS = 100
 
@@ -146,6 +146,7 @@ export const useNotificationMercureStore = defineStore(
     const notificationStore = useNotificationStore()
     const { session, loggedIn } = useUserSession()
 
+    console.log(DEFAULT_NOTIFICATION_TOPIC)
     const hubUrl =
       runtimeConfig.public?.messenger?.mercureHubUrl ||
       runtimeConfig.public?.mercure?.hubUrl ||

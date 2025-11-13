@@ -24,7 +24,7 @@ interface FetchMessagesParams {
 
 const DEFAULT_CONVERSATION_LIMIT = 20
 const DEFAULT_MESSAGE_LIMIT = 50
-const DEFAULT_MERCURE_HUB_URL = 'http://bro-world.org/.well-known/mercure'
+const DEFAULT_MERCURE_HUB_URL = 'http://bro-world.org:3000/.well-known/mercure'
 
 const toStringValue = (value: unknown) => {
   if (typeof value === 'string') {
