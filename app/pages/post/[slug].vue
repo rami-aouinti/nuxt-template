@@ -578,7 +578,18 @@ function openPostReactions(postValue: BlogPostViewModel) {
 }
 
 function canEditPost(postValue: BlogPostViewModel) {
-  return loggedIn.value && postValue.user.username === currentUsername.value
+  if (!loggedIn.value) {
+    return false
+  }
+
+  const postUsername = postValue.user?.username
+  const userUsername = currentUsername.value
+
+  if (!postUsername || !userUsername) {
+    return false
+  }
+
+  return postUsername === userUsername
 }
 
 function getPostPlainContent(content: string | null | undefined) {

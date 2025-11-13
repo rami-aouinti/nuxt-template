@@ -689,7 +689,18 @@ function openPostReactions(post: BlogPostViewModel) {
 }
 
 function canEditPost(post: BlogPostViewModel) {
-  return loggedIn.value && post.user.username === currentUsername.value
+  if (!loggedIn.value) {
+    return false
+  }
+
+  const postUsername = post.user?.username
+  const userUsername = currentUsername.value
+
+  if (!postUsername || !userUsername) {
+    return false
+  }
+
+  return postUsername === userUsername
 }
 
 function openEditDialog(post: BlogPostViewModel) {
