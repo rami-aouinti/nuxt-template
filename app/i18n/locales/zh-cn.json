@@ -1658,7 +1658,8 @@
   "workplace": {
     "drawer": {
       "title": "World",
-      "addWorld": "Add world"
+      "addWorld": "Add world",
+      "emptyList": "你还没有任何世界。"
     },
     "dialog": {
       "title": "Manage your world",
