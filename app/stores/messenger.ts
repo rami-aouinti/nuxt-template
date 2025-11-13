@@ -149,10 +149,17 @@ export const useMessengerStore = defineStore('messenger', () => {
       const { hubUrl, topics, token, withCredentials } = subscription.value
       const url = new URL(hubUrl)
 
-      topics.forEach((topic) => {
-        if (topic) {
-          url.searchParams.append('topic', topic)
-        }
+      const normalizedTopics = topics
+        .map((topic) => (typeof topic === 'string' ? topic.trim() : ''))
+        .filter((topic): topic is string => topic.length > 0)
+
+      if (normalizedTopics.length === 0) {
+        error.value = 'MESSENGER_SUBSCRIPTION_TOPICS_MISSING'
+        return
+      }
+
+      normalizedTopics.forEach((topic) => {
+        url.searchParams.append('topic', topic)
       })
 
       if (token) {
