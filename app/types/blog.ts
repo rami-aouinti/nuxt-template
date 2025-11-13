@@ -132,6 +132,10 @@ export interface BlogCommentUiState {
   replyContent: string
   replyLoading: boolean
   likeLoading: boolean
+  editOpen: boolean
+  editContent: string
+  editLoading: boolean
+  deleteLoading: boolean
 }
 
 export interface BlogCommentViewModel extends BlogComment {

@@ -58,6 +58,8 @@ const {
   removePostReaction,
   reactToComment,
   removeCommentReaction,
+  updateComment,
+  deleteComment,
   updatePost,
   deletePost,
   sharePost: sharePostRequest,
@@ -433,11 +435,13 @@ async function loadComments(post: BlogPostViewModel) {
     const allComments: BlogCommentViewModel[] = []
     let page = 1
     const limit = 25
+    let total = 0
 
     while (true) {
       const response = await fetchComments(post.id, page, limit)
       const mapped = response.data.map(buildCommentViewModel)
       allComments.push(...mapped)
+      total = response.count
 
       const loaded = page * response.limit
       if (loaded >= response.count || mapped.length < response.limit) {
@@ -448,6 +452,7 @@ async function loadComments(post: BlogPostViewModel) {
     }
 
     post.comments = allComments
+    post.totalComments = total || allComments.length
     post.ui.commentsLoaded = true
   } catch (error) {
     post.ui.commentsError = extractErrorMessage(
@@ -501,6 +506,61 @@ async function submitCommentReply(
     Notify.error(extractErrorMessage(error, t('blog.errors.commentFailed')))
   } finally {
     comment.ui.replyLoading = false
+  }
+}
+
+async function submitCommentEdit(
+  post: BlogPostViewModel,
+  comment: BlogCommentViewModel,
+  content: string,
+) {
+  if (!ensureAuthenticated()) return
+
+  const trimmed = content.trim()
+  if (!trimmed.length) {
+    Notify.warning(t('blog.errors.updateCommentFailed'))
+    return
+  }
+
+  comment.ui.editLoading = true
+  try {
+    await updateComment(comment.id, { content: trimmed })
+    comment.ui.editOpen = false
+    Notify.success(t('blog.notifications.commentUpdated'))
+    await loadComments(post)
+  } catch (error) {
+    Notify.error(
+      extractErrorMessage(error, t('blog.errors.updateCommentFailed')),
+    )
+  } finally {
+    comment.ui.editLoading = false
+  }
+}
+
+async function deleteCommentFromPost(
+  post: BlogPostViewModel,
+  comment: BlogCommentViewModel,
+) {
+  if (!ensureAuthenticated()) return
+  if (!import.meta.client) return
+
+  const confirmed = window.confirm(t('blog.dialogs.deleteCommentConfirm'))
+  if (!confirmed) {
+    return
+  }
+
+  comment.ui.deleteLoading = true
+  try {
+    await deleteComment(comment.id)
+    post.totalComments = Math.max((post.totalComments ?? 1) - 1, 0)
+    Notify.success(t('blog.notifications.commentDeleted'))
+    await loadComments(post)
+  } catch (error) {
+    Notify.error(
+      extractErrorMessage(error, t('blog.errors.deleteCommentFailed')),
+    )
+  } finally {
+    comment.ui.deleteLoading = false
   }
 }
 
@@ -977,6 +1037,7 @@ watch(
                   :excerpt="getPostExcerpt(post)"
                   :format-relative-published-at="formatRelativePublishedAt"
                   :format-published-at="formatPublishedAt"
+                  :current-user-id="currentUserId"
                   @request-edit="openEditDialog"
                   @submit-edit="submitEdit"
                   @delete="confirmDeletePost"
@@ -1000,6 +1061,14 @@ watch(
                   @submit-comment-reply="
                     ({ post: cardPost, comment }) =>
                       submitCommentReply(cardPost, comment)
+                  "
+                  @submit-comment-edit="
+                    ({ post: cardPost, comment, content }) =>
+                      submitCommentEdit(cardPost, comment, content)
+                  "
+                  @delete-comment="
+                    ({ post: cardPost, comment }) =>
+                      deleteCommentFromPost(cardPost, comment)
                   "
                 />
               </v-col>

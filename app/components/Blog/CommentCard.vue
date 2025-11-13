@@ -17,6 +17,7 @@ const props = defineProps<{
   canInteract: boolean
   resolveProfileLink?: (user: BlogPostUser) => string | null | undefined
   replyCount?: number
+  disabled?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -53,6 +54,10 @@ const avatarAlt = computed(() => props.formatAuthor(props.comment.user))
 
 const hasReplyCount = computed(() => (props.replyCount ?? 0) > 0)
 
+const interactionsDisabled = computed(
+  () => !props.canInteract || props.disabled === true,
+)
+
 const onToggleReply = () => emit('toggle-reply')
 </script>
 
@@ -79,22 +84,27 @@ const onToggleReply = () => emit('toggle-reply')
         />
         <div class="blog-comment-card__body">
           <div class="blog-comment-card__meta">
-            <p class="blog-comment-card__author">
-              <NuxtLink
-                v-if="resolvedProfileLink"
-                :to="resolvedProfileLink"
-                class="blog-comment-card__author-link"
+            <div class="blog-comment-card__meta-info">
+              <p class="blog-comment-card__author">
+                <NuxtLink
+                  v-if="resolvedProfileLink"
+                  :to="resolvedProfileLink"
+                  class="blog-comment-card__author-link"
+                >
+                  {{ formatAuthor(comment.user) }}
+                </NuxtLink>
+                <span v-else>{{ formatAuthor(comment.user) }}</span>
+              </p>
+              <p
+                class="blog-comment-card__date"
+                :title="formatDate(comment.publishedAt)"
               >
-                {{ formatAuthor(comment.user) }}
-              </NuxtLink>
-              <span v-else>{{ formatAuthor(comment.user) }}</span>
-            </p>
-            <p
-              class="blog-comment-card__date"
-              :title="formatDate(comment.publishedAt)"
-            >
-              {{ formattedRelativeDate }}
-            </p>
+                {{ formattedRelativeDate }}
+              </p>
+            </div>
+            <div v-if="$slots['meta-actions']" class="blog-comment-card__meta-actions">
+              <slot name="meta-actions" />
+            </div>
           </div>
           <div class="blog-comment-card__content">
             <slot>
@@ -108,8 +118,8 @@ const onToggleReply = () => emit('toggle-reply')
               :model-value="reactionType"
               :count="reactionCount"
               :loading="comment.ui.likeLoading"
-              :disabled="!canInteract"
-              :show-caret="canInteract"
+              :disabled="interactionsDisabled"
+              :show-caret="!interactionsDisabled"
               @select="(type) => emit('select-reaction', type)"
               @remove="emit('remove-reaction')"
             />
@@ -117,7 +127,7 @@ const onToggleReply = () => emit('toggle-reply')
               v-if="canInteract"
               variant="text"
               size="small"
-              :disabled="comment.ui.replyLoading"
+              :disabled="comment.ui.replyLoading || disabled"
               prepend-icon="mdi-message"
               @click="onToggleReply"
             >
@@ -159,8 +169,15 @@ const onToggleReply = () => emit('toggle-reply')
 
 .blog-comment-card__meta {
   display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.blog-comment-card__meta-info {
+  display: flex;
   flex-direction: column;
   gap: 2px;
+  flex: 1;
 }
 
 .blog-comment-card__author {
@@ -199,5 +216,11 @@ const onToggleReply = () => emit('toggle-reply')
 
 .blog-comment-card__avatar-link {
   display: inline-flex;
+}
+
+.blog-comment-card__meta-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: flex-start;
 }
 </style>

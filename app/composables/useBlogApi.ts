@@ -21,6 +21,8 @@ const PRIVATE_POSTS_REACTS_ENDPOINT =
   'https://blog.bro-world.org/v1/private/post'
 const PRIVATE_COMMENTS_ENDPOINT =
   'https://blog.bro-world.org/v1/platform/comment'
+const PRIVATE_COMMENT_REACTIONS_ENDPOINT =
+  'https://blog.bro-world.org/v1/private/comment'
 const PUBLIC_BLOGS_ENDPOINT = 'https://blog.bro-world.org/public/blog'
 const PROFILE_BLOGS_ENDPOINT = 'https://blog.bro-world.org/v1/profile/blog'
 const PRIVATE_BLOGS_ENDPOINT = 'https://blog.bro-world.org/v1/platform/blog'
@@ -448,6 +450,31 @@ export const useBlogApi = () => {
     )
   }
 
+  const updateComment = async (
+    commentId: string,
+    payload: BlogCommentPayload,
+  ): Promise<BlogComment> => {
+    const headers = getAuthHeaders(true)
+
+    return await $fetch<BlogComment>(
+      `${PRIVATE_COMMENTS_ENDPOINT}/${commentId}`,
+      {
+        method: 'PATCH',
+        body: payload,
+        headers,
+      },
+    )
+  }
+
+  const deleteComment = async (commentId: string) => {
+    const headers = getAuthHeaders(true)
+
+    await $fetch(`${PRIVATE_COMMENTS_ENDPOINT}/${commentId}`, {
+      method: 'DELETE',
+      headers,
+    })
+  }
+
   const normalizeReactionType = (type: BlogReactionType) =>
     typeof type === 'string' && type.trim().length
       ? type.trim().toLowerCase()
@@ -480,7 +507,7 @@ export const useBlogApi = () => {
     const normalized = normalizeReactionType(type)
 
     await $fetch(
-      `${PRIVATE_COMMENTS_ENDPOINT}/${commentId}/react/${normalized}`,
+      `${PRIVATE_COMMENT_REACTIONS_ENDPOINT}/${commentId}/react/${normalized}`,
       {
         method: 'POST',
         headers,
@@ -491,10 +518,13 @@ export const useBlogApi = () => {
   const removeCommentReaction = async (commentId: string) => {
     const headers = getAuthHeaders(true)
 
-    await $fetch(`${PRIVATE_COMMENTS_ENDPOINT}/${commentId}/react/delete`, {
-      method: 'POST',
-      headers,
-    })
+    await $fetch(
+      `${PRIVATE_COMMENT_REACTIONS_ENDPOINT}/${commentId}/react/delete`,
+      {
+        method: 'POST',
+        headers,
+      },
+    )
   }
 
   const updatePost = async (
@@ -595,6 +625,8 @@ export const useBlogApi = () => {
     fetchComments,
     createComment,
     replyToComment,
+    updateComment,
+    deleteComment,
     reactToPost,
     removePostReaction,
     reactToComment,

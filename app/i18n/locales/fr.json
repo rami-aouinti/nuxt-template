@@ -156,6 +156,10 @@
       "unlike": "Retirer la réaction",
       "addComment": "Publier un commentaire",
       "reply": "Répondre",
+      "editComment": "Modifier le commentaire",
+      "cancelEdit": "Annuler la modification",
+      "deleteComment": "Supprimer le commentaire",
+      "commentMenu": "Options du commentaire",
       "editBlog": "Modifier le blog",
       "deleteBlog": "Supprimer le blog",
       "sharePost": "Partager la publication"
@@ -213,8 +217,21 @@
       },
       "sharePlaceholder": "Dites quelque chose à propos de cette publication..."
     },
+    "comments": {
+      "filters": {
+        "label": "Trier les commentaires",
+        "relevant": "Les plus pertinents",
+        "relevantDescription": "Afficher en premier les commentaires les plus pertinents.",
+        "newest": "Les plus récents",
+        "newestDescription": "Afficher en premier les commentaires les plus récents.",
+        "all": "Tous les commentaires",
+        "allDescription": "Afficher tous les commentaires par ordre chronologique."
+      }
+    },
     "notifications": {
       "commentCreated": "Commentaire publié avec succès.",
+      "commentUpdated": "Commentaire mis à jour avec succès.",
+      "commentDeleted": "Commentaire supprimé avec succès.",
       "replyCreated": "Réponse publiée avec succès.",
       "postLiked": "Réaction ajoutée à l’article.",
       "postUnliked": "Réaction retirée de l’article.",
@@ -232,6 +249,8 @@
       "authenticationRequired": "Vous devez être connecté pour effectuer cette action.",
       "loadCommentsFailed": "Impossible de charger les commentaires.",
       "commentFailed": "Impossible de publier le commentaire.",
+      "updateCommentFailed": "Impossible de mettre à jour le commentaire.",
+      "deleteCommentFailed": "Impossible de supprimer le commentaire.",
       "likeFailed": "Impossible de mettre à jour la réaction.",
       "updateFailed": "Impossible de mettre à jour l’article.",
       "deleteFailed": "Impossible de supprimer l’article.",
@@ -257,7 +276,8 @@
       "shareTitle": "Partager la publication",
       "shareAudiencePublic": "Public",
       "reactionsTitle": "Réactions",
-      "reactionsEmpty": "Aucune réaction pour le moment."
+      "reactionsEmpty": "Aucune réaction pour le moment.",
+      "deleteCommentConfirm": "Voulez-vous vraiment supprimer ce commentaire ? Cette action est irréversible."
     },
     "reactions": {
       "types": {

@@ -156,6 +156,10 @@
       "unlike": "Rimuovi reazione",
       "addComment": "Pubblica commento",
       "reply": "Rispondi",
+      "editComment": "Modifica commento",
+      "cancelEdit": "Annulla modifica",
+      "deleteComment": "Elimina commento",
+      "commentMenu": "Opzioni commento",
       "editBlog": "Modifica blog",
       "deleteBlog": "Elimina blog",
       "sharePost": "Condividi il post"
@@ -213,8 +217,21 @@
       },
       "sharePlaceholder": "Di qualcosa su questo post..."
     },
+    "comments": {
+      "filters": {
+        "label": "Ordina i commenti",
+        "relevant": "Più pertinenti",
+        "relevantDescription": "Mostra prima i commenti con più interazioni.",
+        "newest": "Più recenti",
+        "newestDescription": "Mostra i commenti più recenti in cima.",
+        "all": "Tutti i commenti",
+        "allDescription": "Mostra tutti i commenti in ordine cronologico."
+      }
+    },
     "notifications": {
       "commentCreated": "Commento pubblicato con successo.",
+      "commentUpdated": "Commento aggiornato correttamente.",
+      "commentDeleted": "Commento eliminato correttamente.",
       "replyCreated": "Risposta pubblicata con successo.",
       "postLiked": "Reazione aggiunta all'articolo.",
       "postUnliked": "Reazione rimossa dall'articolo.",
@@ -232,6 +249,8 @@
       "authenticationRequired": "Devi effettuare l'accesso per eseguire questa azione.",
       "loadCommentsFailed": "Impossibile caricare i commenti.",
       "commentFailed": "Impossibile pubblicare il commento.",
+      "updateCommentFailed": "Impossibile aggiornare il commento.",
+      "deleteCommentFailed": "Impossibile eliminare il commento.",
       "likeFailed": "Impossibile aggiornare la reazione.",
       "updateFailed": "Impossibile aggiornare l'articolo.",
       "deleteFailed": "Impossibile eliminare l'articolo.",
@@ -257,7 +276,8 @@
       "shareTitle": "Condividi il post",
       "shareAudiencePublic": "Pubblico",
       "reactionsTitle": "Reazioni",
-      "reactionsEmpty": "Ancora nessuna reazione."
+      "reactionsEmpty": "Ancora nessuna reazione.",
+      "deleteCommentConfirm": "Sei sicuro di voler eliminare questo commento? Questa azione non può essere annullata."
     },
     "reactions": {
       "types": {
