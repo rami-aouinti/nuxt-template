@@ -213,7 +213,9 @@
         "title": "文章标题",
         "summary": "摘要",
         "content": "内容",
-        "url": "外部链接"
+        "url": "外部链接",
+        "additionalOptions": "更多选项",
+        "images": "图片"
       },
       "sharePlaceholder": "说点关于这篇文章的内容…"
     },

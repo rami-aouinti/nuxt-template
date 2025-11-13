@@ -587,13 +587,13 @@ export const useBlogApi = () => {
   }
 
   const createPost = async (
-    payload: BlogPostCreatePayload,
+    payload: BlogPostCreatePayload | FormData,
   ): Promise<BlogPost> => {
     const headers = getAuthHeaders(true)
 
     return await $fetch<BlogPost>(PRIVATE_POSTS_ENDPOINT, {
       method: 'POST',
-      body: payload,
+      body: payload as any,
       headers,
     })
   }

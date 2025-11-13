@@ -213,7 +213,9 @@
         "title": "Beitragstitel",
         "summary": "Zusammenfassung",
         "content": "Inhalt",
-        "url": "Externe URL"
+        "url": "Externe URL",
+        "additionalOptions": "Zusätzliche Details",
+        "images": "Bilder"
       },
       "sharePlaceholder": "Sag etwas zu diesem Beitrag..."
     },
