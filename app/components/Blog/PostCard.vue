@@ -68,6 +68,43 @@ const localePath = useLocalePath()
 const { getAuthorName, getAuthorProfileLink, getAuthorAvatar } = useBlogAuthor()
 const { radius, shadow } = useThemePreferences()
 
+interface NormalizedMediaItem {
+  id: string
+  src: string
+  alt: string
+  kind: 'image' | 'video' | 'unknown'
+}
+
+type UrlPreview =
+  | {
+      kind: 'image'
+      src: string
+      href: string
+      display: string
+      alt: string
+    }
+  | {
+      kind: 'video'
+      src: string
+      href: string
+      display: string
+    }
+  | {
+      kind: 'embed'
+      provider: 'youtube'
+      embed: string
+      href: string
+      display: string
+    }
+  | {
+      kind: 'link'
+      href: string
+      display: string
+    }
+
+const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.avif', '.svg']
+const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.m4v', '.mkv']
+
 const postCardStyle = computed(() => {
   const radiusValue = radiusValues[radius.value] ?? radiusValues.md
   const shadowValue = shadowValues[shadow.value] ?? shadowValues.regular
@@ -100,6 +137,172 @@ const excerptState = computed(() => {
     isMuted: true,
   }
 })
+
+const tryParseUrl = (value: string | null | undefined) => {
+  if (!value) {
+    return null
+  }
+
+  try {
+    return new URL(value)
+  } catch (error) {
+    return null
+  }
+}
+
+const isMatchingExtension = (value: string, extensions: string[]) => {
+  const normalized = value.toLowerCase()
+  return extensions.some((extension) =>
+    normalized.includes('.') && normalized.endsWith(extension),
+  )
+}
+
+const resolveYoutubeEmbed = (url: URL) => {
+  const host = url.hostname.replace('www.', '')
+  let videoId: string | null = null
+
+  if (host === 'youtu.be') {
+    videoId = url.pathname.replace(/^\//, '') || null
+  } else if (host.endsWith('youtube.com')) {
+    if (url.pathname === '/watch') {
+      videoId = url.searchParams.get('v')
+    } else if (url.pathname.startsWith('/embed/')) {
+      videoId = url.pathname.split('/')[2] ?? null
+    } else if (url.pathname.startsWith('/shorts/')) {
+      videoId = url.pathname.split('/')[2] ?? null
+    }
+  }
+
+  if (!videoId) {
+    return null
+  }
+
+  const embedUrl = new URL(`https://www.youtube.com/embed/${videoId}`)
+
+  const playlist = url.searchParams.get('list')
+  if (playlist) {
+    embedUrl.searchParams.set('list', playlist)
+  }
+
+  const startTime = url.searchParams.get('start') ?? url.searchParams.get('t')
+  if (startTime) {
+    const sanitized = startTime.replace(/[^0-9]/g, '')
+    if (sanitized) {
+      embedUrl.searchParams.set('start', sanitized)
+    }
+  }
+
+  return embedUrl.toString()
+}
+
+const resolveUrlPreview = (value: string | null | undefined): UrlPreview | null => {
+  if (!value) {
+    return null
+  }
+
+  const trimmed = value.trim()
+  if (!trimmed) {
+    return null
+  }
+
+  const parsedUrl = tryParseUrl(trimmed)
+
+  if (isMatchingExtension(trimmed, imageExtensions)) {
+    return {
+      kind: 'image',
+      src: trimmed,
+      href: parsedUrl?.href ?? trimmed,
+      display: parsedUrl?.hostname ?? trimmed,
+      alt: props.post.title,
+    }
+  }
+
+  if (isMatchingExtension(trimmed, videoExtensions)) {
+    return {
+      kind: 'video',
+      src: trimmed,
+      href: parsedUrl?.href ?? trimmed,
+      display: parsedUrl?.hostname ?? trimmed,
+    }
+  }
+
+  if (parsedUrl) {
+    const youtubeEmbed = resolveYoutubeEmbed(parsedUrl)
+    if (youtubeEmbed) {
+      return {
+        kind: 'embed',
+        provider: 'youtube',
+        embed: youtubeEmbed,
+        href: parsedUrl.href,
+        display: parsedUrl.hostname,
+      }
+    }
+
+    return {
+      kind: 'link',
+      href: parsedUrl.href,
+      display: parsedUrl.hostname,
+    }
+  }
+
+  return null
+}
+
+const candidateUrl = computed(() => {
+  const rawUrl = props.post.url?.trim()
+  if (rawUrl) {
+    return rawUrl
+  }
+
+  const titleValue = props.post.title?.trim()
+  if (titleValue && /^https?:\/\//i.test(titleValue)) {
+    return titleValue
+  }
+
+  return null
+})
+
+const urlPreview = computed(() => resolveUrlPreview(candidateUrl.value))
+
+const mediaGallery = computed<NormalizedMediaItem[]>(() => {
+  if (!Array.isArray(props.post.medias) || props.post.medias.length === 0) {
+    return []
+  }
+
+  return props.post.medias
+    .map((media, index) => {
+      const src = media.url ?? (media as unknown as { path?: string }).path ?? ''
+      const trimmedSrc = src.trim()
+
+      if (!trimmedSrc) {
+        return null
+      }
+
+      const type = media.type?.toLowerCase() ?? ''
+      let kind: NormalizedMediaItem['kind'] = 'unknown'
+
+      if (type.startsWith('image/') || isMatchingExtension(trimmedSrc, imageExtensions)) {
+        kind = 'image'
+      } else if (
+        type.startsWith('video/') ||
+        isMatchingExtension(trimmedSrc, videoExtensions)
+      ) {
+        kind = 'video'
+      }
+
+      return {
+        id: media.id ?? `${props.post.id}-media-${index}`,
+        src: trimmedSrc,
+        alt: media.alt ?? props.post.title ?? 'Post media',
+        kind,
+      }
+    })
+    .filter((media): media is NormalizedMediaItem => Boolean(media))
+})
+
+const hasVisualPreview = computed(
+  () => Boolean(urlPreview.value && urlPreview.value.kind !== 'link'),
+)
 const reactionType = computed(() =>
   resolveReactionType(props.post.isReacted ?? null),
 )
@@ -266,6 +469,108 @@ const onDeletePost = () => {
       >
         {{ excerptState.text }}
       </p>
+      <div
+        v-if="urlPreview"
+        class="facebook-post-card__preview"
+        :class="{
+          'facebook-post-card__preview--media': hasVisualPreview,
+        }"
+      >
+        <div
+          v-if="urlPreview.kind === 'image'"
+          class="facebook-post-card__preview-media"
+        >
+          <v-img
+            :src="urlPreview.src"
+            :alt="urlPreview.alt"
+            cover
+            class="facebook-post-card__preview-image"
+          />
+        </div>
+        <div
+          v-else-if="urlPreview.kind === 'video'"
+          class="facebook-post-card__preview-media facebook-post-card__preview-media--video"
+        >
+          <video
+            :src="urlPreview.src"
+            controls
+            playsinline
+            preload="metadata"
+            class="facebook-post-card__preview-video"
+          />
+        </div>
+        <div
+          v-else-if="urlPreview.kind === 'embed' && urlPreview.provider === 'youtube'"
+          class="facebook-post-card__preview-media facebook-post-card__preview-media--video"
+        >
+          <div class="facebook-post-card__embed-wrapper">
+            <iframe
+              :src="urlPreview.embed"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            />
+          </div>
+        </div>
+        <a
+          :href="urlPreview.href"
+          class="facebook-post-card__preview-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <v-icon
+            :icon="
+              urlPreview.kind === 'link'
+                ? 'mdi-link-variant'
+                : urlPreview.kind === 'video' || urlPreview.kind === 'embed'
+                  ? 'mdi-play-circle'
+                  : 'mdi-image-outline'
+            "
+            class="facebook-post-card__preview-icon"
+            size="18"
+          />
+          <span class="facebook-post-card__preview-host">
+            {{ urlPreview.display }}
+          </span>
+          <v-icon
+            icon="mdi-open-in-new"
+            class="facebook-post-card__preview-open"
+            size="16"
+          />
+        </a>
+      </div>
+      <div v-if="mediaGallery.length" class="facebook-post-card__media-gallery">
+        <div
+          v-for="media in mediaGallery"
+          :key="media.id"
+          class="facebook-post-card__media-item"
+        >
+          <v-img
+            v-if="media.kind === 'image'"
+            :src="media.src"
+            :alt="media.alt"
+            cover
+            class="facebook-post-card__media-image"
+          >
+            <template #placeholder>
+              <div class="facebook-post-card__media-placeholder">
+                <v-progress-circular indeterminate size="24" width="3" />
+              </div>
+            </template>
+          </v-img>
+          <div
+            v-else-if="media.kind === 'video'"
+            class="facebook-post-card__media-video"
+          >
+            <video :src="media.src" controls playsinline preload="metadata" />
+          </div>
+          <div v-else class="facebook-post-card__media-fallback">
+            <v-icon icon="mdi-file" size="24" />
+            <span>{{ media.alt }}</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="facebook-post-card__stats">
@@ -502,6 +807,158 @@ a.facebook-post-card__author-link:focus-visible {
 
 .facebook-post-card__text--muted {
   color: rgba(var(--v-theme-on-surface), 0.6);
+}
+
+.facebook-post-card__preview {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 16px;
+  background: linear-gradient(
+    135deg,
+    rgba(var(--v-theme-surface-variant), 0.22),
+    rgba(var(--v-theme-surface-variant), 0.08)
+  );
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.04);
+}
+
+.facebook-post-card__preview--media {
+  padding: 12px;
+}
+
+.facebook-post-card__preview-media {
+  overflow: hidden;
+  border-radius: 12px;
+  background: rgba(var(--v-theme-on-surface), 0.04);
+  position: relative;
+}
+
+.facebook-post-card__preview-media--video {
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.facebook-post-card__preview-image,
+.facebook-post-card__preview-video {
+  width: 100%;
+  height: 100%;
+}
+
+.facebook-post-card__preview-video {
+  border: none;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #000;
+}
+
+.facebook-post-card__embed-wrapper {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+}
+
+.facebook-post-card__embed-wrapper iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 12px;
+}
+
+.facebook-post-card__preview-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(var(--v-theme-on-surface), 0.85);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.facebook-post-card__preview-link:hover,
+.facebook-post-card__preview-link:focus-visible {
+  color: rgba(var(--v-theme-primary), 0.85);
+  text-decoration: underline;
+}
+
+.facebook-post-card__preview-icon {
+  color: rgba(var(--v-theme-primary), 0.7);
+}
+
+.facebook-post-card__preview-open {
+  color: rgba(var(--v-theme-on-surface), 0.4);
+}
+
+.facebook-post-card__preview-host {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.facebook-post-card__media-gallery {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  margin-top: 6px;
+}
+
+.facebook-post-card__media-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: rgba(var(--v-theme-on-surface), 0.05);
+  min-height: 180px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+}
+
+.facebook-post-card__media-image {
+  width: 100%;
+  height: 100%;
+}
+
+.facebook-post-card__media-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(var(--v-theme-on-surface), 0.08);
+}
+
+.facebook-post-card__media-video {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+}
+
+.facebook-post-card__media-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.facebook-post-card__media-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  color: rgba(var(--v-theme-on-surface), 0.7);
+  text-align: center;
+}
+
+.facebook-post-card__media-fallback span {
+  font-size: 0.85rem;
+  line-height: 1.4;
 }
 
 .facebook-post-card__stats {
