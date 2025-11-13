@@ -20,9 +20,9 @@ import type {
 const { t, locale } = useI18n()
 
 definePageMeta({
-  title: 'navigation.notificationManagement',
-  icon: 'mdi-bell-cog-outline',
-  drawerIndex: 5,
+  title: 'notificationManagement.navigation.notifications',
+  icon: 'mdi-format-list-bulleted',
+  drawerIndex: 0,
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 

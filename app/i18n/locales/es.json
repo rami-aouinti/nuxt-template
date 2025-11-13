@@ -1477,6 +1477,160 @@
       "detailLoadFailed": "No se pudieron cargar los detalles de la notificación.",
       "statusUpdated": "El estado de la notificación se actualizó a {status}.",
       "statusUpdateFailed": "No se pudo actualizar el estado de la notificación."
+    },
+    "navigation": {
+      "notifications": "Notifications",
+      "templates": "Templates",
+      "send": "Send notification",
+      "batch": "Batch send"
+    },
+    "templates": {
+      "title": "Notification templates",
+      "subtitle": "Browse and upload notification templates available to your workspace.",
+      "filters": {
+        "search": "Search by name, locale or identifier"
+      },
+      "table": {
+        "name": "Name",
+        "templateId": "Template ID",
+        "locale": "Locale",
+        "updatedAt": "Updated",
+        "createdAt": "Created"
+      },
+      "labels": {
+        "name": "Template name",
+        "identifier": "Identifier",
+        "templateId": "Template ID",
+        "locale": "Locale",
+        "createdAt": "Created at",
+        "updatedAt": "Updated at",
+        "variables": "Variables",
+        "emptyVariables": "No variables are defined for this template.",
+        "anyLocale": "Any locale"
+      },
+      "actions": {
+        "upload": "Upload template",
+        "refresh": "Refresh",
+        "view": "View template {name}",
+        "viewLabel": "View"
+      },
+      "dialogs": {
+        "view": {
+          "title": "Template details"
+        },
+        "upload": {
+          "title": "Upload notification template",
+          "description": "Select the template archive or JSON file you want to upload."
+        }
+      },
+      "forms": {
+        "upload": {
+          "fileLabel": "Template file",
+          "fileHint": "Accepted formats: JSON, ZIP, YAML or plain text.",
+          "fileRequired": "Please select a template file before continuing.",
+          "submit": "Upload template"
+        }
+      },
+      "notifications": {
+        "loadFailed": "Unable to load templates.",
+        "detailLoadFailed": "Unable to load the template details.",
+        "detailUnavailable": "Template details are not available.",
+        "uploadSuccess": "Template uploaded successfully.",
+        "uploadFailed": "Unable to upload the template."
+      }
+    },
+    "send": {
+      "title": "Send a notification",
+      "subtitle": "Compose and send a notification to a recipient or group immediately or at a scheduled time.",
+      "channels": {
+        "email": "Email",
+        "sms": "SMS",
+        "push": "Push"
+      },
+      "fields": {
+        "channel": "Channel",
+        "scope": "Scope",
+        "sendAfter": "Send after",
+        "scopeTarget": "Scope target",
+        "topic": "Topic",
+        "pushTitle": "Push title",
+        "pushSubtitle": "Push subtitle",
+        "pushContent": "Push content",
+        "smsContent": "SMS content",
+        "smsSenderName": "Sender name",
+        "recipients": "Recipients",
+        "emailRecipientsCc": "CC recipients",
+        "emailRecipientsBcc": "BCC recipients",
+        "emailRecipientsReplyTo": "Reply-to recipients",
+        "emailSenderEmail": "Sender email",
+        "emailSenderName": "Sender name",
+        "templateId": "Template ID",
+        "emailSubject": "Email subject",
+        "emailContentPlain": "Plain text content",
+        "emailContentHtml": "HTML content"
+      },
+      "hints": {
+        "channel": "Select the channel that will be used to send this notification.",
+        "scope": "Optional scope for the notification (INDIVIDUAL, GLOBAL, WORKPLACE, SEGMENT).",
+        "sendAfter": "Choose a future date to delay the delivery or leave empty to send immediately.",
+        "scopeTarget": "Provide a JSON object describing the target audience for scoped notifications.",
+        "topic": "Optional topic identifier used by the push provider.",
+        "recipients": "Provide a JSON array or string representing the recipients.",
+        "emailRecipientsCc": "Optional carbon copy recipients as JSON array or string.",
+        "emailRecipientsBcc": "Optional blind carbon copy recipients as JSON array or string.",
+        "emailRecipientsReplyTo": "Optional reply-to recipients as JSON array or string.",
+        "templateId": "Use the template ID to render the email with predefined content."
+      },
+      "sections": {
+        "push": "Push content",
+        "sms": "SMS content",
+        "email": "Email content"
+      },
+      "actions": {
+        "submit": "Send notification"
+      },
+      "notifications": {
+        "success": "Notification sent successfully.",
+        "failed": "Unable to send the notification."
+      }
+    },
+    "batch": {
+      "title": "Send batch notifications",
+      "subtitle": "Dispatch a notification to multiple recipients with a single request.",
+      "channels": {
+        "email": "Email",
+        "sms": "SMS",
+        "push": "Push"
+      },
+      "fields": {
+        "channel": "Channel",
+        "scope": "Scope",
+        "sendAfter": "Send after",
+        "recipients": "Recipients",
+        "emailSenderEmail": "Sender email",
+        "emailSenderName": "Sender name",
+        "templateId": "Template ID",
+        "emailSubject": "Email subject",
+        "emailContentPlain": "Plain text content",
+        "emailContentHtml": "HTML content"
+      },
+      "hints": {
+        "channel": "Select the notification channel for this batch request.",
+        "scope": "Optional scope for the notification (INDIVIDUAL, GLOBAL, WORKPLACE, SEGMENT).",
+        "sendAfter": "Choose a future date to delay the delivery or leave empty to send immediately.",
+        "recipients": "Provide a JSON array or string describing the batch recipients.",
+        "templateId": "Use the template ID to render the email with predefined content."
+      },
+      "sections": {
+        "email": "Email content"
+      },
+      "actions": {
+        "submit": "Send batch"
+      },
+      "notifications": {
+        "success": "Batch notification request submitted successfully.",
+        "failed": "Unable to submit the batch notification request."
+      }
     }
   },
   "workplace": {
