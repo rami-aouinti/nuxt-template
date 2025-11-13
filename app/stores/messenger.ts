@@ -208,10 +208,21 @@ export const useMessengerStore = defineStore('messenger', () => {
       },
     )
 
+    const resolvedFallbackTopics = subscriptionTemplate.value.topics
+      .map((topic) => (typeof topic === 'string' ? topic.trim() : ''))
+      .filter(
+        (topic) =>
+          topic.length > 0 &&
+          !topic.includes(USER_ID_PLACEHOLDER) &&
+          !topic.includes(CONVERSATION_ID_PLACEHOLDER),
+      )
+
     const nextTopics =
       expandedTopics.length > 0
         ? expandedTopics
-        : subscriptionTemplate.value.topics.slice()
+        : resolvedFallbackTopics.length > 0
+          ? resolvedFallbackTopics
+          : previousTopics.slice()
 
     const previousTopics = subscription.value?.topics ?? []
     const topicsChanged =
