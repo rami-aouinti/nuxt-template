@@ -541,7 +541,18 @@ export const useBlogApi = () => {
               return formData
             }
 
-            formData.append(key, value as string)
+            if (Array.isArray(value)) {
+              value.forEach((entry) => {
+                if (entry === undefined || entry === null) {
+                  return
+                }
+
+                formData.append(`${key}[]`, String(entry))
+              })
+              return formData
+            }
+
+            formData.append(key, String(value))
             return formData
           }, new FormData())
 
@@ -562,13 +573,13 @@ export const useBlogApi = () => {
   }
 
   const createBlog = async (
-    payload: BlogCreatePayload,
+    payload: BlogCreatePayload | FormData,
   ): Promise<BlogSummary> => {
     const headers = getAuthHeaders(true)
 
     return await $fetch<BlogSummary>(PRIVATE_BLOGS_ENDPOINT, {
       method: 'POST',
-      body: payload,
+      body: payload as any,
       headers,
     })
   }

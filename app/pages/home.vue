@@ -16,6 +16,7 @@ import type {
   BlogCommentViewModel,
   BlogPost,
   BlogPostCreatePayload,
+  BlogCreatePayload,
   BlogPostSharePayload,
   BlogPostViewModel,
   BlogPostUser,
@@ -33,6 +34,9 @@ import {
   createCommentViewModel,
   normalizeReaction,
   normalizeReactionsPreview,
+  resolvePostTags,
+  extractPostTagsFromText,
+  normalizePostTagValue,
 } from '~/utils/blog/posts'
 import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
 import AppButton from '~/components/ui/AppButton.vue'
@@ -123,18 +127,59 @@ const {
 const POST_EXCERPT_MAX_LENGTH = 150
 
 const posts = ref<BlogPostViewModel[]>([])
-const filteredPosts = computed(() => {
-  if (!hasSearchTerm.value) {
-    return posts.value
+const activeTag = ref<{ value: string; label: string } | null>(null)
+
+const toActiveTagValue = (value: string) =>
+  normalizePostTagValue(value).toLowerCase()
+
+const assignTagsToPost = (
+  postValue: BlogPostViewModel,
+  values: string[] | null,
+) => {
+  const normalized = values && values.length ? values : null
+  postValue.tags = normalized
+
+  const casted = postValue as BlogPost & {
+    tagList?: (BlogPost['tags'] | null)
+    tagNames?: string[] | null
   }
 
+  casted.tagList = normalized
+  casted.tagNames = normalized
+}
+
+const filteredPosts = computed(() => {
   return posts.value.filter((post) => {
-    return [
+    const tags = resolvePostTags(post)
+    const matchesTagFilter =
+      !activeTag.value ||
+      tags.some(
+        (tag) => toActiveTagValue(tag) === activeTag.value?.value,
+      )
+
+    if (!matchesTagFilter) {
+      return false
+    }
+
+    if (!hasSearchTerm.value) {
+      return true
+    }
+
+    const matchesContent = [
       post.title,
       post.summary ?? null,
       post.blog?.title ?? null,
       post.blog?.blogSubtitle ?? null,
     ].some((field) => matchesSearchTerm(field))
+
+    if (matchesContent) {
+      return true
+    }
+
+    return tags.some((tag) => {
+      const tagLabel = `#${tag}`
+      return matchesSearchTerm(tag) || matchesSearchTerm(tagLabel)
+    })
   })
 })
 const pagination = reactive({
@@ -205,6 +250,7 @@ const createBlogDialog = reactive({
   form: {
     title: '',
     subtitle: '',
+    logo: null as File | File[] | null,
   },
 })
 
@@ -443,8 +489,14 @@ let previousLoggedIn = loggedIn.value
 const buildCommentViewModel = (comment: BlogComment) =>
   createCommentViewModel(comment, { currentUserId: currentUserId.value })
 
-const buildPostViewModel = (postValue: BlogPost) =>
-  createPostViewModel(postValue, { currentUserId: currentUserId.value })
+const buildPostViewModel = (postValue: BlogPost) => {
+  const viewModel = createPostViewModel(postValue, {
+    currentUserId: currentUserId.value,
+  })
+  const tags = resolvePostTags(postValue)
+  assignTagsToPost(viewModel, tags)
+  return viewModel
+}
 
 function extractErrorMessage(error: unknown, fallback: string) {
   if (error instanceof AuthenticationRequiredError) {
@@ -657,6 +709,7 @@ async function refreshWorkplaces() {
 function resetCreateBlogForm() {
   createBlogDialog.form.title = ''
   createBlogDialog.form.subtitle = ''
+  createBlogDialog.form.logo = null
 }
 
 function resetEditBlogForm() {
@@ -716,6 +769,13 @@ async function submitCreateBlog() {
 
   const title = createBlogDialog.form.title.trim()
   const subtitle = createBlogDialog.form.subtitle.trim()
+  const logoValue = createBlogDialog.form.logo
+  const logo =
+    logoValue instanceof File
+      ? logoValue
+      : Array.isArray(logoValue)
+        ? logoValue.find((file): file is File => file instanceof File) ?? null
+        : null
 
   if (!title.length) {
     Notify.warning(t('blog.errors.createBlogFailed'))
@@ -725,10 +785,25 @@ async function submitCreateBlog() {
   createBlogDialog.loading = true
 
   try {
-    const created = await createBlog({
+    const payload: BlogCreatePayload = {
       title,
       blogSubtitle: subtitle.length ? subtitle : null,
-    })
+    }
+
+    let requestBody: BlogCreatePayload | FormData = payload
+
+    if (logo) {
+      const formData = new FormData()
+      formData.append('title', payload.title)
+      if (payload.blogSubtitle) {
+        formData.append('blogSubtitle', payload.blogSubtitle)
+        formData.append('description', payload.blogSubtitle)
+      }
+      formData.append('files', logo)
+      requestBody = formData
+    }
+
+    const created = await createBlog(requestBody)
 
     myBlogs.value = [
       created,
@@ -865,6 +940,32 @@ const isValidHttpUrl = (value: string) => {
   }
 }
 
+const hasActiveTag = computed(() => Boolean(activeTag.value))
+
+const clearActiveTag = () => {
+  activeTag.value = null
+}
+
+const onSelectPostTag = ({
+  tag,
+  label,
+}: {
+  post: BlogPostViewModel
+  tag: string
+  label: string
+}) => {
+  const normalized = toActiveTagValue(tag)
+  if (!normalized) {
+    return
+  }
+
+  if (activeTag.value?.value === normalized) {
+    clearActiveTag()
+  } else {
+    activeTag.value = { value: normalized, label: label.startsWith('#') ? label : `#${label}` }
+  }
+}
+
 async function submitCreatePost() {
   if (!ensureAuthenticated()) return
 
@@ -873,6 +974,7 @@ async function submitCreatePost() {
   const content = createPostDialog.form.content.trim()
   const filesValue = createPostDialog.form.files
   const files = Array.isArray(filesValue) ? filesValue : []
+  const tags = extractPostTagsFromText(title)
 
   if (!title.length) {
     Notify.warning(t('blog.errors.createPostFailed'))
@@ -886,6 +988,7 @@ async function submitCreatePost() {
     summary: summary.length ? summary : null,
     content: content.length ? content : null,
     url: detectedUrl.length ? detectedUrl : null,
+    tags: tags.length ? tags : undefined,
   }
 
   let requestBody: BlogPostCreatePayload | FormData = payload
@@ -906,6 +1009,12 @@ async function submitCreatePost() {
       formData.append('url', payload.url)
     }
 
+    if (Array.isArray(payload.tags)) {
+      for (const tag of payload.tags) {
+        formData.append('tags[]', tag)
+      }
+    }
+
     for (const file of files) {
       formData.append('files[]', file)
     }
@@ -919,6 +1028,12 @@ async function submitCreatePost() {
     const created = await createPost(requestBody)
 
     const newPost = buildPostViewModel(created)
+    const createdTags = resolvePostTags(created)
+    if (createdTags.length) {
+      assignTagsToPost(newPost, createdTags)
+    } else if (tags.length) {
+      assignTagsToPost(newPost, tags)
+    }
     posts.value = [
       newPost,
       ...posts.value.filter((post) => post.id !== newPost.id),
@@ -1044,6 +1159,7 @@ async function submitEdit(post: BlogPostViewModel) {
 
   const form = post.ui.editForm
   const title = form.title.trim()
+  const tags = extractPostTagsFromText(title)
 
   if (!title) {
     Notify.warning(t('blog.errors.updateFailed'))
@@ -1059,6 +1175,7 @@ async function submitEdit(post: BlogPostViewModel) {
       title,
       summary: summary.length ? summary : null,
       content: content.length ? content : null,
+      tags: tags.length ? tags : undefined,
     })
 
     if (updated && typeof updated === 'object') {
@@ -1079,10 +1196,18 @@ async function submitEdit(post: BlogPostViewModel) {
       } else {
         post.content = content.length ? content : null
       }
+
+      const updatedTags = resolvePostTags(updated as BlogPost)
+      if (updatedTags.length) {
+        assignTagsToPost(post, updatedTags)
+      } else {
+        assignTagsToPost(post, tags.length ? tags : null)
+      }
     } else {
       post.title = title
       post.summary = summary.length ? summary : null
       post.content = content.length ? content : null
+      assignTagsToPost(post, tags.length ? tags : null)
     }
 
     post.ui.editDialog = false
@@ -1576,35 +1701,37 @@ if (import.meta.client) {
         />
       </teleport>
     </client-only>
-    <teleport to="#app-bar">
-      <div class="d-flex align-items">
-        <v-text-field
-          v-model="localSearch"
-          class="mr-2"
-          prepend-inner-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-          density="compact"
-          rounded="xl"
-          flat
-          icon-color
-          glow
-          color="primary"
-          variant="outlined"
-          style="width: 250px"
-        />
-        <AppButton
-          variant="text"
-          :loading="isInitialLoading"
-          class="dock-navbar__action-button"
-          :aria-label="t('blog.actions.refresh')"
-          @click="refreshPosts"
-        >
-          <v-icon icon="mdi-refresh" />
-        </AppButton>
-      </div>
-    </teleport>
+    <client-only>
+      <teleport to="#app-bar">
+        <div class="d-flex align-items">
+          <v-text-field
+            v-model="localSearch"
+            class="mr-2"
+            prepend-inner-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+            density="compact"
+            rounded="xl"
+            flat
+            icon-color
+            glow
+            color="primary"
+            variant="outlined"
+            style="width: 250px"
+          />
+          <AppButton
+            variant="text"
+            :loading="isInitialLoading"
+            class="dock-navbar__action-button"
+            :aria-label="t('blog.actions.refresh')"
+            @click="refreshPosts"
+          >
+            <v-icon icon="mdi-refresh" />
+          </AppButton>
+        </div>
+      </teleport>
+    </client-only>
     <v-row class="blog-layout justify-center">
       <v-col cols="12">
         <v-alert
@@ -1635,6 +1762,23 @@ if (import.meta.client) {
             :actions="createPostActions"
             @select="onSelectCreatePostAction"
           />
+          <div
+            v-if="hasActiveTag"
+            class="d-flex align-center flex-wrap gap-2 mb-4"
+          >
+            <span class="text-body-2 text-medium-emphasis">
+              {{ t('blog.filters.activeTag') }}
+            </span>
+            <v-chip
+              color="primary"
+              variant="flat"
+              size="small"
+              closable
+              @click:close="clearActiveTag"
+            >
+              {{ activeTag?.label }}
+            </v-chip>
+          </div>
           <v-row v-if="filteredPosts.length" class="g-6">
             <v-col v-for="post in filteredPosts" :key="post.id" cols="12">
               <BlogPostCard
@@ -1677,19 +1821,24 @@ if (import.meta.client) {
                   ({ post: cardPost, comment }) =>
                     deleteCommentFromPost(cardPost, comment)
                 "
+                @select-tag="onSelectPostTag"
               />
             </v-col>
           </v-row>
 
           <v-alert
-            v-else-if="hasSearchTerm"
+            v-else-if="hasSearchTerm || hasActiveTag"
             type="info"
             variant="tonal"
             class="mb-6"
             border="start"
             prominent
           >
-            {{ t('blog.search.noResults') }}
+            {{
+              hasActiveTag
+                ? t('blog.search.noTagResults', { tag: activeTag?.label ?? '' })
+                : t('blog.search.noResults')
+            }}
           </v-alert>
 
           <v-sheet v-else class="blog-feed__empty" elevation="1" rounded="xl">
@@ -1710,7 +1859,7 @@ if (import.meta.client) {
         </div>
 
         <div
-          v-show="hasMore && !hasSearchTerm"
+          v-show="hasMore && !hasSearchTerm && !hasActiveTag"
           ref="loadMoreTrigger"
           class="blog-infinite-trigger"
         />
@@ -1872,6 +2021,15 @@ if (import.meta.client) {
           v-model="createBlogDialog.form.subtitle"
           :label="t('blog.forms.createBlog.subtitle')"
           :disabled="createBlogDialog.loading"
+          rounded
+        />
+        <v-file-input
+          v-model="createBlogDialog.form.logo"
+          :label="translate('blog.forms.createBlog.logo', 'Logo')"
+          :disabled="createBlogDialog.loading"
+          accept="image/*"
+          prepend-icon="mdi-image-outline"
+          show-size
           rounded
         />
       </v-card-text>

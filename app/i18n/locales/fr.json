@@ -162,7 +162,8 @@
       "commentMenu": "Options du commentaire",
       "editBlog": "Modifier le blog",
       "deleteBlog": "Supprimer le blog",
-      "sharePost": "Partager la publication"
+      "sharePost": "Partager la publication",
+      "viewImage": "Afficher l’image"
     },
     "feed": {
       "composer": {
@@ -194,7 +195,11 @@
       "description": "Revenez plus tard pour découvrir les prochaines publications."
     },
     "search": {
-      "noResults": "Aucun article ou blog ne correspond à votre recherche."
+      "noResults": "Aucun article ou blog ne correspond à votre recherche.",
+      "noTagResults": "Aucune publication trouvée pour {tag}."
+    },
+    "filters": {
+      "activeTag": "Étiquette active"
     },
     "forms": {
       "commentPlaceholder": "Partagez vos idées...",
@@ -215,7 +220,7 @@
         "content": "Contenu",
         "url": "URL externe",
         "additionalOptions": "Détails supplémentaires",
-        "images": "Images"
+        "images": "Images ou vidéos"
       },
       "sharePlaceholder": "Dites quelque chose à propos de cette publication..."
     },

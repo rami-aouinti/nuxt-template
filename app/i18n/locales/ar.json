@@ -162,7 +162,8 @@
       "commentMenu": "خيارات التعليق",
       "editBlog": "تعديل المدوّنة",
       "deleteBlog": "حذف المدوّنة",
-      "sharePost": "مشاركة المنشور"
+      "sharePost": "مشاركة المنشور",
+      "viewImage": "عرض الصورة"
     },
     "feed": {
       "composer": {
@@ -194,7 +195,11 @@
       "description": "عد لاحقًا لاكتشاف المنشورات القادمة."
     },
     "search": {
-      "noResults": "لا توجد مقالات أو مدونات تطابق بحثك."
+      "noResults": "لا توجد مقالات أو مدونات تطابق بحثك.",
+      "noTagResults": "لم يتم العثور على منشورات للوسم {tag}."
+    },
+    "filters": {
+      "activeTag": "الوسم النشط"
     },
     "forms": {
       "commentPlaceholder": "شارك أفكارك...",
@@ -215,7 +220,7 @@
         "content": "المحتوى",
         "url": "رابط خارجي",
         "additionalOptions": "تفاصيل إضافية",
-        "images": "صور"
+        "images": "صور أو مقاطع فيديو"
       },
       "sharePlaceholder": "قل شيئًا عن هذا المنشور..."
     },
