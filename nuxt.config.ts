@@ -252,6 +252,9 @@ export default defineNuxtConfig({
           process.env.NUXT_PUBLIC_MESSENGER_NOTIFICATION_RECONNECT_DELAY,
           5000,
         ),
+        notificationWithCredentials:
+          process.env.NUXT_PUBLIC_MESSENGER_NOTIFICATION_WITH_CREDENTIALS ||
+          '',
         subscription: {
           hubUrl:
             process.env.NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_HUB_URL ||
