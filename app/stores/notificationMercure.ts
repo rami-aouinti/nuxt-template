@@ -17,6 +17,7 @@ const DEFAULT_HUB_URL = 'http://bro-world.org:3000/.well-known/mercure'
 const DEFAULT_NOTIFICATION_TOPIC =
   'https://bro-world.org/notifications/'
 const DEFAULT_RECONNECT_DELAY = 5000
+const DEFAULT_WITH_CREDENTIALS = true
 const MAX_TRACKED_EVENT_IDS = 100
 
 function toStringValue(value: unknown) {
@@ -139,6 +140,26 @@ function resolveReconnectDelay(value: unknown) {
   return DEFAULT_RECONNECT_DELAY
 }
 
+function resolveWithCredentials(value: unknown) {
+  if (typeof value === 'boolean') {
+    return value
+  }
+
+  if (typeof value === 'string') {
+    const normalised = value.trim().toLowerCase()
+
+    if (['1', 'true', 'yes', 'on'].includes(normalised)) {
+      return true
+    }
+
+    if (['0', 'false', 'no', 'off'].includes(normalised)) {
+      return false
+    }
+  }
+
+  return DEFAULT_WITH_CREDENTIALS
+}
+
 export const useNotificationMercureStore = defineStore(
   'notification-mercure',
   () => {
@@ -146,7 +167,6 @@ export const useNotificationMercureStore = defineStore(
     const notificationStore = useNotificationStore()
     const { session, loggedIn } = useUserSession()
 
-    console.log(DEFAULT_NOTIFICATION_TOPIC)
     const hubUrl =
       runtimeConfig.public?.messenger?.mercureHubUrl ||
       runtimeConfig.public?.mercure?.hubUrl ||
@@ -156,6 +176,9 @@ export const useNotificationMercureStore = defineStore(
       DEFAULT_NOTIFICATION_TOPIC
     const reconnectDelay = resolveReconnectDelay(
       runtimeConfig.public?.messenger?.notificationReconnectDelay,
+    )
+    const withCredentials = resolveWithCredentials(
+      runtimeConfig.public?.messenger?.notificationWithCredentials,
     )
 
     const eventSource = ref<EventSource | null>(null)
@@ -258,9 +281,11 @@ export const useNotificationMercureStore = defineStore(
         const url = new URL(hubUrl)
         url.searchParams.append('topic', notificationTopic)
 
-        const source = new EventSource(url.toString(), {
-          withCredentials: false,
-        })
+        const eventSourceOptions: EventSourceInit = {
+          withCredentials,
+        }
+
+        const source = new EventSource(url.toString(), eventSourceOptions)
 
         source.onopen = () => {
           isConnected.value = true
