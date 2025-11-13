@@ -529,13 +529,25 @@ export const useBlogApi = () => {
 
   const updatePost = async (
     postId: string,
-    payload: BlogPostUpdatePayload,
+    payload: BlogPostUpdatePayload | FormData,
   ): Promise<BlogPost> => {
     const headers = getAuthHeaders(true)
 
+    const body =
+      payload instanceof FormData
+        ? payload
+        : Object.entries(payload).reduce((formData, [key, value]) => {
+            if (value === undefined || value === null) {
+              return formData
+            }
+
+            formData.append(key, value as string)
+            return formData
+          }, new FormData())
+
     return await $fetch(`${PRIVATE_POSTS_ENDPOINT}/${postId}`, {
-      method: 'PATCH',
-      body: payload,
+      method: 'POST',
+      body: body as any,
       headers,
     })
   }
