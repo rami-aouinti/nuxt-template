@@ -1312,6 +1312,87 @@
         "title": "Nous rendre visite à Cologne",
         "description": "Retrouvez notre équipe dans nos bureaux de Cologne, en Allemagne."
       }
+    },
+    "ecommerceOrder": {
+      "meta": {
+        "title": "Détails de la commande"
+      },
+      "heading": {
+        "title": "Commande n°{number}",
+        "subtitle": "Votre compte"
+      },
+      "breadcrumbs": {
+        "account": "Mon compte",
+        "orders": "Historique des commandes"
+      },
+      "actions": {
+        "pay": "Payer",
+        "retry": "Réessayer",
+        "refresh": "Actualiser"
+      },
+      "labels": {
+        "token": "Jeton : {token}",
+        "createdAt": "Créée le",
+        "completedAt": "Finalisée le",
+        "updatedAt": "Mise à jour le",
+        "currency": "Devise",
+        "locale": "Langue",
+        "checkoutState": "Étape de validation",
+        "paymentState": "État du paiement",
+        "shippingState": "État de l'expédition",
+        "state": "État de la commande",
+        "channel": "Canal",
+        "customer": "Client",
+        "email": "E-mail",
+        "quantity": "Articles"
+      },
+      "sections": {
+        "information": {
+          "title": "Informations sur la commande"
+        },
+        "addresses": {
+          "title": "Adresses",
+          "billing": "Adresse de facturation",
+          "shipping": "Adresse de livraison",
+          "loading": "Chargement des adresses…"
+        },
+        "items": {
+          "title": "Articles",
+          "empty": "Cette commande ne contient aucun article.",
+          "table": {
+            "product": "Produit",
+            "unitPrice": "Prix unitaire",
+            "quantity": "Qté",
+            "total": "Total"
+          }
+        },
+        "payments": {
+          "title": "Paiements",
+          "empty": "Aucun paiement enregistré pour cette commande."
+        },
+        "shipments": {
+          "title": "Expéditions",
+          "empty": "Aucune expédition enregistrée pour cette commande."
+        },
+        "summary": {
+          "title": "Récapitulatif",
+          "itemsTotal": "Sous-total",
+          "taxTotal": "Taxes",
+          "shippingTotal": "Livraison",
+          "total": "Total de la commande"
+        }
+      },
+      "messages": {
+        "loadingError": "Impossible de charger cette commande. Veuillez réessayer.",
+        "notFound": "Cette commande est introuvable.",
+        "itemsError": "Impossible de charger les articles de la commande.",
+        "addressesError": "Impossible de charger les adresses associées à cette commande."
+      },
+      "fallbacks": {
+        "unknown": "Inconnu",
+        "noAddress": "Adresse indisponible",
+        "noValue": "Non renseigné"
+      }
     }
   },
   "$vuetify": {

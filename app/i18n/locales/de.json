@@ -1405,6 +1405,87 @@
         "title": "Besuche uns in Köln",
         "description": "Du findest unser Team in unserem Büro in Köln, Deutschland."
       }
+    },
+    "ecommerceOrder": {
+      "meta": {
+        "title": "Order details"
+      },
+      "heading": {
+        "title": "Order #{number}",
+        "subtitle": "Your account"
+      },
+      "breadcrumbs": {
+        "account": "My account",
+        "orders": "Order history"
+      },
+      "actions": {
+        "pay": "Pay",
+        "retry": "Try again",
+        "refresh": "Refresh"
+      },
+      "labels": {
+        "token": "Token: {token}",
+        "createdAt": "Created at",
+        "completedAt": "Completed at",
+        "updatedAt": "Last update",
+        "currency": "Currency",
+        "locale": "Locale",
+        "checkoutState": "Checkout state",
+        "paymentState": "Payment state",
+        "shippingState": "Shipping state",
+        "state": "Order state",
+        "channel": "Channel",
+        "customer": "Customer",
+        "email": "Email",
+        "quantity": "Items"
+      },
+      "sections": {
+        "information": {
+          "title": "Order information"
+        },
+        "addresses": {
+          "title": "Addresses",
+          "billing": "Billing address",
+          "shipping": "Shipping address",
+          "loading": "Loading addresses…"
+        },
+        "items": {
+          "title": "Items",
+          "empty": "This order does not contain any items.",
+          "table": {
+            "product": "Product",
+            "unitPrice": "Unit price",
+            "quantity": "Qty",
+            "total": "Total"
+          }
+        },
+        "payments": {
+          "title": "Payments",
+          "empty": "No payments recorded for this order."
+        },
+        "shipments": {
+          "title": "Shipments",
+          "empty": "No shipments recorded for this order."
+        },
+        "summary": {
+          "title": "Summary",
+          "itemsTotal": "Subtotal",
+          "taxTotal": "Taxes",
+          "shippingTotal": "Shipping",
+          "total": "Order total"
+        }
+      },
+      "messages": {
+        "loadingError": "We could not load this order. Please try again.",
+        "notFound": "We could not find this order.",
+        "itemsError": "Unable to load the order items.",
+        "addressesError": "We could not load the addresses linked to this order."
+      },
+      "fallbacks": {
+        "unknown": "Unknown",
+        "noAddress": "Address unavailable",
+        "noValue": "Not provided"
+      }
     }
   },
   "pluginManagement": {
