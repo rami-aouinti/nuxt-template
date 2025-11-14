@@ -621,6 +621,7 @@
         "orders": "Orders",
         "payments": "Payments",
         "shipments": "Shipments",
+        "configuration": "Configuration"
         "customers": "Customers",
         "customerGroups": "Customer groups",
         "cartPromotions": "Cart promotions",
@@ -814,6 +815,153 @@
           "noTracking": "No tracking information"
         }
       },
+      "configuration": {
+        "title": "Configuration de la boutique",
+        "subtitle": "Contrôlez les canaux, la localisation et la fiscalité de votre vitrine.",
+        "navigation": {
+          "channels": "Canaux",
+          "countries": "Pays",
+          "zones": "Zones",
+          "currencies": "Devises",
+          "locales": "Locales",
+          "paymentMethods": "Moyens de paiement",
+          "shippingMethods": "Modes de livraison",
+          "taxCategories": "Catégories de taxe",
+          "taxRates": "Taux de taxe",
+          "administrators": "Administrateurs"
+        },
+        "channels": {
+          "title": "Canaux de vente",
+          "subtitle": "Consultez les canaux, leurs devises, locales et disponibilité.",
+          "table": {
+            "name": "Nom",
+            "code": "Code",
+            "currency": "Devise de base",
+            "locale": "Locale par défaut",
+            "hostname": "Nom d'hôte",
+            "enabled": "Activé"
+          }
+        },
+        "countries": {
+          "title": "Pays",
+          "subtitle": "Consultez les pays disponibles pour vos canaux de vente.",
+          "table": {
+            "name": "Nom",
+            "code": "Code",
+            "provinces": "Provinces",
+            "enabled": "Activé"
+          }
+        },
+        "zones": {
+          "title": "Zones",
+          "subtitle": "Regroupez les pays ou régions pour la livraison et la fiscalité.",
+          "table": {
+            "name": "Nom",
+            "code": "Code",
+            "type": "Type",
+            "members": "Membres"
+          },
+          "fallback": {
+            "type": "Inconnu"
+          }
+        },
+        "currencies": {
+          "title": "Devises",
+          "subtitle": "Gérez les devises activées et leurs taux de change.",
+          "table": {
+            "code": "Code",
+            "name": "Nom",
+            "exchangeRate": "Taux de change",
+            "updatedAt": "Mis à jour",
+            "enabled": "Activée"
+          },
+          "fallback": {
+            "updatedAt": "Jamais"
+          }
+        },
+        "locales": {
+          "title": "Locales",
+          "subtitle": "Activez les langues disponibles sur la vitrine.",
+          "table": {
+            "name": "Nom",
+            "code": "Code",
+            "enabled": "Activée"
+          }
+        },
+        "paymentMethods": {
+          "title": "Moyens de paiement",
+          "subtitle": "Liste des moyens de paiement disponibles et des canaux associés.",
+          "table": {
+            "name": "Nom",
+            "code": "Code",
+            "gateway": "Passerelle",
+            "channels": "Canaux",
+            "enabled": "Activé"
+          },
+          "fallback": {
+            "gateway": "Aucune passerelle"
+          }
+        },
+        "shippingMethods": {
+          "title": "Modes de livraison",
+          "subtitle": "Surveillez les modes de livraison, zones et canaux associés.",
+          "table": {
+            "name": "Nom",
+            "code": "Code",
+            "zone": "Zone",
+            "channels": "Canaux",
+            "enabled": "Activé"
+          },
+          "fallback": {
+            "zone": "Aucune zone"
+          }
+        },
+        "taxCategories": {
+          "title": "Catégories de taxe",
+          "subtitle": "Organisez les règles fiscales en catégories descriptives.",
+          "table": {
+            "name": "Nom",
+            "code": "Code",
+            "description": "Description"
+          }
+        },
+        "taxRates": {
+          "title": "Taux de taxe",
+          "subtitle": "Inspectez les taux appliqués par zone et catégorie.",
+          "table": {
+            "name": "Nom",
+            "code": "Code",
+            "category": "Catégorie",
+            "zone": "Zone",
+            "amount": "Montant",
+            "includedInPrice": "Inclus dans le prix"
+          },
+          "labels": {
+            "included": "Inclus",
+            "excluded": "Exclu"
+          },
+          "fallback": {
+            "zone": "Aucune zone",
+            "category": "Aucune catégorie"
+          }
+        },
+        "administrators": {
+          "title": "Administrateurs",
+          "subtitle": "Auditez les comptes administrateurs et leurs accès.",
+          "table": {
+            "name": "Nom",
+            "email": "E-mail",
+            "username": "Nom d'utilisateur",
+            "locale": "Locale",
+            "roles": "Rôles",
+            "lastLogin": "Dernière connexion",
+            "enabled": "Activé"
+          },
+          "fallback": {
+            "locale": "Aucune locale",
+            "roles": "Aucun rôle",
+            "lastLogin": "Jamais"
+          }
       "customers": {
         "title": "Customers",
         "subtitle": "Manage registered buyers and their account status.",
