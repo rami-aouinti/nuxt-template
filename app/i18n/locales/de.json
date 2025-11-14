@@ -172,6 +172,7 @@
         },
         "actions": {
           "back": "Zurück zum Shop",
+          "goToShipping": "Zum Versand wechseln",
           "next": "Speichern und fortfahren"
         },
         "status": {
@@ -190,6 +191,43 @@
           "confirmationTitle": "Adressen gespeichert",
           "billingSaved": "Rechnungsadresse gespeichert",
           "shippingSaved": "Lieferadresse gespeichert"
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "Checkout · Versand"
+        },
+        "headline": {
+          "step": "Schritt {step} von 4",
+          "title": "Wählen Sie Ihre Versandart",
+          "subtitle": "Wählen Sie aus, wie wir Ihre Bestellung liefern sollen."
+        },
+        "notifications": {
+          "success": "Versandart wurde erfolgreich aktualisiert.",
+          "error": "Die Versandart konnte nicht aktualisiert werden. Bitte erneut versuchen.",
+          "missingOrder": "Kein Bestell-Token gefunden. Bitte geben Sie ein Token an, um fortzufahren."
+        },
+        "sections": {
+          "title": "Versandoptionen",
+          "subtitle": "Prüfen Sie die verfügbaren Lieferoptionen für jede Sendung.",
+          "changeAddress": "Adresse ändern",
+          "orderError": "Bestelldetails konnten nicht geladen werden. Versandkosten sind eventuell veraltet.",
+          "empty": "Für diese Bestellung sind noch keine Sendungen verfügbar.",
+          "noMethods": "Für diese Sendung sind keine Versandarten verfügbar.",
+          "loadError": "Versandarten konnten nicht geladen werden. Bitte erneut versuchen.",
+          "retry": "Erneut versuchen"
+        },
+        "shipmentTitle": "Sendung #{index}",
+        "shipmentHint": "Wählen Sie eine Lieferoption für diese Sendung.",
+        "actions": {
+          "back": "Zur Adresse zurück",
+          "next": "Weiter zur Zahlung"
+        },
+        "labels": {
+          "unavailable": "—"
+        },
+        "fallbacks": {
+          "methodLabel": "Versandart"
         }
       }
     }

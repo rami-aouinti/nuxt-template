@@ -214,6 +214,7 @@
         },
         "actions": {
           "back": "Back to store",
+          "goToShipping": "Go to shipping",
           "next": "Save and continue"
         },
         "status": {
@@ -232,6 +233,43 @@
           "confirmationTitle": "Addresses saved",
           "billingSaved": "Billing address saved",
           "shippingSaved": "Shipping address saved"
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "Checkout · Shipping"
+        },
+        "headline": {
+          "step": "Step {step} of 4",
+          "title": "Choose your shipping method",
+          "subtitle": "Select how you'd like us to deliver your order."
+        },
+        "notifications": {
+          "success": "Shipping method updated successfully.",
+          "error": "We couldn't update the shipping method. Please try again.",
+          "missingOrder": "We couldn't find an order token. Provide an order token to continue."
+        },
+        "sections": {
+          "title": "Shipping options",
+          "subtitle": "Review the available delivery options for each shipment.",
+          "changeAddress": "Change address",
+          "orderError": "We couldn't load the order details. Shipping costs may be outdated.",
+          "empty": "No shipments are available for this order yet.",
+          "noMethods": "No shipping methods are available for this shipment.",
+          "loadError": "We couldn't load shipping methods. Please try again.",
+          "retry": "Retry"
+        },
+        "shipmentTitle": "Shipment #{index}",
+        "shipmentHint": "Select a delivery option for this shipment.",
+        "actions": {
+          "back": "Back to address",
+          "next": "Continue to payment"
+        },
+        "labels": {
+          "unavailable": "—"
+        },
+        "fallbacks": {
+          "methodLabel": "Shipping method"
         }
       }
     }

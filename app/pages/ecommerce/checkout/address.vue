@@ -143,6 +143,17 @@ const orderTotals = computed(() => {
   }
 })
 
+const shippingRoute = computed(() => {
+  if (!orderToken.value) {
+    return null
+  }
+
+  return localePath({
+    name: 'ecommerce-checkout-shipping',
+    query: { order: orderToken.value },
+  })
+})
+
 watch(
   () => useDifferentShipping.value,
   (value) => {
@@ -552,6 +563,14 @@ const submit = async () => {
                   :to="localePath('ecommerce')"
                 >
                   {{ t('pages.ecommerceCheckout.address.actions.back') }}
+                </AppButton>
+                <AppButton
+                  v-if="shippingRoute"
+                  color="primary"
+                  variant="outlined"
+                  :to="shippingRoute"
+                >
+                  {{ t('pages.ecommerceCheckout.address.actions.goToShipping') }}
                 </AppButton>
                 <AppButton
                   color="primary"
