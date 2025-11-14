@@ -1812,6 +1812,58 @@
     }
   },
   "pages": {
+    "ecommerce": {
+      "drawer": {
+        "title": "بوتيك Seālius",
+        "subtitle": "قصات مستوحاة من الشاطئ مختارة بعناية من شركائنا الساحليين.",
+        "metrics": {
+          "products": "{count} منتج",
+          "categories": "{count} فئة"
+        }
+      },
+      "hero": {
+        "brand": "Seālius",
+        "tagline": "مجموعة ساحلية",
+        "description": "اكتشف أقمشة خفيفة بألوان المحيط وتفاصيل مريحة لأيام وليالٍ على الشاطئ."
+      },
+      "categories": {
+        "title": "استعرض حسب الفئة",
+        "all": "الكل"
+      },
+      "sections": {
+        "latestDeals": {
+          "title": "أحدث العروض",
+          "subtitle": "عروض لفترة محدودة جاهزة للشحن إلى أي مكان."
+        },
+        "newCollection": {
+          "title": "مجموعة جديدة",
+          "subtitle": "انسج طبقات من الخامات الطبيعية المستوحاة من البحر."
+        },
+        "latestProducts": {
+          "title": "أحدث المنتجات",
+          "subtitle": "أحدث الإضافات إلى سوق Bro World.",
+          "emptyFiltered": "لا توجد منتجات في هذه الفئة حالياً."
+        }
+      },
+      "labels": {
+        "deal": "عرض مميز"
+      },
+      "actions": {
+        "shopNow": "تسوّق الآن",
+        "exploreCollection": "استكشف المجموعة",
+        "refresh": "تحديث الكتالوج",
+        "retry": "إعادة المحاولة"
+      },
+      "fallbacks": {
+        "unknownProduct": "منتج",
+        "priceUnavailable": "السعر غير متاح",
+        "noProducts": "لا تتوفر منتجات في الوقت الحالي.",
+        "categoryFallback": "مجموعة"
+      },
+      "errors": {
+        "failedToLoad": "تعذر تحميل بيانات المتجر حالياً. يرجى المحاولة لاحقاً."
+      }
+    },
     "ecommercePayment": {
       "meta": {
         "title": "الدفع",
