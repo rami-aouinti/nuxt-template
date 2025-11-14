@@ -13,7 +13,7 @@ import {
 definePageMeta({
   title: 'admin.ecommerce.navigation.shipments',
   icon: 'mdi-truck-delivery-outline',
-  drawerIndex: 7,
+  drawerIndex: 8,
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 
