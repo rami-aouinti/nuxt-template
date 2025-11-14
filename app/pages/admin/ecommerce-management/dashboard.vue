@@ -433,6 +433,7 @@ const returningCustomers = computed(() => {
           :icon="stat.icon"
           :value="stat.value"
           :color="stat.color"
+          :url="stat.url"
         >
           <template #footer>
             {{ stat.caption }}
