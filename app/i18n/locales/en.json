@@ -116,6 +116,88 @@
       "errors": {
         "failedToLoad": "We could not load the shop data. Please try again in a moment."
       }
+    },
+    "ecommerceOrder": {
+      "metaTitle": "Order summary",
+      "heading": {
+        "title": "Summary of your order",
+        "subtitle": "Review every detail below to ensure your purchase information is correct before closing the checkout."
+      },
+      "status": {
+        "steps": {
+          "address": "Address",
+          "shipping": "Shipping",
+          "payment": "Payment",
+          "complete": "Complete"
+        }
+      },
+      "summary": {
+        "title": "Order information",
+        "currency": "Currency",
+        "locale": "Locale",
+        "orderNumber": "Order #",
+        "placedOn": "Placed on",
+        "checkoutState": "Checkout",
+        "paymentState": "Payment",
+        "shippingState": "Shipping"
+      },
+      "addresses": {
+        "billing": "Billing address",
+        "shipping": "Shipping address",
+        "missing": "Address unavailable"
+      },
+      "payments": {
+        "title": "Payments",
+        "state": "Status",
+        "noPayments": "No payments recorded."
+      },
+      "shipments": {
+        "title": "Shipments",
+        "state": "Status",
+        "noShipments": "No shipments recorded."
+      },
+      "items": {
+        "title": "Items",
+        "count": "{count} items",
+        "table": {
+          "item": "Item",
+          "unitPrice": "Unit price",
+          "quantity": "Qty",
+          "subtotal": "Subtotal"
+        },
+        "empty": "This order does not contain any items."
+      },
+      "totals": {
+        "items": "Items total",
+        "discounts": "Discounts",
+        "shipping": "Shipping",
+        "taxes": "Taxes",
+        "grandTotal": "Order total"
+      },
+      "notes": {
+        "title": "Extra notes",
+        "empty": "No additional notes were provided."
+      },
+      "actions": {
+        "refresh": "Refresh order"
+      },
+      "fallbacks": {
+        "unknownPaymentMethod": "Payment method",
+        "unknownShipmentMethod": "Shipment",
+        "unknownProduct": "Item",
+        "unknownState": "Pending",
+        "unknownLocale": "Locale"
+      },
+      "errors": {
+        "loadFailed": "We were unable to load this order."
+      },
+      "states": {
+        "cart": "Cart",
+        "addressed": "Address confirmed",
+        "shipping_selected": "Shipping selected",
+        "payment_selected": "Payment selected",
+        "completed": "Completed"
+      }
     }
   },
   "navigation": {

@@ -116,6 +116,88 @@
       "errors": {
         "failedToLoad": "No pudimos cargar la tienda. Inténtalo de nuevo más tarde."
       }
+    },
+    "ecommerceOrder": {
+      "metaTitle": "Resumen del pedido",
+      "heading": {
+        "title": "Resumen de tu pedido",
+        "subtitle": "Revisa todos los detalles antes de finalizar tu compra."
+      },
+      "status": {
+        "steps": {
+          "address": "Dirección",
+          "shipping": "Envío",
+          "payment": "Pago",
+          "complete": "Completado"
+        }
+      },
+      "summary": {
+        "title": "Información del pedido",
+        "currency": "Moneda",
+        "locale": "Idioma",
+        "orderNumber": "Pedido n.º",
+        "placedOn": "Realizado el",
+        "checkoutState": "Checkout",
+        "paymentState": "Pago",
+        "shippingState": "Envío"
+      },
+      "addresses": {
+        "billing": "Dirección de facturación",
+        "shipping": "Dirección de envío",
+        "missing": "Dirección no disponible"
+      },
+      "payments": {
+        "title": "Pagos",
+        "state": "Estado",
+        "noPayments": "No hay pagos registrados."
+      },
+      "shipments": {
+        "title": "Envíos",
+        "state": "Estado",
+        "noShipments": "No hay envíos registrados."
+      },
+      "items": {
+        "title": "Artículos",
+        "count": "{count} artículos",
+        "table": {
+          "item": "Artículo",
+          "unitPrice": "Precio unitario",
+          "quantity": "Cant.",
+          "subtotal": "Subtotal"
+        },
+        "empty": "Este pedido no contiene artículos."
+      },
+      "totals": {
+        "items": "Total artículos",
+        "discounts": "Descuentos",
+        "shipping": "Envío",
+        "taxes": "Impuestos",
+        "grandTotal": "Total del pedido"
+      },
+      "notes": {
+        "title": "Notas adicionales",
+        "empty": "No se añadieron notas."
+      },
+      "actions": {
+        "refresh": "Actualizar pedido"
+      },
+      "fallbacks": {
+        "unknownPaymentMethod": "Método de pago",
+        "unknownShipmentMethod": "Envío",
+        "unknownProduct": "Artículo",
+        "unknownState": "Pendiente",
+        "unknownLocale": "Idioma"
+      },
+      "errors": {
+        "loadFailed": "No se pudo cargar este pedido."
+      },
+      "states": {
+        "cart": "Carrito",
+        "addressed": "Dirección confirmada",
+        "shipping_selected": "Envío seleccionado",
+        "payment_selected": "Pago seleccionado",
+        "completed": "Completado"
+      }
     }
   },
   "navigation": {

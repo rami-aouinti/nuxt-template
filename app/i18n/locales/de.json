@@ -116,6 +116,88 @@
       "errors": {
         "failedToLoad": "Die Shop-Daten konnten nicht geladen werden. Bitte versuche es später erneut."
       }
+    },
+    "ecommerceOrder": {
+      "metaTitle": "Bestellübersicht",
+      "heading": {
+        "title": "Zusammenfassung deiner Bestellung",
+        "subtitle": "Prüfe alle Angaben, bevor du den Kauf endgültig abschließt."
+      },
+      "status": {
+        "steps": {
+          "address": "Adresse",
+          "shipping": "Versand",
+          "payment": "Zahlung",
+          "complete": "Abschluss"
+        }
+      },
+      "summary": {
+        "title": "Bestellinformationen",
+        "currency": "Währung",
+        "locale": "Sprache",
+        "orderNumber": "Bestell-Nr.",
+        "placedOn": "Bestellt am",
+        "checkoutState": "Checkout",
+        "paymentState": "Zahlung",
+        "shippingState": "Versand"
+      },
+      "addresses": {
+        "billing": "Rechnungsadresse",
+        "shipping": "Lieferadresse",
+        "missing": "Adresse nicht verfügbar"
+      },
+      "payments": {
+        "title": "Zahlungen",
+        "state": "Status",
+        "noPayments": "Keine Zahlungen erfasst."
+      },
+      "shipments": {
+        "title": "Sendungen",
+        "state": "Status",
+        "noShipments": "Keine Sendungen erfasst."
+      },
+      "items": {
+        "title": "Artikel",
+        "count": "{count} Artikel",
+        "table": {
+          "item": "Artikel",
+          "unitPrice": "Stückpreis",
+          "quantity": "Menge",
+          "subtotal": "Zwischensumme"
+        },
+        "empty": "Diese Bestellung enthält keine Artikel."
+      },
+      "totals": {
+        "items": "Artikel gesamt",
+        "discounts": "Rabatte",
+        "shipping": "Versand",
+        "taxes": "Steuern",
+        "grandTotal": "Bestellsumme"
+      },
+      "notes": {
+        "title": "Zusätzliche Hinweise",
+        "empty": "Keine Hinweise hinterlegt."
+      },
+      "actions": {
+        "refresh": "Bestellung aktualisieren"
+      },
+      "fallbacks": {
+        "unknownPaymentMethod": "Zahlungsmethode",
+        "unknownShipmentMethod": "Versandart",
+        "unknownProduct": "Artikel",
+        "unknownState": "Ausstehend",
+        "unknownLocale": "Sprache"
+      },
+      "errors": {
+        "loadFailed": "Diese Bestellung konnte nicht geladen werden."
+      },
+      "states": {
+        "cart": "Warenkorb",
+        "addressed": "Adresse bestätigt",
+        "shipping_selected": "Versand gewählt",
+        "payment_selected": "Zahlung gewählt",
+        "completed": "Abgeschlossen"
+      }
     }
   },
   "navigation": {
