@@ -5,7 +5,7 @@ export default defineNuxtRouteMiddleware(() => {
     typeof nuxtApp.$i18n?.t === 'function'
       ? nuxtApp.$i18n.t.bind(nuxtApp.$i18n)
       : fallbackTranslate
-  const { loggedIn, session } = useUserSession()
+  const { loggedIn, session } = useAppUserSession()
   const localePath = useLocalePath()
 
   const redirectToHome = () => navigateTo(localePath('/'))

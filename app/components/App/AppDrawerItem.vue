@@ -8,7 +8,7 @@ const { item } = defineProps<{
 }>()
 const { t } = useI18n()
 const localePath = useLocalePath()
-const { session } = useUserSession()
+const { session } = useAppUserSession()
 
 const routeKey = (route: RouteRecordRaw) =>
   `${String(route.name ?? '')}::${route.path ?? ''}`

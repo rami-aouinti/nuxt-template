@@ -17,7 +17,7 @@ const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
 const localePath = useLocalePath()
-const { session } = useUserSession()
+const { session } = useAppUserSession()
 const messengerApi = useMessengerApi()
 
 const isOpeningConversation = ref(false)

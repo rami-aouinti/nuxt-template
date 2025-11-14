@@ -48,7 +48,7 @@ const isDark = computed({
     theme.change(v ? 'dark' : 'light')
   },
 })
-const { loggedIn, clear, user, session } = useUserSession()
+const { loggedIn, clear, user, session } = useAppUserSession()
 const profileCache = useAuthProfileCache()
 const credentialsDialog = ref(false)
 const controlChevronSize = 18

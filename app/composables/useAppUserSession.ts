@@ -10,7 +10,7 @@ interface PopupSize {
   height?: number
 }
 
-export function useUserSession() {
+export function useAppUserSession() {
   const serverEvent = import.meta.server ? useRequestEvent() : null
   const sessionState = useState<AuthSession | null>('nuxt-session', () => null)
   const authReadyState = useState('nuxt-auth-ready', () => false)

@@ -15,7 +15,7 @@ const credentials = reactive({
   password: '',
 })
 
-const { fetch } = useUserSession()
+const { fetch } = useAppUserSession()
 const profileCache = useAuthProfileCache()
 
 const loading = ref(false)

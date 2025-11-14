@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { useRuntimeConfig, useUserSession } from '#imports'
+import { useRuntimeConfig, useAppUserSession } from '#imports'
 import type {
   ConversationListResponse,
   MarkConversationReadPayload,
@@ -442,7 +442,7 @@ const normalizeMessageListResponse = (
 }
 
 export const useMessengerApi = () => {
-  const { loggedIn, session } = useUserSession()
+  const { loggedIn, session } = useAppUserSession()
   const runtimeConfig = useRuntimeConfig()
   const apiBase = computed(
     () =>

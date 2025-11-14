@@ -24,7 +24,7 @@ const { t } = useI18n()
 const messengerApi = useMessengerApi()
 const messengerStore = useMessengerStore()
 const { lastEvent } = storeToRefs(messengerStore)
-const { session } = useUserSession()
+const { session } = useAppUserSession()
 const route = useRoute()
 const router = useRouter()
 

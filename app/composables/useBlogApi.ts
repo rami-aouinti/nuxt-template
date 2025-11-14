@@ -37,7 +37,7 @@ export class AuthenticationRequiredError extends Error {
 }
 
 export const useBlogApi = () => {
-  const { loggedIn, session } = useUserSession()
+  const { loggedIn, session } = useAppUserSession()
 
   const token = computed(() => session.value?.token ?? '')
   const isAuthenticated = computed(

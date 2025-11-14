@@ -5,7 +5,7 @@ const notificationStore = useNotificationStore()
 const { notifications } = storeToRefs(notificationStore)
 const notificationsShown = computed(() => [...notifications.value].reverse())
 const menu = ref(false)
-const { loggedIn } = useUserSession()
+const { loggedIn } = useAppUserSession()
 function deleteNotification(id: number) {
   notificationStore.delNotification(id)
 }

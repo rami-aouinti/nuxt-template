@@ -22,7 +22,7 @@ interface NotificationViewModel {
 }
 
 const { t, locale } = useI18n()
-const { loggedIn } = useUserSession()
+const { loggedIn } = useAppUserSession()
 
 const isAuthenticated = computed(() => Boolean(loggedIn.value))
 

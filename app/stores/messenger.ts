@@ -178,7 +178,7 @@ export const useMessengerStore = defineStore('messenger', () => {
   const hasUnread = computed(() => unreadTotal.value > 0)
 
   const api = useMessengerApi()
-  const { session } = useUserSession()
+  const { session } = useAppUserSession()
 
   const currentUserId = computed(() => resolveSessionUserId(session.value))
 
