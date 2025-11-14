@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const option: ECOption = {
+const option = {
   backgroundColor: 'transparent',
   radar: {
     radius: '66%',

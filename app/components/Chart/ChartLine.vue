@@ -52,7 +52,7 @@ const data = [
   ['2022-07-24', 60],
 ]
 
-const option: ECOption = {
+const option = {
   backgroundColor: 'transparent',
   dataset: { source: data },
   visualMap: {

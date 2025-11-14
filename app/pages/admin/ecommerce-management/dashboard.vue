@@ -174,14 +174,18 @@ const stats = computed(() => {
     'newCustomers',
     'customers',
   ])
+  const currency = getString(statsRecord, 'currency', 'USD')
+  const formatCurrencyValue = (value: number) => formatCurrency(value, currency)
 
   return [
     {
       icon: 'mdi-cash-multiple',
       title: t('admin.ecommerce.dashboard.metrics.sales'),
-      value: formatCurrency(totalSales, getString(statsRecord, 'currency', 'USD')),
+      value: totalSales,
+      formatter: formatCurrencyValue,
       caption: t('admin.ecommerce.dashboard.metrics.salesCaption'),
       color: 'primary',
+      url: '/admin/ecommerce-management/payments',
     },
     {
       icon: 'mdi-basket-outline',
@@ -189,6 +193,7 @@ const stats = computed(() => {
       value: orderCount,
       caption: t('admin.ecommerce.dashboard.metrics.ordersCaption'),
       color: 'secondary',
+      url: '/admin/ecommerce-management/orders',
     },
     {
       icon: 'mdi-account-plus-outline',
@@ -196,16 +201,16 @@ const stats = computed(() => {
       value: newCustomers,
       caption: t('admin.ecommerce.dashboard.metrics.customersCaption'),
       color: 'success',
+      url: '/admin/ecommerce-management/customers',
     },
     {
       icon: 'mdi-cart-percent',
       title: t('admin.ecommerce.dashboard.metrics.averageOrderValue'),
-      value: formatCurrency(
-        averageOrderValue,
-        getString(statsRecord, 'currency', 'USD'),
-      ),
+      value: averageOrderValue,
+      formatter: formatCurrencyValue,
       caption: t('admin.ecommerce.dashboard.metrics.averageOrderValueCaption'),
       color: 'info',
+      url: '/admin/ecommerce-management/orders',
     },
   ]
 })
