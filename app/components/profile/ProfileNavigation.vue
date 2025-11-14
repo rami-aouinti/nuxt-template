@@ -54,6 +54,13 @@ const baseItems = computed<NavigationItem[]>(() => [
     match: (path) => path.startsWith('/profile/workspace'),
   },
   {
+    value: 'orders',
+    to: '/profile/orders',
+    label: t('navigation.profileOrders'),
+    icon: 'mdi-receipt-text',
+    match: (path) => path.startsWith('/profile/orders'),
+  },
+  {
     value: 'notifications',
     to: '/profile/notifications',
     label: t('navigation.profileNotifications'),

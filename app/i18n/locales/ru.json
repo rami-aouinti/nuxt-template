@@ -137,6 +137,7 @@
     "profile": "Профиль",
     "profileCalendar": "Календарь",
     "profileWorkspace": "Рабочая область профиля",
+    "profileOrders": "История заказов",
     "profileNotifications": "Уведомления",
     "blog": "Блог",
     "messenger": "Мессенджер",
@@ -617,6 +618,61 @@
       },
       "settings": {
         "title": "Настройки"
+      }
+    },
+    "orders": {
+      "page": {
+        "title": "История заказов",
+        "subtitle": "Просматривайте предыдущие покупки и управляйте незавершёнными платежами."
+      },
+      "table": {
+        "number": "Номер",
+        "date": "Дата",
+        "shipTo": "Доставка",
+        "total": "Сумма",
+        "state": "Статус",
+        "actions": "Действия",
+        "empty": "У вас пока нет заказов."
+      },
+      "actions": {
+        "refresh": "Обновить",
+        "show": "Просмотр",
+        "pay": "Оплатить",
+        "retry": "Повторить"
+      },
+      "states": {
+        "new": "Новый",
+        "cancelled": "Отменён",
+        "fulfilled": "Отправлен",
+        "completed": "Завершён",
+        "processing": "В обработке",
+        "cart": "В корзине",
+        "unknown": "Неизвестно"
+      },
+      "notifications": {
+        "loadFailed": "Не удалось загрузить ваши заказы. Попробуйте позже.",
+        "detailsLoadFailed": "Не удалось загрузить детали заказа. Попробуйте позже.",
+        "paymentConfigMissing": "Для этого заказа не найдено ссылки на оплату.",
+        "paymentOpenFailed": "Не удалось открыть страницу оплаты. Попробуйте позже."
+      },
+      "labels": {
+        "shipToUnknown": "Ожидает назначения"
+      },
+      "details": {
+        "title": "Детали заказа",
+        "placedOn": "Оформлен",
+        "updatedAt": "Обновлён",
+        "itemsTotal": "Товары",
+        "shippingTotal": "Доставка",
+        "taxTotal": "Налоги",
+        "total": "Итого",
+        "customer": "Клиент",
+        "email": "Email",
+        "phone": "Телефон",
+        "shippingAddress": "Адрес доставки",
+        "billingAddress": "Платёжный адрес",
+        "addressUnavailable": "Нет данных",
+        "loading": "Загрузка деталей заказа…"
       }
     },
     "settings": {

@@ -137,6 +137,7 @@
     "profile": "Profil",
     "profileCalendar": "Calendrier",
     "profileWorkspace": "Espace de travail",
+    "profileOrders": "Historique des commandes",
     "profileNotifications": "Notifications",
     "blog": "Blog",
     "messenger": "Messagerie",
@@ -626,6 +627,61 @@
       },
       "settings": {
         "title": "Préférences"
+      }
+    },
+    "orders": {
+      "page": {
+        "title": "Historique des commandes",
+        "subtitle": "Consultez vos achats précédents et gérez les paiements en attente."
+      },
+      "table": {
+        "number": "Numéro",
+        "date": "Date",
+        "shipTo": "Livrer à",
+        "total": "Total",
+        "state": "Statut",
+        "actions": "Actions",
+        "empty": "Vous n'avez encore aucune commande."
+      },
+      "actions": {
+        "refresh": "Actualiser",
+        "show": "Voir",
+        "pay": "Payer",
+        "retry": "Réessayer"
+      },
+      "states": {
+        "new": "Nouvelle",
+        "cancelled": "Annulée",
+        "fulfilled": "Livrée",
+        "completed": "Terminée",
+        "processing": "En cours",
+        "cart": "Panier",
+        "unknown": "Inconnu"
+      },
+      "notifications": {
+        "loadFailed": "Impossible de charger vos commandes. Veuillez réessayer plus tard.",
+        "detailsLoadFailed": "Impossible de charger le détail de la commande. Veuillez réessayer plus tard.",
+        "paymentConfigMissing": "Aucun lien de paiement n'a été trouvé pour cette commande.",
+        "paymentOpenFailed": "Impossible d'ouvrir la page de paiement. Veuillez réessayer plus tard."
+      },
+      "labels": {
+        "shipToUnknown": "En attente d'attribution"
+      },
+      "details": {
+        "title": "Détails de la commande",
+        "placedOn": "Passée le",
+        "updatedAt": "Mise à jour le",
+        "itemsTotal": "Articles",
+        "shippingTotal": "Livraison",
+        "taxTotal": "Taxes",
+        "total": "Total",
+        "customer": "Client",
+        "email": "E-mail",
+        "phone": "Téléphone",
+        "shippingAddress": "Adresse de livraison",
+        "billingAddress": "Adresse de facturation",
+        "addressUnavailable": "Non disponible",
+        "loading": "Chargement des détails de la commande…"
       }
     },
     "settings": {
