@@ -3,21 +3,27 @@ import { computed, ref } from 'vue'
 import AppCard from '~/components/ui/AppCard.vue'
 import AppButton from '~/components/ui/AppButton.vue'
 import { truncateText } from '~/utils/formatters'
-import type {
-  ProductJsonldSyliusShopProductIndex,
-  ProductVariantInterface,
-  ProductVariantChannelPricing,
-} from '~/types/product'
+import type { ProductJsonldSyliusShopProductIndex } from '~/types/product'
 import type { TaxonJsonLdSyliusShopTaxonIndex } from '~/types/tax'
 import type { ChannelJsonLdSyliusShopChannelIndex } from '~/types/channel'
+import {
+  buildProductImageUrl as buildImageUrl,
+  extractCollectionItems,
+  getString,
+  resolveProductImagePath,
+  resolveProductPricing,
+  resolveProductTranslation,
+  resolveTaxonTranslation,
+  toRecord,
+  type UnknownRecord,
+} from '~/utils/ecommerce/product'
 
 definePageMeta({
   title: 'navigation.ecommerce',
 })
 
 const { t, locale } = useI18n()
-
-type UnknownRecord = Record<string, unknown>
+const localePath = useLocalePath()
 
 type HydraCollection<T> = {
   'hydra:member'?: T[]
@@ -28,207 +34,7 @@ type HydraCollection<T> = {
 
 const HERO_IMAGE_URL =
   'https://images.unsplash.com/photo-1468857006721-c3030f210054?auto=format&fit=crop&w=1600&q=80'
-const FALLBACK_PRODUCT_IMAGE =
-  'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1200&q=80'
 const MAX_PRODUCT_SUMMARY_LENGTH = 110
-
-const isRecord = (value: unknown): value is UnknownRecord =>
-  Boolean(value && typeof value === 'object')
-
-const toRecord = (value: unknown): UnknownRecord | null =>
-  (isRecord(value) ? (value as UnknownRecord) : null)
-
-const getString = (value: UnknownRecord | null, key: string): string | null => {
-  if (!value) {
-    return null
-  }
-
-  const candidate = value[key]
-  if (typeof candidate === 'string' && candidate.trim().length > 0) {
-    return candidate
-  }
-
-  return null
-}
-
-const normalizeAmount = (value: unknown): number | null => {
-  if (typeof value === 'number' && Number.isFinite(value)) {
-    return value
-  }
-
-  if (typeof value === 'string') {
-    const parsed = Number.parseFloat(value)
-    return Number.isFinite(parsed) ? parsed : null
-  }
-
-  return null
-}
-
-function extractCollectionItems<T>(input: unknown): T[] {
-  if (!input) {
-    return []
-  }
-
-  if (Array.isArray(input)) {
-    return input.filter((item): item is T => Boolean(item))
-  }
-
-  if (isRecord(input)) {
-    const hydraMember = input['hydra:member']
-    if (Array.isArray(hydraMember)) {
-      return hydraMember.filter((item): item is T => Boolean(item))
-    }
-
-    const member = input.member
-    if (Array.isArray(member)) {
-      return member.filter((item): item is T => Boolean(item))
-    }
-
-    const items = input.items
-    if (Array.isArray(items)) {
-      return items.filter((item): item is T => Boolean(item))
-    }
-
-    const data = input.data
-    if (Array.isArray(data)) {
-      return data.filter((item): item is T => Boolean(item))
-    }
-  }
-
-  return []
-}
-
-const resolveTranslation = (
-  value: unknown,
-  localeCode: string,
-): UnknownRecord | null => {
-  if (!value) {
-    return null
-  }
-
-  if (Array.isArray(value)) {
-    for (const item of value) {
-      const record = toRecord(item)
-      if (!record) {
-        continue
-      }
-
-      const itemLocale = getString(record, 'locale')
-      if (itemLocale && itemLocale === localeCode) {
-        return record
-      }
-    }
-
-    for (const item of value) {
-      const record = toRecord(item)
-      if (!record) {
-        continue
-      }
-
-      if (getString(record, 'name')) {
-        return record
-      }
-    }
-
-    return null
-  }
-
-  if (isRecord(value)) {
-    const direct = value[localeCode]
-    if (isRecord(direct)) {
-      return direct
-    }
-
-    for (const candidate of Object.values(value)) {
-      if (isRecord(candidate) && getString(candidate, 'name')) {
-        return candidate
-      }
-    }
-  }
-
-  return null
-}
-
-const resolveProductTranslation = (
-  product: ProductJsonldSyliusShopProductIndex | null | undefined,
-  localeCode: string,
-): UnknownRecord | null => {
-  if (!product) {
-    return null
-  }
-
-  const productRecord = product as UnknownRecord
-  const translations = productRecord.translations
-  let translation = resolveTranslation(translations, localeCode)
-
-  if (translation) {
-    return translation
-  }
-
-  const translationArray = productRecord.translation
-  translation = resolveTranslation(translationArray, localeCode)
-  if (translation) {
-    return translation
-  }
-
-  const fallbackLocale = getString(productRecord, 'fallbackLocale')
-  if (fallbackLocale) {
-    translation = resolveTranslation(translations, fallbackLocale)
-    if (translation) {
-      return translation
-    }
-  }
-
-  const currentLocale = getString(productRecord, 'currentLocale')
-  if (currentLocale) {
-    translation = resolveTranslation(translations, currentLocale)
-    if (translation) {
-      return translation
-    }
-  }
-
-  return null
-}
-
-const resolveTaxonTranslation = (
-  taxon: TaxonJsonLdSyliusShopTaxonIndex | null | undefined,
-  localeCode: string,
-): UnknownRecord | null => {
-  if (!taxon) {
-    return null
-  }
-
-  const taxonRecord = taxon as UnknownRecord
-  const translations = taxonRecord.translations
-  let translation = resolveTranslation(translations, localeCode)
-  if (translation) {
-    return translation
-  }
-
-  const translationArray = taxonRecord.translation
-  translation = resolveTranslation(translationArray, localeCode)
-  if (translation) {
-    return translation
-  }
-
-  const fallbackLocale = getString(taxonRecord, 'fallbackLocale')
-  if (fallbackLocale) {
-    translation = resolveTranslation(translations, fallbackLocale)
-    if (translation) {
-      return translation
-    }
-  }
-
-  const currentLocale = getString(taxonRecord, 'currentLocale')
-  if (currentLocale) {
-    translation = resolveTranslation(translations, currentLocale)
-    if (translation) {
-      return translation
-    }
-  }
-
-  return null
-}
 
 const resolveProductName = (product: ProductJsonldSyliusShopProductIndex) => {
   const translation = resolveProductTranslation(product, locale.value)
@@ -291,84 +97,6 @@ const resolveTaxonName = (taxon: TaxonJsonLdSyliusShopTaxonIndex) => {
   return t('pages.ecommerce.fallbacks.categoryFallback')
 }
 
-const resolveProductVariants = (
-  product: ProductJsonldSyliusShopProductIndex,
-): ProductVariantInterface[] => {
-  const record = product as UnknownRecord
-  const variants: ProductVariantInterface[] = []
-  const possibleCollections: unknown[] = []
-
-  if (Array.isArray(record.variant)) {
-    possibleCollections.push(...record.variant)
-  }
-
-  if (Array.isArray(record.productVariants)) {
-    possibleCollections.push(...record.productVariants)
-  }
-
-  const enabledVariants = toRecord(record.enabledVariants)
-  if (enabledVariants?.productVariant && Array.isArray(enabledVariants.productVariant)) {
-    possibleCollections.push(...enabledVariants.productVariant)
-  }
-
-  for (const candidate of possibleCollections) {
-    if (isRecord(candidate)) {
-      variants.push(candidate as ProductVariantInterface)
-    }
-  }
-
-  return variants
-}
-
-const resolveVariantPricings = (
-  variant: ProductVariantInterface | null | undefined,
-): ProductVariantChannelPricing[] => {
-  if (!variant) {
-    return []
-  }
-
-  const record = variant as UnknownRecord
-  const pricing = record.channelPricing
-  const pricings: ProductVariantChannelPricing[] = []
-
-  if (Array.isArray(pricing)) {
-    for (const entry of pricing) {
-      if (isRecord(entry)) {
-        pricings.push(entry as ProductVariantChannelPricing)
-      }
-    }
-  }
-
-  return pricings
-}
-
-const resolveProductPricing = (
-  product: ProductJsonldSyliusShopProductIndex,
-): { price: number | null; originalPrice: number | null } | null => {
-  const variants = resolveProductVariants(product)
-  if (!variants.length) {
-    return null
-  }
-
-  const variantWithPricing =
-    variants.find((variant) => resolveVariantPricings(variant).length > 0) || variants[0]
-
-  const pricings = resolveVariantPricings(variantWithPricing)
-  if (!pricings.length) {
-    return null
-  }
-
-  const primaryPricing = pricings.find((pricing) => normalizeAmount(pricing.price) != null)
-  const pricing = primaryPricing || pricings[0]
-  const price = normalizeAmount(pricing.price)
-  const originalPrice = normalizeAmount(pricing.originalPrice)
-
-  return {
-    price,
-    originalPrice,
-  }
-}
-
 const resolveProductIdentifier = (product: ProductJsonldSyliusShopProductIndex) => {
   const record = product as UnknownRecord
   const code = getString(record, 'code')
@@ -384,52 +112,38 @@ const resolveProductIdentifier = (product: ProductJsonldSyliusShopProductIndex) 
   return resolveProductName(product)
 }
 
-const resolveProductImagePath = (product: ProductJsonldSyliusShopProductIndex) => {
-  const record = product as UnknownRecord
-  const imageSources = [record.image, record.images, record.productImage]
+const resolveProductSlug = (product: ProductJsonldSyliusShopProductIndex) => {
+  const translation = resolveProductTranslation(product, locale.value)
+  const translatedSlug =
+    getString(translation, 'slug') ||
+    getString(translation, 'code') ||
+    getString(translation, 'identifier')
+  if (translatedSlug) {
+    return translatedSlug
+  }
 
-  for (const source of imageSources) {
-    if (!source) {
-      continue
-    }
-
-    if (typeof source === 'string' && source.trim().length > 0) {
-      return source
-    }
-
-    if (Array.isArray(source)) {
-      for (const item of source) {
-        if (typeof item === 'string' && item.trim().length > 0) {
-          return item
-        }
-
-        const itemRecord = toRecord(item)
-        const path = getString(itemRecord, 'path')
-        if (path) {
-          return path
-        }
-
-        const file = getString(itemRecord, 'file')
-        if (file) {
-          return file
-        }
-      }
-    }
+  const productRecord = product as UnknownRecord
+  const directSlug =
+    getString(productRecord, 'slug') ||
+    getString(productRecord, 'code') ||
+    getString(productRecord, 'id')
+  if (directSlug) {
+    return directSlug
   }
 
   return null
 }
 
-const buildImageUrl = (path: string | null | undefined) => {
-  if (!path || path.trim().length === 0) {
-    return FALLBACK_PRODUCT_IMAGE
+const getProductDetailRoute = (product: ProductJsonldSyliusShopProductIndex) => {
+  const slug = resolveProductSlug(product)
+  if (!slug) {
+    return null
   }
 
-  if (/^https?:\/\//i.test(path)) {
-    return path
-  }
-
-  return `https://ecommerce.bro-world.org${path.startsWith('/') ? '' : '/'}${path}`
+  return localePath({
+    name: 'ecommerce-products-slug',
+    params: { slug },
+  })
 }
 
 const formatPriceWithCurrency = (
@@ -651,6 +365,13 @@ const dealIdentifiers = computed(() =>
   new Set(deals.value.map((product) => resolveProductIdentifier(product))),
 )
 
+const dealsWithRoutes = computed(() =>
+  deals.value.map((product) => ({
+    product,
+    route: getProductDetailRoute(product),
+  })),
+)
+
 const latestProducts = computed(() => {
   const used = new Set(dealIdentifiers.value)
 
@@ -658,6 +379,13 @@ const latestProducts = computed(() => {
     .filter((product) => !used.has(resolveProductIdentifier(product)))
     .slice(0, 3)
 })
+
+const latestProductsWithRoutes = computed(() =>
+  latestProducts.value.map((product) => ({
+    product,
+    route: getProductDetailRoute(product),
+  })),
+)
 
 const collectionProducts = computed(() => {
   const used = new Set([
@@ -865,51 +593,60 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
       </div>
       <v-row v-else-if="deals.length" class="mt-2" dense>
         <v-col
-          v-for="product in deals"
+          v-for="{ product, route } in dealsWithRoutes"
           :key="resolveProductIdentifier(product)"
           cols="12"
           md="4"
         >
-          <AppCard class="ecommerce-product-card" elevation="3">
-            <v-img
-              :src="resolveProductImageUrl(product)"
-              class="ecommerce-product-card__image"
-              height="240"
-              cover
-              rounded
-            >
-              <template #placeholder>
-                <v-skeleton-loader type="image" class="h-100" />
-              </template>
-            </v-img>
-            <div class="ecommerce-product-card__body">
-              <span class="text-caption text-uppercase text-medium-emphasis">
-                {{ t('pages.ecommerce.labels.deal') }}
-              </span>
-              <h3 class="text-h5 font-weight-bold mt-1 mb-2">
-                {{ resolveProductName(product) }}
-              </h3>
-              <p v-if="resolveProductSummary(product)" class="text-body-2 text-medium-emphasis mb-3">
-                {{ resolveProductSummary(product) }}
-              </p>
-              <div class="ecommerce-product-card__pricing">
-                <template v-if="resolveProductPricingDisplay(product)">
-                  <span class="ecommerce-product-card__price">
-                    {{ resolveProductPricingDisplay(product)?.priceText }}
-                  </span>
-                  <span
-                    v-if="resolveProductPricingDisplay(product)?.originalText"
-                    class="ecommerce-product-card__price--original"
-                  >
-                    {{ resolveProductPricingDisplay(product)?.originalText }}
-                  </span>
+          <component
+            :is="route ? 'NuxtLink' : 'div'"
+            class="ecommerce-product-card__link"
+            v-bind="route ? { to: route } : {}"
+          >
+            <AppCard class="ecommerce-product-card" elevation="3">
+              <v-img
+                :src="resolveProductImageUrl(product)"
+                class="ecommerce-product-card__image"
+                height="240"
+                cover
+                rounded
+              >
+                <template #placeholder>
+                  <v-skeleton-loader type="image" class="h-100" />
                 </template>
-                <span v-else class="text-body-2 text-medium-emphasis">
-                  {{ t('pages.ecommerce.fallbacks.priceUnavailable') }}
+              </v-img>
+              <div class="ecommerce-product-card__body">
+                <span class="text-caption text-uppercase text-medium-emphasis">
+                  {{ t('pages.ecommerce.labels.deal') }}
                 </span>
+                <h3 class="text-h5 font-weight-bold mt-1 mb-2">
+                  {{ resolveProductName(product) }}
+                </h3>
+                <p
+                  v-if="resolveProductSummary(product)"
+                  class="text-body-2 text-medium-emphasis mb-3"
+                >
+                  {{ resolveProductSummary(product) }}
+                </p>
+                <div class="ecommerce-product-card__pricing">
+                  <template v-if="resolveProductPricingDisplay(product)">
+                    <span class="ecommerce-product-card__price">
+                      {{ resolveProductPricingDisplay(product)?.priceText }}
+                    </span>
+                    <span
+                      v-if="resolveProductPricingDisplay(product)?.originalText"
+                      class="ecommerce-product-card__price--original"
+                    >
+                      {{ resolveProductPricingDisplay(product)?.originalText }}
+                    </span>
+                  </template>
+                  <span v-else class="text-body-2 text-medium-emphasis">
+                    {{ t('pages.ecommerce.fallbacks.priceUnavailable') }}
+                  </span>
+                </div>
               </div>
-            </div>
-          </AppCard>
+            </AppCard>
+          </component>
         </v-col>
       </v-row>
       <div v-else class="text-center py-10">
@@ -970,48 +707,57 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
       </div>
       <v-row v-else-if="latestProducts.length" class="mt-2" dense>
         <v-col
-          v-for="product in latestProducts"
+          v-for="{ product, route } in latestProductsWithRoutes"
           :key="resolveProductIdentifier(product)"
           cols="12"
           md="4"
         >
-          <AppCard class="ecommerce-product-card" elevation="2">
-            <v-img
-              :src="resolveProductImageUrl(product)"
-              class="ecommerce-product-card__image"
-              height="220"
-              cover
-              rounded
-            >
-              <template #placeholder>
-                <v-skeleton-loader type="image" class="h-100" />
-              </template>
-            </v-img>
-            <div class="ecommerce-product-card__body">
-              <h3 class="text-h5 font-weight-bold mt-1 mb-2">
-                {{ resolveProductName(product) }}
-              </h3>
-              <p v-if="resolveProductSummary(product)" class="text-body-2 text-medium-emphasis mb-3">
-                {{ resolveProductSummary(product) }}
-              </p>
-              <div class="ecommerce-product-card__pricing">
-                <template v-if="resolveProductPricingDisplay(product)">
-                  <span class="ecommerce-product-card__price">
-                    {{ resolveProductPricingDisplay(product)?.priceText }}
-                  </span>
-                  <span
-                    v-if="resolveProductPricingDisplay(product)?.originalText"
-                    class="ecommerce-product-card__price--original"
-                  >
-                    {{ resolveProductPricingDisplay(product)?.originalText }}
-                  </span>
+          <component
+            :is="route ? 'NuxtLink' : 'div'"
+            class="ecommerce-product-card__link"
+            v-bind="route ? { to: route } : {}"
+          >
+            <AppCard class="ecommerce-product-card" elevation="2">
+              <v-img
+                :src="resolveProductImageUrl(product)"
+                class="ecommerce-product-card__image"
+                height="220"
+                cover
+                rounded
+              >
+                <template #placeholder>
+                  <v-skeleton-loader type="image" class="h-100" />
                 </template>
-                <span v-else class="text-body-2 text-medium-emphasis">
-                  {{ t('pages.ecommerce.fallbacks.priceUnavailable') }}
-                </span>
+              </v-img>
+              <div class="ecommerce-product-card__body">
+                <h3 class="text-h5 font-weight-bold mt-1 mb-2">
+                  {{ resolveProductName(product) }}
+                </h3>
+                <p
+                  v-if="resolveProductSummary(product)"
+                  class="text-body-2 text-medium-emphasis mb-3"
+                >
+                  {{ resolveProductSummary(product) }}
+                </p>
+                <div class="ecommerce-product-card__pricing">
+                  <template v-if="resolveProductPricingDisplay(product)">
+                    <span class="ecommerce-product-card__price">
+                      {{ resolveProductPricingDisplay(product)?.priceText }}
+                    </span>
+                    <span
+                      v-if="resolveProductPricingDisplay(product)?.originalText"
+                      class="ecommerce-product-card__price--original"
+                    >
+                      {{ resolveProductPricingDisplay(product)?.originalText }}
+                    </span>
+                  </template>
+                  <span v-else class="text-body-2 text-medium-emphasis">
+                    {{ t('pages.ecommerce.fallbacks.priceUnavailable') }}
+                  </span>
+                </div>
               </div>
-            </div>
-          </AppCard>
+            </AppCard>
+          </component>
         </v-col>
       </v-row>
       <div v-else class="text-center py-10">
@@ -1151,6 +897,12 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
   padding: 16px;
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(6px);
+}
+
+.ecommerce-product-card__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
 }
 
 .ecommerce-product-card__image {

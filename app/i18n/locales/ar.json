@@ -116,6 +116,82 @@
       "errors": {
         "failedToLoad": "تعذر تحميل بيانات المتجر حالياً. يرجى المحاولة لاحقاً."
       }
+    },
+    "ecommerceCheckout": {
+      "address": {
+        "meta": {
+          "title": "إتمام الشراء · العنوان"
+        },
+        "headline": {
+          "step": "الخطوة {step} من 4",
+          "title": "إلى أين نرسل طلبك؟",
+          "subtitle": "أدخل تفاصيل الفوترة وسنؤكد الشحن في الخطوة التالية."
+        },
+        "steps": {
+          "address": "العنوان",
+          "shipping": "الشحن",
+          "payment": "الدفع",
+          "complete": "اكتمل"
+        },
+        "form": {
+          "validation": {
+            "required": "هذه الخانة مطلوبة",
+            "email": "يرجى إدخال بريد إلكتروني صالح"
+          },
+          "contact": {
+            "title": "معلومات الاتصال",
+            "email": "عنوان البريد الإلكتروني"
+          },
+          "billing": {
+            "title": "عنوان الفوترة",
+            "description": "استخدم العنوان المرتبط بطريقة الدفع المفضلة لديك.",
+            "firstName": "الاسم الأول",
+            "lastName": "اسم العائلة",
+            "company": "الشركة (اختياري)",
+            "street": "عنوان الشارع",
+            "city": "المدينة",
+            "postcode": "الرمز البريدي",
+            "country": "الدولة",
+            "province": "الولاية / المقاطعة",
+            "phoneNumber": "رقم الهاتف"
+          },
+          "shipping": {
+            "title": "عنوان الشحن",
+            "useDifferent": "استخدام عنوان مختلف للشحن؟",
+            "description": "قم بتحديث تفاصيل الشحن إذا كانت مختلفة عن معلومات الفوترة.",
+            "firstName": "الاسم الأول",
+            "lastName": "اسم العائلة",
+            "company": "الشركة (اختياري)",
+            "street": "عنوان الشارع",
+            "city": "المدينة",
+            "postcode": "الرمز البريدي",
+            "country": "الدولة",
+            "province": "الولاية / المقاطعة",
+            "phoneNumber": "رقم الهاتف"
+          }
+        },
+        "actions": {
+          "back": "العودة إلى المتجر",
+          "next": "حفظ ومتابعة"
+        },
+        "status": {
+          "success": "تم حفظ العناوين بنجاح.",
+          "error": "تعذر حفظ العناوين. يرجى المحاولة مرة أخرى."
+        },
+        "summary": {
+          "title": "ملخص الطلب",
+          "orderError": "تعذر علينا تحميل إجماليات الطلب. قد تكون المبالغ أدناه تقديرية.",
+          "itemsTotal": "إجمالي العناصر",
+          "discount": "الخصومات",
+          "shipping": "تكلفة الشحن المقدرة",
+          "taxes": "الضرائب",
+          "total": "إجمالي الطلب",
+          "itemsLabel": "{count} عناصر",
+          "confirmationTitle": "تم حفظ العناوين",
+          "billingSaved": "تم حفظ عنوان الفوترة",
+          "shippingSaved": "تم حفظ عنوان الشحن"
+        }
+      }
     }
   },
   "navigation": {
@@ -137,6 +213,7 @@
     "profile": "الملف الشخصي",
     "profileCalendar": "تقويم الملف الشخصي",
     "profileWorkspace": "مساحة عمل الملف الشخصي",
+    "profileOrders": "سجل الطلبات",
     "profileNotifications": "الإشعارات",
     "blog": "المدونة",
     "messenger": "الرسائل",
@@ -155,6 +232,7 @@
     "about": "معلومات عنا",
     "contact": "اتصل بنا",
     "ecommerce": "المتجر",
+    "ecommerceThankYou": "تأكيد الطلب",
     "pluginManagement": "إدارة الإضافات",
     "plugins": "Plugins",
     "mediaManagement": "إدارة الوسائط",
@@ -822,6 +900,61 @@
         "title": "التفضيلات"
       }
     },
+    "orders": {
+      "page": {
+        "title": "سجل الطلبات",
+        "subtitle": "تصفّح مشترياتك السابقة وادفع الطلبات المعلقة."
+      },
+      "table": {
+        "number": "الرقم",
+        "date": "التاريخ",
+        "shipTo": "الشحن إلى",
+        "total": "الإجمالي",
+        "state": "الحالة",
+        "actions": "الإجراءات",
+        "empty": "لا توجد لديك أي طلبات بعد."
+      },
+      "actions": {
+        "refresh": "تحديث",
+        "show": "عرض",
+        "pay": "دفع",
+        "retry": "إعادة المحاولة"
+      },
+      "states": {
+        "new": "جديد",
+        "cancelled": "ملغي",
+        "fulfilled": "تم الشحن",
+        "completed": "مكتمل",
+        "processing": "قيد المعالجة",
+        "cart": "في السلة",
+        "unknown": "غير معروف"
+      },
+      "notifications": {
+        "loadFailed": "تعذّر تحميل طلباتك. يرجى المحاولة لاحقًا.",
+        "detailsLoadFailed": "تعذّر تحميل تفاصيل الطلب. يرجى المحاولة لاحقًا.",
+        "paymentConfigMissing": "تعذّر العثور على رابط دفع لهذا الطلب.",
+        "paymentOpenFailed": "تعذّر فتح صفحة الدفع. يرجى المحاولة لاحقًا."
+      },
+      "labels": {
+        "shipToUnknown": "قيد التحديد"
+      },
+      "details": {
+        "title": "تفاصيل الطلب",
+        "placedOn": "تم الطلب في",
+        "updatedAt": "تم التحديث في",
+        "itemsTotal": "البنود",
+        "shippingTotal": "الشحن",
+        "taxTotal": "الضرائب",
+        "total": "الإجمالي",
+        "customer": "العميل",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "shippingAddress": "عنوان الشحن",
+        "billingAddress": "عنوان الفاتورة",
+        "addressUnavailable": "غير متوفر",
+        "loading": "جاري تحميل تفاصيل الطلب…"
+      }
+    },
     "settings": {
       "allowSendEmail": {
         "title": "تلقي رسائل البريد الإلكتروني",
@@ -1411,6 +1544,49 @@
     }
   },
   "pages": {
+    "ecommercePayment": {
+      "meta": {
+        "title": "الدفع",
+        "subtitle": "اختر طريقة الدفع المفضلة لديك لإتمام الطلب."
+      },
+      "steps": {
+        "address": "العنوان",
+        "shipping": "الشحن",
+        "payment": "الدفع",
+        "complete": "اكتمال"
+      },
+      "labels": {
+        "paymentTitle": "الدفع رقم {index}",
+        "paymentSubtitle": "اختر خيار الدفع",
+        "changeShipping": "تغيير طريقة الشحن",
+        "noSelection": "يرجى اختيار طريقة دفع للمتابعة"
+      },
+      "actions": {
+        "next": "التالي"
+      },
+      "summary": {
+        "title": "الملخص",
+        "customerFallback": "العميل",
+        "itemCount": "{count} عنصر",
+        "itemsTotal": "إجمالي العناصر",
+        "discount": "الخصم",
+        "shipping": "تكلفة الشحن التقديرية",
+        "taxes": "الضرائب",
+        "total": "إجمالي الطلب"
+      },
+      "notifications": {
+        "loadingError": "تعذر تحميل تفاصيل الدفع. يرجى المحاولة مرة أخرى.",
+        "updateFailed": "تعذر تحديث طريقة الدفع. يرجى المحاولة مرة أخرى.",
+        "updateSuccess": "تم تحديث طريقة الدفع.",
+        "completeSuccess": "تم إكمال الطلب بنجاح.",
+        "completeFailed": "تعذر إكمال الطلب. يرجى المحاولة مرة أخرى."
+      },
+      "states": {
+        "loading": "جارٍ تحميل طرق الدفع…",
+        "empty": "لا توجد طرق دفع متاحة لهذا الطلب.",
+        "defaultMethodName": "طريقة الدفع"
+      }
+    },
     "settings": {
       "title": "إعدادات الحساب",
       "subtitle": "خصص تجربتك واحفظ بياناتك في مكان واحد مريح.",
@@ -1507,6 +1683,37 @@
         "title": "ما زلت تحتاج إلى مساعدة؟",
         "description": "أرسل لنا رسالة من صفحة الاتصال، ابدأ محادثة مباشرة أو حدّد جلسة مع فريق نجاح العملاء لدينا."
       }
+    },
+    "ecommerceThankYou": {
+      "heroTitle": "Thank you!",
+      "heroSubtitle": "You have successfully placed an order.",
+      "orderTokenLabel": "Confirmation ID: {token}",
+      "viewOrder": "View order",
+      "backToShop": "Back to shop",
+      "orderSummary": "Order summary",
+      "placedOn": "Placed on {date}",
+      "orderNumber": "Order {number}",
+      "items": "Items",
+      "itemCount": "{count} items",
+      "emptyItems": "No items were found in this order.",
+      "itemFallback": "Item",
+      "unitPrice": "Unit price: {price}",
+      "totals": "Payment summary",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "shippingMethod": "Shipping method",
+      "tax": "Tax",
+      "total": "Total",
+      "contact": "Contact",
+      "email": "Email",
+      "phone": "Phone",
+      "shippingAddress": "Shipping address",
+      "billingAddress": "Billing address",
+      "noAddress": "No address was provided.",
+      "noOrder": "We could not display your order details.",
+      "missingToken": "We could not find your order without a confirmation token.",
+      "loadError": "We could not load your order details. Please try again.",
+      "retry": "Try again"
     },
     "about": {
       "title": "نبذة عن Bro World",
@@ -1607,6 +1814,35 @@
       "location": {
         "title": "قم بزيارتنا في كولونيا",
         "description": "يمكنك العثور على فريقنا في مكتبنا في كولونيا، ألمانيا."
+      }
+    },
+    "ecommerceCategory": {
+      "breadcrumbs": {
+        "category": "Category"
+      },
+      "actions": {
+        "goUp": "Go level up",
+        "refresh": "Reload category"
+      },
+      "labels": {
+        "search": "Search",
+        "searchPlaceholder": "Search products",
+        "sort": "Sort",
+        "itemsCount": "{count} items"
+      },
+      "sort": {
+        "position": "Sort by position",
+        "name": "Name (A–Z)",
+        "priceAsc": "Price: low to high",
+        "priceDesc": "Price: high to low"
+      },
+      "status": {
+        "loading": "Loading category…",
+        "failed": "We could not load this category."
+      },
+      "fallbacks": {
+        "description": "Explore our curated selection for this category.",
+        "empty": "We do not have products in this category yet."
       }
     }
   },
