@@ -172,6 +172,7 @@
         },
         "actions": {
           "back": "العودة إلى المتجر",
+          "goToShipping": "الانتقال إلى الشحن",
           "next": "حفظ ومتابعة"
         },
         "status": {
@@ -190,6 +191,43 @@
           "confirmationTitle": "تم حفظ العناوين",
           "billingSaved": "تم حفظ عنوان الفوترة",
           "shippingSaved": "تم حفظ عنوان الشحن"
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "إتمام الشراء · الشحن"
+        },
+        "headline": {
+          "step": "الخطوة {step} من 4",
+          "title": "اختر طريقة الشحن",
+          "subtitle": "حدد الطريقة التي تريد أن نوصل بها طلبك."
+        },
+        "notifications": {
+          "success": "تم تحديث طريقة الشحن بنجاح.",
+          "error": "تعذر تحديث طريقة الشحن. يرجى المحاولة مرة أخرى.",
+          "missingOrder": "تعذر العثور على رمز الطلب. يرجى توفيره للمتابعة."
+        },
+        "sections": {
+          "title": "خيارات الشحن",
+          "subtitle": "اطلع على خيارات التوصيل المتاحة لكل شحنة.",
+          "changeAddress": "تغيير العنوان",
+          "orderError": "تعذر تحميل تفاصيل الطلب. قد تكون تكاليف الشحن غير محدثة.",
+          "empty": "لا توجد شحنات متاحة لهذا الطلب بعد.",
+          "noMethods": "لا تتوفر طرق شحن لهذه الشحنة.",
+          "loadError": "تعذر تحميل طرق الشحن. يرجى المحاولة مرة أخرى.",
+          "retry": "إعادة المحاولة"
+        },
+        "shipmentTitle": "الشحنة رقم {index}",
+        "shipmentHint": "اختر خيار التوصيل لهذه الشحنة.",
+        "actions": {
+          "back": "العودة إلى العنوان",
+          "next": "المتابعة إلى الدفع"
+        },
+        "labels": {
+          "unavailable": "—"
+        },
+        "fallbacks": {
+          "methodLabel": "طريقة الشحن"
         }
       }
     }
@@ -575,6 +613,11 @@
         "payments": "Payments",
         "shipments": "Shipments",
         "configuration": "Configuration"
+        "customers": "Customers",
+        "customerGroups": "Customer groups",
+        "cartPromotions": "Cart promotions",
+        "catalogPromotions": "Catalog promotions",
+        "productReviews": "Product reviews"
       },
       "common": {
         "none": "None",
@@ -910,6 +953,73 @@
             "roles": "No roles",
             "lastLogin": "Never"
           }
+      "customers": {
+        "title": "Customers",
+        "subtitle": "Manage registered buyers and their account status.",
+        "table": {
+          "email": "Email",
+          "lastName": "Last name",
+          "firstName": "First name",
+          "registrationDate": "Registration date",
+          "enabled": "Enabled",
+          "verified": "Verified"
+        }
+      },
+      "customerGroups": {
+        "title": "Customer groups",
+        "subtitle": "Organize customers into shared pricing or perks.",
+        "table": {
+          "name": "Name",
+          "code": "Code",
+          "members": "Members"
+        }
+      },
+      "cartPromotions": {
+        "title": "Cart promotions",
+        "subtitle": "Monitor discounts triggered during checkout.",
+        "table": {
+          "name": "Name",
+          "code": "Code",
+          "coupons": "Coupons",
+          "startsAt": "Starts at",
+          "endsAt": "Ends at",
+          "enabled": "State",
+          "noCoupons": "No coupons",
+          "unlimited": "Unlimited"
+        }
+      },
+      "catalogPromotions": {
+        "title": "Catalog promotions",
+        "subtitle": "Track automated discounts applied directly to products.",
+        "table": {
+          "name": "Name",
+          "code": "Code",
+          "channels": "Channels",
+          "startDate": "Start date",
+          "endDate": "End date",
+          "state": "State",
+          "noChannels": "No channels",
+          "active": "Active",
+          "inactive": "Inactive"
+        }
+      },
+      "productReviews": {
+        "title": "Product reviews",
+        "subtitle": "Moderate customer feedback across the catalog.",
+        "table": {
+          "rating": "Rating",
+          "title": "Title",
+          "product": "Product",
+          "customer": "Customer",
+          "state": "State",
+          "createdAt": "Created at"
+        },
+        "noTitle": "No title",
+        "anonymous": "Anonymous",
+        "states": {
+          "accepted": "Accepted",
+          "rejected": "Rejected",
+          "pending": "Pending review"
         }
       }
     }

@@ -172,6 +172,7 @@
         },
         "actions": {
           "back": "Torna al negozio",
+          "goToShipping": "Vai alla spedizione",
           "next": "Salva e continua"
         },
         "status": {
@@ -190,6 +191,43 @@
           "confirmationTitle": "Indirizzi salvati",
           "billingSaved": "Indirizzo di fatturazione salvato",
           "shippingSaved": "Indirizzo di spedizione salvato"
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "Checkout · Spedizione"
+        },
+        "headline": {
+          "step": "Passo {step} di 4",
+          "title": "Scegli il metodo di spedizione",
+          "subtitle": "Seleziona come desideri ricevere il tuo ordine."
+        },
+        "notifications": {
+          "success": "Metodo di spedizione aggiornato con successo.",
+          "error": "Impossibile aggiornare il metodo di spedizione. Riprova.",
+          "missingOrder": "Token dell'ordine non trovato. Fornisci un token per continuare."
+        },
+        "sections": {
+          "title": "Opzioni di spedizione",
+          "subtitle": "Verifica le opzioni di consegna disponibili per ogni spedizione.",
+          "changeAddress": "Modifica indirizzo",
+          "orderError": "Impossibile caricare i dettagli dell'ordine. I costi di spedizione potrebbero non essere aggiornati.",
+          "empty": "Non ci sono ancora spedizioni disponibili per questo ordine.",
+          "noMethods": "Nessun metodo di spedizione disponibile per questa spedizione.",
+          "loadError": "Impossibile caricare i metodi di spedizione. Riprova.",
+          "retry": "Riprova"
+        },
+        "shipmentTitle": "Spedizione n.{index}",
+        "shipmentHint": "Seleziona un'opzione di consegna per questa spedizione.",
+        "actions": {
+          "back": "Torna all'indirizzo",
+          "next": "Continua al pagamento"
+        },
+        "labels": {
+          "unavailable": "—"
+        },
+        "fallbacks": {
+          "methodLabel": "Metodo di spedizione"
         }
       }
     }
@@ -575,6 +613,11 @@
         "payments": "Payments",
         "shipments": "Shipments",
         "configuration": "Configuration"
+        "customers": "Customers",
+        "customerGroups": "Customer groups",
+        "cartPromotions": "Cart promotions",
+        "catalogPromotions": "Catalog promotions",
+        "productReviews": "Product reviews"
       },
       "common": {
         "none": "None",
@@ -910,6 +953,73 @@
             "roles": "No roles",
             "lastLogin": "Never"
           }
+      "customers": {
+        "title": "Customers",
+        "subtitle": "Manage registered buyers and their account status.",
+        "table": {
+          "email": "Email",
+          "lastName": "Last name",
+          "firstName": "First name",
+          "registrationDate": "Registration date",
+          "enabled": "Enabled",
+          "verified": "Verified"
+        }
+      },
+      "customerGroups": {
+        "title": "Customer groups",
+        "subtitle": "Organize customers into shared pricing or perks.",
+        "table": {
+          "name": "Name",
+          "code": "Code",
+          "members": "Members"
+        }
+      },
+      "cartPromotions": {
+        "title": "Cart promotions",
+        "subtitle": "Monitor discounts triggered during checkout.",
+        "table": {
+          "name": "Name",
+          "code": "Code",
+          "coupons": "Coupons",
+          "startsAt": "Starts at",
+          "endsAt": "Ends at",
+          "enabled": "State",
+          "noCoupons": "No coupons",
+          "unlimited": "Unlimited"
+        }
+      },
+      "catalogPromotions": {
+        "title": "Catalog promotions",
+        "subtitle": "Track automated discounts applied directly to products.",
+        "table": {
+          "name": "Name",
+          "code": "Code",
+          "channels": "Channels",
+          "startDate": "Start date",
+          "endDate": "End date",
+          "state": "State",
+          "noChannels": "No channels",
+          "active": "Active",
+          "inactive": "Inactive"
+        }
+      },
+      "productReviews": {
+        "title": "Product reviews",
+        "subtitle": "Moderate customer feedback across the catalog.",
+        "table": {
+          "rating": "Rating",
+          "title": "Title",
+          "product": "Product",
+          "customer": "Customer",
+          "state": "State",
+          "createdAt": "Created at"
+        },
+        "noTitle": "No title",
+        "anonymous": "Anonymous",
+        "states": {
+          "accepted": "Accepted",
+          "rejected": "Rejected",
+          "pending": "Pending review"
         }
       }
     }

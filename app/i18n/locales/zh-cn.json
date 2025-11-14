@@ -172,6 +172,7 @@
         },
         "actions": {
           "back": "返回商店",
+          "goToShipping": "前往配送",
           "next": "保存并继续"
         },
         "status": {
@@ -190,6 +191,43 @@
           "confirmationTitle": "地址已保存",
           "billingSaved": "账单地址已保存",
           "shippingSaved": "配送地址已保存"
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "结账 · 物流"
+        },
+        "headline": {
+          "step": "第 {step} 步，共 4 步",
+          "title": "选择配送方式",
+          "subtitle": "请选择希望我们如何配送您的订单。"
+        },
+        "notifications": {
+          "success": "配送方式更新成功。",
+          "error": "无法更新配送方式，请重试。",
+          "missingOrder": "未找到订单令牌，请提供后继续。"
+        },
+        "sections": {
+          "title": "配送选项",
+          "subtitle": "查看每个包裹可用的配送方式。",
+          "changeAddress": "更改地址",
+          "orderError": "无法加载订单详情，运费可能不是最新。",
+          "empty": "此订单暂时没有可配送的包裹。",
+          "noMethods": "该包裹暂无可用的配送方式。",
+          "loadError": "无法加载配送方式，请重试。",
+          "retry": "重试"
+        },
+        "shipmentTitle": "包裹 #{index}",
+        "shipmentHint": "请选择该包裹的配送方式。",
+        "actions": {
+          "back": "返回地址",
+          "next": "继续支付"
+        },
+        "labels": {
+          "unavailable": "—"
+        },
+        "fallbacks": {
+          "methodLabel": "配送方式"
         }
       }
     }
@@ -575,6 +613,11 @@
         "payments": "Payments",
         "shipments": "Shipments",
         "configuration": "Configuration"
+        "customers": "Customers",
+        "customerGroups": "Customer groups",
+        "cartPromotions": "Cart promotions",
+        "catalogPromotions": "Catalog promotions",
+        "productReviews": "Product reviews"
       },
       "common": {
         "none": "None",
@@ -910,6 +953,73 @@
             "roles": "No roles",
             "lastLogin": "Never"
           }
+      "customers": {
+        "title": "Customers",
+        "subtitle": "Manage registered buyers and their account status.",
+        "table": {
+          "email": "Email",
+          "lastName": "Last name",
+          "firstName": "First name",
+          "registrationDate": "Registration date",
+          "enabled": "Enabled",
+          "verified": "Verified"
+        }
+      },
+      "customerGroups": {
+        "title": "Customer groups",
+        "subtitle": "Organize customers into shared pricing or perks.",
+        "table": {
+          "name": "Name",
+          "code": "Code",
+          "members": "Members"
+        }
+      },
+      "cartPromotions": {
+        "title": "Cart promotions",
+        "subtitle": "Monitor discounts triggered during checkout.",
+        "table": {
+          "name": "Name",
+          "code": "Code",
+          "coupons": "Coupons",
+          "startsAt": "Starts at",
+          "endsAt": "Ends at",
+          "enabled": "State",
+          "noCoupons": "No coupons",
+          "unlimited": "Unlimited"
+        }
+      },
+      "catalogPromotions": {
+        "title": "Catalog promotions",
+        "subtitle": "Track automated discounts applied directly to products.",
+        "table": {
+          "name": "Name",
+          "code": "Code",
+          "channels": "Channels",
+          "startDate": "Start date",
+          "endDate": "End date",
+          "state": "State",
+          "noChannels": "No channels",
+          "active": "Active",
+          "inactive": "Inactive"
+        }
+      },
+      "productReviews": {
+        "title": "Product reviews",
+        "subtitle": "Moderate customer feedback across the catalog.",
+        "table": {
+          "rating": "Rating",
+          "title": "Title",
+          "product": "Product",
+          "customer": "Customer",
+          "state": "State",
+          "createdAt": "Created at"
+        },
+        "noTitle": "No title",
+        "anonymous": "Anonymous",
+        "states": {
+          "accepted": "Accepted",
+          "rejected": "Rejected",
+          "pending": "Pending review"
         }
       }
     }
