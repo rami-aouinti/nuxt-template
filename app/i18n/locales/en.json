@@ -1014,74 +1014,78 @@
           }
         },
         "customers": {
-        "title": "Customers",
-        "subtitle": "Manage registered buyers and their account status.",
-        "table": {
-          "email": "Email",
-          "lastName": "Last name",
-          "firstName": "First name",
-          "registrationDate": "Registration date",
-          "enabled": "Enabled",
-          "verified": "Verified"
-        }
-      },
-      "customerGroups": {
-        "title": "Customer groups",
-        "subtitle": "Organize customers into shared pricing or perks.",
-        "table": {
-          "name": "Name",
-          "code": "Code",
-          "members": "Members"
-        }
-      },
-      "cartPromotions": {
-        "title": "Cart promotions",
-        "subtitle": "Monitor discounts triggered during checkout.",
-        "table": {
-          "name": "Name",
-          "code": "Code",
-          "coupons": "Coupons",
-          "startsAt": "Starts at",
-          "endsAt": "Ends at",
-          "enabled": "State",
-          "noCoupons": "No coupons",
-          "unlimited": "Unlimited"
-        }
-      },
-      "catalogPromotions": {
-        "title": "Catalog promotions",
-        "subtitle": "Track automated discounts applied directly to products.",
-        "table": {
-          "name": "Name",
-          "code": "Code",
-          "channels": "Channels",
-          "startDate": "Start date",
-          "endDate": "End date",
-          "state": "State",
-          "noChannels": "No channels",
-          "active": "Active",
-          "inactive": "Inactive"
-        }
-      },
-      "productReviews": {
-        "title": "Product reviews",
-        "subtitle": "Moderate customer feedback across the catalog.",
-        "table": {
-          "rating": "Rating",
-          "title": "Title",
-          "product": "Product",
-          "customer": "Customer",
-          "state": "State",
-          "createdAt": "Created at"
+          "title": "Customers",
+          "subtitle": "Manage registered buyers and their account status.",
+          "table": {
+            "email": "Email",
+            "lastName": "Last name",
+            "firstName": "First name",
+            "registrationDate": "Registration date",
+            "enabled": "Enabled",
+            "verified": "Verified"
+          }
         },
-        "noTitle": "No title",
-        "anonymous": "Anonymous",
-        "states": {
-          "accepted": "Accepted",
-          "rejected": "Rejected",
-          "pending": "Pending review"
+        "customerGroups": {
+          "title": "Customer groups",
+          "subtitle": "Organize customers into shared pricing or perks.",
+          "table": {
+            "name": "Name",
+            "code": "Code",
+            "members": "Members"
+          }
+        },
+        "cartPromotions": {
+          "title": "Cart promotions",
+          "subtitle": "Monitor discounts triggered during checkout.",
+          "table": {
+            "name": "Name",
+            "code": "Code",
+            "coupons": "Coupons",
+            "startsAt": "Starts at",
+            "endsAt": "Ends at",
+            "enabled": "State",
+            "noCoupons": "No coupons",
+            "unlimited": "Unlimited"
+          }
+        },
+        "catalogPromotions": {
+          "title": "Catalog promotions",
+          "subtitle": "Track automated discounts applied directly to products.",
+          "table": {
+            "name": "Name",
+            "code": "Code",
+            "channels": "Channels",
+            "startDate": "Start date",
+            "endDate": "End date",
+            "state": "State",
+            "noChannels": "No channels",
+            "active": "Active",
+            "inactive": "Inactive"
+          }
+        },
+        "productReviews": {
+          "title": "Product reviews",
+          "subtitle": "Moderate customer feedback across the catalog.",
+          "table": {
+            "rating": "Rating",
+            "title": "Title",
+            "product": "Product",
+            "customer": "Customer",
+            "state": "State",
+            "createdAt": "Created at"
+          },
+          "noTitle": "No title",
+          "anonymous": "Anonymous",
+          "states": {
+            "accepted": "Accepted",
+            "rejected": "Rejected",
+            "pending": "Pending review"
+          }
         }
       }
+    },
+    "$vuetify": {
+      "close": "Close"
     }
   },
   "auth": {
@@ -2136,17 +2140,15 @@
         "title": "Order details"
       },
       "heading": {
-        "title": "Order #{number}",
-        "subtitle": "Your account"
+        "title": "Summary of your order",
+        "subtitle": "Review every detail below to ensure your purchase information is correct before closing the checkout."
       },
       "breadcrumbs": {
         "account": "My account",
         "orders": "Order history"
       },
       "actions": {
-        "pay": "Pay",
-        "retry": "Try again",
-        "refresh": "Refresh"
+        "refresh": "Refresh order"
       },
       "labels": {
         "token": "Token: {token}",
@@ -2207,15 +2209,13 @@
         "addressesError": "We could not load the addresses linked to this order."
       },
       "fallbacks": {
-        "unknown": "Unknown",
-        "noAddress": "Address unavailable",
-        "noValue": "Not provided"
+        "unknownPaymentMethod": "Payment method",
+        "unknownShipmentMethod": "Shipment",
+        "unknownProduct": "Item",
+        "unknownState": "Pending",
+        "unknownLocale": "Locale"
       },
       "metaTitle": "Order summary",
-      "heading": {
-        "title": "Summary of your order",
-        "subtitle": "Review every detail below to ensure your purchase information is correct before closing the checkout."
-      },
       "status": {
         "steps": {
           "address": "Address",
@@ -2271,16 +2271,6 @@
         "title": "Extra notes",
         "empty": "No additional notes were provided."
       },
-      "actions": {
-        "refresh": "Refresh order"
-      },
-      "fallbacks": {
-        "unknownPaymentMethod": "Payment method",
-        "unknownShipmentMethod": "Shipment",
-        "unknownProduct": "Item",
-        "unknownState": "Pending",
-        "unknownLocale": "Locale"
-      },
       "errors": {
         "loadFailed": "We were unable to load this order."
       },
@@ -2321,9 +2311,6 @@
         "empty": "We do not have products in this category yet."
       }
     }
-  },
-  "$vuetify": {
-    "close": "Close"
   },
   "workspace": {
     "page": {
@@ -2514,7 +2501,7 @@
       "notifications": "Notifications",
       "templates": "Templates",
       "send": "Send notification",
-      "batch": "Batch delivery"
+      "batch": "Batch send"
     },
     "table": {
       "subject": "Subject",
@@ -2591,12 +2578,6 @@
       "detailLoadFailed": "Unable to load the notification details.",
       "statusUpdated": "Notification status updated to {status}.",
       "statusUpdateFailed": "Unable to update the notification status."
-    },
-    "navigation": {
-      "notifications": "Notifications",
-      "templates": "Templates",
-      "send": "Send notification",
-      "batch": "Batch send"
     },
     "templates": {
       "title": "Notification templates",
@@ -2805,5 +2786,4 @@
       }
     }
   }
-}
 }
