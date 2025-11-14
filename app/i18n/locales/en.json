@@ -115,6 +115,48 @@
       },
       "errors": {
         "failedToLoad": "We could not load the shop data. Please try again in a moment."
+      },
+      "product": {
+        "status": {
+          "error": "This product is currently unavailable"
+        },
+        "actions": {
+          "addToCart": "Add to cart",
+          "backToShop": "Back to shop",
+          "addReview": "Add your review"
+        },
+        "sections": {
+          "details": "Details",
+          "attributes": "Attributes",
+          "reviews": "Reviews",
+          "latest": "Latest products"
+        },
+        "labels": {
+          "option": "{name}"
+        },
+        "quantity": {
+          "label": "Quantity",
+          "ariaDecrease": "Decrease quantity",
+          "ariaIncrease": "Increase quantity"
+        },
+        "reviews": {
+          "count": "{count} reviews"
+        },
+        "empty": {
+          "attributes": "This product does not list additional attributes yet.",
+          "reviews": "No reviews have been published for this product yet."
+        },
+        "fallbacks": {
+          "option": "Option",
+          "optionValue": "Value"
+        },
+        "boolean": {
+          "true": "Yes",
+          "false": "No"
+        },
+        "meta": {
+          "brand": "Seālius"
+        }
       }
     },
     "ecommerceCheckout": {
