@@ -822,6 +822,18 @@
           "noTracking": "No tracking information"
         }
       },
+      "customers": {
+        "title": "Customers",
+        "subtitle": "Manage registered buyers and their account status.",
+        "table": {
+          "email": "Email",
+          "lastName": "Last name",
+          "firstName": "First name",
+          "registrationDate": "Registration date",
+          "enabled": "Enabled",
+          "verified": "Verified"
+        }
+      },
       "configuration": {
         "title": "Configuration de la boutique",
         "subtitle": "Contrôlez les canaux, la localisation et la fiscalité de votre vitrine.",
@@ -970,18 +982,6 @@
             "lastLogin": "Jamais"
           }
         },
-        "customers": {
-        "title": "Customers",
-        "subtitle": "Manage registered buyers and their account status.",
-        "table": {
-          "email": "Email",
-          "lastName": "Last name",
-          "firstName": "First name",
-          "registrationDate": "Registration date",
-          "enabled": "Enabled",
-          "verified": "Verified"
-        }
-      },
       "customerGroups": {
         "title": "Customer groups",
         "subtitle": "Organize customers into shared pricing or perks.",

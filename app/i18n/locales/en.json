@@ -865,6 +865,18 @@
           "noTracking": "No tracking information"
         }
       },
+      "customers": {
+        "title": "Customers",
+        "subtitle": "Manage registered buyers and their account status.",
+        "table": {
+          "email": "Email",
+          "lastName": "Last name",
+          "firstName": "First name",
+          "registrationDate": "Registration date",
+          "enabled": "Enabled",
+          "verified": "Verified"
+        }
+      },
       "configuration": {
         "title": "Store configuration",
         "subtitle": "Control channels, localization, and taxation for your storefront.",
@@ -1011,18 +1023,6 @@
             "locale": "No locale",
             "roles": "No roles",
             "lastLogin": "Never"
-          }
-        },
-        "customers": {
-          "title": "Customers",
-          "subtitle": "Manage registered buyers and their account status.",
-          "table": {
-            "email": "Email",
-            "lastName": "Last name",
-            "firstName": "First name",
-            "registrationDate": "Registration date",
-            "enabled": "Enabled",
-            "verified": "Verified"
           }
         },
         "customerGroups": {
