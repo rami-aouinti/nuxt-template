@@ -116,6 +116,49 @@
       "errors": {
         "failedToLoad": "No pudimos cargar la tienda. Inténtalo de nuevo más tarde."
       }
+    },
+    "ecommercePayment": {
+      "meta": {
+        "title": "Pago",
+        "subtitle": "Selecciona tu método de pago preferido para finalizar la compra."
+      },
+      "steps": {
+        "address": "Dirección",
+        "shipping": "Envío",
+        "payment": "Pago",
+        "complete": "Finalizar"
+      },
+      "labels": {
+        "paymentTitle": "Pago n.º {index}",
+        "paymentSubtitle": "Elige una opción de pago",
+        "changeShipping": "Cambiar método de envío",
+        "noSelection": "Selecciona un método de pago para continuar"
+      },
+      "actions": {
+        "next": "Siguiente"
+      },
+      "summary": {
+        "title": "Resumen",
+        "customerFallback": "Cliente",
+        "itemCount": "{count, plural, one {# artículo} other {# artículos}}",
+        "itemsTotal": "Subtotal de artículos",
+        "discount": "Descuento",
+        "shipping": "Costo de envío estimado",
+        "taxes": "Impuestos",
+        "total": "Total del pedido"
+      },
+      "notifications": {
+        "loadingError": "No pudimos cargar los detalles de pago. Vuelve a intentarlo.",
+        "updateFailed": "No se pudo actualizar el método de pago. Vuelve a intentarlo.",
+        "updateSuccess": "Método de pago actualizado.",
+        "completeSuccess": "Pedido completado con éxito.",
+        "completeFailed": "No se pudo finalizar el pedido. Vuelve a intentarlo."
+      },
+      "states": {
+        "loading": "Cargando métodos de pago…",
+        "empty": "No hay métodos de pago disponibles para este pedido.",
+        "defaultMethodName": "Método de pago"
+      }
     }
   },
   "navigation": {

@@ -116,6 +116,49 @@
       "errors": {
         "failedToLoad": "暂时无法加载商店数据，请稍后重试。"
       }
+    },
+    "ecommercePayment": {
+      "meta": {
+        "title": "支付",
+        "subtitle": "选择您偏好的支付方式以完成结账。"
+      },
+      "steps": {
+        "address": "地址",
+        "shipping": "配送",
+        "payment": "支付",
+        "complete": "完成"
+      },
+      "labels": {
+        "paymentTitle": "支付方式 #{index}",
+        "paymentSubtitle": "选择一种支付方式",
+        "changeShipping": "更改配送方式",
+        "noSelection": "请选择一种支付方式以继续"
+      },
+      "actions": {
+        "next": "下一步"
+      },
+      "summary": {
+        "title": "摘要",
+        "customerFallback": "客户",
+        "itemCount": "{count, plural, one {# 件商品} other {# 件商品}}",
+        "itemsTotal": "商品小计",
+        "discount": "折扣",
+        "shipping": "预计运费",
+        "taxes": "税费",
+        "total": "订单总计"
+      },
+      "notifications": {
+        "loadingError": "无法加载支付详情，请稍后重试。",
+        "updateFailed": "无法更新支付方式，请稍后重试。",
+        "updateSuccess": "支付方式已更新。",
+        "completeSuccess": "订单已成功完成。",
+        "completeFailed": "无法完成订单，请稍后重试。"
+      },
+      "states": {
+        "loading": "正在加载支付方式…",
+        "empty": "此订单没有可用的支付方式。",
+        "defaultMethodName": "支付方式"
+      }
     }
   },
   "navigation": {

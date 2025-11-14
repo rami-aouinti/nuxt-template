@@ -116,6 +116,49 @@
       "errors": {
         "failedToLoad": "Die Shop-Daten konnten nicht geladen werden. Bitte versuche es später erneut."
       }
+    },
+    "ecommercePayment": {
+      "meta": {
+        "title": "Zahlung",
+        "subtitle": "Wählen Sie Ihre bevorzugte Zahlungsmethode, um den Kauf abzuschließen."
+      },
+      "steps": {
+        "address": "Adresse",
+        "shipping": "Versand",
+        "payment": "Zahlung",
+        "complete": "Abschluss"
+      },
+      "labels": {
+        "paymentTitle": "Zahlung Nr. {index}",
+        "paymentSubtitle": "Wählen Sie eine Zahlungsoption",
+        "changeShipping": "Versandart ändern",
+        "noSelection": "Wählen Sie eine Zahlungsmethode, um fortzufahren"
+      },
+      "actions": {
+        "next": "Weiter"
+      },
+      "summary": {
+        "title": "Übersicht",
+        "customerFallback": "Kunde",
+        "itemCount": "{count, plural, one {# Artikel} other {# Artikel}}",
+        "itemsTotal": "Zwischensumme Artikel",
+        "discount": "Rabatt",
+        "shipping": "Geschätzte Versandkosten",
+        "taxes": "Steuern",
+        "total": "Bestellsumme"
+      },
+      "notifications": {
+        "loadingError": "Die Zahlungsdetails konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
+        "updateFailed": "Die Zahlungsmethode konnte nicht aktualisiert werden. Bitte versuchen Sie es erneut.",
+        "updateSuccess": "Zahlungsmethode aktualisiert.",
+        "completeSuccess": "Bestellung erfolgreich abgeschlossen.",
+        "completeFailed": "Die Bestellung konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
+      },
+      "states": {
+        "loading": "Zahlungsmethoden werden geladen…",
+        "empty": "Für diese Bestellung sind keine Zahlungsmethoden verfügbar.",
+        "defaultMethodName": "Zahlungsmethode"
+      }
     }
   },
   "navigation": {
