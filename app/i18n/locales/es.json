@@ -619,7 +619,7 @@
         "orders": "Orders",
         "payments": "Payments",
         "shipments": "Shipments",
-        "configuration": "Configuration"
+        "configuration": "Configuration",
         "customers": "Customers",
         "customerGroups": "Customer groups",
         "cartPromotions": "Cart promotions",
@@ -960,6 +960,7 @@
             "roles": "No roles",
             "lastLogin": "Never"
           }
+      },
       "customers": {
         "title": "Customers",
         "subtitle": "Manage registered buyers and their account status.",
@@ -1721,7 +1722,10 @@
       "summary": {
         "title": "Resumen",
         "customerFallback": "Cliente",
-        "itemCount": "{count, plural, one {# artículo} other {# artículos}}",
+        "itemCount": {
+          "one": "{count} artículo",
+          "other": "{count} artículos"
+        },
         "itemsTotal": "Subtotal de artículos",
         "discount": "Descuento",
         "shipping": "Costo de envío estimado",
@@ -2049,6 +2053,7 @@
         "unknown": "Unknown",
         "noAddress": "Address unavailable",
         "noValue": "Not provided"
+      },
       "metaTitle": "Resumen del pedido",
       "heading": {
         "title": "Resumen de tu pedido",
@@ -2128,6 +2133,9 @@
         "shipping_selected": "Envío seleccionado",
         "payment_selected": "Pago seleccionado",
         "completed": "Completado"
+
+      }
+    },
     "ecommerceCategory": {
       "breadcrumbs": {
         "category": "Category"
@@ -2635,4 +2643,5 @@
       }
     }
   }
+}
 }

@@ -1008,8 +1008,9 @@
             "locale": "No locale",
             "roles": "No roles",
             "lastLogin": "Never"
-          },
-      "customers": {
+          }
+        },
+        "customers": {
         "title": "Customers",
         "subtitle": "Manage registered buyers and their account status.",
         "table": {
@@ -1770,7 +1771,10 @@
       "summary": {
         "title": "Summary",
         "customerFallback": "Customer",
-        "itemCount": "{count, plural, one {# item} other {# items}}",
+        "itemCount": {
+          "one": "{count} item",
+          "other": "{count} items"
+        },
         "itemsTotal": "Items total",
         "discount": "Discount",
         "shipping": "Estimated shipping cost",
@@ -2698,6 +2702,4 @@
       }
     }
   }
-}
-}
 }

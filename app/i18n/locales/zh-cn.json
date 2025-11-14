@@ -619,7 +619,7 @@
         "orders": "Orders",
         "payments": "Payments",
         "shipments": "Shipments",
-        "configuration": "Configuration"
+        "configuration": "Configuration",
         "customers": "Customers",
         "customerGroups": "Customer groups",
         "cartPromotions": "Cart promotions",
@@ -960,6 +960,7 @@
             "roles": "No roles",
             "lastLogin": "Never"
           }
+      },
       "customers": {
         "title": "Customers",
         "subtitle": "Manage registered buyers and their account status.",
@@ -1834,7 +1835,10 @@
       "summary": {
         "title": "摘要",
         "customerFallback": "客户",
-        "itemCount": "{count, plural, one {# 件商品} other {# 件商品}}",
+        "itemCount": {
+          "one": "{count} 件商品",
+          "other": "{count} 件商品"
+        },
         "itemsTotal": "商品小计",
         "discount": "折扣",
         "shipping": "预计运费",
@@ -2162,6 +2166,7 @@
         "unknown": "Unknown",
         "noAddress": "Address unavailable",
         "noValue": "Not provided"
+      },
       "metaTitle": "订单概览",
       "heading": {
         "title": "订单摘要",
@@ -2241,6 +2246,9 @@
         "shipping_selected": "已选择配送",
         "payment_selected": "已选择付款",
         "completed": "已完成"
+
+      }
+    },
     "ecommerceCategory": {
       "breadcrumbs": {
         "category": "Category"
@@ -2635,4 +2643,5 @@
       }
     }
   }
+}
 }

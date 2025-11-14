@@ -8,14 +8,19 @@ import type {
   PaymentMethodSummary,
 } from '~/types/payment'
 import { useEcommerceCartStore } from '~/stores/ecommerceCart'
+import { DEFAULT_LOCALE } from '~/utils/i18n/locales'
 
 definePageMeta({
   title: 'pages.ecommercePayment.meta.title',
 })
 
 const route = useRoute()
-const { t, locale } = useI18n()
 const cartStore = useEcommerceCartStore()
+const { t, te, locale } = useI18n()
+
+const pluralRules = computed(
+  () => new Intl.PluralRules(locale.value || DEFAULT_LOCALE),
+)
 
 const tokenValue = computed(() => {
   const value = route.params.tokenValue
@@ -679,7 +684,15 @@ const customerName = computed(() => {
 const itemCountLabel = computed(() => {
   const currentOrder = order.value
   const count = currentOrder?.totalQuantity ?? currentOrder?.items?.length ?? 0
-  return t('pages.ecommercePayment.summary.itemCount', { count })
+  const pluralCategory = pluralRules.value.select(count)
+  const baseKey = 'pages.ecommercePayment.summary.itemCount'
+  const pluralizedKey = `${baseKey}.${pluralCategory}`
+
+  if (te(pluralizedKey)) {
+    return t(pluralizedKey, { count })
+  }
+
+  return t(`${baseKey}.other`, { count })
 })
 
 const paymentTitle = computed(() => {

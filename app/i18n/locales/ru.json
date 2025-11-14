@@ -619,7 +619,7 @@
         "orders": "Orders",
         "payments": "Payments",
         "shipments": "Shipments",
-        "configuration": "Configuration"
+        "configuration": "Configuration",
         "customers": "Customers",
         "customerGroups": "Customer groups",
         "cartPromotions": "Cart promotions",
@@ -960,6 +960,7 @@
             "roles": "No roles",
             "lastLogin": "Never"
           }
+      },
       "customers": {
         "title": "Customers",
         "subtitle": "Manage registered buyers and their account status.",
@@ -1834,7 +1835,12 @@
       "summary": {
         "title": "Итог",
         "customerFallback": "Покупатель",
-        "itemCount": "{count, plural, one {# товар} few {# товара} many {# товаров} other {# товаров}}",
+        "itemCount": {
+          "one": "{count} товар",
+          "few": "{count} товара",
+          "many": "{count} товаров",
+          "other": "{count} товаров"
+        },
         "itemsTotal": "Стоимость товаров",
         "discount": "Скидка",
         "shipping": "Оценочная стоимость доставки",
@@ -2162,6 +2168,7 @@
         "unknown": "Unknown",
         "noAddress": "Address unavailable",
         "noValue": "Not provided"
+      },
       "metaTitle": "Сводка заказа",
       "heading": {
         "title": "Сводка вашего заказа",
@@ -2241,6 +2248,9 @@
         "shipping_selected": "Доставка выбрана",
         "payment_selected": "Оплата выбрана",
         "completed": "Завершён"
+
+      }
+    },
     "ecommerceCategory": {
       "breadcrumbs": {
         "category": "Category"
@@ -2635,4 +2645,5 @@
       }
     }
   }
+}
 }
