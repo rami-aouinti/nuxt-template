@@ -72,29 +72,34 @@ const formatTimestamp = (value: string) => {
   return Number.isFinite(timestamp) ? timestamp : 0
 }
 
+const sortByPublishedAt = (
+  direction: 'asc' | 'desc',
+): ((a: BlogCommentViewModel, b: BlogCommentViewModel) => number) => {
+  const multiplier = direction === 'desc' ? -1 : 1
+  return (a, b) =>
+    (formatTimestamp(a.publishedAt) - formatTimestamp(b.publishedAt)) * multiplier
+}
+
 const commentsToDisplay = computed(() => {
   const comments = props.post.comments ?? []
   if (!Array.isArray(comments) || comments.length <= 1) {
     return comments
   }
 
-  const sorted = [...comments]
-  switch (selectedFilter.value) {
-    case 'newest':
-      return sorted.sort(
-        (a, b) => formatTimestamp(b.publishedAt) - formatTimestamp(a.publishedAt),
-      )
-    case 'all':
-      return sorted.sort(
-        (a, b) => formatTimestamp(a.publishedAt) - formatTimestamp(b.publishedAt),
-      )
-    default:
-      return comments
+  if (selectedFilter.value === 'relevant') {
+    return comments
   }
+
+  const sorted = [...comments]
+  return selectedFilter.value === 'newest'
+    ? sorted.sort(sortByPublishedAt('desc'))
+    : sorted.sort(sortByPublishedAt('asc'))
 })
 
 const selectFilter = (value: CommentFilterValue) => {
-  selectedFilter.value = value
+  if (selectedFilter.value !== value) {
+    selectedFilter.value = value
+  }
 }
 </script>
 
@@ -136,7 +141,7 @@ const selectFilter = (value: CommentFilterValue) => {
           <v-icon>mdi-microphone-outline</v-icon>
         </AppButton>
       </template>
-      <template #actions-right="{ loading, canSubmit, submit, cancel }">
+      <template #actions-right="{ loading, canSubmit, submit }">
         <AppButton
           variant="text"
           icon
@@ -182,7 +187,7 @@ const selectFilter = (value: CommentFilterValue) => {
             </v-list-item-subtitle>
             <template #append>
               <v-icon
-                v-if="option.value === selectedFilter"
+                v-if="option.value === selectedFilter.value"
                 icon="mdi-check"
                 size="18"
               />
