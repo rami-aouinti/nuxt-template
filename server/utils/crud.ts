@@ -9,6 +9,7 @@ import { broWorldNotificationRequest } from './broWorldNotificationApi'
 export function requireRouteParam(
   event: H3Event,
   paramName: string,
+  errorMessage: string,
   entityLabel: string,
 ) {
   const value = getRouterParam(event, paramName)
@@ -20,12 +21,12 @@ export function requireRouteParam(
   throw createError({
     statusCode: 400,
     statusMessage: 'Bad Request',
-    data: { message: `Identifiant ${entityLabel} manquant` },
+    data: { message: errorMessage },
   })
 }
 
 export function requireEntityId(event: H3Event, entityLabel: string) {
-  return requireRouteParam(event, 'id', entityLabel)
+  return requireRouteParam(event, 'id', `Identifiant ${entityLabel} manquant`)
 }
 
 export async function requestWithJsonBody<Response, Payload>(
