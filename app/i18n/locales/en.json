@@ -105,7 +105,8 @@
         "shopNow": "Shop now",
         "exploreCollection": "Explore collection",
         "refresh": "Refresh catalogue",
-        "retry": "Try again"
+        "retry": "Try again",
+        "goToCheckout": "Go to checkout"
       },
       "fallbacks": {
         "unknownProduct": "Product",
@@ -156,6 +157,10 @@
         },
         "meta": {
           "brand": "Seālius"
+        },
+        "notifications": {
+          "addedToCart": "Item added to your cart. Redirecting to checkout…",
+          "failedToAdd": "We couldn't add this product to your cart. Please try again."
         }
       }
     },
@@ -2697,5 +2702,4 @@
       }
     }
   }
-}
 }

@@ -105,7 +105,8 @@
         "shopNow": "تسوّق الآن",
         "exploreCollection": "استكشف المجموعة",
         "refresh": "تحديث الكتالوج",
-        "retry": "إعادة المحاولة"
+        "retry": "إعادة المحاولة",
+        "goToCheckout": "الانتقال إلى الدفع"
       },
       "fallbacks": {
         "unknownProduct": "منتج",
@@ -115,6 +116,12 @@
       },
       "errors": {
         "failedToLoad": "تعذر تحميل بيانات المتجر حالياً. يرجى المحاولة لاحقاً."
+      },
+      "product": {
+        "notifications": {
+          "addedToCart": "تمت إضافة المنتج إلى سلة التسوق. سيتم توجيهك إلى الدفع…",
+          "failedToAdd": "تعذر إضافة هذا المنتج إلى سلتك. يرجى المحاولة مرة أخرى."
+        }
       }
     },
     "ecommerceCheckout": {
