@@ -116,88 +116,6 @@
       "errors": {
         "failedToLoad": "Impossibile caricare i dati del negozio. Riprova più tardi."
       }
-    },
-    "ecommerceOrder": {
-      "metaTitle": "Riepilogo ordine",
-      "heading": {
-        "title": "Riepilogo del tuo ordine",
-        "subtitle": "Controlla tutti i dettagli prima di completare l'acquisto."
-      },
-      "status": {
-        "steps": {
-          "address": "Indirizzo",
-          "shipping": "Spedizione",
-          "payment": "Pagamento",
-          "complete": "Completato"
-        }
-      },
-      "summary": {
-        "title": "Informazioni sull'ordine",
-        "currency": "Valuta",
-        "locale": "Lingua",
-        "orderNumber": "Ordine n.",
-        "placedOn": "Effettuato il",
-        "checkoutState": "Checkout",
-        "paymentState": "Pagamento",
-        "shippingState": "Spedizione"
-      },
-      "addresses": {
-        "billing": "Indirizzo di fatturazione",
-        "shipping": "Indirizzo di spedizione",
-        "missing": "Indirizzo non disponibile"
-      },
-      "payments": {
-        "title": "Pagamenti",
-        "state": "Stato",
-        "noPayments": "Nessun pagamento registrato."
-      },
-      "shipments": {
-        "title": "Spedizioni",
-        "state": "Stato",
-        "noShipments": "Nessuna spedizione registrata."
-      },
-      "items": {
-        "title": "Articoli",
-        "count": "{count} articoli",
-        "table": {
-          "item": "Articolo",
-          "unitPrice": "Prezzo unitario",
-          "quantity": "Qtà",
-          "subtotal": "Subtotale"
-        },
-        "empty": "Questo ordine non contiene articoli."
-      },
-      "totals": {
-        "items": "Totale articoli",
-        "discounts": "Sconti",
-        "shipping": "Spedizione",
-        "taxes": "Tasse",
-        "grandTotal": "Totale ordine"
-      },
-      "notes": {
-        "title": "Note aggiuntive",
-        "empty": "Non sono state aggiunte note."
-      },
-      "actions": {
-        "refresh": "Aggiorna ordine"
-      },
-      "fallbacks": {
-        "unknownPaymentMethod": "Metodo di pagamento",
-        "unknownShipmentMethod": "Spedizione",
-        "unknownProduct": "Articolo",
-        "unknownState": "In sospeso",
-        "unknownLocale": "Lingua"
-      },
-      "errors": {
-        "loadFailed": "Impossibile caricare questo ordine."
-      },
-      "states": {
-        "cart": "Carrello",
-        "addressed": "Indirizzo confermato",
-        "shipping_selected": "Spedizione selezionata",
-        "payment_selected": "Pagamento selezionato",
-        "completed": "Completato"
-      }
     }
   },
   "navigation": {
@@ -1486,6 +1404,88 @@
       "location": {
         "title": "Vieni a trovarci a Colonia",
         "description": "Trova il nostro team nel nostro ufficio di Colonia, Germania."
+      }
+    },
+    "ecommerceOrder": {
+      "metaTitle": "Riepilogo ordine",
+      "heading": {
+        "title": "Riepilogo del tuo ordine",
+        "subtitle": "Controlla tutti i dettagli prima di completare l'acquisto."
+      },
+      "status": {
+        "steps": {
+          "address": "Indirizzo",
+          "shipping": "Spedizione",
+          "payment": "Pagamento",
+          "complete": "Completato"
+        }
+      },
+      "summary": {
+        "title": "Informazioni sull'ordine",
+        "currency": "Valuta",
+        "locale": "Lingua",
+        "orderNumber": "Ordine n.",
+        "placedOn": "Effettuato il",
+        "checkoutState": "Checkout",
+        "paymentState": "Pagamento",
+        "shippingState": "Spedizione"
+      },
+      "addresses": {
+        "billing": "Indirizzo di fatturazione",
+        "shipping": "Indirizzo di spedizione",
+        "missing": "Indirizzo non disponibile"
+      },
+      "payments": {
+        "title": "Pagamenti",
+        "state": "Stato",
+        "noPayments": "Nessun pagamento registrato."
+      },
+      "shipments": {
+        "title": "Spedizioni",
+        "state": "Stato",
+        "noShipments": "Nessuna spedizione registrata."
+      },
+      "items": {
+        "title": "Articoli",
+        "count": "{count} articoli",
+        "table": {
+          "item": "Articolo",
+          "unitPrice": "Prezzo unitario",
+          "quantity": "Qtà",
+          "subtotal": "Subtotale"
+        },
+        "empty": "Questo ordine non contiene articoli."
+      },
+      "totals": {
+        "items": "Totale articoli",
+        "discounts": "Sconti",
+        "shipping": "Spedizione",
+        "taxes": "Tasse",
+        "grandTotal": "Totale ordine"
+      },
+      "notes": {
+        "title": "Note aggiuntive",
+        "empty": "Non sono state aggiunte note."
+      },
+      "actions": {
+        "refresh": "Aggiorna ordine"
+      },
+      "fallbacks": {
+        "unknownPaymentMethod": "Metodo di pagamento",
+        "unknownShipmentMethod": "Spedizione",
+        "unknownProduct": "Articolo",
+        "unknownState": "In sospeso",
+        "unknownLocale": "Lingua"
+      },
+      "errors": {
+        "loadFailed": "Impossibile caricare questo ordine."
+      },
+      "states": {
+        "cart": "Carrello",
+        "addressed": "Indirizzo confermato",
+        "shipping_selected": "Spedizione selezionata",
+        "payment_selected": "Pagamento selezionato",
+        "completed": "Completato"
       }
     }
   },
