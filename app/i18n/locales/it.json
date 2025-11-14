@@ -116,49 +116,6 @@
       "errors": {
         "failedToLoad": "Impossibile caricare i dati del negozio. Riprova più tardi."
       }
-    },
-    "ecommercePayment": {
-      "meta": {
-        "title": "Pagamento",
-        "subtitle": "Seleziona il metodo di pagamento preferito per completare l'ordine."
-      },
-      "steps": {
-        "address": "Indirizzo",
-        "shipping": "Spedizione",
-        "payment": "Pagamento",
-        "complete": "Completato"
-      },
-      "labels": {
-        "paymentTitle": "Pagamento n. {index}",
-        "paymentSubtitle": "Scegli un'opzione di pagamento",
-        "changeShipping": "Modifica metodo di spedizione",
-        "noSelection": "Seleziona un metodo di pagamento per continuare"
-      },
-      "actions": {
-        "next": "Avanti"
-      },
-      "summary": {
-        "title": "Riepilogo",
-        "customerFallback": "Cliente",
-        "itemCount": "{count, plural, one {# articolo} other {# articoli}}",
-        "itemsTotal": "Totale articoli",
-        "discount": "Sconto",
-        "shipping": "Costo di spedizione stimato",
-        "taxes": "Tasse",
-        "total": "Totale ordine"
-      },
-      "notifications": {
-        "loadingError": "Impossibile caricare i dettagli di pagamento. Riprova.",
-        "updateFailed": "Impossibile aggiornare il metodo di pagamento. Riprova.",
-        "updateSuccess": "Metodo di pagamento aggiornato.",
-        "completeSuccess": "Ordine completato con successo.",
-        "completeFailed": "Impossibile completare l'ordine. Riprova."
-      },
-      "states": {
-        "loading": "Caricamento dei metodi di pagamento…",
-        "empty": "Nessun metodo di pagamento è disponibile per questo ordine.",
-        "defaultMethodName": "Metodo di pagamento"
-      }
     }
   },
   "navigation": {
@@ -1251,6 +1208,49 @@
     }
   },
   "pages": {
+    "ecommercePayment": {
+      "meta": {
+        "title": "Pagamento",
+        "subtitle": "Seleziona il metodo di pagamento preferito per completare l'ordine."
+      },
+      "steps": {
+        "address": "Indirizzo",
+        "shipping": "Spedizione",
+        "payment": "Pagamento",
+        "complete": "Completato"
+      },
+      "labels": {
+        "paymentTitle": "Pagamento n. {index}",
+        "paymentSubtitle": "Scegli un'opzione di pagamento",
+        "changeShipping": "Modifica metodo di spedizione",
+        "noSelection": "Seleziona un metodo di pagamento per continuare"
+      },
+      "actions": {
+        "next": "Avanti"
+      },
+      "summary": {
+        "title": "Riepilogo",
+        "customerFallback": "Cliente",
+        "itemCount": "{count, plural, one {# articolo} other {# articoli}}",
+        "itemsTotal": "Totale articoli",
+        "discount": "Sconto",
+        "shipping": "Costo di spedizione stimato",
+        "taxes": "Tasse",
+        "total": "Totale ordine"
+      },
+      "notifications": {
+        "loadingError": "Impossibile caricare i dettagli di pagamento. Riprova.",
+        "updateFailed": "Impossibile aggiornare il metodo di pagamento. Riprova.",
+        "updateSuccess": "Metodo di pagamento aggiornato.",
+        "completeSuccess": "Ordine completato con successo.",
+        "completeFailed": "Impossibile completare l'ordine. Riprova."
+      },
+      "states": {
+        "loading": "Caricamento dei metodi di pagamento…",
+        "empty": "Nessun metodo di pagamento è disponibile per questo ordine.",
+        "defaultMethodName": "Metodo di pagamento"
+      }
+    },
     "settings": {
       "title": "Impostazioni dell'account",
       "subtitle": "Personalizza la tua esperienza e mantieni al sicuro le tue informazioni da un'unica posizione.",

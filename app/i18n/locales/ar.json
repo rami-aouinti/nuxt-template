@@ -116,49 +116,6 @@
       "errors": {
         "failedToLoad": "تعذر تحميل بيانات المتجر حالياً. يرجى المحاولة لاحقاً."
       }
-    },
-    "ecommercePayment": {
-      "meta": {
-        "title": "الدفع",
-        "subtitle": "اختر طريقة الدفع المفضلة لديك لإتمام الطلب."
-      },
-      "steps": {
-        "address": "العنوان",
-        "shipping": "الشحن",
-        "payment": "الدفع",
-        "complete": "اكتمال"
-      },
-      "labels": {
-        "paymentTitle": "الدفع رقم {index}",
-        "paymentSubtitle": "اختر خيار الدفع",
-        "changeShipping": "تغيير طريقة الشحن",
-        "noSelection": "يرجى اختيار طريقة دفع للمتابعة"
-      },
-      "actions": {
-        "next": "التالي"
-      },
-      "summary": {
-        "title": "الملخص",
-        "customerFallback": "العميل",
-        "itemCount": "{count} عنصر",
-        "itemsTotal": "إجمالي العناصر",
-        "discount": "الخصم",
-        "shipping": "تكلفة الشحن التقديرية",
-        "taxes": "الضرائب",
-        "total": "إجمالي الطلب"
-      },
-      "notifications": {
-        "loadingError": "تعذر تحميل تفاصيل الدفع. يرجى المحاولة مرة أخرى.",
-        "updateFailed": "تعذر تحديث طريقة الدفع. يرجى المحاولة مرة أخرى.",
-        "updateSuccess": "تم تحديث طريقة الدفع.",
-        "completeSuccess": "تم إكمال الطلب بنجاح.",
-        "completeFailed": "تعذر إكمال الطلب. يرجى المحاولة مرة أخرى."
-      },
-      "states": {
-        "loading": "جارٍ تحميل طرق الدفع…",
-        "empty": "لا توجد طرق دفع متاحة لهذا الطلب.",
-        "defaultMethodName": "طريقة الدفع"
-      }
     }
   },
   "navigation": {
@@ -1251,6 +1208,49 @@
     }
   },
   "pages": {
+    "ecommercePayment": {
+      "meta": {
+        "title": "الدفع",
+        "subtitle": "اختر طريقة الدفع المفضلة لديك لإتمام الطلب."
+      },
+      "steps": {
+        "address": "العنوان",
+        "shipping": "الشحن",
+        "payment": "الدفع",
+        "complete": "اكتمال"
+      },
+      "labels": {
+        "paymentTitle": "الدفع رقم {index}",
+        "paymentSubtitle": "اختر خيار الدفع",
+        "changeShipping": "تغيير طريقة الشحن",
+        "noSelection": "يرجى اختيار طريقة دفع للمتابعة"
+      },
+      "actions": {
+        "next": "التالي"
+      },
+      "summary": {
+        "title": "الملخص",
+        "customerFallback": "العميل",
+        "itemCount": "{count} عنصر",
+        "itemsTotal": "إجمالي العناصر",
+        "discount": "الخصم",
+        "shipping": "تكلفة الشحن التقديرية",
+        "taxes": "الضرائب",
+        "total": "إجمالي الطلب"
+      },
+      "notifications": {
+        "loadingError": "تعذر تحميل تفاصيل الدفع. يرجى المحاولة مرة أخرى.",
+        "updateFailed": "تعذر تحديث طريقة الدفع. يرجى المحاولة مرة أخرى.",
+        "updateSuccess": "تم تحديث طريقة الدفع.",
+        "completeSuccess": "تم إكمال الطلب بنجاح.",
+        "completeFailed": "تعذر إكمال الطلب. يرجى المحاولة مرة أخرى."
+      },
+      "states": {
+        "loading": "جارٍ تحميل طرق الدفع…",
+        "empty": "لا توجد طرق دفع متاحة لهذا الطلب.",
+        "defaultMethodName": "طريقة الدفع"
+      }
+    },
     "settings": {
       "title": "إعدادات الحساب",
       "subtitle": "خصص تجربتك واحفظ بياناتك في مكان واحد مريح.",
