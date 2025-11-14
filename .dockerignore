@@ -1,0 +1,13 @@
+node_modules
+.nitro
+.nuxt
+.output
+dist
+.git
+.gitignore
+Dockerfile
+Dockerfile.dev
+npm-debug.log
+pnpm-debug.log
+.vscode
+.idea

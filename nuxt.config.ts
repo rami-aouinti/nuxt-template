@@ -205,7 +205,7 @@ export default defineNuxtConfig({
       password: resolveSessionPassword(),
     },
     redis: {
-      url: process.env.REDIS_URL || '',
+      url: process.env.bro_REDIS_URL || '',
       profileTtl: toPositiveInteger(process.env.REDIS_PROFILE_TTL, 60 * 60),
       adminTtl: toPositiveInteger(process.env.REDIS_ADMIN_TTL, 60),
       blogTtl: toPositiveInteger(process.env.REDIS_BLOG_TTL, 60),
