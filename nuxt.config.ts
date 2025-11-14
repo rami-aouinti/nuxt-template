@@ -227,6 +227,7 @@ export default defineNuxtConfig({
       ),
       workspaceTtl: toPositiveInteger(process.env.REDIS_WORKSPACE_TTL, 60),
       workplaceTtl: toPositiveInteger(process.env.REDIS_WORKPLACE_TTL, 60),
+      ecommerceTtl: toPositiveInteger(process.env.REDIS_ECOMMERCE_TTL, 60),
     },
     profileCookie: {
       name: process.env.PROFILE_COOKIE_NAME || 'bro_profile',
