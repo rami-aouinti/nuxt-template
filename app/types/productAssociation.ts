@@ -278,9 +278,27 @@ export interface ProductAssociationJsonld extends ProductAssociation {
   '@type'?: string
 }
 
+export interface ProductAssociationSyliusAdminProductAssociationCreate {
+  type: string
+  owner: string
+  associatedProducts: string[]
+}
+
+export type ProductAssociationSyliusAdminProductAssociationIndex = ProductAssociation
+
+export type ProductAssociationSyliusAdminProductAssociationShow = ProductAssociation
+
+export interface ProductAssociationSyliusAdminProductAssociationUpdate {
+  associatedProducts: string[]
+}
+
 export type ProductAssociationSyliusShopProductAssociationShow = ProductAssociation
 
 export type ProductAssociationJsonldSyliusShopProductAssociationShow = ProductAssociationJsonld
+
+export type ProductAssociationJsonldSyliusAdminProductAssociationIndex = ProductAssociationJsonld
+
+export type ProductAssociationJsonldSyliusAdminProductAssociationShow = ProductAssociationJsonld
 
 export interface ProductAssociationInterface
   extends Omit<ProductAssociation, 'associatedProducts'> {
