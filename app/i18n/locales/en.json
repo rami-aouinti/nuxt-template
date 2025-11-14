@@ -1111,7 +1111,7 @@
         "title": "Choose your shipping",
         "subtitle": "Select the delivery option that fits your schedule before moving on to payment.",
         "cardTitle": "Shipping method",
-        "cardSubtitle": "Pick how you would like us to send your order.",
+        "cardSubtitle": "Choose how you'd like us to send your order.",
         "steps": {
           "address": "Address",
           "shipping": "Shipping",
@@ -1127,7 +1127,7 @@
         },
         "methods": {
           "heading": "Available options",
-          "caption": "Rates are based on your order contents and destination.",
+          "caption": "Rates are calculated based on your order contents and destination.",
           "free": "Free",
           "empty": "No shipping methods are available for this shipment yet."
         },

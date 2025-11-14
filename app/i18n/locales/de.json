@@ -1210,12 +1210,12 @@
   "pages": {
     "ecommerce": {
       "shipping": {
-        "metaTitle": "Checkout – Versand",
-        "kicker": "Checkout",
+        "metaTitle": "Kasse – Versand",
+        "kicker": "Kasse",
         "title": "Versand auswählen",
         "subtitle": "Wähle deine bevorzugte Versandoption, bevor du zur Zahlung weitergehst.",
         "cardTitle": "Versandart",
-        "cardSubtitle": "Bestimme, wie wir deine Bestellung verschicken sollen.",
+        "cardSubtitle": "Bestimme, wie wir deine Bestellung versenden sollen.",
         "steps": {
           "address": "Adresse",
           "shipping": "Versand",
@@ -1231,14 +1231,14 @@
         },
         "methods": {
           "heading": "Verfügbare Optionen",
-          "caption": "Tarife basieren auf Warenkorb und Lieferadresse.",
+          "caption": "Die Tarife richten sich nach deinem Warenkorb und dem Lieferziel.",
           "free": "Kostenlos",
           "empty": "Für diese Sendung sind derzeit keine Versandarten verfügbar."
         },
         "summary": {
           "title": "Bestellübersicht",
-          "subtitle": "Ein kurzer Überblick vor dem Fortfahren.",
-          "items": "Zwischensumme Artikel",
+          "subtitle": "Ein kurzer Überblick, bevor du fortfährst.",
+          "items": "Artikel gesamt",
           "discount": "Rabatte",
           "shipping": "Voraussichtlicher Versand",
           "taxes": "Steuern",
@@ -1251,14 +1251,14 @@
           "next": "Weiter zur Zahlung"
         },
         "states": {
-          "missingToken": "Eine Bestellreferenz wird benötigt, um Versanddetails anzuzeigen.",
+          "missingToken": "Zum Anzeigen der Versanddetails wird eine Bestellreferenz benötigt.",
           "loadFailed": "Die Versandinformationen konnten nicht geladen werden. Bitte versuche es erneut.",
           "empty": "Für diese Bestellung wurden noch keine Sendungen gefunden."
         },
         "messages": {
           "updated": "Versandart aktualisiert.",
           "updateFailed": "Die Versandart konnte nicht aktualisiert werden. Bitte erneut versuchen.",
-          "continueInfo": "Die Zahlungswahl steht in Kürze zur Verfügung."
+          "continueInfo": "Die Auswahl der Zahlung steht in Kürze bereit."
         }
       }
     },

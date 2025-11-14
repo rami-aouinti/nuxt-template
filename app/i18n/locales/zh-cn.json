@@ -1210,12 +1210,12 @@
   "pages": {
     "ecommerce": {
       "shipping": {
-        "metaTitle": "结账 – 运输",
+        "metaTitle": "结账 – 配送",
         "kicker": "结账",
         "title": "选择配送方式",
-        "subtitle": "在继续支付之前，请选择合适的配送选项。",
+        "subtitle": "在继续支付之前，请先选择合适的配送选项。",
         "cardTitle": "配送方式",
-        "cardSubtitle": "告知我们如何寄送您的订单。",
+        "cardSubtitle": "告诉我们希望如何寄送您的订单。",
         "steps": {
           "address": "地址",
           "shipping": "配送",
@@ -1231,13 +1231,13 @@
         },
         "methods": {
           "heading": "可选方案",
-          "caption": "运费基于订单内容和收货地址计算。",
+          "caption": "运费将根据订单内容和收货地址计算。",
           "free": "免费",
           "empty": "当前没有可用的配送方式。"
         },
         "summary": {
           "title": "订单摘要",
-          "subtitle": "在继续之前快速检查。",
+          "subtitle": "继续之前先快速检查一下。",
           "items": "商品小计",
           "discount": "折扣",
           "shipping": "预计运费",
@@ -1251,14 +1251,14 @@
           "next": "继续支付"
         },
         "states": {
-          "missingToken": "需要订单参考号才能显示配送信息。",
+          "missingToken": "需要订单参考号才能显示配送详情。",
           "loadFailed": "配送信息加载失败，请重试。",
           "empty": "该订单暂未生成配送记录。"
         },
         "messages": {
           "updated": "配送方式已更新。",
           "updateFailed": "无法更新配送方式，请重试。",
-          "continueInfo": "支付步骤即将上线。"
+          "continueInfo": "支付步骤即将开放。"
         }
       }
     },

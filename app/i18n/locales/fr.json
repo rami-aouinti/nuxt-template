@@ -1109,7 +1109,7 @@
         "metaTitle": "Paiement – Livraison",
         "kicker": "Paiement",
         "title": "Choisissez votre livraison",
-        "subtitle": "Sélectionnez l'option d'expédition qui vous convient avant de passer au paiement.",
+        "subtitle": "Sélectionnez l'option de livraison qui vous convient avant de passer au paiement.",
         "cardTitle": "Mode de livraison",
         "cardSubtitle": "Choisissez comment nous devons expédier votre commande.",
         "steps": {
@@ -1127,7 +1127,7 @@
         },
         "methods": {
           "heading": "Options disponibles",
-          "caption": "Les tarifs sont calculés selon votre commande et votre destination.",
+          "caption": "Les tarifs sont calculés selon le contenu de votre commande et votre destination.",
           "free": "Offert",
           "empty": "Aucune méthode d'expédition n'est disponible pour cet envoi pour le moment."
         },
@@ -1149,12 +1149,12 @@
         "states": {
           "missingToken": "Une référence de commande est nécessaire pour afficher les détails de livraison.",
           "loadFailed": "Impossible de charger les informations d'expédition. Merci de réessayer.",
-          "empty": "Nous n'avons trouvé aucun envoi pour cette commande."
+          "empty": "Nous n'avons pas encore trouvé d'envoi pour cette commande."
         },
         "messages": {
           "updated": "Méthode d'expédition mise à jour.",
           "updateFailed": "Impossible de mettre à jour la méthode d'expédition. Merci de réessayer.",
-          "continueInfo": "La sélection du paiement sera disponible prochainement."
+          "continueInfo": "La sélection du paiement sera disponible bientôt."
         }
       }
     },

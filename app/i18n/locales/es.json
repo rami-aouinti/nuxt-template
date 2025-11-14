@@ -1100,7 +1100,7 @@
         "metaTitle": "Pago – Envío",
         "kicker": "Pago",
         "title": "Elige tu envío",
-        "subtitle": "Selecciona la opción de entrega que mejor se adapte antes de pasar al pago.",
+        "subtitle": "Selecciona la opción de entrega que mejor se ajuste antes de pasar al pago.",
         "cardTitle": "Método de envío",
         "cardSubtitle": "Decide cómo enviaremos tu pedido.",
         "steps": {
@@ -1118,7 +1118,7 @@
         },
         "methods": {
           "heading": "Opciones disponibles",
-          "caption": "Las tarifas dependen del contenido del pedido y del destino.",
+          "caption": "Las tarifas se calculan según el contenido del pedido y el destino.",
           "free": "Gratis",
           "empty": "Todavía no hay métodos de envío disponibles para este envío."
         },
@@ -1140,12 +1140,12 @@
         "states": {
           "missingToken": "Se necesita una referencia de pedido para mostrar los detalles de envío.",
           "loadFailed": "No pudimos cargar la información de envío. Inténtalo de nuevo.",
-          "empty": "Todavía no encontramos envíos para este pedido."
+          "empty": "Aún no hemos encontrado envíos para este pedido."
         },
         "messages": {
           "updated": "Método de envío actualizado.",
           "updateFailed": "No pudimos actualizar el método de envío. Inténtalo de nuevo.",
-          "continueInfo": "La selección de pago estará disponible pronto."
+          "continueInfo": "La selección de pago estará disponible en breve."
         }
       }
     },
