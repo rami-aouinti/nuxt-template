@@ -64,6 +64,58 @@
           "description": "Tief und lebendig mit Themenakzent."
         }
       }
+    },
+    "ecommerce": {
+      "drawer": {
+        "title": "Seālius Boutique",
+        "subtitle": "Sonnendurchflutete Silhouetten, kuratiert von unseren Küstenpartnern.",
+        "metrics": {
+          "products": "{count} Produkte",
+          "categories": "{count} Kategorien"
+        }
+      },
+      "hero": {
+        "brand": "Seālius",
+        "tagline": "Küstenkollektion",
+        "description": "Entdecke leichte Stoffe, Ozeanfarben und mühelose Schnitte für Tage und Nächte am Meer."
+      },
+      "categories": {
+        "title": "Nach Kategorie stöbern",
+        "all": "Alle"
+      },
+      "sections": {
+        "latestDeals": {
+          "title": "Aktuelle Angebote",
+          "subtitle": "Zeitlich begrenzte Deals, die weltweit versendet werden."
+        },
+        "newCollection": {
+          "title": "Neue Kollektion",
+          "subtitle": "Layer aus natürlichen Texturen und Stoffen, inspiriert von der Küste."
+        },
+        "latestProducts": {
+          "title": "Neu eingetroffen",
+          "subtitle": "Frische Neuheiten aus dem Bro World Marktplatz.",
+          "emptyFiltered": "In dieser Kategorie sind derzeit keine Produkte verfügbar."
+        }
+      },
+      "labels": {
+        "deal": "Top-Angebot"
+      },
+      "actions": {
+        "shopNow": "Jetzt einkaufen",
+        "exploreCollection": "Kollektion entdecken",
+        "refresh": "Katalog aktualisieren",
+        "retry": "Erneut versuchen"
+      },
+      "fallbacks": {
+        "unknownProduct": "Produkt",
+        "priceUnavailable": "Preis nicht verfügbar",
+        "noProducts": "Zurzeit sind keine Produkte verfügbar.",
+        "categoryFallback": "Kollektion"
+      },
+      "errors": {
+        "failedToLoad": "Die Shop-Daten konnten nicht geladen werden. Bitte versuche es später erneut."
+      }
     }
   },
   "navigation": {
@@ -102,6 +154,7 @@
     "help": "Hilfe",
     "about": "Über uns",
     "contact": "Kontakt",
+    "ecommerce": "Shop",
     "pluginManagement": "Plugin-Verwaltung",
     "plugins": "Plugins",
     "mediaManagement": "Medienverwaltung",

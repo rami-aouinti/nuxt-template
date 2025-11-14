@@ -64,6 +64,58 @@
           "description": "Deep and vibrant with theme accent."
         }
       }
+    },
+    "ecommerce": {
+      "drawer": {
+        "title": "Seālius boutique",
+        "subtitle": "Sun-kissed silhouettes curated from our coastal partners.",
+        "metrics": {
+          "products": "{count} items",
+          "categories": "{count} categories"
+        }
+      },
+      "hero": {
+        "brand": "Seālius",
+        "tagline": "Coastal collection",
+        "description": "Discover breathable fabrics, ocean hues, and effortless cuts made for seaside days and nights."
+      },
+      "categories": {
+        "title": "Browse by category",
+        "all": "All"
+      },
+      "sections": {
+        "latestDeals": {
+          "title": "Latest deals",
+          "subtitle": "Limited-time offers on essentials ready to ship worldwide."
+        },
+        "newCollection": {
+          "title": "New collection",
+          "subtitle": "Layer tonal textures and natural fibers inspired by the shoreline."
+        },
+        "latestProducts": {
+          "title": "Latest products",
+          "subtitle": "Fresh arrivals from the Bro World marketplace.",
+          "emptyFiltered": "We do not have items in this category yet."
+        }
+      },
+      "labels": {
+        "deal": "Featured deal"
+      },
+      "actions": {
+        "shopNow": "Shop now",
+        "exploreCollection": "Explore collection",
+        "refresh": "Refresh catalogue",
+        "retry": "Try again"
+      },
+      "fallbacks": {
+        "unknownProduct": "Product",
+        "priceUnavailable": "Price unavailable",
+        "noProducts": "No products are available right now.",
+        "categoryFallback": "Collection"
+      },
+      "errors": {
+        "failedToLoad": "We could not load the shop data. Please try again in a moment."
+      }
     }
   },
   "navigation": {
@@ -102,6 +154,7 @@
     "help": "Help",
     "about": "About",
     "contact": "Contact",
+    "ecommerce": "Shop",
     "pluginManagement": "Plugin management",
     "plugins": "Plugins",
     "mediaManagement": "Media management",

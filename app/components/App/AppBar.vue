@@ -328,6 +328,11 @@ watch(loggedIn, (value) => {
             :to="localePath('help')"
           />
           <v-list-item
+            :title="t('navigation.ecommerce')"
+            prepend-icon="mdi-shopping-outline"
+            :to="localePath('ecommerce')"
+          />
+          <v-list-item
             :title="t('navigation.about')"
             prepend-icon="mdi-information-outline"
             :to="localePath('about')"
