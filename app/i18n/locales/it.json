@@ -116,6 +116,82 @@
       "errors": {
         "failedToLoad": "Impossibile caricare i dati del negozio. Riprova più tardi."
       }
+    },
+    "ecommerceCheckout": {
+      "address": {
+        "meta": {
+          "title": "Checkout · Indirizzo"
+        },
+        "headline": {
+          "step": "Passo {step} di 4",
+          "title": "Dove dobbiamo spedire il tuo ordine?",
+          "subtitle": "Inserisci i dati di fatturazione e confermeremo la spedizione nel passaggio successivo."
+        },
+        "steps": {
+          "address": "Indirizzo",
+          "shipping": "Spedizione",
+          "payment": "Pagamento",
+          "complete": "Completo"
+        },
+        "form": {
+          "validation": {
+            "required": "Questo campo è obbligatorio",
+            "email": "Inserisci un indirizzo email valido"
+          },
+          "contact": {
+            "title": "Informazioni di contatto",
+            "email": "Indirizzo email"
+          },
+          "billing": {
+            "title": "Indirizzo di fatturazione",
+            "description": "Usa l'indirizzo associato al tuo metodo di pagamento preferito.",
+            "firstName": "Nome",
+            "lastName": "Cognome",
+            "company": "Azienda (opzionale)",
+            "street": "Indirizzo",
+            "city": "Città",
+            "postcode": "CAP",
+            "country": "Paese",
+            "province": "Stato / Provincia",
+            "phoneNumber": "Telefono"
+          },
+          "shipping": {
+            "title": "Indirizzo di spedizione",
+            "useDifferent": "Usare un indirizzo di spedizione diverso?",
+            "description": "Aggiorna i dati di spedizione se sono diversi da quelli di fatturazione.",
+            "firstName": "Nome",
+            "lastName": "Cognome",
+            "company": "Azienda (opzionale)",
+            "street": "Indirizzo",
+            "city": "Città",
+            "postcode": "CAP",
+            "country": "Paese",
+            "province": "Stato / Provincia",
+            "phoneNumber": "Telefono"
+          }
+        },
+        "actions": {
+          "back": "Torna al negozio",
+          "next": "Salva e continua"
+        },
+        "status": {
+          "success": "Gli indirizzi sono stati salvati correttamente.",
+          "error": "Non è stato possibile salvare gli indirizzi. Riprova."
+        },
+        "summary": {
+          "title": "Riepilogo ordine",
+          "orderError": "Impossibile caricare i totali dell'ordine. Gli importi mostrati potrebbero essere indicativi.",
+          "itemsTotal": "Totale articoli",
+          "discount": "Sconti",
+          "shipping": "Spedizione stimata",
+          "taxes": "Tasse",
+          "total": "Totale ordine",
+          "itemsLabel": "{count} articoli",
+          "confirmationTitle": "Indirizzi salvati",
+          "billingSaved": "Indirizzo di fatturazione salvato",
+          "shippingSaved": "Indirizzo di spedizione salvato"
+        }
+      }
     }
   },
   "navigation": {

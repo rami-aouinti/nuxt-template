@@ -116,6 +116,82 @@
       "errors": {
         "failedToLoad": "暂时无法加载商店数据，请稍后重试。"
       }
+    },
+    "ecommerceCheckout": {
+      "address": {
+        "meta": {
+          "title": "结账 · 地址"
+        },
+        "headline": {
+          "step": "第 {step} 步，共 4 步",
+          "title": "我们该把订单寄往哪里？",
+          "subtitle": "填写账单地址，下一步我们将确认配送信息。"
+        },
+        "steps": {
+          "address": "地址",
+          "shipping": "配送",
+          "payment": "支付",
+          "complete": "完成"
+        },
+        "form": {
+          "validation": {
+            "required": "此字段为必填项",
+            "email": "请输入有效的邮箱地址"
+          },
+          "contact": {
+            "title": "联系信息",
+            "email": "电子邮箱"
+          },
+          "billing": {
+            "title": "账单地址",
+            "description": "请使用与你常用支付方式绑定的地址。",
+            "firstName": "名字",
+            "lastName": "姓氏",
+            "company": "公司（可选）",
+            "street": "街道地址",
+            "city": "城市",
+            "postcode": "邮政编码",
+            "country": "国家 / 地区",
+            "province": "省 / 州",
+            "phoneNumber": "联系电话"
+          },
+          "shipping": {
+            "title": "配送地址",
+            "useDifferent": "使用不同的配送地址？",
+            "description": "如果配送地址与账单信息不同，请在此更新。",
+            "firstName": "名字",
+            "lastName": "姓氏",
+            "company": "公司（可选）",
+            "street": "街道地址",
+            "city": "城市",
+            "postcode": "邮政编码",
+            "country": "国家 / 地区",
+            "province": "省 / 州",
+            "phoneNumber": "联系电话"
+          }
+        },
+        "actions": {
+          "back": "返回商店",
+          "next": "保存并继续"
+        },
+        "status": {
+          "success": "地址已成功保存。",
+          "error": "无法保存地址，请稍后再试。"
+        },
+        "summary": {
+          "title": "订单概要",
+          "orderError": "暂时无法加载订单金额，以下数据可能为占位值。",
+          "itemsTotal": "商品小计",
+          "discount": "折扣",
+          "shipping": "预计运费",
+          "taxes": "税费",
+          "total": "订单合计",
+          "itemsLabel": "{count} 件商品",
+          "confirmationTitle": "地址已保存",
+          "billingSaved": "账单地址已保存",
+          "shippingSaved": "配送地址已保存"
+        }
+      }
     }
   },
   "navigation": {

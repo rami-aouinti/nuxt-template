@@ -116,6 +116,82 @@
       "errors": {
         "failedToLoad": "We could not load the shop data. Please try again in a moment."
       }
+    },
+    "ecommerceCheckout": {
+      "address": {
+        "meta": {
+          "title": "Checkout · Address"
+        },
+        "headline": {
+          "step": "Step {step} of 4",
+          "title": "Where should we send your order?",
+          "subtitle": "Enter the billing details and we'll confirm shipping on the next step."
+        },
+        "steps": {
+          "address": "Address",
+          "shipping": "Shipping",
+          "payment": "Payment",
+          "complete": "Complete"
+        },
+        "form": {
+          "validation": {
+            "required": "This field is required",
+            "email": "Enter a valid email address"
+          },
+          "contact": {
+            "title": "Contact information",
+            "email": "Email address"
+          },
+          "billing": {
+            "title": "Billing address",
+            "description": "Use the address linked to your preferred payment method.",
+            "firstName": "First name",
+            "lastName": "Last name",
+            "company": "Company (optional)",
+            "street": "Street address",
+            "city": "City",
+            "postcode": "Postcode",
+            "country": "Country",
+            "province": "State / Province",
+            "phoneNumber": "Phone number"
+          },
+          "shipping": {
+            "title": "Shipping address",
+            "useDifferent": "Use different address for shipping?",
+            "description": "Update the shipping details if they differ from your billing information.",
+            "firstName": "First name",
+            "lastName": "Last name",
+            "company": "Company (optional)",
+            "street": "Street address",
+            "city": "City",
+            "postcode": "Postcode",
+            "country": "Country",
+            "province": "State / Province",
+            "phoneNumber": "Phone number"
+          }
+        },
+        "actions": {
+          "back": "Back to store",
+          "next": "Save and continue"
+        },
+        "status": {
+          "success": "Your addresses have been saved successfully.",
+          "error": "We could not save your addresses. Please try again."
+        },
+        "summary": {
+          "title": "Order summary",
+          "orderError": "We could not load the order totals. Amounts shown below may be placeholders.",
+          "itemsTotal": "Items total",
+          "discount": "Discounts",
+          "shipping": "Estimated shipping",
+          "taxes": "Taxes",
+          "total": "Order total",
+          "itemsLabel": "{count} items",
+          "confirmationTitle": "Addresses saved",
+          "billingSaved": "Billing address saved",
+          "shippingSaved": "Shipping address saved"
+        }
+      }
     }
   },
   "navigation": {
