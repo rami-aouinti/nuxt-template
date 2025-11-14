@@ -1,48 +1,112 @@
 import type { HydraContext } from './hydra'
-import type { PromotionChannel } from './promotion'
 import type { TranslationInterface } from './tax'
 
-export interface CatalogPromotionTranslationSummary {
-  label: string | null
-  description: string | null
-  locale: string
+export interface ProductTranslationRelation {
+  translations?: TranslationInterface[] | null
+  translation?: TranslationInterface[] | null
   currentLocale?: string
   fallbackLocale?: string
 }
 
-export type CatalogPromotionTranslations = Record<string, CatalogPromotionTranslationSummary>
-
-export interface CatalogPromotionTranslation
-  extends CatalogPromotionTranslationSummary {
-  translatable?: string | null
-  translation?: TranslationInterface[] | null
-  translations?: TranslationInterface[] | null
+export interface ProductTranslationReference {
+  translatable?: ProductTranslationRelation | null
+  locale?: string | null
 }
 
-export interface CatalogPromotionScopeReference {
-  type: string
-  configuration: (string | null)[]
-  catalogPromotion: string | null
+export interface ProductOptionValueTranslation {
+  id?: number
+  value: string
+  locale: string
+  translatable?: string
+  translation?: ProductTranslationReference[] | null
+  translations?: ProductTranslationReference[] | null
+  currentLocale?: string
+  fallbackLocale?: string
 }
 
-export interface CatalogPromotionScope extends CatalogPromotionScopeReference {
-  id: number
+export interface ProductOptionValueSummary {
+  option: string
+  value: string | null
+  optionCode?: string | null
+  name?: string | null
+  translation?: ProductTranslationReference[] | null
 }
 
-export interface CatalogPromotionActionReference {
-  type: string
-  configuration: (string | null)[]
-  catalogPromotion: string | null
+export interface ProductOptionValue extends ProductOptionValueSummary {
+  id?: number
+  code: string
+  translations?: Record<string, ProductOptionValueTranslation>
+  translatable?: string
+  currentLocale?: string
+  fallbackLocale?: string
 }
 
-export interface CatalogPromotionAction extends CatalogPromotionActionReference {
-  id: number
+export interface ProductImageVariantReference {
+  name?: string | null
+  descriptor?: string
+  optionValues?: ProductOptionValue[]
+  optionValue?: ProductOptionValueSummary[]
+  translation?: ProductTranslationReference[] | null
 }
 
-export interface CatalogPromotion {
-  channels: string[]
-  id: number
+export interface ProductImageInterface {
+  type?: string | null
+  file?: string | null
+  path?: string | null
+  owner?: string
+  id?: number
+  position?: number
+  name?: string | null
+  descriptor?: string
+  optionValue?: ProductOptionValueSummary[]
+  variant?: ProductImageVariantReference[]
+  translation?: ProductTranslationReference[] | null
+}
+
+export interface ProductVariantTranslationSummary {
+  id?: number
   name: string | null
+  locale: string
+  translatable?: string
+  translation?: ProductTranslationReference[] | null
+  translations?: ProductTranslationReference[] | null
+  currentLocale?: string
+  fallbackLocale?: string
+}
+
+export interface ProductPromotionScope {
+  type: string
+  configuration: (string | null)[]
+  catalogPromotion?: string | null
+  id?: number
+}
+
+export interface ProductPromotionAction {
+  type: string
+  configuration: (string | null)[]
+  catalogPromotion?: string | null
+  id?: number
+}
+
+export interface ProductChannel {
+  name: string
+  description: string | null
+  hostname: string | null
+  color: string | null
+  code: string
+  createdAt: string
+  updatedAt: string | null
+  enabled: boolean
+  id: number
+}
+
+export interface ProductVariantChannelPricingPromotion {
+  '@context'?: HydraContext
+  '@id'?: string
+  '@type'?: string
+  channels?: string[]
+  id: number
+  name: string
   code: string
   startDate: string | null
   endDate: string | null
@@ -52,21 +116,22 @@ export interface CatalogPromotion {
   scopes: string[]
   actions: string[]
   enabled: boolean
-  translations?: CatalogPromotionTranslations
-  channel?: PromotionChannel[]
-  translation?: CatalogPromotionTranslation[]
-  scope?: CatalogPromotionScope[]
-  action?: CatalogPromotionAction[]
+  translations?: Record<string, { label: string; description: string; locale: string }>
+  currentLocale?: string
+  fallbackLocale?: string
+  channel?: ProductChannel[]
+  translationClass?: unknown
+  label?: string | null
+  description?: string | null
+  translation?: ProductTranslationReference[] | null
+  scope?: ProductPromotionScope[]
+  catalogPromotion?: string | null
+  action?: ProductPromotionAction[]
   exclusiveCatalogPromotionApplied?: boolean
+  image?: unknown[]
 }
 
-export interface CatalogPromotionJsonLd extends CatalogPromotion {
-  '@context'?: HydraContext
-  '@id'?: string
-  '@type'?: string
-}
-
-export interface ProductVariantChannelPricingBase {
+export interface ProductVariantChannelPricing {
   productVariant: string
   price: number | null
   channelCode: string
@@ -74,202 +139,269 @@ export interface ProductVariantChannelPricingBase {
   lowestPriceBeforeDiscount: number | null
   minimumPrice: number | null
   priceReduced?: boolean
-  appliedPromotions: (string | CatalogPromotionJsonLd)[]
+  appliedPromotions?: ProductVariantChannelPricingPromotion[]
 }
 
-export interface ProductVariantChannelPricing extends ProductVariantChannelPricingBase {
-  id: number
-  exclusiveCatalogPromotionApplied?: boolean
-}
-
-export interface ProductVariantChannelPricingJsonLd extends ProductVariantChannelPricing {
-  '@context'?: HydraContext
-  '@id'?: string
-  '@type'?: string
-}
-
-export type ProductVariantChannelPricingsMap = Record<string, ProductVariantChannelPricingJsonLd>
-
-export interface ProductOptionValueTranslation extends TranslationInterface {
-  locale: string | null
-  values?: unknown[]
-  value?: string | null
-  name?: string | null
-  optionCode?: string | null
-}
-
-export interface ProductOptionValue {
-  '@context'?: HydraContext
-  '@id'?: string
-  '@type'?: string
-  id: number
+export interface ProductVariantInterface {
+  version?: number
+  onHold?: number
+  onHand?: number
+  tracked?: boolean
+  weight?: number | null
+  width?: number | null
+  height?: number | null
+  depth?: number | null
+  taxCategory?: string | null
+  shippingCategory?: string | null
+  channelPricings?: Record<string, string>
+  shippingRequired?: boolean
+  images?: string[]
+  id?: number
   code: string
-  option: string
-  translations?: Record<string, string>
-  currentLocale?: string
-  fallbackLocale?: string
-  value?: string | null
-  optionCode?: string | null
-  name?: string | null
-  translation?: ProductOptionValueTranslation[]
-}
-
-export interface ProductVariantOptionValue extends ProductOptionValue {
-  productVariant?: string
-}
-
-export interface ProductVariantImageReference {
-  '@context'?: HydraContext
-  '@id'?: string
-  '@type'?: string
-  productVariants?: string[]
-  position?: number
-  id: number
-  type: string | null
-  file: string | null
-  path: string
-  owner: string
-  image?: string[]
-}
-
-export interface ProductVariant {
-  weight: number | null
-  width: number | null
-  height: number | null
-  depth: number | null
-  taxCategory: string | null
-  shippingCategory: string | null
-  channelPricings?: ProductVariantChannelPricingsMap
-  channelPricing?: ProductVariantChannelPricing[]
-  channels?: string[]
-  id: number
-  name: string | null
-  code: string
-  shippingRequired: boolean
-  descriptor?: string
-  optionValues?: ProductVariantOptionValue[]
-  optionValue?: ProductVariantOptionValue[]
-  translation?: ProductOptionValueTranslation[]
-  locale?: string | null
   product?: string
+  optionValues?: string[]
   position?: number
   createdAt?: string
   updatedAt?: string | null
   enabled?: boolean
+  translations?: Record<string, ProductVariantTranslationSummary>
+  currentLocale?: string
+  fallbackLocale?: string
+  name?: string | null
+  descriptor?: string
+  optionValuesCollection?: ProductOptionValue[]
+  optionValue?: ProductOptionValueSummary[]
+  translation?: ProductTranslationReference[] | null
   inStock?: boolean
-  onHold?: number
-  onHand?: number
-  tracked?: boolean
-  version?: number
-  images?: ProductVariantImageReference[]
-  productVariants?: string[]
-  simplified?: boolean
-  configurable?: boolean
+  inventoryName?: string | null
+  shippingWeight?: number | null
+  shippingWidth?: number | null
+  shippingHeight?: number | null
+  shippingDepth?: number | null
+  shippingVolume?: number | null
+  channelPricing?: ProductVariantChannelPricing[]
 }
 
-export interface ProductVariantJsonLd extends ProductVariant {
+export interface ProductVariantInterfaceJsonLd extends ProductVariantInterface {
   '@context'?: HydraContext
   '@id'?: string
   '@type'?: string
 }
 
 export interface ProductAttributeValue {
-  '@context'?: HydraContext
-  '@id'?: string
-  '@type'?: string
-  id: number
-  subject: string
+  id?: number
+  subject?: string
   attribute: string
-  localeCode: string | null
-  product?: ProductVariantJsonLd | null
+  localeCode?: string | null
+  product?: string | null
   value: unknown
   name?: string | null
   type?: string | null
   code?: string | null
+  text?: string | null
+  boolean?: boolean | null
+  integer?: number | null
+  float?: number | null
+  datetime?: string | null
+  date?: string | null
+  json?: (string | null)[] | null
+  translation?: ProductTranslationReference[] | null
 }
 
-export interface ProductImage extends ProductVariantImageReference {
-  productVariant?: string[]
-  product?: string
+export interface ProductAssociation {
+  id?: number
+  type: string
+  owner?: string
+  associatedProducts?: string[]
+  createdAt?: string
+  updatedAt?: string | null
+  associatedProduct?: unknown[]
+  translation?: ProductTranslationReference[] | null
 }
 
-export interface ProductTranslation {
-  name: string
-  slug: string
-  description: string | null
-  shortDescription: string | null
-  metaKeywords: string | null
-  metaDescription: string | null
+export interface ProductTaxon {
+  product: string
+  taxon: string
+  id?: number
+  position?: number
+  translation?: ProductTranslationReference[] | null
+}
+
+export interface ProductRelationCollection {
+  empty?: unknown
+  keys?: unknown
+  values?: unknown
+  iterator?: unknown
+}
+
+export interface ProductOptionTranslation {
+  id?: number
+  name: string | null
   locale: string
+  translatable?: string
+  translation?: ProductTranslationReference[] | null
+  translations?: ProductTranslationReference[] | null
   currentLocale?: string
   fallbackLocale?: string
 }
 
-export type ProductTranslations = Record<string, ProductTranslation>
-
-export interface Product {
-  productTaxons: string[]
-  channels: string[]
-  mainTaxon: string | null
-  reviews: string[]
-  averageRating: number
-  images?: ProductImage[]
-  productVariants: string[]
-  id: number
-  type: string | null
-  path: string
+export interface ProductOption {
+  id?: number
   code: string
+  position?: number
+  values?: string[]
+  createdAt?: string
+  updatedAt?: string | null
+  translations?: Record<string, ProductOptionTranslation>
+  currentLocale?: string
+  fallbackLocale?: string
+  name?: string | null
+  value?: ProductOptionValue[]
+  translation?: ProductTranslationReference[] | null
+}
+
+export interface ProductTranslationDetail {
+  shortDescription?: string | null
+  id?: number
+  name: string
+  slug: string
+  description?: string | null
+  metaKeywords?: string | null
+  metaDescription?: string | null
+  locale: string
+  translatable?: string
+  translation?: ProductTranslationReference[] | null
+  translations?: ProductTranslationReference[] | null
+  currentLocale?: string
+  fallbackLocale?: string
+  createdAt?: string
+  updatedAt?: string | null
+}
+
+export type ProductTranslations = Record<string, ProductTranslationDetail>
+
+export interface ProductInterface {
+  variantSelectionMethod?: string
+  productTaxons?: string[]
+  channels?: string[]
+  mainTaxon?: string | null
+  reviews?: string[]
+  averageRating?: number
+  images?: ProductImageInterface[]
+  productVariants?: string[]
+  id?: number
+  type?: string | null
+  path?: string
+  code: string
+  attributes?: ProductAttributeValue[]
+  attribute?: ProductAttributeValue[]
   variants?: string[]
+  variant?: ProductVariantInterface[]
   options?: string[]
+  option?: ProductOption[]
+  value?: ProductOptionValue[]
   associations?: string[]
-  createdAt: string
-  updatedAt: string | null
-  enabled: boolean
+  association?: ProductAssociation[]
+  createdAt?: string
+  updatedAt?: string | null
+  enabled?: boolean
   translations?: ProductTranslations
+  currentLocale?: string
+  fallbackLocale?: string
+  translation?: ProductTranslationReference[] | null
   shortDescription?: string | null
   description?: string | null
-  name?: string | null
   slug?: string | null
-  translation?: ProductOptionValueTranslation[]
+  name?: string | null
+  metaKeywords?: string | null
+  metaDescription?: string | null
+  descriptor?: string
+  attributeValues?: ProductAttributeValue[]
+  variantSelectionMethodChoice?: boolean
+  variantSelectionMethodLabel?: string
+  productTaxon?: ProductTaxon[]
+  taxons?: ProductRelationCollection
+  enabledVariants?: ProductRelationCollection
+  channel?: ProductChannel[]
+  image?: ProductImageInterface[]
+  simple?: boolean
+  configurable?: boolean
 }
 
-export interface ProductJsonLd extends Product {
+export interface ProductInterfaceJsonLd extends ProductInterface {
   '@context'?: HydraContext
   '@id'?: string
   '@type'?: string
 }
 
-export interface ProductAssociation {
-  '@context'?: HydraContext
-  '@id'?: string
-  '@type'?: string
-  id: number
-  type: string
-  owner: string
-  associatedProducts: string[]
-  createdAt: string
-  updatedAt: string | null
-  associatedProduct?: ProductJsonLd[]
+export interface ProductTranslationPayload {
+  name: string
+  slug: string
+  description?: string | null
+  shortDescription?: string | null
+  metaKeywords?: string | null
+  metaDescription?: string | null
 }
 
-export type ProductVariantCollection = ProductVariantJsonLd[]
+export type ProductTranslationsPayload = Record<string, ProductTranslationPayload>
 
-export type ProductCollection = ProductJsonLd[]
+export interface ProductAttributeAssignmentPayload {
+  attribute: string
+  localeCode?: string | null
+  value: unknown
+}
 
-export type ProductJsonLdSyliusAdminProductIndex = ProductJsonLd
+export interface ProductSyliusAdminProductCreate {
+  variantSelectionMethod?: string
+  channels?: string[]
+  mainTaxon?: string | null
+  images?: string[]
+  code: string
+  attributes?: ProductAttributeAssignmentPayload[]
+  options?: string[]
+  enabled?: boolean
+  translations?: ProductTranslationsPayload
+}
 
-export type ProductJsonLdSyliusAdminProductShow = ProductJsonLd
+export type ProductSyliusAdminProductIndex = ProductInterface
 
-export type ProductJsonLdSyliusShopProductIndex = ProductJsonLd
+export type ProductSyliusAdminProductShow = ProductInterface
 
-export type ProductJsonLdSyliusShopProductShow = ProductJsonLd
+export interface ProductSyliusAdminProductUpdate {
+  channels?: string[]
+  mainTaxon?: string | null
+  images?: string[]
+  attributes?: ProductAttributeAssignmentPayload[]
+  options?: string[]
+  enabled?: boolean
+  translations?: ProductTranslationsPayload
+}
 
-export type ProductJsonLdSyliusAdminProductImageShow = ProductJsonLd
+export type ProductSyliusAdminProductImageShow = ProductImageInterface
 
-export type ProductVariantJsonLdSyliusAdminProductIndex = ProductVariantJsonLd
+export interface ProductSyliusShopProductIndex extends ProductInterface {
+  reviews?: string[]
+}
 
-export type ProductVariantJsonLdSyliusAdminProductShow = ProductVariantJsonLd
+export interface ProductSyliusShopProductShow extends ProductInterface {
+  reviews?: string[]
+}
 
-export type ProductVariantJsonLdSyliusShopProductIndex = ProductVariantJsonLd
+export type ProductJsonld = ProductInterfaceJsonLd
 
-export type ProductVariantJsonLdSyliusShopProductShow = ProductVariantJsonLd
+export type ProductJsonldSyliusAdminProductIndex = ProductInterfaceJsonLd
+
+export type ProductJsonldSyliusAdminProductShow = ProductInterfaceJsonLd
+
+export type ProductJsonldSyliusShopProductIndex = ProductInterfaceJsonLd
+
+export type ProductJsonldSyliusShopProductShow = ProductInterfaceJsonLd
+
+export interface ProductVariantCollection {
+  productVariant?: ProductVariantInterface[]
+}
+
+export interface ProductImageCollection {
+  image?: ProductImageInterface[]
+}
+
