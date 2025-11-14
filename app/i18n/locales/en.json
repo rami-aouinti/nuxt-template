@@ -624,7 +624,8 @@
         "productAssociationTypes": "Product association types",
         "orders": "Orders",
         "payments": "Payments",
-        "shipments": "Shipments"
+        "shipments": "Shipments",
+        "configuration": "Configuration"
       },
       "common": {
         "none": "None",
@@ -811,6 +812,155 @@
           "tracking": "Tracking",
           "updatedAt": "Updated",
           "noTracking": "No tracking information"
+        }
+      },
+      "configuration": {
+        "title": "Store configuration",
+        "subtitle": "Control channels, localization, and taxation for your storefront.",
+        "navigation": {
+          "channels": "Channels",
+          "countries": "Countries",
+          "zones": "Zones",
+          "currencies": "Currencies",
+          "locales": "Locales",
+          "paymentMethods": "Payment methods",
+          "shippingMethods": "Shipping methods",
+          "taxCategories": "Tax categories",
+          "taxRates": "Tax rates",
+          "administrators": "Administrators"
+        },
+        "channels": {
+          "title": "Sales channels",
+          "subtitle": "Review channels, their currencies, locales, and availability.",
+          "table": {
+            "name": "Name",
+            "code": "Code",
+            "currency": "Base currency",
+            "locale": "Default locale",
+            "hostname": "Hostname",
+            "enabled": "Enabled"
+          }
+        },
+        "countries": {
+          "title": "Countries",
+          "subtitle": "Review the countries available to your sales channels.",
+          "table": {
+            "name": "Name",
+            "code": "Code",
+            "provinces": "Provinces",
+            "enabled": "Enabled"
+          }
+        },
+        "zones": {
+          "title": "Zones",
+          "subtitle": "Group countries or regions to reuse across shipping and taxation.",
+          "table": {
+            "name": "Name",
+            "code": "Code",
+            "type": "Type",
+            "members": "Members"
+          },
+          "fallback": {
+            "type": "Unknown"
+          }
+        },
+        "currencies": {
+          "title": "Currencies",
+          "subtitle": "Manage enabled currencies and their exchange rates.",
+          "table": {
+            "code": "Code",
+            "name": "Name",
+            "exchangeRate": "Exchange rate",
+            "updatedAt": "Updated",
+            "enabled": "Enabled"
+          },
+          "fallback": {
+            "updatedAt": "Never"
+          }
+        },
+        "locales": {
+          "title": "Locales",
+          "subtitle": "Enable languages available to your storefront.",
+          "table": {
+            "name": "Name",
+            "code": "Code",
+            "enabled": "Enabled"
+          }
+        },
+        "paymentMethods": {
+          "title": "Payment methods",
+          "subtitle": "List available payment methods and their channel coverage.",
+          "table": {
+            "name": "Name",
+            "code": "Code",
+            "gateway": "Gateway",
+            "channels": "Channels",
+            "enabled": "Enabled"
+          },
+          "fallback": {
+            "gateway": "No gateway"
+          }
+        },
+        "shippingMethods": {
+          "title": "Shipping methods",
+          "subtitle": "Monitor shipping methods, zones, and assigned channels.",
+          "table": {
+            "name": "Name",
+            "code": "Code",
+            "zone": "Zone",
+            "channels": "Channels",
+            "enabled": "Enabled"
+          },
+          "fallback": {
+            "zone": "No zone"
+          }
+        },
+        "taxCategories": {
+          "title": "Tax categories",
+          "subtitle": "Organise tax rules into descriptive categories.",
+          "table": {
+            "name": "Name",
+            "code": "Code",
+            "description": "Description"
+          }
+        },
+        "taxRates": {
+          "title": "Tax rates",
+          "subtitle": "Inspect applied tax rates per zone and category.",
+          "table": {
+            "name": "Name",
+            "code": "Code",
+            "category": "Category",
+            "zone": "Zone",
+            "amount": "Amount",
+            "includedInPrice": "Included in price"
+          },
+          "labels": {
+            "included": "Included",
+            "excluded": "Excluded"
+          },
+          "fallback": {
+            "zone": "No zone",
+            "category": "No category"
+          }
+        },
+        "administrators": {
+          "title": "Administrators",
+          "subtitle": "Audit administrative accounts and their access.",
+          "table": {
+            "name": "Name",
+            "email": "Email",
+            "username": "Username",
+            "locale": "Locale",
+            "roles": "Roles",
+            "lastLogin": "Last login",
+            "enabled": "Enabled"
+          },
+          "fallback": {
+            "locale": "No locale",
+            "roles": "No roles",
+            "lastLogin": "Never"
+          }
         }
       }
     }

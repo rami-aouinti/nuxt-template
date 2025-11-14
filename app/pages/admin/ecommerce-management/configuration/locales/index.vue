@@ -1,0 +1,113 @@
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+
+import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
+import {
+  getBoolean,
+  getString,
+  normalizeHydraCollection,
+  resolveLocalizedString,
+  toRecord,
+} from '~/utils/ecommerce/admin'
+
+definePageMeta({
+  title: 'admin.ecommerce.configuration.navigation.locales',
+  icon: 'mdi-translate',
+  drawerIndex: 4,
+  roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
+})
+
+const { t, locale } = useI18n()
+
+const headers = computed(() => [
+  { title: t('admin.ecommerce.configuration.locales.table.name'), key: 'name', minWidth: 220 },
+  { title: t('admin.ecommerce.configuration.locales.table.code'), key: 'code', minWidth: 140 },
+  {
+    title: t('admin.ecommerce.configuration.locales.table.enabled'),
+    key: 'enabled',
+    align: 'center',
+    width: 140,
+  },
+])
+
+const search = ref('')
+
+const {
+  data: rawLocales,
+  pending,
+  error,
+  refresh,
+} = await useFetch<unknown>('/api/ecommerce/v2/admin/locales', {
+  key: 'admin-ecommerce-configuration-locales',
+  credentials: 'include',
+  query: {
+    itemsPerPage: 100,
+    page: 1,
+  },
+})
+
+const rows = computed(() => {
+  const entries = normalizeHydraCollection(rawLocales.value)
+  return entries.map((entry, index) => {
+    const record = toRecord(entry)
+    const code = getString(record, ['code']) ?? `locale-${index + 1}`
+    const name =
+      resolveLocalizedString(record, locale, ['name']) ??
+      getString(record, ['name']) ??
+      code
+    const enabled = getBoolean(record, ['enabled', 'isEnabled'], true)
+
+    return {
+      code,
+      name,
+      enabled,
+    }
+  })
+})
+
+const filteredRows = computed(() => {
+  if (!search.value) {
+    return rows.value
+  }
+
+  const term = search.value.toLowerCase().trim()
+  return rows.value.filter((row) =>
+    [row.name, row.code]
+      .filter(Boolean)
+      .some((value) => value.toLowerCase().includes(term)),
+  )
+})
+
+const errorMessage = computed(() => {
+  if (!error.value) {
+    return null
+  }
+
+  const err = error.value as { data?: { message?: string }; message?: string }
+  return err?.data?.message || err?.message || t('common.unexpectedError')
+})
+</script>
+
+<template>
+  <AdminDataTable
+    v-model:search="search"
+    :title="t('admin.ecommerce.configuration.locales.title')"
+    :subtitle="t('admin.ecommerce.configuration.locales.subtitle')"
+    :headers="headers"
+    :items="filteredRows"
+    :loading="pending"
+    :error="errorMessage"
+    :search-placeholder="t('common.labels.search')"
+    @refresh="refresh"
+  >
+    <template #item.enabled="{ item }">
+      <v-chip :color="item.enabled ? 'success' : 'error'" variant="tonal">
+        {{
+          item.enabled
+            ? t('admin.ecommerce.common.enabled')
+            : t('admin.ecommerce.common.disabled')
+        }}
+      </v-chip>
+    </template>
+  </AdminDataTable>
+</template>
