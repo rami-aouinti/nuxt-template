@@ -6,11 +6,15 @@ import { broWorldMediaRequest } from './broWorldMediaApi'
 import { broWorldFrontendRequest } from './broWorldFrontendApi'
 import { broWorldNotificationRequest } from './broWorldNotificationApi'
 
-export function requireEntityId(event: H3Event, entityLabel: string) {
-  const id = getRouterParam(event, 'id')
+export function requireRouteParam(
+  event: H3Event,
+  paramName: string,
+  entityLabel: string,
+) {
+  const value = getRouterParam(event, paramName)
 
-  if (id) {
-    return id
+  if (value) {
+    return value
   }
 
   throw createError({
@@ -18,6 +22,10 @@ export function requireEntityId(event: H3Event, entityLabel: string) {
     statusMessage: 'Bad Request',
     data: { message: `Identifiant ${entityLabel} manquant` },
   })
+}
+
+export function requireEntityId(event: H3Event, entityLabel: string) {
+  return requireRouteParam(event, 'id', entityLabel)
 }
 
 export async function requestWithJsonBody<Response, Payload>(
