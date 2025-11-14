@@ -116,6 +116,82 @@
       "errors": {
         "failedToLoad": "No pudimos cargar la tienda. Inténtalo de nuevo más tarde."
       }
+    },
+    "ecommerceCheckout": {
+      "address": {
+        "meta": {
+          "title": "Finalizar compra · Dirección"
+        },
+        "headline": {
+          "step": "Paso {step} de 4",
+          "title": "¿A dónde enviamos tu pedido?",
+          "subtitle": "Introduce los datos de facturación y confirmaremos el envío en el siguiente paso."
+        },
+        "steps": {
+          "address": "Dirección",
+          "shipping": "Envío",
+          "payment": "Pago",
+          "complete": "Completo"
+        },
+        "form": {
+          "validation": {
+            "required": "Este campo es obligatorio",
+            "email": "Introduce un correo electrónico válido"
+          },
+          "contact": {
+            "title": "Información de contacto",
+            "email": "Correo electrónico"
+          },
+          "billing": {
+            "title": "Dirección de facturación",
+            "description": "Usa la dirección asociada a tu método de pago preferido.",
+            "firstName": "Nombre",
+            "lastName": "Apellidos",
+            "company": "Empresa (opcional)",
+            "street": "Dirección",
+            "city": "Ciudad",
+            "postcode": "Código postal",
+            "country": "País",
+            "province": "Estado / Provincia",
+            "phoneNumber": "Teléfono"
+          },
+          "shipping": {
+            "title": "Dirección de envío",
+            "useDifferent": "¿Usar una dirección distinta para el envío?",
+            "description": "Actualiza los datos de envío si son diferentes a tu información de facturación.",
+            "firstName": "Nombre",
+            "lastName": "Apellidos",
+            "company": "Empresa (opcional)",
+            "street": "Dirección",
+            "city": "Ciudad",
+            "postcode": "Código postal",
+            "country": "País",
+            "province": "Estado / Provincia",
+            "phoneNumber": "Teléfono"
+          }
+        },
+        "actions": {
+          "back": "Volver a la tienda",
+          "next": "Guardar y continuar"
+        },
+        "status": {
+          "success": "Tus direcciones se guardaron correctamente.",
+          "error": "No pudimos guardar tus direcciones. Inténtalo de nuevo."
+        },
+        "summary": {
+          "title": "Resumen del pedido",
+          "orderError": "No pudimos cargar los totales del pedido. Los importes mostrados pueden ser estimaciones.",
+          "itemsTotal": "Total de artículos",
+          "discount": "Descuentos",
+          "shipping": "Envío estimado",
+          "taxes": "Impuestos",
+          "total": "Total del pedido",
+          "itemsLabel": "{count} artículos",
+          "confirmationTitle": "Direcciones guardadas",
+          "billingSaved": "Dirección de facturación guardada",
+          "shippingSaved": "Dirección de envío guardada"
+        }
+      }
     }
   },
   "navigation": {

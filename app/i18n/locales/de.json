@@ -116,6 +116,82 @@
       "errors": {
         "failedToLoad": "Die Shop-Daten konnten nicht geladen werden. Bitte versuche es später erneut."
       }
+    },
+    "ecommerceCheckout": {
+      "address": {
+        "meta": {
+          "title": "Checkout · Adresse"
+        },
+        "headline": {
+          "step": "Schritt {step} von 4",
+          "title": "Wohin sollen wir Ihre Bestellung senden?",
+          "subtitle": "Geben Sie die Rechnungsadresse ein, den Versand bestätigen wir im nächsten Schritt."
+        },
+        "steps": {
+          "address": "Adresse",
+          "shipping": "Versand",
+          "payment": "Zahlung",
+          "complete": "Fertig"
+        },
+        "form": {
+          "validation": {
+            "required": "Dieses Feld ist erforderlich",
+            "email": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+          },
+          "contact": {
+            "title": "Kontaktinformationen",
+            "email": "E-Mail-Adresse"
+          },
+          "billing": {
+            "title": "Rechnungsadresse",
+            "description": "Verwenden Sie die Adresse, die mit Ihrer bevorzugten Zahlungsmethode verknüpft ist.",
+            "firstName": "Vorname",
+            "lastName": "Nachname",
+            "company": "Unternehmen (optional)",
+            "street": "Straße und Hausnummer",
+            "city": "Stadt",
+            "postcode": "Postleitzahl",
+            "country": "Land",
+            "province": "Bundesland / Provinz",
+            "phoneNumber": "Telefonnummer"
+          },
+          "shipping": {
+            "title": "Lieferadresse",
+            "useDifferent": "Andere Lieferadresse verwenden?",
+            "description": "Aktualisieren Sie die Lieferdaten, falls sie sich von der Rechnungsadresse unterscheiden.",
+            "firstName": "Vorname",
+            "lastName": "Nachname",
+            "company": "Unternehmen (optional)",
+            "street": "Straße und Hausnummer",
+            "city": "Stadt",
+            "postcode": "Postleitzahl",
+            "country": "Land",
+            "province": "Bundesland / Provinz",
+            "phoneNumber": "Telefonnummer"
+          }
+        },
+        "actions": {
+          "back": "Zurück zum Shop",
+          "next": "Speichern und fortfahren"
+        },
+        "status": {
+          "success": "Ihre Adressen wurden erfolgreich gespeichert.",
+          "error": "Ihre Adressen konnten nicht gespeichert werden. Bitte versuchen Sie es erneut."
+        },
+        "summary": {
+          "title": "Bestellübersicht",
+          "orderError": "Die Bestellsummen konnten nicht geladen werden. Die angezeigten Beträge sind Platzhalter.",
+          "itemsTotal": "Zwischensumme Artikel",
+          "discount": "Rabatte",
+          "shipping": "Geschätzter Versand",
+          "taxes": "Steuern",
+          "total": "Gesamtsumme",
+          "itemsLabel": "{count} Artikel",
+          "confirmationTitle": "Adressen gespeichert",
+          "billingSaved": "Rechnungsadresse gespeichert",
+          "shippingSaved": "Lieferadresse gespeichert"
+        }
+      }
     }
   },
   "navigation": {

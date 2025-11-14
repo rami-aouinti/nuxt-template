@@ -116,6 +116,82 @@
       "errors": {
         "failedToLoad": "Impossible de charger la boutique pour le moment. Veuillez réessayer plus tard."
       }
+    },
+    "ecommerceCheckout": {
+      "address": {
+        "meta": {
+          "title": "Paiement · Adresse"
+        },
+        "headline": {
+          "step": "Étape {step} sur 4",
+          "title": "Où devons-nous envoyer votre commande ?",
+          "subtitle": "Renseignez vos informations de facturation, nous confirmerons l'expédition ensuite."
+        },
+        "steps": {
+          "address": "Adresse",
+          "shipping": "Livraison",
+          "payment": "Paiement",
+          "complete": "Terminé"
+        },
+        "form": {
+          "validation": {
+            "required": "Ce champ est obligatoire",
+            "email": "Veuillez saisir une adresse e-mail valide"
+          },
+          "contact": {
+            "title": "Informations de contact",
+            "email": "Adresse e-mail"
+          },
+          "billing": {
+            "title": "Adresse de facturation",
+            "description": "Utilisez l'adresse associée à votre moyen de paiement préféré.",
+            "firstName": "Prénom",
+            "lastName": "Nom",
+            "company": "Entreprise (facultatif)",
+            "street": "Adresse",
+            "city": "Ville",
+            "postcode": "Code postal",
+            "country": "Pays",
+            "province": "État / Province",
+            "phoneNumber": "Téléphone"
+          },
+          "shipping": {
+            "title": "Adresse de livraison",
+            "useDifferent": "Utiliser une adresse différente pour la livraison ?",
+            "description": "Modifiez les informations de livraison si elles diffèrent de votre facturation.",
+            "firstName": "Prénom",
+            "lastName": "Nom",
+            "company": "Entreprise (facultatif)",
+            "street": "Adresse",
+            "city": "Ville",
+            "postcode": "Code postal",
+            "country": "Pays",
+            "province": "État / Province",
+            "phoneNumber": "Téléphone"
+          }
+        },
+        "actions": {
+          "back": "Retour à la boutique",
+          "next": "Enregistrer et continuer"
+        },
+        "status": {
+          "success": "Vos adresses ont été enregistrées avec succès.",
+          "error": "Impossible d'enregistrer vos adresses. Veuillez réessayer."
+        },
+        "summary": {
+          "title": "Récapitulatif de commande",
+          "orderError": "Impossible de charger les totaux de la commande. Les montants affichés peuvent être indicatifs.",
+          "itemsTotal": "Total des articles",
+          "discount": "Réductions",
+          "shipping": "Livraison estimée",
+          "taxes": "Taxes",
+          "total": "Total de la commande",
+          "itemsLabel": "{count} articles",
+          "confirmationTitle": "Adresses enregistrées",
+          "billingSaved": "Adresse de facturation enregistrée",
+          "shippingSaved": "Adresse de livraison enregistrée"
+        }
+      }
     }
   },
   "navigation": {
