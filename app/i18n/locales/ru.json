@@ -1828,7 +1828,12 @@
       "summary": {
         "title": "Итог",
         "customerFallback": "Покупатель",
-        "itemCount": "{count, plural, one {# товар} few {# товара} many {# товаров} other {# товаров}}",
+        "itemCount": {
+          "one": "{count} товар",
+          "few": "{count} товара",
+          "many": "{count} товаров",
+          "other": "{count} товаров"
+        },
         "itemsTotal": "Стоимость товаров",
         "discount": "Скидка",
         "shipping": "Оценочная стоимость доставки",

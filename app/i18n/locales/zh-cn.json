@@ -1828,7 +1828,10 @@
       "summary": {
         "title": "摘要",
         "customerFallback": "客户",
-        "itemCount": "{count, plural, one {# 件商品} other {# 件商品}}",
+        "itemCount": {
+          "one": "{count} 件商品",
+          "other": "{count} 件商品"
+        },
         "itemsTotal": "商品小计",
         "discount": "折扣",
         "shipping": "预计运费",

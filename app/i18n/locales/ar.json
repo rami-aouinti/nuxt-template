@@ -1828,7 +1828,14 @@
       "summary": {
         "title": "الملخص",
         "customerFallback": "العميل",
-        "itemCount": "{count} عنصر",
+        "itemCount": {
+          "zero": "{count} عنصر",
+          "one": "{count} عنصر",
+          "two": "{count} عنصر",
+          "few": "{count} عنصر",
+          "many": "{count} عنصر",
+          "other": "{count} عنصر"
+        },
         "itemsTotal": "إجمالي العناصر",
         "discount": "الخصم",
         "shipping": "تكلفة الشحن التقديرية",

@@ -1828,7 +1828,10 @@
       "summary": {
         "title": "Riepilogo",
         "customerFallback": "Cliente",
-        "itemCount": "{count, plural, one {# articolo} other {# articoli}}",
+        "itemCount": {
+          "one": "{count} articolo",
+          "other": "{count} articoli"
+        },
         "itemsTotal": "Totale articoli",
         "discount": "Sconto",
         "shipping": "Costo di spedizione stimato",
