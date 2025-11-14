@@ -60,7 +60,15 @@ export interface ProductImageInterface {
   descriptor?: string
   optionValue?: ProductOptionValueSummary[]
   variant?: ProductImageVariantReference[]
+  productVariants?: string[]
+  productVariant?: ProductVariantInterface[]
   translation?: ProductTranslationReference[] | null
+}
+
+export interface ProductImageInterfaceJsonLd extends ProductImageInterface {
+  '@context'?: HydraContext
+  '@id'?: string
+  '@type'?: string
 }
 
 export interface ProductVariantTranslationSummary {
@@ -379,6 +387,24 @@ export interface ProductSyliusAdminProductUpdate {
 
 export type ProductSyliusAdminProductImageShow = ProductImageInterface
 
+export interface ProductImageSyliusAdminProductImageUpdate {
+  productVariants?: string[]
+  position?: number
+  type?: string | null
+}
+
+export interface ProductImageSummary extends ProductImageInterface {
+  id: number
+  path: string
+  type?: string | null
+}
+
+export type ProductImageSyliusShopProductIndex = ProductImageSummary
+
+export type ProductImageSyliusShopProductShow = ProductImageSummary
+
+export type ProductImageSyliusShopProductImageShow = ProductImageSummary
+
 export interface ProductSyliusShopProductIndex extends ProductInterface {
   reviews?: string[]
 }
@@ -396,6 +422,22 @@ export type ProductJsonldSyliusAdminProductShow = ProductInterfaceJsonLd
 export type ProductJsonldSyliusShopProductIndex = ProductInterfaceJsonLd
 
 export type ProductJsonldSyliusShopProductShow = ProductInterfaceJsonLd
+
+export type ProductImageJsonld = ProductImageInterfaceJsonLd
+
+export type ProductImageJsonldSyliusAdminProductIndex = ProductImageInterfaceJsonLd
+
+export type ProductImageJsonldSyliusAdminProductShow = ProductImageInterfaceJsonLd
+
+export type ProductImageJsonldSyliusAdminProductImageIndex = ProductImageInterfaceJsonLd
+
+export type ProductImageJsonldSyliusAdminProductImageShow = ProductImageInterfaceJsonLd
+
+export type ProductImageJsonldSyliusShopProductIndex = ProductImageInterfaceJsonLd
+
+export type ProductImageJsonldSyliusShopProductShow = ProductImageInterfaceJsonLd
+
+export type ProductImageJsonldSyliusShopProductImageShow = ProductImageInterfaceJsonLd
 
 export interface ProductVariantCollection {
   productVariant?: ProductVariantInterface[]
