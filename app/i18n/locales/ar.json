@@ -1816,6 +1816,86 @@
         "description": "يمكنك العثور على فريقنا في مكتبنا في كولونيا، ألمانيا."
       }
     },
+    "ecommerceOrder": {
+      "metaTitle": "ملخص الطلب",
+      "heading": {
+        "title": "ملخص طلبك",
+        "subtitle": "راجع جميع التفاصيل قبل إتمام عملية الشراء."
+      },
+      "status": {
+        "steps": {
+          "address": "العنوان",
+          "shipping": "الشحن",
+          "payment": "الدفع",
+          "complete": "إتمام"
+        }
+      },
+      "summary": {
+        "title": "معلومات الطلب",
+        "currency": "العملة",
+        "locale": "اللغة",
+        "orderNumber": "رقم الطلب",
+        "placedOn": "تم الإنشاء في",
+        "checkoutState": "مرحلة الدفع",
+        "paymentState": "حالة الدفع",
+        "shippingState": "حالة الشحن"
+      },
+      "addresses": {
+        "billing": "عنوان الفاتورة",
+        "shipping": "عنوان الشحن",
+        "missing": "العنوان غير متوفر"
+      },
+      "payments": {
+        "title": "المدفوعات",
+        "state": "الحالة",
+        "noPayments": "لا توجد مدفوعات مسجلة."
+      },
+      "shipments": {
+        "title": "الشحنات",
+        "state": "الحالة",
+        "noShipments": "لا توجد شحنات مسجلة."
+      },
+      "items": {
+        "title": "العناصر",
+        "count": "{count} عناصر",
+        "table": {
+          "item": "العنصر",
+          "unitPrice": "سعر الوحدة",
+          "quantity": "الكمية",
+          "subtotal": "الإجمالي الفرعي"
+        },
+        "empty": "لا يحتوي هذا الطلب على عناصر."
+      },
+      "totals": {
+        "items": "إجمالي العناصر",
+        "discounts": "الخصومات",
+        "shipping": "الشحن",
+        "taxes": "الضرائب",
+        "grandTotal": "إجمالي الطلب"
+      },
+      "notes": {
+        "title": "ملاحظات إضافية",
+        "empty": "لا توجد ملاحظات."
+      },
+      "actions": {
+        "refresh": "تحديث الطلب"
+      },
+      "fallbacks": {
+        "unknownPaymentMethod": "طريقة الدفع",
+        "unknownShipmentMethod": "طريقة الشحن",
+        "unknownProduct": "عنصر",
+        "unknownState": "قيد الانتظار",
+        "unknownLocale": "اللغة"
+      },
+      "errors": {
+        "loadFailed": "تعذر تحميل هذا الطلب."
+      },
+      "states": {
+        "cart": "السلة",
+        "addressed": "تم تأكيد العنوان",
+        "shipping_selected": "تم اختيار الشحن",
+        "payment_selected": "تم اختيار الدفع",
+        "completed": "مكتمل"
     "ecommerceCategory": {
       "breadcrumbs": {
         "category": "Category"

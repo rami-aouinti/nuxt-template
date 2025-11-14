@@ -1816,6 +1816,86 @@
         "description": "Нашу команду можно найти в офисе в Кёльне, Германия."
       }
     },
+    "ecommerceOrder": {
+      "metaTitle": "Сводка заказа",
+      "heading": {
+        "title": "Сводка вашего заказа",
+        "subtitle": "Проверьте данные перед завершением покупки."
+      },
+      "status": {
+        "steps": {
+          "address": "Адрес",
+          "shipping": "Доставка",
+          "payment": "Оплата",
+          "complete": "Завершение"
+        }
+      },
+      "summary": {
+        "title": "Информация о заказе",
+        "currency": "Валюта",
+        "locale": "Язык",
+        "orderNumber": "Заказ №",
+        "placedOn": "Оформлен",
+        "checkoutState": "Статус оформления",
+        "paymentState": "Статус оплаты",
+        "shippingState": "Статус доставки"
+      },
+      "addresses": {
+        "billing": "Адрес плательщика",
+        "shipping": "Адрес доставки",
+        "missing": "Адрес недоступен"
+      },
+      "payments": {
+        "title": "Платежи",
+        "state": "Статус",
+        "noPayments": "Платежи не найдены."
+      },
+      "shipments": {
+        "title": "Отгрузки",
+        "state": "Статус",
+        "noShipments": "Отгрузки не найдены."
+      },
+      "items": {
+        "title": "Товары",
+        "count": "{count} товаров",
+        "table": {
+          "item": "Товар",
+          "unitPrice": "Цена за единицу",
+          "quantity": "Кол-во",
+          "subtotal": "Сумма"
+        },
+        "empty": "В этом заказе нет товаров."
+      },
+      "totals": {
+        "items": "Итого за товары",
+        "discounts": "Скидки",
+        "shipping": "Доставка",
+        "taxes": "Налоги",
+        "grandTotal": "Итого"
+      },
+      "notes": {
+        "title": "Дополнительные примечания",
+        "empty": "Примечаний нет."
+      },
+      "actions": {
+        "refresh": "Обновить заказ"
+      },
+      "fallbacks": {
+        "unknownPaymentMethod": "Способ оплаты",
+        "unknownShipmentMethod": "Доставка",
+        "unknownProduct": "Товар",
+        "unknownState": "В ожидании",
+        "unknownLocale": "Язык"
+      },
+      "errors": {
+        "loadFailed": "Не удалось загрузить этот заказ."
+      },
+      "states": {
+        "cart": "Корзина",
+        "addressed": "Адрес подтверждён",
+        "shipping_selected": "Доставка выбрана",
+        "payment_selected": "Оплата выбрана",
+        "completed": "Завершён"
     "ecommerceCategory": {
       "breadcrumbs": {
         "category": "Category"

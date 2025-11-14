@@ -1723,6 +1723,86 @@
         "description": "Retrouvez notre équipe dans nos bureaux de Cologne, en Allemagne."
       }
     },
+    "ecommerceOrder": {
+      "metaTitle": "Résumé de la commande",
+      "heading": {
+        "title": "Résumé de votre commande",
+        "subtitle": "Vérifiez chaque information ci-dessous avant de finaliser votre achat."
+      },
+      "status": {
+        "steps": {
+          "address": "Adresse",
+          "shipping": "Livraison",
+          "payment": "Paiement",
+          "complete": "Terminé"
+        }
+      },
+      "summary": {
+        "title": "Informations de commande",
+        "currency": "Devise",
+        "locale": "Langue",
+        "orderNumber": "Commande n°",
+        "placedOn": "Passée le",
+        "checkoutState": "Étapes",
+        "paymentState": "Paiement",
+        "shippingState": "Livraison"
+      },
+      "addresses": {
+        "billing": "Adresse de facturation",
+        "shipping": "Adresse de livraison",
+        "missing": "Adresse indisponible"
+      },
+      "payments": {
+        "title": "Paiements",
+        "state": "Statut",
+        "noPayments": "Aucun paiement enregistré."
+      },
+      "shipments": {
+        "title": "Expéditions",
+        "state": "Statut",
+        "noShipments": "Aucune expédition enregistrée."
+      },
+      "items": {
+        "title": "Articles",
+        "count": "{count} articles",
+        "table": {
+          "item": "Article",
+          "unitPrice": "Prix unitaire",
+          "quantity": "Qté",
+          "subtotal": "Sous-total"
+        },
+        "empty": "Cette commande ne contient aucun article."
+      },
+      "totals": {
+        "items": "Total articles",
+        "discounts": "Remises",
+        "shipping": "Livraison",
+        "taxes": "Taxes",
+        "grandTotal": "Total de la commande"
+      },
+      "notes": {
+        "title": "Notes supplémentaires",
+        "empty": "Aucune note n'a été communiquée."
+      },
+      "actions": {
+        "refresh": "Actualiser la commande"
+      },
+      "fallbacks": {
+        "unknownPaymentMethod": "Mode de paiement",
+        "unknownShipmentMethod": "Expédition",
+        "unknownProduct": "Article",
+        "unknownState": "En attente",
+        "unknownLocale": "Langue"
+      },
+      "errors": {
+        "loadFailed": "Impossible de charger cette commande."
+      },
+      "states": {
+        "cart": "Panier",
+        "addressed": "Adresse confirmée",
+        "shipping_selected": "Mode de livraison choisi",
+        "payment_selected": "Paiement choisi",
+        "completed": "Terminée"
     "ecommerceCategory": {
       "breadcrumbs": {
         "category": "Category"

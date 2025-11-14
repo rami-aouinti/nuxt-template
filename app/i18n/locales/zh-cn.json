@@ -1816,6 +1816,86 @@
         "description": "欢迎前往我们位于德国科隆的办公室与团队会面。"
       }
     },
+    "ecommerceOrder": {
+      "metaTitle": "订单概览",
+      "heading": {
+        "title": "订单摘要",
+        "subtitle": "在完成支付前，请再次核对所有信息。"
+      },
+      "status": {
+        "steps": {
+          "address": "地址",
+          "shipping": "配送",
+          "payment": "付款",
+          "complete": "完成"
+        }
+      },
+      "summary": {
+        "title": "订单信息",
+        "currency": "币种",
+        "locale": "语言",
+        "orderNumber": "订单号",
+        "placedOn": "创建时间",
+        "checkoutState": "结账状态",
+        "paymentState": "付款状态",
+        "shippingState": "配送状态"
+      },
+      "addresses": {
+        "billing": "账单地址",
+        "shipping": "收货地址",
+        "missing": "暂无地址信息"
+      },
+      "payments": {
+        "title": "付款记录",
+        "state": "状态",
+        "noPayments": "暂无付款记录。"
+      },
+      "shipments": {
+        "title": "配送记录",
+        "state": "状态",
+        "noShipments": "暂无配送记录。"
+      },
+      "items": {
+        "title": "订单商品",
+        "count": "{count} 件商品",
+        "table": {
+          "item": "商品",
+          "unitPrice": "单价",
+          "quantity": "数量",
+          "subtotal": "小计"
+        },
+        "empty": "订单中没有商品。"
+      },
+      "totals": {
+        "items": "商品合计",
+        "discounts": "优惠",
+        "shipping": "运费",
+        "taxes": "税费",
+        "grandTotal": "订单总额"
+      },
+      "notes": {
+        "title": "附加备注",
+        "empty": "暂无备注。"
+      },
+      "actions": {
+        "refresh": "刷新订单"
+      },
+      "fallbacks": {
+        "unknownPaymentMethod": "付款方式",
+        "unknownShipmentMethod": "配送方式",
+        "unknownProduct": "商品",
+        "unknownState": "待处理",
+        "unknownLocale": "语言"
+      },
+      "errors": {
+        "loadFailed": "无法加载该订单。"
+      },
+      "states": {
+        "cart": "购物车",
+        "addressed": "地址已确认",
+        "shipping_selected": "已选择配送",
+        "payment_selected": "已选择付款",
+        "completed": "已完成"
     "ecommerceCategory": {
       "breadcrumbs": {
         "category": "Category"
