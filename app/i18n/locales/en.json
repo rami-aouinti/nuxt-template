@@ -698,6 +698,9 @@
           "title": "Customer growth",
           "subtitle": "Returning customers compared to new shoppers"
         },
+        "charts": {
+          "unavailable": "Chart preview not available."
+        },
         "pending": {
           "title": "Pending actions",
           "subtitle": "Keep your fulfillment pipeline flowing",
@@ -2408,6 +2411,12 @@
   "notificationManagement": {
     "title": "Notification management",
     "subtitle": "Monitor system notifications and troubleshoot delivery issues from a single place.",
+    "navigation": {
+      "notifications": "Notifications",
+      "templates": "Templates",
+      "send": "Send notification",
+      "batch": "Batch delivery"
+    },
     "table": {
       "subject": "Subject",
       "channel": "Channel",
