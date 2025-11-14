@@ -1,105 +1,191 @@
 import type { HydraContext } from './hydra'
 import type { TranslationInterface } from './tax'
 
-export interface JsonLdResource {
+export interface ProductTranslationRelation {
+  translations?: TranslationInterface[] | null
+  translation?: TranslationInterface[] | null
+  currentLocale?: string
+  fallbackLocale?: string
+}
+
+export interface ProductTranslationReference {
+  translatable?: ProductTranslationRelation | null
+  locale?: string | null
+}
+
+export interface ProductOptionValueTranslation {
+  id?: number
+  value: string
+  locale: string
+  translatable?: string
+  translation?: ProductTranslationReference[] | null
+  translations?: ProductTranslationReference[] | null
+  currentLocale?: string
+  fallbackLocale?: string
+}
+
+export interface ProductOptionValueSummary {
+  option: string
+  value: string | null
+  optionCode?: string | null
+  name?: string | null
+  translation?: ProductTranslationReference[] | null
+}
+
+export interface ProductOptionValue extends ProductOptionValueSummary {
+  id?: number
+  code: string
+  translations?: Record<string, ProductOptionValueTranslation>
+  translatable?: string
+  currentLocale?: string
+  fallbackLocale?: string
+}
+
+export interface ProductImageVariantReference {
+  name?: string | null
+  descriptor?: string
+  optionValues?: ProductOptionValue[]
+  optionValue?: ProductOptionValueSummary[]
+  translation?: ProductTranslationReference[] | null
+}
+
+export interface ProductImageInterface {
+  type?: string | null
+  file?: string | null
+  path?: string | null
+  owner?: string
+  id?: number
+  position?: number
+  name?: string | null
+  descriptor?: string
+  optionValue?: ProductOptionValueSummary[]
+  variant?: ProductImageVariantReference[]
+  translation?: ProductTranslationReference[] | null
+}
+
+export interface ProductVariantTranslationSummary {
+  id?: number
+  name: string | null
+  locale: string
+  translatable?: string
+  translation?: ProductTranslationReference[] | null
+  translations?: ProductTranslationReference[] | null
+  currentLocale?: string
+  fallbackLocale?: string
+}
+
+export interface ProductPromotionScope {
+  type: string
+  configuration: (string | null)[]
+  catalogPromotion?: string | null
+  id?: number
+}
+
+export interface ProductPromotionAction {
+  type: string
+  configuration: (string | null)[]
+  catalogPromotion?: string | null
+  id?: number
+}
+
+export interface ProductChannel {
+  name: string
+  description: string | null
+  hostname: string | null
+  color: string | null
+  code: string
+  createdAt: string
+  updatedAt: string | null
+  enabled: boolean
+  id: number
+}
+
+export interface ProductVariantChannelPricingPromotion {
   '@context'?: HydraContext
   '@id'?: string
   '@type'?: string
-}
-
-export type ProductAttributeType =
-  | 'text'
-  | 'textarea'
-  | 'checkbox'
-  | 'integer'
-  | 'float'
-  | 'percent'
-  | 'datetime'
-  | 'date'
-  | 'select'
-
-export interface ProductAttributeTranslation {
-  id?: number
+  channels?: string[]
+  id: number
   name: string
-  locale?: string
-  translatable?: string
-}
-
-export type ProductAttributeTranslationSyliusAdminProductAttributeIndex = ProductAttributeTranslation
-
-export type ProductAttributeTranslationSyliusAdminProductAttributeShow = ProductAttributeTranslation
-
-export interface ProductAttributeTranslationJsonLd
-  extends JsonLdResource,
-    ProductAttributeTranslation {}
-
-export type ProductAttributeTranslationJsonLdSyliusAdminProductAttributeIndex = ProductAttributeTranslationJsonLd
-
-export type ProductAttributeTranslationJsonLdSyliusAdminProductAttributeShow = ProductAttributeTranslationJsonLd
-
-export interface ProductAttributeBase {
   code: string
-  type: ProductAttributeType
-  position: number
-  name?: string | null
-  configuration?: Array<string | null>
-  storageType?: string
-  translatable?: boolean
-  createdAt?: string
-  updatedAt?: string | null
-  translations?: Record<string, ProductAttributeTranslation>
+  startDate: string | null
+  endDate: string | null
+  priority: number
+  exclusive: boolean
+  state: string
+  scopes: string[]
+  actions: string[]
+  enabled: boolean
+  translations?: Record<string, { label: string; description: string; locale: string }>
   currentLocale?: string
   fallbackLocale?: string
-  translation?: TranslationInterface[] | null
+  channel?: ProductChannel[]
+  translationClass?: unknown
+  label?: string | null
+  description?: string | null
+  translation?: ProductTranslationReference[] | null
+  scope?: ProductPromotionScope[]
+  catalogPromotion?: string | null
+  action?: ProductPromotionAction[]
+  exclusiveCatalogPromotionApplied?: boolean
+  image?: unknown[]
 }
 
-export interface ProductAttribute extends ProductAttributeBase {
-  id?: number
+export interface ProductVariantChannelPricing {
+  productVariant: string
+  price: number | null
+  channelCode: string
+  originalPrice: number | null
+  lowestPriceBeforeDiscount: number | null
+  minimumPrice: number | null
+  priceReduced?: boolean
+  appliedPromotions?: ProductVariantChannelPricingPromotion[]
 }
 
-export type ProductAttributeSyliusAdminProductAttributeIndex = ProductAttribute
-
-export type ProductAttributeSyliusAdminProductAttributeShow = ProductAttribute
-
-export type ProductAttributeSyliusShopProductAttributeShow = ProductAttribute
-
-export interface ProductAttributeJsonLd extends JsonLdResource, ProductAttribute {}
-
-export type ProductAttributeJsonLdSyliusAdminProductAttributeIndex = ProductAttributeJsonLd
-
-export type ProductAttributeJsonLdSyliusAdminProductAttributeShow = ProductAttributeJsonLd
-
-export type ProductAttributeJsonLdSyliusShopProductAttributeShow = ProductAttributeJsonLd
-
-export interface ProductAttributeTranslationPayload {
-  name: string
-  locale: string
-}
-
-export type ProductAttributeTranslationSyliusAdminProductAttributeCreate = ProductAttributeTranslationPayload
-
-export type ProductAttributeTranslationSyliusAdminProductAttributeUpdate = ProductAttributeTranslationPayload
-
-export interface ProductAttributeValuePayload {
-  attribute: string
-  localeCode?: string | null
-  value: unknown
-}
-
-export type ProductAttributeValueSyliusAdminProductCreate = ProductAttributeValuePayload
-
-export type ProductAttributeValueSyliusAdminProductUpdate = ProductAttributeValuePayload
-
-export interface ProductSummary {
+export interface ProductVariantInterface {
+  version?: number
+  onHold?: number
+  onHand?: number
+  tracked?: boolean
+  weight?: number | null
+  width?: number | null
+  height?: number | null
+  depth?: number | null
+  taxCategory?: string | null
+  shippingCategory?: string | null
+  channelPricings?: Record<string, string>
+  shippingRequired?: boolean
+  images?: string[]
   id?: number
   code: string
-  name?: string | null
-  slug?: string | null
-  description?: string | null
-  enabled?: boolean
+  product?: string
+  optionValues?: string[]
+  position?: number
   createdAt?: string
   updatedAt?: string | null
-  [key: string]: unknown
+  enabled?: boolean
+  translations?: Record<string, ProductVariantTranslationSummary>
+  currentLocale?: string
+  fallbackLocale?: string
+  name?: string | null
+  descriptor?: string
+  optionValuesCollection?: ProductOptionValue[]
+  optionValue?: ProductOptionValueSummary[]
+  translation?: ProductTranslationReference[] | null
+  inStock?: boolean
+  inventoryName?: string | null
+  shippingWeight?: number | null
+  shippingWidth?: number | null
+  shippingHeight?: number | null
+  shippingDepth?: number | null
+  shippingVolume?: number | null
+  channelPricing?: ProductVariantChannelPricing[]
+}
+
+export interface ProductVariantInterfaceJsonLd extends ProductVariantInterface {
+  '@context'?: HydraContext
+  '@id'?: string
+  '@type'?: string
 }
 
 export interface ProductAttributeValue {
@@ -107,10 +193,10 @@ export interface ProductAttributeValue {
   subject?: string
   attribute: string
   localeCode?: string | null
-  product?: ProductSummary | null
-  value?: unknown
+  product?: string | null
+  value: unknown
   name?: string | null
-  type?: ProductAttributeType | string | null
+  type?: string | null
   code?: string | null
   text?: string | null
   boolean?: boolean | null
@@ -118,86 +204,204 @@ export interface ProductAttributeValue {
   float?: number | null
   datetime?: string | null
   date?: string | null
-  json?: Array<string | null> | null
+  json?: (string | null)[] | null
+  translation?: ProductTranslationReference[] | null
+}
+
+export interface ProductAssociation {
+  id?: number
+  type: string
+  owner?: string
+  associatedProducts?: string[]
   createdAt?: string
   updatedAt?: string | null
-  translation?: TranslationInterface[] | null
+  associatedProduct?: unknown[]
+  translation?: ProductTranslationReference[] | null
+}
+
+export interface ProductTaxon {
+  product: string
+  taxon: string
+  id?: number
+  position?: number
+  translation?: ProductTranslationReference[] | null
+}
+
+export interface ProductRelationCollection {
+  empty?: unknown
+  keys?: unknown
+  values?: unknown
+  iterator?: unknown
+}
+
+export interface ProductOptionTranslation {
+  id?: number
+  name: string | null
+  locale: string
+  translatable?: string
+  translation?: ProductTranslationReference[] | null
+  translations?: ProductTranslationReference[] | null
   currentLocale?: string
   fallbackLocale?: string
 }
 
-export type ProductAttributeValueSyliusAdminProductIndex = ProductAttributeValue
-
-export type ProductAttributeValueSyliusAdminProductShow = ProductAttributeValue
-
-export type ProductAttributeValueSyliusAdminProductAttributeValueShow = ProductAttributeValue
-
-export type ProductAttributeValueSyliusShopProductAttributeValueShow = ProductAttributeValue
-
-export interface ProductAttributeValueJsonLd
-  extends JsonLdResource,
-    ProductAttributeValue {}
-
-export type ProductAttributeValueJsonLdSyliusAdminProductIndex = ProductAttributeValueJsonLd
-
-export type ProductAttributeValueJsonLdSyliusAdminProductShow = ProductAttributeValueJsonLd
-
-export type ProductAttributeValueJsonLdSyliusAdminProductAttributeValueShow = ProductAttributeValueJsonLd
-
-export type ProductAttributeValueJsonLdSyliusShopProductAttributeValueShow = ProductAttributeValueJsonLd
-
-export interface ProductImage {
-  productVariants?: string[]
+export interface ProductOption {
+  id?: number
+  code: string
   position?: number
+  values?: string[]
+  createdAt?: string
+  updatedAt?: string | null
+  translations?: Record<string, ProductOptionTranslation>
+  currentLocale?: string
+  fallbackLocale?: string
+  name?: string | null
+  value?: ProductOptionValue[]
+  translation?: ProductTranslationReference[] | null
+}
+
+export interface ProductTranslationDetail {
+  shortDescription?: string | null
+  id?: number
+  name: string
+  slug: string
+  description?: string | null
+  metaKeywords?: string | null
+  metaDescription?: string | null
+  locale: string
+  translatable?: string
+  translation?: ProductTranslationReference[] | null
+  translations?: ProductTranslationReference[] | null
+  currentLocale?: string
+  fallbackLocale?: string
+  createdAt?: string
+  updatedAt?: string | null
+}
+
+export type ProductTranslations = Record<string, ProductTranslationDetail>
+
+export interface ProductInterface {
+  variantSelectionMethod?: string
+  productTaxons?: string[]
+  channels?: string[]
+  mainTaxon?: string | null
+  reviews?: string[]
+  averageRating?: number
+  images?: ProductImageInterface[]
+  productVariants?: string[]
   id?: number
   type?: string | null
-  file?: string | null
-  path: string
-  owner?: string
-}
-
-export type ProductImageSyliusAdminProductIndex = ProductImage
-
-export type ProductImageSyliusAdminProductShow = ProductImage
-
-export type ProductImageSyliusAdminProductImageIndex = ProductImage
-
-export type ProductImageSyliusAdminProductImageShow = ProductImage
-
-export interface ProductImageSyliusAdminProductImageUpdate {
-  productVariants?: string[]
-  position?: number
-  type?: string | null
-}
-
-export type ProductImageSyliusShopProductIndex = ProductImage
-
-export type ProductImageSyliusShopProductShow = ProductImage
-
-export type ProductImageSyliusShopProductImageShow = ProductImage
-
-export interface ProductImageJsonLd extends JsonLdResource, ProductImage {}
-
-export type ProductImageJsonLdSyliusAdminProductIndex = ProductImageJsonLd
-
-export type ProductImageJsonLdSyliusAdminProductShow = ProductImageJsonLd
-
-export type ProductImageJsonLdSyliusAdminProductImageIndex = ProductImageJsonLd
-
-export type ProductImageJsonLdSyliusAdminProductImageShow = ProductImageJsonLd
-
-export type ProductImageJsonLdSyliusShopProductIndex = ProductImageJsonLd
-
-export type ProductImageJsonLdSyliusShopProductShow = ProductImageJsonLd
-
-export type ProductImageJsonLdSyliusShopProductImageShow = ProductImageJsonLd
-
-export interface ProductImageInterface extends ProductImage {
-  productVariant?: Record<string, unknown>[]
+  path?: string
+  code: string
+  attributes?: ProductAttributeValue[]
+  attribute?: ProductAttributeValue[]
+  variants?: string[]
+  variant?: ProductVariantInterface[]
+  options?: string[]
+  option?: ProductOption[]
+  value?: ProductOptionValue[]
+  associations?: string[]
+  association?: ProductAssociation[]
+  createdAt?: string
+  updatedAt?: string | null
+  enabled?: boolean
+  translations?: ProductTranslations
+  currentLocale?: string
+  fallbackLocale?: string
+  translation?: ProductTranslationReference[] | null
+  shortDescription?: string | null
+  description?: string | null
+  slug?: string | null
+  name?: string | null
+  metaKeywords?: string | null
+  metaDescription?: string | null
+  descriptor?: string
+  attributeValues?: ProductAttributeValue[]
+  variantSelectionMethodChoice?: boolean
+  variantSelectionMethodLabel?: string
+  productTaxon?: ProductTaxon[]
+  taxons?: ProductRelationCollection
+  enabledVariants?: ProductRelationCollection
+  channel?: ProductChannel[]
   image?: ProductImageInterface[]
-  [key: string]: unknown
+  simple?: boolean
+  configurable?: boolean
 }
 
-export interface ProductImageInterfaceJsonLd
-  extends JsonLdResource,
-    ProductImageInterface {}
+export interface ProductInterfaceJsonLd extends ProductInterface {
+  '@context'?: HydraContext
+  '@id'?: string
+  '@type'?: string
+}
+
+export interface ProductTranslationPayload {
+  name: string
+  slug: string
+  description?: string | null
+  shortDescription?: string | null
+  metaKeywords?: string | null
+  metaDescription?: string | null
+}
+
+export type ProductTranslationsPayload = Record<string, ProductTranslationPayload>
+
+export interface ProductAttributeAssignmentPayload {
+  attribute: string
+  localeCode?: string | null
+  value: unknown
+}
+
+export interface ProductSyliusAdminProductCreate {
+  variantSelectionMethod?: string
+  channels?: string[]
+  mainTaxon?: string | null
+  images?: string[]
+  code: string
+  attributes?: ProductAttributeAssignmentPayload[]
+  options?: string[]
+  enabled?: boolean
+  translations?: ProductTranslationsPayload
+}
+
+export type ProductSyliusAdminProductIndex = ProductInterface
+
+export type ProductSyliusAdminProductShow = ProductInterface
+
+export interface ProductSyliusAdminProductUpdate {
+  channels?: string[]
+  mainTaxon?: string | null
+  images?: string[]
+  attributes?: ProductAttributeAssignmentPayload[]
+  options?: string[]
+  enabled?: boolean
+  translations?: ProductTranslationsPayload
+}
+
+export type ProductSyliusAdminProductImageShow = ProductImageInterface
+
+export interface ProductSyliusShopProductIndex extends ProductInterface {
+  reviews?: string[]
+}
+
+export interface ProductSyliusShopProductShow extends ProductInterface {
+  reviews?: string[]
+}
+
+export type ProductJsonld = ProductInterfaceJsonLd
+
+export type ProductJsonldSyliusAdminProductIndex = ProductInterfaceJsonLd
+
+export type ProductJsonldSyliusAdminProductShow = ProductInterfaceJsonLd
+
+export type ProductJsonldSyliusShopProductIndex = ProductInterfaceJsonLd
+
+export type ProductJsonldSyliusShopProductShow = ProductInterfaceJsonLd
+
+export interface ProductVariantCollection {
+  productVariant?: ProductVariantInterface[]
+}
+
+export interface ProductImageCollection {
+  image?: ProductImageInterface[]
+}
+
