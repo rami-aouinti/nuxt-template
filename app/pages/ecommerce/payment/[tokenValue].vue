@@ -7,6 +7,7 @@ import type {
   PaymentMethodJsonldSyliusShopPaymentMethodIndex,
   PaymentMethodSummary,
 } from '~/types/payment'
+import { useEcommerceCartStore } from '~/stores/ecommerceCart'
 import { DEFAULT_LOCALE } from '~/utils/i18n/locales'
 
 definePageMeta({
@@ -14,6 +15,7 @@ definePageMeta({
 })
 
 const route = useRoute()
+const cartStore = useEcommerceCartStore()
 const { t, te, locale } = useI18n()
 
 const pluralRules = computed(
@@ -28,6 +30,16 @@ const tokenValue = computed(() => {
 
   return typeof value === 'string' ? value : ''
 })
+
+watch(
+  () => tokenValue.value,
+  (value) => {
+    if (value && value !== cartStore.token) {
+      cartStore.setToken(value)
+    }
+  },
+  { immediate: true },
+)
 
 const isRecord = (value: unknown): value is Record<string, any> =>
   Boolean(value) && typeof value === 'object'
@@ -265,6 +277,14 @@ const {
 } = await useAsyncData('ecommerce-payment-order', fetchOrder, {
   watch: [() => tokenValue.value, () => locale.value],
 })
+
+watch(
+  () => orderData.value,
+  (value) => {
+    cartStore.captureOrder(value)
+  },
+  { immediate: true },
+)
 
 const order = computed<OrderJsonLd | null>(() => {
   const value = orderData.value

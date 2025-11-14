@@ -65,6 +65,65 @@
         }
       }
     },
+    "ecommerce": {
+      "drawer": {
+        "title": "Boutique Seālius",
+        "subtitle": "Silhuetas bañadas por el sol seleccionadas junto a nuestros socios costeros.",
+        "metrics": {
+          "products": "{count} productos",
+          "categories": "{count} categorías"
+        }
+      },
+      "hero": {
+        "brand": "Seālius",
+        "tagline": "Colección costera",
+        "description": "Descubre tejidos ligeros, tonos oceánicos y cortes relajados pensados para los días y noches frente al mar."
+      },
+      "categories": {
+        "title": "Explorar por categoría",
+        "all": "Todo"
+      },
+      "sections": {
+        "latestDeals": {
+          "title": "Últimas ofertas",
+          "subtitle": "Promociones por tiempo limitado listas para enviarse a cualquier parte del mundo."
+        },
+        "newCollection": {
+          "title": "Nueva colección",
+          "subtitle": "Superpone texturas naturales y fibras inspiradas en la costa."
+        },
+        "latestProducts": {
+          "title": "Novedades",
+          "subtitle": "Las incorporaciones más recientes del marketplace de Bro World.",
+          "emptyFiltered": "Aún no hay artículos en esta categoría."
+        }
+      },
+      "labels": {
+        "deal": "Oferta destacada"
+      },
+      "actions": {
+        "shopNow": "Comprar ahora",
+        "exploreCollection": "Explorar colección",
+        "refresh": "Actualizar catálogo",
+        "retry": "Reintentar",
+        "goToCheckout": "Ir al pago"
+      },
+      "fallbacks": {
+        "unknownProduct": "Producto",
+        "priceUnavailable": "Precio no disponible",
+        "noProducts": "No hay productos disponibles por ahora.",
+        "categoryFallback": "Colección"
+      },
+      "errors": {
+        "failedToLoad": "No pudimos cargar la tienda. Inténtalo de nuevo más tarde."
+      },
+      "product": {
+        "notifications": {
+          "addedToCart": "Producto añadido a tu carrito. Redirigiendo a la compra…",
+          "failedToAdd": "No pudimos añadir este producto a tu carrito. Inténtalo de nuevo."
+        }
+      }
+    },
     "ecommerceCheckout": {
       "address": {
         "meta": {

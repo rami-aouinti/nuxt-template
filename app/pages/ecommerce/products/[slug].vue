@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import AppButton from '~/components/ui/AppButton.vue'
 import AppCard from '~/components/ui/AppCard.vue'
 import {
@@ -19,20 +19,26 @@ import type {
   ProductJsonldSyliusShopProductShow,
 } from '~/types/product'
 import type { ChannelJsonLdSyliusShopChannelIndex } from '~/types/channel'
+import { useEcommerceCartStore } from '~/stores/ecommerceCart'
+import { Notify } from '~/stores/notification'
 
 definePageMeta({
   title: 'navigation.ecommerce',
 })
 
 const route = useRoute()
+const router = useRouter()
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
+const cartStore = useEcommerceCartStore()
 
 const slug = computed(() => String(route.params.slug ?? ''))
 
 const quantity = ref(1)
 const selectedImageIndex = ref(0)
 const selectedOptions = ref<Record<string, string | null>>({})
+const isAddingToCart = ref(false)
+const addToCartError = ref<string | null>(null)
 
 const increaseQuantity = () => {
   quantity.value = Math.min(99, Math.max(1, quantity.value + 1))
@@ -123,6 +129,11 @@ const latestProducts = computed(() =>
 )
 
 const defaultChannel = computed(() => channels.value[0] ?? null)
+
+const defaultChannelCode = computed(() => {
+  const channelRecord = toRecord(defaultChannel.value)
+  return getString(channelRecord, 'code')
+})
 
 const currencyCode = computed(() => {
   const channelRecord = toRecord(defaultChannel.value)
@@ -299,6 +310,8 @@ const productPricingDisplay = computed(() =>
   product.value ? resolveProductPricingDisplay(product.value) : null,
 )
 
+const canAddToCart = computed(() => Boolean(product.value))
+
 const productImages = computed(() =>
   product.value
     ? resolveProductImagePaths(product.value).map((path) => buildProductImageUrl(path))
@@ -323,6 +336,12 @@ watch(quantity, (value) => {
   }
 
   quantity.value = Math.min(99, Math.max(1, Math.round(value)))
+})
+
+onMounted(() => {
+  if (cartStore.token && !cartStore.order) {
+    cartStore.restore().catch(() => {})
+  }
 })
 
 const productBreadcrumbs = computed(() => [
@@ -641,6 +660,60 @@ useHead(() => {
       : [],
   }
 })
+
+const resolveCartErrorMessage = (error: unknown) => {
+  if (error instanceof Error && error.message.trim().length > 0) {
+    return error.message
+  }
+
+  if (typeof error === 'string' && error.trim().length > 0) {
+    return error
+  }
+
+  if (typeof cartStore.error === 'string' && cartStore.error.trim().length > 0) {
+    return cartStore.error
+  }
+
+  return t('pages.ecommerce.product.notifications.failedToAdd')
+}
+
+const handleAddToCart = async () => {
+  if (!product.value || isAddingToCart.value) {
+    return
+  }
+
+  isAddingToCart.value = true
+  addToCartError.value = null
+
+  try {
+    const options = { ...selectedOptions.value }
+    await cartStore.addItem({
+      product: product.value,
+      quantity: quantity.value,
+      options,
+      channel: defaultChannel.value,
+      channelCode: defaultChannelCode.value,
+      localeCode: locale.value,
+    })
+
+    Notify.success(t('pages.ecommerce.product.notifications.addedToCart'))
+
+    const token = cartStore.token
+    if (token) {
+      const target = localePath({
+        name: 'ecommerce-checkout-address',
+        query: { order: token },
+      })
+      await router.push(target)
+    }
+  } catch (error) {
+    const message = resolveCartErrorMessage(error)
+    addToCartError.value = message
+    Notify.error(message)
+  } finally {
+    isAddingToCart.value = false
+  }
+}
 </script>
 
 <template>
@@ -819,13 +892,29 @@ useHead(() => {
           </div>
 
           <div class="product-actions">
-            <AppButton color="primary" size="x-large">
+            <AppButton
+              color="primary"
+              size="x-large"
+              :loading="isAddingToCart"
+              :disabled="!canAddToCart || isAddingToCart"
+              @click="handleAddToCart"
+            >
               {{ t('pages.ecommerce.product.actions.addToCart') }}
             </AppButton>
             <AppButton color="secondary" variant="tonal" size="x-large" :to="localePath('ecommerce')">
               {{ t('pages.ecommerce.product.actions.backToShop') }}
             </AppButton>
           </div>
+
+          <v-alert
+            v-if="addToCartError"
+            type="error"
+            variant="tonal"
+            density="comfortable"
+            class="mt-4"
+          >
+            {{ addToCartError }}
+          </v-alert>
 
           <div v-if="productDescription" class="product-description">
             <h2 class="text-h6 font-weight-semibold mb-2">

@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import AppCard from '~/components/ui/AppCard.vue'
 import AppButton from '~/components/ui/AppButton.vue'
 import { truncateText } from '~/utils/formatters'
 import type { ProductJsonldSyliusShopProductIndex } from '~/types/product'
 import type { TaxonJsonLdSyliusShopTaxonIndex } from '~/types/tax'
 import type { ChannelJsonLdSyliusShopChannelIndex } from '~/types/channel'
+import { useEcommerceCartStore } from '~/stores/ecommerceCart'
 import {
+  FALLBACK_PRODUCT_IMAGE,
   buildProductImageUrl as buildImageUrl,
   extractCollectionItems,
   getString,
@@ -24,6 +26,7 @@ definePageMeta({
 
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
+const cartStore = useEcommerceCartStore()
 
 type HydraCollection<T> = {
   'hydra:member'?: T[]
@@ -398,6 +401,13 @@ const collectionProducts = computed(() => {
     .slice(0, 4)
 })
 
+const collectionProductsWithRoutes = computed(() =>
+  collectionProducts.value.map((product) => ({
+    product,
+    route: getProductDetailRoute(product),
+  })),
+)
+
 const collectionImages = computed(() =>
   collectionProducts.value.map((product) =>
     buildImageUrl(resolveProductImagePath(product)),
@@ -430,6 +440,22 @@ const handleShopNow = () => {
 const handleExploreCollection = () => {
   scrollToSection(collectionSectionRef)
 }
+
+const checkoutRoute = computed(() => {
+  const token = cartStore.token
+  if (!token) {
+    return null
+  }
+
+  return localePath({
+    name: 'ecommerce-checkout-address',
+    query: { order: token },
+  })
+})
+
+onMounted(() => {
+  cartStore.restore().catch(() => {})
+})
 
 const refreshAll = async () => {
   await Promise.all([refreshProducts(), refreshTaxons(), refreshChannels()])
@@ -555,6 +581,16 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
             >
               {{ t('pages.ecommerce.actions.exploreCollection') }}
             </AppButton>
+            <AppButton
+              v-if="checkoutRoute"
+              class="ml-3"
+              color="primary"
+              size="large"
+              variant="flat"
+              :to="checkoutRoute"
+            >
+              {{ t('pages.ecommerce.actions.goToCheckout') }}
+            </AppButton>
           </div>
         </div>
       </div>
@@ -669,19 +705,21 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
       </div>
       <div class="ecommerce-collection" :class="{ 'ecommerce-collection--empty': !collectionProducts.length }">
         <div v-if="collectionProducts.length" class="ecommerce-collection__grid">
-          <div
-            v-for="(product, index) in collectionProducts"
+          <component
+            v-for="({ product, route }, index) in collectionProductsWithRoutes"
             :key="resolveProductIdentifier(product)"
+            :is="route ? 'NuxtLink' : 'div'"
             class="ecommerce-collection__item"
             :class="`ecommerce-collection__item--${index}`"
             :style="{ backgroundImage: `url(${collectionImages[index] ?? FALLBACK_PRODUCT_IMAGE})` }"
+            v-bind="route ? { to: route } : {}"
           >
             <div class="ecommerce-collection__overlay">
               <span class="ecommerce-collection__label">
                 {{ resolveProductName(product) }}
               </span>
             </div>
-          </div>
+          </component>
         </div>
         <div v-else class="text-center py-10">
           <p class="text-body-1 text-medium-emphasis mb-0">

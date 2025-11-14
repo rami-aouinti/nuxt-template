@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue'
 
 import AppButton from '~/components/ui/AppButton.vue'
 import AppCard from '~/components/ui/AppCard.vue'
+import { useEcommerceCartStore } from '~/stores/ecommerceCart'
 import type { OrderJsonLd } from '~/types/order'
 import { createDateFormatter, formatDateValue } from '~/utils/formatters'
 
@@ -14,6 +15,7 @@ definePageMeta({
 const { t, locale } = useI18n()
 const route = useRoute()
 const localePath = useLocalePath()
+const cartStore = useEcommerceCartStore()
 
 const summaryRef = ref<HTMLElement | null>(null)
 
@@ -171,6 +173,16 @@ watch(
 
 const order = computed(() => orderResponse.value)
 const orderRecord = computed(() => toRecord(order.value as unknown))
+
+watch(
+  () => order.value?.tokenValue,
+  (token) => {
+    if (token && cartStore.token === token) {
+      cartStore.clear()
+    }
+  },
+  { immediate: true },
+)
 
 const dateFormatter = createDateFormatter(locale, {
   dateStyle: 'long',

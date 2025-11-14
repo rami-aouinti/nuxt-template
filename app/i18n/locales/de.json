@@ -65,6 +65,65 @@
         }
       }
     },
+    "ecommerce": {
+      "drawer": {
+        "title": "Seālius Boutique",
+        "subtitle": "Sonnendurchflutete Silhouetten, kuratiert von unseren Küstenpartnern.",
+        "metrics": {
+          "products": "{count} Produkte",
+          "categories": "{count} Kategorien"
+        }
+      },
+      "hero": {
+        "brand": "Seālius",
+        "tagline": "Küstenkollektion",
+        "description": "Entdecke leichte Stoffe, Ozeanfarben und mühelose Schnitte für Tage und Nächte am Meer."
+      },
+      "categories": {
+        "title": "Nach Kategorie stöbern",
+        "all": "Alle"
+      },
+      "sections": {
+        "latestDeals": {
+          "title": "Aktuelle Angebote",
+          "subtitle": "Zeitlich begrenzte Deals, die weltweit versendet werden."
+        },
+        "newCollection": {
+          "title": "Neue Kollektion",
+          "subtitle": "Layer aus natürlichen Texturen und Stoffen, inspiriert von der Küste."
+        },
+        "latestProducts": {
+          "title": "Neu eingetroffen",
+          "subtitle": "Frische Neuheiten aus dem Bro World Marktplatz.",
+          "emptyFiltered": "In dieser Kategorie sind derzeit keine Produkte verfügbar."
+        }
+      },
+      "labels": {
+        "deal": "Top-Angebot"
+      },
+      "actions": {
+        "shopNow": "Jetzt einkaufen",
+        "exploreCollection": "Kollektion entdecken",
+        "refresh": "Katalog aktualisieren",
+        "retry": "Erneut versuchen",
+        "goToCheckout": "Zur Kasse gehen"
+      },
+      "fallbacks": {
+        "unknownProduct": "Produkt",
+        "priceUnavailable": "Preis nicht verfügbar",
+        "noProducts": "Zurzeit sind keine Produkte verfügbar.",
+        "categoryFallback": "Kollektion"
+      },
+      "errors": {
+        "failedToLoad": "Die Shop-Daten konnten nicht geladen werden. Bitte versuche es später erneut."
+      },
+      "product": {
+        "notifications": {
+          "addedToCart": "Artikel wurde in den Warenkorb gelegt. Weiterleitung zur Kasse…",
+          "failedToAdd": "Dieses Produkt konnte nicht in den Warenkorb gelegt werden. Bitte versuche es erneut."
+        }
+      }
+    },
     "ecommerceCheckout": {
       "address": {
         "meta": {
