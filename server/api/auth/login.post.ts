@@ -1,3 +1,5 @@
+import { useRuntimeConfig } from '#imports'
+
 import { axios, AxiosError } from '~/utils/axios'
 import type { LoginResponse } from '~/types/auth'
 import { persistProfileState } from '../../utils/cache/profile'
@@ -15,6 +17,26 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
+    const config = useRuntimeConfig(event)
+    const ecommerceConfig = config.broWorld?.ecommerce || {}
+    const adminCredentials = ecommerceConfig.admin || {}
+    const shopCredentials = ecommerceConfig.shop || {}
+
+    const adminEmail = adminCredentials.email
+    const adminPassword = adminCredentials.password
+    const shopEmail = shopCredentials.email
+    const shopPassword = shopCredentials.password
+
+    if (!adminEmail || !adminPassword || !shopEmail || !shopPassword) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Server configuration error',
+        data: {
+          message: 'Ecommerce credentials are not configured.',
+        },
+      })
+    }
+
     const { data } = await axios.post<LoginResponse>(
       'https://bro-world.org/api/v1/auth/login',
       {
@@ -23,25 +45,21 @@ export default defineEventHandler(async (event) => {
       },
     )
 
-    const email =
-      (typeof data.profile.email === 'string' && data.profile.email.trim()) ||
-      body.username.trim()
-
     type EcommerceTokenResponse = { token: string }
 
     const [adminTokenResponse, shopTokenResponse] = await Promise.all([
       axios.post<EcommerceTokenResponse>(
         'https://ecommerce.bro-world.org/api/v2/admin/administrators/token',
         {
-          email,
-          password: body.password,
+          email: adminEmail,
+          password: adminPassword,
         },
       ),
       axios.post<EcommerceTokenResponse>(
         'https://ecommerce.bro-world.org/api/v2/shop/customers/token',
         {
-          email,
-          password: body.password,
+          email: shopEmail,
+          password: shopPassword,
         },
       ),
     ])

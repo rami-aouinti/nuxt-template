@@ -38,4 +38,21 @@ declare module 'jspdf-autotable' {
   ): jsPDF
 }
 
+declare module 'nuxt/schema' {
+  interface RuntimeConfig {
+    broWorld?: {
+      ecommerce?: {
+        admin?: {
+          email?: string
+          password?: string
+        }
+        shop?: {
+          email?: string
+          password?: string
+        }
+      }
+    }
+  }
+}
+
 export {}
