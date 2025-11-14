@@ -255,6 +255,7 @@
     "profile": "Profile",
     "profileCalendar": "Profile calendar",
     "profileWorkspace": "Profile workspace",
+    "profileOrders": "Order history",
     "profileNotifications": "Notifications",
     "blog": "Blog",
     "messenger": "Messenger",
@@ -745,6 +746,61 @@
       },
       "settings": {
         "title": "Preferences"
+      }
+    },
+    "orders": {
+      "page": {
+        "title": "Order history",
+        "subtitle": "Browse your previous purchases and manage outstanding payments."
+      },
+      "table": {
+        "number": "Number",
+        "date": "Date",
+        "shipTo": "Ship to",
+        "total": "Total",
+        "state": "State",
+        "actions": "Actions",
+        "empty": "You do not have any orders yet."
+      },
+      "actions": {
+        "refresh": "Refresh",
+        "show": "Show",
+        "pay": "Pay",
+        "retry": "Try again"
+      },
+      "states": {
+        "new": "New",
+        "cancelled": "Cancelled",
+        "fulfilled": "Fulfilled",
+        "completed": "Completed",
+        "processing": "Processing",
+        "cart": "In cart",
+        "unknown": "Unknown"
+      },
+      "notifications": {
+        "loadFailed": "Unable to load your orders. Please try again later.",
+        "detailsLoadFailed": "Unable to load the order details. Please try again later.",
+        "paymentConfigMissing": "We could not find a payment link for this order.",
+        "paymentOpenFailed": "Unable to open the payment page. Please try again later."
+      },
+      "labels": {
+        "shipToUnknown": "Pending assignment"
+      },
+      "details": {
+        "title": "Order details",
+        "placedOn": "Placed on",
+        "updatedAt": "Updated on",
+        "itemsTotal": "Items",
+        "shippingTotal": "Shipping",
+        "taxTotal": "Taxes",
+        "total": "Total",
+        "customer": "Customer",
+        "email": "Email",
+        "phone": "Phone",
+        "shippingAddress": "Shipping address",
+        "billingAddress": "Billing address",
+        "addressUnavailable": "Not available",
+        "loading": "Loading order details…"
       }
     },
     "settings": {

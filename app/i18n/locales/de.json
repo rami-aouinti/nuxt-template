@@ -213,6 +213,7 @@
     "profile": "Profil",
     "profileCalendar": "Profilkalender",
     "profileWorkspace": "Profil-Arbeitsbereich",
+    "profileOrders": "Bestellverlauf",
     "profileNotifications": "Benachrichtigungen",
     "blog": "Blog",
     "messenger": "Messenger",
@@ -694,6 +695,61 @@
       },
       "settings": {
         "title": "Einstellungen"
+      }
+    },
+    "orders": {
+      "page": {
+        "title": "Bestellverlauf",
+        "subtitle": "Durchstöbern Sie Ihre bisherigen Einkäufe und verwalten Sie ausstehende Zahlungen."
+      },
+      "table": {
+        "number": "Nummer",
+        "date": "Datum",
+        "shipTo": "Versand an",
+        "total": "Gesamt",
+        "state": "Status",
+        "actions": "Aktionen",
+        "empty": "Sie haben noch keine Bestellungen."
+      },
+      "actions": {
+        "refresh": "Aktualisieren",
+        "show": "Anzeigen",
+        "pay": "Bezahlen",
+        "retry": "Erneut versuchen"
+      },
+      "states": {
+        "new": "Neu",
+        "cancelled": "Storniert",
+        "fulfilled": "Ausgeliefert",
+        "completed": "Abgeschlossen",
+        "processing": "In Bearbeitung",
+        "cart": "Im Warenkorb",
+        "unknown": "Unbekannt"
+      },
+      "notifications": {
+        "loadFailed": "Ihre Bestellungen konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+        "detailsLoadFailed": "Die Bestelldetails konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+        "paymentConfigMissing": "Für diese Bestellung wurde kein Zahlungslink gefunden.",
+        "paymentOpenFailed": "Die Zahlungsseite konnte nicht geöffnet werden. Bitte versuchen Sie es später erneut."
+      },
+      "labels": {
+        "shipToUnknown": "Ausstehende Zuordnung"
+      },
+      "details": {
+        "title": "Bestelldetails",
+        "placedOn": "Bestellt am",
+        "updatedAt": "Aktualisiert am",
+        "itemsTotal": "Artikel",
+        "shippingTotal": "Versand",
+        "taxTotal": "Steuern",
+        "total": "Gesamt",
+        "customer": "Kunde",
+        "email": "E-Mail",
+        "phone": "Telefon",
+        "shippingAddress": "Lieferadresse",
+        "billingAddress": "Rechnungsadresse",
+        "addressUnavailable": "Nicht verfügbar",
+        "loading": "Bestelldetails werden geladen…"
       }
     },
     "settings": {

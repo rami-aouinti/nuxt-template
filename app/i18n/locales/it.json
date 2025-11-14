@@ -213,6 +213,7 @@
     "profile": "Profilo",
     "profileCalendar": "Calendario",
     "profileWorkspace": "Spazio di lavoro profilo",
+    "profileOrders": "Storico ordini",
     "profileNotifications": "Notifiche",
     "blog": "Blog",
     "messenger": "Messaggistica",
@@ -694,6 +695,61 @@
       },
       "settings": {
         "title": "Preferenze"
+      }
+    },
+    "orders": {
+      "page": {
+        "title": "Storico ordini",
+        "subtitle": "Consulta gli acquisti effettuati e gestisci i pagamenti in sospeso."
+      },
+      "table": {
+        "number": "Numero",
+        "date": "Data",
+        "shipTo": "Spedire a",
+        "total": "Totale",
+        "state": "Stato",
+        "actions": "Azioni",
+        "empty": "Non hai ancora alcun ordine."
+      },
+      "actions": {
+        "refresh": "Aggiorna",
+        "show": "Mostra",
+        "pay": "Paga",
+        "retry": "Riprova"
+      },
+      "states": {
+        "new": "Nuovo",
+        "cancelled": "Annullato",
+        "fulfilled": "Evaso",
+        "completed": "Completato",
+        "processing": "In elaborazione",
+        "cart": "Nel carrello",
+        "unknown": "Sconosciuto"
+      },
+      "notifications": {
+        "loadFailed": "Impossibile caricare i tuoi ordini. Riprova più tardi.",
+        "detailsLoadFailed": "Impossibile caricare i dettagli dell'ordine. Riprova più tardi.",
+        "paymentConfigMissing": "Non è stato trovato alcun link di pagamento per questo ordine.",
+        "paymentOpenFailed": "Impossibile aprire la pagina di pagamento. Riprova più tardi."
+      },
+      "labels": {
+        "shipToUnknown": "In attesa di assegnazione"
+      },
+      "details": {
+        "title": "Dettagli ordine",
+        "placedOn": "Effettuato il",
+        "updatedAt": "Aggiornato il",
+        "itemsTotal": "Articoli",
+        "shippingTotal": "Spedizione",
+        "taxTotal": "Tasse",
+        "total": "Totale",
+        "customer": "Cliente",
+        "email": "Email",
+        "phone": "Telefono",
+        "shippingAddress": "Indirizzo di spedizione",
+        "billingAddress": "Indirizzo di fatturazione",
+        "addressUnavailable": "Non disponibile",
+        "loading": "Caricamento dei dettagli dell'ordine…"
       }
     },
     "settings": {

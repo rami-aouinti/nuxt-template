@@ -213,6 +213,7 @@
     "profile": "الملف الشخصي",
     "profileCalendar": "تقويم الملف الشخصي",
     "profileWorkspace": "مساحة عمل الملف الشخصي",
+    "profileOrders": "سجل الطلبات",
     "profileNotifications": "الإشعارات",
     "blog": "المدونة",
     "messenger": "الرسائل",
@@ -694,6 +695,61 @@
       },
       "settings": {
         "title": "التفضيلات"
+      }
+    },
+    "orders": {
+      "page": {
+        "title": "سجل الطلبات",
+        "subtitle": "تصفّح مشترياتك السابقة وادفع الطلبات المعلقة."
+      },
+      "table": {
+        "number": "الرقم",
+        "date": "التاريخ",
+        "shipTo": "الشحن إلى",
+        "total": "الإجمالي",
+        "state": "الحالة",
+        "actions": "الإجراءات",
+        "empty": "لا توجد لديك أي طلبات بعد."
+      },
+      "actions": {
+        "refresh": "تحديث",
+        "show": "عرض",
+        "pay": "دفع",
+        "retry": "إعادة المحاولة"
+      },
+      "states": {
+        "new": "جديد",
+        "cancelled": "ملغي",
+        "fulfilled": "تم الشحن",
+        "completed": "مكتمل",
+        "processing": "قيد المعالجة",
+        "cart": "في السلة",
+        "unknown": "غير معروف"
+      },
+      "notifications": {
+        "loadFailed": "تعذّر تحميل طلباتك. يرجى المحاولة لاحقًا.",
+        "detailsLoadFailed": "تعذّر تحميل تفاصيل الطلب. يرجى المحاولة لاحقًا.",
+        "paymentConfigMissing": "تعذّر العثور على رابط دفع لهذا الطلب.",
+        "paymentOpenFailed": "تعذّر فتح صفحة الدفع. يرجى المحاولة لاحقًا."
+      },
+      "labels": {
+        "shipToUnknown": "قيد التحديد"
+      },
+      "details": {
+        "title": "تفاصيل الطلب",
+        "placedOn": "تم الطلب في",
+        "updatedAt": "تم التحديث في",
+        "itemsTotal": "البنود",
+        "shippingTotal": "الشحن",
+        "taxTotal": "الضرائب",
+        "total": "الإجمالي",
+        "customer": "العميل",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "shippingAddress": "عنوان الشحن",
+        "billingAddress": "عنوان الفاتورة",
+        "addressUnavailable": "غير متوفر",
+        "loading": "جاري تحميل تفاصيل الطلب…"
       }
     },
     "settings": {
