@@ -1,3 +1,5 @@
+import { useRuntimeConfig } from '#imports'
+
 import { axios, AxiosError } from '~/utils/axios'
 import type { LoginResponse } from '~/types/auth'
 import { persistProfileState } from '../../utils/cache/profile'
@@ -15,6 +17,26 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
+    const config = useRuntimeConfig(event)
+    const ecommerceConfig = config.broWorld?.ecommerce || {}
+    const adminCredentials = ecommerceConfig.admin || {}
+    const shopCredentials = ecommerceConfig.shop || {}
+
+    const adminEmail = adminCredentials.email
+    const adminPassword = adminCredentials.password
+    const shopEmail = shopCredentials.email
+    const shopPassword = shopCredentials.password
+
+    if (!adminEmail || !adminPassword || !shopEmail || !shopPassword) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Server configuration error',
+        data: {
+          message: 'Ecommerce credentials are not configured.',
+        },
+      })
+    }
+
     const { data } = await axios.post<LoginResponse>(
       'https://bro-world.org/api/v1/auth/login',
       {
@@ -23,35 +45,63 @@ export default defineEventHandler(async (event) => {
       },
     )
 
+    type EcommerceTokenResponse = { token: string }
+
+    const [adminTokenResponse, shopTokenResponse] = await Promise.all([
+      axios.post<EcommerceTokenResponse>(
+        'https://ecommerce.bro-world.org/api/v2/admin/administrators/token',
+        {
+          email: adminEmail,
+          password: adminPassword,
+        },
+      ),
+      axios.post<EcommerceTokenResponse>(
+        'https://ecommerce.bro-world.org/api/v2/shop/customers/token',
+        {
+          email: shopEmail,
+          password: shopPassword,
+        },
+      ),
+    ])
+
+    const loginResponse: LoginResponse = {
+      ...data,
+      ecommerceAdminToken: adminTokenResponse.data.token,
+      ecommerceShopToken: shopTokenResponse.data.token,
+    }
+
     await setUserSession(event, {
       user: {
-        login: data.profile.username,
+        login: loginResponse.profile.username,
         avatar_url:
-          (typeof data.profile.photo === 'string' && data.profile.photo) ||
+          (typeof loginResponse.profile.photo === 'string' &&
+          loginResponse.profile.photo) ||
           'https://bro-world-space.com/img/person.png',
       },
-      token: data.token,
+      token: loginResponse.token,
+      ecommerceAdminToken: loginResponse.ecommerceAdminToken || undefined,
+      ecommerceShopToken: loginResponse.ecommerceShopToken || undefined,
       profile: {
-        username: data.profile.username,
-        firstName: data.profile.firstName,
-        lastName: data.profile.lastName,
-        email: data.profile.email,
-        enabled: data.profile.enabled,
-        roles: data.profile.roles,
-        title: data.profile.profile.title,
-        phone: data.profile.profile.phone,
-        birthday: data.profile.profile.birthday,
-        gender: data.profile.profile.gender,
-        description: data.profile.profile.description,
-        address: data.profile.profile.address,
+        username: loginResponse.profile.username,
+        firstName: loginResponse.profile.firstName,
+        lastName: loginResponse.profile.lastName,
+        email: loginResponse.profile.email,
+        enabled: loginResponse.profile.enabled,
+        roles: loginResponse.profile.roles,
+        title: loginResponse.profile.profile.title,
+        phone: loginResponse.profile.profile.phone,
+        birthday: loginResponse.profile.profile.birthday,
+        gender: loginResponse.profile.profile.gender,
+        description: loginResponse.profile.profile.description,
+        address: loginResponse.profile.profile.address,
       },
     })
 
-    await persistProfileState(event, data.profile)
+    await persistProfileState(event, loginResponse.profile)
 
     scheduleProfileCacheWarmup(event)
 
-    return data
+    return loginResponse
   } catch (error) {
     if (error instanceof AxiosError) {
       const message =

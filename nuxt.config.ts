@@ -15,6 +15,11 @@ const DEFAULT_MESSENGER_NOTIFICATION_TOPIC =
 const DEFAULT_MESSENGER_SUBSCRIPTION_TOPIC =
   '/messages/{userId}/{conversationId}'
 
+const DEFAULT_ECOMMERCE_ADMIN_EMAIL = 'rami.aouinti@gmail.com'
+const DEFAULT_ECOMMERCE_ADMIN_PASSWORD = '19891989aA!'
+const DEFAULT_ECOMMERCE_SHOP_EMAIL = 'rami.aouiti@gmail.com'
+const DEFAULT_ECOMMERCE_SHOP_PASSWORD = '19891989aA!'
+
 const mercureUrl = process.env.MERCURE_URL || DEFAULT_MERCURE_URL
 const mercurePublicUrl =
   process.env.MERCURE_PUBLIC_URL ||
@@ -194,6 +199,30 @@ export default defineNuxtConfig({
       url: mercureUrl,
       publicUrl: mercurePublicUrl,
       jwtSecret: mercureJwtSecret,
+    },
+    broWorld: {
+      ecommerce: {
+        admin: {
+          email:
+            process.env.NUXT_ECOMMERCE_ADMIN_EMAIL ||
+            process.env.ECOMMERCE_ADMIN_EMAIL ||
+            DEFAULT_ECOMMERCE_ADMIN_EMAIL,
+          password:
+            process.env.NUXT_ECOMMERCE_ADMIN_PASSWORD ||
+            process.env.ECOMMERCE_ADMIN_PASSWORD ||
+            DEFAULT_ECOMMERCE_ADMIN_PASSWORD,
+        },
+        shop: {
+          email:
+            process.env.NUXT_ECOMMERCE_SHOP_EMAIL ||
+            process.env.ECOMMERCE_SHOP_EMAIL ||
+            DEFAULT_ECOMMERCE_SHOP_EMAIL,
+          password:
+            process.env.NUXT_ECOMMERCE_SHOP_PASSWORD ||
+            process.env.ECOMMERCE_SHOP_PASSWORD ||
+            DEFAULT_ECOMMERCE_SHOP_PASSWORD,
+        },
+      },
     },
     oauth: {
       github: createOAuthConfig(),

@@ -17,4 +17,6 @@ export type AuthProfile = Record<string, unknown> & {
 export interface LoginResponse {
   token: string
   profile: AuthProfile
+  ecommerceAdminToken?: string | null
+  ecommerceShopToken?: string | null
 }

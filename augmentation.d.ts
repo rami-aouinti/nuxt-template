@@ -17,6 +17,8 @@ declare module '#auth-utils' {
 
   interface UserSession {
     token?: string
+    ecommerceAdminToken?: string
+    ecommerceShopToken?: string
     profile?: AuthProfile
   }
 }
@@ -34,6 +36,23 @@ declare module 'jspdf-autotable' {
     doc: jsPDF,
     options: AutoTableOptions,
   ): jsPDF
+}
+
+declare module 'nuxt/schema' {
+  interface RuntimeConfig {
+    broWorld?: {
+      ecommerce?: {
+        admin?: {
+          email?: string
+          password?: string
+        }
+        shop?: {
+          email?: string
+          password?: string
+        }
+      }
+    }
+  }
 }
 
 export {}
