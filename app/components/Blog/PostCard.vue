@@ -6,7 +6,11 @@ import type {
   BlogPostViewModel,
   BlogReactionType,
 } from '~/types/blog'
-import { resolveReactionType } from '~/utils/reactions'
+import {
+  resolveReactionType,
+  getReactionDefinition,
+  type BlogReactionDefinition,
+} from '~/utils/reactions'
 import { useBlogAuthor } from '~/composables/useBlogAuthor'
 import {
   useThemePreferences,
@@ -316,6 +320,27 @@ const reactionType = computed(() =>
   resolveReactionType(props.post.isReacted ?? null),
 )
 const reactionCount = computed(() => props.post.reactions_count ?? 0)
+const reactionPreviewIcons = computed<BlogReactionDefinition[]>(() => {
+  const previews = props.post.reactions_preview ?? []
+  const seen = new Set<BlogReactionType>()
+  const unique: BlogReactionDefinition[] = []
+
+  for (const preview of previews) {
+    const definition = getReactionDefinition(preview.type)
+    if (!definition || seen.has(definition.type)) {
+      continue
+    }
+
+    unique.push(definition)
+    seen.add(definition.type)
+
+    if (unique.length >= 3) {
+      break
+    }
+  }
+
+  return unique
+})
 const commentCount = computed(() => props.post.totalComments ?? 0)
 const shareCount = computed(() => props.post.sharedFrom?.length ?? 0)
 const currentUserId = computed(() => props.currentUserId ?? null)
@@ -630,21 +655,17 @@ const onSelectTag = (tag: { value: string; label: string }) => {
 
     <div class="facebook-post-card__stats">
       <div class="facebook-post-card__stats-left">
-        <div class="facebook-post-card__reaction-icons">
+        <div
+          v-if="reactionPreviewIcons.length"
+          class="facebook-post-card__reaction-icons"
+        >
           <span
-            class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--like"
+            v-for="reaction in reactionPreviewIcons"
+            :key="reaction.type"
+            class="facebook-post-card__reaction-icon"
+            :class="`facebook-post-card__reaction-icon--${reaction.type}`"
           >
-            <v-icon icon="mdi-thumb-up" size="14" />
-          </span>
-          <span
-            class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--love"
-          >
-            <v-icon icon="mdi-heart" size="14" />
-          </span>
-          <span
-            class="facebook-post-card__reaction-icon facebook-post-card__reaction-icon--care"
-          >
-            <v-icon icon="mdi-emoticon-excited" size="14" />
+            <v-icon :icon="reaction.icon" size="14" />
           </span>
         </div>
         <div
@@ -1123,6 +1144,22 @@ a.facebook-post-card__author-link:focus-visible {
 
 .facebook-post-card__reaction-icon--care {
   background: #f7b125;
+}
+
+.facebook-post-card__reaction-icon--haha {
+  background: #fbc02d;
+}
+
+.facebook-post-card__reaction-icon--wow {
+  background: #ffa000;
+}
+
+.facebook-post-card__reaction-icon--sad {
+  background: #2196f3;
+}
+
+.facebook-post-card__reaction-icon--angry {
+  background: #ff5722;
 }
 
 .facebook-post-card__stat-value {
