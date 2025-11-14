@@ -15,7 +15,7 @@ import {
 definePageMeta({
   title: 'admin.ecommerce.navigation.payments',
   icon: 'mdi-credit-card-outline',
-  drawerIndex: 8,
+  drawerIndex: 7,
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 
