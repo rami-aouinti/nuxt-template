@@ -23,32 +23,32 @@ const { t, locale } = useI18n()
 
 const headers = computed(() => [
   {
-    title: t('admin.ecommerce.cartPromotions.table.name'),
+    title: t('admin.ecommerce.configuration.cartPromotions.table.name'),
     key: 'name',
     minWidth: 220,
   },
   {
-    title: t('admin.ecommerce.cartPromotions.table.code'),
+    title: t('admin.ecommerce.configuration.cartPromotions.table.code'),
     key: 'code',
     minWidth: 160,
   },
   {
-    title: t('admin.ecommerce.cartPromotions.table.coupons'),
+    title: t('admin.ecommerce.configuration.cartPromotions.table.coupons'),
     key: 'coupons',
     minWidth: 160,
   },
   {
-    title: t('admin.ecommerce.cartPromotions.table.startsAt'),
+    title: t('admin.ecommerce.configuration.cartPromotions.table.startsAt'),
     key: 'startsAt',
     minWidth: 180,
   },
   {
-    title: t('admin.ecommerce.cartPromotions.table.endsAt'),
+    title: t('admin.ecommerce.configuration.cartPromotions.table.endsAt'),
     key: 'endsAt',
     minWidth: 180,
   },
   {
-    title: t('admin.ecommerce.cartPromotions.table.enabled'),
+    title: t('admin.ecommerce.configuration.cartPromotions.table.enabled'),
     key: 'enabled',
     width: 140,
     align: 'center',
@@ -96,14 +96,14 @@ const rows = computed(() => {
     let couponsLabel: string
 
     if (!couponBased) {
-      couponsLabel = t('admin.ecommerce.cartPromotions.table.noCoupons')
+      couponsLabel = t('admin.ecommerce.configuration.cartPromotions.table.noCoupons')
     } else if (usageLimit > 0) {
       couponsLabel = `${formatNumberValue(
         couponsUsed,
         numberFormatter.value,
       )} / ${formatNumberValue(usageLimit, numberFormatter.value)}`
     } else {
-      couponsLabel = t('admin.ecommerce.cartPromotions.table.unlimited')
+      couponsLabel = t('admin.ecommerce.configuration.cartPromotions.table.unlimited')
     }
 
     const startsAt = formatDateValue(
@@ -170,8 +170,8 @@ const errorMessage = computed(() => {
 <template>
   <AdminDataTable
     v-model:search="search"
-    :title="t('admin.ecommerce.cartPromotions.title')"
-    :subtitle="t('admin.ecommerce.cartPromotions.subtitle')"
+    :title="t('admin.ecommerce.configuration.cartPromotions.title')"
+    :subtitle="t('admin.ecommerce.configuration.cartPromotions.subtitle')"
     :headers="headers"
     :items="filteredRows"
     :loading="pending"

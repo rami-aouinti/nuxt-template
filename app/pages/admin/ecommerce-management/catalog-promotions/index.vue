@@ -23,32 +23,32 @@ const { t, locale } = useI18n()
 
 const headers = computed(() => [
   {
-    title: t('admin.ecommerce.catalogPromotions.table.name'),
+    title: t('admin.ecommerce.configuration.catalogPromotions.table.name'),
     key: 'name',
     minWidth: 220,
   },
   {
-    title: t('admin.ecommerce.catalogPromotions.table.code'),
+    title: t('admin.ecommerce.configuration.catalogPromotions.table.code'),
     key: 'code',
     minWidth: 160,
   },
   {
-    title: t('admin.ecommerce.catalogPromotions.table.channels'),
+    title: t('admin.ecommerce.configuration.catalogPromotions.table.channels'),
     key: 'channels',
     minWidth: 200,
   },
   {
-    title: t('admin.ecommerce.catalogPromotions.table.startDate'),
+    title: t('admin.ecommerce.configuration.catalogPromotions.table.startDate'),
     key: 'startDate',
     minWidth: 180,
   },
   {
-    title: t('admin.ecommerce.catalogPromotions.table.endDate'),
+    title: t('admin.ecommerce.configuration.catalogPromotions.table.endDate'),
     key: 'endDate',
     minWidth: 180,
   },
   {
-    title: t('admin.ecommerce.catalogPromotions.table.state'),
+    title: t('admin.ecommerce.configuration.catalogPromotions.table.state'),
     key: 'state',
     width: 140,
     align: 'center',
@@ -119,14 +119,14 @@ const rows = computed(() => {
           .replace(/_/g, ' ')
           .replace(/\b\w/g, (char) => char.toUpperCase())
       : isActive
-        ? t('admin.ecommerce.catalogPromotions.table.active')
-        : t('admin.ecommerce.catalogPromotions.table.inactive')
+        ? t('admin.ecommerce.configuration.catalogPromotions.table.active')
+        : t('admin.ecommerce.configuration.catalogPromotions.table.inactive')
 
     return {
       code,
       name,
       channels:
-        channels || t('admin.ecommerce.catalogPromotions.table.noChannels'),
+        channels || t('admin.ecommerce.configuration.catalogPromotions.table.noChannels'),
       startDate,
       endDate,
       stateLabel,
@@ -162,8 +162,8 @@ const errorMessage = computed(() => {
 <template>
   <AdminDataTable
     v-model:search="search"
-    :title="t('admin.ecommerce.catalogPromotions.title')"
-    :subtitle="t('admin.ecommerce.catalogPromotions.subtitle')"
+    :title="t('admin.ecommerce.configuration.catalogPromotions.title')"
+    :subtitle="t('admin.ecommerce.configuration.catalogPromotions.subtitle')"
     :headers="headers"
     :items="filteredRows"
     :loading="pending"

@@ -21,17 +21,17 @@ const { t, locale } = useI18n()
 
 const headers = computed(() => [
   {
-    title: t('admin.ecommerce.customerGroups.table.name'),
+    title: t('admin.ecommerce.configuration.customerGroups.table.name'),
     key: 'name',
     minWidth: 220,
   },
   {
-    title: t('admin.ecommerce.customerGroups.table.code'),
+    title: t('admin.ecommerce.configuration.customerGroups.table.code'),
     key: 'code',
     minWidth: 160,
   },
   {
-    title: t('admin.ecommerce.customerGroups.table.members'),
+    title: t('admin.ecommerce.configuration.customerGroups.table.members'),
     key: 'members',
     align: 'end',
     width: 160,
@@ -113,8 +113,8 @@ const errorMessage = computed(() => {
 <template>
   <AdminDataTable
     v-model:search="search"
-    :title="t('admin.ecommerce.customerGroups.title')"
-    :subtitle="t('admin.ecommerce.customerGroups.subtitle')"
+    :title="t('admin.ecommerce.configuration.customerGroups.title')"
+    :subtitle="t('admin.ecommerce.configuration.customerGroups.subtitle')"
     :headers="headers"
     :items="filteredRows"
     :loading="pending"

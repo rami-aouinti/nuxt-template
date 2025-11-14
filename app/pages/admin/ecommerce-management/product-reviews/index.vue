@@ -22,33 +22,33 @@ const { t, locale } = useI18n()
 
 const headers = computed(() => [
   {
-    title: t('admin.ecommerce.productReviews.table.rating'),
+    title: t('admin.ecommerce.configuration.productReviews.table.rating'),
     key: 'rating',
     minWidth: 140,
   },
   {
-    title: t('admin.ecommerce.productReviews.table.title'),
+    title: t('admin.ecommerce.configuration.productReviews.table.title'),
     key: 'title',
     minWidth: 220,
   },
   {
-    title: t('admin.ecommerce.productReviews.table.product'),
+    title: t('admin.ecommerce.configuration.productReviews.table.product'),
     key: 'product',
     minWidth: 200,
   },
   {
-    title: t('admin.ecommerce.productReviews.table.customer'),
+    title: t('admin.ecommerce.configuration.productReviews.table.customer'),
     key: 'customer',
     minWidth: 200,
   },
   {
-    title: t('admin.ecommerce.productReviews.table.state'),
+    title: t('admin.ecommerce.configuration.productReviews.table.state'),
     key: 'state',
     width: 160,
     align: 'center',
   },
   {
-    title: t('admin.ecommerce.productReviews.table.createdAt'),
+    title: t('admin.ecommerce.configuration.productReviews.table.createdAt'),
     key: 'createdAt',
     minWidth: 200,
   },
@@ -87,7 +87,7 @@ const rows = computed(() => {
 
     const title =
       getString(record, ['title', 'summary']) ||
-      `${t('admin.ecommerce.productReviews.noTitle')} #${index + 1}`
+      `${t('admin.ecommerce.configuration.productReviews.noTitle')} #${index + 1}`
 
     const product =
       resolveLocalizedString(productRecord, locale, ['name', 'title']) ??
@@ -96,16 +96,16 @@ const rows = computed(() => {
 
     const customer =
       getString(customerRecord, ['email', 'username', 'fullName', 'full_name']) ??
-      t('admin.ecommerce.productReviews.anonymous')
+      t('admin.ecommerce.configuration.productReviews.anonymous')
 
     const state = getString(record, ['status', 'state']) ?? 'pending'
     const normalizedState = state.toLowerCase()
 
     const stateLabelMap: Record<string, string> = {
-      accepted: t('admin.ecommerce.productReviews.states.accepted'),
-      rejected: t('admin.ecommerce.productReviews.states.rejected'),
-      pending: t('admin.ecommerce.productReviews.states.pending'),
-      new: t('admin.ecommerce.productReviews.states.pending'),
+      accepted: t('admin.ecommerce.configuration.productReviews.states.accepted'),
+      rejected: t('admin.ecommerce.configuration.productReviews.states.rejected'),
+      pending: t('admin.ecommerce.configuration.productReviews.states.pending'),
+      new: t('admin.ecommerce.configuration.productReviews.states.pending'),
     }
 
     const stateLabel =
@@ -166,8 +166,8 @@ const errorMessage = computed(() => {
 <template>
   <AdminDataTable
     v-model:search="search"
-    :title="t('admin.ecommerce.productReviews.title')"
-    :subtitle="t('admin.ecommerce.productReviews.subtitle')"
+    :title="t('admin.ecommerce.configuration.productReviews.title')"
+    :subtitle="t('admin.ecommerce.configuration.productReviews.subtitle')"
     :headers="headers"
     :items="filteredRows"
     :loading="pending"
