@@ -1828,7 +1828,10 @@
       "summary": {
         "title": "Übersicht",
         "customerFallback": "Kunde",
-        "itemCount": "{count, plural, one {# Artikel} other {# Artikel}}",
+        "itemCount": {
+          "one": "{count} Artikel",
+          "other": "{count} Artikel"
+        },
         "itemsTotal": "Zwischensumme Artikel",
         "discount": "Rabatt",
         "shipping": "Geschätzte Versandkosten",

@@ -1715,7 +1715,10 @@
       "summary": {
         "title": "Resumen",
         "customerFallback": "Cliente",
-        "itemCount": "{count, plural, one {# artículo} other {# artículos}}",
+        "itemCount": {
+          "one": "{count} artículo",
+          "other": "{count} artículos"
+        },
         "itemsTotal": "Subtotal de artículos",
         "discount": "Descuento",
         "shipping": "Costo de envío estimado",

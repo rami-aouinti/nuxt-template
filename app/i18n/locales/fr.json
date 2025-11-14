@@ -1724,7 +1724,10 @@
       "summary": {
         "title": "Récapitulatif",
         "customerFallback": "Client",
-        "itemCount": "{count, plural, one {# article} other {# articles}}",
+        "itemCount": {
+          "one": "{count} article",
+          "other": "{count} articles"
+        },
         "itemsTotal": "Sous-total des articles",
         "discount": "Remise",
         "shipping": "Frais de livraison estimés",

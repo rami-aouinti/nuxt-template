@@ -1766,7 +1766,10 @@
       "summary": {
         "title": "Summary",
         "customerFallback": "Customer",
-        "itemCount": "{count, plural, one {# item} other {# items}}",
+        "itemCount": {
+          "one": "{count} item",
+          "other": "{count} items"
+        },
         "itemsTotal": "Items total",
         "discount": "Discount",
         "shipping": "Estimated shipping cost",
