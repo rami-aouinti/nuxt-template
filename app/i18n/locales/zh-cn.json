@@ -116,61 +116,6 @@
       "errors": {
         "failedToLoad": "暂时无法加载商店数据，请稍后重试。"
       }
-    },
-    "ecommerceShipping": {
-      "metaTitle": "结账 – 运输",
-      "kicker": "结账",
-      "title": "选择配送方式",
-      "subtitle": "在继续支付之前，请选择合适的配送选项。",
-      "cardTitle": "配送方式",
-      "cardSubtitle": "告知我们如何寄送您的订单。",
-      "steps": {
-        "address": "地址",
-        "shipping": "配送",
-        "payment": "支付",
-        "complete": "完成"
-      },
-      "shipment": {
-        "title": "包裹 #{index}",
-        "subtitle": "为此包裹选择一个承运方。",
-        "status": "状态",
-        "state": "{state}",
-        "pending": "等待确认"
-      },
-      "methods": {
-        "heading": "可选方案",
-        "caption": "运费基于订单内容和收货地址计算。",
-        "free": "免费",
-        "empty": "当前没有可用的配送方式。"
-      },
-      "summary": {
-        "title": "订单摘要",
-        "subtitle": "在继续之前快速检查。",
-        "items": "商品小计",
-        "discount": "折扣",
-        "shipping": "预计运费",
-        "taxes": "税费",
-        "total": "订单总额",
-        "unknownProduct": "商品",
-        "quantity": "数量：{count}"
-      },
-      "actions": {
-        "refresh": "刷新",
-        "next": "继续支付"
-      },
-      "states": {
-        "missingToken": "需要订单参考号才能显示配送信息。",
-        "loadFailed": "配送信息加载失败，请重试。",
-        "empty": "该订单暂未生成配送记录。"
-      },
-      "methodsSection": {
-        "title": "配送方式"
-      },
-      "messages": {
-        "updated": "配送方式已更新。",
-        "updateFailed": "无法更新配送方式，请重试。",
-        "continueInfo": "支付步骤即将上线。"
-      }
     }
   },
   "navigation": {
@@ -1263,6 +1208,61 @@
     }
   },
   "pages": {
+    "ecommerceShipping": {
+      "metaTitle": "结账 – 运输",
+      "kicker": "结账",
+      "title": "选择配送方式",
+      "subtitle": "在继续支付之前，请选择合适的配送选项。",
+      "cardTitle": "配送方式",
+      "cardSubtitle": "告知我们如何寄送您的订单。",
+      "steps": {
+        "address": "地址",
+        "shipping": "配送",
+        "payment": "支付",
+        "complete": "完成"
+      },
+      "shipment": {
+        "title": "包裹 #{index}",
+        "subtitle": "为此包裹选择一个承运方。",
+        "status": "状态",
+        "state": "{state}",
+        "pending": "等待确认"
+      },
+      "methods": {
+        "heading": "可选方案",
+        "caption": "运费基于订单内容和收货地址计算。",
+        "free": "免费",
+        "empty": "当前没有可用的配送方式。"
+      },
+      "summary": {
+        "title": "订单摘要",
+        "subtitle": "在继续之前快速检查。",
+        "items": "商品小计",
+        "discount": "折扣",
+        "shipping": "预计运费",
+        "taxes": "税费",
+        "total": "订单总额",
+        "unknownProduct": "商品",
+        "quantity": "数量：{count}"
+      },
+      "actions": {
+        "refresh": "刷新",
+        "next": "继续支付"
+      },
+      "states": {
+        "missingToken": "需要订单参考号才能显示配送信息。",
+        "loadFailed": "配送信息加载失败，请重试。",
+        "empty": "该订单暂未生成配送记录。"
+      },
+      "methodsSection": {
+        "title": "配送方式"
+      },
+      "messages": {
+        "updated": "配送方式已更新。",
+        "updateFailed": "无法更新配送方式，请重试。",
+        "continueInfo": "支付步骤即将上线。"
+      }
+    },
     "settings": {
       "title": "账户设置",
       "subtitle": "在一个位置自定义您的使用体验并保护个人信息。",

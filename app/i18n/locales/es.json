@@ -116,61 +116,6 @@
       "errors": {
         "failedToLoad": "No pudimos cargar la tienda. Inténtalo de nuevo más tarde."
       }
-    },
-    "ecommerceShipping": {
-      "metaTitle": "Pago – Envío",
-      "kicker": "Pago",
-      "title": "Elige tu envío",
-      "subtitle": "Selecciona la opción de entrega que mejor se adapte antes de pasar al pago.",
-      "cardTitle": "Método de envío",
-      "cardSubtitle": "Decide cómo enviaremos tu pedido.",
-      "steps": {
-        "address": "Dirección",
-        "shipping": "Envío",
-        "payment": "Pago",
-        "complete": "Finalizar"
-      },
-      "shipment": {
-        "title": "Envío #{index}",
-        "subtitle": "Elige un transportista para este paquete.",
-        "status": "Estado",
-        "state": "{state}",
-        "pending": "Pendiente de confirmación"
-      },
-      "methods": {
-        "heading": "Opciones disponibles",
-        "caption": "Las tarifas dependen del contenido del pedido y del destino.",
-        "free": "Gratis",
-        "empty": "Todavía no hay métodos de envío disponibles para este envío."
-      },
-      "summary": {
-        "title": "Resumen del pedido",
-        "subtitle": "Una revisión rápida antes de continuar.",
-        "items": "Total de artículos",
-        "discount": "Descuentos",
-        "shipping": "Envío estimado",
-        "taxes": "Impuestos",
-        "total": "Total",
-        "unknownProduct": "Producto",
-        "quantity": "Cant.: {count}"
-      },
-      "actions": {
-        "refresh": "Actualizar",
-        "next": "Continuar al pago"
-      },
-      "states": {
-        "missingToken": "Se necesita una referencia de pedido para mostrar los detalles de envío.",
-        "loadFailed": "No pudimos cargar la información de envío. Inténtalo de nuevo.",
-        "empty": "Todavía no encontramos envíos para este pedido."
-      },
-      "methodsSection": {
-        "title": "Métodos de envío"
-      },
-      "messages": {
-        "updated": "Método de envío actualizado.",
-        "updateFailed": "No pudimos actualizar el método de envío. Inténtalo de nuevo.",
-        "continueInfo": "La selección de pago estará disponible pronto."
-      }
     }
   },
   "navigation": {
@@ -1150,6 +1095,61 @@
     }
   },
   "pages": {
+    "ecommerceShipping": {
+      "metaTitle": "Pago – Envío",
+      "kicker": "Pago",
+      "title": "Elige tu envío",
+      "subtitle": "Selecciona la opción de entrega que mejor se adapte antes de pasar al pago.",
+      "cardTitle": "Método de envío",
+      "cardSubtitle": "Decide cómo enviaremos tu pedido.",
+      "steps": {
+        "address": "Dirección",
+        "shipping": "Envío",
+        "payment": "Pago",
+        "complete": "Finalizar"
+      },
+      "shipment": {
+        "title": "Envío #{index}",
+        "subtitle": "Elige un transportista para este paquete.",
+        "status": "Estado",
+        "state": "{state}",
+        "pending": "Pendiente de confirmación"
+      },
+      "methods": {
+        "heading": "Opciones disponibles",
+        "caption": "Las tarifas dependen del contenido del pedido y del destino.",
+        "free": "Gratis",
+        "empty": "Todavía no hay métodos de envío disponibles para este envío."
+      },
+      "summary": {
+        "title": "Resumen del pedido",
+        "subtitle": "Una revisión rápida antes de continuar.",
+        "items": "Total de artículos",
+        "discount": "Descuentos",
+        "shipping": "Envío estimado",
+        "taxes": "Impuestos",
+        "total": "Total",
+        "unknownProduct": "Producto",
+        "quantity": "Cant.: {count}"
+      },
+      "actions": {
+        "refresh": "Actualizar",
+        "next": "Continuar al pago"
+      },
+      "states": {
+        "missingToken": "Se necesita una referencia de pedido para mostrar los detalles de envío.",
+        "loadFailed": "No pudimos cargar la información de envío. Inténtalo de nuevo.",
+        "empty": "Todavía no encontramos envíos para este pedido."
+      },
+      "methodsSection": {
+        "title": "Métodos de envío"
+      },
+      "messages": {
+        "updated": "Método de envío actualizado.",
+        "updateFailed": "No pudimos actualizar el método de envío. Inténtalo de nuevo.",
+        "continueInfo": "La selección de pago estará disponible pronto."
+      }
+    },
     "settings": {
       "title": "Configuración de la cuenta",
       "subtitle": "Personaliza tu experiencia y mantén segura tu información desde un solo lugar.",

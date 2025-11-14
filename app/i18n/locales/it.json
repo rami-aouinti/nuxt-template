@@ -116,61 +116,6 @@
       "errors": {
         "failedToLoad": "Impossibile caricare i dati del negozio. Riprova più tardi."
       }
-    },
-    "ecommerceShipping": {
-      "metaTitle": "Checkout – Spedizione",
-      "kicker": "Checkout",
-      "title": "Scegli la spedizione",
-      "subtitle": "Seleziona l'opzione di consegna più adatta prima di passare al pagamento.",
-      "cardTitle": "Metodo di spedizione",
-      "cardSubtitle": "Indica come desideri ricevere il tuo ordine.",
-      "steps": {
-        "address": "Indirizzo",
-        "shipping": "Spedizione",
-        "payment": "Pagamento",
-        "complete": "Completato"
-      },
-      "shipment": {
-        "title": "Spedizione #{index}",
-        "subtitle": "Scegli un corriere per questo pacco.",
-        "status": "Stato",
-        "state": "{state}",
-        "pending": "In attesa di conferma"
-      },
-      "methods": {
-        "heading": "Opzioni disponibili",
-        "caption": "Le tariffe dipendono dal contenuto dell'ordine e dalla destinazione.",
-        "free": "Gratuito",
-        "empty": "Per questa spedizione non sono ancora disponibili metodi di consegna."
-      },
-      "summary": {
-        "title": "Riepilogo ordine",
-        "subtitle": "Un'ultima verifica prima di continuare.",
-        "items": "Totale articoli",
-        "discount": "Sconti",
-        "shipping": "Spedizione stimata",
-        "taxes": "Imposte",
-        "total": "Totale",
-        "unknownProduct": "Prodotto",
-        "quantity": "Q.tà: {count}"
-      },
-      "actions": {
-        "refresh": "Aggiorna",
-        "next": "Continua al pagamento"
-      },
-      "states": {
-        "missingToken": "È necessario un riferimento dell'ordine per mostrare i dettagli di spedizione.",
-        "loadFailed": "Impossibile caricare le informazioni di spedizione. Riprova.",
-        "empty": "Non abbiamo ancora trovato spedizioni per questo ordine."
-      },
-      "methodsSection": {
-        "title": "Metodi di spedizione"
-      },
-      "messages": {
-        "updated": "Metodo di spedizione aggiornato.",
-        "updateFailed": "Impossibile aggiornare il metodo di spedizione. Riprova.",
-        "continueInfo": "La scelta del pagamento sarà disponibile a breve."
-      }
     }
   },
   "navigation": {
@@ -1263,6 +1208,61 @@
     }
   },
   "pages": {
+    "ecommerceShipping": {
+      "metaTitle": "Checkout – Spedizione",
+      "kicker": "Checkout",
+      "title": "Scegli la spedizione",
+      "subtitle": "Seleziona l'opzione di consegna più adatta prima di passare al pagamento.",
+      "cardTitle": "Metodo di spedizione",
+      "cardSubtitle": "Indica come desideri ricevere il tuo ordine.",
+      "steps": {
+        "address": "Indirizzo",
+        "shipping": "Spedizione",
+        "payment": "Pagamento",
+        "complete": "Completato"
+      },
+      "shipment": {
+        "title": "Spedizione #{index}",
+        "subtitle": "Scegli un corriere per questo pacco.",
+        "status": "Stato",
+        "state": "{state}",
+        "pending": "In attesa di conferma"
+      },
+      "methods": {
+        "heading": "Opzioni disponibili",
+        "caption": "Le tariffe dipendono dal contenuto dell'ordine e dalla destinazione.",
+        "free": "Gratuito",
+        "empty": "Per questa spedizione non sono ancora disponibili metodi di consegna."
+      },
+      "summary": {
+        "title": "Riepilogo ordine",
+        "subtitle": "Un'ultima verifica prima di continuare.",
+        "items": "Totale articoli",
+        "discount": "Sconti",
+        "shipping": "Spedizione stimata",
+        "taxes": "Imposte",
+        "total": "Totale",
+        "unknownProduct": "Prodotto",
+        "quantity": "Q.tà: {count}"
+      },
+      "actions": {
+        "refresh": "Aggiorna",
+        "next": "Continua al pagamento"
+      },
+      "states": {
+        "missingToken": "È necessario un riferimento dell'ordine per mostrare i dettagli di spedizione.",
+        "loadFailed": "Impossibile caricare le informazioni di spedizione. Riprova.",
+        "empty": "Non abbiamo ancora trovato spedizioni per questo ordine."
+      },
+      "methodsSection": {
+        "title": "Metodi di spedizione"
+      },
+      "messages": {
+        "updated": "Metodo di spedizione aggiornato.",
+        "updateFailed": "Impossibile aggiornare il metodo di spedizione. Riprova.",
+        "continueInfo": "La scelta del pagamento sarà disponibile a breve."
+      }
+    },
     "settings": {
       "title": "Impostazioni dell'account",
       "subtitle": "Personalizza la tua esperienza e mantieni al sicuro le tue informazioni da un'unica posizione.",

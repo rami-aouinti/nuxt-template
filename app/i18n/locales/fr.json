@@ -116,61 +116,6 @@
       "errors": {
         "failedToLoad": "Impossible de charger la boutique pour le moment. Veuillez réessayer plus tard."
       }
-    },
-    "ecommerceShipping": {
-      "metaTitle": "Paiement – Livraison",
-      "kicker": "Paiement",
-      "title": "Choisissez votre livraison",
-      "subtitle": "Sélectionnez l'option d'expédition qui vous convient avant de passer au paiement.",
-      "cardTitle": "Mode de livraison",
-      "cardSubtitle": "Choisissez comment nous devons expédier votre commande.",
-      "steps": {
-        "address": "Adresse",
-        "shipping": "Livraison",
-        "payment": "Paiement",
-        "complete": "Confirmation"
-      },
-      "shipment": {
-        "title": "Envoi n°{index}",
-        "subtitle": "Sélectionnez un transporteur pour ce colis.",
-        "status": "Statut",
-        "state": "{state}",
-        "pending": "En attente de confirmation"
-      },
-      "methods": {
-        "heading": "Options disponibles",
-        "caption": "Les tarifs sont calculés selon votre commande et votre destination.",
-        "free": "Offert",
-        "empty": "Aucune méthode d'expédition n'est disponible pour cet envoi pour le moment."
-      },
-      "summary": {
-        "title": "Récapitulatif de commande",
-        "subtitle": "Un dernier coup d'œil avant de continuer.",
-        "items": "Total articles",
-        "discount": "Remises",
-        "shipping": "Livraison estimée",
-        "taxes": "Taxes",
-        "total": "Total",
-        "unknownProduct": "Produit",
-        "quantity": "Qté : {count}"
-      },
-      "actions": {
-        "refresh": "Actualiser",
-        "next": "Continuer vers le paiement"
-      },
-      "states": {
-        "missingToken": "Une référence de commande est nécessaire pour afficher les détails de livraison.",
-        "loadFailed": "Impossible de charger les informations d'expédition. Merci de réessayer.",
-        "empty": "Nous n'avons trouvé aucun envoi pour cette commande."
-      },
-      "methodsSection": {
-        "title": "Méthodes d'expédition"
-      },
-      "messages": {
-        "updated": "Méthode d'expédition mise à jour.",
-        "updateFailed": "Impossible de mettre à jour la méthode d'expédition. Merci de réessayer.",
-        "continueInfo": "La sélection du paiement sera disponible prochainement."
-      }
     }
   },
   "navigation": {
@@ -1159,6 +1104,61 @@
     }
   },
   "pages": {
+    "ecommerceShipping": {
+      "metaTitle": "Paiement – Livraison",
+      "kicker": "Paiement",
+      "title": "Choisissez votre livraison",
+      "subtitle": "Sélectionnez l'option d'expédition qui vous convient avant de passer au paiement.",
+      "cardTitle": "Mode de livraison",
+      "cardSubtitle": "Choisissez comment nous devons expédier votre commande.",
+      "steps": {
+        "address": "Adresse",
+        "shipping": "Livraison",
+        "payment": "Paiement",
+        "complete": "Confirmation"
+      },
+      "shipment": {
+        "title": "Envoi n°{index}",
+        "subtitle": "Sélectionnez un transporteur pour ce colis.",
+        "status": "Statut",
+        "state": "{state}",
+        "pending": "En attente de confirmation"
+      },
+      "methods": {
+        "heading": "Options disponibles",
+        "caption": "Les tarifs sont calculés selon votre commande et votre destination.",
+        "free": "Offert",
+        "empty": "Aucune méthode d'expédition n'est disponible pour cet envoi pour le moment."
+      },
+      "summary": {
+        "title": "Récapitulatif de commande",
+        "subtitle": "Un dernier coup d'œil avant de continuer.",
+        "items": "Total articles",
+        "discount": "Remises",
+        "shipping": "Livraison estimée",
+        "taxes": "Taxes",
+        "total": "Total",
+        "unknownProduct": "Produit",
+        "quantity": "Qté : {count}"
+      },
+      "actions": {
+        "refresh": "Actualiser",
+        "next": "Continuer vers le paiement"
+      },
+      "states": {
+        "missingToken": "Une référence de commande est nécessaire pour afficher les détails de livraison.",
+        "loadFailed": "Impossible de charger les informations d'expédition. Merci de réessayer.",
+        "empty": "Nous n'avons trouvé aucun envoi pour cette commande."
+      },
+      "methodsSection": {
+        "title": "Méthodes d'expédition"
+      },
+      "messages": {
+        "updated": "Méthode d'expédition mise à jour.",
+        "updateFailed": "Impossible de mettre à jour la méthode d'expédition. Merci de réessayer.",
+        "continueInfo": "La sélection du paiement sera disponible prochainement."
+      }
+    },
     "settings": {
       "title": "Paramètres du compte",
       "subtitle": "Personnalisez votre expérience et sécurisez vos informations depuis un espace unique.",
