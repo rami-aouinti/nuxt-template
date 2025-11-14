@@ -1,3 +1,5 @@
+import type { HydraContext } from './hydra'
+
 export interface AdministratorOAuthAccount {
   id?: number
   provider: string
@@ -16,14 +18,6 @@ export interface AdministratorImageResource {
 }
 
 export type AdministratorImage = AdministratorImageResource | null
-
-export type HydraContext =
-  | string
-  | {
-      '@vocab'?: string
-      hydra?: 'http://www.w3.org/ns/hydra/core#'
-      [key: string]: unknown
-    }
 
 export interface Administrator {
   firstName: string | null
@@ -111,3 +105,25 @@ export interface AdministratorListItemJsonLd extends AdministratorListItem {
 }
 
 export interface AdministratorDetailJsonLd extends AdministratorJsonLd {}
+
+export interface AdministratorTokenRead {
+  token: string
+  adminUser: string
+}
+
+export interface AdministratorTokenUnauthorizedError {
+  code: number
+  message: string
+}
+
+export interface AdministratorTokenBadRequestError {
+  type: string
+  title: string
+  status: number
+  detail: string
+}
+
+export interface AdministratorTokenCreatePayload {
+  email: string
+  password: string
+}
