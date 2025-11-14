@@ -17,6 +17,10 @@ definePageMeta({
 })
 
 const { t, locale } = useI18n()
+
+useHead(() => ({
+  title: t('pages.ecommerce.shipping.metaTitle'),
+}))
 const route = useRoute()
 
 interface ShippingEntry {
@@ -188,6 +192,13 @@ const tokenValue = computed(() => {
 
   return typeof rawToken === 'string' ? rawToken : ''
 })
+
+const stepLabels = computed(() => [
+  t('pages.ecommerce.shipping.steps.address'),
+  t('pages.ecommerce.shipping.steps.shipping'),
+  t('pages.ecommerce.shipping.steps.payment'),
+  t('pages.ecommerce.shipping.steps.complete'),
+])
 
 const selectedMethods = ref<Record<string, string>>({})
 const savingStates = ref<Record<string, boolean>>({})
@@ -477,6 +488,11 @@ const handleMethodSelection = async (shipmentId: string, methodCode: string) => 
 const handleContinue = () => {
   Notify.info(t('pages.ecommerce.shipping.messages.continueInfo'))
 }
+
+const getMethodsGroupLabel = (index: number) =>
+  `${t('pages.ecommerce.shipping.shipment.title', { index: index + 1 })} — ${t(
+    'pages.ecommerce.shipping.methods.heading',
+  )}`
 </script>
 
 <template>
@@ -495,12 +511,7 @@ const handleContinue = () => {
       </div>
       <div class="shipping-hero__steps">
         <div
-          v-for="(step, index) in [
-            t('pages.ecommerce.shipping.steps.address'),
-            t('pages.ecommerce.shipping.steps.shipping'),
-            t('pages.ecommerce.shipping.steps.payment'),
-            t('pages.ecommerce.shipping.steps.complete'),
-          ]"
+          v-for="(step, index) in stepLabels"
           :key="step"
           class="shipping-step"
           :class="{
@@ -603,6 +614,7 @@ const handleContinue = () => {
                   class="shipping-methods__list"
                   :model-value="entry.id ? selectedMethods[entry.id] ?? '' : ''"
                   :disabled="isSavingShipment(entry.id)"
+                  :aria-label="getMethodsGroupLabel(index)"
                   @update:model-value="
                     (value) => entry.id && handleMethodSelection(entry.id, value as string)
                   "

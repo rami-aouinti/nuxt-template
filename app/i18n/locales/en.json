@@ -1151,9 +1151,6 @@
           "loadFailed": "We could not load the shipping information. Please try again.",
           "empty": "We did not find any shipments for this order yet."
         },
-        "methodsSection": {
-          "title": "Shipping methods"
-        },
         "messages": {
           "updated": "Shipping method updated.",
           "updateFailed": "We could not update the shipping method. Please try again.",

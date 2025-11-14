@@ -1255,9 +1255,6 @@
           "loadFailed": "配送信息加载失败，请重试。",
           "empty": "该订单暂未生成配送记录。"
         },
-        "methodsSection": {
-          "title": "配送方式"
-        },
         "messages": {
           "updated": "配送方式已更新。",
           "updateFailed": "无法更新配送方式，请重试。",

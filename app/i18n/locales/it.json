@@ -1255,9 +1255,6 @@
           "loadFailed": "Impossibile caricare le informazioni di spedizione. Riprova.",
           "empty": "Non abbiamo ancora trovato spedizioni per questo ordine."
         },
-        "methodsSection": {
-          "title": "Metodi di spedizione"
-        },
         "messages": {
           "updated": "Metodo di spedizione aggiornato.",
           "updateFailed": "Impossibile aggiornare il metodo di spedizione. Riprova.",

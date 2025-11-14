@@ -1142,9 +1142,6 @@
           "loadFailed": "No pudimos cargar la información de envío. Inténtalo de nuevo.",
           "empty": "Todavía no encontramos envíos para este pedido."
         },
-        "methodsSection": {
-          "title": "Métodos de envío"
-        },
         "messages": {
           "updated": "Método de envío actualizado.",
           "updateFailed": "No pudimos actualizar el método de envío. Inténtalo de nuevo.",

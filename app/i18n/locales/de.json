@@ -1255,9 +1255,6 @@
           "loadFailed": "Die Versandinformationen konnten nicht geladen werden. Bitte versuche es erneut.",
           "empty": "Für diese Bestellung wurden noch keine Sendungen gefunden."
         },
-        "methodsSection": {
-          "title": "Versandarten"
-        },
         "messages": {
           "updated": "Versandart aktualisiert.",
           "updateFailed": "Die Versandart konnte nicht aktualisiert werden. Bitte erneut versuchen.",
