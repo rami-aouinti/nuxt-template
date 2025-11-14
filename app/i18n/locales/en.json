@@ -1003,8 +1003,9 @@
             "locale": "No locale",
             "roles": "No roles",
             "lastLogin": "Never"
-          },
-      "customers": {
+          }
+        },
+        "customers": {
         "title": "Customers",
         "subtitle": "Manage registered buyers and their account status.",
         "table": {
@@ -2103,7 +2104,8 @@
       "fallbacks": {
         "unknown": "Unknown",
         "noAddress": "Address unavailable",
-        "noValue": "Not provided",
+        "noValue": "Not provided"
+      },
       "metaTitle": "Order summary",
       "heading": {
         "title": "Summary of your order",
@@ -2182,7 +2184,9 @@
         "addressed": "Address confirmed",
         "shipping_selected": "Shipping selected",
         "payment_selected": "Payment selected",
-        "completed": "Completed",
+        "completed": "Completed"
+      }
+    },
     "ecommerceCategory": {
       "breadcrumbs": {
         "category": "Category"
@@ -2690,4 +2694,5 @@
       }
     }
   }
+}
 }

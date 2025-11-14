@@ -612,7 +612,7 @@
         "orders": "Orders",
         "payments": "Payments",
         "shipments": "Shipments",
-        "configuration": "Configuration"
+        "configuration": "Configuration",
         "customers": "Customers",
         "customerGroups": "Customer groups",
         "cartPromotions": "Cart promotions",
@@ -953,6 +953,7 @@
             "roles": "No roles",
             "lastLogin": "Never"
           }
+      },
       "customers": {
         "title": "Customers",
         "subtitle": "Manage registered buyers and their account status.",
@@ -2155,6 +2156,7 @@
         "unknown": "Unknown",
         "noAddress": "Address unavailable",
         "noValue": "Not provided"
+      },
       "metaTitle": "Сводка заказа",
       "heading": {
         "title": "Сводка вашего заказа",
@@ -2234,6 +2236,9 @@
         "shipping_selected": "Доставка выбрана",
         "payment_selected": "Оплата выбрана",
         "completed": "Завершён"
+
+      }
+    },
     "ecommerceCategory": {
       "breadcrumbs": {
         "category": "Category"
@@ -2628,4 +2633,5 @@
       }
     }
   }
+}
 }

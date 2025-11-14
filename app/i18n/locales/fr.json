@@ -621,7 +621,7 @@
         "orders": "Orders",
         "payments": "Payments",
         "shipments": "Shipments",
-        "configuration": "Configuration"
+        "configuration": "Configuration",
         "customers": "Customers",
         "customerGroups": "Customer groups",
         "cartPromotions": "Cart promotions",
@@ -962,7 +962,8 @@
             "roles": "Aucun rôle",
             "lastLogin": "Jamais"
           }
-      "customers": {
+        },
+        "customers": {
         "title": "Customers",
         "subtitle": "Manage registered buyers and their account status.",
         "table": {
@@ -2062,6 +2063,7 @@
         "unknown": "Inconnu",
         "noAddress": "Adresse indisponible",
         "noValue": "Non renseigné"
+      },
       "metaTitle": "Résumé de la commande",
       "heading": {
         "title": "Résumé de votre commande",
@@ -2141,6 +2143,8 @@
         "shipping_selected": "Mode de livraison choisi",
         "payment_selected": "Paiement choisi",
         "completed": "Terminée"
+      }
+    },
     "ecommerceCategory": {
       "breadcrumbs": {
         "category": "Category"
@@ -2648,4 +2652,5 @@
       }
     }
   }
+}
 }
