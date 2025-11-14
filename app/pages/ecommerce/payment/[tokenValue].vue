@@ -7,6 +7,7 @@ import type {
   PaymentMethodJsonldSyliusShopPaymentMethodIndex,
   PaymentMethodSummary,
 } from '~/types/payment'
+import { useEcommerceCartStore } from '~/stores/ecommerceCart'
 
 definePageMeta({
   title: 'pages.ecommercePayment.meta.title',
@@ -14,6 +15,7 @@ definePageMeta({
 
 const route = useRoute()
 const { t, locale } = useI18n()
+const cartStore = useEcommerceCartStore()
 
 const tokenValue = computed(() => {
   const value = route.params.tokenValue
@@ -23,6 +25,16 @@ const tokenValue = computed(() => {
 
   return typeof value === 'string' ? value : ''
 })
+
+watch(
+  () => tokenValue.value,
+  (value) => {
+    if (value && value !== cartStore.token) {
+      cartStore.setToken(value)
+    }
+  },
+  { immediate: true },
+)
 
 const isRecord = (value: unknown): value is Record<string, any> =>
   Boolean(value) && typeof value === 'object'
@@ -260,6 +272,14 @@ const {
 } = await useAsyncData('ecommerce-payment-order', fetchOrder, {
   watch: [() => tokenValue.value, () => locale.value],
 })
+
+watch(
+  () => orderData.value,
+  (value) => {
+    cartStore.captureOrder(value)
+  },
+  { immediate: true },
+)
 
 const order = computed<OrderJsonLd | null>(() => {
   const value = orderData.value

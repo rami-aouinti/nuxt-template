@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue'
 
 import AppButton from '~/components/ui/AppButton.vue'
 import AppCard from '~/components/ui/AppCard.vue'
+import { useEcommerceCartStore } from '~/stores/ecommerceCart'
 import type { OrderJsonLd } from '~/types/order'
 import type { ShippingMethodJsonldSyliusShopShippingMethodIndex } from '~/types/shippingMethod'
 import {
@@ -22,8 +23,9 @@ definePageMeta({
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const route = useRoute()
+const cartStore = useEcommerceCartStore()
 
-const orderToken = computed(() => {
+const queryOrderToken = computed(() => {
   const queryToken =
     route.query.order ?? route.query.token ?? route.query.tokenValue ?? route.query.token_id
   if (Array.isArray(queryToken)) {
@@ -36,6 +38,18 @@ const orderToken = computed(() => {
 
   return null
 })
+
+const orderToken = computed(() => queryOrderToken.value ?? cartStore.token ?? null)
+
+watch(
+  queryOrderToken,
+  (value) => {
+    if (value && value !== cartStore.token) {
+      cartStore.setToken(value)
+    }
+  },
+  { immediate: true },
+)
 
 const hasOrderToken = computed(() => Boolean(orderToken.value))
 
@@ -135,6 +149,14 @@ const orderTotals = computed(() => {
     itemsCount: order.totalQuantity ?? order.items?.length ?? 0,
   }
 })
+
+watch(
+  () => orderData.value,
+  (value) => {
+    cartStore.captureOrder(value)
+  },
+  { immediate: true },
+)
 
 const extractResourceId = (value: string | null | undefined) => {
   if (!value) {

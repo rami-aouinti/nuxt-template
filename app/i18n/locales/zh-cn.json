@@ -105,7 +105,8 @@
         "shopNow": "立即选购",
         "exploreCollection": "浏览系列",
         "refresh": "刷新目录",
-        "retry": "重试"
+        "retry": "重试",
+        "goToCheckout": "前往结账"
       },
       "fallbacks": {
         "unknownProduct": "商品",
@@ -115,6 +116,12 @@
       },
       "errors": {
         "failedToLoad": "暂时无法加载商店数据，请稍后重试。"
+      },
+      "product": {
+        "notifications": {
+          "addedToCart": "已将商品加入购物车。正在跳转到结账…",
+          "failedToAdd": "无法将该商品加入购物车，请稍后重试。"
+        }
       }
     },
     "ecommerceCheckout": {

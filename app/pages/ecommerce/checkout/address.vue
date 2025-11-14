@@ -4,6 +4,7 @@ import type { VForm } from 'vuetify/components'
 
 import AppButton from '~/components/ui/AppButton.vue'
 import AppCard from '~/components/ui/AppCard.vue'
+import { useEcommerceCartStore } from '~/stores/ecommerceCart'
 import type { AddressAttributes, AddressJsonld } from '~/types/address'
 import type { CountryInterfaceJsonld } from '~/types/country'
 import type { OrderJsonLd } from '~/types/order'
@@ -11,6 +12,7 @@ import type { OrderJsonLd } from '~/types/order'
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const route = useRoute()
+const cartStore = useEcommerceCartStore()
 
 definePageMeta({
   title: 'pages.ecommerceCheckout.address.meta.title',
@@ -52,13 +54,25 @@ const shippingAddress = reactive<AddressAttributes>({
 const createdBillingAddress = ref<AddressJsonld | null>(null)
 const createdShippingAddress = ref<AddressJsonld | null>(null)
 
-const orderToken = computed(() => {
+const queryOrderToken = computed(() => {
   const queryToken = route.query.order ?? route.query.token ?? route.query.tokenValue
   if (Array.isArray(queryToken)) {
     return queryToken[0] ?? null
   }
   return queryToken ? String(queryToken) : null
 })
+
+const orderToken = computed(() => queryOrderToken.value ?? cartStore.token ?? null)
+
+watch(
+  queryOrderToken,
+  (value) => {
+    if (value && value !== cartStore.token) {
+      cartStore.setToken(value)
+    }
+  },
+  { immediate: true },
+)
 
 const {
   data: orderData,
@@ -142,6 +156,14 @@ const orderTotals = computed(() => {
     itemsCount: order.totalQuantity ?? 0,
   }
 })
+
+watch(
+  () => orderData.value,
+  (value) => {
+    cartStore.captureOrder(value)
+  },
+  { immediate: true },
+)
 
 const shippingRoute = computed(() => {
   if (!orderToken.value) {

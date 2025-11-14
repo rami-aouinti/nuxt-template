@@ -105,7 +105,8 @@
         "shopNow": "Comprar ahora",
         "exploreCollection": "Explorar colección",
         "refresh": "Actualizar catálogo",
-        "retry": "Reintentar"
+        "retry": "Reintentar",
+        "goToCheckout": "Ir al pago"
       },
       "fallbacks": {
         "unknownProduct": "Producto",
@@ -115,6 +116,12 @@
       },
       "errors": {
         "failedToLoad": "No pudimos cargar la tienda. Inténtalo de nuevo más tarde."
+      },
+      "product": {
+        "notifications": {
+          "addedToCart": "Producto añadido a tu carrito. Redirigiendo a la compra…",
+          "failedToAdd": "No pudimos añadir este producto a tu carrito. Inténtalo de nuevo."
+        }
       }
     },
     "ecommerceCheckout": {
