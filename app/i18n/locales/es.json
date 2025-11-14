@@ -237,7 +237,8 @@
     "plugins": "Plugins",
     "mediaManagement": "Gestión de medios",
     "media": "Biblioteca multimedia",
-    "notificationManagement": "Gestión de notificaciones"
+    "notificationManagement": "Gestión de notificaciones",
+    "ecommerceManagement": "E-commerce management"
   },
   "messenger": {
     "title": "Mensajería",
@@ -562,7 +563,206 @@
       }
     },
     "workplaces": "Number of workplaces",
-    "apiKeys": "Número de claves API"
+    "apiKeys": "Número de claves API",
+    "ecommerce": {
+      "navigation": {
+        "taxons": "Taxons",
+        "products": "Products",
+        "inventory": "Inventory",
+        "productOptions": "Product options",
+        "productAssociationTypes": "Product association types",
+        "orders": "Orders",
+        "payments": "Payments",
+        "shipments": "Shipments"
+      },
+      "common": {
+        "none": "None",
+        "enabled": "Enabled",
+        "disabled": "Disabled",
+        "unknownCustomer": "Unknown customer",
+        "defaultChannel": "Default channel",
+        "unknownState": "Unknown",
+        "unknownOrder": "Unknown order"
+      },
+      "dashboard": {
+        "metrics": {
+          "sales": "Total sales",
+          "salesCaption": "Gross sales over the selected period",
+          "orders": "Orders",
+          "ordersCaption": "Orders created across every channel",
+          "customers": "Customers",
+          "customersCaption": "New customers registered this month",
+          "averageOrderValue": "Average order value",
+          "averageOrderValueCaption": "Average checkout amount"
+        },
+        "salesTrend": {
+          "title": "Sales trend",
+          "subtitle": "Revenue performance over time"
+        },
+        "customerGrowth": {
+          "title": "Customer growth",
+          "subtitle": "Returning customers compared to new shoppers"
+        },
+        "pending": {
+          "title": "Pending actions",
+          "subtitle": "Keep your fulfillment pipeline flowing",
+          "orders": "Orders to review",
+          "shipments": "Shipments ready to send",
+          "payments": "Payments awaiting capture",
+          "lowStock": "Products low on stock",
+          "items": "{value} items"
+        },
+        "orders": {
+          "title": "Latest orders",
+          "subtitle": "Most recent purchases across all channels",
+          "table": {
+            "number": "Number",
+            "customer": "Customer",
+            "channel": "Channel",
+            "state": "State",
+            "paymentState": "Payment state",
+            "shippingState": "Shipping state",
+            "total": "Total",
+            "placedAt": "Placed at"
+          }
+        }
+      },
+      "taxons": {
+        "title": "Product taxons",
+        "subtitle": "Organise your catalog with hierarchical categories.",
+        "table": {
+          "name": "Name",
+          "code": "Code",
+          "parent": "Parent",
+          "children": "Children",
+          "enabled": "Enabled",
+          "updatedAt": "Updated"
+        },
+        "create": "New taxon",
+        "createTitle": "Create a taxon",
+        "createSubtitle": "Define a new category and translate it for every channel.",
+        "validation": {
+          "code": "A unique code is required."
+        },
+        "form": {
+          "code": "Code",
+          "parent": "Parent",
+          "parentHint": "Provide a taxon code or an API identifier.",
+          "enabled": "Enabled",
+          "translations": "Translations",
+          "locale": "Locale",
+          "name": "Name",
+          "slug": "Slug",
+          "description": "Description",
+          "addTranslation": "Add translation",
+          "success": "Taxon created successfully.",
+          "submit": "Create taxon"
+        },
+        "help": {
+          "title": "How taxons work",
+          "description": "Use taxons to structure your collections and improve discovery.",
+          "naming": {
+            "title": "Naming",
+            "subtitle": "Choose a clear, customer-friendly name."
+          },
+          "translations": {
+            "title": "Translations",
+            "subtitle": "Add every locale to keep storefronts consistent."
+          },
+          "visibility": {
+            "title": "Visibility",
+            "subtitle": "Disable a taxon to hide it from the storefront."
+          }
+        }
+      },
+      "products": {
+        "title": "Products",
+        "subtitle": "Browse the full catalog with channel and stock insights.",
+        "table": {
+          "name": "Name",
+          "code": "Code",
+          "mainTaxon": "Main taxon",
+          "channels": "Channels",
+          "inventory": "Inventory",
+          "enabled": "Enabled"
+        }
+      },
+      "inventory": {
+        "title": "Inventory",
+        "subtitle": "Track on-hand, reserved, and available quantities per variant.",
+        "table": {
+          "product": "Product",
+          "variant": "Variant",
+          "sku": "SKU",
+          "onHand": "On hand",
+          "onHold": "Reserved",
+          "available": "Available",
+          "tracked": "Tracked",
+          "defaultVariant": "Default variant"
+        }
+      },
+      "productOptions": {
+        "title": "Product options",
+        "subtitle": "Manage selectable attributes such as size and color.",
+        "table": {
+          "name": "Name",
+          "code": "Code",
+          "values": "Values",
+          "position": "Position",
+          "updatedAt": "Updated"
+        }
+      },
+      "productAssociationTypes": {
+        "title": "Product association types",
+        "subtitle": "Create relationships like recommended or similar items.",
+        "table": {
+          "name": "Name",
+          "code": "Code",
+          "description": "Description",
+          "updatedAt": "Updated"
+        }
+      },
+      "orders": {
+        "title": "Orders",
+        "subtitle": "Monitor order states, payments, and fulfillment progress.",
+        "table": {
+          "number": "Number",
+          "customer": "Customer",
+          "channel": "Channel",
+          "state": "State",
+          "paymentState": "Payment state",
+          "shippingState": "Shipping state",
+          "total": "Total",
+          "placedAt": "Placed at"
+        }
+      },
+      "payments": {
+        "title": "Payments",
+        "subtitle": "Review payment attempts grouped by order.",
+        "table": {
+          "order": "Order",
+          "customer": "Customer",
+          "method": "Method",
+          "state": "State",
+          "amount": "Amount",
+          "updatedAt": "Updated",
+          "noPayments": "No payments recorded"
+        }
+      },
+      "shipments": {
+        "title": "Shipments",
+        "subtitle": "Follow every shipment from preparation to delivery.",
+        "table": {
+          "number": "Number",
+          "order": "Order",
+          "method": "Method",
+          "state": "State",
+          "tracking": "Tracking",
+          "updatedAt": "Updated",
+          "noTracking": "No tracking information"
+        }
+      }
+    }
   },
   "auth": {
     "profile": "Perfil",
@@ -609,7 +809,8 @@
       "continue": "Continuar",
       "delete": "Eliminar",
       "link": "Vincular",
-      "share": "Compartir"
+      "share": "Compartir",
+      "remove": "Remove"
     },
     "labels": {
       "all": "Todos",
@@ -618,7 +819,9 @@
       "user": "Usuario",
       "export": "Exportar",
       "exportPdf": "Exportar en PDF",
-      "exportExcel": "Exportar en Excel"
+      "exportExcel": "Exportar en Excel",
+      "yes": "Yes",
+      "no": "No"
     },
     "placeholders": {
       "selectGroup": "Selecciona un grupo",
