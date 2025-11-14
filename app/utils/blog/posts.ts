@@ -6,10 +6,9 @@ import type {
   BlogPostViewModel,
   BlogReactionPreview,
 } from '~/types/blog'
-import { pickString } from '~/utils/blog/admin'
+import { pickString, resolveStringList } from '~/utils/blog/admin'
 import { DEFAULT_REACTION_TYPE, resolveReactionType } from '~/utils/reactions'
 import { extractCommentLikes, extractCommentList } from '~/utils/blogComments'
-import { resolveStringList } from '~/utils/blog/admin'
 
 export interface CommentTransformOptions {
   currentUserId?: string | null
