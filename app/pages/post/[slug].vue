@@ -43,7 +43,7 @@ definePageMeta({
 
 const route = useRoute()
 const { t, locale } = useI18n()
-const { session, loggedIn } = useUserSession()
+const { session, loggedIn } = useAppUserSession()
 
 const currentUsername = computed(
   () => session.value?.user?.login || session.value?.profile?.username || null,

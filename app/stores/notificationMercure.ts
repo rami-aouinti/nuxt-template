@@ -165,7 +165,7 @@ export const useNotificationMercureStore = defineStore(
   () => {
     const runtimeConfig = useRuntimeConfig()
     const notificationStore = useNotificationStore()
-    const { session, loggedIn } = useUserSession()
+    const { session, loggedIn } = useAppUserSession()
 
     const hubUrl =
       runtimeConfig.public?.messenger?.mercureHubUrl ||

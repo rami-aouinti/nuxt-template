@@ -15,7 +15,7 @@ definePageMeta({
 })
 
 const { t } = useI18n()
-const { session, user, fetch: refreshSession } = useUserSession()
+const { session, user, fetch: refreshSession } = useAppUserSession()
 const profileCache = useAuthProfileCache()
 
 const profile = computed<AuthProfile | null>(() => {

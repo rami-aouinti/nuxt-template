@@ -11,7 +11,7 @@ definePageMeta({
 })
 
 const { t } = useI18n()
-const { loggedIn, session } = useUserSession()
+const { loggedIn, session } = useAppUserSession()
 const profileCache = useAuthProfileCache()
 
 type SettingsSectionKey = 'profile' | 'security' | 'notifications'

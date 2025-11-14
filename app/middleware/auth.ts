@@ -5,7 +5,7 @@ export default defineNuxtRouteMiddleware(() => {
     typeof nuxtApp.$i18n?.t === 'function'
       ? nuxtApp.$i18n.t.bind(nuxtApp.$i18n)
       : fallbackTranslate
-  const { loggedIn } = useUserSession()
+  const { loggedIn } = useAppUserSession()
   const localePath = useLocalePath()
 
   if (!loggedIn.value) {

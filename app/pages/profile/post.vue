@@ -63,7 +63,7 @@ const {
   deletePost,
   sharePost: sharePostRequest,
 } = useBlogApi()
-const { session, loggedIn } = useUserSession()
+const { session, loggedIn } = useAppUserSession()
 const { getAuthorName, getAuthorAvatar } = useBlogAuthor()
 const POST_EXCERPT_MAX_LENGTH = 150
 const currentUsername = computed(

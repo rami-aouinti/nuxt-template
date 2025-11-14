@@ -20,7 +20,7 @@ const drawer = computed({
 const rail = computed(() => !drawerState.value && !mobile.value)
 routes.sort((a, b) => (a.meta?.drawerIndex ?? 99) - (b.meta?.drawerIndex ?? 98))
 
-const { session } = useUserSession()
+const { session } = useAppUserSession()
 const localePath = useLocalePath()
 const home = computed(() => localePath('home') ?? '/')
 

@@ -44,7 +44,7 @@ const oauthProviders = [
   },
 ] as const
 
-const { fetch } = useUserSession()
+const { fetch } = useAppUserSession()
 const profileCache = useAuthProfileCache()
 
 const isRegisterMode = computed(() => mode.value === 'register')

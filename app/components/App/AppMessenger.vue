@@ -7,7 +7,7 @@ import type { ConversationSummary } from '~/types/messenger'
 const messengerStore = useMessengerStore()
 const { previews, unreadTotal, loading, error, isConnected } =
   storeToRefs(messengerStore)
-const { loggedIn } = useUserSession()
+const { loggedIn } = useAppUserSession()
 const { t } = useI18n()
 const localePath = useLocalePath()
 
