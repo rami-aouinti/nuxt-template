@@ -1104,59 +1104,61 @@
     }
   },
   "pages": {
-    "ecommerceShipping": {
-      "metaTitle": "Checkout – Shipping",
-      "kicker": "Checkout",
-      "title": "Choose your shipping",
-      "subtitle": "Select the delivery option that fits your schedule before moving on to payment.",
-      "cardTitle": "Shipping method",
-      "cardSubtitle": "Pick how you would like us to send your order.",
-      "steps": {
-        "address": "Address",
-        "shipping": "Shipping",
-        "payment": "Payment",
-        "complete": "Complete"
-      },
-      "shipment": {
-        "title": "Shipment #{index}",
-        "subtitle": "Choose a carrier for this package.",
-        "status": "Status",
-        "state": "{state}",
-        "pending": "Pending confirmation"
-      },
-      "methods": {
-        "heading": "Available options",
-        "caption": "Rates are based on your order contents and destination.",
-        "free": "Free",
-        "empty": "No shipping methods are available for this shipment yet."
-      },
-      "summary": {
-        "title": "Order summary",
-        "subtitle": "A quick overview before you continue.",
-        "items": "Items total",
-        "discount": "Discounts",
-        "shipping": "Estimated shipping",
-        "taxes": "Taxes",
-        "total": "Order total",
-        "unknownProduct": "Product",
-        "quantity": "Qty: {count}"
-      },
-      "actions": {
-        "refresh": "Refresh",
-        "next": "Continue to payment"
-      },
-      "states": {
-        "missingToken": "An order reference is required to display shipping details.",
-        "loadFailed": "We could not load the shipping information. Please try again.",
-        "empty": "We did not find any shipments for this order yet."
-      },
-      "methodsSection": {
-        "title": "Shipping methods"
-      },
-      "messages": {
-        "updated": "Shipping method updated.",
-        "updateFailed": "We could not update the shipping method. Please try again.",
-        "continueInfo": "Payment selection will be available soon."
+    "ecommerce": {
+      "shipping": {
+        "metaTitle": "Checkout – Shipping",
+        "kicker": "Checkout",
+        "title": "Choose your shipping",
+        "subtitle": "Select the delivery option that fits your schedule before moving on to payment.",
+        "cardTitle": "Shipping method",
+        "cardSubtitle": "Pick how you would like us to send your order.",
+        "steps": {
+          "address": "Address",
+          "shipping": "Shipping",
+          "payment": "Payment",
+          "complete": "Complete"
+        },
+        "shipment": {
+          "title": "Shipment #{index}",
+          "subtitle": "Choose a carrier for this package.",
+          "status": "Status",
+          "state": "{state}",
+          "pending": "Pending confirmation"
+        },
+        "methods": {
+          "heading": "Available options",
+          "caption": "Rates are based on your order contents and destination.",
+          "free": "Free",
+          "empty": "No shipping methods are available for this shipment yet."
+        },
+        "summary": {
+          "title": "Order summary",
+          "subtitle": "A quick overview before you continue.",
+          "items": "Items total",
+          "discount": "Discounts",
+          "shipping": "Estimated shipping",
+          "taxes": "Taxes",
+          "total": "Order total",
+          "unknownProduct": "Product",
+          "quantity": "Qty: {count}"
+        },
+        "actions": {
+          "refresh": "Refresh",
+          "next": "Continue to payment"
+        },
+        "states": {
+          "missingToken": "An order reference is required to display shipping details.",
+          "loadFailed": "We could not load the shipping information. Please try again.",
+          "empty": "We did not find any shipments for this order yet."
+        },
+        "methodsSection": {
+          "title": "Shipping methods"
+        },
+        "messages": {
+          "updated": "Shipping method updated.",
+          "updateFailed": "We could not update the shipping method. Please try again.",
+          "continueInfo": "Payment selection will be available soon."
+        }
       }
     },
     "settings": {

@@ -13,7 +13,7 @@ import type {
 import type { ShippingMethodJsonldSyliusShopShippingMethodIndex } from '~/types/shippingMethod'
 
 definePageMeta({
-  title: 'pages.ecommerceShipping.metaTitle',
+  title: 'pages.ecommerce.shipping.metaTitle',
 })
 
 const { t, locale } = useI18n()
@@ -309,11 +309,11 @@ const formatPrice = (amount: unknown): string => {
 
 const resolveMethodPrice = (method: ShippingMethodJsonldSyliusShopShippingMethodIndex) => {
   if (method.price == null) {
-    return t('pages.ecommerceShipping.methods.free')
+    return t('pages.ecommerce.shipping.methods.free')
   }
 
   if (method.price === 0) {
-    return t('pages.ecommerceShipping.methods.free')
+    return t('pages.ecommerce.shipping.methods.free')
   }
 
   return formatPrice(method.price)
@@ -365,22 +365,22 @@ const summaryRows = computed(() => {
   return [
     {
       key: 'items',
-      label: t('pages.ecommerceShipping.summary.items'),
+      label: t('pages.ecommerce.shipping.summary.items'),
       amount: totals.items,
     },
     {
       key: 'discount',
-      label: t('pages.ecommerceShipping.summary.discount'),
+      label: t('pages.ecommerce.shipping.summary.discount'),
       amount: totals.discount,
     },
     {
       key: 'shipping',
-      label: t('pages.ecommerceShipping.summary.shipping'),
+      label: t('pages.ecommerce.shipping.summary.shipping'),
       amount: totals.shipping,
     },
     {
       key: 'taxes',
-      label: t('pages.ecommerceShipping.summary.taxes'),
+      label: t('pages.ecommerce.shipping.summary.taxes'),
       amount: totals.taxes,
     },
   ]
@@ -399,15 +399,15 @@ const allShipmentsConfigured = computed(() =>
 
 const generalErrorMessage = computed(() => {
   if (!tokenValue.value) {
-    return t('pages.ecommerceShipping.states.missingToken')
+    return t('pages.ecommerce.shipping.states.missingToken')
   }
 
   if (error.value) {
-    return t('pages.ecommerceShipping.states.loadFailed')
+    return t('pages.ecommerce.shipping.states.loadFailed')
   }
 
   if (!pending.value && shipmentEntries.value.length === 0) {
-    return t('pages.ecommerceShipping.states.empty')
+    return t('pages.ecommerce.shipping.states.empty')
   }
 
   return null
@@ -455,11 +455,11 @@ const handleMethodSelection = async (shipmentId: string, methodCode: string) => 
       },
     )
 
-    Notify.success(t('pages.ecommerceShipping.messages.updated'))
+    Notify.success(t('pages.ecommerce.shipping.messages.updated'))
     await refresh()
   } catch (err) {
     const errorMessage =
-      err instanceof Error ? err.message : t('pages.ecommerceShipping.messages.updateFailed')
+      err instanceof Error ? err.message : t('pages.ecommerce.shipping.messages.updateFailed')
 
     updateErrors.value = {
       ...updateErrors.value,
@@ -475,7 +475,7 @@ const handleMethodSelection = async (shipmentId: string, methodCode: string) => 
 }
 
 const handleContinue = () => {
-  Notify.info(t('pages.ecommerceShipping.messages.continueInfo'))
+  Notify.info(t('pages.ecommerce.shipping.messages.continueInfo'))
 }
 </script>
 
@@ -484,22 +484,22 @@ const handleContinue = () => {
     <div class="shipping-hero">
       <div class="shipping-hero__content">
         <p class="shipping-hero__kicker text-overline">
-          {{ t('pages.ecommerceShipping.kicker') }}
+          {{ t('pages.ecommerce.shipping.kicker') }}
         </p>
         <h1 class="shipping-hero__title text-h3 text-md-h2 font-weight-bold mb-2">
-          {{ t('pages.ecommerceShipping.title') }}
+          {{ t('pages.ecommerce.shipping.title') }}
         </h1>
         <p class="shipping-hero__subtitle text-body-1 text-medium-emphasis">
-          {{ t('pages.ecommerceShipping.subtitle') }}
+          {{ t('pages.ecommerce.shipping.subtitle') }}
         </p>
       </div>
       <div class="shipping-hero__steps">
         <div
           v-for="(step, index) in [
-            t('pages.ecommerceShipping.steps.address'),
-            t('pages.ecommerceShipping.steps.shipping'),
-            t('pages.ecommerceShipping.steps.payment'),
-            t('pages.ecommerceShipping.steps.complete'),
+            t('pages.ecommerce.shipping.steps.address'),
+            t('pages.ecommerce.shipping.steps.shipping'),
+            t('pages.ecommerce.shipping.steps.payment'),
+            t('pages.ecommerce.shipping.steps.complete'),
           ]"
           :key="step"
           class="shipping-step"
@@ -529,10 +529,10 @@ const handleContinue = () => {
             <div class="shipping-card__header">
               <div>
                 <h2 class="text-h5 text-md-h4 font-weight-bold mb-1">
-                  {{ t('pages.ecommerceShipping.cardTitle') }}
+                  {{ t('pages.ecommerce.shipping.cardTitle') }}
                 </h2>
                 <p class="text-body-1 text-medium-emphasis mb-0">
-                  {{ t('pages.ecommerceShipping.cardSubtitle') }}
+                  {{ t('pages.ecommerce.shipping.cardSubtitle') }}
                 </p>
               </div>
               <AppButton
@@ -541,7 +541,7 @@ const handleContinue = () => {
                 :loading="pending"
                 @click="handleRefresh"
               >
-                {{ t('pages.ecommerceShipping.actions.refresh') }}
+                {{ t('pages.ecommerce.shipping.actions.refresh') }}
               </AppButton>
             </div>
 
@@ -564,26 +564,26 @@ const handleContinue = () => {
                   <div>
                     <h3 class="text-h6 text-md-h5 font-weight-semibold mb-1">
                       {{
-                        t('pages.ecommerceShipping.shipment.title', {
+                        t('pages.ecommerce.shipping.shipment.title', {
                         index: index + 1,
                       })
                     }}
                   </h3>
                   <p class="text-body-2 text-medium-emphasis mb-0">
-                    {{ t('pages.ecommerceShipping.shipment.subtitle') }}
+                    {{ t('pages.ecommerce.shipping.shipment.subtitle') }}
                   </p>
                 </div>
                 <div v-if="entry.shipment" class="shipping-section__status">
                   <span class="shipping-section__status-label">
-                    {{ t('pages.ecommerceShipping.shipment.status') }}
+                    {{ t('pages.ecommerce.shipping.shipment.status') }}
                   </span>
                   <span class="shipping-section__status-value">
                     {{
                       getString(toRecord(entry.shipment), 'state')
-                        ? t('pages.ecommerceShipping.shipment.state', {
+                        ? t('pages.ecommerce.shipping.shipment.state', {
                             state: getString(toRecord(entry.shipment), 'state'),
                           })
-                        : t('pages.ecommerceShipping.shipment.pending')
+                        : t('pages.ecommerce.shipping.shipment.pending')
                     }}
                   </span>
                 </div>
@@ -592,10 +592,10 @@ const handleContinue = () => {
               <div class="shipping-methods">
                 <div class="shipping-methods__heading">
                   <h4 class="text-subtitle-1 font-weight-medium mb-2">
-                    {{ t('pages.ecommerceShipping.methods.heading') }}
+                    {{ t('pages.ecommerce.shipping.methods.heading') }}
                   </h4>
                   <p class="text-body-2 text-medium-emphasis mb-0">
-                    {{ t('pages.ecommerceShipping.methods.caption') }}
+                    {{ t('pages.ecommerce.shipping.methods.caption') }}
                   </p>
                 </div>
 
@@ -634,7 +634,7 @@ const handleContinue = () => {
                   </v-radio>
 
                   <p v-if="entry.methods.length === 0" class="text-body-2 text-medium-emphasis mb-0">
-                    {{ t('pages.ecommerceShipping.methods.empty') }}
+                    {{ t('pages.ecommerce.shipping.methods.empty') }}
                   </p>
                 </v-radio-group>
 
@@ -665,7 +665,7 @@ const handleContinue = () => {
                 :disabled="!allShipmentsConfigured"
                 @click="handleContinue"
               >
-                {{ t('pages.ecommerceShipping.actions.next') }}
+                {{ t('pages.ecommerce.shipping.actions.next') }}
               </AppButton>
             </div>
           </AppCard>
@@ -675,10 +675,10 @@ const handleContinue = () => {
           <AppCard class="shipping-summary" elevation="4">
             <div class="shipping-summary__header">
               <h2 class="text-h5 font-weight-bold mb-1">
-                {{ t('pages.ecommerceShipping.summary.title') }}
+                {{ t('pages.ecommerce.shipping.summary.title') }}
               </h2>
               <p class="text-body-2 text-medium-emphasis mb-0">
-                {{ t('pages.ecommerceShipping.summary.subtitle') }}
+                {{ t('pages.ecommerce.shipping.summary.subtitle') }}
               </p>
             </div>
 
@@ -690,11 +690,11 @@ const handleContinue = () => {
               >
                 <div>
                   <p class="shipping-summary__item-name mb-1">
-                    {{ getString(toRecord(item), 'productName') ?? t('pages.ecommerceShipping.summary.unknownProduct') }}
+                    {{ getString(toRecord(item), 'productName') ?? t('pages.ecommerce.shipping.summary.unknownProduct') }}
                   </p>
                   <p class="shipping-summary__item-quantity text-body-2 text-medium-emphasis mb-0">
                     {{
-                      t('pages.ecommerceShipping.summary.quantity', {
+                      t('pages.ecommerce.shipping.summary.quantity', {
                         count: getNumber(toRecord(item), 'quantity') ?? 1,
                       })
                     }}
@@ -723,7 +723,7 @@ const handleContinue = () => {
               <div class="shipping-summary__divider" />
               <div class="shipping-summary__row shipping-summary__row--total">
                 <span class="shipping-summary__label">
-                  {{ t('pages.ecommerceShipping.summary.total') }}
+                  {{ t('pages.ecommerce.shipping.summary.total') }}
                 </span>
                 <span class="shipping-summary__value shipping-summary__value--total">
                   {{ formatPrice(summaryTotal) }}

@@ -1208,59 +1208,61 @@
     }
   },
   "pages": {
-    "ecommerceShipping": {
-      "metaTitle": "Checkout – Versand",
-      "kicker": "Checkout",
-      "title": "Versand auswählen",
-      "subtitle": "Wähle deine bevorzugte Versandoption, bevor du zur Zahlung weitergehst.",
-      "cardTitle": "Versandart",
-      "cardSubtitle": "Bestimme, wie wir deine Bestellung verschicken sollen.",
-      "steps": {
-        "address": "Adresse",
-        "shipping": "Versand",
-        "payment": "Zahlung",
-        "complete": "Abschluss"
-      },
-      "shipment": {
-        "title": "Sendung #{index}",
-        "subtitle": "Wähle einen Versanddienst für dieses Paket.",
-        "status": "Status",
-        "state": "{state}",
-        "pending": "Wartet auf Bestätigung"
-      },
-      "methods": {
-        "heading": "Verfügbare Optionen",
-        "caption": "Tarife basieren auf Warenkorb und Lieferadresse.",
-        "free": "Kostenlos",
-        "empty": "Für diese Sendung sind derzeit keine Versandarten verfügbar."
-      },
-      "summary": {
-        "title": "Bestellübersicht",
-        "subtitle": "Ein kurzer Überblick vor dem Fortfahren.",
-        "items": "Zwischensumme Artikel",
-        "discount": "Rabatte",
-        "shipping": "Voraussichtlicher Versand",
-        "taxes": "Steuern",
-        "total": "Gesamtsumme",
-        "unknownProduct": "Produkt",
-        "quantity": "Menge: {count}"
-      },
-      "actions": {
-        "refresh": "Aktualisieren",
-        "next": "Weiter zur Zahlung"
-      },
-      "states": {
-        "missingToken": "Eine Bestellreferenz wird benötigt, um Versanddetails anzuzeigen.",
-        "loadFailed": "Die Versandinformationen konnten nicht geladen werden. Bitte versuche es erneut.",
-        "empty": "Für diese Bestellung wurden noch keine Sendungen gefunden."
-      },
-      "methodsSection": {
-        "title": "Versandarten"
-      },
-      "messages": {
-        "updated": "Versandart aktualisiert.",
-        "updateFailed": "Die Versandart konnte nicht aktualisiert werden. Bitte erneut versuchen.",
-        "continueInfo": "Die Zahlungswahl steht in Kürze zur Verfügung."
+    "ecommerce": {
+      "shipping": {
+        "metaTitle": "Checkout – Versand",
+        "kicker": "Checkout",
+        "title": "Versand auswählen",
+        "subtitle": "Wähle deine bevorzugte Versandoption, bevor du zur Zahlung weitergehst.",
+        "cardTitle": "Versandart",
+        "cardSubtitle": "Bestimme, wie wir deine Bestellung verschicken sollen.",
+        "steps": {
+          "address": "Adresse",
+          "shipping": "Versand",
+          "payment": "Zahlung",
+          "complete": "Abschluss"
+        },
+        "shipment": {
+          "title": "Sendung #{index}",
+          "subtitle": "Wähle einen Versanddienst für dieses Paket.",
+          "status": "Status",
+          "state": "{state}",
+          "pending": "Wartet auf Bestätigung"
+        },
+        "methods": {
+          "heading": "Verfügbare Optionen",
+          "caption": "Tarife basieren auf Warenkorb und Lieferadresse.",
+          "free": "Kostenlos",
+          "empty": "Für diese Sendung sind derzeit keine Versandarten verfügbar."
+        },
+        "summary": {
+          "title": "Bestellübersicht",
+          "subtitle": "Ein kurzer Überblick vor dem Fortfahren.",
+          "items": "Zwischensumme Artikel",
+          "discount": "Rabatte",
+          "shipping": "Voraussichtlicher Versand",
+          "taxes": "Steuern",
+          "total": "Gesamtsumme",
+          "unknownProduct": "Produkt",
+          "quantity": "Menge: {count}"
+        },
+        "actions": {
+          "refresh": "Aktualisieren",
+          "next": "Weiter zur Zahlung"
+        },
+        "states": {
+          "missingToken": "Eine Bestellreferenz wird benötigt, um Versanddetails anzuzeigen.",
+          "loadFailed": "Die Versandinformationen konnten nicht geladen werden. Bitte versuche es erneut.",
+          "empty": "Für diese Bestellung wurden noch keine Sendungen gefunden."
+        },
+        "methodsSection": {
+          "title": "Versandarten"
+        },
+        "messages": {
+          "updated": "Versandart aktualisiert.",
+          "updateFailed": "Die Versandart konnte nicht aktualisiert werden. Bitte erneut versuchen.",
+          "continueInfo": "Die Zahlungswahl steht in Kürze zur Verfügung."
+        }
       }
     },
     "settings": {
