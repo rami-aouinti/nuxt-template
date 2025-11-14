@@ -65,58 +65,6 @@
         }
       }
     },
-    "ecommerce": {
-      "drawer": {
-        "title": "Boutique Seālius",
-        "subtitle": "Des silhouettes baignées de soleil sélectionnées auprès de nos partenaires côtiers.",
-        "metrics": {
-          "products": "{count} produits",
-          "categories": "{count} catégories"
-        }
-      },
-      "hero": {
-        "brand": "Seālius",
-        "tagline": "Collection côtière",
-        "description": "Découvrez des matières légères, des teintes océanes et des coupes fluides pensées pour les journées et les soirées au bord de l'eau."
-      },
-      "categories": {
-        "title": "Parcourir par catégorie",
-        "all": "Tout"
-      },
-      "sections": {
-        "latestDeals": {
-          "title": "Dernières offres",
-          "subtitle": "Profitez d'offres limitées prêtes à être expédiées dans le monde entier."
-        },
-        "newCollection": {
-          "title": "Nouvelle collection",
-          "subtitle": "Superposez textures naturelles et fibres nobles inspirées du littoral."
-        },
-        "latestProducts": {
-          "title": "Nouveautés",
-          "subtitle": "Les dernières arrivées de la marketplace Bro World.",
-          "emptyFiltered": "Aucun article dans cette catégorie pour le moment."
-        }
-      },
-      "labels": {
-        "deal": "Offre du moment"
-      },
-      "actions": {
-        "shopNow": "Acheter maintenant",
-        "exploreCollection": "Explorer la collection",
-        "refresh": "Actualiser le catalogue",
-        "retry": "Réessayer"
-      },
-      "fallbacks": {
-        "unknownProduct": "Produit",
-        "priceUnavailable": "Prix indisponible",
-        "noProducts": "Aucun produit disponible pour le moment.",
-        "categoryFallback": "Collection"
-      },
-      "errors": {
-        "failedToLoad": "Impossible de charger la boutique pour le moment. Veuillez réessayer plus tard."
-      }
-    },
     "ecommerceCheckout": {
       "address": {
         "meta": {
@@ -1701,6 +1649,58 @@
     }
   },
   "pages": {
+    "ecommerce": {
+      "drawer": {
+        "title": "Boutique Seālius",
+        "subtitle": "Des silhouettes baignées de soleil sélectionnées auprès de nos partenaires côtiers.",
+        "metrics": {
+          "products": "{count} produits",
+          "categories": "{count} catégories"
+        }
+      },
+      "hero": {
+        "brand": "Seālius",
+        "tagline": "Collection côtière",
+        "description": "Découvrez des matières légères, des teintes océanes et des coupes fluides pensées pour les journées et les soirées au bord de l'eau."
+      },
+      "categories": {
+        "title": "Parcourir par catégorie",
+        "all": "Tout"
+      },
+      "sections": {
+        "latestDeals": {
+          "title": "Dernières offres",
+          "subtitle": "Profitez d'offres limitées prêtes à être expédiées dans le monde entier."
+        },
+        "newCollection": {
+          "title": "Nouvelle collection",
+          "subtitle": "Superposez textures naturelles et fibres nobles inspirées du littoral."
+        },
+        "latestProducts": {
+          "title": "Nouveautés",
+          "subtitle": "Les dernières arrivées de la marketplace Bro World.",
+          "emptyFiltered": "Aucun article dans cette catégorie pour le moment."
+        }
+      },
+      "labels": {
+        "deal": "Offre du moment"
+      },
+      "actions": {
+        "shopNow": "Acheter maintenant",
+        "exploreCollection": "Explorer la collection",
+        "refresh": "Actualiser le catalogue",
+        "retry": "Réessayer"
+      },
+      "fallbacks": {
+        "unknownProduct": "Produit",
+        "priceUnavailable": "Prix indisponible",
+        "noProducts": "Aucun produit disponible pour le moment.",
+        "categoryFallback": "Collection"
+      },
+      "errors": {
+        "failedToLoad": "Impossible de charger la boutique pour le moment. Veuillez réessayer plus tard."
+      }
+    },
     "ecommercePayment": {
       "meta": {
         "title": "Paiement",

@@ -65,58 +65,6 @@
         }
       }
     },
-    "ecommerce": {
-      "drawer": {
-        "title": "Seālius 精品店",
-        "subtitle": "与我们的海岸合作伙伴共同甄选的阳光度假造型。",
-        "metrics": {
-          "products": "{count} 件商品",
-          "categories": "{count} 个分类"
-        }
-      },
-      "hero": {
-        "brand": "Seālius",
-        "tagline": "海岸系列",
-        "description": "探索轻盈面料、海洋色调与松弛剪裁，为海边的日与夜而生。"
-      },
-      "categories": {
-        "title": "按分类浏览",
-        "all": "全部"
-      },
-      "sections": {
-        "latestDeals": {
-          "title": "最新优惠",
-          "subtitle": "限时精选，支持全球配送。"
-        },
-        "newCollection": {
-          "title": "全新系列",
-          "subtitle": "叠搭来自海岸灵感的天然肌理与纤维。"
-        },
-        "latestProducts": {
-          "title": "新品上架",
-          "subtitle": "Bro World 市场的最新上新。",
-          "emptyFiltered": "该分类暂时没有商品。"
-        }
-      },
-      "labels": {
-        "deal": "精选优惠"
-      },
-      "actions": {
-        "shopNow": "立即选购",
-        "exploreCollection": "浏览系列",
-        "refresh": "刷新目录",
-        "retry": "重试"
-      },
-      "fallbacks": {
-        "unknownProduct": "商品",
-        "priceUnavailable": "价格暂不可用",
-        "noProducts": "当前暂无可用商品。",
-        "categoryFallback": "系列"
-      },
-      "errors": {
-        "failedToLoad": "暂时无法加载商店数据，请稍后重试。"
-      }
-    },
     "ecommerceCheckout": {
       "address": {
         "meta": {
@@ -1805,6 +1753,58 @@
     }
   },
   "pages": {
+    "ecommerce": {
+      "drawer": {
+        "title": "Seālius 精品店",
+        "subtitle": "与我们的海岸合作伙伴共同甄选的阳光度假造型。",
+        "metrics": {
+          "products": "{count} 件商品",
+          "categories": "{count} 个分类"
+        }
+      },
+      "hero": {
+        "brand": "Seālius",
+        "tagline": "海岸系列",
+        "description": "探索轻盈面料、海洋色调与松弛剪裁，为海边的日与夜而生。"
+      },
+      "categories": {
+        "title": "按分类浏览",
+        "all": "全部"
+      },
+      "sections": {
+        "latestDeals": {
+          "title": "最新优惠",
+          "subtitle": "限时精选，支持全球配送。"
+        },
+        "newCollection": {
+          "title": "全新系列",
+          "subtitle": "叠搭来自海岸灵感的天然肌理与纤维。"
+        },
+        "latestProducts": {
+          "title": "新品上架",
+          "subtitle": "Bro World 市场的最新上新。",
+          "emptyFiltered": "该分类暂时没有商品。"
+        }
+      },
+      "labels": {
+        "deal": "精选优惠"
+      },
+      "actions": {
+        "shopNow": "立即选购",
+        "exploreCollection": "浏览系列",
+        "refresh": "刷新目录",
+        "retry": "重试"
+      },
+      "fallbacks": {
+        "unknownProduct": "商品",
+        "priceUnavailable": "价格暂不可用",
+        "noProducts": "当前暂无可用商品。",
+        "categoryFallback": "系列"
+      },
+      "errors": {
+        "failedToLoad": "暂时无法加载商店数据，请稍后重试。"
+      }
+    },
     "ecommercePayment": {
       "meta": {
         "title": "支付",

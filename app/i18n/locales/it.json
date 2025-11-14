@@ -65,58 +65,6 @@
         }
       }
     },
-    "ecommerce": {
-      "drawer": {
-        "title": "Boutique Seālius",
-        "subtitle": "Silhouette baciate dal sole selezionate con i nostri partner costieri.",
-        "metrics": {
-          "products": "{count} prodotti",
-          "categories": "{count} categorie"
-        }
-      },
-      "hero": {
-        "brand": "Seālius",
-        "tagline": "Collezione costiera",
-        "description": "Scopri tessuti leggeri, tonalità oceaniche e tagli rilassati pensati per le giornate e le serate sul mare."
-      },
-      "categories": {
-        "title": "Sfoglia per categoria",
-        "all": "Tutto"
-      },
-      "sections": {
-        "latestDeals": {
-          "title": "Ultime offerte",
-          "subtitle": "Promozioni a tempo limitato pronte per la spedizione in tutto il mondo."
-        },
-        "newCollection": {
-          "title": "Nuova collezione",
-          "subtitle": "Sovrapponi texture naturali e fibre ispirate alla costa."
-        },
-        "latestProducts": {
-          "title": "Nuovi arrivi",
-          "subtitle": "Le novità appena arrivate nel marketplace Bro World.",
-          "emptyFiltered": "Non ci sono prodotti in questa categoria al momento."
-        }
-      },
-      "labels": {
-        "deal": "Offerta in evidenza"
-      },
-      "actions": {
-        "shopNow": "Acquista ora",
-        "exploreCollection": "Esplora la collezione",
-        "refresh": "Aggiorna catalogo",
-        "retry": "Riprova"
-      },
-      "fallbacks": {
-        "unknownProduct": "Prodotto",
-        "priceUnavailable": "Prezzo non disponibile",
-        "noProducts": "Al momento non ci sono prodotti disponibili.",
-        "categoryFallback": "Collezione"
-      },
-      "errors": {
-        "failedToLoad": "Impossibile caricare i dati del negozio. Riprova più tardi."
-      }
-    },
     "ecommerceCheckout": {
       "address": {
         "meta": {
@@ -1805,6 +1753,58 @@
     }
   },
   "pages": {
+    "ecommerce": {
+      "drawer": {
+        "title": "Boutique Seālius",
+        "subtitle": "Silhouette baciate dal sole selezionate con i nostri partner costieri.",
+        "metrics": {
+          "products": "{count} prodotti",
+          "categories": "{count} categorie"
+        }
+      },
+      "hero": {
+        "brand": "Seālius",
+        "tagline": "Collezione costiera",
+        "description": "Scopri tessuti leggeri, tonalità oceaniche e tagli rilassati pensati per le giornate e le serate sul mare."
+      },
+      "categories": {
+        "title": "Sfoglia per categoria",
+        "all": "Tutto"
+      },
+      "sections": {
+        "latestDeals": {
+          "title": "Ultime offerte",
+          "subtitle": "Promozioni a tempo limitato pronte per la spedizione in tutto il mondo."
+        },
+        "newCollection": {
+          "title": "Nuova collezione",
+          "subtitle": "Sovrapponi texture naturali e fibre ispirate alla costa."
+        },
+        "latestProducts": {
+          "title": "Nuovi arrivi",
+          "subtitle": "Le novità appena arrivate nel marketplace Bro World.",
+          "emptyFiltered": "Non ci sono prodotti in questa categoria al momento."
+        }
+      },
+      "labels": {
+        "deal": "Offerta in evidenza"
+      },
+      "actions": {
+        "shopNow": "Acquista ora",
+        "exploreCollection": "Esplora la collezione",
+        "refresh": "Aggiorna catalogo",
+        "retry": "Riprova"
+      },
+      "fallbacks": {
+        "unknownProduct": "Prodotto",
+        "priceUnavailable": "Prezzo non disponibile",
+        "noProducts": "Al momento non ci sono prodotti disponibili.",
+        "categoryFallback": "Collezione"
+      },
+      "errors": {
+        "failedToLoad": "Impossibile caricare i dati del negozio. Riprova più tardi."
+      }
+    },
     "ecommercePayment": {
       "meta": {
         "title": "Pagamento",
