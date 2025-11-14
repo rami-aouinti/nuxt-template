@@ -1181,6 +1181,49 @@
     }
   },
   "pages": {
+    "ecommercePayment": {
+      "meta": {
+        "title": "Paiement",
+        "subtitle": "Sélectionnez votre mode de paiement pour finaliser la commande."
+      },
+      "steps": {
+        "address": "Adresse",
+        "shipping": "Livraison",
+        "payment": "Paiement",
+        "complete": "Terminé"
+      },
+      "labels": {
+        "paymentTitle": "Paiement n°{index}",
+        "paymentSubtitle": "Choisissez une option de paiement",
+        "changeShipping": "Modifier le mode de livraison",
+        "noSelection": "Sélectionnez un mode de paiement pour continuer"
+      },
+      "actions": {
+        "next": "Suivant"
+      },
+      "summary": {
+        "title": "Récapitulatif",
+        "customerFallback": "Client",
+        "itemCount": "{count, plural, one {# article} other {# articles}}",
+        "itemsTotal": "Sous-total des articles",
+        "discount": "Remise",
+        "shipping": "Frais de livraison estimés",
+        "taxes": "Taxes",
+        "total": "Total de la commande"
+      },
+      "notifications": {
+        "loadingError": "Impossible de charger les informations de paiement. Veuillez réessayer.",
+        "updateFailed": "Impossible de mettre à jour le mode de paiement. Veuillez réessayer.",
+        "updateSuccess": "Mode de paiement mis à jour.",
+        "completeSuccess": "Commande terminée avec succès.",
+        "completeFailed": "Impossible de finaliser la commande. Veuillez réessayer."
+      },
+      "states": {
+        "loading": "Chargement des modes de paiement…",
+        "empty": "Aucun mode de paiement n'est disponible pour cette commande.",
+        "defaultMethodName": "Mode de paiement"
+      }
+    },
     "settings": {
       "title": "Paramètres du compte",
       "subtitle": "Personnalisez votre expérience et sécurisez vos informations depuis un espace unique.",

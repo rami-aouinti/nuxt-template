@@ -1223,6 +1223,49 @@
     }
   },
   "pages": {
+    "ecommercePayment": {
+      "meta": {
+        "title": "Payment",
+        "subtitle": "Select your preferred payment method to finish checkout."
+      },
+      "steps": {
+        "address": "Address",
+        "shipping": "Shipping",
+        "payment": "Payment",
+        "complete": "Complete"
+      },
+      "labels": {
+        "paymentTitle": "Payment #{index}",
+        "paymentSubtitle": "Choose a payment option",
+        "changeShipping": "Change shipping method",
+        "noSelection": "Select a payment method to continue"
+      },
+      "actions": {
+        "next": "Next"
+      },
+      "summary": {
+        "title": "Summary",
+        "customerFallback": "Customer",
+        "itemCount": "{count, plural, one {# item} other {# items}}",
+        "itemsTotal": "Items total",
+        "discount": "Discount",
+        "shipping": "Estimated shipping cost",
+        "taxes": "Taxes",
+        "total": "Order total"
+      },
+      "notifications": {
+        "loadingError": "We could not load the payment details. Please try again.",
+        "updateFailed": "Unable to update the payment method. Please try again.",
+        "updateSuccess": "Payment method updated.",
+        "completeSuccess": "Order completed successfully.",
+        "completeFailed": "Unable to complete the order. Please try again."
+      },
+      "states": {
+        "loading": "Loading payment methods…",
+        "empty": "No payment methods are available for this order.",
+        "defaultMethodName": "Payment method"
+      }
+    },
     "settings": {
       "title": "Account settings",
       "subtitle": "Personalize your account experience and keep your information secure from one convenient place.",
