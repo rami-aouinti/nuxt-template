@@ -665,7 +665,9 @@ const onSelectTag = (tag: { value: string; label: string }) => {
             class="facebook-post-card__reaction-icon"
             :class="`facebook-post-card__reaction-icon--${reaction.type}`"
           >
-            <v-icon :icon="reaction.icon" size="14" />
+            <span class="facebook-post-card__reaction-emoji">{{
+              reaction.emoji
+            }}</span>
           </span>
         </div>
         <div
@@ -1126,8 +1128,12 @@ a.facebook-post-card__author-link:focus-visible {
   align-items: center;
   justify-content: center;
   border: 2px solid rgba(var(--blog-surface-rgb), 1);
-  color: #fff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+.facebook-post-card__reaction-emoji {
+  font-size: 16px;
+  line-height: 1;
 }
 
 .facebook-post-card__reaction-icon + .facebook-post-card__reaction-icon {
