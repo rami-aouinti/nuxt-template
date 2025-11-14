@@ -172,6 +172,7 @@
         },
         "actions": {
           "back": "Volver a la tienda",
+          "goToShipping": "Ir al envío",
           "next": "Guardar y continuar"
         },
         "status": {
@@ -190,6 +191,43 @@
           "confirmationTitle": "Direcciones guardadas",
           "billingSaved": "Dirección de facturación guardada",
           "shippingSaved": "Dirección de envío guardada"
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "Finalizar compra · Envío"
+        },
+        "headline": {
+          "step": "Paso {step} de 4",
+          "title": "Elige tu método de envío",
+          "subtitle": "Selecciona cómo deseas que entreguemos tu pedido."
+        },
+        "notifications": {
+          "success": "El método de envío se actualizó correctamente.",
+          "error": "No pudimos actualizar el método de envío. Inténtalo de nuevo.",
+          "missingOrder": "No encontramos el token del pedido. Indícalo para continuar."
+        },
+        "sections": {
+          "title": "Opciones de envío",
+          "subtitle": "Revisa las opciones de entrega disponibles para cada envío.",
+          "changeAddress": "Cambiar dirección",
+          "orderError": "No pudimos cargar los detalles del pedido. Los costos de envío pueden estar desactualizados.",
+          "empty": "Todavía no hay envíos disponibles para este pedido.",
+          "noMethods": "No hay métodos de envío disponibles para este envío.",
+          "loadError": "No pudimos cargar los métodos de envío. Inténtalo de nuevo.",
+          "retry": "Reintentar"
+        },
+        "shipmentTitle": "Envío #{index}",
+        "shipmentHint": "Selecciona una opción de entrega para este envío.",
+        "actions": {
+          "back": "Volver a la dirección",
+          "next": "Continuar al pago"
+        },
+        "labels": {
+          "unavailable": "—"
+        },
+        "fallbacks": {
+          "methodLabel": "Método de envío"
         }
       }
     }
