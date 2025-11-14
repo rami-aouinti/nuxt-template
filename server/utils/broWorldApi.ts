@@ -4,6 +4,10 @@ import { FetchError, type FetchOptions } from 'ofetch'
 const BASE_URL = 'https://bro-world.org/api/v1'
 const DEFAULT_ERROR_MESSAGE = "Requête à l'API Bro World échouée"
 
+type SessionInput = Record<string, unknown> | null | undefined
+
+type TokenResolver = (session: SessionInput, path: string) => string | null
+
 type HeadersInput = FetchOptions<'json'>['headers']
 
 function normalizeHeaders(headers?: HeadersInput): Record<string, string> {
@@ -51,22 +55,39 @@ function extractErrorMessage(data: unknown): string | null {
   return null
 }
 
+function extractToken(session: SessionInput, key: string) {
+  if (!session || typeof session !== 'object') {
+    return null
+  }
+
+  const value = session[key]
+  if (typeof value === 'string' && value.trim().length > 0) {
+    return value
+  }
+
+  return null
+}
+
 export function createBroWorldRequest(
   baseUrl: string,
   defaultErrorMessage = DEFAULT_ERROR_MESSAGE,
+  config: { resolveToken?: TokenResolver } = {},
 ) {
   return async function broWorldRequest<T>(
     event: H3Event,
     path: string,
-    options: FetchOptions<'json'> = {},
+    requestOptions: FetchOptions<'json'> = {},
   ): Promise<T> {
     const session = await getUserSession(event)
-    const token = session?.token
-    const { headers: providedHeaders, ...restOptions } = options
+    const resolvedToken =
+      typeof config.resolveToken === 'function'
+        ? config.resolveToken(session as SessionInput, path)
+        : extractToken(session as SessionInput, 'token')
+    const { headers: providedHeaders, ...restOptions } = requestOptions
 
     const headers = normalizeHeaders(providedHeaders)
-    if (token) {
-      headers.Authorization = `Bearer ${token}`
+    if (resolvedToken) {
+      headers.Authorization = `Bearer ${resolvedToken}`
     }
 
     try {
