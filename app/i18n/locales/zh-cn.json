@@ -159,7 +159,8 @@
     "plugins": "Plugins",
     "mediaManagement": "媒体管理",
     "media": "媒体库",
-    "notificationManagement": "通知管理"
+    "notificationManagement": "通知管理",
+    "ecommerceManagement": "E-commerce management"
   },
   "messenger": {
     "title": "消息",
@@ -484,7 +485,206 @@
       }
     },
     "workplaces": "Number of workplaces",
-    "apiKeys": "API 密钥数量"
+    "apiKeys": "API 密钥数量",
+    "ecommerce": {
+      "navigation": {
+        "taxons": "Taxons",
+        "products": "Products",
+        "inventory": "Inventory",
+        "productOptions": "Product options",
+        "productAssociationTypes": "Product association types",
+        "orders": "Orders",
+        "payments": "Payments",
+        "shipments": "Shipments"
+      },
+      "common": {
+        "none": "None",
+        "enabled": "Enabled",
+        "disabled": "Disabled",
+        "unknownCustomer": "Unknown customer",
+        "defaultChannel": "Default channel",
+        "unknownState": "Unknown",
+        "unknownOrder": "Unknown order"
+      },
+      "dashboard": {
+        "metrics": {
+          "sales": "Total sales",
+          "salesCaption": "Gross sales over the selected period",
+          "orders": "Orders",
+          "ordersCaption": "Orders created across every channel",
+          "customers": "Customers",
+          "customersCaption": "New customers registered this month",
+          "averageOrderValue": "Average order value",
+          "averageOrderValueCaption": "Average checkout amount"
+        },
+        "salesTrend": {
+          "title": "Sales trend",
+          "subtitle": "Revenue performance over time"
+        },
+        "customerGrowth": {
+          "title": "Customer growth",
+          "subtitle": "Returning customers compared to new shoppers"
+        },
+        "pending": {
+          "title": "Pending actions",
+          "subtitle": "Keep your fulfillment pipeline flowing",
+          "orders": "Orders to review",
+          "shipments": "Shipments ready to send",
+          "payments": "Payments awaiting capture",
+          "lowStock": "Products low on stock",
+          "items": "{value} items"
+        },
+        "orders": {
+          "title": "Latest orders",
+          "subtitle": "Most recent purchases across all channels",
+          "table": {
+            "number": "Number",
+            "customer": "Customer",
+            "channel": "Channel",
+            "state": "State",
+            "paymentState": "Payment state",
+            "shippingState": "Shipping state",
+            "total": "Total",
+            "placedAt": "Placed at"
+          }
+        }
+      },
+      "taxons": {
+        "title": "Product taxons",
+        "subtitle": "Organise your catalog with hierarchical categories.",
+        "table": {
+          "name": "Name",
+          "code": "Code",
+          "parent": "Parent",
+          "children": "Children",
+          "enabled": "Enabled",
+          "updatedAt": "Updated"
+        },
+        "create": "New taxon",
+        "createTitle": "Create a taxon",
+        "createSubtitle": "Define a new category and translate it for every channel.",
+        "validation": {
+          "code": "A unique code is required."
+        },
+        "form": {
+          "code": "Code",
+          "parent": "Parent",
+          "parentHint": "Provide a taxon code or an API identifier.",
+          "enabled": "Enabled",
+          "translations": "Translations",
+          "locale": "Locale",
+          "name": "Name",
+          "slug": "Slug",
+          "description": "Description",
+          "addTranslation": "Add translation",
+          "success": "Taxon created successfully.",
+          "submit": "Create taxon"
+        },
+        "help": {
+          "title": "How taxons work",
+          "description": "Use taxons to structure your collections and improve discovery.",
+          "naming": {
+            "title": "Naming",
+            "subtitle": "Choose a clear, customer-friendly name."
+          },
+          "translations": {
+            "title": "Translations",
+            "subtitle": "Add every locale to keep storefronts consistent."
+          },
+          "visibility": {
+            "title": "Visibility",
+            "subtitle": "Disable a taxon to hide it from the storefront."
+          }
+        }
+      },
+      "products": {
+        "title": "Products",
+        "subtitle": "Browse the full catalog with channel and stock insights.",
+        "table": {
+          "name": "Name",
+          "code": "Code",
+          "mainTaxon": "Main taxon",
+          "channels": "Channels",
+          "inventory": "Inventory",
+          "enabled": "Enabled"
+        }
+      },
+      "inventory": {
+        "title": "Inventory",
+        "subtitle": "Track on-hand, reserved, and available quantities per variant.",
+        "table": {
+          "product": "Product",
+          "variant": "Variant",
+          "sku": "SKU",
+          "onHand": "On hand",
+          "onHold": "Reserved",
+          "available": "Available",
+          "tracked": "Tracked",
+          "defaultVariant": "Default variant"
+        }
+      },
+      "productOptions": {
+        "title": "Product options",
+        "subtitle": "Manage selectable attributes such as size and color.",
+        "table": {
+          "name": "Name",
+          "code": "Code",
+          "values": "Values",
+          "position": "Position",
+          "updatedAt": "Updated"
+        }
+      },
+      "productAssociationTypes": {
+        "title": "Product association types",
+        "subtitle": "Create relationships like recommended or similar items.",
+        "table": {
+          "name": "Name",
+          "code": "Code",
+          "description": "Description",
+          "updatedAt": "Updated"
+        }
+      },
+      "orders": {
+        "title": "Orders",
+        "subtitle": "Monitor order states, payments, and fulfillment progress.",
+        "table": {
+          "number": "Number",
+          "customer": "Customer",
+          "channel": "Channel",
+          "state": "State",
+          "paymentState": "Payment state",
+          "shippingState": "Shipping state",
+          "total": "Total",
+          "placedAt": "Placed at"
+        }
+      },
+      "payments": {
+        "title": "Payments",
+        "subtitle": "Review payment attempts grouped by order.",
+        "table": {
+          "order": "Order",
+          "customer": "Customer",
+          "method": "Method",
+          "state": "State",
+          "amount": "Amount",
+          "updatedAt": "Updated",
+          "noPayments": "No payments recorded"
+        }
+      },
+      "shipments": {
+        "title": "Shipments",
+        "subtitle": "Follow every shipment from preparation to delivery.",
+        "table": {
+          "number": "Number",
+          "order": "Order",
+          "method": "Method",
+          "state": "State",
+          "tracking": "Tracking",
+          "updatedAt": "Updated",
+          "noTracking": "No tracking information"
+        }
+      }
+    }
   },
   "auth": {
     "profile": "个人资料",
@@ -531,7 +731,8 @@
       "continue": "继续",
       "delete": "删除",
       "link": "关联",
-      "share": "分享"
+      "share": "分享",
+      "remove": "Remove"
     },
     "labels": {
       "all": "全部",
@@ -540,7 +741,9 @@
       "user": "用户",
       "export": "导出",
       "exportPdf": "导出为 PDF",
-      "exportExcel": "导出为 Excel"
+      "exportExcel": "导出为 Excel",
+      "yes": "Yes",
+      "no": "No"
     },
     "placeholders": {
       "selectGroup": "请选择群组",
