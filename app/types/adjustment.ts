@@ -37,13 +37,17 @@ export interface AdjustmentJsonld extends Adjustment {
   '@type'?: string
 }
 
-export interface AdjustmentJsonldSyliusAdminAdjustmentShow extends AdjustmentJsonld {}
+export interface AdjustmentJsonldSyliusAdminAdjustmentShow
+  extends AdjustmentJsonld {}
 
-export interface AdjustmentJsonldSyliusAdminOrderItemIndex extends AdjustmentJsonld {}
+export interface AdjustmentJsonldSyliusAdminOrderItemIndex
+  extends AdjustmentJsonld {}
 
-export interface AdjustmentJsonldSyliusAdminOrderItemUnitIndex extends AdjustmentJsonld {}
+export interface AdjustmentJsonldSyliusAdminOrderItemUnitIndex
+  extends AdjustmentJsonld {}
 
-export interface AdjustmentJsonldSyliusAdminShipmentIndex extends AdjustmentJsonld {}
+export interface AdjustmentJsonldSyliusAdminShipmentIndex
+  extends AdjustmentJsonld {}
 
 export interface AdjustmentJsonldSyliusShopCartShow extends AdjustmentJsonld {
   id: number

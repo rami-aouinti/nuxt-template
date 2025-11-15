@@ -70,21 +70,27 @@ export interface ChannelPriceHistoryConfig
   id?: number
 }
 
-export type ChannelPriceHistoryConfigSyliusAdminChannelCreateNoId = ChannelPriceHistoryConfigAttributes
+export type ChannelPriceHistoryConfigSyliusAdminChannelCreateNoId =
+  ChannelPriceHistoryConfigAttributes
 
-export type ChannelPriceHistoryConfigSyliusAdminChannelIndexNoId = ChannelPriceHistoryConfigAttributes
+export type ChannelPriceHistoryConfigSyliusAdminChannelIndexNoId =
+  ChannelPriceHistoryConfigAttributes
 
-export type ChannelPriceHistoryConfigSyliusAdminChannelShowNoId = ChannelPriceHistoryConfigAttributes
+export type ChannelPriceHistoryConfigSyliusAdminChannelShowNoId =
+  ChannelPriceHistoryConfigAttributes
 
-export type ChannelPriceHistoryConfigSyliusAdminChannelUpdateNoId = ChannelPriceHistoryConfigAttributes
+export type ChannelPriceHistoryConfigSyliusAdminChannelUpdateNoId =
+  ChannelPriceHistoryConfigAttributes
 
 export interface ChannelPriceHistoryConfigJsonLd
   extends ChannelPriceHistoryConfig,
     JsonLdResource {}
 
-export type ChannelPriceHistoryConfigJsonLdSyliusAdminChannelIndexNoId = ChannelPriceHistoryConfigJsonLdNoId
+export type ChannelPriceHistoryConfigJsonLdSyliusAdminChannelIndexNoId =
+  ChannelPriceHistoryConfigJsonLdNoId
 
-export type ChannelPriceHistoryConfigJsonLdSyliusAdminChannelShowNoId = ChannelPriceHistoryConfigJsonLdSyliusAdminChannelIndexNoId
+export type ChannelPriceHistoryConfigJsonLdSyliusAdminChannelShowNoId =
+  ChannelPriceHistoryConfigJsonLdSyliusAdminChannelIndexNoId
 
 export interface ChannelPriceHistoryConfigJsonLdNoId
   extends ChannelPriceHistoryConfigAttributes,
@@ -95,9 +101,11 @@ export interface ChannelPriceHistoryConfigJsonLdNoId
 
 export type ChannelPriceHistoryConfigNoId = ChannelPriceHistoryConfig
 
-export type ChannelPriceHistoryConfigJsonLdNoIdSyliusAdminChannelIndex = ChannelPriceHistoryConfigJsonLdNoId
+export type ChannelPriceHistoryConfigJsonLdNoIdSyliusAdminChannelIndex =
+  ChannelPriceHistoryConfigJsonLdNoId
 
-export type ChannelPriceHistoryConfigJsonLdNoIdSyliusAdminChannelShow = ChannelPriceHistoryConfigJsonLdNoIdSyliusAdminChannelIndex
+export type ChannelPriceHistoryConfigJsonLdNoIdSyliusAdminChannelShow =
+  ChannelPriceHistoryConfigJsonLdNoIdSyliusAdminChannelIndex
 
 export interface ChannelCore<TShopBillingData, TPriceHistoryConfig> {
   baseCurrency: string
@@ -154,7 +162,10 @@ export type ChannelSyliusAdminChannelUpdate = ChannelCore<
   ChannelPriceHistoryConfigSyliusAdminChannelUpdateNoId
 > &
   Pick<
-    ChannelAttributes<ShopBillingDataAttributes, ChannelPriceHistoryConfigAttributes>,
+    ChannelAttributes<
+      ShopBillingDataAttributes,
+      ChannelPriceHistoryConfigAttributes
+    >,
     'name' | 'description' | 'hostname' | 'color' | 'enabled'
   >
 
@@ -186,13 +197,15 @@ export interface ChannelJsonLd
 
 export type ChannelJsonLdSyliusAdminChannelIndex = ChannelJsonLd
 
-export type ChannelJsonLdSyliusAdminChannelShow = ChannelJsonLdSyliusAdminChannelIndex
+export type ChannelJsonLdSyliusAdminChannelShow =
+  ChannelJsonLdSyliusAdminChannelIndex
 
 export interface ChannelJsonLdSyliusShopChannelIndex
   extends ChannelSyliusShopChannelIndex,
     JsonLdResource {}
 
-export type ChannelJsonLdSyliusShopChannelShow = ChannelJsonLdSyliusShopChannelIndex
+export type ChannelJsonLdSyliusShopChannelShow =
+  ChannelJsonLdSyliusShopChannelIndex
 
 export interface ChannelInterface {
   name: string
@@ -206,19 +219,27 @@ export interface ChannelInterface {
   id?: number
 }
 
-export interface ChannelInterfaceJsonLd extends ChannelInterface, JsonLdResource {}
+export interface ChannelInterfaceJsonLd
+  extends ChannelInterface,
+    JsonLdResource {}
 
-export type ChannelPriceHistoryConfigSyliusAdminChannelCreate = ChannelPriceHistoryConfigSyliusAdminChannelCreateNoId
+export type ChannelPriceHistoryConfigSyliusAdminChannelCreate =
+  ChannelPriceHistoryConfigSyliusAdminChannelCreateNoId
 
-export type ChannelPriceHistoryConfigSyliusAdminChannelIndex = ChannelPriceHistoryConfigSyliusAdminChannelIndexNoId
+export type ChannelPriceHistoryConfigSyliusAdminChannelIndex =
+  ChannelPriceHistoryConfigSyliusAdminChannelIndexNoId
 
-export type ChannelPriceHistoryConfigSyliusAdminChannelShow = ChannelPriceHistoryConfigSyliusAdminChannelShowNoId
+export type ChannelPriceHistoryConfigSyliusAdminChannelShow =
+  ChannelPriceHistoryConfigSyliusAdminChannelShowNoId
 
-export type ChannelPriceHistoryConfigSyliusAdminChannelUpdate = ChannelPriceHistoryConfigSyliusAdminChannelUpdateNoId
+export type ChannelPriceHistoryConfigSyliusAdminChannelUpdate =
+  ChannelPriceHistoryConfigSyliusAdminChannelUpdateNoId
 
-export type ChannelPriceHistoryConfigJsonLdSyliusAdminChannelIndex = ChannelPriceHistoryConfigJsonLd
+export type ChannelPriceHistoryConfigJsonLdSyliusAdminChannelIndex =
+  ChannelPriceHistoryConfigJsonLd
 
-export type ChannelPriceHistoryConfigJsonLdSyliusAdminChannelShow = ChannelPriceHistoryConfigJsonLdSyliusAdminChannelIndex
+export type ChannelPriceHistoryConfigJsonLdSyliusAdminChannelShow =
+  ChannelPriceHistoryConfigJsonLdSyliusAdminChannelIndex
 
 export interface ChannelPricing {
   id?: number
@@ -248,7 +269,8 @@ export interface ChannelPricingSyliusAdminProductVariantIndex {
   appliedPromotions?: ChannelPricingPromotionSummary[]
 }
 
-export type ChannelPricingSyliusAdminProductVariantShow = ChannelPricingSyliusAdminProductVariantIndex
+export type ChannelPricingSyliusAdminProductVariantShow =
+  ChannelPricingSyliusAdminProductVariantIndex
 
 export interface ChannelPricingSyliusAdminProductVariantUpdate {
   channelCode: string
@@ -259,9 +281,11 @@ export interface ChannelPricingSyliusAdminProductVariantUpdate {
 
 export interface ChannelPricingJsonLd extends ChannelPricing, JsonLdResource {}
 
-export type ChannelPricingJsonLdSyliusAdminProductVariantIndex = ChannelPricingJsonLd
+export type ChannelPricingJsonLdSyliusAdminProductVariantIndex =
+  ChannelPricingJsonLd
 
-export type ChannelPricingJsonLdSyliusAdminProductVariantShow = ChannelPricingJsonLdSyliusAdminProductVariantIndex
+export type ChannelPricingJsonLdSyliusAdminProductVariantShow =
+  ChannelPricingJsonLdSyliusAdminProductVariantIndex
 
 export interface ChannelPricingPromotionSummary {
   id?: number
@@ -296,30 +320,44 @@ export type ChannelPricingPromotionAction = ProductPromotionAction
 
 export type ChannelPricingPromotion = ProductVariantChannelPricingPromotion
 
-export type ChannelSyliusAdminChannelCreateShopBillingData = ShopBillingDataSyliusAdminChannelCreateNoId
+export type ChannelSyliusAdminChannelCreateShopBillingData =
+  ShopBillingDataSyliusAdminChannelCreateNoId
 
-export type ChannelSyliusAdminChannelIndexShopBillingData = ShopBillingDataSyliusAdminChannelIndexNoId
+export type ChannelSyliusAdminChannelIndexShopBillingData =
+  ShopBillingDataSyliusAdminChannelIndexNoId
 
-export type ChannelSyliusAdminChannelShowShopBillingData = ShopBillingDataSyliusAdminChannelShowNoId
+export type ChannelSyliusAdminChannelShowShopBillingData =
+  ShopBillingDataSyliusAdminChannelShowNoId
 
-export type ChannelSyliusAdminChannelUpdateShopBillingData = ShopBillingDataSyliusAdminChannelUpdateNoId
+export type ChannelSyliusAdminChannelUpdateShopBillingData =
+  ShopBillingDataSyliusAdminChannelUpdateNoId
 
-export type ChannelSyliusAdminChannelCreatePriceHistoryConfig = ChannelPriceHistoryConfigSyliusAdminChannelCreateNoId
+export type ChannelSyliusAdminChannelCreatePriceHistoryConfig =
+  ChannelPriceHistoryConfigSyliusAdminChannelCreateNoId
 
-export type ChannelSyliusAdminChannelIndexPriceHistoryConfig = ChannelPriceHistoryConfigSyliusAdminChannelIndexNoId
+export type ChannelSyliusAdminChannelIndexPriceHistoryConfig =
+  ChannelPriceHistoryConfigSyliusAdminChannelIndexNoId
 
-export type ChannelSyliusAdminChannelShowPriceHistoryConfig = ChannelPriceHistoryConfigSyliusAdminChannelShowNoId
+export type ChannelSyliusAdminChannelShowPriceHistoryConfig =
+  ChannelPriceHistoryConfigSyliusAdminChannelShowNoId
 
-export type ChannelSyliusAdminChannelUpdatePriceHistoryConfig = ChannelPriceHistoryConfigSyliusAdminChannelUpdateNoId
+export type ChannelSyliusAdminChannelUpdatePriceHistoryConfig =
+  ChannelPriceHistoryConfigSyliusAdminChannelUpdateNoId
 
-export type ChannelPriceHistoryConfigJsonLdSyliusAdminChannelCreateNoId = ChannelPriceHistoryConfigJsonLdNoId
+export type ChannelPriceHistoryConfigJsonLdSyliusAdminChannelCreateNoId =
+  ChannelPriceHistoryConfigJsonLdNoId
 
-export type ChannelPriceHistoryConfigJsonLdSyliusAdminChannelUpdateNoId = ChannelPriceHistoryConfigJsonLdNoId
+export type ChannelPriceHistoryConfigJsonLdSyliusAdminChannelUpdateNoId =
+  ChannelPriceHistoryConfigJsonLdNoId
 
-export type ChannelPriceHistoryConfigJsonLdSyliusAdminChannelCreate = ChannelPriceHistoryConfigJsonLd
+export type ChannelPriceHistoryConfigJsonLdSyliusAdminChannelCreate =
+  ChannelPriceHistoryConfigJsonLd
 
-export type ChannelPriceHistoryConfigJsonLdSyliusAdminChannelUpdate = ChannelPriceHistoryConfigJsonLd
+export type ChannelPriceHistoryConfigJsonLdSyliusAdminChannelUpdate =
+  ChannelPriceHistoryConfigJsonLd
 
-export type ChannelPriceHistoryConfigSyliusAdminChannelCreateJsonLd = ChannelPriceHistoryConfigJsonLd
+export type ChannelPriceHistoryConfigSyliusAdminChannelCreateJsonLd =
+  ChannelPriceHistoryConfigJsonLd
 
-export type ChannelPriceHistoryConfigSyliusAdminChannelUpdateJsonLd = ChannelPriceHistoryConfigJsonLd
+export type ChannelPriceHistoryConfigSyliusAdminChannelUpdateJsonLd =
+  ChannelPriceHistoryConfigJsonLd

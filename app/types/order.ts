@@ -1,6 +1,14 @@
-import type { AdjustableInterface, Adjustment, AdjustmentInterface } from './adjustment'
+import type {
+  AdjustableInterface,
+  Adjustment,
+  AdjustmentInterface,
+} from './adjustment'
 import type { HydraContext } from './hydra'
-import type { ShipmentInterface, StockableInterface, ShippableInterface } from './shipment'
+import type {
+  ShipmentInterface,
+  StockableInterface,
+  ShippableInterface,
+} from './shipment'
 
 export interface OrderJsonLdResource {
   '@context'?: HydraContext
@@ -224,7 +232,9 @@ export interface OrderAdjustment extends AdjustmentInterface {
 
 export interface OrderCouponJsonLd extends OrderCoupon, OrderJsonLdResource {}
 
-export interface OrderPromotionJsonLd extends OrderPromotion, OrderJsonLdResource {}
+export interface OrderPromotionJsonLd
+  extends OrderPromotion,
+    OrderJsonLdResource {}
 
 export interface Order {
   customer?: string | null
@@ -385,21 +395,25 @@ export interface OrderItemSyliusShopOrderItemShow extends OrderItem {
   order: string
 }
 
-export interface OrderItemUnitSyliusAdminOrderItemUnitShow extends OrderItemUnit {}
+export interface OrderItemUnitSyliusAdminOrderItemUnitShow
+  extends OrderItemUnit {}
 
-export type OrderItemUnitJsonLdSyliusAdminOrderItemUnitShow = OrderItemUnitJsonLd
+export type OrderItemUnitJsonLdSyliusAdminOrderItemUnitShow =
+  OrderItemUnitJsonLd
 
 export interface OrderItemUnitInterface extends OrderItemUnit {
   adjustments?: Adjustment[]
   adjustable?: AdjustableInterface | null
 }
 
-export type OrderItemUnitInterfaceJsonLd = OrderItemUnitInterface & OrderJsonLdResource
+export type OrderItemUnitInterfaceJsonLd = OrderItemUnitInterface &
+  OrderJsonLdResource
 
-export interface OrderAdjustmentJsonLd extends OrderAdjustment, OrderJsonLdResource {}
+export interface OrderAdjustmentJsonLd
+  extends OrderAdjustment,
+    OrderJsonLdResource {}
 
 export interface OrderCollection extends OrderJsonLdResource {
   'hydra:member': OrderJsonLd[]
   'hydra:totalItems'?: number
 }
-

@@ -32,9 +32,12 @@ const isRecord = (value: unknown): value is UnknownRecord =>
   Boolean(value && typeof value === 'object')
 
 const toRecord = (value: unknown): UnknownRecord | null =>
-  (isRecord(value) ? (value as UnknownRecord) : null)
+  isRecord(value) ? (value as UnknownRecord) : null
 
-const getString = (value: UnknownRecord | null | undefined, key: string): string | null => {
+const getString = (
+  value: UnknownRecord | null | undefined,
+  key: string,
+): string | null => {
   if (!value) {
     return null
   }
@@ -47,13 +50,17 @@ const getString = (value: UnknownRecord | null | undefined, key: string): string
   return null
 }
 
-const extractCollectionItems = <T,>(input: HydraCollection<T> | null | undefined): T[] => {
+const extractCollectionItems = <T,>(
+  input: HydraCollection<T> | null | undefined,
+): T[] => {
   if (!input) {
     return []
   }
 
   if (Array.isArray((input as HydraCollection<T>)['hydra:member'])) {
-    return ((input as HydraCollection<T>)['hydra:member'] as T[]).filter((item) => Boolean(item))
+    return ((input as HydraCollection<T>)['hydra:member'] as T[]).filter(
+      (item) => Boolean(item),
+    )
   }
 
   if (Array.isArray(input.member)) {
@@ -86,7 +93,9 @@ const normalizeAmount = (value: unknown): number | null => {
 
 const tokenValue = computed(() => {
   const param = route.params.tokenValue
-  return Array.isArray(param) ? param[0] ?? '' : (param as string | undefined) ?? ''
+  return Array.isArray(param)
+    ? (param[0] ?? '')
+    : ((param as string | undefined) ?? '')
 })
 
 const hasToken = computed(() => tokenValue.value.trim().length > 0)
@@ -150,7 +159,9 @@ const {
 const order = computed(() => orderResponse.value ?? null)
 
 const orderItems = computed(() =>
-  extractCollectionItems<OrderItemJsonLdSyliusShopOrderItemShow>(orderItemsResponse.value),
+  extractCollectionItems<OrderItemJsonLdSyliusShopOrderItemShow>(
+    orderItemsResponse.value,
+  ),
 )
 
 const currencyCode = computed(() => order.value?.currencyCode || 'USD')
@@ -193,8 +204,10 @@ const getAddressLines = (source: unknown) => {
   const streetTwo = getString(record, 'street2')
   const postcode = getString(record, 'postcode')
   const city = getString(record, 'city')
-  const province = getString(record, 'provinceName') || getString(record, 'provinceCode')
-  const country = getString(record, 'countryName') || getString(record, 'countryCode')
+  const province =
+    getString(record, 'provinceName') || getString(record, 'provinceCode')
+  const country =
+    getString(record, 'countryName') || getString(record, 'countryCode')
   const phone = getString(record, 'phoneNumber')
 
   const lines: string[] = []
@@ -233,8 +246,12 @@ const getAddressLines = (source: unknown) => {
   return lines
 }
 
-const billingAddressLines = computed(() => getAddressLines(order.value?.billingAddress))
-const shippingAddressLines = computed(() => getAddressLines(order.value?.shippingAddress))
+const billingAddressLines = computed(() =>
+  getAddressLines(order.value?.billingAddress),
+)
+const shippingAddressLines = computed(() =>
+  getAddressLines(order.value?.shippingAddress),
+)
 
 const formatLocaleCode = (code: string | null | undefined) => {
   if (!code) {
@@ -246,7 +263,9 @@ const formatLocaleCode = (code: string | null | undefined) => {
   const region = parts[1]
 
   try {
-    const languageDisplay = new Intl.DisplayNames([locale.value], { type: 'language' })
+    const languageDisplay = new Intl.DisplayNames([locale.value], {
+      type: 'language',
+    })
     const regionDisplay = region
       ? new Intl.DisplayNames([locale.value], { type: 'region' })
       : null
@@ -287,8 +306,8 @@ const checkoutStateIndex = computed(() => {
   const mapping: Record<string, number> = {
     cart: 0,
     addressed: 1,
-    'shipping_selected': 2,
-    'payment_selected': 3,
+    shipping_selected: 2,
+    payment_selected: 3,
     completed: 4,
   }
 
@@ -297,7 +316,10 @@ const checkoutStateIndex = computed(() => {
 })
 
 const checkoutSteps = computed(() => {
-  const steps: Array<{ key: 'address' | 'shipping' | 'payment' | 'complete'; status: 'complete' | 'current' | 'upcoming' }> = []
+  const steps: Array<{
+    key: 'address' | 'shipping' | 'payment' | 'complete'
+    status: 'complete' | 'current' | 'upcoming'
+  }> = []
   const currentIndex = checkoutStateIndex.value
 
   const labels: Array<'address' | 'shipping' | 'payment' | 'complete'> = [
@@ -371,7 +393,10 @@ const summaryMetrics = computed(() => {
     },
     {
       label: t('pages.ecommerceOrder.summary.placedOn'),
-      value: formatDateTime(order.value.checkoutCompletedAt || order.value.createdAt) || '—',
+      value:
+        formatDateTime(
+          order.value.checkoutCompletedAt || order.value.createdAt,
+        ) || '—',
     },
   ]
 })
@@ -396,8 +421,11 @@ const collectPayments = (value: unknown): OrderPayment[] => {
     payments.push(record as unknown as OrderPayment)
   }
 
-  if (Array.isArray((value as OrderJsonLdSyliusShopOrderAccountShow)?.payment)) {
-    for (const entry of (value as OrderJsonLdSyliusShopOrderAccountShow).payment ?? []) {
+  if (
+    Array.isArray((value as OrderJsonLdSyliusShopOrderAccountShow)?.payment)
+  ) {
+    for (const entry of (value as OrderJsonLdSyliusShopOrderAccountShow)
+      .payment ?? []) {
       addPayment(entry)
     }
   }
@@ -508,14 +536,17 @@ const resolveShipmentTracking = (shipment: OrderShipment): string | null => {
   return null
 }
 
-const resolveOrderItemName = (item: OrderItemJsonLdSyliusShopOrderItemShow): string => {
+const resolveOrderItemName = (
+  item: OrderItemJsonLdSyliusShopOrderItemShow,
+): string => {
   const record = item as unknown as UnknownRecord
   const productName = getString(record, 'productName')
   if (productName) {
     return productName
   }
 
-  const variant = getString(record, 'variantName') || getString(record, 'variant')
+  const variant =
+    getString(record, 'variantName') || getString(record, 'variant')
   if (variant) {
     return variant
   }
@@ -523,7 +554,9 @@ const resolveOrderItemName = (item: OrderItemJsonLdSyliusShopOrderItemShow): str
   return t('pages.ecommerceOrder.fallbacks.unknownProduct')
 }
 
-const resolveOrderItemVariant = (item: OrderItemJsonLdSyliusShopOrderItemShow): string | null => {
+const resolveOrderItemVariant = (
+  item: OrderItemJsonLdSyliusShopOrderItemShow,
+): string | null => {
   const record = item as unknown as UnknownRecord
   const variantName = getString(record, 'variantName')
   if (variantName) {
@@ -544,7 +577,9 @@ const resolveOrderItemVariant = (item: OrderItemJsonLdSyliusShopOrderItemShow): 
   return null
 }
 
-const resolveOrderItemImage = (item: OrderItemJsonLdSyliusShopOrderItemShow): string => {
+const resolveOrderItemImage = (
+  item: OrderItemJsonLdSyliusShopOrderItemShow,
+): string => {
   const record = item as unknown as UnknownRecord
   const productRecord = toRecord(record.product)
   const images = productRecord?.images
@@ -560,7 +595,8 @@ const resolveOrderItemImage = (item: OrderItemJsonLdSyliusShopOrderItemShow): st
       }
 
       const imageRecord = toRecord(image)
-      const path = getString(imageRecord, 'path') || getString(imageRecord, 'file')
+      const path =
+        getString(imageRecord, 'path') || getString(imageRecord, 'file')
       if (path) {
         return path
       }
@@ -590,7 +626,9 @@ const formatQuantity = (value: unknown): number => {
   return 0
 }
 
-const resolveOrderItemUnitPrice = (item: OrderItemJsonLdSyliusShopOrderItemShow) => {
+const resolveOrderItemUnitPrice = (
+  item: OrderItemJsonLdSyliusShopOrderItemShow,
+) => {
   const record = item as unknown as UnknownRecord
   const discounted = normalizeAmount(record.discountedUnitPrice)
   if (discounted != null) {
@@ -600,7 +638,9 @@ const resolveOrderItemUnitPrice = (item: OrderItemJsonLdSyliusShopOrderItemShow)
   return normalizeAmount(record.unitPrice)
 }
 
-const resolveOrderItemOriginalPrice = (item: OrderItemJsonLdSyliusShopOrderItemShow) => {
+const resolveOrderItemOriginalPrice = (
+  item: OrderItemJsonLdSyliusShopOrderItemShow,
+) => {
   const record = item as unknown as UnknownRecord
   const original = normalizeAmount(record.originalUnitPrice)
   if (original != null) {
@@ -610,7 +650,9 @@ const resolveOrderItemOriginalPrice = (item: OrderItemJsonLdSyliusShopOrderItemS
   return null
 }
 
-const resolveOrderItemSubtotal = (item: OrderItemJsonLdSyliusShopOrderItemShow) => {
+const resolveOrderItemSubtotal = (
+  item: OrderItemJsonLdSyliusShopOrderItemShow,
+) => {
   const record = item as unknown as UnknownRecord
   const subtotal = normalizeAmount(record.subtotal)
   if (subtotal != null) {
@@ -631,7 +673,11 @@ const resolveOrderItemSubtotal = (item: OrderItemJsonLdSyliusShopOrderItemShow) 
 }
 
 const itemsCount = computed(() =>
-  orderItems.value.reduce((total, item) => total + formatQuantity((item as unknown as UnknownRecord).quantity), 0),
+  orderItems.value.reduce(
+    (total, item) =>
+      total + formatQuantity((item as unknown as UnknownRecord).quantity),
+    0,
+  ),
 )
 
 const totals = computed(() => {
@@ -667,8 +713,13 @@ const refreshAll = async () => {
           class="order-stepper__step"
           :class="`order-stepper__step--${step.status}`"
         >
-          <div class="order-stepper__indicator" :aria-label="t(`pages.ecommerceOrder.status.steps.${step.key}`)">
-            <span v-if="step.status === 'complete'" class="order-stepper__check">✓</span>
+          <div
+            class="order-stepper__indicator"
+            :aria-label="t(`pages.ecommerceOrder.status.steps.${step.key}`)"
+          >
+            <span v-if="step.status === 'complete'" class="order-stepper__check"
+              >✓</span
+            >
             <span v-else>{{ index + 1 }}</span>
           </div>
           <span class="order-stepper__label">
@@ -682,7 +733,9 @@ const refreshAll = async () => {
       <AppCard class="order-card" elevation="3">
         <div class="order-card__header">
           <div>
-            <p class="order-card__eyebrow text-uppercase text-medium-emphasis mb-1">
+            <p
+              class="order-card__eyebrow text-uppercase text-medium-emphasis mb-1"
+            >
               {{ t('pages.ecommerceOrder.summary.title') }}
             </p>
             <h1 class="text-h4 font-weight-bold mb-2">
@@ -700,7 +753,8 @@ const refreshAll = async () => {
               size="large"
               class="order-card__chip"
             >
-              {{ t('pages.ecommerceOrder.summary.orderNumber') }} {{ order?.number }}
+              {{ t('pages.ecommerceOrder.summary.orderNumber') }}
+              {{ order?.number }}
             </v-chip>
             <v-chip
               v-if="tokenValue"
@@ -725,7 +779,9 @@ const refreshAll = async () => {
           prominent
           class="mb-6"
         >
-          <div class="d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-4">
+          <div
+            class="d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-4"
+          >
             <span>{{ t('pages.ecommerceOrder.errors.loadFailed') }}</span>
             <AppButton color="primary" variant="flat" @click="refreshOrder">
               {{ t('pages.ecommerceOrder.actions.refresh') }}
@@ -736,11 +792,19 @@ const refreshAll = async () => {
           <div class="order-summary__grid">
             <div class="order-summary__panel order-summary__panel--primary">
               <div class="order-summary__metrics">
-                <div v-for="metric in summaryMetrics" :key="metric.label" class="order-summary__metric">
-                  <span class="order-summary__metric-label text-body-2 text-medium-emphasis">
+                <div
+                  v-for="metric in summaryMetrics"
+                  :key="metric.label"
+                  class="order-summary__metric"
+                >
+                  <span
+                    class="order-summary__metric-label text-body-2 text-medium-emphasis"
+                  >
                     {{ metric.label }}
                   </span>
-                  <span class="order-summary__metric-value text-body-1 font-weight-medium">
+                  <span
+                    class="order-summary__metric-value text-body-1 font-weight-medium"
+                  >
                     {{ metric.value }}
                   </span>
                 </div>
@@ -795,24 +859,40 @@ const refreshAll = async () => {
                     {{ t('pages.ecommerceOrder.payments.title') }}
                   </h2>
                   <span class="text-caption text-medium-emphasis">
-                    {{ t('pages.ecommerceOrder.payments.state') }}: {{ formatState(order.paymentState) }}
+                    {{ t('pages.ecommerceOrder.payments.state') }}:
+                    {{ formatState(order.paymentState) }}
                   </span>
                 </div>
-                <div v-if="payments.length === 0" class="text-body-2 text-medium-emphasis">
+                <div
+                  v-if="payments.length === 0"
+                  class="text-body-2 text-medium-emphasis"
+                >
                   {{ t('pages.ecommerceOrder.payments.noPayments') }}
                 </div>
                 <ul v-else class="order-summary__list">
-                  <li v-for="payment in payments" :key="payment.id ?? resolvePaymentMethod(payment)" class="order-summary__list-item">
+                  <li
+                    v-for="payment in payments"
+                    :key="payment.id ?? resolvePaymentMethod(payment)"
+                    class="order-summary__list-item"
+                  >
                     <div>
                       <p class="text-body-1 font-weight-medium mb-1">
                         {{ resolvePaymentMethod(payment) }}
                       </p>
                       <p class="text-caption text-medium-emphasis mb-0">
-                        {{ formatState((payment as unknown as UnknownRecord).state) }}
+                        {{
+                          formatState(
+                            (payment as unknown as UnknownRecord).state,
+                          )
+                        }}
                       </p>
                     </div>
                     <span class="text-body-1 font-weight-semibold">
-                      {{ formatMoney((payment as unknown as UnknownRecord).amount) ?? '—' }}
+                      {{
+                        formatMoney(
+                          (payment as unknown as UnknownRecord).amount,
+                        ) ?? '—'
+                      }}
                     </span>
                   </li>
                 </ul>
@@ -824,23 +904,38 @@ const refreshAll = async () => {
                     {{ t('pages.ecommerceOrder.shipments.title') }}
                   </h2>
                   <span class="text-caption text-medium-emphasis">
-                    {{ t('pages.ecommerceOrder.shipments.state') }}: {{ formatState(order.shippingState) }}
+                    {{ t('pages.ecommerceOrder.shipments.state') }}:
+                    {{ formatState(order.shippingState) }}
                   </span>
                 </div>
-                <div v-if="shipments.length === 0" class="text-body-2 text-medium-emphasis">
+                <div
+                  v-if="shipments.length === 0"
+                  class="text-body-2 text-medium-emphasis"
+                >
                   {{ t('pages.ecommerceOrder.shipments.noShipments') }}
                 </div>
                 <ul v-else class="order-summary__list">
-                  <li v-for="shipment in shipments" :key="shipment.id ?? resolveShipmentMethod(shipment)" class="order-summary__list-item">
+                  <li
+                    v-for="shipment in shipments"
+                    :key="shipment.id ?? resolveShipmentMethod(shipment)"
+                    class="order-summary__list-item"
+                  >
                     <div>
                       <p class="text-body-1 font-weight-medium mb-1">
                         {{ resolveShipmentMethod(shipment) }}
                       </p>
                       <p class="text-caption text-medium-emphasis mb-0">
-                        {{ formatState((shipment as unknown as UnknownRecord).state) }}
+                        {{
+                          formatState(
+                            (shipment as unknown as UnknownRecord).state,
+                          )
+                        }}
                       </p>
                     </div>
-                    <span v-if="resolveShipmentTracking(shipment)" class="text-caption text-medium-emphasis">
+                    <span
+                      v-if="resolveShipmentTracking(shipment)"
+                      class="text-caption text-medium-emphasis"
+                    >
                       {{ resolveShipmentTracking(shipment) }}
                     </span>
                   </li>
@@ -882,7 +977,9 @@ const refreshAll = async () => {
           prominent
           class="mb-6"
         >
-          <div class="d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-4">
+          <div
+            class="d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-4"
+          >
             <span>{{ t('pages.ecommerceOrder.errors.loadFailed') }}</span>
             <AppButton color="primary" variant="flat" @click="refreshItems">
               {{ t('pages.ecommerceOrder.actions.refresh') }}
@@ -890,7 +987,10 @@ const refreshAll = async () => {
           </div>
         </v-alert>
         <div v-else>
-          <div v-if="orderItems.length === 0" class="text-body-2 text-medium-emphasis">
+          <div
+            v-if="orderItems.length === 0"
+            class="text-body-2 text-medium-emphasis"
+          >
             {{ t('pages.ecommerceOrder.items.empty') }}
           </div>
           <div v-else class="order-items">
@@ -901,17 +1001,29 @@ const refreshAll = async () => {
                   <th class="text-right">
                     {{ t('pages.ecommerceOrder.items.table.unitPrice') }}
                   </th>
-                  <th class="text-right">{{ t('pages.ecommerceOrder.items.table.quantity') }}</th>
+                  <th class="text-right">
+                    {{ t('pages.ecommerceOrder.items.table.quantity') }}
+                  </th>
                   <th class="text-right">
                     {{ t('pages.ecommerceOrder.items.table.subtotal') }}
                   </th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in orderItems" :key="(item as unknown as UnknownRecord).id ?? resolveOrderItemName(item)">
+                <tr
+                  v-for="item in orderItems"
+                  :key="
+                    (item as unknown as UnknownRecord).id ??
+                    resolveOrderItemName(item)
+                  "
+                >
                   <td>
                     <div class="order-item">
-                      <v-avatar size="64" variant="tonal" class="order-item__avatar">
+                      <v-avatar
+                        size="64"
+                        variant="tonal"
+                        class="order-item__avatar"
+                      >
                         <v-img :src="resolveOrderItemImage(item)" cover>
                           <template #placeholder>
                             <v-skeleton-loader type="avatar" class="h-100" />
@@ -922,7 +1034,10 @@ const refreshAll = async () => {
                         <p class="text-body-1 font-weight-medium mb-1">
                           {{ resolveOrderItemName(item) }}
                         </p>
-                        <p v-if="resolveOrderItemVariant(item)" class="text-caption text-medium-emphasis mb-0">
+                        <p
+                          v-if="resolveOrderItemVariant(item)"
+                          class="text-caption text-medium-emphasis mb-0"
+                        >
                           {{ resolveOrderItemVariant(item) }}
                         </p>
                       </div>
@@ -931,11 +1046,16 @@ const refreshAll = async () => {
                   <td class="text-right">
                     <div class="order-item__pricing">
                       <span class="text-body-1 font-weight-medium">
-                        {{ formatMoney(resolveOrderItemUnitPrice(item)) ?? '—' }}
+                        {{
+                          formatMoney(resolveOrderItemUnitPrice(item)) ?? '—'
+                        }}
                       </span>
                       <span
-                        v-if="resolveOrderItemOriginalPrice(item) &&
-                          resolveOrderItemOriginalPrice(item)! > resolveOrderItemUnitPrice(item)!"
+                        v-if="
+                          resolveOrderItemOriginalPrice(item) &&
+                          resolveOrderItemOriginalPrice(item)! >
+                            resolveOrderItemUnitPrice(item)!
+                        "
                         class="order-item__pricing-original"
                       >
                         {{ formatMoney(resolveOrderItemOriginalPrice(item)) }}
@@ -944,7 +1064,11 @@ const refreshAll = async () => {
                   </td>
                   <td class="text-right">
                     <span class="text-body-1">
-                      {{ formatQuantity((item as unknown as UnknownRecord).quantity) }}
+                      {{
+                        formatQuantity(
+                          (item as unknown as UnknownRecord).quantity,
+                        )
+                      }}
                     </span>
                   </td>
                   <td class="text-right">
@@ -997,7 +1121,11 @@ const refreshAll = async () => {
 
 <style scoped>
 .order-complete-page {
-  background: linear-gradient(180deg, rgba(248, 250, 255, 0.9), rgba(233, 239, 255, 0.85));
+  background: linear-gradient(
+    180deg,
+    rgba(248, 250, 255, 0.9),
+    rgba(233, 239, 255, 0.85)
+  );
   padding: 24px clamp(16px, 6vw, 64px) 64px;
 }
 

@@ -20,10 +20,26 @@ definePageMeta({
 const { t, locale } = useI18n()
 
 const headers = computed(() => [
-  { title: t('admin.ecommerce.configuration.zones.table.name'), key: 'name', minWidth: 220 },
-  { title: t('admin.ecommerce.configuration.zones.table.code'), key: 'code', minWidth: 140 },
-  { title: t('admin.ecommerce.configuration.zones.table.type'), key: 'type', minWidth: 160 },
-  { title: t('admin.ecommerce.configuration.zones.table.members'), key: 'members', minWidth: 160 },
+  {
+    title: t('admin.ecommerce.configuration.zones.table.name'),
+    key: 'name',
+    minWidth: 220,
+  },
+  {
+    title: t('admin.ecommerce.configuration.zones.table.code'),
+    key: 'code',
+    minWidth: 140,
+  },
+  {
+    title: t('admin.ecommerce.configuration.zones.table.type'),
+    key: 'type',
+    minWidth: 160,
+  },
+  {
+    title: t('admin.ecommerce.configuration.zones.table.members'),
+    key: 'members',
+    minWidth: 160,
+  },
 ])
 
 const search = ref('')

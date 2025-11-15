@@ -69,7 +69,8 @@ const search = ref('')
 const dateFormatter = createDateFormatter(locale)
 
 const formatCurrency = (amount: number, currencyCode?: string | null) => {
-  const code = currencyCode && currencyCode.trim().length > 0 ? currencyCode : 'USD'
+  const code =
+    currencyCode && currencyCode.trim().length > 0 ? currencyCode : 'USD'
   try {
     return new Intl.NumberFormat(locale.value, {
       style: 'currency',
@@ -100,7 +101,8 @@ const rows = computed(() => {
   return entries.map((entry, index) => {
     const record = toRecord(entry)
     const number =
-      getString(record, ['number', 'tokenValue', 'code']) ?? `order-${index + 1}`
+      getString(record, ['number', 'tokenValue', 'code']) ??
+      `order-${index + 1}`
     const customerRecord = toRecord(record?.customer)
     const channelRecord = toRecord(record?.channel)
     const payments = getArray(record, ['payments'])
@@ -126,7 +128,10 @@ const rows = computed(() => {
     const shippingState =
       getString(record, ['shippingState', 'shipping_state']) ??
       t('admin.ecommerce.common.unknownState')
-    const total = formatCurrency(getNumber(record, ['total', 'totalAmount']), currency)
+    const total = formatCurrency(
+      getNumber(record, ['total', 'totalAmount']),
+      currency,
+    )
     const placedAt = formatDateValue(
       safeDate(record?.createdAt) ?? safeDate(record?.created_at),
       dateFormatter.value,
@@ -184,9 +189,7 @@ const errorMessage = computed(() => {
     return null
   }
   const err = error.value as { data?: { message?: string }; message?: string }
-  return (
-    err?.data?.message || err?.message || t('common.unexpectedError')
-  )
+  return err?.data?.message || err?.message || t('common.unexpectedError')
 })
 </script>
 

@@ -160,7 +160,9 @@ const priceFormatter = computed(() => {
 })
 
 const resolveProductName = (
-  item: ProductJsonldSyliusShopProductIndex | ProductJsonldSyliusShopProductShow,
+  item:
+    | ProductJsonldSyliusShopProductIndex
+    | ProductJsonldSyliusShopProductShow,
 ) => {
   const translation = resolveProductTranslation(item, locale.value)
   const translatedName =
@@ -186,7 +188,9 @@ const resolveProductName = (
 }
 
 const resolveProductSummary = (
-  item: ProductJsonldSyliusShopProductIndex | ProductJsonldSyliusShopProductShow,
+  item:
+    | ProductJsonldSyliusShopProductIndex
+    | ProductJsonldSyliusShopProductShow,
 ) => {
   const translation = resolveProductTranslation(item, locale.value)
   const summary =
@@ -198,7 +202,9 @@ const resolveProductSummary = (
 }
 
 const resolveProductDescription = (
-  item: ProductJsonldSyliusShopProductIndex | ProductJsonldSyliusShopProductShow,
+  item:
+    | ProductJsonldSyliusShopProductIndex
+    | ProductJsonldSyliusShopProductShow,
 ) => {
   const translation = resolveProductTranslation(item, locale.value)
   const description =
@@ -210,7 +216,9 @@ const resolveProductDescription = (
 }
 
 const resolveProductIdentifier = (
-  item: ProductJsonldSyliusShopProductIndex | ProductJsonldSyliusShopProductShow,
+  item:
+    | ProductJsonldSyliusShopProductIndex
+    | ProductJsonldSyliusShopProductShow,
 ) => {
   const record = item as UnknownRecord
   const code = getString(record, 'code')
@@ -227,7 +235,9 @@ const resolveProductIdentifier = (
 }
 
 const resolveProductSlug = (
-  item: ProductJsonldSyliusShopProductIndex | ProductJsonldSyliusShopProductShow,
+  item:
+    | ProductJsonldSyliusShopProductIndex
+    | ProductJsonldSyliusShopProductShow,
 ) => {
   const translation = resolveProductTranslation(item, locale.value)
   const translatedSlug =
@@ -268,7 +278,9 @@ const formatPriceWithCurrency = (
 }
 
 const resolveProductPricingDisplay = (
-  item: ProductJsonldSyliusShopProductIndex | ProductJsonldSyliusShopProductShow,
+  item:
+    | ProductJsonldSyliusShopProductIndex
+    | ProductJsonldSyliusShopProductShow,
 ) => {
   const pricing = resolveProductPricing(item)
   if (!pricing) {
@@ -279,8 +291,7 @@ const resolveProductPricingDisplay = (
   const currency = currencyCode.value
   const priceText = formatPriceWithCurrency(pricing.price, formatter, currency)
   const originalText =
-    pricing.originalPrice != null &&
-    pricing.originalPrice > pricing.price
+    pricing.originalPrice != null && pricing.originalPrice > pricing.price
       ? formatPriceWithCurrency(pricing.originalPrice, formatter, currency)
       : null
 
@@ -295,7 +306,9 @@ const resolveProductPricingDisplay = (
 }
 
 const productName = computed(() =>
-  product.value ? resolveProductName(product.value) : t('pages.ecommerce.fallbacks.unknownProduct'),
+  product.value
+    ? resolveProductName(product.value)
+    : t('pages.ecommerce.fallbacks.unknownProduct'),
 )
 
 const productShortDescription = computed(() =>
@@ -314,7 +327,9 @@ const canAddToCart = computed(() => Boolean(product.value))
 
 const productImages = computed(() =>
   product.value
-    ? resolveProductImagePaths(product.value).map((path) => buildProductImageUrl(path))
+    ? resolveProductImagePaths(product.value).map((path) =>
+        buildProductImageUrl(path),
+      )
     : [],
 )
 
@@ -385,7 +400,8 @@ const productReviewCount = computed(() => {
     return 0
   }
 
-  const directCount = record.reviewCount ?? record.reviewsCount ?? record.acceptedReviewsCount
+  const directCount =
+    record.reviewCount ?? record.reviewsCount ?? record.acceptedReviewsCount
   const numericCount = Number.parseInt(String(directCount ?? ''), 10)
   if (Number.isFinite(numericCount)) {
     return Math.max(0, numericCount)
@@ -423,7 +439,10 @@ const productOptions = computed(() => {
         return null
       }
 
-      const translation = resolveTranslation(optionRecord.translations, locale.value)
+      const translation = resolveTranslation(
+        optionRecord.translations,
+        locale.value,
+      )
       const optionName =
         getString(optionRecord, 'name') ||
         getString(translation, 'name') ||
@@ -451,7 +470,10 @@ const productOptions = computed(() => {
             return null
           }
 
-          const valueTranslation = resolveTranslation(valueRecord.translations, locale.value)
+          const valueTranslation = resolveTranslation(
+            valueRecord.translations,
+            locale.value,
+          )
           const rawValue =
             getString(valueRecord, 'value') ||
             getString(valueRecord, 'code') ||
@@ -467,11 +489,11 @@ const productOptions = computed(() => {
 
           const normalizedCode = rawValue || label
 
-          return normalizedCode
-            ? { code: normalizedCode, label }
-            : null
+          return normalizedCode ? { code: normalizedCode, label } : null
         })
-        .filter((value): value is { code: string; label: string } => Boolean(value))
+        .filter((value): value is { code: string; label: string } =>
+          Boolean(value),
+        )
 
       if (!values.length) {
         return null
@@ -483,7 +505,15 @@ const productOptions = computed(() => {
         values,
       }
     })
-    .filter((option): option is { code: string; name: string; values: { code: string; label: string }[] } => Boolean(option))
+    .filter(
+      (
+        option,
+      ): option is {
+        code: string
+        name: string
+        values: { code: string; label: string }[]
+      } => Boolean(option),
+    )
 })
 
 watch(
@@ -493,17 +523,20 @@ watch(
 
     for (const option of options) {
       const currentValue = selectedOptions.value[option.code]
-      const hasCurrent = option.values.some((value) => value.code === currentValue)
+      const hasCurrent = option.values.some(
+        (value) => value.code === currentValue,
+      )
       next[option.code] = hasCurrent
         ? currentValue
-        : option.values[0]?.code ?? null
+        : (option.values[0]?.code ?? null)
     }
 
     const currentKeys = Object.keys(selectedOptions.value)
     const nextKeys = Object.keys(next)
     const sameLength = currentKeys.length === nextKeys.length
     const sameValues =
-      sameLength && nextKeys.every((key) => selectedOptions.value[key] === next[key])
+      sameLength &&
+      nextKeys.every((key) => selectedOptions.value[key] === next[key])
 
     if (!sameValues) {
       selectedOptions.value = next
@@ -540,7 +573,10 @@ const normalizedAttributes = computed(() => {
       continue
     }
 
-    const translation = resolveTranslation(attributeRecord.translation, locale.value)
+    const translation = resolveTranslation(
+      attributeRecord.translation,
+      locale.value,
+    )
     const rawName =
       getString(attributeRecord, 'name') ||
       getString(translation, 'name') ||
@@ -560,12 +596,18 @@ const normalizedAttributes = computed(() => {
     let resolvedValue: string | null = null
 
     for (const candidateValue of valueCandidates) {
-      if (typeof candidateValue === 'string' && candidateValue.trim().length > 0) {
+      if (
+        typeof candidateValue === 'string' &&
+        candidateValue.trim().length > 0
+      ) {
         resolvedValue = candidateValue
         break
       }
 
-      if (typeof candidateValue === 'number' && Number.isFinite(candidateValue)) {
+      if (
+        typeof candidateValue === 'number' &&
+        Number.isFinite(candidateValue)
+      ) {
         resolvedValue = candidateValue.toString()
         break
       }
@@ -578,7 +620,9 @@ const normalizedAttributes = computed(() => {
       }
 
       if (Array.isArray(candidateValue)) {
-        const filtered = candidateValue.filter((item): item is string => typeof item === 'string')
+        const filtered = candidateValue.filter(
+          (item): item is string => typeof item === 'string',
+        )
         if (filtered.length) {
           resolvedValue = filtered.join(', ')
           break
@@ -617,7 +661,9 @@ const latestProductsWithRoutes = computed(() =>
   latestProducts.value
     .filter((item) => {
       const slugValue = resolveProductSlug(item)
-      const currentSlug = product.value ? resolveProductSlug(product.value) : null
+      const currentSlug = product.value
+        ? resolveProductSlug(product.value)
+        : null
       return slugValue && slugValue !== currentSlug
     })
     .slice(0, 3)
@@ -629,18 +675,18 @@ const latestProductsWithRoutes = computed(() =>
             params: { slug: resolveProductSlug(item) as string },
           })
         : null,
-    }))
+    })),
 )
 
-const anyPending = computed(
-  () => productPending.value || channelsPending.value,
+const anyPending = computed(() => productPending.value || channelsPending.value)
+
+const anyError = computed(() =>
+  Boolean(productError.value || channelsError.value),
 )
 
-const anyError = computed(
-  () => Boolean(productError.value || channelsError.value),
+const latestProductsErrorState = computed(() =>
+  Boolean(latestProductsError.value),
 )
-
-const latestProductsErrorState = computed(() => Boolean(latestProductsError.value))
 
 useHead(() => {
   const name = productName.value
@@ -670,7 +716,10 @@ const resolveCartErrorMessage = (error: unknown) => {
     return error
   }
 
-  if (typeof cartStore.error === 'string' && cartStore.error.trim().length > 0) {
+  if (
+    typeof cartStore.error === 'string' &&
+    cartStore.error.trim().length > 0
+  ) {
     return cartStore.error
   }
 
@@ -733,7 +782,9 @@ const handleAddToCart = async () => {
 
       <div v-if="anyError" class="product-status">
         <v-alert color="error" variant="tonal" class="mb-4">
-          <div class="d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-4">
+          <div
+            class="d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-4"
+          >
             <div>
               <h2 class="text-h5 font-weight-bold mb-1">
                 {{ t('pages.ecommerce.product.status.error') }}
@@ -746,7 +797,11 @@ const handleAddToCart = async () => {
               <AppButton color="primary" variant="flat" @click="refreshProduct">
                 {{ t('pages.ecommerce.actions.retry') }}
               </AppButton>
-              <AppButton color="secondary" variant="tonal" @click="refreshChannels">
+              <AppButton
+                color="secondary"
+                variant="tonal"
+                @click="refreshChannels"
+              >
                 {{ t('pages.ecommerce.actions.refresh') }}
               </AppButton>
             </div>
@@ -754,7 +809,10 @@ const handleAddToCart = async () => {
         </v-alert>
       </div>
 
-      <div v-else-if="anyPending" class="product-status d-flex justify-center py-12">
+      <div
+        v-else-if="anyPending"
+        class="product-status d-flex justify-center py-12"
+      >
         <v-progress-circular indeterminate color="primary" size="64" />
       </div>
 
@@ -798,7 +856,10 @@ const handleAddToCart = async () => {
             <h1 class="text-h3 font-weight-bold mb-0">{{ productName }}</h1>
             <v-chip color="primary" variant="tonal">
               {{ quantity }} ×
-              {{ productPricingDisplay?.priceText || t('pages.ecommerce.fallbacks.priceUnavailable') }}
+              {{
+                productPricingDisplay?.priceText ||
+                t('pages.ecommerce.fallbacks.priceUnavailable')
+              }}
             </v-chip>
           </div>
 
@@ -811,7 +872,11 @@ const handleAddToCart = async () => {
               half-increments
             />
             <span class="text-body-2 text-medium-emphasis">
-              {{ t('pages.ecommerce.product.reviews.count', { count: productReviewCount }) }}
+              {{
+                t('pages.ecommerce.product.reviews.count', {
+                  count: productReviewCount,
+                })
+              }}
             </span>
             <NuxtLink to="#reviews" class="product-rating__link">
               {{ t('pages.ecommerce.product.actions.addReview') }}
@@ -833,13 +898,27 @@ const handleAddToCart = async () => {
             {{ t('pages.ecommerce.fallbacks.priceUnavailable') }}
           </div>
 
-          <p v-if="productShortDescription" class="text-body-1 text-medium-emphasis mb-6">
+          <p
+            v-if="productShortDescription"
+            class="text-body-1 text-medium-emphasis mb-6"
+          >
             {{ productShortDescription }}
           </p>
 
-          <div v-for="option in productOptions" :key="option.code" class="product-option">
-            <label :for="`option-${option.code}`" class="text-body-2 font-weight-medium">
-              {{ t('pages.ecommerce.product.labels.option', { name: option.name }) }}
+          <div
+            v-for="option in productOptions"
+            :key="option.code"
+            class="product-option"
+          >
+            <label
+              :for="`option-${option.code}`"
+              class="text-body-2 font-weight-medium"
+            >
+              {{
+                t('pages.ecommerce.product.labels.option', {
+                  name: option.name,
+                })
+              }}
             </label>
             <v-chip-group
               v-model="selectedOptions[option.code]"
@@ -860,7 +939,10 @@ const handleAddToCart = async () => {
           </div>
 
           <div class="product-quantity">
-            <label for="product-quantity" class="text-body-2 font-weight-medium">
+            <label
+              for="product-quantity"
+              class="text-body-2 font-weight-medium"
+            >
               {{ t('pages.ecommerce.product.quantity.label') }}
             </label>
             <div class="product-quantity__controls">
@@ -901,7 +983,12 @@ const handleAddToCart = async () => {
             >
               {{ t('pages.ecommerce.product.actions.addToCart') }}
             </AppButton>
-            <AppButton color="secondary" variant="tonal" size="x-large" :to="localePath('ecommerce')">
+            <AppButton
+              color="secondary"
+              variant="tonal"
+              size="x-large"
+              :to="localePath('ecommerce')"
+            >
               {{ t('pages.ecommerce.product.actions.backToShop') }}
             </AppButton>
           </div>
@@ -936,9 +1023,17 @@ const handleAddToCart = async () => {
               {{ t('pages.ecommerce.product.sections.attributes') }}
             </h2>
             <div v-if="normalizedAttributes.length" class="product-attributes">
-              <div v-for="attribute in normalizedAttributes" :key="`${attribute.name}-${attribute.value}`" class="product-attribute">
-                <span class="product-attribute__name">{{ attribute.name }}</span>
-                <span class="product-attribute__value">{{ attribute.value }}</span>
+              <div
+                v-for="attribute in normalizedAttributes"
+                :key="`${attribute.name}-${attribute.value}`"
+                class="product-attribute"
+              >
+                <span class="product-attribute__name">{{
+                  attribute.name
+                }}</span>
+                <span class="product-attribute__value">{{
+                  attribute.value
+                }}</span>
               </div>
             </div>
             <p v-else class="text-body-2 text-medium-emphasis mb-0">
@@ -952,7 +1047,11 @@ const handleAddToCart = async () => {
               {{ t('pages.ecommerce.product.sections.reviews') }}
             </h2>
             <p class="text-body-2 text-medium-emphasis mb-4">
-              {{ t('pages.ecommerce.product.reviews.count', { count: productReviewCount }) }}
+              {{
+                t('pages.ecommerce.product.reviews.count', {
+                  count: productReviewCount,
+                })
+              }}
             </p>
             <p class="text-body-2 text-medium-emphasis mb-4">
               {{ t('pages.ecommerce.product.empty.reviews') }}
@@ -975,7 +1074,11 @@ const handleAddToCart = async () => {
             {{ t('pages.ecommerce.sections.latestProducts.subtitle') }}
           </p>
         </div>
-        <AppButton color="secondary" variant="tonal" :to="localePath('ecommerce')">
+        <AppButton
+          color="secondary"
+          variant="tonal"
+          :to="localePath('ecommerce')"
+        >
           {{ t('pages.ecommerce.actions.exploreCollection') }}
         </AppButton>
       </div>
@@ -984,7 +1087,10 @@ const handleAddToCart = async () => {
       </div>
       <v-row v-else-if="latestProductsWithRoutes.length" dense class="mt-2">
         <v-col
-          v-for="{ product: latestProduct, route: productRoute } in latestProductsWithRoutes"
+          v-for="{
+            product: latestProduct,
+            route: productRoute,
+          } in latestProductsWithRoutes"
           :key="resolveProductIdentifier(latestProduct)"
           cols="12"
           md="4"
@@ -996,7 +1102,11 @@ const handleAddToCart = async () => {
           >
             <AppCard class="product-related-card" elevation="2">
               <v-img
-                :src="buildProductImageUrl(resolveProductImagePaths(latestProduct)[0])"
+                :src="
+                  buildProductImageUrl(
+                    resolveProductImagePaths(latestProduct)[0],
+                  )
+                "
                 height="200"
                 cover
                 rounded
@@ -1009,10 +1119,16 @@ const handleAddToCart = async () => {
                 <h3 class="text-h6 font-weight-bold mb-2">
                   {{ resolveProductName(latestProduct) }}
                 </h3>
-                <p v-if="resolveProductSummary(latestProduct)" class="text-body-2 text-medium-emphasis mb-3">
+                <p
+                  v-if="resolveProductSummary(latestProduct)"
+                  class="text-body-2 text-medium-emphasis mb-3"
+                >
                   {{ resolveProductSummary(latestProduct) }}
                 </p>
-                <div v-if="resolveProductPricingDisplay(latestProduct)" class="product-related-card__price">
+                <div
+                  v-if="resolveProductPricingDisplay(latestProduct)"
+                  class="product-related-card__price"
+                >
                   {{ resolveProductPricingDisplay(latestProduct)?.priceText }}
                 </div>
               </div>
@@ -1022,7 +1138,11 @@ const handleAddToCart = async () => {
       </v-row>
       <div v-else class="text-center py-10">
         <p class="text-body-1 text-medium-emphasis mb-0">
-          {{ latestProductsErrorState ? t('pages.ecommerce.errors.failedToLoad') : t('pages.ecommerce.fallbacks.noProducts') }}
+          {{
+            latestProductsErrorState
+              ? t('pages.ecommerce.errors.failedToLoad')
+              : t('pages.ecommerce.fallbacks.noProducts')
+          }}
         </p>
         <AppButton
           v-if="latestProductsErrorState"
@@ -1040,7 +1160,11 @@ const handleAddToCart = async () => {
 
 <style scoped>
 .product-page {
-  background: linear-gradient(160deg, rgba(72, 61, 139, 0.12), rgba(30, 144, 255, 0.08));
+  background: linear-gradient(
+    160deg,
+    rgba(72, 61, 139, 0.12),
+    rgba(30, 144, 255, 0.08)
+  );
   padding: 32px 0 80px;
 }
 
@@ -1116,7 +1240,9 @@ const handleAddToCart = async () => {
 
 .product-thumbnail {
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .product-thumbnail:hover {

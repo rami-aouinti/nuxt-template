@@ -18,21 +18,25 @@ export interface CurrencySyliusShopCurrencyIndex {
 
 export type CurrencySyliusShopCurrencyShow = CurrencySyliusShopCurrencyIndex
 
-export interface CurrencyJsonldSyliusAdminCurrencyIndex extends CurrencySyliusAdminCurrencyIndex {
+export interface CurrencyJsonldSyliusAdminCurrencyIndex
+  extends CurrencySyliusAdminCurrencyIndex {
   '@context'?: HydraContext
   '@id'?: string
   '@type'?: string
 }
 
-export type CurrencyJsonldSyliusAdminCurrencyShow = CurrencyJsonldSyliusAdminCurrencyIndex
+export type CurrencyJsonldSyliusAdminCurrencyShow =
+  CurrencyJsonldSyliusAdminCurrencyIndex
 
-export interface CurrencyJsonldSyliusShopCurrencyIndex extends CurrencySyliusShopCurrencyIndex {
+export interface CurrencyJsonldSyliusShopCurrencyIndex
+  extends CurrencySyliusShopCurrencyIndex {
   '@context'?: HydraContext
   '@id'?: string
   '@type'?: string
 }
 
-export type CurrencyJsonldSyliusShopCurrencyShow = CurrencyJsonldSyliusShopCurrencyIndex
+export type CurrencyJsonldSyliusShopCurrencyShow =
+  CurrencyJsonldSyliusShopCurrencyIndex
 
 export interface CurrencyInterface {
   readonly id?: number

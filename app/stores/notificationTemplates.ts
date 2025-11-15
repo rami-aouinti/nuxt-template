@@ -38,7 +38,9 @@ export const useNotificationTemplatesStore = defineStore(
     const templatesFetchedAt = ref<number | null>(null)
     let templatesPromise: Promise<NotificationTemplate[] | null> | null = null
 
-    const templateDetails = reactive<Record<string, NotificationTemplate | null>>({})
+    const templateDetails = reactive<
+      Record<string, NotificationTemplate | null>
+    >({})
     const templateDetailPending = reactive<Record<string, boolean>>({})
     const templateDetailError = reactive<Record<string, Error | null>>({})
     const templateDetailFetchedAt = reactive<Record<string, number | null>>({})
@@ -104,7 +106,10 @@ export const useNotificationTemplatesStore = defineStore(
 
     async function fetchTemplate(
       id: string,
-      { force = false, ttl = DEFAULT_TTL }: { force?: boolean; ttl?: number } = {},
+      {
+        force = false,
+        ttl = DEFAULT_TTL,
+      }: { force?: boolean; ttl?: number } = {},
     ) {
       const normalizedId = normalizeId(id)
 

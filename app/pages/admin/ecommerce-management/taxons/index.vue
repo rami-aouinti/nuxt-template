@@ -87,8 +87,8 @@ const taxonRows = computed(() => {
       resolveLocalizedString(record, locale, ['name', 'title']) ?? code
     const parentRecord = toRecord(record?.parent)
     const parentName = parentRecord
-      ? resolveLocalizedString(parentRecord, locale, ['name', 'title']) ??
-        getString(parentRecord, ['code'])
+      ? (resolveLocalizedString(parentRecord, locale, ['name', 'title']) ??
+        getString(parentRecord, ['code']))
       : t('admin.ecommerce.common.none')
     const children = getArray(record, ['children', 'child'])
     const enabled = getBoolean(record, ['enabled', 'isEnabled'], true)
@@ -128,9 +128,7 @@ const errorMessage = computed(() => {
   }
 
   const err = error.value as { message?: string; data?: { message?: string } }
-  return (
-    err?.data?.message || err?.message || t('common.unexpectedError')
-  )
+  return err?.data?.message || err?.message || t('common.unexpectedError')
 })
 
 const createTaxonPath = computed(() =>

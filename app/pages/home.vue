@@ -140,7 +140,7 @@ const assignTagsToPost = (
   postValue.tags = normalized
 
   const casted = postValue as BlogPost & {
-    tagList?: (BlogPost['tags'] | null)
+    tagList?: BlogPost['tags'] | null
     tagNames?: string[] | null
   }
 
@@ -153,9 +153,7 @@ const filteredPosts = computed(() => {
     const tags = resolvePostTags(post)
     const matchesTagFilter =
       !activeTag.value ||
-      tags.some(
-        (tag) => toActiveTagValue(tag) === activeTag.value?.value,
-      )
+      tags.some((tag) => toActiveTagValue(tag) === activeTag.value?.value)
 
     if (!matchesTagFilter) {
       return false
@@ -774,7 +772,7 @@ async function submitCreateBlog() {
     logoValue instanceof File
       ? logoValue
       : Array.isArray(logoValue)
-        ? logoValue.find((file): file is File => file instanceof File) ?? null
+        ? (logoValue.find((file): file is File => file instanceof File) ?? null)
         : null
 
   if (!title.length) {
@@ -962,7 +960,10 @@ const onSelectPostTag = ({
   if (activeTag.value?.value === normalized) {
     clearActiveTag()
   } else {
-    activeTag.value = { value: normalized, label: label.startsWith('#') ? label : `#${label}` }
+    activeTag.value = {
+      value: normalized,
+      label: label.startsWith('#') ? label : `#${label}`,
+    }
   }
 }
 

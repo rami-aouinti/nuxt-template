@@ -1,4 +1,7 @@
-import { broWorldEcommerceRequest, getEcommerceAcceptLanguage } from '~~/server/utils/broWorldEcommerceApi'
+import {
+  broWorldEcommerceRequest,
+  getEcommerceAcceptLanguage,
+} from '~~/server/utils/broWorldEcommerceApi'
 import { requireRouteParam } from '~~/server/utils/crud'
 
 export default defineEventHandler(async (event) => {
@@ -9,7 +12,9 @@ export default defineEventHandler(async (event) => {
   )
 
   const acceptLanguage = getEcommerceAcceptLanguage(event)
-  const headers = acceptLanguage ? { 'Accept-Language': acceptLanguage } : undefined
+  const headers = acceptLanguage
+    ? { 'Accept-Language': acceptLanguage }
+    : undefined
 
   return await broWorldEcommerceRequest(
     event,

@@ -109,7 +109,10 @@ export interface ProductAssociationOptionValue {
   value?: string | null
   optionCode?: string | null
   name?: string | null
-  translations?: Record<string, string | ProductAssociationOptionValueTranslation>
+  translations?: Record<
+    string,
+    string | ProductAssociationOptionValueTranslation
+  >
   translation?: ProductAssociationOptionValueTranslation[]
   currentLocale?: string
   fallbackLocale?: string
@@ -122,7 +125,10 @@ export interface ProductAssociationOption {
   name?: string | null
   position?: number
   values?: (string | ProductAssociationOptionValue)[]
-  translations?: Record<string, string | ProductAssociationOptionValueTranslation>
+  translations?: Record<
+    string,
+    string | ProductAssociationOptionValueTranslation
+  >
   translation?: ProductAssociationOptionValueTranslation[]
   currentLocale?: string
   fallbackLocale?: string
@@ -192,7 +198,10 @@ export interface ProductAssociationProductVariant {
   createdAt?: string
   updatedAt?: string | null
   enabled?: boolean
-  translations?: Record<string, ProductAssociationProductVariantTranslation | string>
+  translations?: Record<
+    string,
+    ProductAssociationProductVariantTranslation | string
+  >
   translation?: ProductAssociationProductVariantTranslation[]
   channelPricing?: ProductAssociationChannelPricing[]
   appliedPromotions?: ProductAssociationAppliedPromotion[]
@@ -284,21 +293,27 @@ export interface ProductAssociationSyliusAdminProductAssociationCreate {
   associatedProducts: string[]
 }
 
-export type ProductAssociationSyliusAdminProductAssociationIndex = ProductAssociation
+export type ProductAssociationSyliusAdminProductAssociationIndex =
+  ProductAssociation
 
-export type ProductAssociationSyliusAdminProductAssociationShow = ProductAssociation
+export type ProductAssociationSyliusAdminProductAssociationShow =
+  ProductAssociation
 
 export interface ProductAssociationSyliusAdminProductAssociationUpdate {
   associatedProducts: string[]
 }
 
-export type ProductAssociationSyliusShopProductAssociationShow = ProductAssociation
+export type ProductAssociationSyliusShopProductAssociationShow =
+  ProductAssociation
 
-export type ProductAssociationJsonldSyliusShopProductAssociationShow = ProductAssociationJsonld
+export type ProductAssociationJsonldSyliusShopProductAssociationShow =
+  ProductAssociationJsonld
 
-export type ProductAssociationJsonldSyliusAdminProductAssociationIndex = ProductAssociationJsonld
+export type ProductAssociationJsonldSyliusAdminProductAssociationIndex =
+  ProductAssociationJsonld
 
-export type ProductAssociationJsonldSyliusAdminProductAssociationShow = ProductAssociationJsonld
+export type ProductAssociationJsonldSyliusAdminProductAssociationShow =
+  ProductAssociationJsonld
 
 export interface ProductAssociationInterface
   extends Omit<ProductAssociation, 'associatedProducts'> {
@@ -348,9 +363,11 @@ export interface ProductAssociationTypeSyliusAdminProductAssociationTypeCreate {
   translations: Record<string, { name: string }>
 }
 
-export type ProductAssociationTypeSyliusAdminProductAssociationTypeIndex = ProductAssociationType
+export type ProductAssociationTypeSyliusAdminProductAssociationTypeIndex =
+  ProductAssociationType
 
-export type ProductAssociationTypeSyliusAdminProductAssociationTypeShow = ProductAssociationType
+export type ProductAssociationTypeSyliusAdminProductAssociationTypeShow =
+  ProductAssociationType
 
 export interface ProductAssociationTypeSyliusAdminProductAssociationTypeUpdate {
   translations: Record<string, { name: string }>
@@ -366,9 +383,11 @@ export interface ProductAssociationTypeSyliusShopProductAssociationTypeShow {
   name: string | null
 }
 
-export type ProductAssociationTypeJsonldSyliusAdminProductAssociationTypeIndex = ProductAssociationTypeJsonld
+export type ProductAssociationTypeJsonldSyliusAdminProductAssociationTypeIndex =
+  ProductAssociationTypeJsonld
 
-export type ProductAssociationTypeJsonldSyliusAdminProductAssociationTypeShow = ProductAssociationTypeJsonld
+export type ProductAssociationTypeJsonldSyliusAdminProductAssociationTypeShow =
+  ProductAssociationTypeJsonld
 
 export interface ProductAssociationTypeJsonldSyliusShopProductAssociationTypeIndex
   extends ProductAssociationTypeSyliusShopProductAssociationTypeIndex {

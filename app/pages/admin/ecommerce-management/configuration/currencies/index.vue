@@ -2,7 +2,12 @@
 import { computed, ref } from 'vue'
 
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
-import { createDateFormatter, createNumberFormatter, formatDateValue, formatNumberValue } from '~/utils/formatters'
+import {
+  createDateFormatter,
+  createNumberFormatter,
+  formatDateValue,
+  formatNumberValue,
+} from '~/utils/formatters'
 import {
   getBoolean,
   getNumber,
@@ -21,8 +26,16 @@ definePageMeta({
 const { t, locale } = useI18n()
 
 const headers = computed(() => [
-  { title: t('admin.ecommerce.configuration.currencies.table.code'), key: 'code', minWidth: 120 },
-  { title: t('admin.ecommerce.configuration.currencies.table.name'), key: 'name', minWidth: 200 },
+  {
+    title: t('admin.ecommerce.configuration.currencies.table.code'),
+    key: 'code',
+    minWidth: 120,
+  },
+  {
+    title: t('admin.ecommerce.configuration.currencies.table.name'),
+    key: 'name',
+    minWidth: 200,
+  },
   {
     title: t('admin.ecommerce.configuration.currencies.table.exchangeRate'),
     key: 'exchangeRate',
@@ -72,8 +85,15 @@ const rows = computed(() => {
     const code = getString(record, ['code']) ?? `currency-${index + 1}`
     const name = getString(record, ['name']) ?? code
     const enabled = getBoolean(record, ['enabled', 'isEnabled'], true)
-    const exchangeRateValue = getNumber(record, ['exchangeRate', 'ratio', 'rate'], 1)
-    const exchangeRate = formatNumberValue(exchangeRateValue, numberFormatter.value)
+    const exchangeRateValue = getNumber(
+      record,
+      ['exchangeRate', 'ratio', 'rate'],
+      1,
+    )
+    const exchangeRate = formatNumberValue(
+      exchangeRateValue,
+      numberFormatter.value,
+    )
     const updatedAt = formatDateValue(
       record?.updatedAt,
       dateFormatter.value,

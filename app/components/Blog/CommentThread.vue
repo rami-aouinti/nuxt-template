@@ -101,7 +101,9 @@ const requestDelete = (comment: BlogCommentViewModel) => {
   emit('delete-comment', comment)
 }
 
-const buildCommentMenuItems = (comment: BlogCommentViewModel): CommentMenuItem[] => {
+const buildCommentMenuItems = (
+  comment: BlogCommentViewModel,
+): CommentMenuItem[] => {
   const busy = isCommentBusy(comment)
 
   const items: CommentMenuItem[] = [

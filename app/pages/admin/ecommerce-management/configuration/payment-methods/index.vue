@@ -21,10 +21,26 @@ definePageMeta({
 const { t, locale } = useI18n()
 
 const headers = computed(() => [
-  { title: t('admin.ecommerce.configuration.paymentMethods.table.name'), key: 'name', minWidth: 220 },
-  { title: t('admin.ecommerce.configuration.paymentMethods.table.code'), key: 'code', minWidth: 140 },
-  { title: t('admin.ecommerce.configuration.paymentMethods.table.gateway'), key: 'gateway', minWidth: 160 },
-  { title: t('admin.ecommerce.configuration.paymentMethods.table.channels'), key: 'channels', minWidth: 220 },
+  {
+    title: t('admin.ecommerce.configuration.paymentMethods.table.name'),
+    key: 'name',
+    minWidth: 220,
+  },
+  {
+    title: t('admin.ecommerce.configuration.paymentMethods.table.code'),
+    key: 'code',
+    minWidth: 140,
+  },
+  {
+    title: t('admin.ecommerce.configuration.paymentMethods.table.gateway'),
+    key: 'gateway',
+    minWidth: 160,
+  },
+  {
+    title: t('admin.ecommerce.configuration.paymentMethods.table.channels'),
+    key: 'channels',
+    minWidth: 220,
+  },
   {
     title: t('admin.ecommerce.configuration.paymentMethods.table.enabled'),
     key: 'enabled',
@@ -53,7 +69,8 @@ const rows = computed(() => {
   const entries = normalizeHydraCollection(rawPaymentMethods.value)
   return entries.map((entry, index) => {
     const record = toRecord(entry)
-    const code = getString(record, ['code', 'id', '@id']) ?? `payment-method-${index + 1}`
+    const code =
+      getString(record, ['code', 'id', '@id']) ?? `payment-method-${index + 1}`
     const name =
       resolveLocalizedString(record, locale, ['name']) ??
       getString(record, ['name']) ??
@@ -77,7 +94,8 @@ const rows = computed(() => {
       code,
       name,
       gateway,
-      channels: channels.filter(Boolean).join(', ') || t('admin.ecommerce.common.none'),
+      channels:
+        channels.filter(Boolean).join(', ') || t('admin.ecommerce.common.none'),
       enabled,
     }
   })

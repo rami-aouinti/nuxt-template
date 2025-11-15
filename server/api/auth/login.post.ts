@@ -75,7 +75,7 @@ export default defineEventHandler(async (event) => {
         login: loginResponse.profile.username,
         avatar_url:
           (typeof loginResponse.profile.photo === 'string' &&
-          loginResponse.profile.photo) ||
+            loginResponse.profile.photo) ||
           'https://bro-world-space.com/img/person.png',
       },
       token: loginResponse.token,

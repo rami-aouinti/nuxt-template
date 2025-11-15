@@ -1,6 +1,9 @@
 import { readBody } from 'h3'
 
-import { broWorldEcommerceRequest, getEcommerceAcceptLanguage } from '~~/server/utils/broWorldEcommerceApi'
+import {
+  broWorldEcommerceRequest,
+  getEcommerceAcceptLanguage,
+} from '~~/server/utils/broWorldEcommerceApi'
 import { requireRouteParam } from '~~/server/utils/crud'
 
 type ProvincePayload = Record<string, unknown>
@@ -9,7 +12,11 @@ type ProvinceResponse = Record<string, unknown>
 
 export default defineEventHandler(async (event) => {
   const countryCode = requireRouteParam(event, 'countryCode', 'du pays')
-  const provinceCode = requireRouteParam(event, 'provinceCode', 'de la province')
+  const provinceCode = requireRouteParam(
+    event,
+    'provinceCode',
+    'de la province',
+  )
   const body = await readBody<ProvincePayload>(event)
 
   const acceptLanguage = getEcommerceAcceptLanguage(event)

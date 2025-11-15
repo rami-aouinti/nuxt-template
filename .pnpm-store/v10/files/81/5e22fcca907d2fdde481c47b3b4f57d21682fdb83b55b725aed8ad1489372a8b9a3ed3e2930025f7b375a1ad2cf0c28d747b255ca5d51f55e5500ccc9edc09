@@ -1,0 +1,20 @@
+{
+  "name": "ddd",
+  "version": "0.0.4",
+  "description": "",
+  "main": "main.sh",
+  "bin": {
+    "ddd": "./main.sh"
+  },
+  "dependencies": {
+    "d3": "~3.4.7",
+    "express": "~4.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Victor Powell <vicapow@gmail.com>",
+  "license": "BSD-2-Clause"
+}

@@ -25,10 +25,10 @@ export interface GatewayConfigSyliusAdminPaymentMethodUpdate {
   config?: Array<string | null>
 }
 
-export interface GatewayConfigJsonld
-  extends GatewayConfig,
-    JsonLdResource {}
+export interface GatewayConfigJsonld extends GatewayConfig, JsonLdResource {}
 
-export type GatewayConfigJsonldSyliusAdminPaymentMethodIndex = GatewayConfigJsonld
+export type GatewayConfigJsonldSyliusAdminPaymentMethodIndex =
+  GatewayConfigJsonld
 
-export type GatewayConfigJsonldSyliusAdminPaymentMethodShow = GatewayConfigJsonld
+export type GatewayConfigJsonldSyliusAdminPaymentMethodShow =
+  GatewayConfigJsonld

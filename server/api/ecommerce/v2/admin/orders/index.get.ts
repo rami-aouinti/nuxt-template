@@ -11,7 +11,9 @@ export default defineEventHandler(async (event) => {
   const queryString = buildQueryString(query as Record<string, unknown>)
 
   const acceptLanguage = getEcommerceAcceptLanguage(event)
-  const headers = acceptLanguage ? { 'Accept-Language': acceptLanguage } : undefined
+  const headers = acceptLanguage
+    ? { 'Accept-Language': acceptLanguage }
+    : undefined
 
   return await broWorldEcommerceRequest(event, `/admin/orders${queryString}`, {
     headers,

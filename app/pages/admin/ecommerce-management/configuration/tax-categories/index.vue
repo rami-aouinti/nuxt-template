@@ -19,8 +19,16 @@ definePageMeta({
 const { t, locale } = useI18n()
 
 const headers = computed(() => [
-  { title: t('admin.ecommerce.configuration.taxCategories.table.name'), key: 'name', minWidth: 220 },
-  { title: t('admin.ecommerce.configuration.taxCategories.table.code'), key: 'code', minWidth: 140 },
+  {
+    title: t('admin.ecommerce.configuration.taxCategories.table.name'),
+    key: 'name',
+    minWidth: 220,
+  },
+  {
+    title: t('admin.ecommerce.configuration.taxCategories.table.code'),
+    key: 'code',
+    minWidth: 140,
+  },
   {
     title: t('admin.ecommerce.configuration.taxCategories.table.description'),
     key: 'description',
@@ -48,7 +56,8 @@ const rows = computed(() => {
   const entries = normalizeHydraCollection(rawCategories.value)
   return entries.map((entry, index) => {
     const record = toRecord(entry)
-    const code = getString(record, ['code', 'id', '@id']) ?? `tax-category-${index + 1}`
+    const code =
+      getString(record, ['code', 'id', '@id']) ?? `tax-category-${index + 1}`
     const name =
       resolveLocalizedString(record, locale, ['name']) ??
       getString(record, ['name']) ??

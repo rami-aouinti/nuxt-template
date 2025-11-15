@@ -33,9 +33,7 @@ export type ExchangeRateSyliusShopExchangeRateIndex = ExchangeRate
 
 export type ExchangeRateSyliusShopExchangeRateShow = ExchangeRate
 
-export interface ExchangeRateJsonld
-  extends ExchangeRate,
-    JsonLdResource {}
+export interface ExchangeRateJsonld extends ExchangeRate, JsonLdResource {}
 
 export type ExchangeRateJsonldSyliusAdminExchangeRateIndex = ExchangeRateJsonld
 

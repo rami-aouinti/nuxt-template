@@ -1,6 +1,9 @@
 import { readBody } from 'h3'
 
-import { broWorldEcommerceRequest, getEcommerceAcceptLanguage } from '~~/server/utils/broWorldEcommerceApi'
+import {
+  broWorldEcommerceRequest,
+  getEcommerceAcceptLanguage,
+} from '~~/server/utils/broWorldEcommerceApi'
 import { requireRouteParam } from '~~/server/utils/crud'
 
 type ProductAssociationTypePayload = Record<string, unknown>
@@ -8,7 +11,11 @@ type ProductAssociationTypePayload = Record<string, unknown>
 type ProductAssociationTypeResponse = Record<string, unknown>
 
 export default defineEventHandler(async (event) => {
-  const code = requireRouteParam(event, 'code', "du type d'association de produits")
+  const code = requireRouteParam(
+    event,
+    'code',
+    "du type d'association de produits",
+  )
   const body = await readBody<ProductAssociationTypePayload>(event)
 
   const acceptLanguage = getEcommerceAcceptLanguage(event)

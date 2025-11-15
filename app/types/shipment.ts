@@ -55,13 +55,15 @@ export interface ShipmentJsonldSyliusAdminOrderIndex
   extends ShipmentJsonld,
     ShipmentSyliusAdminOrderIndex {}
 
-export type ShipmentJsonldSyliusAdminOrderShow = ShipmentJsonldSyliusAdminOrderIndex
+export type ShipmentJsonldSyliusAdminOrderShow =
+  ShipmentJsonldSyliusAdminOrderIndex
 
 export interface ShipmentJsonldSyliusAdminShipmentIndex
   extends ShipmentJsonld,
     ShipmentSyliusAdminShipmentIndex {}
 
-export type ShipmentJsonldSyliusAdminShipmentShow = ShipmentJsonldSyliusAdminShipmentIndex
+export type ShipmentJsonldSyliusAdminShipmentShow =
+  ShipmentJsonldSyliusAdminShipmentIndex
 
 export interface ShipmentJsonldSyliusShopCartShow
   extends JsonLdResource,
@@ -158,6 +160,8 @@ export interface ShipmentInterfaceAdjustment extends AdjustmentInterface {
   orderItemUnit?: string | null
 }
 
-export type ShipmentInterfaceJsonldSyliusAdminShipmentIndex = ShipmentInterfaceJsonld
+export type ShipmentInterfaceJsonldSyliusAdminShipmentIndex =
+  ShipmentInterfaceJsonld
 
-export type ShipmentInterfaceJsonldSyliusAdminShipmentShow = ShipmentInterfaceJsonld
+export type ShipmentInterfaceJsonldSyliusAdminShipmentShow =
+  ShipmentInterfaceJsonld

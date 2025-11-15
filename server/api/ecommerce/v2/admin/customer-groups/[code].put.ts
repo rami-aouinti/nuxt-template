@@ -1,6 +1,9 @@
 import { readBody } from 'h3'
 
-import { broWorldEcommerceRequest, getEcommerceAcceptLanguage } from '~~/server/utils/broWorldEcommerceApi'
+import {
+  broWorldEcommerceRequest,
+  getEcommerceAcceptLanguage,
+} from '~~/server/utils/broWorldEcommerceApi'
 import { requireRouteParam } from '~~/server/utils/crud'
 
 type CustomerGroupPayload = Record<string, unknown>
@@ -8,7 +11,11 @@ type CustomerGroupPayload = Record<string, unknown>
 type CustomerGroupResponse = Record<string, unknown>
 
 export default defineEventHandler(async (event) => {
-  const code = requireRouteParam(event, 'code', 'Code du groupe client manquant')
+  const code = requireRouteParam(
+    event,
+    'code',
+    'Code du groupe client manquant',
+  )
   const body = await readBody<CustomerGroupPayload>(event)
 
   const acceptLanguage = getEcommerceAcceptLanguage(event)

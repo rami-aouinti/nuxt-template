@@ -25,7 +25,7 @@ const isRecord = (value: unknown): value is UnknownRecord =>
   Boolean(value && typeof value === 'object' && !Array.isArray(value))
 
 const toRecord = (value: unknown): UnknownRecord | null =>
-  (isRecord(value) ? (value as UnknownRecord) : null)
+  isRecord(value) ? (value as UnknownRecord) : null
 
 const getFirstQueryParam = (value: unknown): string | null => {
   if (Array.isArray(value)) {
@@ -225,7 +225,9 @@ const formattedCheckoutDate = computed(() => {
   )
 })
 
-const currencyCode = computed(() => getString(orderRecord.value, 'currencyCode') ?? 'USD')
+const currencyCode = computed(
+  () => getString(orderRecord.value, 'currencyCode') ?? 'USD',
+)
 
 const amountFormatter = computed(() => {
   try {
@@ -252,7 +254,9 @@ const formatAmount = (value: number | null | undefined) => {
   }
 }
 
-const fallbackItemName = computed(() => t('pages.ecommerceThankYou.itemFallback'))
+const fallbackItemName = computed(() =>
+  t('pages.ecommerceThankYou.itemFallback'),
+)
 
 const orderItemsRecords = computed<UnknownRecord[]>(() => {
   const current = orderRecord.value
@@ -289,9 +293,7 @@ const normalizedOrderItems = computed<NormalizedOrderItem[]>(() =>
       getString(item, 'variant') ??
       getString(toRecord(item['variant']), 'name')
 
-    const quantity =
-      getNumber(item, 'quantity') ??
-      getNumber(item, 'count')
+    const quantity = getNumber(item, 'quantity') ?? getNumber(item, 'count')
 
     const total = normalizeAmount(item['total'])
     const unitPrice =
@@ -509,7 +511,9 @@ const shippingAddressSource = computed(() => {
   return null
 })
 
-const billingAddressSource = computed(() => orderRecord.value?.billingAddress ?? null)
+const billingAddressSource = computed(
+  () => orderRecord.value?.billingAddress ?? null,
+)
 
 const shippingAddressLines = computed(() =>
   extractAddressLines(shippingAddressSource.value),
@@ -591,17 +595,13 @@ const contactPhone = computed(() => {
   return null
 })
 
-const hasContactDetails = computed(
-  () => Boolean(contactEmail.value || contactPhone.value),
+const hasContactDetails = computed(() =>
+  Boolean(contactEmail.value || contactPhone.value),
 )
 
-const hasShippingAddress = computed(
-  () => shippingAddressLines.value.length > 0,
-)
+const hasShippingAddress = computed(() => shippingAddressLines.value.length > 0)
 
-const hasBillingAddress = computed(
-  () => billingAddressLines.value.length > 0,
-)
+const hasBillingAddress = computed(() => billingAddressLines.value.length > 0)
 
 const orderNumberLabel = computed(() => {
   const number = getString(orderRecord.value, 'number')
@@ -628,7 +628,8 @@ const orderErrorMessage = computed(() => {
     return err
   }
 
-  const statusMessage = (err as Partial<{ statusMessage: string }>).statusMessage
+  const statusMessage = (err as Partial<{ statusMessage: string }>)
+    .statusMessage
   if (typeof statusMessage === 'string') {
     return statusMessage
   }
@@ -656,11 +657,7 @@ const scrollToSummary = () => {
           variant="flat"
         >
           <div class="thank-you-hero__icon mb-6">
-            <v-icon
-              icon="mdi-check-circle-outline"
-              size="64"
-              color="primary"
-            />
+            <v-icon icon="mdi-check-circle-outline" size="64" color="primary" />
           </div>
           <h1 class="thank-you-hero__title mb-3">
             {{ t('pages.ecommerceThankYou.heroTitle') }}
@@ -737,13 +734,28 @@ const scrollToSummary = () => {
                   </p>
                 </div>
                 <div class="thank-you-summary__status d-flex flex-wrap ga-2">
-                  <v-chip v-if="orderState" color="primary" size="small" variant="flat">
+                  <v-chip
+                    v-if="orderState"
+                    color="primary"
+                    size="small"
+                    variant="flat"
+                  >
                     {{ orderState }}
                   </v-chip>
-                  <v-chip v-if="paymentState" color="success" size="small" variant="tonal">
+                  <v-chip
+                    v-if="paymentState"
+                    color="success"
+                    size="small"
+                    variant="tonal"
+                  >
                     {{ paymentState }}
                   </v-chip>
-                  <v-chip v-if="shippingState" color="info" size="small" variant="tonal">
+                  <v-chip
+                    v-if="shippingState"
+                    color="info"
+                    size="small"
+                    variant="tonal"
+                  >
                     {{ shippingState }}
                   </v-chip>
                 </div>
@@ -765,12 +777,7 @@ const scrollToSummary = () => {
               </v-alert>
 
               <template v-else>
-                <v-alert
-                  v-if="error"
-                  type="error"
-                  variant="tonal"
-                  class="mb-6"
-                >
+                <v-alert v-if="error" type="error" variant="tonal" class="mb-6">
                   <div class="font-weight-medium mb-1">
                     {{ t('pages.ecommerceThankYou.loadError') }}
                   </div>
@@ -827,9 +834,11 @@ const scrollToSummary = () => {
                             v-if="item.unitLabel"
                             class="thank-you-summary__item-unit text-caption text-medium-emphasis mb-0"
                           >
-                            {{ t('pages.ecommerceThankYou.unitPrice', {
-                              price: item.unitLabel,
-                            }) }}
+                            {{
+                              t('pages.ecommerceThankYou.unitPrice', {
+                                price: item.unitLabel,
+                              })
+                            }}
                           </p>
                         </div>
                         <div class="thank-you-summary__item-meta text-end">
@@ -838,7 +847,9 @@ const scrollToSummary = () => {
                               × {{ item.quantity }}
                             </strong>
                           </p>
-                          <p class="thank-you-summary__item-total text-body-2 mb-0">
+                          <p
+                            class="thank-you-summary__item-total text-body-2 mb-0"
+                          >
                             {{ item.totalLabel ?? '—' }}
                           </p>
                         </div>
@@ -851,23 +862,39 @@ const scrollToSummary = () => {
                       {{ t('pages.ecommerceThankYou.totals') }}
                     </h3>
                     <div class="thank-you-summary__totals-grid">
-                      <div v-if="subtotalLabel" class="thank-you-summary__totals-row">
+                      <div
+                        v-if="subtotalLabel"
+                        class="thank-you-summary__totals-row"
+                      >
                         <span>{{ t('pages.ecommerceThankYou.subtotal') }}</span>
                         <span>{{ subtotalLabel }}</span>
                       </div>
-                      <div v-if="shippingLabel" class="thank-you-summary__totals-row">
+                      <div
+                        v-if="shippingLabel"
+                        class="thank-you-summary__totals-row"
+                      >
                         <span>{{ t('pages.ecommerceThankYou.shipping') }}</span>
                         <span>{{ shippingLabel }}</span>
                       </div>
-                      <div v-if="shippingMethod" class="thank-you-summary__totals-row text-medium-emphasis">
-                        <span>{{ t('pages.ecommerceThankYou.shippingMethod') }}</span>
+                      <div
+                        v-if="shippingMethod"
+                        class="thank-you-summary__totals-row text-medium-emphasis"
+                      >
+                        <span>{{
+                          t('pages.ecommerceThankYou.shippingMethod')
+                        }}</span>
                         <span>{{ shippingMethod }}</span>
                       </div>
-                      <div v-if="taxLabel" class="thank-you-summary__totals-row">
+                      <div
+                        v-if="taxLabel"
+                        class="thank-you-summary__totals-row"
+                      >
                         <span>{{ t('pages.ecommerceThankYou.tax') }}</span>
                         <span>{{ taxLabel }}</span>
                       </div>
-                      <div class="thank-you-summary__totals-row thank-you-summary__totals-row--total">
+                      <div
+                        class="thank-you-summary__totals-row thank-you-summary__totals-row--total"
+                      >
                         <span>{{ t('pages.ecommerceThankYou.total') }}</span>
                         <span>{{ totalLabel ?? '—' }}</span>
                       </div>
@@ -875,7 +902,10 @@ const scrollToSummary = () => {
                   </section>
 
                   <section class="thank-you-summary__details">
-                    <div v-if="hasContactDetails" class="thank-you-summary__detail-card">
+                    <div
+                      v-if="hasContactDetails"
+                      class="thank-you-summary__detail-card"
+                    >
                       <h3 class="text-subtitle-1 font-weight-semibold mb-3">
                         {{ t('pages.ecommerceThankYou.contact') }}
                       </h3>

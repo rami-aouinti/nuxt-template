@@ -977,1725 +977,1724 @@
           "title": "Customer groups",
           "subtitle": "Organize customers into shared pricing or perks.",
           "table": {
-          "name": "Name",
-          "code": "Code",
-          "members": "Members"
-        }
-      },
-      "cartPromotions": {
-        "title": "Cart promotions",
-        "subtitle": "Monitor discounts triggered during checkout.",
-        "table": {
-          "name": "Name",
-          "code": "Code",
-          "coupons": "Coupons",
-          "startsAt": "Starts at",
-          "endsAt": "Ends at",
-          "enabled": "State",
-          "noCoupons": "No coupons",
-          "unlimited": "Unlimited"
-        }
-      },
-      "catalogPromotions": {
-        "title": "Catalog promotions",
-        "subtitle": "Track automated discounts applied directly to products.",
-        "table": {
-          "name": "Name",
-          "code": "Code",
-          "channels": "Channels",
-          "startDate": "Start date",
-          "endDate": "End date",
-          "state": "State",
-          "noChannels": "No channels",
-          "active": "Active",
-          "inactive": "Inactive"
-        }
-      },
-      "productReviews": {
-        "title": "Product reviews",
-        "subtitle": "Moderate customer feedback across the catalog.",
-        "table": {
-          "rating": "Rating",
-          "title": "Title",
-          "product": "Product",
-          "customer": "Customer",
-          "state": "State",
-          "createdAt": "Created at"
+            "name": "Name",
+            "code": "Code",
+            "members": "Members"
+          }
         },
-        "noTitle": "No title",
-        "anonymous": "Anonymous",
-        "states": {
-          "accepted": "Accepted",
-          "rejected": "Rejected",
-          "pending": "Pending review"
+        "cartPromotions": {
+          "title": "Cart promotions",
+          "subtitle": "Monitor discounts triggered during checkout.",
+          "table": {
+            "name": "Name",
+            "code": "Code",
+            "coupons": "Coupons",
+            "startsAt": "Starts at",
+            "endsAt": "Ends at",
+            "enabled": "State",
+            "noCoupons": "No coupons",
+            "unlimited": "Unlimited"
+          }
+        },
+        "catalogPromotions": {
+          "title": "Catalog promotions",
+          "subtitle": "Track automated discounts applied directly to products.",
+          "table": {
+            "name": "Name",
+            "code": "Code",
+            "channels": "Channels",
+            "startDate": "Start date",
+            "endDate": "End date",
+            "state": "State",
+            "noChannels": "No channels",
+            "active": "Active",
+            "inactive": "Inactive"
+          }
+        },
+        "productReviews": {
+          "title": "Product reviews",
+          "subtitle": "Moderate customer feedback across the catalog.",
+          "table": {
+            "rating": "Rating",
+            "title": "Title",
+            "product": "Product",
+            "customer": "Customer",
+            "state": "State",
+            "createdAt": "Created at"
+          },
+          "noTitle": "No title",
+          "anonymous": "Anonymous",
+          "states": {
+            "accepted": "Accepted",
+            "rejected": "Rejected",
+            "pending": "Pending review"
+          }
         }
       }
-    }
-  },
-  "auth": {
-    "profile": "Профиль",
-    "login": "Войти",
-    "loginWithGithub": "Войти через GitHub",
-    "loginWithGoogle": "Войти через Google",
-    "loginWithFacebook": "Войти через Facebook",
-    "loginWithCredentials": "Войти по учётным данным",
-    "loginSubtitle": "С возвращением! Войдите, чтобы продолжить.",
-    "oauthSignInPrompt": "Выберите одного из провайдеров ниже, чтобы продолжить.",
-    "credentialsSignInPrompt": "Или",
-    "credentialsRegisterPrompt": "Используйте email и пароль, чтобы создать аккаунт.",
-    "register": "Создать аккаунт",
-    "registerSubtitle": "Присоединяйтесь к сообществу за пару шагов.",
-    "logout": "Выйти",
-    "loginSuccess": "Вход выполнен успешно",
-    "logoutSuccess": "Выход выполнен успешно",
-    "loginRequired": "Необходимо войти, чтобы получить доступ к этой странице.",
-    "adminOnly": "Доступ только для администраторов.",
-    "loginFailed": "Ошибка аутентификации.",
-    "registerFailed": "Не удалось зарегистрироваться.",
-    "registerSuccess": "Аккаунт успешно создан.",
-    "guest": "Пользователь",
-    "username": "Имя пользователя",
-    "password": "Пароль",
-    "email": "Электронная почта",
-    "repeatPassword": "Подтвердите пароль",
-    "passwordMismatch": "Пароли не совпадают.",
-    "noAccountPrompt": "Еще нет аккаунта?",
-    "haveAccountPrompt": "Уже есть аккаунт?",
-    "switchToRegister": "Зарегистрироваться",
-    "switchToLogin": "Войти",
-    "registerAction": "Создать аккаунт"
-  },
-  "common": {
-    "unexpectedError": "Произошла непредвиденная ошибка.",
-    "actions": {
-      "cancel": "Отмена",
-      "create": "Создать",
-      "save": "Сохранить",
-      "edit": "Редактировать",
-      "close": "Закрыть",
-      "back": "Назад",
-      "continue": "Продолжить",
-      "delete": "Удалить",
-      "link": "Связать",
-      "share": "Поделиться",
-      "remove": "Remove"
     },
-    "labels": {
-      "all": "Все",
-      "search": "Поиск",
-      "group": "Группа",
-      "user": "Пользователь",
-      "export": "Экспорт",
-      "exportPdf": "Экспорт в PDF",
-      "exportExcel": "Экспорт в Excel",
-      "yes": "Yes",
-      "no": "No"
+    "auth": {
+      "profile": "Профиль",
+      "login": "Войти",
+      "loginWithGithub": "Войти через GitHub",
+      "loginWithGoogle": "Войти через Google",
+      "loginWithFacebook": "Войти через Facebook",
+      "loginWithCredentials": "Войти по учётным данным",
+      "loginSubtitle": "С возвращением! Войдите, чтобы продолжить.",
+      "oauthSignInPrompt": "Выберите одного из провайдеров ниже, чтобы продолжить.",
+      "credentialsSignInPrompt": "Или",
+      "credentialsRegisterPrompt": "Используйте email и пароль, чтобы создать аккаунт.",
+      "register": "Создать аккаунт",
+      "registerSubtitle": "Присоединяйтесь к сообществу за пару шагов.",
+      "logout": "Выйти",
+      "loginSuccess": "Вход выполнен успешно",
+      "logoutSuccess": "Выход выполнен успешно",
+      "loginRequired": "Необходимо войти, чтобы получить доступ к этой странице.",
+      "adminOnly": "Доступ только для администраторов.",
+      "loginFailed": "Ошибка аутентификации.",
+      "registerFailed": "Не удалось зарегистрироваться.",
+      "registerSuccess": "Аккаунт успешно создан.",
+      "guest": "Пользователь",
+      "username": "Имя пользователя",
+      "password": "Пароль",
+      "email": "Электронная почта",
+      "repeatPassword": "Подтвердите пароль",
+      "passwordMismatch": "Пароли не совпадают.",
+      "noAccountPrompt": "Еще нет аккаунта?",
+      "haveAccountPrompt": "Уже есть аккаунт?",
+      "switchToRegister": "Зарегистрироваться",
+      "switchToLogin": "Войти",
+      "registerAction": "Создать аккаунт"
     },
-    "placeholders": {
-      "selectGroup": "Выберите группу",
-      "selectUser": "Выберите пользователя",
-      "selectWorkplace": "Выберите рабочее пространство"
-    },
-    "pagination": {
-      "rowsPerPage": "Строк на странице",
-      "range": "Показаны {start}–{end} из {total}"
-    }
-  },
-  "profile": {
-    "updateSuccess": "Профиль успешно обновлён.",
-    "updateFailed": "Не удалось обновить профиль.",
-    "page": {
-      "edit": {
-        "title": "Редактирование профиля",
-        "description": "Обновите личную информацию, чтобы поддерживать актуальность профиля на платформе."
+    "common": {
+      "unexpectedError": "Произошла непредвиденная ошибка.",
+      "actions": {
+        "cancel": "Отмена",
+        "create": "Создать",
+        "save": "Сохранить",
+        "edit": "Редактировать",
+        "close": "Закрыть",
+        "back": "Назад",
+        "continue": "Продолжить",
+        "delete": "Удалить",
+        "link": "Связать",
+        "share": "Поделиться",
+        "remove": "Remove"
       },
-      "alerts": {
-        "emptyProfile": "Данные профиля недоступны. Войдите, чтобы просмотреть информацию."
+      "labels": {
+        "all": "Все",
+        "search": "Поиск",
+        "group": "Группа",
+        "user": "Пользователь",
+        "export": "Экспорт",
+        "exportPdf": "Экспорт в PDF",
+        "exportExcel": "Экспорт в Excel",
+        "yes": "Yes",
+        "no": "No"
       },
-      "avatar": {
-        "alt": "Фото профиля"
+      "placeholders": {
+        "selectGroup": "Выберите группу",
+        "selectUser": "Выберите пользователя",
+        "selectWorkplace": "Выберите рабочее пространство"
+      },
+      "pagination": {
+        "rowsPerPage": "Строк на странице",
+        "range": "Показаны {start}–{end} из {total}"
       }
     },
-    "fields": {
-      "title": "Должность",
-      "gender": "Пол",
-      "phone": "Телефон",
-      "address": "Адрес",
-      "birthday": "Дата рождения",
-      "description": "Описание",
-      "photo": "Фото профиля",
-      "userId": "Идентификатор пользователя"
+    "profile": {
+      "updateSuccess": "Профиль успешно обновлён.",
+      "updateFailed": "Не удалось обновить профиль.",
+      "page": {
+        "edit": {
+          "title": "Редактирование профиля",
+          "description": "Обновите личную информацию, чтобы поддерживать актуальность профиля на платформе."
+        },
+        "alerts": {
+          "emptyProfile": "Данные профиля недоступны. Войдите, чтобы просмотреть информацию."
+        },
+        "avatar": {
+          "alt": "Фото профиля"
+        }
+      },
+      "fields": {
+        "title": "Должность",
+        "gender": "Пол",
+        "phone": "Телефон",
+        "address": "Адрес",
+        "birthday": "Дата рождения",
+        "description": "Описание",
+        "photo": "Фото профиля",
+        "userId": "Идентификатор пользователя"
+      },
+      "sections": {
+        "personalInfo": {
+          "title": "Личная информация"
+        },
+        "details": {
+          "title": "Детали профиля"
+        },
+        "roles": {
+          "title": "Роли",
+          "empty": "Роли ещё не назначены."
+        },
+        "plugins": {
+          "title": "Плагины рабочего пространства",
+          "description": "Включайте нужные инструменты и настраивайте рабочее пространство.",
+          "empty": "Плагины пока недоступны.",
+          "status": {
+            "active": "Активен",
+            "inactive": "Неактивен"
+          },
+          "pricing": {
+            "free": "Бесплатно",
+            "paid": "Платно"
+          },
+          "actions": {
+            "refresh": "Обновить",
+            "activate": "Активировать",
+            "deactivate": "Отключить",
+            "open": "Открыть",
+            "install": "Установить"
+          },
+          "notifications": {
+            "toggleSuccess": "Статус «{name}» обновлён."
+          },
+          "errors": {
+            "loadFailed": "Не удалось загрузить плагины. Попробуйте позже.",
+            "toggleFailed": "Не удалось обновить этот плагин. Попробуйте позже."
+          }
+        },
+        "settings": {
+          "title": "Настройки"
+        }
+      },
+      "orders": {
+        "page": {
+          "title": "История заказов",
+          "subtitle": "Просматривайте предыдущие покупки и управляйте незавершёнными платежами."
+        },
+        "table": {
+          "number": "Номер",
+          "date": "Дата",
+          "shipTo": "Доставка",
+          "total": "Сумма",
+          "state": "Статус",
+          "actions": "Действия",
+          "empty": "У вас пока нет заказов."
+        },
+        "actions": {
+          "refresh": "Обновить",
+          "show": "Просмотр",
+          "pay": "Оплатить",
+          "retry": "Повторить"
+        },
+        "states": {
+          "new": "Новый",
+          "cancelled": "Отменён",
+          "fulfilled": "Отправлен",
+          "completed": "Завершён",
+          "processing": "В обработке",
+          "cart": "В корзине",
+          "unknown": "Неизвестно"
+        },
+        "notifications": {
+          "loadFailed": "Не удалось загрузить ваши заказы. Попробуйте позже.",
+          "detailsLoadFailed": "Не удалось загрузить детали заказа. Попробуйте позже.",
+          "paymentConfigMissing": "Для этого заказа не найдено ссылки на оплату.",
+          "paymentOpenFailed": "Не удалось открыть страницу оплаты. Попробуйте позже."
+        },
+        "labels": {
+          "shipToUnknown": "Ожидает назначения"
+        },
+        "details": {
+          "title": "Детали заказа",
+          "placedOn": "Оформлен",
+          "updatedAt": "Обновлён",
+          "itemsTotal": "Товары",
+          "shippingTotal": "Доставка",
+          "taxTotal": "Налоги",
+          "total": "Итого",
+          "customer": "Клиент",
+          "email": "Email",
+          "phone": "Телефон",
+          "shippingAddress": "Адрес доставки",
+          "billingAddress": "Платёжный адрес",
+          "addressUnavailable": "Нет данных",
+          "loading": "Загрузка деталей заказа…"
+        }
+      },
+      "settings": {
+        "allowSendEmail": {
+          "title": "Получать электронные письма",
+          "description": "Разрешить платформе отправлять обновления и оповещения по электронной почте."
+        },
+        "allowNotification": {
+          "title": "Включить уведомления в приложении",
+          "description": "Получать уведомления непосредственно в приложении."
+        },
+        "actions": {
+          "refresh": "Обновить"
+        },
+        "notifications": {
+          "updateSuccess": "Настройка успешно обновлена."
+        },
+        "errors": {
+          "loadFailed": "Не удалось загрузить ваши настройки. Повторите попытку позже.",
+          "saveFailed": "Не удалось сохранить ваши настройки. Повторите попытку позже.",
+          "metadataMissing": "Не удалось определить идентификаторы, необходимые для сохранения этих настроек.",
+          "noConfiguration": "Сохранённые настройки пока не найдены."
+        }
+      },
+      "notifications": {
+        "page": {
+          "title": "Уведомления",
+          "subtitle": "Просматривайте последние уведомления и оставайтесь в курсе."
+        },
+        "actions": {
+          "refresh": "Обновить"
+        },
+        "states": {
+          "loading": "Загрузка уведомлений…",
+          "retry": "Повторить попытку",
+          "error": "Не удалось загрузить ваши уведомления. Попробуйте позже.",
+          "empty": "Вы в курсе всех событий! Нет уведомлений для отображения."
+        },
+        "labels": {
+          "unread": "Непрочитано",
+          "receivedAt": "Получено {date}"
+        },
+        "fallback": {
+          "title": "Уведомление"
+        }
+      },
+      "public": {
+        "page": {
+          "title": "Публичный профиль",
+          "description": "Просмотрите публичную информацию, которой поделился этот участник."
+        },
+        "actions": {
+          "retry": "Повторить",
+          "message": "Сообщение"
+        },
+        "errors": {
+          "load": "Не удалось загрузить профиль.",
+          "notFound": "Профиль не найден.",
+          "authenticationRequired": "Необходимо войти в систему, чтобы отправлять сообщения.",
+          "messengerUnavailable": "Не удалось открыть Messenger. Пожалуйста, повторите попытку позже."
+        },
+        "labels": {
+          "email": "Электронная почта",
+          "language": "Язык",
+          "locale": "Локаль",
+          "timezone": "Часовой пояс",
+          "enabled": "Активен",
+          "disabled": "Неактивен",
+          "friends": "Друзья",
+          "stories": "Истории",
+          "empty": "Нет данных"
+        }
+      },
+      "calendar": {
+        "page": {
+          "title": "Мой календарь",
+          "subtitle": "Просматривайте, создавайте и организуйте личные события."
+        },
+        "actions": {
+          "new": "Новое событие",
+          "refresh": "Обновить",
+          "delete": "Удалить событие"
+        },
+        "view": {
+          "month": "Месяц",
+          "week": "Неделя",
+          "day": "День"
+        },
+        "list": {
+          "title": "Ближайшие события",
+          "empty": "Пока нет запланированных событий."
+        },
+        "dialog": {
+          "createTitle": "Создать событие",
+          "editTitle": "Редактировать событие",
+          "submit": "Создать",
+          "save": "Сохранить",
+          "cancel": "Отмена"
+        },
+        "form": {
+          "title": "Название",
+          "description": "Описание",
+          "location": "Место",
+          "color": "Цвет",
+          "allDay": "Весь день",
+          "isPrivate": "Приватное событие",
+          "startDate": "Дата начала",
+          "startTime": "Время начала",
+          "endDate": "Дата окончания",
+          "endTime": "Время окончания"
+        },
+        "delete": {
+          "title": "Удалить событие",
+          "message": "Удалить это событие? Это действие нельзя отменить."
+        },
+        "notifications": {
+          "created": "Событие успешно создано.",
+          "updated": "Событие успешно обновлено.",
+          "deleted": "Событие успешно удалено.",
+          "genericError": "Не удалось обработать запрос. Попробуйте ещё раз."
+        },
+        "validation": {
+          "titleRequired": "Необходимо указать название.",
+          "startRequired": "Необходимо указать дату начала."
+        }
+      }
     },
-    "sections": {
-      "personalInfo": {
-        "title": "Личная информация"
-      },
-      "details": {
-        "title": "Детали профиля"
-      },
-      "roles": {
-        "title": "Роли",
-        "empty": "Роли ещё не назначены."
-      },
-      "plugins": {
-        "title": "Плагины рабочего пространства",
-        "description": "Включайте нужные инструменты и настраивайте рабочее пространство.",
-        "empty": "Плагины пока недоступны.",
+    "userManagement": {
+      "users": {
+        "notifications": {
+          "createSuccess": "Пользователь успешно создан.",
+          "updateSuccess": "Пользователь успешно обновлён.",
+          "attachSuccess": "Группа успешно привязана к пользователю.",
+          "detachSuccess": "Группа отвязана от пользователя.",
+          "deleteSuccess": "Пользователь успешно удалён."
+        },
+        "errors": {
+          "usernameEmailRequired": "Требуются имя пользователя и электронная почта.",
+          "passwordRequired": "Для создания нового пользователя требуется пароль.",
+          "createFailed": "Не удалось создать пользователя.",
+          "updateFailed": "Не удалось обновить пользователя.",
+          "openView": "Не удалось открыть детали этого пользователя.",
+          "loadDetails": "Не удалось получить детали пользователя.",
+          "loadGroups": "Не удалось получить группы пользователя.",
+          "selectGroup": "Выберите группу, чтобы привязать этого пользователя.",
+          "attachFailed": "Не удалось привязать эту группу к пользователю.",
+          "detachFailed": "Не удалось отвязать эту группу от пользователя.",
+          "deleteFailed": "Не удалось удалить пользователя."
+        },
+        "table": {
+          "username": "Имя пользователя",
+          "firstName": "Имя",
+          "lastName": "Фамилия",
+          "email": "Электронная почта",
+          "status": "Статус"
+        },
         "status": {
           "active": "Активен",
           "inactive": "Неактивен"
         },
-        "pricing": {
-          "free": "Бесплатно",
-          "paid": "Платно"
-        },
+        "cardTitle": "Управление пользователями",
         "actions": {
-          "refresh": "Обновить",
-          "activate": "Активировать",
-          "deactivate": "Отключить",
-          "open": "Открыть",
-          "install": "Установить"
+          "new": "Новый пользователь",
+          "viewTooltip": "Просмотреть {username}",
+          "editTooltip": "Редактировать {username}",
+          "deleteTooltip": "Удалить {username}"
         },
+        "alerts": {
+          "loadFailed": "Не удалось загрузить пользователей."
+        },
+        "fields": {
+          "username": "Имя пользователя",
+          "email": "Электронная почта",
+          "firstName": "Имя",
+          "lastName": "Фамилия",
+          "language": "Язык",
+          "locale": "Локаль",
+          "timezone": "Часовой пояс",
+          "password": "Пароль",
+          "newPassword": "Новый пароль (необязательно)",
+          "enabled": "Активный пользователь",
+          "status": "Статус"
+        },
+        "hints": {
+          "keepPassword": "Оставьте поле пустым, чтобы сохранить текущий пароль."
+        },
+        "labels": {
+          "userFallback": "этого пользователя"
+        },
+        "dialogs": {
+          "create": {
+            "title": "Создать пользователя"
+          },
+          "edit": {
+            "title": "Редактировать {username}"
+          },
+          "view": {
+            "title": "Детали пользователя"
+          },
+          "attachGroup": {
+            "title": "Привязать группу"
+          },
+          "delete": {
+            "title": "Удалить пользователя",
+            "warningPrefix": "Это действие нельзя отменить. Вы действительно хотите удалить",
+            "warningSuffix": "?"
+          }
+        },
+        "details": {
+          "groups": {
+            "title": "Группы",
+            "actions": {
+              "link": "Привязать группу"
+            },
+            "empty": "Нет привязанных групп."
+          },
+          "empty": "Пользователь не выбран."
+        },
+        "logs": {
+          "openDetail": "Открытие диалога деталей пользователя"
+        }
+      },
+      "groups": {
         "notifications": {
-          "toggleSuccess": "Статус «{name}» обновлён."
+          "createSuccess": "Группа пользователей успешно создана.",
+          "updateSuccess": "Группа пользователей успешно обновлена.",
+          "deleteSuccess": "Группа пользователей успешно удалена.",
+          "attachSuccess": "Пользователь привязан к группе.",
+          "detachSuccess": "Пользователь отвязан от группы."
         },
         "errors": {
-          "loadFailed": "Не удалось загрузить плагины. Попробуйте позже.",
-          "toggleFailed": "Не удалось обновить этот плагин. Попробуйте позже."
-        }
-      },
-      "settings": {
-        "title": "Настройки"
-      }
-    },
-    "orders": {
-      "page": {
-        "title": "История заказов",
-        "subtitle": "Просматривайте предыдущие покупки и управляйте незавершёнными платежами."
-      },
-      "table": {
-        "number": "Номер",
-        "date": "Дата",
-        "shipTo": "Доставка",
-        "total": "Сумма",
-        "state": "Статус",
-        "actions": "Действия",
-        "empty": "У вас пока нет заказов."
-      },
-      "actions": {
-        "refresh": "Обновить",
-        "show": "Просмотр",
-        "pay": "Оплатить",
-        "retry": "Повторить"
-      },
-      "states": {
-        "new": "Новый",
-        "cancelled": "Отменён",
-        "fulfilled": "Отправлен",
-        "completed": "Завершён",
-        "processing": "В обработке",
-        "cart": "В корзине",
-        "unknown": "Неизвестно"
-      },
-      "notifications": {
-        "loadFailed": "Не удалось загрузить ваши заказы. Попробуйте позже.",
-        "detailsLoadFailed": "Не удалось загрузить детали заказа. Попробуйте позже.",
-        "paymentConfigMissing": "Для этого заказа не найдено ссылки на оплату.",
-        "paymentOpenFailed": "Не удалось открыть страницу оплаты. Попробуйте позже."
-      },
-      "labels": {
-        "shipToUnknown": "Ожидает назначения"
-      },
-      "details": {
-        "title": "Детали заказа",
-        "placedOn": "Оформлен",
-        "updatedAt": "Обновлён",
-        "itemsTotal": "Товары",
-        "shippingTotal": "Доставка",
-        "taxTotal": "Налоги",
-        "total": "Итого",
-        "customer": "Клиент",
-        "email": "Email",
-        "phone": "Телефон",
-        "shippingAddress": "Адрес доставки",
-        "billingAddress": "Платёжный адрес",
-        "addressUnavailable": "Нет данных",
-        "loading": "Загрузка деталей заказа…"
-      }
-    },
-    "settings": {
-      "allowSendEmail": {
-        "title": "Получать электронные письма",
-        "description": "Разрешить платформе отправлять обновления и оповещения по электронной почте."
-      },
-      "allowNotification": {
-        "title": "Включить уведомления в приложении",
-        "description": "Получать уведомления непосредственно в приложении."
-      },
-      "actions": {
-        "refresh": "Обновить"
-      },
-      "notifications": {
-        "updateSuccess": "Настройка успешно обновлена."
-      },
-      "errors": {
-        "loadFailed": "Не удалось загрузить ваши настройки. Повторите попытку позже.",
-        "saveFailed": "Не удалось сохранить ваши настройки. Повторите попытку позже.",
-        "metadataMissing": "Не удалось определить идентификаторы, необходимые для сохранения этих настроек.",
-        "noConfiguration": "Сохранённые настройки пока не найдены."
-      }
-    },
-    "notifications": {
-      "page": {
-        "title": "Уведомления",
-        "subtitle": "Просматривайте последние уведомления и оставайтесь в курсе."
-      },
-      "actions": {
-        "refresh": "Обновить"
-      },
-      "states": {
-        "loading": "Загрузка уведомлений…",
-        "retry": "Повторить попытку",
-        "error": "Не удалось загрузить ваши уведомления. Попробуйте позже.",
-        "empty": "Вы в курсе всех событий! Нет уведомлений для отображения."
-      },
-      "labels": {
-        "unread": "Непрочитано",
-        "receivedAt": "Получено {date}"
-      },
-      "fallback": {
-        "title": "Уведомление"
-      }
-    },
-    "public": {
-      "page": {
-        "title": "Публичный профиль",
-        "description": "Просмотрите публичную информацию, которой поделился этот участник."
-      },
-      "actions": {
-        "retry": "Повторить",
-        "message": "Сообщение"
-      },
-      "errors": {
-        "load": "Не удалось загрузить профиль.",
-        "notFound": "Профиль не найден.",
-        "authenticationRequired": "Необходимо войти в систему, чтобы отправлять сообщения.",
-        "messengerUnavailable": "Не удалось открыть Messenger. Пожалуйста, повторите попытку позже."
-      },
-      "labels": {
-        "email": "Электронная почта",
-        "language": "Язык",
-        "locale": "Локаль",
-        "timezone": "Часовой пояс",
-        "enabled": "Активен",
-        "disabled": "Неактивен",
-        "friends": "Друзья",
-        "stories": "Истории",
-        "empty": "Нет данных"
-      }
-    },
-    "calendar": {
-      "page": {
-        "title": "Мой календарь",
-        "subtitle": "Просматривайте, создавайте и организуйте личные события."
-      },
-      "actions": {
-        "new": "Новое событие",
-        "refresh": "Обновить",
-        "delete": "Удалить событие"
-      },
-      "view": {
-        "month": "Месяц",
-        "week": "Неделя",
-        "day": "День"
-      },
-      "list": {
-        "title": "Ближайшие события",
-        "empty": "Пока нет запланированных событий."
-      },
-      "dialog": {
-        "createTitle": "Создать событие",
-        "editTitle": "Редактировать событие",
-        "submit": "Создать",
-        "save": "Сохранить",
-        "cancel": "Отмена"
-      },
-      "form": {
-        "title": "Название",
-        "description": "Описание",
-        "location": "Место",
-        "color": "Цвет",
-        "allDay": "Весь день",
-        "isPrivate": "Приватное событие",
-        "startDate": "Дата начала",
-        "startTime": "Время начала",
-        "endDate": "Дата окончания",
-        "endTime": "Время окончания"
-      },
-      "delete": {
-        "title": "Удалить событие",
-        "message": "Удалить это событие? Это действие нельзя отменить."
-      },
-      "notifications": {
-        "created": "Событие успешно создано.",
-        "updated": "Событие успешно обновлено.",
-        "deleted": "Событие успешно удалено.",
-        "genericError": "Не удалось обработать запрос. Попробуйте ещё раз."
-      },
-      "validation": {
-        "titleRequired": "Необходимо указать название.",
-        "startRequired": "Необходимо указать дату начала."
-      }
-    }
-  },
-  "userManagement": {
-    "users": {
-      "notifications": {
-        "createSuccess": "Пользователь успешно создан.",
-        "updateSuccess": "Пользователь успешно обновлён.",
-        "attachSuccess": "Группа успешно привязана к пользователю.",
-        "detachSuccess": "Группа отвязана от пользователя.",
-        "deleteSuccess": "Пользователь успешно удалён."
-      },
-      "errors": {
-        "usernameEmailRequired": "Требуются имя пользователя и электронная почта.",
-        "passwordRequired": "Для создания нового пользователя требуется пароль.",
-        "createFailed": "Не удалось создать пользователя.",
-        "updateFailed": "Не удалось обновить пользователя.",
-        "openView": "Не удалось открыть детали этого пользователя.",
-        "loadDetails": "Не удалось получить детали пользователя.",
-        "loadGroups": "Не удалось получить группы пользователя.",
-        "selectGroup": "Выберите группу, чтобы привязать этого пользователя.",
-        "attachFailed": "Не удалось привязать эту группу к пользователю.",
-        "detachFailed": "Не удалось отвязать эту группу от пользователя.",
-        "deleteFailed": "Не удалось удалить пользователя."
-      },
-      "table": {
-        "username": "Имя пользователя",
-        "firstName": "Имя",
-        "lastName": "Фамилия",
-        "email": "Электронная почта",
-        "status": "Статус"
-      },
-      "status": {
-        "active": "Активен",
-        "inactive": "Неактивен"
-      },
-      "cardTitle": "Управление пользователями",
-      "actions": {
-        "new": "Новый пользователь",
-        "viewTooltip": "Просмотреть {username}",
-        "editTooltip": "Редактировать {username}",
-        "deleteTooltip": "Удалить {username}"
-      },
-      "alerts": {
-        "loadFailed": "Не удалось загрузить пользователей."
-      },
-      "fields": {
-        "username": "Имя пользователя",
-        "email": "Электронная почта",
-        "firstName": "Имя",
-        "lastName": "Фамилия",
-        "language": "Язык",
-        "locale": "Локаль",
-        "timezone": "Часовой пояс",
-        "password": "Пароль",
-        "newPassword": "Новый пароль (необязательно)",
-        "enabled": "Активный пользователь",
-        "status": "Статус"
-      },
-      "hints": {
-        "keepPassword": "Оставьте поле пустым, чтобы сохранить текущий пароль."
-      },
-      "labels": {
-        "userFallback": "этого пользователя"
-      },
-      "dialogs": {
-        "create": {
-          "title": "Создать пользователя"
+          "nameRequired": "Требуется название группы.",
+          "createFailed": "Не удалось создать группу пользователей.",
+          "updateFailed": "Не удалось обновить группу пользователей.",
+          "loadDetails": "Не удалось загрузить детали группы пользователей.",
+          "loadUsers": "Не удалось получить пользователей группы.",
+          "selectUser": "Выберите пользователя, чтобы привязать его к этой группе.",
+          "attachFailed": "Не удалось привязать этого пользователя к группе.",
+          "detachFailed": "Не удалось отвязать этого пользователя от группы.",
+          "deleteFailed": "Не удалось удалить группу пользователей."
         },
-        "edit": {
-          "title": "Редактировать {username}"
+        "table": {
+          "name": "Название",
+          "id": "Идентификатор",
+          "actions": "Действия"
         },
-        "view": {
-          "title": "Детали пользователя"
+        "cardTitle": "Группы пользователей",
+        "actions": {
+          "new": "Новая группа",
+          "viewTooltip": "Просмотреть {name}",
+          "editTooltip": "Редактировать {name}",
+          "deleteTooltip": "Удалить {name}"
         },
-        "attachGroup": {
-          "title": "Привязать группу"
+        "alerts": {
+          "loadFailed": "Не удалось загрузить группы пользователей."
         },
-        "delete": {
-          "title": "Удалить пользователя",
-          "warningPrefix": "Это действие нельзя отменить. Вы действительно хотите удалить",
-          "warningSuffix": "?"
-        }
-      },
-      "details": {
-        "groups": {
-          "title": "Группы",
-          "actions": {
-            "link": "Привязать группу"
+        "fields": {
+          "name": "Название группы",
+          "description": "Описание",
+          "id": "Идентификатор"
+        },
+        "labels": {
+          "groupFallback": "эту группу"
+        },
+        "dialogs": {
+          "create": {
+            "title": "Создать группу пользователей"
           },
-          "empty": "Нет привязанных групп."
-        },
-        "empty": "Пользователь не выбран."
-      },
-      "logs": {
-        "openDetail": "Открытие диалога деталей пользователя"
-      }
-    },
-    "groups": {
-      "notifications": {
-        "createSuccess": "Группа пользователей успешно создана.",
-        "updateSuccess": "Группа пользователей успешно обновлена.",
-        "deleteSuccess": "Группа пользователей успешно удалена.",
-        "attachSuccess": "Пользователь привязан к группе.",
-        "detachSuccess": "Пользователь отвязан от группы."
-      },
-      "errors": {
-        "nameRequired": "Требуется название группы.",
-        "createFailed": "Не удалось создать группу пользователей.",
-        "updateFailed": "Не удалось обновить группу пользователей.",
-        "loadDetails": "Не удалось загрузить детали группы пользователей.",
-        "loadUsers": "Не удалось получить пользователей группы.",
-        "selectUser": "Выберите пользователя, чтобы привязать его к этой группе.",
-        "attachFailed": "Не удалось привязать этого пользователя к группе.",
-        "detachFailed": "Не удалось отвязать этого пользователя от группы.",
-        "deleteFailed": "Не удалось удалить группу пользователей."
-      },
-      "table": {
-        "name": "Название",
-        "id": "Идентификатор",
-        "actions": "Действия"
-      },
-      "cardTitle": "Группы пользователей",
-      "actions": {
-        "new": "Новая группа",
-        "viewTooltip": "Просмотреть {name}",
-        "editTooltip": "Редактировать {name}",
-        "deleteTooltip": "Удалить {name}"
-      },
-      "alerts": {
-        "loadFailed": "Не удалось загрузить группы пользователей."
-      },
-      "fields": {
-        "name": "Название группы",
-        "description": "Описание",
-        "id": "Идентификатор"
-      },
-      "labels": {
-        "groupFallback": "эту группу"
-      },
-      "dialogs": {
-        "create": {
-          "title": "Создать группу пользователей"
-        },
-        "edit": {
-          "title": "Редактировать группу пользователей"
-        },
-        "view": {
-          "title": "Детали группы пользователей"
-        },
-        "attachUser": {
-          "title": "Привязать пользователя"
-        },
-        "delete": {
-          "title": "Удалить группу пользователей",
-          "warningPrefix": "Это действие нельзя отменить. Вы действительно хотите удалить",
-          "warningSuffix": "?"
-        }
-      },
-      "details": {
-        "users": {
-          "title": "Пользователи",
-          "actions": {
-            "link": "Привязать пользователя"
+          "edit": {
+            "title": "Редактировать группу пользователей"
           },
-          "empty": "Нет привязанных пользователей."
-        },
-        "empty": "Группа не выбрана."
-      }
-    },
-    "workplaces": {
-      "notifications": {
-        "createSuccess": "Workplace created successfully.",
-        "updateSuccess": "Workplace updated successfully.",
-        "deleteSuccess": "Workplace deleted successfully."
-      },
-      "errors": {
-        "nameRequired": "A workplace name is required.",
-        "createFailed": "Unable to create the workplace.",
-        "updateFailed": "Unable to update the workplace.",
-        "loadDetails": "Unable to load the workplace details.",
-        "deleteFailed": "Unable to delete the workplace."
-      },
-      "table": {
-        "name": "Name",
-        "slug": "Slug",
-        "id": "Identifier",
-        "actions": "Actions"
-      },
-      "cardTitle": "Workplaces",
-      "actions": {
-        "new": "New workplace",
-        "viewTooltip": "View {name}",
-        "editTooltip": "Edit {name}",
-        "deleteTooltip": "Delete {name}"
-      },
-      "alerts": {
-        "loadFailed": "Failed to load workplaces."
-      },
-      "fields": {
-        "name": "Workplace name",
-        "slug": "Slug",
-        "id": "Identifier"
-      },
-      "labels": {
-        "workplaceFallback": "this workplace"
-      },
-      "dialogs": {
-        "create": {
-          "title": "Create workplace"
-        },
-        "edit": {
-          "title": "Edit workplace"
-        },
-        "view": {
-          "title": "Workplace details"
-        },
-        "delete": {
-          "title": "Delete workplace",
-          "warningPrefix": "This action cannot be undone. Do you really want to delete",
-          "warningSuffix": "?"
-        }
-      },
-      "details": {
-        "empty": "No workplace selected."
-      }
-    },
-    "apiKeys": {
-      "labels": {
-        "v1": "API v1",
-        "v2": "API v2",
-        "keyFallback": "этот ключ API"
-      },
-      "notifications": {
-        "createSuccess": "Ключ API успешно создан ({version}).",
-        "updateSuccess": "Ключ API успешно обновлён ({version}).",
-        "deleteSuccess": "Ключ API удалён ({version})."
-      },
-      "errors": {
-        "descriptionRequired": "Требуется описание.",
-        "createFailed": "Не удалось создать ключ API.",
-        "updateFailed": "Не удалось обновить ключ API.",
-        "loadDetails": "Не удалось загрузить детали ключа API.",
-        "deleteFailed": "Не удалось удалить ключ API.",
-        "partialUpdateRequired": "Укажите хотя бы одно поле для обновления ключа API."
-      },
-      "cardTitle": "Ключи API",
-      "table": {
-        "description": "Описание",
-        "token": "Токен",
-        "id": "Идентификатор",
-        "actions": "Действия"
-      },
-      "actions": {
-        "new": "Новый ключ API ({version})",
-        "viewTooltip": "Просмотреть {description}",
-        "editTooltip": "Редактировать {description}",
-        "deleteTooltip": "Удалить {description}"
-      },
-      "alerts": {
-        "loadFailed": "Не удалось загрузить ключи API версии {version}."
-      },
-      "fields": {
-        "description": "Описание",
-        "token": "Токен",
-        "id": "Идентификатор"
-      },
-      "hints": {
-        "keepToken": "Оставьте поле пустым, чтобы сохранить текущий токен (только для PATCH)."
-      },
-      "dialogs": {
-        "create": {
-          "title": "Создать ключ API ({version})"
-        },
-        "edit": {
-          "title": "Редактировать ключ API ({version})"
-        },
-        "view": {
-          "title": "Детали ключа API ({version})",
-          "empty": "Ключ API не выбран."
-        },
-        "delete": {
-          "title": "Удалить ключ API",
-          "warningPrefix": "Вы действительно хотите удалить этот ключ API",
-          "warningSuffix": "?"
-        }
-      }
-    },
-    "roles": {
-      "table": {
-        "id": "ID роли",
-        "description": "Описание"
-      },
-      "cardTitle": "Роли",
-      "alerts": {
-        "loadFailed": "Не удалось загрузить роли."
-      }
-    }
-  },
-  "configurationManagement": {
-    "metrics": {
-      "configurations": "Количество конфигураций",
-      "configurationsCaption": "Активные записи конфигураций"
-    },
-    "configurations": {
-      "title": "Конфигурации",
-      "subtitle": "Просмотр и контроль записей конфигураций",
-      "searchPlaceholder": "Поиск конфигураций",
-      "actions": {
-        "new": "Новая конфигурация"
-      },
-      "alerts": {
-        "loadFailed": "Не удалось загрузить конфигурации."
-      },
-      "dialogs": {
-        "create": {
-          "title": "Создать конфигурацию",
-          "submit": "Создать конфигурацию"
-        }
-      },
-      "fields": {
-        "key": "Ключ конфигурации",
-        "contextKey": "Ключ контекста",
-        "contextId": "ID контекста",
-        "value": "Значение конфигурации",
-        "valueHint": "Введите текст или корректный JSON.",
-        "flags": "Флаги",
-        "flagsHint": "Укажите значения через запятую.",
-        "workplace": "Рабочее пространство"
-      },
-      "errors": {
-        "keyRequired": "Требуется ключ конфигурации.",
-        "contextKeyRequired": "Требуется ключ контекста.",
-        "valueRequired": "Требуется значение конфигурации.",
-        "createFailed": "Не удалось создать конфигурацию.",
-        "workplaceLoadFailed": "Не удалось загрузить рабочие пространства."
-      },
-      "notifications": {
-        "createSuccess": "Конфигурация успешно создана."
-      },
-      "table": {
-        "title": "Конфигурации",
-        "subtitle": "{count} конфигураций",
-        "key": "Ключ",
-        "contextKey": "Ключ контекста",
-        "contextId": "Идентификатор контекста",
-        "value": "Значение",
-        "flags": "Флаги",
-        "noFlags": "Нет флагов",
-        "updatedAt": "Обновлено"
-      }
-    }
-  },
-  "$vuetify": {
-    "close": "Закрыть"
-  },
-  "workspace": {
-    "page": {
-      "title": "My workspace",
-      "subtitle": "Organize and share your personal folders and files."
-    },
-    "tree": {
-      "title": "Folders",
-      "empty": "No folders available yet.",
-      "actions": {
-        "createRoot": "Create root folder"
-      }
-    },
-    "actions": {
-      "newFolder": "New folder",
-      "uploadFile": "Upload file",
-      "renameFolder": "Rename",
-      "deleteFolder": "Delete folder",
-      "refresh": "Refresh"
-    },
-    "details": {
-      "items": {
-        "none": "No subfolders",
-        "one": "1 subfolder",
-        "other": "{count} subfolders"
-      },
-      "files": {
-        "none": "No files",
-        "one": "1 file",
-        "other": "{count} files"
-      },
-      "private": "Private",
-      "favorite": "Favorite"
-    },
-    "files": {
-      "title": "Files",
-      "empty": "No files in this folder yet.",
-      "favorite": "Favorite",
-      "sizeUnknown": "Unknown size",
-      "headers": {
-        "name": "Name",
-        "type": "Type",
-        "extension": "Extension",
-        "size": "Size",
-        "actions": "Actions"
-      },
-      "actions": {
-        "open": "Open",
-        "delete": "Delete"
-      }
-    },
-    "dialogs": {
-      "create": {
-        "title": "Create folder",
-        "subtitle": "Choose a name and optionally a parent folder."
-      },
-      "edit": {
-        "title": "Rename folder"
-      },
-      "delete": {
-        "title": "Delete folder",
-        "message": "Are you sure you want to delete this folder and all of its content?"
-      },
-      "upload": {
-        "title": "Upload file",
-        "subtitle": "Select a file to add to the current folder."
-      },
-      "deleteFile": {
-        "title": "Delete file",
-        "message": "Are you sure you want to delete this file?"
-      },
-      "fields": {
-        "name": "Folder name",
-        "parent": "Parent folder",
-        "private": "Private folder",
-        "favorite": "Mark as favorite",
-        "file": "File"
-      },
-      "actions": {
-        "cancel": "Cancel",
-        "create": "Create",
-        "save": "Save changes",
-        "delete": "Delete",
-        "upload": "Upload"
-      }
-    },
-    "notifications": {
-      "folderCreated": "Folder created successfully.",
-      "folderUpdated": "Folder updated successfully.",
-      "folderDeleted": "Folder deleted successfully.",
-      "fileUploaded": "File uploaded successfully.",
-      "fileDeleted": "File deleted successfully."
-    },
-    "errors": {
-      "loadFolders": "Unable to load folders. Please try again.",
-      "createFolder": "Unable to create the folder.",
-      "updateFolder": "Unable to update the folder.",
-      "deleteFolder": "Unable to delete the folder.",
-      "uploadFile": "Unable to upload the file.",
-      "deleteFile": "Unable to delete the file.",
-      "noFolderSelected": "Select a folder before uploading a file."
-    },
-    "validation": {
-      "nameRequired": "Folder name is required.",
-      "fileRequired": "A file must be selected."
-    },
-    "messages": {
-      "selectFolder": "Select a folder from the list to display its content.",
-      "refreshing": "Refreshing folder content..."
-    }
-  },
-  "pages": {
-    "ecommerce": {
-      "drawer": {
-        "title": "Бутик Seālius",
-        "subtitle": "Солнечные силуэты, подобранные вместе с нашими партнёрами на побережье.",
-        "metrics": {
-          "products": "{count} товаров",
-          "categories": "{count} категорий"
-        }
-      },
-      "hero": {
-        "brand": "Seālius",
-        "tagline": "Прибрежная коллекция",
-        "description": "Откройте лёгкие ткани, оттенки океана и свободные фасоны для дней и вечеров у моря."
-      },
-      "categories": {
-        "title": "Просмотр по категориям",
-        "all": "Все"
-      },
-      "sections": {
-        "latestDeals": {
-          "title": "Свежие предложения",
-          "subtitle": "Предложения с ограниченным сроком действия, готовые к доставке по всему миру."
-        },
-        "newCollection": {
-          "title": "Новая коллекция",
-          "subtitle": "Сочетайте натуральные фактуры и волокна, вдохновлённые береговой линией."
-        },
-        "latestProducts": {
-          "title": "Новые поступления",
-          "subtitle": "Последние новинки маркетплейса Bro World.",
-          "emptyFiltered": "В этой категории пока нет товаров."
-        }
-      },
-      "labels": {
-        "deal": "Лучшее предложение"
-      },
-      "actions": {
-        "shopNow": "Купить сейчас",
-        "exploreCollection": "Посмотреть коллекцию",
-        "refresh": "Обновить каталог",
-        "retry": "Повторить попытку"
-      },
-      "fallbacks": {
-        "unknownProduct": "Товар",
-        "priceUnavailable": "Цена недоступна",
-        "noProducts": "Сейчас нет доступных товаров.",
-        "categoryFallback": "Коллекция"
-      },
-      "errors": {
-        "failedToLoad": "Не удалось загрузить данные магазина. Попробуйте позже."
-      }
-    },
-    "ecommercePayment": {
-      "meta": {
-        "title": "Оплата",
-        "subtitle": "Выберите предпочтительный способ оплаты, чтобы завершить оформление."
-      },
-      "steps": {
-        "address": "Адрес",
-        "shipping": "Доставка",
-        "payment": "Оплата",
-        "complete": "Завершение"
-      },
-      "labels": {
-        "paymentTitle": "Платёж №{index}",
-        "paymentSubtitle": "Выберите способ оплаты",
-        "changeShipping": "Изменить способ доставки",
-        "noSelection": "Выберите способ оплаты, чтобы продолжить"
-      },
-      "actions": {
-        "next": "Далее"
-      },
-      "summary": {
-        "title": "Итог",
-        "customerFallback": "Покупатель",
-        "itemCount": {
-          "one": "{count} товар",
-          "few": "{count} товара",
-          "many": "{count} товаров",
-          "other": "{count} товаров"
-        },
-        "itemsTotal": "Стоимость товаров",
-        "discount": "Скидка",
-        "shipping": "Оценочная стоимость доставки",
-        "taxes": "Налоги",
-        "total": "Итоговый заказ"
-      },
-      "notifications": {
-        "loadingError": "Не удалось загрузить сведения об оплате. Пожалуйста, попробуйте ещё раз.",
-        "updateFailed": "Не удалось обновить способ оплаты. Пожалуйста, попробуйте ещё раз.",
-        "updateSuccess": "Способ оплаты обновлён.",
-        "completeSuccess": "Заказ успешно завершён.",
-        "completeFailed": "Не удалось завершить заказ. Пожалуйста, попробуйте ещё раз."
-      },
-      "states": {
-        "loading": "Загрузка способов оплаты…",
-        "empty": "Для этого заказа нет доступных способов оплаты.",
-        "defaultMethodName": "Способ оплаты"
-      }
-    },
-    "settings": {
-      "title": "Настройки аккаунта",
-      "subtitle": "Настройте работу сервиса и защитите свои данные в одном удобном месте.",
-      "sections": {
-        "profile": {
-          "title": "Параметры профиля",
-          "description": "Обновляйте имя, аватар, язык и другие сведения, которые видят ваши коллеги.",
-          "fields": {
-            "displayName": "Отображаемое имя",
-            "username": "Имя пользователя"
+          "view": {
+            "title": "Детали группы пользователей"
+          },
+          "attachUser": {
+            "title": "Привязать пользователя"
+          },
+          "delete": {
+            "title": "Удалить группу пользователей",
+            "warningPrefix": "Это действие нельзя отменить. Вы действительно хотите удалить",
+            "warningSuffix": "?"
           }
         },
-        "security": {
-          "title": "Безопасность и конфиденциальность",
-          "description": "Просматривайте активные сессии, включайте многофакторную аутентификацию и управляйте подключёнными приложениями."
+        "details": {
+          "users": {
+            "title": "Пользователи",
+            "actions": {
+              "link": "Привязать пользователя"
+            },
+            "empty": "Нет привязанных пользователей."
+          },
+          "empty": "Группа не выбрана."
+        }
+      },
+      "workplaces": {
+        "notifications": {
+          "createSuccess": "Workplace created successfully.",
+          "updateSuccess": "Workplace updated successfully.",
+          "deleteSuccess": "Workplace deleted successfully."
+        },
+        "errors": {
+          "nameRequired": "A workplace name is required.",
+          "createFailed": "Unable to create the workplace.",
+          "updateFailed": "Unable to update the workplace.",
+          "loadDetails": "Unable to load the workplace details.",
+          "deleteFailed": "Unable to delete the workplace."
+        },
+        "table": {
+          "name": "Name",
+          "slug": "Slug",
+          "id": "Identifier",
+          "actions": "Actions"
+        },
+        "cardTitle": "Workplaces",
+        "actions": {
+          "new": "New workplace",
+          "viewTooltip": "View {name}",
+          "editTooltip": "Edit {name}",
+          "deleteTooltip": "Delete {name}"
+        },
+        "alerts": {
+          "loadFailed": "Failed to load workplaces."
+        },
+        "fields": {
+          "name": "Workplace name",
+          "slug": "Slug",
+          "id": "Identifier"
+        },
+        "labels": {
+          "workplaceFallback": "this workplace"
+        },
+        "dialogs": {
+          "create": {
+            "title": "Create workplace"
+          },
+          "edit": {
+            "title": "Edit workplace"
+          },
+          "view": {
+            "title": "Workplace details"
+          },
+          "delete": {
+            "title": "Delete workplace",
+            "warningPrefix": "This action cannot be undone. Do you really want to delete",
+            "warningSuffix": "?"
+          }
+        },
+        "details": {
+          "empty": "No workplace selected."
+        }
+      },
+      "apiKeys": {
+        "labels": {
+          "v1": "API v1",
+          "v2": "API v2",
+          "keyFallback": "этот ключ API"
         },
         "notifications": {
-          "title": "Уведомления",
-          "description": "Выбирайте, как получать оповещения об активности: по электронной почте, пуш-уведомлениями или внутри приложения."
-        }
-      },
-      "tips": {
-        "title": "Нужна помощь?",
-        "description": "Загляните в Справочный центр за пошаговыми инструкциями или напишите в поддержку, если возникли вопросы."
-      }
-    },
-    "help": {
-      "title": "Справочный центр",
-      "subtitle": "Находите ответы быстро — в документации, часто задаваемых вопросах и обсуждениях сообщества.",
-      "explanation": {
-        "title": "Что такое Bro World?",
-        "description": "Bro World объединяет коммуникацию, знания и рабочие процессы команды, помогая сосредоточиться на создании ценности.",
-        "highlights": {
-          "workspace": "Организуйте проекты, документы и обсуждения в отдельных пространствах для каждой инициативы.",
-          "collaboration": "Работайте совместно в реальном времени с общими заметками, встроенным чатом и своевременными уведомлениями.",
-          "support": "Отслеживайте прогресс на интерактивных панелях и обращайтесь к нашей команде, когда нужна помощь.",
-          "automation": "Автоматизируйте повторяющиеся задачи с помощью сценариев, запускающих действия во всех подключённых сервисах.",
-          "integrations": "Интегрируйте Bro World с GitHub, Slack, Figma и десятками партнёров, чтобы данные синхронизировались.",
-          "aiAssistant": "Используйте ИИ-помощника для мгновенных резюме, подготовки обновлений и подсказок дальнейших шагов."
-        }
-      },
-      "sections": {
-        "guides": {
-          "title": "Руководства по продукту",
-          "description": "Изучайте иллюстрированные уроки, чтобы освоить основы и открыть для себя продвинутые сценарии."
+          "createSuccess": "Ключ API успешно создан ({version}).",
+          "updateSuccess": "Ключ API успешно обновлён ({version}).",
+          "deleteSuccess": "Ключ API удалён ({version})."
         },
-        "faq": {
-          "title": "Частые вопросы",
-          "description": "Посмотрите решения для самых популярных тем, которые пользователи задают каждый день."
+        "errors": {
+          "descriptionRequired": "Требуется описание.",
+          "createFailed": "Не удалось создать ключ API.",
+          "updateFailed": "Не удалось обновить ключ API.",
+          "loadDetails": "Не удалось загрузить детали ключа API.",
+          "deleteFailed": "Не удалось удалить ключ API.",
+          "partialUpdateRequired": "Укажите хотя бы одно поле для обновления ключа API."
         },
-        "community": {
-          "title": "Сообщество",
-          "description": "Общайтесь с другими участниками, делитесь советами и голосуйте за новые возможности."
-        },
-        "automation": {
-          "title": "Библиотека автоматизаций",
-          "description": "Изучайте готовые схемы, которые связывают рабочие процессы, согласования и отчёты за считанные минуты."
-        },
-        "updates": {
-          "title": "Новости и релизы",
-          "description": "Следите за свежими анонсами продукта, ключевыми пунктами дорожной карты и бета-программами."
-        }
-      },
-      "questions": {
-        "title": "Популярные вопросы",
-        "items": {
-          "accountAccess": {
-            "question": "Как получить доступ к своему аккаунту?",
-            "answer": "Войдите с электронной почтой, которую использовали при регистрации. Если возникли сложности, сбросьте пароль на странице входа или обратитесь в поддержку."
-          },
-          "inviteTeam": {
-            "question": "Могу ли я пригласить команду?",
-            "answer": "Да. Откройте настройки рабочего пространства, выберите «Участники» и отправьте приглашения по электронной почте для мгновенного совместного доступа."
-          },
-          "getSupport": {
-            "question": "Где получить дополнительную помощь?",
-            "answer": "Изучите руководства выше для пошаговых инструкций или напишите нам напрямую, чтобы получить персональную поддержку."
-          },
-          "automationTemplates": {
-            "question": "Как включить новые шаблоны автоматизации?",
-            "answer": "Откройте библиотеку автоматизаций в Справочном центре, выберите сценарий и сопоставьте шаги с подключёнными интеграциями вашего пространства."
-          },
-          "mobileAccess": {
-            "question": "Есть ли мобильное приложение?",
-            "answer": "Да. Установите приложение для iOS или Android, чтобы получать пуш-уведомления, согласовывать процессы и общаться с командой в пути."
-          },
-          "billing": {
-            "question": "Где управлять оплатой?",
-            "answer": "Администраторы могут открыть Настройки → Оплата, чтобы обновить способы оплаты, скачать счета или изменить количество лицензий."
-          }
-        }
-      },
-      "contact": {
-        "title": "Всё ещё нужна помощь?",
-        "description": "Напишите нам через страницу контактов, запустите живой чат или запишитесь на встречу с командой Customer Success."
-      }
-    },
-    "about": {
-      "title": "О Bro World",
-      "subtitle": "Познакомьтесь с платформой, насыщенной возможностями, которая объединяет команды, продукты и сообщества Bro World.",
-      "intro": "Bro World превратилась в единое цифровое рабочее пространство, объединяющее сообщество, публикацию контента, обмен сообщениями и автоматизацию в едином опыте.",
-      "mission": "Наша миссия — помогать командам быстро создавать прототипы, запускать решения раньше и уверенно управлять ежедневными процессами с помощью модульных блоков.",
-      "vision": "От рабочих процессов с поддержкой ИИ до панелей совместной работы в реальном времени — каждая функция создана так, чтобы адаптироваться вместе с вашей организацией.",
-      "sections": {
-        "frontend": {
-          "title": "Фронтенд-опыт",
-          "description": "Nuxt 3, Vue 3, TypeScript и Vuetify 3 обеспечивают доступный интерфейс с микро-фронтендами, офлайн-кэшем и адаптивным дизайном, который остаётся быстрым на любом устройстве."
-        },
-        "backend": {
-          "title": "Бэкенд-основа",
-          "description": "Сервисы Node.js оркестрируют очереди, WebSocket, поисковую индексацию и хранение данных в PostgreSQL за кулисами."
-        },
-        "api": {
-          "title": "Symfony-микросервисы",
-          "description": "Разделённые Symfony-микросервисы предоставляют защищённые REST- и GraphQL-API, а также готовые интеграции и вебхуки."
-        },
-        "realtime": {
-          "title": "Совместная работа в реальном времени",
-          "description": "Живое присутствие, общие комментарии и события WebSocket помогают командам оставаться синхронными, пока обновления появляются за секунды."
-        },
-        "automation": {
-          "title": "Автоматизация и интеллект",
-          "description": "Фоновые задачи, ассистенты с ИИ и запланированные сценарии снимают рутинную работу и подсказывают следующие шаги."
-        },
-        "devops": {
-          "title": "DevOps и безопасность",
-          "description": "Конвейеры инфраструктуры как код, контейнерные деплойменты и постоянные проверки безопасности защищают каждый релиз."
-        }
-      },
-      "highlights": {
-        "collaboration": {
-          "title": "Работа в рабочих пространствах",
-          "description": "Многоарендные рабочие пространства, ролевые права доступа и общие календари поддерживают распределённые команды."
-        },
-        "analytics": {
-          "title": "Прикладная аналитика",
-          "description": "Интерактивные дашборды, экспортируемые отчёты и единые метрики показывают состояние продукта за секунды."
-        },
-        "customization": {
-          "title": "Глубокая кастомизация",
-          "description": "Конструктор тем, точки расширения и детальные настройки позволяют адаптировать каждый экран под ваш бренд."
-        },
-        "marketplace": {
-          "title": "Маркетплейс экосистемы",
-          "description": "Отобранные плагины, интеграционные наборы и открытые API ускоряют выпуск новых возможностей."
-        }
-      },
-      "callToAction": {
-        "title": "Создавайте с Bro World",
-        "description": "Готовы расширить платформу или подключить свой стек? Свяжитесь с нами, и мы вместе спроектируем следующее поколение функций."
-      }
-    },
-    "ecommerceThankYou": {
-      "heroTitle": "Спасибо!",
-      "heroSubtitle": "Ваш заказ успешно оформлен.",
-      "orderTokenLabel": "Идентификатор подтверждения: {token}",
-      "viewOrder": "Просмотреть заказ",
-      "backToShop": "Вернуться в магазин",
-      "orderSummary": "Сводка по заказу",
-      "placedOn": "Оформлен {date}",
-      "orderNumber": "Заказ {number}",
-      "items": "Товары",
-      "itemCount": "{count} товаров",
-      "emptyItems": "В этом заказе не найдено товаров.",
-      "itemFallback": "Товар",
-      "unitPrice": "Цена за единицу: {price}",
-      "totals": "Итоги оплаты",
-      "subtotal": "Промежуточный итог",
-      "shipping": "Доставка",
-      "shippingMethod": "Способ доставки",
-      "tax": "Налоги",
-      "total": "Итого",
-      "contact": "Контакты",
-      "email": "Электронная почта",
-      "phone": "Телефон",
-      "shippingAddress": "Адрес доставки",
-      "billingAddress": "Платёжный адрес",
-      "noAddress": "Адрес не указан.",
-      "noOrder": "Не удалось показать данные заказа.",
-      "missingToken": "Мы не можем найти ваш заказ без токена подтверждения.",
-      "loadError": "Не удалось загрузить данные заказа. Повторите попытку.",
-      "retry": "Повторить"
-    },
-    "contact": {
-      "title": "Свяжитесь с нами",
-      "subtitle": "Мы готовы ответить на вопросы и подсказать подходящее решение.",
-      "sections": {
-        "support": {
-          "title": "Служба поддержки",
-          "description": "Получите техническую помощь, сообщите о проблеме или запросите изменения в аккаунте у нашей команды."
-        },
-        "partnerships": {
-          "title": "Партнёрства",
-          "description": "Обсудите интеграции, совместные маркетинговые активности или индивидуальные предложения для бизнеса."
-        },
-        "press": {
-          "title": "Пресса и медиа",
-          "description": "Запросите интервью, логотипы или пресс-кит, чтобы рассказать о Bro World в своей публикации."
-        }
-      },
-      "details": {
-        "title": "Как связаться",
-        "description": "Напишите на {email} или создайте тикет в панели управления. Мы ответим в течение одного рабочего дня."
-      },
-      "form": {
-        "title": "Отправьте нам сообщение",
-        "description": "Расскажите немного о своём запросе, и мы свяжем вас с нужным специалистом.",
-        "fields": {
-          "subject": "Тема сообщения",
-          "email": "Электронная почта",
-          "message": "Описание"
+        "cardTitle": "Ключи API",
+        "table": {
+          "description": "Описание",
+          "token": "Токен",
+          "id": "Идентификатор",
+          "actions": "Действия"
         },
         "actions": {
-          "submit": "Отправить сообщение"
+          "new": "Новый ключ API ({version})",
+          "viewTooltip": "Просмотреть {description}",
+          "editTooltip": "Редактировать {description}",
+          "deleteTooltip": "Удалить {description}"
         },
-        "status": {
-          "success": "Спасибо! Ваше сообщение успешно отправлено.",
-          "error": "Что-то пошло не так. Попробуйте отправить сообщение ещё раз."
+        "alerts": {
+          "loadFailed": "Не удалось загрузить ключи API версии {version}."
         },
-        "validation": {
-          "required": "Это поле обязательно.",
-          "email": "Введите действительный адрес электронной почты."
+        "fields": {
+          "description": "Описание",
+          "token": "Токен",
+          "id": "Идентификатор"
+        },
+        "hints": {
+          "keepToken": "Оставьте поле пустым, чтобы сохранить текущий токен (только для PATCH)."
+        },
+        "dialogs": {
+          "create": {
+            "title": "Создать ключ API ({version})"
+          },
+          "edit": {
+            "title": "Редактировать ключ API ({version})"
+          },
+          "view": {
+            "title": "Детали ключа API ({version})",
+            "empty": "Ключ API не выбран."
+          },
+          "delete": {
+            "title": "Удалить ключ API",
+            "warningPrefix": "Вы действительно хотите удалить этот ключ API",
+            "warningSuffix": "?"
+          }
         }
       },
-      "location": {
-        "title": "Посетите нас в Кёльне",
-        "description": "Нашу команду можно найти в офисе в Кёльне, Германия."
+      "roles": {
+        "table": {
+          "id": "ID роли",
+          "description": "Описание"
+        },
+        "cardTitle": "Роли",
+        "alerts": {
+          "loadFailed": "Не удалось загрузить роли."
+        }
       }
     },
-    "ecommerceOrder": {
-      "meta": {
-        "title": "Order details"
+    "configurationManagement": {
+      "metrics": {
+        "configurations": "Количество конфигураций",
+        "configurationsCaption": "Активные записи конфигураций"
       },
-      "heading": {
-        "title": "Order #{number}",
-        "subtitle": "Your account"
-      },
-      "breadcrumbs": {
-        "account": "My account",
-        "orders": "Order history"
-      },
-      "actions": {
-        "pay": "Pay",
-        "retry": "Try again",
-        "refresh": "Refresh"
-      },
-      "labels": {
-        "token": "Token: {token}",
-        "createdAt": "Created at",
-        "completedAt": "Completed at",
-        "updatedAt": "Last update",
-        "currency": "Currency",
-        "locale": "Locale",
-        "checkoutState": "Checkout state",
-        "paymentState": "Payment state",
-        "shippingState": "Shipping state",
-        "state": "Order state",
-        "channel": "Channel",
-        "customer": "Customer",
-        "email": "Email",
-        "quantity": "Items"
-      },
-      "sections": {
-        "information": {
-          "title": "Order information"
+      "configurations": {
+        "title": "Конфигурации",
+        "subtitle": "Просмотр и контроль записей конфигураций",
+        "searchPlaceholder": "Поиск конфигураций",
+        "actions": {
+          "new": "Новая конфигурация"
         },
-        "addresses": {
-          "title": "Addresses",
-          "billing": "Billing address",
-          "shipping": "Shipping address",
-          "loading": "Loading addresses…"
+        "alerts": {
+          "loadFailed": "Не удалось загрузить конфигурации."
         },
-        "items": {
-          "title": "Items",
-          "empty": "This order does not contain any items.",
-          "table": {
-            "product": "Product",
-            "unitPrice": "Unit price",
-            "quantity": "Qty",
-            "total": "Total"
+        "dialogs": {
+          "create": {
+            "title": "Создать конфигурацию",
+            "submit": "Создать конфигурацию"
           }
         },
-        "payments": {
-          "title": "Payments",
-          "empty": "No payments recorded for this order."
+        "fields": {
+          "key": "Ключ конфигурации",
+          "contextKey": "Ключ контекста",
+          "contextId": "ID контекста",
+          "value": "Значение конфигурации",
+          "valueHint": "Введите текст или корректный JSON.",
+          "flags": "Флаги",
+          "flagsHint": "Укажите значения через запятую.",
+          "workplace": "Рабочее пространство"
         },
-        "shipments": {
-          "title": "Shipments",
-          "empty": "No shipments recorded for this order."
+        "errors": {
+          "keyRequired": "Требуется ключ конфигурации.",
+          "contextKeyRequired": "Требуется ключ контекста.",
+          "valueRequired": "Требуется значение конфигурации.",
+          "createFailed": "Не удалось создать конфигурацию.",
+          "workplaceLoadFailed": "Не удалось загрузить рабочие пространства."
         },
-        "summary": {
-          "title": "Summary",
-          "itemsTotal": "Subtotal",
-          "taxTotal": "Taxes",
-          "shippingTotal": "Shipping",
-          "total": "Order total"
+        "notifications": {
+          "createSuccess": "Конфигурация успешно создана."
+        },
+        "table": {
+          "title": "Конфигурации",
+          "subtitle": "{count} конфигураций",
+          "key": "Ключ",
+          "contextKey": "Ключ контекста",
+          "contextId": "Идентификатор контекста",
+          "value": "Значение",
+          "flags": "Флаги",
+          "noFlags": "Нет флагов",
+          "updatedAt": "Обновлено"
+        }
+      }
+    },
+    "$vuetify": {
+      "close": "Закрыть"
+    },
+    "workspace": {
+      "page": {
+        "title": "My workspace",
+        "subtitle": "Organize and share your personal folders and files."
+      },
+      "tree": {
+        "title": "Folders",
+        "empty": "No folders available yet.",
+        "actions": {
+          "createRoot": "Create root folder"
         }
       },
+      "actions": {
+        "newFolder": "New folder",
+        "uploadFile": "Upload file",
+        "renameFolder": "Rename",
+        "deleteFolder": "Delete folder",
+        "refresh": "Refresh"
+      },
+      "details": {
+        "items": {
+          "none": "No subfolders",
+          "one": "1 subfolder",
+          "other": "{count} subfolders"
+        },
+        "files": {
+          "none": "No files",
+          "one": "1 file",
+          "other": "{count} files"
+        },
+        "private": "Private",
+        "favorite": "Favorite"
+      },
+      "files": {
+        "title": "Files",
+        "empty": "No files in this folder yet.",
+        "favorite": "Favorite",
+        "sizeUnknown": "Unknown size",
+        "headers": {
+          "name": "Name",
+          "type": "Type",
+          "extension": "Extension",
+          "size": "Size",
+          "actions": "Actions"
+        },
+        "actions": {
+          "open": "Open",
+          "delete": "Delete"
+        }
+      },
+      "dialogs": {
+        "create": {
+          "title": "Create folder",
+          "subtitle": "Choose a name and optionally a parent folder."
+        },
+        "edit": {
+          "title": "Rename folder"
+        },
+        "delete": {
+          "title": "Delete folder",
+          "message": "Are you sure you want to delete this folder and all of its content?"
+        },
+        "upload": {
+          "title": "Upload file",
+          "subtitle": "Select a file to add to the current folder."
+        },
+        "deleteFile": {
+          "title": "Delete file",
+          "message": "Are you sure you want to delete this file?"
+        },
+        "fields": {
+          "name": "Folder name",
+          "parent": "Parent folder",
+          "private": "Private folder",
+          "favorite": "Mark as favorite",
+          "file": "File"
+        },
+        "actions": {
+          "cancel": "Cancel",
+          "create": "Create",
+          "save": "Save changes",
+          "delete": "Delete",
+          "upload": "Upload"
+        }
+      },
+      "notifications": {
+        "folderCreated": "Folder created successfully.",
+        "folderUpdated": "Folder updated successfully.",
+        "folderDeleted": "Folder deleted successfully.",
+        "fileUploaded": "File uploaded successfully.",
+        "fileDeleted": "File deleted successfully."
+      },
+      "errors": {
+        "loadFolders": "Unable to load folders. Please try again.",
+        "createFolder": "Unable to create the folder.",
+        "updateFolder": "Unable to update the folder.",
+        "deleteFolder": "Unable to delete the folder.",
+        "uploadFile": "Unable to upload the file.",
+        "deleteFile": "Unable to delete the file.",
+        "noFolderSelected": "Select a folder before uploading a file."
+      },
+      "validation": {
+        "nameRequired": "Folder name is required.",
+        "fileRequired": "A file must be selected."
+      },
       "messages": {
-        "loadingError": "We could not load this order. Please try again.",
-        "notFound": "We could not find this order.",
-        "itemsError": "Unable to load the order items.",
-        "addressesError": "We could not load the addresses linked to this order."
+        "selectFolder": "Select a folder from the list to display its content.",
+        "refreshing": "Refreshing folder content..."
+      }
+    },
+    "pages": {
+      "ecommerce": {
+        "drawer": {
+          "title": "Бутик Seālius",
+          "subtitle": "Солнечные силуэты, подобранные вместе с нашими партнёрами на побережье.",
+          "metrics": {
+            "products": "{count} товаров",
+            "categories": "{count} категорий"
+          }
+        },
+        "hero": {
+          "brand": "Seālius",
+          "tagline": "Прибрежная коллекция",
+          "description": "Откройте лёгкие ткани, оттенки океана и свободные фасоны для дней и вечеров у моря."
+        },
+        "categories": {
+          "title": "Просмотр по категориям",
+          "all": "Все"
+        },
+        "sections": {
+          "latestDeals": {
+            "title": "Свежие предложения",
+            "subtitle": "Предложения с ограниченным сроком действия, готовые к доставке по всему миру."
+          },
+          "newCollection": {
+            "title": "Новая коллекция",
+            "subtitle": "Сочетайте натуральные фактуры и волокна, вдохновлённые береговой линией."
+          },
+          "latestProducts": {
+            "title": "Новые поступления",
+            "subtitle": "Последние новинки маркетплейса Bro World.",
+            "emptyFiltered": "В этой категории пока нет товаров."
+          }
+        },
+        "labels": {
+          "deal": "Лучшее предложение"
+        },
+        "actions": {
+          "shopNow": "Купить сейчас",
+          "exploreCollection": "Посмотреть коллекцию",
+          "refresh": "Обновить каталог",
+          "retry": "Повторить попытку"
+        },
+        "fallbacks": {
+          "unknownProduct": "Товар",
+          "priceUnavailable": "Цена недоступна",
+          "noProducts": "Сейчас нет доступных товаров.",
+          "categoryFallback": "Коллекция"
+        },
+        "errors": {
+          "failedToLoad": "Не удалось загрузить данные магазина. Попробуйте позже."
+        }
       },
-      "fallbacks": {
-        "unknown": "Unknown",
-        "noAddress": "Address unavailable",
-        "noValue": "Not provided"
-      },
-      "metaTitle": "Сводка заказа",
-      "heading": {
-        "title": "Сводка вашего заказа",
-        "subtitle": "Проверьте данные перед завершением покупки."
-      },
-      "status": {
+      "ecommercePayment": {
+        "meta": {
+          "title": "Оплата",
+          "subtitle": "Выберите предпочтительный способ оплаты, чтобы завершить оформление."
+        },
         "steps": {
           "address": "Адрес",
           "shipping": "Доставка",
           "payment": "Оплата",
           "complete": "Завершение"
+        },
+        "labels": {
+          "paymentTitle": "Платёж №{index}",
+          "paymentSubtitle": "Выберите способ оплаты",
+          "changeShipping": "Изменить способ доставки",
+          "noSelection": "Выберите способ оплаты, чтобы продолжить"
+        },
+        "actions": {
+          "next": "Далее"
+        },
+        "summary": {
+          "title": "Итог",
+          "customerFallback": "Покупатель",
+          "itemCount": {
+            "one": "{count} товар",
+            "few": "{count} товара",
+            "many": "{count} товаров",
+            "other": "{count} товаров"
+          },
+          "itemsTotal": "Стоимость товаров",
+          "discount": "Скидка",
+          "shipping": "Оценочная стоимость доставки",
+          "taxes": "Налоги",
+          "total": "Итоговый заказ"
+        },
+        "notifications": {
+          "loadingError": "Не удалось загрузить сведения об оплате. Пожалуйста, попробуйте ещё раз.",
+          "updateFailed": "Не удалось обновить способ оплаты. Пожалуйста, попробуйте ещё раз.",
+          "updateSuccess": "Способ оплаты обновлён.",
+          "completeSuccess": "Заказ успешно завершён.",
+          "completeFailed": "Не удалось завершить заказ. Пожалуйста, попробуйте ещё раз."
+        },
+        "states": {
+          "loading": "Загрузка способов оплаты…",
+          "empty": "Для этого заказа нет доступных способов оплаты.",
+          "defaultMethodName": "Способ оплаты"
         }
       },
-      "summary": {
-        "title": "Информация о заказе",
-        "currency": "Валюта",
-        "locale": "Язык",
-        "orderNumber": "Заказ №",
-        "placedOn": "Оформлен",
-        "checkoutState": "Статус оформления",
-        "paymentState": "Статус оплаты",
-        "shippingState": "Статус доставки"
-      },
-      "addresses": {
-        "billing": "Адрес плательщика",
-        "shipping": "Адрес доставки",
-        "missing": "Адрес недоступен"
-      },
-      "payments": {
-        "title": "Платежи",
-        "state": "Статус",
-        "noPayments": "Платежи не найдены."
-      },
-      "shipments": {
-        "title": "Отгрузки",
-        "state": "Статус",
-        "noShipments": "Отгрузки не найдены."
-      },
-      "items": {
-        "title": "Товары",
-        "count": "{count} товаров",
-        "table": {
-          "item": "Товар",
-          "unitPrice": "Цена за единицу",
-          "quantity": "Кол-во",
-          "subtotal": "Сумма"
+      "settings": {
+        "title": "Настройки аккаунта",
+        "subtitle": "Настройте работу сервиса и защитите свои данные в одном удобном месте.",
+        "sections": {
+          "profile": {
+            "title": "Параметры профиля",
+            "description": "Обновляйте имя, аватар, язык и другие сведения, которые видят ваши коллеги.",
+            "fields": {
+              "displayName": "Отображаемое имя",
+              "username": "Имя пользователя"
+            }
+          },
+          "security": {
+            "title": "Безопасность и конфиденциальность",
+            "description": "Просматривайте активные сессии, включайте многофакторную аутентификацию и управляйте подключёнными приложениями."
+          },
+          "notifications": {
+            "title": "Уведомления",
+            "description": "Выбирайте, как получать оповещения об активности: по электронной почте, пуш-уведомлениями или внутри приложения."
+          }
         },
-        "empty": "В этом заказе нет товаров."
+        "tips": {
+          "title": "Нужна помощь?",
+          "description": "Загляните в Справочный центр за пошаговыми инструкциями или напишите в поддержку, если возникли вопросы."
+        }
       },
-      "totals": {
-        "items": "Итого за товары",
-        "discounts": "Скидки",
+      "help": {
+        "title": "Справочный центр",
+        "subtitle": "Находите ответы быстро — в документации, часто задаваемых вопросах и обсуждениях сообщества.",
+        "explanation": {
+          "title": "Что такое Bro World?",
+          "description": "Bro World объединяет коммуникацию, знания и рабочие процессы команды, помогая сосредоточиться на создании ценности.",
+          "highlights": {
+            "workspace": "Организуйте проекты, документы и обсуждения в отдельных пространствах для каждой инициативы.",
+            "collaboration": "Работайте совместно в реальном времени с общими заметками, встроенным чатом и своевременными уведомлениями.",
+            "support": "Отслеживайте прогресс на интерактивных панелях и обращайтесь к нашей команде, когда нужна помощь.",
+            "automation": "Автоматизируйте повторяющиеся задачи с помощью сценариев, запускающих действия во всех подключённых сервисах.",
+            "integrations": "Интегрируйте Bro World с GitHub, Slack, Figma и десятками партнёров, чтобы данные синхронизировались.",
+            "aiAssistant": "Используйте ИИ-помощника для мгновенных резюме, подготовки обновлений и подсказок дальнейших шагов."
+          }
+        },
+        "sections": {
+          "guides": {
+            "title": "Руководства по продукту",
+            "description": "Изучайте иллюстрированные уроки, чтобы освоить основы и открыть для себя продвинутые сценарии."
+          },
+          "faq": {
+            "title": "Частые вопросы",
+            "description": "Посмотрите решения для самых популярных тем, которые пользователи задают каждый день."
+          },
+          "community": {
+            "title": "Сообщество",
+            "description": "Общайтесь с другими участниками, делитесь советами и голосуйте за новые возможности."
+          },
+          "automation": {
+            "title": "Библиотека автоматизаций",
+            "description": "Изучайте готовые схемы, которые связывают рабочие процессы, согласования и отчёты за считанные минуты."
+          },
+          "updates": {
+            "title": "Новости и релизы",
+            "description": "Следите за свежими анонсами продукта, ключевыми пунктами дорожной карты и бета-программами."
+          }
+        },
+        "questions": {
+          "title": "Популярные вопросы",
+          "items": {
+            "accountAccess": {
+              "question": "Как получить доступ к своему аккаунту?",
+              "answer": "Войдите с электронной почтой, которую использовали при регистрации. Если возникли сложности, сбросьте пароль на странице входа или обратитесь в поддержку."
+            },
+            "inviteTeam": {
+              "question": "Могу ли я пригласить команду?",
+              "answer": "Да. Откройте настройки рабочего пространства, выберите «Участники» и отправьте приглашения по электронной почте для мгновенного совместного доступа."
+            },
+            "getSupport": {
+              "question": "Где получить дополнительную помощь?",
+              "answer": "Изучите руководства выше для пошаговых инструкций или напишите нам напрямую, чтобы получить персональную поддержку."
+            },
+            "automationTemplates": {
+              "question": "Как включить новые шаблоны автоматизации?",
+              "answer": "Откройте библиотеку автоматизаций в Справочном центре, выберите сценарий и сопоставьте шаги с подключёнными интеграциями вашего пространства."
+            },
+            "mobileAccess": {
+              "question": "Есть ли мобильное приложение?",
+              "answer": "Да. Установите приложение для iOS или Android, чтобы получать пуш-уведомления, согласовывать процессы и общаться с командой в пути."
+            },
+            "billing": {
+              "question": "Где управлять оплатой?",
+              "answer": "Администраторы могут открыть Настройки → Оплата, чтобы обновить способы оплаты, скачать счета или изменить количество лицензий."
+            }
+          }
+        },
+        "contact": {
+          "title": "Всё ещё нужна помощь?",
+          "description": "Напишите нам через страницу контактов, запустите живой чат или запишитесь на встречу с командой Customer Success."
+        }
+      },
+      "about": {
+        "title": "О Bro World",
+        "subtitle": "Познакомьтесь с платформой, насыщенной возможностями, которая объединяет команды, продукты и сообщества Bro World.",
+        "intro": "Bro World превратилась в единое цифровое рабочее пространство, объединяющее сообщество, публикацию контента, обмен сообщениями и автоматизацию в едином опыте.",
+        "mission": "Наша миссия — помогать командам быстро создавать прототипы, запускать решения раньше и уверенно управлять ежедневными процессами с помощью модульных блоков.",
+        "vision": "От рабочих процессов с поддержкой ИИ до панелей совместной работы в реальном времени — каждая функция создана так, чтобы адаптироваться вместе с вашей организацией.",
+        "sections": {
+          "frontend": {
+            "title": "Фронтенд-опыт",
+            "description": "Nuxt 3, Vue 3, TypeScript и Vuetify 3 обеспечивают доступный интерфейс с микро-фронтендами, офлайн-кэшем и адаптивным дизайном, который остаётся быстрым на любом устройстве."
+          },
+          "backend": {
+            "title": "Бэкенд-основа",
+            "description": "Сервисы Node.js оркестрируют очереди, WebSocket, поисковую индексацию и хранение данных в PostgreSQL за кулисами."
+          },
+          "api": {
+            "title": "Symfony-микросервисы",
+            "description": "Разделённые Symfony-микросервисы предоставляют защищённые REST- и GraphQL-API, а также готовые интеграции и вебхуки."
+          },
+          "realtime": {
+            "title": "Совместная работа в реальном времени",
+            "description": "Живое присутствие, общие комментарии и события WebSocket помогают командам оставаться синхронными, пока обновления появляются за секунды."
+          },
+          "automation": {
+            "title": "Автоматизация и интеллект",
+            "description": "Фоновые задачи, ассистенты с ИИ и запланированные сценарии снимают рутинную работу и подсказывают следующие шаги."
+          },
+          "devops": {
+            "title": "DevOps и безопасность",
+            "description": "Конвейеры инфраструктуры как код, контейнерные деплойменты и постоянные проверки безопасности защищают каждый релиз."
+          }
+        },
+        "highlights": {
+          "collaboration": {
+            "title": "Работа в рабочих пространствах",
+            "description": "Многоарендные рабочие пространства, ролевые права доступа и общие календари поддерживают распределённые команды."
+          },
+          "analytics": {
+            "title": "Прикладная аналитика",
+            "description": "Интерактивные дашборды, экспортируемые отчёты и единые метрики показывают состояние продукта за секунды."
+          },
+          "customization": {
+            "title": "Глубокая кастомизация",
+            "description": "Конструктор тем, точки расширения и детальные настройки позволяют адаптировать каждый экран под ваш бренд."
+          },
+          "marketplace": {
+            "title": "Маркетплейс экосистемы",
+            "description": "Отобранные плагины, интеграционные наборы и открытые API ускоряют выпуск новых возможностей."
+          }
+        },
+        "callToAction": {
+          "title": "Создавайте с Bro World",
+          "description": "Готовы расширить платформу или подключить свой стек? Свяжитесь с нами, и мы вместе спроектируем следующее поколение функций."
+        }
+      },
+      "ecommerceThankYou": {
+        "heroTitle": "Спасибо!",
+        "heroSubtitle": "Ваш заказ успешно оформлен.",
+        "orderTokenLabel": "Идентификатор подтверждения: {token}",
+        "viewOrder": "Просмотреть заказ",
+        "backToShop": "Вернуться в магазин",
+        "orderSummary": "Сводка по заказу",
+        "placedOn": "Оформлен {date}",
+        "orderNumber": "Заказ {number}",
+        "items": "Товары",
+        "itemCount": "{count} товаров",
+        "emptyItems": "В этом заказе не найдено товаров.",
+        "itemFallback": "Товар",
+        "unitPrice": "Цена за единицу: {price}",
+        "totals": "Итоги оплаты",
+        "subtotal": "Промежуточный итог",
         "shipping": "Доставка",
-        "taxes": "Налоги",
-        "grandTotal": "Итого"
+        "shippingMethod": "Способ доставки",
+        "tax": "Налоги",
+        "total": "Итого",
+        "contact": "Контакты",
+        "email": "Электронная почта",
+        "phone": "Телефон",
+        "shippingAddress": "Адрес доставки",
+        "billingAddress": "Платёжный адрес",
+        "noAddress": "Адрес не указан.",
+        "noOrder": "Не удалось показать данные заказа.",
+        "missingToken": "Мы не можем найти ваш заказ без токена подтверждения.",
+        "loadError": "Не удалось загрузить данные заказа. Повторите попытку.",
+        "retry": "Повторить"
       },
-      "notes": {
-        "title": "Дополнительные примечания",
-        "empty": "Примечаний нет."
-      },
-      "actions": {
-        "refresh": "Обновить заказ"
-      },
-      "fallbacks": {
-        "unknownPaymentMethod": "Способ оплаты",
-        "unknownShipmentMethod": "Доставка",
-        "unknownProduct": "Товар",
-        "unknownState": "В ожидании",
-        "unknownLocale": "Язык"
-      },
-      "errors": {
-        "loadFailed": "Не удалось загрузить этот заказ."
-      },
-      "states": {
-        "cart": "Корзина",
-        "addressed": "Адрес подтверждён",
-        "shipping_selected": "Доставка выбрана",
-        "payment_selected": "Оплата выбрана",
-        "completed": "Завершён"
-
-      }
-    },
-    "ecommerceCategory": {
-      "breadcrumbs": {
-        "category": "Category"
-      },
-      "actions": {
-        "goUp": "Go level up",
-        "refresh": "Reload category"
-      },
-      "labels": {
-        "search": "Search",
-        "searchPlaceholder": "Search products",
-        "sort": "Sort",
-        "itemsCount": "{count} items"
-      },
-      "sort": {
-        "position": "Sort by position",
-        "name": "Name (A–Z)",
-        "priceAsc": "Price: low to high",
-        "priceDesc": "Price: high to low"
-      },
-      "status": {
-        "loading": "Loading category…",
-        "failed": "We could not load this category."
-      },
-      "fallbacks": {
-        "description": "Explore our curated selection for this category.",
-        "empty": "We do not have products in this category yet."
-      }
-    }
-  },
-  "pluginManagement": {
-    "plugins": {
-      "cardTitle": "Plugins",
-      "cardSubtitle": "Manage the available integrations for the platform.",
-      "searchPlaceholder": "Search plugins",
-      "table": {
-        "name": "Name",
-        "key": "Key",
-        "status": "Status",
-        "installed": "Installed",
-        "updatedAt": "Updated at"
-      },
-      "labels": {
-        "active": "Active",
-        "inactive": "Inactive",
-        "installed": "Installed",
-        "notInstalled": "Not installed",
-        "notAvailable": "Not available",
-        "total": "Total: {count}",
-        "pluginFallback": "this plugin",
-        "createdAt": "Created at",
-        "updatedAt": "Updated at"
-      },
-      "fields": {
-        "name": "Name",
-        "key": "Key",
-        "subTitle": "Subtitle",
-        "description": "Description",
-        "logo": "Logo URL",
-        "icon": "Icon",
-        "link": "Link URL",
-        "pricing": "Pricing",
-        "action": "Action label",
-        "active": "Active",
-        "installed": "Installed"
-      },
-      "dialogs": {
-        "create": {
-          "title": "Create plugin"
+      "contact": {
+        "title": "Свяжитесь с нами",
+        "subtitle": "Мы готовы ответить на вопросы и подсказать подходящее решение.",
+        "sections": {
+          "support": {
+            "title": "Служба поддержки",
+            "description": "Получите техническую помощь, сообщите о проблеме или запросите изменения в аккаунте у нашей команды."
+          },
+          "partnerships": {
+            "title": "Партнёрства",
+            "description": "Обсудите интеграции, совместные маркетинговые активности или индивидуальные предложения для бизнеса."
+          },
+          "press": {
+            "title": "Пресса и медиа",
+            "description": "Запросите интервью, логотипы или пресс-кит, чтобы рассказать о Bro World в своей публикации."
+          }
         },
-        "edit": {
-          "title": "Edit {name}"
+        "details": {
+          "title": "Как связаться",
+          "description": "Напишите на {email} или создайте тикет в панели управления. Мы ответим в течение одного рабочего дня."
         },
-        "delete": {
-          "title": "Delete plugin",
-          "message": "Are you sure you want to delete {name}? This action cannot be undone."
+        "form": {
+          "title": "Отправьте нам сообщение",
+          "description": "Расскажите немного о своём запросе, и мы свяжем вас с нужным специалистом.",
+          "fields": {
+            "subject": "Тема сообщения",
+            "email": "Электронная почта",
+            "message": "Описание"
+          },
+          "actions": {
+            "submit": "Отправить сообщение"
+          },
+          "status": {
+            "success": "Спасибо! Ваше сообщение успешно отправлено.",
+            "error": "Что-то пошло не так. Попробуйте отправить сообщение ещё раз."
+          },
+          "validation": {
+            "required": "Это поле обязательно.",
+            "email": "Введите действительный адрес электронной почты."
+          }
         },
-        "view": {
-          "title": "Plugin details – {name}"
+        "location": {
+          "title": "Посетите нас в Кёльне",
+          "description": "Нашу команду можно найти в офисе в Кёльне, Германия."
         }
       },
-      "notifications": {
-        "createSuccess": "Plugin created successfully.",
-        "updateSuccess": "Plugin updated successfully.",
-        "deleteSuccess": "Plugin deleted successfully."
+      "ecommerceOrder": {
+        "meta": {
+          "title": "Order details"
+        },
+        "heading": {
+          "title": "Order #{number}",
+          "subtitle": "Your account"
+        },
+        "breadcrumbs": {
+          "account": "My account",
+          "orders": "Order history"
+        },
+        "actions": {
+          "pay": "Pay",
+          "retry": "Try again",
+          "refresh": "Refresh"
+        },
+        "labels": {
+          "token": "Token: {token}",
+          "createdAt": "Created at",
+          "completedAt": "Completed at",
+          "updatedAt": "Last update",
+          "currency": "Currency",
+          "locale": "Locale",
+          "checkoutState": "Checkout state",
+          "paymentState": "Payment state",
+          "shippingState": "Shipping state",
+          "state": "Order state",
+          "channel": "Channel",
+          "customer": "Customer",
+          "email": "Email",
+          "quantity": "Items"
+        },
+        "sections": {
+          "information": {
+            "title": "Order information"
+          },
+          "addresses": {
+            "title": "Addresses",
+            "billing": "Billing address",
+            "shipping": "Shipping address",
+            "loading": "Loading addresses…"
+          },
+          "items": {
+            "title": "Items",
+            "empty": "This order does not contain any items.",
+            "table": {
+              "product": "Product",
+              "unitPrice": "Unit price",
+              "quantity": "Qty",
+              "total": "Total"
+            }
+          },
+          "payments": {
+            "title": "Payments",
+            "empty": "No payments recorded for this order."
+          },
+          "shipments": {
+            "title": "Shipments",
+            "empty": "No shipments recorded for this order."
+          },
+          "summary": {
+            "title": "Summary",
+            "itemsTotal": "Subtotal",
+            "taxTotal": "Taxes",
+            "shippingTotal": "Shipping",
+            "total": "Order total"
+          }
+        },
+        "messages": {
+          "loadingError": "We could not load this order. Please try again.",
+          "notFound": "We could not find this order.",
+          "itemsError": "Unable to load the order items.",
+          "addressesError": "We could not load the addresses linked to this order."
+        },
+        "fallbacks": {
+          "unknown": "Unknown",
+          "noAddress": "Address unavailable",
+          "noValue": "Not provided"
+        },
+        "metaTitle": "Сводка заказа",
+        "heading": {
+          "title": "Сводка вашего заказа",
+          "subtitle": "Проверьте данные перед завершением покупки."
+        },
+        "status": {
+          "steps": {
+            "address": "Адрес",
+            "shipping": "Доставка",
+            "payment": "Оплата",
+            "complete": "Завершение"
+          }
+        },
+        "summary": {
+          "title": "Информация о заказе",
+          "currency": "Валюта",
+          "locale": "Язык",
+          "orderNumber": "Заказ №",
+          "placedOn": "Оформлен",
+          "checkoutState": "Статус оформления",
+          "paymentState": "Статус оплаты",
+          "shippingState": "Статус доставки"
+        },
+        "addresses": {
+          "billing": "Адрес плательщика",
+          "shipping": "Адрес доставки",
+          "missing": "Адрес недоступен"
+        },
+        "payments": {
+          "title": "Платежи",
+          "state": "Статус",
+          "noPayments": "Платежи не найдены."
+        },
+        "shipments": {
+          "title": "Отгрузки",
+          "state": "Статус",
+          "noShipments": "Отгрузки не найдены."
+        },
+        "items": {
+          "title": "Товары",
+          "count": "{count} товаров",
+          "table": {
+            "item": "Товар",
+            "unitPrice": "Цена за единицу",
+            "quantity": "Кол-во",
+            "subtotal": "Сумма"
+          },
+          "empty": "В этом заказе нет товаров."
+        },
+        "totals": {
+          "items": "Итого за товары",
+          "discounts": "Скидки",
+          "shipping": "Доставка",
+          "taxes": "Налоги",
+          "grandTotal": "Итого"
+        },
+        "notes": {
+          "title": "Дополнительные примечания",
+          "empty": "Примечаний нет."
+        },
+        "actions": {
+          "refresh": "Обновить заказ"
+        },
+        "fallbacks": {
+          "unknownPaymentMethod": "Способ оплаты",
+          "unknownShipmentMethod": "Доставка",
+          "unknownProduct": "Товар",
+          "unknownState": "В ожидании",
+          "unknownLocale": "Язык"
+        },
+        "errors": {
+          "loadFailed": "Не удалось загрузить этот заказ."
+        },
+        "states": {
+          "cart": "Корзина",
+          "addressed": "Адрес подтверждён",
+          "shipping_selected": "Доставка выбрана",
+          "payment_selected": "Оплата выбрана",
+          "completed": "Завершён"
+        }
       },
-      "errors": {
-        "loadFailed": "Unable to load the plugins. Please try again later.",
-        "createFailed": "Unable to create the plugin. Please try again later.",
-        "updateFailed": "Unable to update the plugin. Please try again later.",
-        "deleteFailed": "Unable to delete the plugin. Please try again later.",
-        "invalidForm": "Please fill in the required fields before continuing.",
-        "missingIdentifier": "A valid plugin identifier is required to continue.",
-        "loadDetails": "Unable to retrieve the plugin details. Please try again later."
-      },
-      "actions": {
-        "view": "View plugin",
-        "edit": "Edit plugin",
-        "delete": "Delete plugin"
+      "ecommerceCategory": {
+        "breadcrumbs": {
+          "category": "Category"
+        },
+        "actions": {
+          "goUp": "Go level up",
+          "refresh": "Reload category"
+        },
+        "labels": {
+          "search": "Search",
+          "searchPlaceholder": "Search products",
+          "sort": "Sort",
+          "itemsCount": "{count} items"
+        },
+        "sort": {
+          "position": "Sort by position",
+          "name": "Name (A–Z)",
+          "priceAsc": "Price: low to high",
+          "priceDesc": "Price: high to low"
+        },
+        "status": {
+          "loading": "Loading category…",
+          "failed": "We could not load this category."
+        },
+        "fallbacks": {
+          "description": "Explore our curated selection for this category.",
+          "empty": "We do not have products in this category yet."
+        }
       }
-    }
-  },
-  "notificationManagement": {
-    "title": "Управление уведомлениями",
-    "subtitle": "Отслеживайте системные уведомления и устраняйте проблемы доставки в одном месте.",
-    "table": {
-      "subject": "Тема",
-      "channel": "Канал",
-      "recipient": "Получатель",
-      "status": "Статус",
-      "createdAt": "Создано",
-      "scheduledFor": "Запланировано",
-      "sentAt": "Отправлено"
     },
-    "filters": {
-      "search": "Поиск по теме, каналу или получателю"
-    },
-    "status": {
-      "pending": "В ожидании",
-      "processing": "В обработке",
-      "sent": "Отправлено",
-      "failed": "Ошибка",
-      "cancelled": "Отменено",
-      "canceled": "Отменено",
-      "queued": "В очереди",
-      "delivered": "Доставлено",
-      "errored": "Ошибка",
-      "unknown": "Неизвестно"
-    },
-    "channels": {
-      "email": "Email",
-      "sms": "SMS",
-      "push": "Push-уведомление",
-      "in_app": "В приложении",
-      "inapp": "В приложении",
-      "webhook": "Webhook",
-      "unknown": "Другое"
-    },
-    "labels": {
-      "subject": "Тема",
-      "status": "Статус",
-      "recipient": "Получатель",
-      "channel": "Канал",
-      "createdAt": "Создано",
-      "updatedAt": "Последнее обновление",
-      "scheduledFor": "Запланировано на",
-      "sentAt": "Отправлено",
-      "message": "Сообщение",
-      "metadata": "Метаданные",
-      "payload": "Payload",
-      "context": "Контекст",
-      "attempts": "Попытки доставки",
-      "emptyMetadata": "Дополнительные сведения для этого уведомления отсутствуют.",
-      "notAvailable": "Нет данных"
-    },
-    "actions": {
-      "view": "Просмотреть уведомление {subject}",
-      "updateStatus": "Изменить статус {subject}"
-    },
-    "dialogs": {
-      "view": {
-        "title": "Детали уведомления"
-      },
-      "status": {
-        "title": "Изменить статус уведомления",
-        "description": "Выберите статус, который следует применить к этому уведомлению."
+    "pluginManagement": {
+      "plugins": {
+        "cardTitle": "Plugins",
+        "cardSubtitle": "Manage the available integrations for the platform.",
+        "searchPlaceholder": "Search plugins",
+        "table": {
+          "name": "Name",
+          "key": "Key",
+          "status": "Status",
+          "installed": "Installed",
+          "updatedAt": "Updated at"
+        },
+        "labels": {
+          "active": "Active",
+          "inactive": "Inactive",
+          "installed": "Installed",
+          "notInstalled": "Not installed",
+          "notAvailable": "Not available",
+          "total": "Total: {count}",
+          "pluginFallback": "this plugin",
+          "createdAt": "Created at",
+          "updatedAt": "Updated at"
+        },
+        "fields": {
+          "name": "Name",
+          "key": "Key",
+          "subTitle": "Subtitle",
+          "description": "Description",
+          "logo": "Logo URL",
+          "icon": "Icon",
+          "link": "Link URL",
+          "pricing": "Pricing",
+          "action": "Action label",
+          "active": "Active",
+          "installed": "Installed"
+        },
+        "dialogs": {
+          "create": {
+            "title": "Create plugin"
+          },
+          "edit": {
+            "title": "Edit {name}"
+          },
+          "delete": {
+            "title": "Delete plugin",
+            "message": "Are you sure you want to delete {name}? This action cannot be undone."
+          },
+          "view": {
+            "title": "Plugin details – {name}"
+          }
+        },
+        "notifications": {
+          "createSuccess": "Plugin created successfully.",
+          "updateSuccess": "Plugin updated successfully.",
+          "deleteSuccess": "Plugin deleted successfully."
+        },
+        "errors": {
+          "loadFailed": "Unable to load the plugins. Please try again later.",
+          "createFailed": "Unable to create the plugin. Please try again later.",
+          "updateFailed": "Unable to update the plugin. Please try again later.",
+          "deleteFailed": "Unable to delete the plugin. Please try again later.",
+          "invalidForm": "Please fill in the required fields before continuing.",
+          "missingIdentifier": "A valid plugin identifier is required to continue.",
+          "loadDetails": "Unable to retrieve the plugin details. Please try again later."
+        },
+        "actions": {
+          "view": "View plugin",
+          "edit": "Edit plugin",
+          "delete": "Delete plugin"
+        }
       }
     },
-    "forms": {
-      "status": {
-        "label": "Статус",
-        "hint": "Выберите статус доставки, который лучше всего описывает текущую ситуацию.",
-        "submit": "Сохранить статус"
-      }
-    },
-    "notifications": {
-      "loadFailed": "Не удалось загрузить уведомления.",
-      "detailLoadFailed": "Не удалось загрузить детали уведомления.",
-      "statusUpdated": "Статус уведомления обновлён на {status}.",
-      "statusUpdateFailed": "Не удалось обновить статус уведомления."
-    },
-    "navigation": {
-      "notifications": "Notifications",
-      "templates": "Templates",
-      "send": "Send notification",
-      "batch": "Batch send"
-    },
-    "templates": {
-      "title": "Notification templates",
-      "subtitle": "Browse and upload notification templates available to your workspace.",
-      "filters": {
-        "search": "Search by name, locale or identifier"
-      },
+    "notificationManagement": {
+      "title": "Управление уведомлениями",
+      "subtitle": "Отслеживайте системные уведомления и устраняйте проблемы доставки в одном месте.",
       "table": {
-        "name": "Name",
-        "templateId": "Template ID",
-        "locale": "Locale",
-        "updatedAt": "Updated",
-        "createdAt": "Created"
+        "subject": "Тема",
+        "channel": "Канал",
+        "recipient": "Получатель",
+        "status": "Статус",
+        "createdAt": "Создано",
+        "scheduledFor": "Запланировано",
+        "sentAt": "Отправлено"
+      },
+      "filters": {
+        "search": "Поиск по теме, каналу или получателю"
+      },
+      "status": {
+        "pending": "В ожидании",
+        "processing": "В обработке",
+        "sent": "Отправлено",
+        "failed": "Ошибка",
+        "cancelled": "Отменено",
+        "canceled": "Отменено",
+        "queued": "В очереди",
+        "delivered": "Доставлено",
+        "errored": "Ошибка",
+        "unknown": "Неизвестно"
+      },
+      "channels": {
+        "email": "Email",
+        "sms": "SMS",
+        "push": "Push-уведомление",
+        "in_app": "В приложении",
+        "inapp": "В приложении",
+        "webhook": "Webhook",
+        "unknown": "Другое"
       },
       "labels": {
-        "name": "Template name",
-        "identifier": "Identifier",
-        "templateId": "Template ID",
-        "locale": "Locale",
-        "createdAt": "Created at",
-        "updatedAt": "Updated at",
-        "variables": "Variables",
-        "emptyVariables": "No variables are defined for this template.",
-        "anyLocale": "Any locale"
+        "subject": "Тема",
+        "status": "Статус",
+        "recipient": "Получатель",
+        "channel": "Канал",
+        "createdAt": "Создано",
+        "updatedAt": "Последнее обновление",
+        "scheduledFor": "Запланировано на",
+        "sentAt": "Отправлено",
+        "message": "Сообщение",
+        "metadata": "Метаданные",
+        "payload": "Payload",
+        "context": "Контекст",
+        "attempts": "Попытки доставки",
+        "emptyMetadata": "Дополнительные сведения для этого уведомления отсутствуют.",
+        "notAvailable": "Нет данных"
       },
       "actions": {
-        "upload": "Upload template",
-        "refresh": "Refresh",
-        "view": "View template {name}",
-        "viewLabel": "View"
+        "view": "Просмотреть уведомление {subject}",
+        "updateStatus": "Изменить статус {subject}"
       },
       "dialogs": {
         "view": {
-          "title": "Template details"
+          "title": "Детали уведомления"
         },
-        "upload": {
-          "title": "Upload notification template",
-          "description": "Select the template archive or JSON file you want to upload."
+        "status": {
+          "title": "Изменить статус уведомления",
+          "description": "Выберите статус, который следует применить к этому уведомлению."
         }
       },
       "forms": {
-        "upload": {
-          "fileLabel": "Template file",
-          "fileHint": "Accepted formats: JSON, ZIP, YAML or plain text.",
-          "fileRequired": "Please select a template file before continuing.",
-          "submit": "Upload template"
+        "status": {
+          "label": "Статус",
+          "hint": "Выберите статус доставки, который лучше всего описывает текущую ситуацию.",
+          "submit": "Сохранить статус"
         }
       },
       "notifications": {
-        "loadFailed": "Unable to load templates.",
-        "detailLoadFailed": "Unable to load the template details.",
-        "detailUnavailable": "Template details are not available.",
-        "uploadSuccess": "Template uploaded successfully.",
-        "uploadFailed": "Unable to upload the template."
+        "loadFailed": "Не удалось загрузить уведомления.",
+        "detailLoadFailed": "Не удалось загрузить детали уведомления.",
+        "statusUpdated": "Статус уведомления обновлён на {status}.",
+        "statusUpdateFailed": "Не удалось обновить статус уведомления."
+      },
+      "navigation": {
+        "notifications": "Notifications",
+        "templates": "Templates",
+        "send": "Send notification",
+        "batch": "Batch send"
+      },
+      "templates": {
+        "title": "Notification templates",
+        "subtitle": "Browse and upload notification templates available to your workspace.",
+        "filters": {
+          "search": "Search by name, locale or identifier"
+        },
+        "table": {
+          "name": "Name",
+          "templateId": "Template ID",
+          "locale": "Locale",
+          "updatedAt": "Updated",
+          "createdAt": "Created"
+        },
+        "labels": {
+          "name": "Template name",
+          "identifier": "Identifier",
+          "templateId": "Template ID",
+          "locale": "Locale",
+          "createdAt": "Created at",
+          "updatedAt": "Updated at",
+          "variables": "Variables",
+          "emptyVariables": "No variables are defined for this template.",
+          "anyLocale": "Any locale"
+        },
+        "actions": {
+          "upload": "Upload template",
+          "refresh": "Refresh",
+          "view": "View template {name}",
+          "viewLabel": "View"
+        },
+        "dialogs": {
+          "view": {
+            "title": "Template details"
+          },
+          "upload": {
+            "title": "Upload notification template",
+            "description": "Select the template archive or JSON file you want to upload."
+          }
+        },
+        "forms": {
+          "upload": {
+            "fileLabel": "Template file",
+            "fileHint": "Accepted formats: JSON, ZIP, YAML or plain text.",
+            "fileRequired": "Please select a template file before continuing.",
+            "submit": "Upload template"
+          }
+        },
+        "notifications": {
+          "loadFailed": "Unable to load templates.",
+          "detailLoadFailed": "Unable to load the template details.",
+          "detailUnavailable": "Template details are not available.",
+          "uploadSuccess": "Template uploaded successfully.",
+          "uploadFailed": "Unable to upload the template."
+        }
+      },
+      "send": {
+        "title": "Send a notification",
+        "subtitle": "Compose and send a notification to a recipient or group immediately or at a scheduled time.",
+        "channels": {
+          "email": "Email",
+          "sms": "SMS",
+          "push": "Push"
+        },
+        "fields": {
+          "channel": "Channel",
+          "scope": "Scope",
+          "sendAfter": "Send after",
+          "scopeTarget": "Scope target",
+          "topic": "Topic",
+          "pushTitle": "Push title",
+          "pushSubtitle": "Push subtitle",
+          "pushContent": "Push content",
+          "smsContent": "SMS content",
+          "smsSenderName": "Sender name",
+          "recipients": "Recipients",
+          "emailRecipientsCc": "CC recipients",
+          "emailRecipientsBcc": "BCC recipients",
+          "emailRecipientsReplyTo": "Reply-to recipients",
+          "emailSenderEmail": "Sender email",
+          "emailSenderName": "Sender name",
+          "templateId": "Template ID",
+          "emailSubject": "Email subject",
+          "emailContentPlain": "Plain text content",
+          "emailContentHtml": "HTML content"
+        },
+        "hints": {
+          "channel": "Select the channel that will be used to send this notification.",
+          "scope": "Optional scope for the notification (INDIVIDUAL, GLOBAL, WORKPLACE, SEGMENT).",
+          "sendAfter": "Choose a future date to delay the delivery or leave empty to send immediately.",
+          "scopeTarget": "Provide a JSON object describing the target audience for scoped notifications.",
+          "topic": "Optional topic identifier used by the push provider.",
+          "recipients": "Provide a JSON array or string representing the recipients.",
+          "emailRecipientsCc": "Optional carbon copy recipients as JSON array or string.",
+          "emailRecipientsBcc": "Optional blind carbon copy recipients as JSON array or string.",
+          "emailRecipientsReplyTo": "Optional reply-to recipients as JSON array or string.",
+          "templateId": "Use the template ID to render the email with predefined content."
+        },
+        "sections": {
+          "push": "Push content",
+          "sms": "SMS content",
+          "email": "Email content"
+        },
+        "actions": {
+          "submit": "Send notification"
+        },
+        "notifications": {
+          "success": "Notification sent successfully.",
+          "failed": "Unable to send the notification."
+        }
+      },
+      "batch": {
+        "title": "Send batch notifications",
+        "subtitle": "Dispatch a notification to multiple recipients with a single request.",
+        "channels": {
+          "email": "Email",
+          "sms": "SMS",
+          "push": "Push"
+        },
+        "fields": {
+          "channel": "Channel",
+          "scope": "Scope",
+          "sendAfter": "Send after",
+          "recipients": "Recipients",
+          "emailSenderEmail": "Sender email",
+          "emailSenderName": "Sender name",
+          "templateId": "Template ID",
+          "emailSubject": "Email subject",
+          "emailContentPlain": "Plain text content",
+          "emailContentHtml": "HTML content"
+        },
+        "hints": {
+          "channel": "Select the notification channel for this batch request.",
+          "scope": "Optional scope for the notification (INDIVIDUAL, GLOBAL, WORKPLACE, SEGMENT).",
+          "sendAfter": "Choose a future date to delay the delivery or leave empty to send immediately.",
+          "recipients": "Provide a JSON array or string describing the batch recipients.",
+          "templateId": "Use the template ID to render the email with predefined content."
+        },
+        "sections": {
+          "email": "Email content"
+        },
+        "actions": {
+          "submit": "Send batch"
+        },
+        "notifications": {
+          "success": "Batch notification request submitted successfully.",
+          "failed": "Unable to submit the batch notification request."
+        }
       }
     },
-    "send": {
-      "title": "Send a notification",
-      "subtitle": "Compose and send a notification to a recipient or group immediately or at a scheduled time.",
-      "channels": {
-        "email": "Email",
-        "sms": "SMS",
-        "push": "Push"
+    "workplace": {
+      "drawer": {
+        "title": "World",
+        "addWorld": "Add world",
+        "emptyList": "У вас ещё нет миров."
       },
-      "fields": {
-        "channel": "Channel",
-        "scope": "Scope",
-        "sendAfter": "Send after",
-        "scopeTarget": "Scope target",
-        "topic": "Topic",
-        "pushTitle": "Push title",
-        "pushSubtitle": "Push subtitle",
-        "pushContent": "Push content",
-        "smsContent": "SMS content",
-        "smsSenderName": "Sender name",
-        "recipients": "Recipients",
-        "emailRecipientsCc": "CC recipients",
-        "emailRecipientsBcc": "BCC recipients",
-        "emailRecipientsReplyTo": "Reply-to recipients",
-        "emailSenderEmail": "Sender email",
-        "emailSenderName": "Sender name",
-        "templateId": "Template ID",
-        "emailSubject": "Email subject",
-        "emailContentPlain": "Plain text content",
-        "emailContentHtml": "HTML content"
-      },
-      "hints": {
-        "channel": "Select the channel that will be used to send this notification.",
-        "scope": "Optional scope for the notification (INDIVIDUAL, GLOBAL, WORKPLACE, SEGMENT).",
-        "sendAfter": "Choose a future date to delay the delivery or leave empty to send immediately.",
-        "scopeTarget": "Provide a JSON object describing the target audience for scoped notifications.",
-        "topic": "Optional topic identifier used by the push provider.",
-        "recipients": "Provide a JSON array or string representing the recipients.",
-        "emailRecipientsCc": "Optional carbon copy recipients as JSON array or string.",
-        "emailRecipientsBcc": "Optional blind carbon copy recipients as JSON array or string.",
-        "emailRecipientsReplyTo": "Optional reply-to recipients as JSON array or string.",
-        "templateId": "Use the template ID to render the email with predefined content."
-      },
-      "sections": {
-        "push": "Push content",
-        "sms": "SMS content",
-        "email": "Email content"
-      },
-      "actions": {
-        "submit": "Send notification"
-      },
-      "notifications": {
-        "success": "Notification sent successfully.",
-        "failed": "Unable to send the notification."
-      }
-    },
-    "batch": {
-      "title": "Send batch notifications",
-      "subtitle": "Dispatch a notification to multiple recipients with a single request.",
-      "channels": {
-        "email": "Email",
-        "sms": "SMS",
-        "push": "Push"
-      },
-      "fields": {
-        "channel": "Channel",
-        "scope": "Scope",
-        "sendAfter": "Send after",
-        "recipients": "Recipients",
-        "emailSenderEmail": "Sender email",
-        "emailSenderName": "Sender name",
-        "templateId": "Template ID",
-        "emailSubject": "Email subject",
-        "emailContentPlain": "Plain text content",
-        "emailContentHtml": "HTML content"
-      },
-      "hints": {
-        "channel": "Select the notification channel for this batch request.",
-        "scope": "Optional scope for the notification (INDIVIDUAL, GLOBAL, WORKPLACE, SEGMENT).",
-        "sendAfter": "Choose a future date to delay the delivery or leave empty to send immediately.",
-        "recipients": "Provide a JSON array or string describing the batch recipients.",
-        "templateId": "Use the template ID to render the email with predefined content."
-      },
-      "sections": {
-        "email": "Email content"
-      },
-      "actions": {
-        "submit": "Send batch"
-      },
-      "notifications": {
-        "success": "Batch notification request submitted successfully.",
-        "failed": "Unable to submit the batch notification request."
-      }
-    }
-  },
-  "workplace": {
-    "drawer": {
-      "title": "World",
-      "addWorld": "Add world",
-      "emptyList": "У вас ещё нет миров."
-    },
-    "dialog": {
-      "title": "Manage your world",
-      "tabs": {
-        "plugins": "Plugins",
-        "members": "Members",
-        "design": "Design"
-      },
-      "steps": {
-        "details": "Детали мира",
-        "settings": "Параметры мира"
-      },
-      "fields": {
-        "name": "World name",
-        "optionalName": "World name (optional)",
-        "identifier": "World identifier",
-        "isPrivate": "Private world",
-        "enabled": "Enable world",
-        "plugins": "Plugin identifiers",
-        "members": "Member identifiers"
-      },
-      "hints": {
-        "identifier": "Use the slug or ID of the world.",
-        "list": "Use commas or line breaks to separate values."
-      },
-      "actions": {
-        "create": "Create world",
-        "update": "Save changes",
-        "delete": "Delete world",
-        "addPlugins": "Add plugins",
-        "removePlugins": "Remove plugins",
-        "addMembers": "Add members",
-        "removeMembers": "Remove members",
-        "saveDesign": "Save design"
-      },
-      "messages": {
-        "createSuccess": "World created successfully.",
-        "updateSuccess": "World updated successfully.",
-        "deleteSuccess": "World deleted successfully.",
-        "addPluginsSuccess": "Plugins added successfully.",
-        "removePluginsSuccess": "Plugins removed successfully.",
-        "addMembersSuccess": "Members added successfully.",
-        "removeMembersSuccess": "Members removed successfully.",
-        "designSaved": "Design saved successfully."
-      },
-      "validation": {
-        "nameRequired": "The world name is required.",
-        "identifierRequired": "The world identifier is required.",
-        "pluginsRequired": "At least one plugin identifier is required.",
-        "membersRequired": "At least one member identifier is required."
+      "dialog": {
+        "title": "Manage your world",
+        "tabs": {
+          "plugins": "Plugins",
+          "members": "Members",
+          "design": "Design"
+        },
+        "steps": {
+          "details": "Детали мира",
+          "settings": "Параметры мира"
+        },
+        "fields": {
+          "name": "World name",
+          "optionalName": "World name (optional)",
+          "identifier": "World identifier",
+          "isPrivate": "Private world",
+          "enabled": "Enable world",
+          "plugins": "Plugin identifiers",
+          "members": "Member identifiers"
+        },
+        "hints": {
+          "identifier": "Use the slug or ID of the world.",
+          "list": "Use commas or line breaks to separate values."
+        },
+        "actions": {
+          "create": "Create world",
+          "update": "Save changes",
+          "delete": "Delete world",
+          "addPlugins": "Add plugins",
+          "removePlugins": "Remove plugins",
+          "addMembers": "Add members",
+          "removeMembers": "Remove members",
+          "saveDesign": "Save design"
+        },
+        "messages": {
+          "createSuccess": "World created successfully.",
+          "updateSuccess": "World updated successfully.",
+          "deleteSuccess": "World deleted successfully.",
+          "addPluginsSuccess": "Plugins added successfully.",
+          "removePluginsSuccess": "Plugins removed successfully.",
+          "addMembersSuccess": "Members added successfully.",
+          "removeMembersSuccess": "Members removed successfully.",
+          "designSaved": "Design saved successfully."
+        },
+        "validation": {
+          "nameRequired": "The world name is required.",
+          "identifierRequired": "The world identifier is required.",
+          "pluginsRequired": "At least one plugin identifier is required.",
+          "membersRequired": "At least one member identifier is required."
+        }
       }
     }
   }
-}
 }

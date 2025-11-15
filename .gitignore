@@ -2,6 +2,7 @@
 .output
 .data
 .nuxt
+.pnpm-store
 .nitro
 .cache
 dist

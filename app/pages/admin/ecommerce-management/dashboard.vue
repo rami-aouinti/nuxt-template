@@ -141,7 +141,8 @@ const products = computed(() => normalizeHydraCollection(rawProducts.value))
 const customers = computed(() => normalizeHydraCollection(rawCustomers.value))
 
 const formatCurrency = (amount: number, currencyCode?: string | null) => {
-  const code = currencyCode && currencyCode.trim().length > 0 ? currencyCode : 'USD'
+  const code =
+    currencyCode && currencyCode.trim().length > 0 ? currencyCode : 'USD'
 
   try {
     const formatter = new Intl.NumberFormat(locale.value, {
@@ -168,7 +169,11 @@ const stats = computed(() => {
     'averageOrderValue',
     'avgOrder',
   ])
-  const orderCount = getNumber(statsRecord, ['orders', 'order_count', 'orderCount'])
+  const orderCount = getNumber(statsRecord, [
+    'orders',
+    'order_count',
+    'orderCount',
+  ])
   const newCustomers = getNumber(statsRecord, [
     'new_customers',
     'newCustomers',
@@ -225,7 +230,10 @@ const pendingActions = computed(() => {
   const pendingPayments = orders.value.filter((entry) => {
     const record = toRecord(entry)
     const paymentState = getString(record, ['paymentState', 'payment_state'])
-    return paymentState && !['paid', 'completed', 'authorized'].includes(paymentState)
+    return (
+      paymentState &&
+      !['paid', 'completed', 'authorized'].includes(paymentState)
+    )
   }).length
 
   const pendingShipments = shipments.value.filter((entry) => {
@@ -302,7 +310,10 @@ const recentOrders = computed(() =>
       getString(record, ['shippingState', 'shipping_state']) ??
       t('admin.ecommerce.common.unknownState')
 
-    const total = formatCurrency(getNumber(record, ['total', 'totalAmount']), currency)
+    const total = formatCurrency(
+      getNumber(record, ['total', 'totalAmount']),
+      currency,
+    )
 
     const placedAt = formatDateValue(
       safeDate(record?.createdAt) ?? safeDate(record?.created_at),
@@ -385,7 +396,9 @@ const customersGrowth = computed(() => {
         value: getNumber(record, ['value', 'total', 'count']),
       }
     })
-    .filter((entry): entry is { period: string; value: number } => Boolean(entry))
+    .filter((entry): entry is { period: string; value: number } =>
+      Boolean(entry),
+    )
 })
 
 const inventoryHealth = computed(() => {
@@ -502,7 +515,11 @@ const returningCustomers = computed(() => {
               </template>
               <v-list-item-title>{{ item.title }}</v-list-item-title>
               <v-list-item-subtitle>
-                {{ t('admin.ecommerce.dashboard.pending.items', { value: item.value }) }}
+                {{
+                  t('admin.ecommerce.dashboard.pending.items', {
+                    value: item.value,
+                  })
+                }}
               </v-list-item-subtitle>
               <template #append>
                 <v-chip color="primary" variant="tonal">

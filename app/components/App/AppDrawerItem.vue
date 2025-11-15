@@ -83,7 +83,9 @@ const hasNormalizedIcon = (value: unknown) =>
 
 const visibleChildren = computed(() =>
   item.children
-    ?.filter((child) => hasNormalizedIcon(child.meta?.icon) && hasRouteAccess(child))
+    ?.filter(
+      (child) => hasNormalizedIcon(child.meta?.icon) && hasRouteAccess(child),
+    )
     .sort((a, b) => (a.meta?.drawerIndex ?? 99) - (b.meta?.drawerIndex ?? 98)),
 )
 const visibleChildrenNum = computed(() => visibleChildren.value?.length || 0)
@@ -98,7 +100,9 @@ const translatedTitle = computed(() => {
 
   return t(String(key))
 })
-const icon = computed(() => normalizeIconValue(resolveIconInput(item.meta?.icon)))
+const icon = computed(() =>
+  normalizeIconValue(resolveIconInput(item.meta?.icon)),
+)
 // @ts-expect-error unknown type miss match
 const to = computed<RouteRecordRaw>(() => ({
   name: item.name || visibleChildren.value?.[0]?.name,

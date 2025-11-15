@@ -1,6 +1,9 @@
 import { readBody } from 'h3'
 
-import { broWorldEcommerceRequest, getEcommerceAcceptLanguage } from '~~/server/utils/broWorldEcommerceApi'
+import {
+  broWorldEcommerceRequest,
+  getEcommerceAcceptLanguage,
+} from '~~/server/utils/broWorldEcommerceApi'
 import { requireEntityId } from '~~/server/utils/crud'
 
 type ExchangeRatePayload = Record<string, unknown>
@@ -8,7 +11,7 @@ type ExchangeRatePayload = Record<string, unknown>
 type ExchangeRateResponse = Record<string, unknown>
 
 export default defineEventHandler(async (event) => {
-  const id = requireEntityId(event, "du taux de change")
+  const id = requireEntityId(event, 'du taux de change')
   const body = await readBody<ExchangeRatePayload>(event)
 
   const acceptLanguage = getEcommerceAcceptLanguage(event)

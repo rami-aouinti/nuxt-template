@@ -163,7 +163,8 @@ export interface TranslationInterfaceJsonLd extends TranslationInterface {
 
 export type TranslatableInterfaceNoId = TranslatableInterface
 
-export interface TranslatableInterfaceNoIdJsonLd extends TranslatableInterfaceNoId {
+export interface TranslatableInterfaceNoIdJsonLd
+  extends TranslatableInterfaceNoId {
   '@context'?: HydraContext
   '@id'?: string
   '@type'?: string
@@ -171,7 +172,8 @@ export interface TranslatableInterfaceNoIdJsonLd extends TranslatableInterfaceNo
 
 export type TranslationInterfaceNoId = TranslationInterface
 
-export interface TranslationInterfaceNoIdJsonLd extends TranslationInterfaceNoId {
+export interface TranslationInterfaceNoIdJsonLd
+  extends TranslationInterfaceNoId {
   '@context'?: HydraContext
   '@id'?: string
   '@type'?: string
@@ -387,4 +389,3 @@ export interface UserOAuthInterfaceJsonLd extends UserOAuthInterface {
   '@id'?: string
   '@type'?: string
 }
-

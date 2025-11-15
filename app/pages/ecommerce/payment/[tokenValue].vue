@@ -149,7 +149,11 @@ const resolveMethodLabel = (
     }
 
     for (const value of Object.values(translations)) {
-      if (isRecord(value) && typeof value.name === 'string' && value.name.trim()) {
+      if (
+        isRecord(value) &&
+        typeof value.name === 'string' &&
+        value.name.trim()
+      ) {
         return value.name
       }
     }
@@ -205,7 +209,9 @@ const resolveMethodInstructions = (method: PaymentMethodLike) => {
   return null
 }
 
-const resolveMethodIri = (method: PaymentMethodLike | string | null | undefined) => {
+const resolveMethodIri = (
+  method: PaymentMethodLike | string | null | undefined,
+) => {
   if (!method) {
     return null
   }
@@ -311,7 +317,9 @@ const orderPayments = computed<PaymentLike[]>(() => {
 })
 
 const activePaymentIndex = computed(() =>
-  orderPayments.value.findIndex((payment) => resolvePaymentId(payment) !== null),
+  orderPayments.value.findIndex(
+    (payment) => resolvePaymentId(payment) !== null,
+  ),
 )
 
 const activePayment = computed<PaymentLike | null>(() => {
@@ -329,12 +337,8 @@ const activePayment = computed<PaymentLike | null>(() => {
 
 const activePaymentId = computed(() => resolvePaymentId(activePayment.value))
 
-const paymentStepOrder: Array<'address' | 'shipping' | 'payment' | 'complete'> = [
-  'address',
-  'shipping',
-  'payment',
-  'complete',
-]
+const paymentStepOrder: Array<'address' | 'shipping' | 'payment' | 'complete'> =
+  ['address', 'shipping', 'payment', 'complete']
 
 const checkoutStateToIndex: Record<string, number> = {
   cart: 0,
@@ -731,7 +735,9 @@ const selectMethod = async (option: PaymentMethodOption) => {
         body: { paymentMethod: nextIri },
         headers: {
           'Content-Type': 'application/json',
-          ...(locale.value ? { 'Accept-Language': locale.value as string } : {}),
+          ...(locale.value
+            ? { 'Accept-Language': locale.value as string }
+            : {}),
         },
       },
     )
@@ -782,7 +788,9 @@ const completeOrder = async () => {
         body: {},
         headers: {
           'Content-Type': 'application/json',
-          ...(locale.value ? { 'Accept-Language': locale.value as string } : {}),
+          ...(locale.value
+            ? { 'Accept-Language': locale.value as string }
+            : {}),
         },
       },
     )
@@ -822,8 +830,12 @@ const completeOrder = async () => {
                     icon="mdi-check"
                     size="16"
                   />
-                  <span v-else-if="step.status === 'current'">{{ paymentStepOrder.indexOf(step.key) + 1 }}</span>
-                  <span v-else>{{ paymentStepOrder.indexOf(step.key) + 1 }}</span>
+                  <span v-else-if="step.status === 'current'">{{
+                    paymentStepOrder.indexOf(step.key) + 1
+                  }}</span>
+                  <span v-else>{{
+                    paymentStepOrder.indexOf(step.key) + 1
+                  }}</span>
                 </span>
                 <span class="payment-steps__label">{{ step.label }}</span>
               </li>
@@ -852,29 +864,43 @@ const completeOrder = async () => {
 
             <div class="payment-card__body">
               <div v-if="loadErrorMessage" class="payment-card__alert">
-                <v-alert type="error" :text="loadErrorMessage" density="comfortable" />
+                <v-alert
+                  type="error"
+                  :text="loadErrorMessage"
+                  density="comfortable"
+                />
               </div>
 
               <div v-if="updateError" class="payment-card__alert">
-                <v-alert type="error" :text="updateError" density="comfortable" />
+                <v-alert
+                  type="error"
+                  :text="updateError"
+                  density="comfortable"
+                />
               </div>
 
               <div v-if="updateSuccess" class="payment-card__alert">
-                <v-alert type="success" :text="updateSuccess" density="comfortable" />
+                <v-alert
+                  type="success"
+                  :text="updateSuccess"
+                  density="comfortable"
+                />
               </div>
 
-              <div
-                v-if="completionError"
-                class="payment-card__alert"
-              >
-                <v-alert type="error" :text="completionError" density="comfortable" />
+              <div v-if="completionError" class="payment-card__alert">
+                <v-alert
+                  type="error"
+                  :text="completionError"
+                  density="comfortable"
+                />
               </div>
 
-              <div
-                v-if="completionSuccess"
-                class="payment-card__alert"
-              >
-                <v-alert type="success" :text="completionSuccess" density="comfortable" />
+              <div v-if="completionSuccess" class="payment-card__alert">
+                <v-alert
+                  type="success"
+                  :text="completionSuccess"
+                  density="comfortable"
+                />
               </div>
 
               <div v-if="anyLoading" class="payment-card__loader">
@@ -901,7 +927,8 @@ const completeOrder = async () => {
                   role="radio"
                   :aria-checked="selectedMethodCode === method.code"
                   :class="{
-                    'payment-method--selected': selectedMethodCode === method.code,
+                    'payment-method--selected':
+                      selectedMethodCode === method.code,
                     'payment-method--disabled': selectingDisabled,
                   }"
                   :disabled="selectingDisabled"
@@ -914,15 +941,30 @@ const completeOrder = async () => {
                   </div>
                   <div class="payment-method__content">
                     <div class="payment-method__header">
-                      <span class="payment-method__label">{{ method.label }}</span>
-                      <span v-if="updatingMethodCode === method.code" class="payment-method__pending">
-                        <v-progress-circular indeterminate size="16" width="2" />
+                      <span class="payment-method__label">{{
+                        method.label
+                      }}</span>
+                      <span
+                        v-if="updatingMethodCode === method.code"
+                        class="payment-method__pending"
+                      >
+                        <v-progress-circular
+                          indeterminate
+                          size="16"
+                          width="2"
+                        />
                       </span>
                     </div>
-                    <p v-if="method.description" class="payment-method__description">
+                    <p
+                      v-if="method.description"
+                      class="payment-method__description"
+                    >
                       {{ method.description }}
                     </p>
-                    <p v-if="method.instructions" class="payment-method__instructions">
+                    <p
+                      v-if="method.instructions"
+                      class="payment-method__instructions"
+                    >
                       {{ method.instructions }}
                     </p>
                   </div>
@@ -967,7 +1009,11 @@ const completeOrder = async () => {
           <v-divider class="my-4" />
 
           <ul class="payment-summary__list">
-            <li v-for="item in summaryItems" :key="item.key" class="payment-summary__item">
+            <li
+              v-for="item in summaryItems"
+              :key="item.key"
+              class="payment-summary__item"
+            >
               <span>{{ item.label }}</span>
               <span>{{ formatCurrency(item.amount ?? 0) }}</span>
             </li>
@@ -988,7 +1034,11 @@ const completeOrder = async () => {
 <style scoped>
 .ecommerce-payment {
   min-height: 100vh;
-  background: linear-gradient(135deg, rgba(132, 94, 247, 0.12), rgba(45, 197, 253, 0.1));
+  background: linear-gradient(
+    135deg,
+    rgba(132, 94, 247, 0.12),
+    rgba(45, 197, 253, 0.1)
+  );
 }
 
 .ecommerce-payment__content {
@@ -1053,7 +1103,11 @@ const completeOrder = async () => {
 .payment-card {
   padding: 32px;
   border-radius: 24px;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(244, 247, 255, 0.9));
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.95),
+    rgba(244, 247, 255, 0.9)
+  );
 }
 
 .payment-card__header {
@@ -1133,7 +1187,10 @@ const completeOrder = async () => {
   border: 1px solid rgba(132, 94, 247, 0.15);
   background: white;
   text-align: left;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
   cursor: pointer;
 }
 
@@ -1172,7 +1229,9 @@ const completeOrder = async () => {
   height: 20px;
   border-radius: 50%;
   border: 2px solid rgba(132, 94, 247, 0.5);
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .payment-method--selected .payment-method__radio {
@@ -1185,7 +1244,9 @@ const completeOrder = async () => {
   height: 10px;
   border-radius: 50%;
   background-color: transparent;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .payment-method--selected .payment-method__radio-inner {

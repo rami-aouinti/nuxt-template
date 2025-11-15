@@ -14,8 +14,7 @@ interface MercureNotificationPayload {
 }
 
 const DEFAULT_HUB_URL = 'http://bro-world.org:3000/.well-known/mercure'
-const DEFAULT_NOTIFICATION_TOPIC =
-  'https://bro-world.org/notifications/'
+const DEFAULT_NOTIFICATION_TOPIC = 'https://bro-world.org/notifications/'
 const DEFAULT_RECONNECT_DELAY = 5000
 const DEFAULT_WITH_CREDENTIALS = true
 const MAX_TRACKED_EVENT_IDS = 100

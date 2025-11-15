@@ -1,6 +1,9 @@
 import { readBody } from 'h3'
 
-import { broWorldEcommerceRequest, getEcommerceAcceptLanguage } from '~~/server/utils/broWorldEcommerceApi'
+import {
+  broWorldEcommerceRequest,
+  getEcommerceAcceptLanguage,
+} from '~~/server/utils/broWorldEcommerceApi'
 import { requireEntityId } from '~~/server/utils/crud'
 
 type PasswordPayload = Record<string, unknown>

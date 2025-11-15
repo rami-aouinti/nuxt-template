@@ -103,7 +103,8 @@ function resolveErrorMessage(error: unknown, fallback: string) {
   }
 
   if (typeof error === 'object') {
-    const data = (error as { data?: { message?: unknown; error?: unknown } }).data
+    const data = (error as { data?: { message?: unknown; error?: unknown } })
+      .data
     if (data) {
       if (typeof data.message === 'string' && data.message.trim().length > 0) {
         return data.message
@@ -352,7 +353,11 @@ async function submitUpload() {
             size="small"
             density="comfortable"
             :icon="'mdi-eye-outline'"
-            :aria-label="t('notificationManagement.templates.actions.view', { name: item.name })"
+            :aria-label="
+              t('notificationManagement.templates.actions.view', {
+                name: item.name,
+              })
+            "
             @click="openView(item)"
           >
             {{ t('notificationManagement.templates.actions.viewLabel') }}
@@ -386,7 +391,10 @@ async function submitUpload() {
             :text="viewErrorMessage"
           />
 
-          <div v-else-if="resolvedViewTemplate" class="d-flex flex-column gap-4">
+          <div
+            v-else-if="resolvedViewTemplate"
+            class="d-flex flex-column gap-4"
+          >
             <div>
               <h3 class="text-subtitle-1 mb-1">
                 {{ t('notificationManagement.templates.labels.name') }}
@@ -449,18 +457,27 @@ async function submitUpload() {
               <h3 class="text-subtitle-1 mb-1">
                 {{ t('notificationManagement.templates.labels.variables') }}
               </h3>
-              <div v-if="hasVariables" class="pa-4 rounded-lg bg-surface-variant">
-                <pre class="text-body-2 mb-0">
-{{ JSON.stringify(resolvedViewTemplate.variables, null, 2) }}
+              <div
+                v-if="hasVariables"
+                class="pa-4 rounded-lg bg-surface-variant"
+              >
+                <pre class="text-body-2 mb-0"
+                  >{{ JSON.stringify(resolvedViewTemplate.variables, null, 2) }}
                 </pre>
               </div>
               <p v-else class="text-body-2 mb-0">
-                {{ t('notificationManagement.templates.labels.emptyVariables') }}
+                {{
+                  t('notificationManagement.templates.labels.emptyVariables')
+                }}
               </p>
             </div>
           </div>
           <p v-else class="text-body-2">
-            {{ t('notificationManagement.templates.notifications.detailUnavailable') }}
+            {{
+              t(
+                'notificationManagement.templates.notifications.detailUnavailable',
+              )
+            }}
           </p>
         </v-card-text>
 
@@ -479,16 +496,24 @@ async function submitUpload() {
             {{ t('notificationManagement.templates.dialogs.upload.title') }}
           </v-toolbar-title>
           <v-spacer />
-          <v-btn icon="mdi-close" variant="text" @click="uploadDialog = false" />
+          <v-btn
+            icon="mdi-close"
+            variant="text"
+            @click="uploadDialog = false"
+          />
         </v-toolbar>
 
         <v-card-text class="d-flex flex-column gap-4">
           <p class="text-body-2">
-            {{ t('notificationManagement.templates.dialogs.upload.description') }}
+            {{
+              t('notificationManagement.templates.dialogs.upload.description')
+            }}
           </p>
 
           <v-file-input
-            :label="t('notificationManagement.templates.forms.upload.fileLabel')"
+            :label="
+              t('notificationManagement.templates.forms.upload.fileLabel')
+            "
             :hint="t('notificationManagement.templates.forms.upload.fileHint')"
             show-size
             accept=".json,.zip,.yaml,.yml,.txt"
@@ -508,7 +533,14 @@ async function submitUpload() {
             v-else-if="uploadError.value"
             type="error"
             border="start"
-            :text="resolveErrorMessage(uploadError.value, t('notificationManagement.templates.notifications.uploadFailed'))"
+            :text="
+              resolveErrorMessage(
+                uploadError.value,
+                t(
+                  'notificationManagement.templates.notifications.uploadFailed',
+                ),
+              )
+            "
           />
         </v-card-text>
 

@@ -4,10 +4,7 @@ import type { FetchError } from 'ofetch'
 
 import AppButton from '~/components/ui/AppButton.vue'
 import AppCard from '~/components/ui/AppCard.vue'
-import {
-  createDateFormatter,
-  formatDateValue,
-} from '~/utils/formatters'
+import { createDateFormatter, formatDateValue } from '~/utils/formatters'
 import type {
   OrderItemJsonLdSyliusShopOrderAccountShow,
   OrderJsonLdSyliusShopOrderAccountShow,
@@ -101,14 +98,13 @@ const fetchOrderItems = async () => {
     return EMPTY_COLLECTION as HydraCollection<OrderItemJsonLdSyliusShopOrderAccountShow>
   }
 
-  return await $fetch<HydraCollection<OrderItemJsonLdSyliusShopOrderAccountShow>>(
-    `/api/ecommerce/v2/shop/orders/${encodeURIComponent(token)}/items`,
-    {
-      headers: {
-        'Accept-Language': locale.value,
-      },
+  return await $fetch<
+    HydraCollection<OrderItemJsonLdSyliusShopOrderAccountShow>
+  >(`/api/ecommerce/v2/shop/orders/${encodeURIComponent(token)}/items`, {
+    headers: {
+      'Accept-Language': locale.value,
     },
-  )
+  })
 }
 
 const {
@@ -215,7 +211,7 @@ watch(
 )
 
 const isRecord = (value: unknown): value is UnknownRecord =>
-  Boolean(value && typeof value === 'object');
+  Boolean(value && typeof value === 'object')
 
 function extractCollectionItems<T>(input: unknown): T[] {
   if (!input) {
@@ -287,7 +283,9 @@ const shipments = computed<OrderShipmentJsonLd[]>(() => {
   return fromCollection
 })
 
-const orderLocale = computed(() => order.value?.localeCode ?? locale.value ?? 'en')
+const orderLocale = computed(
+  () => order.value?.localeCode ?? locale.value ?? 'en',
+)
 
 const dateFormatter = createDateFormatter(orderLocale, {
   dateStyle: 'medium',
@@ -334,7 +332,9 @@ const formatAmount = (value: unknown) => {
     return currencyFormatter.value.format(normalized)
   } catch {
     const currency = order.value?.currencyCode
-    return currency ? `${currency} ${normalized.toFixed(2)}` : normalized.toFixed(2)
+    return currency
+      ? `${currency} ${normalized.toFixed(2)}`
+      : normalized.toFixed(2)
   }
 }
 
@@ -411,13 +411,19 @@ const makeAddressLines = (address: OrderAddress) => {
 
   const lines: string[] = []
   const name = [address.firstName, address.lastName]
-    .filter((part): part is string => typeof part === 'string' && part.trim().length > 0)
+    .filter(
+      (part): part is string =>
+        typeof part === 'string' && part.trim().length > 0,
+    )
     .join(' ')
   if (name) {
     lines.push(name)
   }
 
-  if (typeof address.company === 'string' && address.company.trim().length > 0) {
+  if (
+    typeof address.company === 'string' &&
+    address.company.trim().length > 0
+  ) {
     lines.push(address.company)
   }
 
@@ -425,8 +431,10 @@ const makeAddressLines = (address: OrderAddress) => {
     lines.push(address.street)
   }
 
-  const localityParts = [address.postcode, address.city]
-    .filter((part): part is string => typeof part === 'string' && part.trim().length > 0)
+  const localityParts = [address.postcode, address.city].filter(
+    (part): part is string =>
+      typeof part === 'string' && part.trim().length > 0,
+  )
   if (localityParts.length) {
     lines.push(localityParts.join(' '))
   }
@@ -449,12 +457,17 @@ const makeAddressLines = (address: OrderAddress) => {
 const orderNumber = computed(() => order.value?.number ?? tokenValue.value)
 
 const breadcrumbs = computed(() => [
-  { title: t('pages.ecommerceOrder.breadcrumbs.account'), to: localePath('/profile') },
+  {
+    title: t('pages.ecommerceOrder.breadcrumbs.account'),
+    to: localePath('/profile'),
+  },
   { title: t('pages.ecommerceOrder.breadcrumbs.orders') },
   { title: orderNumber.value },
 ])
 
-const headerSubtitle = computed(() => t('pages.ecommerceOrder.heading.subtitle'))
+const headerSubtitle = computed(() =>
+  t('pages.ecommerceOrder.heading.subtitle'),
+)
 
 const headerTitle = computed(() =>
   t('pages.ecommerceOrder.heading.title', { number: orderNumber.value }),
@@ -588,8 +601,8 @@ const summaryRows = computed(() => {
 
 const hasOrderError = computed(() => Boolean(orderError.value))
 
-const isOrderNotFound = computed(() =>
-  extractFetchErrorStatus(orderError.value) === 404,
+const isOrderNotFound = computed(
+  () => extractFetchErrorStatus(orderError.value) === 404,
 )
 
 const orderErrorMessage = computed(() => {
@@ -614,7 +627,6 @@ const addressesErrorMessage = computed(() => {
 
   return t('pages.ecommerceOrder.messages.addressesError')
 })
-
 </script>
 
 <template>
@@ -622,7 +634,9 @@ const addressesErrorMessage = computed(() => {
     <div class="ecommerce-order-header">
       <div>
         <p class="ecommerce-order-subtitle mb-2">{{ headerSubtitle }}</p>
-        <div class="d-flex flex-column flex-sm-row flex-wrap align-sm-center gap-3">
+        <div
+          class="d-flex flex-column flex-sm-row flex-wrap align-sm-center gap-3"
+        >
           <h1 class="ecommerce-order-title mb-0">{{ headerTitle }}</h1>
           <v-chip
             v-if="order"
@@ -654,7 +668,9 @@ const addressesErrorMessage = computed(() => {
       variant="tonal"
       class="mb-6"
     >
-      <div class="d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-3">
+      <div
+        class="d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-3"
+      >
         <span>{{ orderErrorMessage }}</span>
         <AppButton color="primary" variant="flat" @click="refreshOrder">
           {{ t('pages.ecommerceOrder.actions.retry') }}
@@ -667,12 +683,18 @@ const addressesErrorMessage = computed(() => {
         <v-col cols="12" md="8" class="d-flex flex-column gap-6">
           <AppCard class="ecommerce-order-card" variant="flat" elevation="0">
             <template #title>
-              <div class="d-flex flex-column flex-sm-row flex-wrap align-sm-center justify-space-between gap-3">
+              <div
+                class="d-flex flex-column flex-sm-row flex-wrap align-sm-center justify-space-between gap-3"
+              >
                 <h2 class="text-h5 mb-0">
                   {{ t('pages.ecommerceOrder.sections.information.title') }}
                 </h2>
                 <span class="text-medium-emphasis text-body-2">
-                  {{ t('pages.ecommerceOrder.labels.token', { token: tokenValue }) }}
+                  {{
+                    t('pages.ecommerceOrder.labels.token', {
+                      token: tokenValue,
+                    })
+                  }}
                 </span>
               </div>
             </template>
@@ -682,21 +704,30 @@ const addressesErrorMessage = computed(() => {
                 :key="row.label"
                 class="ecommerce-order-grid__item"
               >
-                <p class="text-caption text-uppercase text-medium-emphasis mb-1">
+                <p
+                  class="text-caption text-uppercase text-medium-emphasis mb-1"
+                >
                   {{ row.label }}
                 </p>
-                <p class="text-body-1 font-weight-medium mb-0">{{ row.value }}</p>
+                <p class="text-body-1 font-weight-medium mb-0">
+                  {{ row.value }}
+                </p>
               </div>
             </div>
           </AppCard>
 
           <AppCard class="ecommerce-order-card" variant="flat" elevation="0">
             <template #title>
-              <div class="d-flex flex-column flex-sm-row flex-wrap align-sm-center justify-space-between gap-3">
+              <div
+                class="d-flex flex-column flex-sm-row flex-wrap align-sm-center justify-space-between gap-3"
+              >
                 <h2 class="text-h5 mb-0">
                   {{ t('pages.ecommerceOrder.sections.addresses.title') }}
                 </h2>
-                <span v-if="addressesLoading" class="text-body-2 text-medium-emphasis">
+                <span
+                  v-if="addressesLoading"
+                  class="text-body-2 text-medium-emphasis"
+                >
                   {{ t('pages.ecommerceOrder.sections.addresses.loading') }}
                 </span>
               </div>
@@ -741,7 +772,9 @@ const addressesErrorMessage = computed(() => {
 
           <AppCard class="ecommerce-order-card" variant="flat" elevation="0">
             <template #title>
-              <div class="d-flex flex-column flex-sm-row flex-wrap align-sm-center justify-space-between gap-3">
+              <div
+                class="d-flex flex-column flex-sm-row flex-wrap align-sm-center justify-space-between gap-3"
+              >
                 <h2 class="text-h5 mb-0">
                   {{ t('pages.ecommerceOrder.sections.items.title') }}
                 </h2>
@@ -770,10 +803,18 @@ const addressesErrorMessage = computed(() => {
             </div>
             <div v-else-if="orderItems.length" class="ecommerce-order-items">
               <div class="ecommerce-order-items__header">
-                <span>{{ t('pages.ecommerceOrder.sections.items.table.product') }}</span>
-                <span>{{ t('pages.ecommerceOrder.sections.items.table.unitPrice') }}</span>
-                <span>{{ t('pages.ecommerceOrder.sections.items.table.quantity') }}</span>
-                <span>{{ t('pages.ecommerceOrder.sections.items.table.total') }}</span>
+                <span>{{
+                  t('pages.ecommerceOrder.sections.items.table.product')
+                }}</span>
+                <span>{{
+                  t('pages.ecommerceOrder.sections.items.table.unitPrice')
+                }}</span>
+                <span>{{
+                  t('pages.ecommerceOrder.sections.items.table.quantity')
+                }}</span>
+                <span>{{
+                  t('pages.ecommerceOrder.sections.items.table.total')
+                }}</span>
               </div>
               <div
                 v-for="item in orderItems"
@@ -793,7 +834,9 @@ const addressesErrorMessage = computed(() => {
                 </div>
                 <span>{{ formatAmount(item.unitPrice) }}</span>
                 <span>{{ item.quantity }}</span>
-                <span>{{ formatAmount(item.total ?? item.subtotal ?? item.unitPrice) }}</span>
+                <span>{{
+                  formatAmount(item.total ?? item.subtotal ?? item.unitPrice)
+                }}</span>
               </div>
             </div>
             <div v-else class="text-center py-8">
@@ -858,11 +901,16 @@ const addressesErrorMessage = computed(() => {
                   </p>
                 </div>
                 <div class="text-right">
-                  <p v-if="shipment.tracking" class="text-caption text-medium-emphasis mb-1">
+                  <p
+                    v-if="shipment.tracking"
+                    class="text-caption text-medium-emphasis mb-1"
+                  >
                     {{ shipment.tracking }}
                   </p>
                   <p class="text-body-1 font-weight-semibold mb-0">
-                    {{ formatAmount(shipment.total ?? shipment.adjustmentsTotal) }}
+                    {{
+                      formatAmount(shipment.total ?? shipment.adjustmentsTotal)
+                    }}
                   </p>
                 </div>
               </div>
@@ -888,7 +936,9 @@ const addressesErrorMessage = computed(() => {
                 <span class="text-body-2 text-medium-emphasis">
                   {{ row.label }}
                 </span>
-                <span class="text-body-1 font-weight-semibold">{{ row.value }}</span>
+                <span class="text-body-1 font-weight-semibold">{{
+                  row.value
+                }}</span>
               </div>
             </div>
           </AppCard>
@@ -898,9 +948,10 @@ const addressesErrorMessage = computed(() => {
 
     <div v-else class="text-center py-12">
       <p class="text-body-1 text-medium-emphasis mb-0">
-        {{ isOrderNotFound
-          ? t('pages.ecommerceOrder.messages.notFound')
-          : t('pages.ecommerceOrder.messages.loadingError')
+        {{
+          isOrderNotFound
+            ? t('pages.ecommerceOrder.messages.notFound')
+            : t('pages.ecommerceOrder.messages.loadingError')
         }}
       </p>
     </div>
@@ -911,7 +962,8 @@ const addressesErrorMessage = computed(() => {
 .ecommerce-order-page {
   min-height: 100%;
   padding-block: clamp(32px, 6vw, 64px);
-  background: linear-gradient(
+  background:
+    linear-gradient(
       180deg,
       rgba(var(--v-theme-primary), 0.08),
       rgba(var(--v-theme-surface), 0)

@@ -91,7 +91,9 @@ export interface AddressInterface extends AddressAttributes {
   customer?: string | null
 }
 
-export interface AddressInterfaceJsonld extends JsonLdResource, AddressInterface {}
+export interface AddressInterfaceJsonld
+  extends JsonLdResource,
+    AddressInterface {}
 
 export interface AddressLogEntry {
   action: string

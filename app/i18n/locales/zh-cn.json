@@ -977,1723 +977,1722 @@
           "title": "Customer groups",
           "subtitle": "Organize customers into shared pricing or perks.",
           "table": {
-          "name": "Name",
-          "code": "Code",
-          "members": "Members"
-        }
-      },
-      "cartPromotions": {
-        "title": "Cart promotions",
-        "subtitle": "Monitor discounts triggered during checkout.",
-        "table": {
-          "name": "Name",
-          "code": "Code",
-          "coupons": "Coupons",
-          "startsAt": "Starts at",
-          "endsAt": "Ends at",
-          "enabled": "State",
-          "noCoupons": "No coupons",
-          "unlimited": "Unlimited"
-        }
-      },
-      "catalogPromotions": {
-        "title": "Catalog promotions",
-        "subtitle": "Track automated discounts applied directly to products.",
-        "table": {
-          "name": "Name",
-          "code": "Code",
-          "channels": "Channels",
-          "startDate": "Start date",
-          "endDate": "End date",
-          "state": "State",
-          "noChannels": "No channels",
-          "active": "Active",
-          "inactive": "Inactive"
-        }
-      },
-      "productReviews": {
-        "title": "Product reviews",
-        "subtitle": "Moderate customer feedback across the catalog.",
-        "table": {
-          "rating": "Rating",
-          "title": "Title",
-          "product": "Product",
-          "customer": "Customer",
-          "state": "State",
-          "createdAt": "Created at"
+            "name": "Name",
+            "code": "Code",
+            "members": "Members"
+          }
         },
-        "noTitle": "No title",
-        "anonymous": "Anonymous",
-        "states": {
-          "accepted": "Accepted",
-          "rejected": "Rejected",
-          "pending": "Pending review"
+        "cartPromotions": {
+          "title": "Cart promotions",
+          "subtitle": "Monitor discounts triggered during checkout.",
+          "table": {
+            "name": "Name",
+            "code": "Code",
+            "coupons": "Coupons",
+            "startsAt": "Starts at",
+            "endsAt": "Ends at",
+            "enabled": "State",
+            "noCoupons": "No coupons",
+            "unlimited": "Unlimited"
+          }
+        },
+        "catalogPromotions": {
+          "title": "Catalog promotions",
+          "subtitle": "Track automated discounts applied directly to products.",
+          "table": {
+            "name": "Name",
+            "code": "Code",
+            "channels": "Channels",
+            "startDate": "Start date",
+            "endDate": "End date",
+            "state": "State",
+            "noChannels": "No channels",
+            "active": "Active",
+            "inactive": "Inactive"
+          }
+        },
+        "productReviews": {
+          "title": "Product reviews",
+          "subtitle": "Moderate customer feedback across the catalog.",
+          "table": {
+            "rating": "Rating",
+            "title": "Title",
+            "product": "Product",
+            "customer": "Customer",
+            "state": "State",
+            "createdAt": "Created at"
+          },
+          "noTitle": "No title",
+          "anonymous": "Anonymous",
+          "states": {
+            "accepted": "Accepted",
+            "rejected": "Rejected",
+            "pending": "Pending review"
+          }
         }
       }
-    }
-  },
-  "auth": {
-    "profile": "个人资料",
-    "login": "登录",
-    "loginWithGithub": "使用 GitHub 登录",
-    "loginWithGoogle": "使用 Google 登录",
-    "loginWithFacebook": "使用 Facebook 登录",
-    "loginWithCredentials": "使用凭据登录",
-    "loginSubtitle": "欢迎回来！请登录继续。",
-    "oauthSignInPrompt": "请选择以下任一服务继续。",
-    "credentialsSignInPrompt": "或",
-    "credentialsRegisterPrompt": "使用电子邮箱和密码创建你的账户。",
-    "register": "创建账户",
-    "registerSubtitle": "几步之内即可加入社区。",
-    "logout": "退出登录",
-    "loginSuccess": "登录成功",
-    "logoutSuccess": "已退出登录",
-    "loginRequired": "您必须登录才能访问此页面。",
-    "adminOnly": "仅限管理员访问。",
-    "loginFailed": "身份验证失败。",
-    "registerFailed": "注册失败。",
-    "registerSuccess": "账户创建成功。",
-    "guest": "用户",
-    "username": "用户名",
-    "password": "密码",
-    "email": "电子邮箱",
-    "repeatPassword": "确认密码",
-    "passwordMismatch": "两次输入的密码不一致。",
-    "noAccountPrompt": "还没有账户？",
-    "haveAccountPrompt": "已经有账户？",
-    "switchToRegister": "立即注册",
-    "switchToLogin": "登录",
-    "registerAction": "创建账户"
-  },
-  "common": {
-    "unexpectedError": "发生未知错误。",
-    "actions": {
-      "cancel": "取消",
-      "create": "创建",
-      "save": "保存",
-      "edit": "编辑",
-      "close": "关闭",
-      "back": "返回",
-      "continue": "继续",
-      "delete": "删除",
-      "link": "关联",
-      "share": "分享",
-      "remove": "Remove"
     },
-    "labels": {
-      "all": "全部",
-      "search": "搜索",
-      "group": "群组",
-      "user": "用户",
-      "export": "导出",
-      "exportPdf": "导出为 PDF",
-      "exportExcel": "导出为 Excel",
-      "yes": "Yes",
-      "no": "No"
+    "auth": {
+      "profile": "个人资料",
+      "login": "登录",
+      "loginWithGithub": "使用 GitHub 登录",
+      "loginWithGoogle": "使用 Google 登录",
+      "loginWithFacebook": "使用 Facebook 登录",
+      "loginWithCredentials": "使用凭据登录",
+      "loginSubtitle": "欢迎回来！请登录继续。",
+      "oauthSignInPrompt": "请选择以下任一服务继续。",
+      "credentialsSignInPrompt": "或",
+      "credentialsRegisterPrompt": "使用电子邮箱和密码创建你的账户。",
+      "register": "创建账户",
+      "registerSubtitle": "几步之内即可加入社区。",
+      "logout": "退出登录",
+      "loginSuccess": "登录成功",
+      "logoutSuccess": "已退出登录",
+      "loginRequired": "您必须登录才能访问此页面。",
+      "adminOnly": "仅限管理员访问。",
+      "loginFailed": "身份验证失败。",
+      "registerFailed": "注册失败。",
+      "registerSuccess": "账户创建成功。",
+      "guest": "用户",
+      "username": "用户名",
+      "password": "密码",
+      "email": "电子邮箱",
+      "repeatPassword": "确认密码",
+      "passwordMismatch": "两次输入的密码不一致。",
+      "noAccountPrompt": "还没有账户？",
+      "haveAccountPrompt": "已经有账户？",
+      "switchToRegister": "立即注册",
+      "switchToLogin": "登录",
+      "registerAction": "创建账户"
     },
-    "placeholders": {
-      "selectGroup": "请选择群组",
-      "selectUser": "请选择用户",
-      "selectWorkplace": "请选择工作区"
-    },
-    "pagination": {
-      "rowsPerPage": "每页行数",
-      "range": "显示第 {start}–{end} 条，共 {total} 条"
-    }
-  },
-  "profile": {
-    "updateSuccess": "个人资料更新成功。",
-    "updateFailed": "更新个人资料失败。",
-    "page": {
-      "edit": {
-        "title": "编辑个人资料",
-        "description": "更新您的个人信息以保持平台上的资料最新。"
+    "common": {
+      "unexpectedError": "发生未知错误。",
+      "actions": {
+        "cancel": "取消",
+        "create": "创建",
+        "save": "保存",
+        "edit": "编辑",
+        "close": "关闭",
+        "back": "返回",
+        "continue": "继续",
+        "delete": "删除",
+        "link": "关联",
+        "share": "分享",
+        "remove": "Remove"
       },
-      "alerts": {
-        "emptyProfile": "暂无个人资料数据。请登录后查看。"
+      "labels": {
+        "all": "全部",
+        "search": "搜索",
+        "group": "群组",
+        "user": "用户",
+        "export": "导出",
+        "exportPdf": "导出为 PDF",
+        "exportExcel": "导出为 Excel",
+        "yes": "Yes",
+        "no": "No"
       },
-      "avatar": {
-        "alt": "个人资料照片"
+      "placeholders": {
+        "selectGroup": "请选择群组",
+        "selectUser": "请选择用户",
+        "selectWorkplace": "请选择工作区"
+      },
+      "pagination": {
+        "rowsPerPage": "每页行数",
+        "range": "显示第 {start}–{end} 条，共 {total} 条"
       }
     },
-    "fields": {
-      "title": "职位",
-      "gender": "性别",
-      "phone": "电话号码",
-      "address": "地址",
-      "birthday": "出生日期",
-      "description": "简介",
-      "photo": "个人资料照片",
-      "userId": "用户标识"
-    },
-    "sections": {
-      "personalInfo": {
-        "title": "个人信息"
-      },
-      "details": {
-        "title": "资料详情"
-      },
-      "roles": {
-        "title": "角色",
-        "empty": "尚未分配角色。"
-      },
-      "plugins": {
-        "title": "工作区插件",
-        "description": "启用所需工具，自定义你的工作区体验。",
-        "empty": "暂时没有可用的插件。",
-        "status": {
-          "active": "已启用",
-          "inactive": "未启用"
+    "profile": {
+      "updateSuccess": "个人资料更新成功。",
+      "updateFailed": "更新个人资料失败。",
+      "page": {
+        "edit": {
+          "title": "编辑个人资料",
+          "description": "更新您的个人信息以保持平台上的资料最新。"
         },
-        "pricing": {
-          "free": "免费",
-          "paid": "付费"
+        "alerts": {
+          "emptyProfile": "暂无个人资料数据。请登录后查看。"
+        },
+        "avatar": {
+          "alt": "个人资料照片"
+        }
+      },
+      "fields": {
+        "title": "职位",
+        "gender": "性别",
+        "phone": "电话号码",
+        "address": "地址",
+        "birthday": "出生日期",
+        "description": "简介",
+        "photo": "个人资料照片",
+        "userId": "用户标识"
+      },
+      "sections": {
+        "personalInfo": {
+          "title": "个人信息"
+        },
+        "details": {
+          "title": "资料详情"
+        },
+        "roles": {
+          "title": "角色",
+          "empty": "尚未分配角色。"
+        },
+        "plugins": {
+          "title": "工作区插件",
+          "description": "启用所需工具，自定义你的工作区体验。",
+          "empty": "暂时没有可用的插件。",
+          "status": {
+            "active": "已启用",
+            "inactive": "未启用"
+          },
+          "pricing": {
+            "free": "免费",
+            "paid": "付费"
+          },
+          "actions": {
+            "refresh": "刷新",
+            "activate": "启用",
+            "deactivate": "停用",
+            "open": "打开",
+            "install": "安装"
+          },
+          "notifications": {
+            "toggleSuccess": "“{name}”的状态已更新。"
+          },
+          "errors": {
+            "loadFailed": "无法加载插件，请稍后再试。",
+            "toggleFailed": "无法更新此插件，请稍后再试。"
+          }
+        },
+        "settings": {
+          "title": "偏好设置"
+        }
+      },
+      "orders": {
+        "page": {
+          "title": "订单历史",
+          "subtitle": "查看以往购买记录并管理待支付的订单。"
+        },
+        "table": {
+          "number": "订单号",
+          "date": "日期",
+          "shipTo": "收货人",
+          "total": "总计",
+          "state": "状态",
+          "actions": "操作",
+          "empty": "你还没有任何订单。"
         },
         "actions": {
           "refresh": "刷新",
-          "activate": "启用",
-          "deactivate": "停用",
-          "open": "打开",
-          "install": "安装"
+          "show": "查看",
+          "pay": "去支付",
+          "retry": "重试"
+        },
+        "states": {
+          "new": "新订单",
+          "cancelled": "已取消",
+          "fulfilled": "已发货",
+          "completed": "已完成",
+          "processing": "处理中",
+          "cart": "购物车中",
+          "unknown": "未知"
         },
         "notifications": {
-          "toggleSuccess": "“{name}”的状态已更新。"
+          "loadFailed": "无法加载订单，请稍后再试。",
+          "detailsLoadFailed": "无法加载订单详情，请稍后再试。",
+          "paymentConfigMissing": "未找到该订单的支付链接。",
+          "paymentOpenFailed": "无法打开支付页面，请稍后再试。"
         },
-        "errors": {
-          "loadFailed": "无法加载插件，请稍后再试。",
-          "toggleFailed": "无法更新此插件，请稍后再试。"
+        "labels": {
+          "shipToUnknown": "待确认"
+        },
+        "details": {
+          "title": "订单详情",
+          "placedOn": "下单时间",
+          "updatedAt": "更新时间",
+          "itemsTotal": "商品金额",
+          "shippingTotal": "运费",
+          "taxTotal": "税费",
+          "total": "总计",
+          "customer": "客户",
+          "email": "邮箱",
+          "phone": "电话",
+          "shippingAddress": "收货地址",
+          "billingAddress": "账单地址",
+          "addressUnavailable": "暂无信息",
+          "loading": "正在加载订单详情…"
         }
       },
       "settings": {
-        "title": "偏好设置"
-      }
-    },
-    "orders": {
-      "page": {
-        "title": "订单历史",
-        "subtitle": "查看以往购买记录并管理待支付的订单。"
-      },
-      "table": {
-        "number": "订单号",
-        "date": "日期",
-        "shipTo": "收货人",
-        "total": "总计",
-        "state": "状态",
-        "actions": "操作",
-        "empty": "你还没有任何订单。"
-      },
-      "actions": {
-        "refresh": "刷新",
-        "show": "查看",
-        "pay": "去支付",
-        "retry": "重试"
-      },
-      "states": {
-        "new": "新订单",
-        "cancelled": "已取消",
-        "fulfilled": "已发货",
-        "completed": "已完成",
-        "processing": "处理中",
-        "cart": "购物车中",
-        "unknown": "未知"
+        "allowSendEmail": {
+          "title": "接收电子邮件",
+          "description": "允许平台通过电子邮件发送更新和提醒。"
+        },
+        "allowNotification": {
+          "title": "启用应用内通知",
+          "description": "直接在应用中接收通知。"
+        },
+        "actions": {
+          "refresh": "重新加载"
+        },
+        "notifications": {
+          "updateSuccess": "偏好设置更新成功。"
+        },
+        "errors": {
+          "loadFailed": "无法加载您的偏好设置，请稍后重试。",
+          "saveFailed": "无法保存您的偏好设置，请稍后重试。",
+          "metadataMissing": "无法确定保存这些偏好设置所需的标识符。",
+          "noConfiguration": "尚未找到已保存的偏好设置。"
+        }
       },
       "notifications": {
-        "loadFailed": "无法加载订单，请稍后再试。",
-        "detailsLoadFailed": "无法加载订单详情，请稍后再试。",
-        "paymentConfigMissing": "未找到该订单的支付链接。",
-        "paymentOpenFailed": "无法打开支付页面，请稍后再试。"
+        "page": {
+          "title": "通知",
+          "subtitle": "查看最新提醒，随时掌握动态。"
+        },
+        "actions": {
+          "refresh": "刷新"
+        },
+        "states": {
+          "loading": "正在加载通知…",
+          "retry": "重试",
+          "error": "无法加载通知，请稍后再试。",
+          "empty": "一切就绪！暂时没有通知。"
+        },
+        "labels": {
+          "unread": "未读",
+          "receivedAt": "接收于 {date}"
+        },
+        "fallback": {
+          "title": "通知"
+        }
       },
-      "labels": {
-        "shipToUnknown": "待确认"
+      "public": {
+        "page": {
+          "title": "公开资料",
+          "description": "查看该成员分享的公开信息。"
+        },
+        "actions": {
+          "retry": "重试",
+          "message": "消息"
+        },
+        "errors": {
+          "load": "无法加载此资料。",
+          "notFound": "未找到此资料。",
+          "authenticationRequired": "您需要登录才能发送消息。",
+          "messengerUnavailable": "无法打开 Messenger，请稍后再试。"
+        },
+        "labels": {
+          "email": "电子邮箱",
+          "language": "语言",
+          "locale": "区域设置",
+          "timezone": "时区",
+          "enabled": "已启用",
+          "disabled": "已停用",
+          "friends": "好友",
+          "stories": "故事",
+          "empty": "未提供"
+        }
+      },
+      "calendar": {
+        "page": {
+          "title": "我的日历",
+          "subtitle": "查看、创建并管理您的个人事件。"
+        },
+        "actions": {
+          "new": "新建事件",
+          "refresh": "刷新",
+          "delete": "删除事件"
+        },
+        "view": {
+          "month": "月",
+          "week": "周",
+          "day": "日"
+        },
+        "list": {
+          "title": "即将到来的事件",
+          "empty": "暂无计划中的事件。"
+        },
+        "dialog": {
+          "createTitle": "创建事件",
+          "editTitle": "编辑事件",
+          "submit": "创建",
+          "save": "保存",
+          "cancel": "取消"
+        },
+        "form": {
+          "title": "标题",
+          "description": "描述",
+          "location": "地点",
+          "color": "颜色",
+          "allDay": "全天",
+          "isPrivate": "私人事件",
+          "startDate": "开始日期",
+          "startTime": "开始时间",
+          "endDate": "结束日期",
+          "endTime": "结束时间"
+        },
+        "delete": {
+          "title": "删除事件",
+          "message": "确定要删除此事件吗？此操作无法撤销。"
+        },
+        "notifications": {
+          "created": "事件创建成功。",
+          "updated": "事件更新成功。",
+          "deleted": "事件删除成功。",
+          "genericError": "无法处理请求，请稍后重试。"
+        },
+        "validation": {
+          "titleRequired": "标题为必填项。",
+          "startRequired": "开始日期为必填项。"
+        }
+      }
+    },
+    "userManagement": {
+      "users": {
+        "notifications": {
+          "createSuccess": "用户创建成功。",
+          "updateSuccess": "用户更新成功。",
+          "attachSuccess": "已成功将群组关联到该用户。",
+          "detachSuccess": "已取消用户与群组的关联。",
+          "deleteSuccess": "用户删除成功。"
+        },
+        "errors": {
+          "usernameEmailRequired": "必须填写用户名和邮箱。",
+          "passwordRequired": "创建新用户需要设置密码。",
+          "createFailed": "无法创建用户。",
+          "updateFailed": "无法更新用户。",
+          "openView": "无法打开该用户的详情。",
+          "loadDetails": "无法获取用户详情。",
+          "loadGroups": "无法获取用户所属群组。",
+          "selectGroup": "请选择一个群组以关联该用户。",
+          "attachFailed": "无法将该群组关联到用户。",
+          "detachFailed": "无法取消该群组与用户的关联。",
+          "deleteFailed": "无法删除用户。"
+        },
+        "table": {
+          "username": "用户名",
+          "firstName": "名",
+          "lastName": "姓",
+          "email": "电子邮箱",
+          "status": "状态"
+        },
+        "status": {
+          "active": "启用",
+          "inactive": "停用"
+        },
+        "cardTitle": "用户管理",
+        "actions": {
+          "new": "新建用户",
+          "viewTooltip": "查看 {username}",
+          "editTooltip": "编辑 {username}",
+          "deleteTooltip": "删除 {username}"
+        },
+        "alerts": {
+          "loadFailed": "加载用户失败。"
+        },
+        "fields": {
+          "username": "用户名",
+          "email": "电子邮箱",
+          "firstName": "名",
+          "lastName": "姓",
+          "language": "语言",
+          "locale": "本地化",
+          "timezone": "时区",
+          "password": "密码",
+          "newPassword": "新密码（可选）",
+          "enabled": "启用用户",
+          "status": "状态"
+        },
+        "hints": {
+          "keepPassword": "留空表示保持现有密码。"
+        },
+        "labels": {
+          "userFallback": "该用户"
+        },
+        "dialogs": {
+          "create": {
+            "title": "创建用户"
+          },
+          "edit": {
+            "title": "编辑 {username}"
+          },
+          "view": {
+            "title": "用户详情"
+          },
+          "attachGroup": {
+            "title": "关联群组"
+          },
+          "delete": {
+            "title": "删除用户",
+            "warningPrefix": "该操作无法撤销。是否确定要删除",
+            "warningSuffix": "？"
+          }
+        },
+        "details": {
+          "groups": {
+            "title": "群组",
+            "actions": {
+              "link": "关联群组"
+            },
+            "empty": "尚未关联任何群组。"
+          },
+          "empty": "未选择用户。"
+        },
+        "logs": {
+          "openDetail": "正在打开用户详情对话框"
+        }
+      },
+      "groups": {
+        "notifications": {
+          "createSuccess": "用户群组创建成功。",
+          "updateSuccess": "用户群组更新成功。",
+          "deleteSuccess": "用户群组删除成功。",
+          "attachSuccess": "已将用户关联到该群组。",
+          "detachSuccess": "已取消用户与该群组的关联。"
+        },
+        "errors": {
+          "nameRequired": "必须填写群组名称。",
+          "createFailed": "无法创建用户群组。",
+          "updateFailed": "无法更新用户群组。",
+          "loadDetails": "无法加载用户群组详情。",
+          "loadUsers": "无法获取群组中的用户。",
+          "selectUser": "请选择一个用户以关联到该群组。",
+          "attachFailed": "无法将该用户关联到群组。",
+          "detachFailed": "无法取消该用户与群组的关联。",
+          "deleteFailed": "无法删除该用户群组。"
+        },
+        "table": {
+          "name": "名称",
+          "id": "标识",
+          "actions": "操作"
+        },
+        "cardTitle": "用户群组",
+        "actions": {
+          "new": "新建群组",
+          "viewTooltip": "查看 {name}",
+          "editTooltip": "编辑 {name}",
+          "deleteTooltip": "删除 {name}"
+        },
+        "alerts": {
+          "loadFailed": "加载用户群组失败。"
+        },
+        "fields": {
+          "name": "群组名称",
+          "description": "描述",
+          "id": "标识"
+        },
+        "labels": {
+          "groupFallback": "该群组"
+        },
+        "dialogs": {
+          "create": {
+            "title": "创建用户群组"
+          },
+          "edit": {
+            "title": "编辑用户群组"
+          },
+          "view": {
+            "title": "用户群组详情"
+          },
+          "attachUser": {
+            "title": "关联用户"
+          },
+          "delete": {
+            "title": "删除用户群组",
+            "warningPrefix": "该操作无法撤销。是否确定要删除",
+            "warningSuffix": "？"
+          }
+        },
+        "details": {
+          "users": {
+            "title": "用户",
+            "actions": {
+              "link": "关联用户"
+            },
+            "empty": "尚未关联任何用户。"
+          },
+          "empty": "未选择群组。"
+        }
+      },
+      "workplaces": {
+        "notifications": {
+          "createSuccess": "Workplace created successfully.",
+          "updateSuccess": "Workplace updated successfully.",
+          "deleteSuccess": "Workplace deleted successfully."
+        },
+        "errors": {
+          "nameRequired": "A workplace name is required.",
+          "createFailed": "Unable to create the workplace.",
+          "updateFailed": "Unable to update the workplace.",
+          "loadDetails": "Unable to load the workplace details.",
+          "deleteFailed": "Unable to delete the workplace."
+        },
+        "table": {
+          "name": "Name",
+          "slug": "Slug",
+          "id": "Identifier",
+          "actions": "Actions"
+        },
+        "cardTitle": "Workplaces",
+        "actions": {
+          "new": "New workplace",
+          "viewTooltip": "View {name}",
+          "editTooltip": "Edit {name}",
+          "deleteTooltip": "Delete {name}"
+        },
+        "alerts": {
+          "loadFailed": "Failed to load workplaces."
+        },
+        "fields": {
+          "name": "Workplace name",
+          "slug": "Slug",
+          "id": "Identifier"
+        },
+        "labels": {
+          "workplaceFallback": "this workplace"
+        },
+        "dialogs": {
+          "create": {
+            "title": "Create workplace"
+          },
+          "edit": {
+            "title": "Edit workplace"
+          },
+          "view": {
+            "title": "Workplace details"
+          },
+          "delete": {
+            "title": "Delete workplace",
+            "warningPrefix": "This action cannot be undone. Do you really want to delete",
+            "warningSuffix": "?"
+          }
+        },
+        "details": {
+          "empty": "No workplace selected."
+        }
+      },
+      "apiKeys": {
+        "labels": {
+          "v1": "API v1",
+          "v2": "API v2",
+          "keyFallback": "该 API 密钥"
+        },
+        "notifications": {
+          "createSuccess": "API 密钥创建成功（{version}）。",
+          "updateSuccess": "API 密钥更新成功（{version}）。",
+          "deleteSuccess": "已删除 API 密钥（{version}）。"
+        },
+        "errors": {
+          "descriptionRequired": "必须填写描述。",
+          "createFailed": "无法创建 API 密钥。",
+          "updateFailed": "无法更新 API 密钥。",
+          "loadDetails": "无法加载 API 密钥详情。",
+          "deleteFailed": "无法删除 API 密钥。",
+          "partialUpdateRequired": "请至少提供一个字段来更新 API 密钥。"
+        },
+        "cardTitle": "API 密钥",
+        "table": {
+          "description": "描述",
+          "token": "令牌",
+          "id": "标识",
+          "actions": "操作"
+        },
+        "actions": {
+          "new": "新建 API 密钥（{version}）",
+          "viewTooltip": "查看 {description}",
+          "editTooltip": "编辑 {description}",
+          "deleteTooltip": "删除 {description}"
+        },
+        "alerts": {
+          "loadFailed": "加载 {version} API 密钥失败。"
+        },
+        "fields": {
+          "description": "描述",
+          "token": "令牌",
+          "id": "标识"
+        },
+        "hints": {
+          "keepToken": "留空表示保留当前令牌（仅适用于 PATCH）。"
+        },
+        "dialogs": {
+          "create": {
+            "title": "创建 API 密钥（{version}）"
+          },
+          "edit": {
+            "title": "编辑 API 密钥（{version}）"
+          },
+          "view": {
+            "title": "API 密钥详情（{version}）",
+            "empty": "未选择任何 API 密钥。"
+          },
+          "delete": {
+            "title": "删除 API 密钥",
+            "warningPrefix": "确定要删除此 API 密钥",
+            "warningSuffix": "？"
+          }
+        }
+      },
+      "roles": {
+        "table": {
+          "id": "角色 ID",
+          "description": "描述"
+        },
+        "cardTitle": "角色",
+        "alerts": {
+          "loadFailed": "加载角色失败。"
+        }
+      }
+    },
+    "configurationManagement": {
+      "metrics": {
+        "configurations": "配置数量",
+        "configurationsCaption": "有效的配置条目"
+      },
+      "configurations": {
+        "title": "配置项",
+        "subtitle": "查看并监控配置条目",
+        "searchPlaceholder": "搜索配置",
+        "actions": {
+          "new": "新增配置"
+        },
+        "alerts": {
+          "loadFailed": "无法加载配置。"
+        },
+        "dialogs": {
+          "create": {
+            "title": "创建配置",
+            "submit": "创建配置"
+          }
+        },
+        "fields": {
+          "key": "配置键",
+          "contextKey": "上下文键",
+          "contextId": "上下文 ID",
+          "value": "配置值",
+          "valueHint": "请输入纯文本或有效的 JSON。",
+          "flags": "标记",
+          "flagsHint": "请提供以逗号分隔的值。",
+          "workplace": "工作区"
+        },
+        "errors": {
+          "keyRequired": "需要配置键。",
+          "contextKeyRequired": "需要上下文键。",
+          "valueRequired": "需要配置值。",
+          "createFailed": "无法创建配置。",
+          "workplaceLoadFailed": "无法加载工作区。"
+        },
+        "notifications": {
+          "createSuccess": "配置创建成功。"
+        },
+        "table": {
+          "title": "配置项",
+          "subtitle": "{count} 条配置",
+          "key": "键",
+          "contextKey": "上下文键",
+          "contextId": "上下文 ID",
+          "value": "值",
+          "flags": "标记",
+          "noFlags": "无标记",
+          "updatedAt": "更新时间"
+        }
+      }
+    },
+    "$vuetify": {
+      "close": "关闭"
+    },
+    "workspace": {
+      "page": {
+        "title": "My workspace",
+        "subtitle": "Organize and share your personal folders and files."
+      },
+      "tree": {
+        "title": "Folders",
+        "empty": "No folders available yet.",
+        "actions": {
+          "createRoot": "Create root folder"
+        }
+      },
+      "actions": {
+        "newFolder": "New folder",
+        "uploadFile": "Upload file",
+        "renameFolder": "Rename",
+        "deleteFolder": "Delete folder",
+        "refresh": "Refresh"
       },
       "details": {
-        "title": "订单详情",
-        "placedOn": "下单时间",
-        "updatedAt": "更新时间",
-        "itemsTotal": "商品金额",
-        "shippingTotal": "运费",
-        "taxTotal": "税费",
-        "total": "总计",
-        "customer": "客户",
+        "items": {
+          "none": "No subfolders",
+          "one": "1 subfolder",
+          "other": "{count} subfolders"
+        },
+        "files": {
+          "none": "No files",
+          "one": "1 file",
+          "other": "{count} files"
+        },
+        "private": "Private",
+        "favorite": "Favorite"
+      },
+      "files": {
+        "title": "Files",
+        "empty": "No files in this folder yet.",
+        "favorite": "Favorite",
+        "sizeUnknown": "Unknown size",
+        "headers": {
+          "name": "Name",
+          "type": "Type",
+          "extension": "Extension",
+          "size": "Size",
+          "actions": "Actions"
+        },
+        "actions": {
+          "open": "Open",
+          "delete": "Delete"
+        }
+      },
+      "dialogs": {
+        "create": {
+          "title": "Create folder",
+          "subtitle": "Choose a name and optionally a parent folder."
+        },
+        "edit": {
+          "title": "Rename folder"
+        },
+        "delete": {
+          "title": "Delete folder",
+          "message": "Are you sure you want to delete this folder and all of its content?"
+        },
+        "upload": {
+          "title": "Upload file",
+          "subtitle": "Select a file to add to the current folder."
+        },
+        "deleteFile": {
+          "title": "Delete file",
+          "message": "Are you sure you want to delete this file?"
+        },
+        "fields": {
+          "name": "Folder name",
+          "parent": "Parent folder",
+          "private": "Private folder",
+          "favorite": "Mark as favorite",
+          "file": "File"
+        },
+        "actions": {
+          "cancel": "Cancel",
+          "create": "Create",
+          "save": "Save changes",
+          "delete": "Delete",
+          "upload": "Upload"
+        }
+      },
+      "notifications": {
+        "folderCreated": "Folder created successfully.",
+        "folderUpdated": "Folder updated successfully.",
+        "folderDeleted": "Folder deleted successfully.",
+        "fileUploaded": "File uploaded successfully.",
+        "fileDeleted": "File deleted successfully."
+      },
+      "errors": {
+        "loadFolders": "Unable to load folders. Please try again.",
+        "createFolder": "Unable to create the folder.",
+        "updateFolder": "Unable to update the folder.",
+        "deleteFolder": "Unable to delete the folder.",
+        "uploadFile": "Unable to upload the file.",
+        "deleteFile": "Unable to delete the file.",
+        "noFolderSelected": "Select a folder before uploading a file."
+      },
+      "validation": {
+        "nameRequired": "Folder name is required.",
+        "fileRequired": "A file must be selected."
+      },
+      "messages": {
+        "selectFolder": "Select a folder from the list to display its content.",
+        "refreshing": "Refreshing folder content..."
+      }
+    },
+    "pages": {
+      "ecommerce": {
+        "drawer": {
+          "title": "Seālius 精品店",
+          "subtitle": "与我们的海岸合作伙伴共同甄选的阳光度假造型。",
+          "metrics": {
+            "products": "{count} 件商品",
+            "categories": "{count} 个分类"
+          }
+        },
+        "hero": {
+          "brand": "Seālius",
+          "tagline": "海岸系列",
+          "description": "探索轻盈面料、海洋色调与松弛剪裁，为海边的日与夜而生。"
+        },
+        "categories": {
+          "title": "按分类浏览",
+          "all": "全部"
+        },
+        "sections": {
+          "latestDeals": {
+            "title": "最新优惠",
+            "subtitle": "限时精选，支持全球配送。"
+          },
+          "newCollection": {
+            "title": "全新系列",
+            "subtitle": "叠搭来自海岸灵感的天然肌理与纤维。"
+          },
+          "latestProducts": {
+            "title": "新品上架",
+            "subtitle": "Bro World 市场的最新上新。",
+            "emptyFiltered": "该分类暂时没有商品。"
+          }
+        },
+        "labels": {
+          "deal": "精选优惠"
+        },
+        "actions": {
+          "shopNow": "立即选购",
+          "exploreCollection": "浏览系列",
+          "refresh": "刷新目录",
+          "retry": "重试"
+        },
+        "fallbacks": {
+          "unknownProduct": "商品",
+          "priceUnavailable": "价格暂不可用",
+          "noProducts": "当前暂无可用商品。",
+          "categoryFallback": "系列"
+        },
+        "errors": {
+          "failedToLoad": "暂时无法加载商店数据，请稍后重试。"
+        }
+      },
+      "ecommercePayment": {
+        "meta": {
+          "title": "支付",
+          "subtitle": "选择您偏好的支付方式以完成结账。"
+        },
+        "steps": {
+          "address": "地址",
+          "shipping": "配送",
+          "payment": "支付",
+          "complete": "完成"
+        },
+        "labels": {
+          "paymentTitle": "支付方式 #{index}",
+          "paymentSubtitle": "选择一种支付方式",
+          "changeShipping": "更改配送方式",
+          "noSelection": "请选择一种支付方式以继续"
+        },
+        "actions": {
+          "next": "下一步"
+        },
+        "summary": {
+          "title": "摘要",
+          "customerFallback": "客户",
+          "itemCount": {
+            "one": "{count} 件商品",
+            "other": "{count} 件商品"
+          },
+          "itemsTotal": "商品小计",
+          "discount": "折扣",
+          "shipping": "预计运费",
+          "taxes": "税费",
+          "total": "订单总计"
+        },
+        "notifications": {
+          "loadingError": "无法加载支付详情，请稍后重试。",
+          "updateFailed": "无法更新支付方式，请稍后重试。",
+          "updateSuccess": "支付方式已更新。",
+          "completeSuccess": "订单已成功完成。",
+          "completeFailed": "无法完成订单，请稍后重试。"
+        },
+        "states": {
+          "loading": "正在加载支付方式…",
+          "empty": "此订单没有可用的支付方式。",
+          "defaultMethodName": "支付方式"
+        }
+      },
+      "settings": {
+        "title": "账户设置",
+        "subtitle": "在一个位置自定义您的使用体验并保护个人信息。",
+        "sections": {
+          "profile": {
+            "title": "个人资料偏好",
+            "description": "更新姓名、头像、语言以及团队可见的其他信息。",
+            "fields": {
+              "displayName": "显示名称",
+              "username": "用户名"
+            }
+          },
+          "security": {
+            "title": "安全与隐私",
+            "description": "检查活动会话，启用多重身份验证并管理已连接的应用。"
+          },
+          "notifications": {
+            "title": "通知",
+            "description": "选择通过电子邮件、推送或站内消息接收动态提醒。"
+          }
+        },
+        "tips": {
+          "title": "需要帮助？",
+          "description": "访问下方的帮助中心查看分步指南，或在遇到问题时联系支持团队。"
+        }
+      },
+      "help": {
+        "title": "帮助中心",
+        "subtitle": "通过精选文档、常见问题和社区讨论快速找到答案。",
+        "explanation": {
+          "title": "Bro World 是什么？",
+          "description": "Bro World 将团队的沟通、知识与工作流集中在一起，让你专注于创造价值。",
+          "highlights": {
+            "workspace": "在为每个项目准备的专属空间中管理项目、文档与讨论。",
+            "collaboration": "借助共享笔记、内置消息与及时通知实时协作。",
+            "support": "通过交互式仪表盘跟踪进度，并在需要指导时联系到我们的团队。",
+            "automation": "使用编排模板自动化重复任务，在各类工具之间触发动作。",
+            "integrations": "将 Bro World 与 GitHub、Slack、Figma 及众多伙伴连接，保持数据同步。",
+            "aiAssistant": "利用 AI 助手即时生成摘要、撰写更新并给出下一步建议。"
+          }
+        },
+        "sections": {
+          "guides": {
+            "title": "产品指南",
+            "description": "浏览图文教程，学习基础知识并发现高级工作流。"
+          },
+          "faq": {
+            "title": "常见问题",
+            "description": "查看用户每天最常咨询的问题与解决方案。"
+          },
+          "community": {
+            "title": "社区论坛",
+            "description": "与其他成员交流心得、分享技巧并为新功能投票。"
+          },
+          "automation": {
+            "title": "自动化库",
+            "description": "探索即插即用的剧本，在几分钟内串联工作流、审批与报表。"
+          },
+          "updates": {
+            "title": "产品动态",
+            "description": "了解最新版本公告、路线图亮点以及测试计划机会。"
+          }
+        },
+        "questions": {
+          "title": "常见问题",
+          "items": {
+            "accountAccess": {
+              "question": "如何访问我的账户？",
+              "answer": "使用注册时的邮箱登录。如果遇到问题，可在登录页重置密码或联系支持团队。"
+            },
+            "inviteTeam": {
+              "question": "可以邀请团队成员吗？",
+              "answer": "可以。打开工作区设置，选择“成员”，通过电子邮件发送邀请即可立即协作。"
+            },
+            "getSupport": {
+              "question": "我还能在哪里获得帮助？",
+              "answer": "查看上方指南获取分步教程，或直接联系我们以获得定制化支持。"
+            },
+            "automationTemplates": {
+              "question": "如何启用新的自动化模板？",
+              "answer": "在帮助中心打开自动化库，挑选一个模板，然后将各步骤映射到工作区已连接的集成。"
+            },
+            "mobileAccess": {
+              "question": "是否提供移动端体验？",
+              "answer": "提供。安装 iOS 或 Android 应用，即可接收推送通知、审批流程并随时与团队沟通。"
+            },
+            "billing": {
+              "question": "在哪里管理账单设置？",
+              "answer": "管理员可前往 设置 → 账单，更新支付方式、下载发票或调整套餐席位数量。"
+            }
+          }
+        },
+        "contact": {
+          "title": "仍需帮助？",
+          "description": "可在联系我们页面留言、开启在线聊天，或预约客户成功团队的专题会议。"
+        }
+      },
+      "about": {
+        "title": "关于 Bro World",
+        "subtitle": "了解这套功能丰富的平台如何为 Bro World 的团队、产品与社区提供动力。",
+        "intro": "Bro World 已发展为一个统一的数字化工作空间，将社区、内容发布、消息通信与自动化整合为一体化体验。",
+        "mission": "我们的使命是通过模块化构件，帮助团队快速验证原型、更快上线，并自信地管理日常运营。",
+        "vision": "从 AI 辅助的工作流到实时协作看板，每项功能都能随着您的组织一起灵活演进。",
+        "sections": {
+          "frontend": {
+            "title": "前端体验",
+            "description": "Nuxt 3、Vue 3、TypeScript 与 Vuetify 3 打造具备微前端、离线缓存与响应式设计的可访问界面，确保在所有设备上保持流畅。"
+          },
+          "backend": {
+            "title": "后端基础",
+            "description": "Node.js 服务在幕后协调整个队列、WebSocket、搜索索引以及 PostgreSQL 持久化。"
+          },
+          "api": {
+            "title": "Symfony 微服务",
+            "description": "解耦的 Symfony 微服务提供安全的 REST 与 GraphQL API，并附带即插即用的集成与 Webhook。"
+          },
+          "realtime": {
+            "title": "实时协作",
+            "description": "实时在线状态、共享评论与 WebSocket 事件让团队在秒级更新中保持一致。"
+          },
+          "automation": {
+            "title": "自动化与智能",
+            "description": "后台任务、AI 助手与计划任务替您处理重复工作，并提示下一步最佳行动。"
+          },
+          "devops": {
+            "title": "DevOps 与安全",
+            "description": "基础架构即代码流水线、容器化部署与持续安全扫描守护每一次发布。"
+          }
+        },
+        "highlights": {
+          "collaboration": {
+            "title": "工作空间协作",
+            "description": "多租户工作区、基于角色的权限以及共享日历为分布式团队提供支持。"
+          },
+          "analytics": {
+            "title": "可执行分析",
+            "description": "交互式仪表盘、可导出的报表与统一指标让产品健康状况一目了然。"
+          },
+          "customization": {
+            "title": "深度定制",
+            "description": "主题构建器、扩展钩子与精细设置让界面完全贴合您的品牌。"
+          },
+          "marketplace": {
+            "title": "生态市集",
+            "description": "精选插件、集成工具包与开放 API 加速新功能交付。"
+          }
+        },
+        "callToAction": {
+          "title": "与 Bro World 共建",
+          "description": "准备扩展平台或接入您的技术栈了吗？欢迎联系，让我们共同规划下一代功能。"
+        }
+      },
+      "ecommerceThankYou": {
+        "heroTitle": "谢谢！",
+        "heroSubtitle": "您的订单已提交成功。",
+        "orderTokenLabel": "确认编号：{token}",
+        "viewOrder": "查看订单",
+        "backToShop": "返回商店",
+        "orderSummary": "订单摘要",
+        "placedOn": "下单时间：{date}",
+        "orderNumber": "订单 {number}",
+        "items": "商品",
+        "itemCount": "{count} 件商品",
+        "emptyItems": "未找到此订单的商品。",
+        "itemFallback": "商品",
+        "unitPrice": "单价：{price}",
+        "totals": "支付概览",
+        "subtotal": "小计",
+        "shipping": "运费",
+        "shippingMethod": "配送方式",
+        "tax": "税费",
+        "total": "合计",
+        "contact": "联系方式",
         "email": "邮箱",
         "phone": "电话",
         "shippingAddress": "收货地址",
         "billingAddress": "账单地址",
-        "addressUnavailable": "暂无信息",
-        "loading": "正在加载订单详情…"
-      }
-    },
-    "settings": {
-      "allowSendEmail": {
-        "title": "接收电子邮件",
-        "description": "允许平台通过电子邮件发送更新和提醒。"
-      },
-      "allowNotification": {
-        "title": "启用应用内通知",
-        "description": "直接在应用中接收通知。"
-      },
-      "actions": {
-        "refresh": "重新加载"
-      },
-      "notifications": {
-        "updateSuccess": "偏好设置更新成功。"
-      },
-      "errors": {
-        "loadFailed": "无法加载您的偏好设置，请稍后重试。",
-        "saveFailed": "无法保存您的偏好设置，请稍后重试。",
-        "metadataMissing": "无法确定保存这些偏好设置所需的标识符。",
-        "noConfiguration": "尚未找到已保存的偏好设置。"
-      }
-    },
-    "notifications": {
-      "page": {
-        "title": "通知",
-        "subtitle": "查看最新提醒，随时掌握动态。"
-      },
-      "actions": {
-        "refresh": "刷新"
-      },
-      "states": {
-        "loading": "正在加载通知…",
-        "retry": "重试",
-        "error": "无法加载通知，请稍后再试。",
-        "empty": "一切就绪！暂时没有通知。"
-      },
-      "labels": {
-        "unread": "未读",
-        "receivedAt": "接收于 {date}"
-      },
-      "fallback": {
-        "title": "通知"
-      }
-    },
-    "public": {
-      "page": {
-        "title": "公开资料",
-        "description": "查看该成员分享的公开信息。"
-      },
-      "actions": {
-        "retry": "重试",
-        "message": "消息"
-      },
-      "errors": {
-        "load": "无法加载此资料。",
-        "notFound": "未找到此资料。",
-        "authenticationRequired": "您需要登录才能发送消息。",
-        "messengerUnavailable": "无法打开 Messenger，请稍后再试。"
-      },
-      "labels": {
-        "email": "电子邮箱",
-        "language": "语言",
-        "locale": "区域设置",
-        "timezone": "时区",
-        "enabled": "已启用",
-        "disabled": "已停用",
-        "friends": "好友",
-        "stories": "故事",
-        "empty": "未提供"
-      }
-    },
-    "calendar": {
-      "page": {
-        "title": "我的日历",
-        "subtitle": "查看、创建并管理您的个人事件。"
-      },
-      "actions": {
-        "new": "新建事件",
-        "refresh": "刷新",
-        "delete": "删除事件"
-      },
-      "view": {
-        "month": "月",
-        "week": "周",
-        "day": "日"
-      },
-      "list": {
-        "title": "即将到来的事件",
-        "empty": "暂无计划中的事件。"
-      },
-      "dialog": {
-        "createTitle": "创建事件",
-        "editTitle": "编辑事件",
-        "submit": "创建",
-        "save": "保存",
-        "cancel": "取消"
-      },
-      "form": {
-        "title": "标题",
-        "description": "描述",
-        "location": "地点",
-        "color": "颜色",
-        "allDay": "全天",
-        "isPrivate": "私人事件",
-        "startDate": "开始日期",
-        "startTime": "开始时间",
-        "endDate": "结束日期",
-        "endTime": "结束时间"
-      },
-      "delete": {
-        "title": "删除事件",
-        "message": "确定要删除此事件吗？此操作无法撤销。"
-      },
-      "notifications": {
-        "created": "事件创建成功。",
-        "updated": "事件更新成功。",
-        "deleted": "事件删除成功。",
-        "genericError": "无法处理请求，请稍后重试。"
-      },
-      "validation": {
-        "titleRequired": "标题为必填项。",
-        "startRequired": "开始日期为必填项。"
-      }
-    }
-  },
-  "userManagement": {
-    "users": {
-      "notifications": {
-        "createSuccess": "用户创建成功。",
-        "updateSuccess": "用户更新成功。",
-        "attachSuccess": "已成功将群组关联到该用户。",
-        "detachSuccess": "已取消用户与群组的关联。",
-        "deleteSuccess": "用户删除成功。"
-      },
-      "errors": {
-        "usernameEmailRequired": "必须填写用户名和邮箱。",
-        "passwordRequired": "创建新用户需要设置密码。",
-        "createFailed": "无法创建用户。",
-        "updateFailed": "无法更新用户。",
-        "openView": "无法打开该用户的详情。",
-        "loadDetails": "无法获取用户详情。",
-        "loadGroups": "无法获取用户所属群组。",
-        "selectGroup": "请选择一个群组以关联该用户。",
-        "attachFailed": "无法将该群组关联到用户。",
-        "detachFailed": "无法取消该群组与用户的关联。",
-        "deleteFailed": "无法删除用户。"
-      },
-      "table": {
-        "username": "用户名",
-        "firstName": "名",
-        "lastName": "姓",
-        "email": "电子邮箱",
-        "status": "状态"
-      },
-      "status": {
-        "active": "启用",
-        "inactive": "停用"
-      },
-      "cardTitle": "用户管理",
-      "actions": {
-        "new": "新建用户",
-        "viewTooltip": "查看 {username}",
-        "editTooltip": "编辑 {username}",
-        "deleteTooltip": "删除 {username}"
-      },
-      "alerts": {
-        "loadFailed": "加载用户失败。"
-      },
-      "fields": {
-        "username": "用户名",
-        "email": "电子邮箱",
-        "firstName": "名",
-        "lastName": "姓",
-        "language": "语言",
-        "locale": "本地化",
-        "timezone": "时区",
-        "password": "密码",
-        "newPassword": "新密码（可选）",
-        "enabled": "启用用户",
-        "status": "状态"
-      },
-      "hints": {
-        "keepPassword": "留空表示保持现有密码。"
-      },
-      "labels": {
-        "userFallback": "该用户"
-      },
-      "dialogs": {
-        "create": {
-          "title": "创建用户"
-        },
-        "edit": {
-          "title": "编辑 {username}"
-        },
-        "view": {
-          "title": "用户详情"
-        },
-        "attachGroup": {
-          "title": "关联群组"
-        },
-        "delete": {
-          "title": "删除用户",
-          "warningPrefix": "该操作无法撤销。是否确定要删除",
-          "warningSuffix": "？"
-        }
-      },
-      "details": {
-        "groups": {
-          "title": "群组",
-          "actions": {
-            "link": "关联群组"
-          },
-          "empty": "尚未关联任何群组。"
-        },
-        "empty": "未选择用户。"
-      },
-      "logs": {
-        "openDetail": "正在打开用户详情对话框"
-      }
-    },
-    "groups": {
-      "notifications": {
-        "createSuccess": "用户群组创建成功。",
-        "updateSuccess": "用户群组更新成功。",
-        "deleteSuccess": "用户群组删除成功。",
-        "attachSuccess": "已将用户关联到该群组。",
-        "detachSuccess": "已取消用户与该群组的关联。"
-      },
-      "errors": {
-        "nameRequired": "必须填写群组名称。",
-        "createFailed": "无法创建用户群组。",
-        "updateFailed": "无法更新用户群组。",
-        "loadDetails": "无法加载用户群组详情。",
-        "loadUsers": "无法获取群组中的用户。",
-        "selectUser": "请选择一个用户以关联到该群组。",
-        "attachFailed": "无法将该用户关联到群组。",
-        "detachFailed": "无法取消该用户与群组的关联。",
-        "deleteFailed": "无法删除该用户群组。"
-      },
-      "table": {
-        "name": "名称",
-        "id": "标识",
-        "actions": "操作"
-      },
-      "cardTitle": "用户群组",
-      "actions": {
-        "new": "新建群组",
-        "viewTooltip": "查看 {name}",
-        "editTooltip": "编辑 {name}",
-        "deleteTooltip": "删除 {name}"
-      },
-      "alerts": {
-        "loadFailed": "加载用户群组失败。"
-      },
-      "fields": {
-        "name": "群组名称",
-        "description": "描述",
-        "id": "标识"
-      },
-      "labels": {
-        "groupFallback": "该群组"
-      },
-      "dialogs": {
-        "create": {
-          "title": "创建用户群组"
-        },
-        "edit": {
-          "title": "编辑用户群组"
-        },
-        "view": {
-          "title": "用户群组详情"
-        },
-        "attachUser": {
-          "title": "关联用户"
-        },
-        "delete": {
-          "title": "删除用户群组",
-          "warningPrefix": "该操作无法撤销。是否确定要删除",
-          "warningSuffix": "？"
-        }
-      },
-      "details": {
-        "users": {
-          "title": "用户",
-          "actions": {
-            "link": "关联用户"
-          },
-          "empty": "尚未关联任何用户。"
-        },
-        "empty": "未选择群组。"
-      }
-    },
-    "workplaces": {
-      "notifications": {
-        "createSuccess": "Workplace created successfully.",
-        "updateSuccess": "Workplace updated successfully.",
-        "deleteSuccess": "Workplace deleted successfully."
-      },
-      "errors": {
-        "nameRequired": "A workplace name is required.",
-        "createFailed": "Unable to create the workplace.",
-        "updateFailed": "Unable to update the workplace.",
-        "loadDetails": "Unable to load the workplace details.",
-        "deleteFailed": "Unable to delete the workplace."
-      },
-      "table": {
-        "name": "Name",
-        "slug": "Slug",
-        "id": "Identifier",
-        "actions": "Actions"
-      },
-      "cardTitle": "Workplaces",
-      "actions": {
-        "new": "New workplace",
-        "viewTooltip": "View {name}",
-        "editTooltip": "Edit {name}",
-        "deleteTooltip": "Delete {name}"
-      },
-      "alerts": {
-        "loadFailed": "Failed to load workplaces."
-      },
-      "fields": {
-        "name": "Workplace name",
-        "slug": "Slug",
-        "id": "Identifier"
-      },
-      "labels": {
-        "workplaceFallback": "this workplace"
-      },
-      "dialogs": {
-        "create": {
-          "title": "Create workplace"
-        },
-        "edit": {
-          "title": "Edit workplace"
-        },
-        "view": {
-          "title": "Workplace details"
-        },
-        "delete": {
-          "title": "Delete workplace",
-          "warningPrefix": "This action cannot be undone. Do you really want to delete",
-          "warningSuffix": "?"
-        }
-      },
-      "details": {
-        "empty": "No workplace selected."
-      }
-    },
-    "apiKeys": {
-      "labels": {
-        "v1": "API v1",
-        "v2": "API v2",
-        "keyFallback": "该 API 密钥"
-      },
-      "notifications": {
-        "createSuccess": "API 密钥创建成功（{version}）。",
-        "updateSuccess": "API 密钥更新成功（{version}）。",
-        "deleteSuccess": "已删除 API 密钥（{version}）。"
-      },
-      "errors": {
-        "descriptionRequired": "必须填写描述。",
-        "createFailed": "无法创建 API 密钥。",
-        "updateFailed": "无法更新 API 密钥。",
-        "loadDetails": "无法加载 API 密钥详情。",
-        "deleteFailed": "无法删除 API 密钥。",
-        "partialUpdateRequired": "请至少提供一个字段来更新 API 密钥。"
-      },
-      "cardTitle": "API 密钥",
-      "table": {
-        "description": "描述",
-        "token": "令牌",
-        "id": "标识",
-        "actions": "操作"
-      },
-      "actions": {
-        "new": "新建 API 密钥（{version}）",
-        "viewTooltip": "查看 {description}",
-        "editTooltip": "编辑 {description}",
-        "deleteTooltip": "删除 {description}"
-      },
-      "alerts": {
-        "loadFailed": "加载 {version} API 密钥失败。"
-      },
-      "fields": {
-        "description": "描述",
-        "token": "令牌",
-        "id": "标识"
-      },
-      "hints": {
-        "keepToken": "留空表示保留当前令牌（仅适用于 PATCH）。"
-      },
-      "dialogs": {
-        "create": {
-          "title": "创建 API 密钥（{version}）"
-        },
-        "edit": {
-          "title": "编辑 API 密钥（{version}）"
-        },
-        "view": {
-          "title": "API 密钥详情（{version}）",
-          "empty": "未选择任何 API 密钥。"
-        },
-        "delete": {
-          "title": "删除 API 密钥",
-          "warningPrefix": "确定要删除此 API 密钥",
-          "warningSuffix": "？"
-        }
-      }
-    },
-    "roles": {
-      "table": {
-        "id": "角色 ID",
-        "description": "描述"
-      },
-      "cardTitle": "角色",
-      "alerts": {
-        "loadFailed": "加载角色失败。"
-      }
-    }
-  },
-  "configurationManagement": {
-    "metrics": {
-      "configurations": "配置数量",
-      "configurationsCaption": "有效的配置条目"
-    },
-    "configurations": {
-      "title": "配置项",
-      "subtitle": "查看并监控配置条目",
-      "searchPlaceholder": "搜索配置",
-      "actions": {
-        "new": "新增配置"
-      },
-      "alerts": {
-        "loadFailed": "无法加载配置。"
-      },
-      "dialogs": {
-        "create": {
-          "title": "创建配置",
-          "submit": "创建配置"
-        }
-      },
-      "fields": {
-        "key": "配置键",
-        "contextKey": "上下文键",
-        "contextId": "上下文 ID",
-        "value": "配置值",
-        "valueHint": "请输入纯文本或有效的 JSON。",
-        "flags": "标记",
-        "flagsHint": "请提供以逗号分隔的值。",
-        "workplace": "工作区"
-      },
-      "errors": {
-        "keyRequired": "需要配置键。",
-        "contextKeyRequired": "需要上下文键。",
-        "valueRequired": "需要配置值。",
-        "createFailed": "无法创建配置。",
-        "workplaceLoadFailed": "无法加载工作区。"
-      },
-      "notifications": {
-        "createSuccess": "配置创建成功。"
-      },
-      "table": {
-        "title": "配置项",
-        "subtitle": "{count} 条配置",
-        "key": "键",
-        "contextKey": "上下文键",
-        "contextId": "上下文 ID",
-        "value": "值",
-        "flags": "标记",
-        "noFlags": "无标记",
-        "updatedAt": "更新时间"
-      }
-    }
-  },
-  "$vuetify": {
-    "close": "关闭"
-  },
-  "workspace": {
-    "page": {
-      "title": "My workspace",
-      "subtitle": "Organize and share your personal folders and files."
-    },
-    "tree": {
-      "title": "Folders",
-      "empty": "No folders available yet.",
-      "actions": {
-        "createRoot": "Create root folder"
-      }
-    },
-    "actions": {
-      "newFolder": "New folder",
-      "uploadFile": "Upload file",
-      "renameFolder": "Rename",
-      "deleteFolder": "Delete folder",
-      "refresh": "Refresh"
-    },
-    "details": {
-      "items": {
-        "none": "No subfolders",
-        "one": "1 subfolder",
-        "other": "{count} subfolders"
-      },
-      "files": {
-        "none": "No files",
-        "one": "1 file",
-        "other": "{count} files"
-      },
-      "private": "Private",
-      "favorite": "Favorite"
-    },
-    "files": {
-      "title": "Files",
-      "empty": "No files in this folder yet.",
-      "favorite": "Favorite",
-      "sizeUnknown": "Unknown size",
-      "headers": {
-        "name": "Name",
-        "type": "Type",
-        "extension": "Extension",
-        "size": "Size",
-        "actions": "Actions"
-      },
-      "actions": {
-        "open": "Open",
-        "delete": "Delete"
-      }
-    },
-    "dialogs": {
-      "create": {
-        "title": "Create folder",
-        "subtitle": "Choose a name and optionally a parent folder."
-      },
-      "edit": {
-        "title": "Rename folder"
-      },
-      "delete": {
-        "title": "Delete folder",
-        "message": "Are you sure you want to delete this folder and all of its content?"
-      },
-      "upload": {
-        "title": "Upload file",
-        "subtitle": "Select a file to add to the current folder."
-      },
-      "deleteFile": {
-        "title": "Delete file",
-        "message": "Are you sure you want to delete this file?"
-      },
-      "fields": {
-        "name": "Folder name",
-        "parent": "Parent folder",
-        "private": "Private folder",
-        "favorite": "Mark as favorite",
-        "file": "File"
-      },
-      "actions": {
-        "cancel": "Cancel",
-        "create": "Create",
-        "save": "Save changes",
-        "delete": "Delete",
-        "upload": "Upload"
-      }
-    },
-    "notifications": {
-      "folderCreated": "Folder created successfully.",
-      "folderUpdated": "Folder updated successfully.",
-      "folderDeleted": "Folder deleted successfully.",
-      "fileUploaded": "File uploaded successfully.",
-      "fileDeleted": "File deleted successfully."
-    },
-    "errors": {
-      "loadFolders": "Unable to load folders. Please try again.",
-      "createFolder": "Unable to create the folder.",
-      "updateFolder": "Unable to update the folder.",
-      "deleteFolder": "Unable to delete the folder.",
-      "uploadFile": "Unable to upload the file.",
-      "deleteFile": "Unable to delete the file.",
-      "noFolderSelected": "Select a folder before uploading a file."
-    },
-    "validation": {
-      "nameRequired": "Folder name is required.",
-      "fileRequired": "A file must be selected."
-    },
-    "messages": {
-      "selectFolder": "Select a folder from the list to display its content.",
-      "refreshing": "Refreshing folder content..."
-    }
-  },
-  "pages": {
-    "ecommerce": {
-      "drawer": {
-        "title": "Seālius 精品店",
-        "subtitle": "与我们的海岸合作伙伴共同甄选的阳光度假造型。",
-        "metrics": {
-          "products": "{count} 件商品",
-          "categories": "{count} 个分类"
-        }
-      },
-      "hero": {
-        "brand": "Seālius",
-        "tagline": "海岸系列",
-        "description": "探索轻盈面料、海洋色调与松弛剪裁，为海边的日与夜而生。"
-      },
-      "categories": {
-        "title": "按分类浏览",
-        "all": "全部"
-      },
-      "sections": {
-        "latestDeals": {
-          "title": "最新优惠",
-          "subtitle": "限时精选，支持全球配送。"
-        },
-        "newCollection": {
-          "title": "全新系列",
-          "subtitle": "叠搭来自海岸灵感的天然肌理与纤维。"
-        },
-        "latestProducts": {
-          "title": "新品上架",
-          "subtitle": "Bro World 市场的最新上新。",
-          "emptyFiltered": "该分类暂时没有商品。"
-        }
-      },
-      "labels": {
-        "deal": "精选优惠"
-      },
-      "actions": {
-        "shopNow": "立即选购",
-        "exploreCollection": "浏览系列",
-        "refresh": "刷新目录",
+        "noAddress": "未提供地址。",
+        "noOrder": "无法显示订单详情。",
+        "missingToken": "没有确认编号，无法找到您的订单。",
+        "loadError": "无法加载订单详情，请重试。",
         "retry": "重试"
       },
-      "fallbacks": {
-        "unknownProduct": "商品",
-        "priceUnavailable": "价格暂不可用",
-        "noProducts": "当前暂无可用商品。",
-        "categoryFallback": "系列"
-      },
-      "errors": {
-        "failedToLoad": "暂时无法加载商店数据，请稍后重试。"
-      }
-    },
-    "ecommercePayment": {
-      "meta": {
-        "title": "支付",
-        "subtitle": "选择您偏好的支付方式以完成结账。"
-      },
-      "steps": {
-        "address": "地址",
-        "shipping": "配送",
-        "payment": "支付",
-        "complete": "完成"
-      },
-      "labels": {
-        "paymentTitle": "支付方式 #{index}",
-        "paymentSubtitle": "选择一种支付方式",
-        "changeShipping": "更改配送方式",
-        "noSelection": "请选择一种支付方式以继续"
-      },
-      "actions": {
-        "next": "下一步"
-      },
-      "summary": {
-        "title": "摘要",
-        "customerFallback": "客户",
-        "itemCount": {
-          "one": "{count} 件商品",
-          "other": "{count} 件商品"
-        },
-        "itemsTotal": "商品小计",
-        "discount": "折扣",
-        "shipping": "预计运费",
-        "taxes": "税费",
-        "total": "订单总计"
-      },
-      "notifications": {
-        "loadingError": "无法加载支付详情，请稍后重试。",
-        "updateFailed": "无法更新支付方式，请稍后重试。",
-        "updateSuccess": "支付方式已更新。",
-        "completeSuccess": "订单已成功完成。",
-        "completeFailed": "无法完成订单，请稍后重试。"
-      },
-      "states": {
-        "loading": "正在加载支付方式…",
-        "empty": "此订单没有可用的支付方式。",
-        "defaultMethodName": "支付方式"
-      }
-    },
-    "settings": {
-      "title": "账户设置",
-      "subtitle": "在一个位置自定义您的使用体验并保护个人信息。",
-      "sections": {
-        "profile": {
-          "title": "个人资料偏好",
-          "description": "更新姓名、头像、语言以及团队可见的其他信息。",
-          "fields": {
-            "displayName": "显示名称",
-            "username": "用户名"
-          }
-        },
-        "security": {
-          "title": "安全与隐私",
-          "description": "检查活动会话，启用多重身份验证并管理已连接的应用。"
-        },
-        "notifications": {
-          "title": "通知",
-          "description": "选择通过电子邮件、推送或站内消息接收动态提醒。"
-        }
-      },
-      "tips": {
-        "title": "需要帮助？",
-        "description": "访问下方的帮助中心查看分步指南，或在遇到问题时联系支持团队。"
-      }
-    },
-    "help": {
-      "title": "帮助中心",
-      "subtitle": "通过精选文档、常见问题和社区讨论快速找到答案。",
-      "explanation": {
-        "title": "Bro World 是什么？",
-        "description": "Bro World 将团队的沟通、知识与工作流集中在一起，让你专注于创造价值。",
-        "highlights": {
-          "workspace": "在为每个项目准备的专属空间中管理项目、文档与讨论。",
-          "collaboration": "借助共享笔记、内置消息与及时通知实时协作。",
-          "support": "通过交互式仪表盘跟踪进度，并在需要指导时联系到我们的团队。",
-          "automation": "使用编排模板自动化重复任务，在各类工具之间触发动作。",
-          "integrations": "将 Bro World 与 GitHub、Slack、Figma 及众多伙伴连接，保持数据同步。",
-          "aiAssistant": "利用 AI 助手即时生成摘要、撰写更新并给出下一步建议。"
-        }
-      },
-      "sections": {
-        "guides": {
-          "title": "产品指南",
-          "description": "浏览图文教程，学习基础知识并发现高级工作流。"
-        },
-        "faq": {
-          "title": "常见问题",
-          "description": "查看用户每天最常咨询的问题与解决方案。"
-        },
-        "community": {
-          "title": "社区论坛",
-          "description": "与其他成员交流心得、分享技巧并为新功能投票。"
-        },
-        "automation": {
-          "title": "自动化库",
-          "description": "探索即插即用的剧本，在几分钟内串联工作流、审批与报表。"
-        },
-        "updates": {
-          "title": "产品动态",
-          "description": "了解最新版本公告、路线图亮点以及测试计划机会。"
-        }
-      },
-      "questions": {
-        "title": "常见问题",
-        "items": {
-          "accountAccess": {
-            "question": "如何访问我的账户？",
-            "answer": "使用注册时的邮箱登录。如果遇到问题，可在登录页重置密码或联系支持团队。"
-          },
-          "inviteTeam": {
-            "question": "可以邀请团队成员吗？",
-            "answer": "可以。打开工作区设置，选择“成员”，通过电子邮件发送邀请即可立即协作。"
-          },
-          "getSupport": {
-            "question": "我还能在哪里获得帮助？",
-            "answer": "查看上方指南获取分步教程，或直接联系我们以获得定制化支持。"
-          },
-          "automationTemplates": {
-            "question": "如何启用新的自动化模板？",
-            "answer": "在帮助中心打开自动化库，挑选一个模板，然后将各步骤映射到工作区已连接的集成。"
-          },
-          "mobileAccess": {
-            "question": "是否提供移动端体验？",
-            "answer": "提供。安装 iOS 或 Android 应用，即可接收推送通知、审批流程并随时与团队沟通。"
-          },
-          "billing": {
-            "question": "在哪里管理账单设置？",
-            "answer": "管理员可前往 设置 → 账单，更新支付方式、下载发票或调整套餐席位数量。"
-          }
-        }
-      },
       "contact": {
-        "title": "仍需帮助？",
-        "description": "可在联系我们页面留言、开启在线聊天，或预约客户成功团队的专题会议。"
-      }
-    },
-    "about": {
-      "title": "关于 Bro World",
-      "subtitle": "了解这套功能丰富的平台如何为 Bro World 的团队、产品与社区提供动力。",
-      "intro": "Bro World 已发展为一个统一的数字化工作空间，将社区、内容发布、消息通信与自动化整合为一体化体验。",
-      "mission": "我们的使命是通过模块化构件，帮助团队快速验证原型、更快上线，并自信地管理日常运营。",
-      "vision": "从 AI 辅助的工作流到实时协作看板，每项功能都能随着您的组织一起灵活演进。",
-      "sections": {
-        "frontend": {
-          "title": "前端体验",
-          "description": "Nuxt 3、Vue 3、TypeScript 与 Vuetify 3 打造具备微前端、离线缓存与响应式设计的可访问界面，确保在所有设备上保持流畅。"
+        "title": "联系我们",
+        "subtitle": "我们随时为您解答问题并提供合适的解决方案。",
+        "sections": {
+          "support": {
+            "title": "客户支持",
+            "description": "获取技术协助、反馈问题或向我们的团队申请账户调整。"
+          },
+          "partnerships": {
+            "title": "合作伙伴",
+            "description": "与我们讨论集成方案、联合营销机会或定制化企业套餐。"
+          },
+          "press": {
+            "title": "媒体资源",
+            "description": "申请采访、徽标或媒体资料包，以便在您的报道中介绍 Bro World。"
+          }
         },
-        "backend": {
-          "title": "后端基础",
-          "description": "Node.js 服务在幕后协调整个队列、WebSocket、搜索索引以及 PostgreSQL 持久化。"
+        "details": {
+          "title": "联系方式",
+          "description": "发送邮件至 {email} 或通过控制面板提交工单，我们会在一个工作日内回复。"
         },
-        "api": {
-          "title": "Symfony 微服务",
-          "description": "解耦的 Symfony 微服务提供安全的 REST 与 GraphQL API，并附带即插即用的集成与 Webhook。"
+        "form": {
+          "title": "给我们发送留言",
+          "description": "请告诉我们您的需求，我们会让合适的专家与您联系。",
+          "fields": {
+            "subject": "留言标题",
+            "email": "电子邮箱",
+            "message": "描述"
+          },
+          "actions": {
+            "submit": "发送留言"
+          },
+          "status": {
+            "success": "谢谢！您的留言已成功发送。",
+            "error": "出现问题，请重试发送留言。"
+          },
+          "validation": {
+            "required": "此字段为必填项。",
+            "email": "请输入有效的电子邮箱地址。"
+          }
         },
-        "realtime": {
-          "title": "实时协作",
-          "description": "实时在线状态、共享评论与 WebSocket 事件让团队在秒级更新中保持一致。"
-        },
-        "automation": {
-          "title": "自动化与智能",
-          "description": "后台任务、AI 助手与计划任务替您处理重复工作，并提示下一步最佳行动。"
-        },
-        "devops": {
-          "title": "DevOps 与安全",
-          "description": "基础架构即代码流水线、容器化部署与持续安全扫描守护每一次发布。"
+        "location": {
+          "title": "来科隆拜访我们",
+          "description": "欢迎前往我们位于德国科隆的办公室与团队会面。"
         }
       },
-      "highlights": {
-        "collaboration": {
-          "title": "工作空间协作",
-          "description": "多租户工作区、基于角色的权限以及共享日历为分布式团队提供支持。"
+      "ecommerceOrder": {
+        "meta": {
+          "title": "Order details"
         },
-        "analytics": {
-          "title": "可执行分析",
-          "description": "交互式仪表盘、可导出的报表与统一指标让产品健康状况一目了然。"
+        "heading": {
+          "title": "Order #{number}",
+          "subtitle": "Your account"
         },
-        "customization": {
-          "title": "深度定制",
-          "description": "主题构建器、扩展钩子与精细设置让界面完全贴合您的品牌。"
-        },
-        "marketplace": {
-          "title": "生态市集",
-          "description": "精选插件、集成工具包与开放 API 加速新功能交付。"
-        }
-      },
-      "callToAction": {
-        "title": "与 Bro World 共建",
-        "description": "准备扩展平台或接入您的技术栈了吗？欢迎联系，让我们共同规划下一代功能。"
-      }
-    },
-    "ecommerceThankYou": {
-      "heroTitle": "谢谢！",
-      "heroSubtitle": "您的订单已提交成功。",
-      "orderTokenLabel": "确认编号：{token}",
-      "viewOrder": "查看订单",
-      "backToShop": "返回商店",
-      "orderSummary": "订单摘要",
-      "placedOn": "下单时间：{date}",
-      "orderNumber": "订单 {number}",
-      "items": "商品",
-      "itemCount": "{count} 件商品",
-      "emptyItems": "未找到此订单的商品。",
-      "itemFallback": "商品",
-      "unitPrice": "单价：{price}",
-      "totals": "支付概览",
-      "subtotal": "小计",
-      "shipping": "运费",
-      "shippingMethod": "配送方式",
-      "tax": "税费",
-      "total": "合计",
-      "contact": "联系方式",
-      "email": "邮箱",
-      "phone": "电话",
-      "shippingAddress": "收货地址",
-      "billingAddress": "账单地址",
-      "noAddress": "未提供地址。",
-      "noOrder": "无法显示订单详情。",
-      "missingToken": "没有确认编号，无法找到您的订单。",
-      "loadError": "无法加载订单详情，请重试。",
-      "retry": "重试"
-    },
-    "contact": {
-      "title": "联系我们",
-      "subtitle": "我们随时为您解答问题并提供合适的解决方案。",
-      "sections": {
-        "support": {
-          "title": "客户支持",
-          "description": "获取技术协助、反馈问题或向我们的团队申请账户调整。"
-        },
-        "partnerships": {
-          "title": "合作伙伴",
-          "description": "与我们讨论集成方案、联合营销机会或定制化企业套餐。"
-        },
-        "press": {
-          "title": "媒体资源",
-          "description": "申请采访、徽标或媒体资料包，以便在您的报道中介绍 Bro World。"
-        }
-      },
-      "details": {
-        "title": "联系方式",
-        "description": "发送邮件至 {email} 或通过控制面板提交工单，我们会在一个工作日内回复。"
-      },
-      "form": {
-        "title": "给我们发送留言",
-        "description": "请告诉我们您的需求，我们会让合适的专家与您联系。",
-        "fields": {
-          "subject": "留言标题",
-          "email": "电子邮箱",
-          "message": "描述"
+        "breadcrumbs": {
+          "account": "My account",
+          "orders": "Order history"
         },
         "actions": {
-          "submit": "发送留言"
+          "pay": "Pay",
+          "retry": "Try again",
+          "refresh": "Refresh"
         },
-        "status": {
-          "success": "谢谢！您的留言已成功发送。",
-          "error": "出现问题，请重试发送留言。"
+        "labels": {
+          "token": "Token: {token}",
+          "createdAt": "Created at",
+          "completedAt": "Completed at",
+          "updatedAt": "Last update",
+          "currency": "Currency",
+          "locale": "Locale",
+          "checkoutState": "Checkout state",
+          "paymentState": "Payment state",
+          "shippingState": "Shipping state",
+          "state": "Order state",
+          "channel": "Channel",
+          "customer": "Customer",
+          "email": "Email",
+          "quantity": "Items"
         },
-        "validation": {
-          "required": "此字段为必填项。",
-          "email": "请输入有效的电子邮箱地址。"
-        }
-      },
-      "location": {
-        "title": "来科隆拜访我们",
-        "description": "欢迎前往我们位于德国科隆的办公室与团队会面。"
-      }
-    },
-    "ecommerceOrder": {
-      "meta": {
-        "title": "Order details"
-      },
-      "heading": {
-        "title": "Order #{number}",
-        "subtitle": "Your account"
-      },
-      "breadcrumbs": {
-        "account": "My account",
-        "orders": "Order history"
-      },
-      "actions": {
-        "pay": "Pay",
-        "retry": "Try again",
-        "refresh": "Refresh"
-      },
-      "labels": {
-        "token": "Token: {token}",
-        "createdAt": "Created at",
-        "completedAt": "Completed at",
-        "updatedAt": "Last update",
-        "currency": "Currency",
-        "locale": "Locale",
-        "checkoutState": "Checkout state",
-        "paymentState": "Payment state",
-        "shippingState": "Shipping state",
-        "state": "Order state",
-        "channel": "Channel",
-        "customer": "Customer",
-        "email": "Email",
-        "quantity": "Items"
-      },
-      "sections": {
-        "information": {
-          "title": "Order information"
-        },
-        "addresses": {
-          "title": "Addresses",
-          "billing": "Billing address",
-          "shipping": "Shipping address",
-          "loading": "Loading addresses…"
-        },
-        "items": {
-          "title": "Items",
-          "empty": "This order does not contain any items.",
-          "table": {
-            "product": "Product",
-            "unitPrice": "Unit price",
-            "quantity": "Qty",
-            "total": "Total"
+        "sections": {
+          "information": {
+            "title": "Order information"
+          },
+          "addresses": {
+            "title": "Addresses",
+            "billing": "Billing address",
+            "shipping": "Shipping address",
+            "loading": "Loading addresses…"
+          },
+          "items": {
+            "title": "Items",
+            "empty": "This order does not contain any items.",
+            "table": {
+              "product": "Product",
+              "unitPrice": "Unit price",
+              "quantity": "Qty",
+              "total": "Total"
+            }
+          },
+          "payments": {
+            "title": "Payments",
+            "empty": "No payments recorded for this order."
+          },
+          "shipments": {
+            "title": "Shipments",
+            "empty": "No shipments recorded for this order."
+          },
+          "summary": {
+            "title": "Summary",
+            "itemsTotal": "Subtotal",
+            "taxTotal": "Taxes",
+            "shippingTotal": "Shipping",
+            "total": "Order total"
           }
         },
-        "payments": {
-          "title": "Payments",
-          "empty": "No payments recorded for this order."
+        "messages": {
+          "loadingError": "We could not load this order. Please try again.",
+          "notFound": "We could not find this order.",
+          "itemsError": "Unable to load the order items.",
+          "addressesError": "We could not load the addresses linked to this order."
         },
-        "shipments": {
-          "title": "Shipments",
-          "empty": "No shipments recorded for this order."
+        "fallbacks": {
+          "unknown": "Unknown",
+          "noAddress": "Address unavailable",
+          "noValue": "Not provided"
+        },
+        "metaTitle": "订单概览",
+        "heading": {
+          "title": "订单摘要",
+          "subtitle": "在完成支付前，请再次核对所有信息。"
+        },
+        "status": {
+          "steps": {
+            "address": "地址",
+            "shipping": "配送",
+            "payment": "付款",
+            "complete": "完成"
+          }
         },
         "summary": {
-          "title": "Summary",
-          "itemsTotal": "Subtotal",
-          "taxTotal": "Taxes",
-          "shippingTotal": "Shipping",
-          "total": "Order total"
+          "title": "订单信息",
+          "currency": "币种",
+          "locale": "语言",
+          "orderNumber": "订单号",
+          "placedOn": "创建时间",
+          "checkoutState": "结账状态",
+          "paymentState": "付款状态",
+          "shippingState": "配送状态"
+        },
+        "addresses": {
+          "billing": "账单地址",
+          "shipping": "收货地址",
+          "missing": "暂无地址信息"
+        },
+        "payments": {
+          "title": "付款记录",
+          "state": "状态",
+          "noPayments": "暂无付款记录。"
+        },
+        "shipments": {
+          "title": "配送记录",
+          "state": "状态",
+          "noShipments": "暂无配送记录。"
+        },
+        "items": {
+          "title": "订单商品",
+          "count": "{count} 件商品",
+          "table": {
+            "item": "商品",
+            "unitPrice": "单价",
+            "quantity": "数量",
+            "subtotal": "小计"
+          },
+          "empty": "订单中没有商品。"
+        },
+        "totals": {
+          "items": "商品合计",
+          "discounts": "优惠",
+          "shipping": "运费",
+          "taxes": "税费",
+          "grandTotal": "订单总额"
+        },
+        "notes": {
+          "title": "附加备注",
+          "empty": "暂无备注。"
+        },
+        "actions": {
+          "refresh": "刷新订单"
+        },
+        "fallbacks": {
+          "unknownPaymentMethod": "付款方式",
+          "unknownShipmentMethod": "配送方式",
+          "unknownProduct": "商品",
+          "unknownState": "待处理",
+          "unknownLocale": "语言"
+        },
+        "errors": {
+          "loadFailed": "无法加载该订单。"
+        },
+        "states": {
+          "cart": "购物车",
+          "addressed": "地址已确认",
+          "shipping_selected": "已选择配送",
+          "payment_selected": "已选择付款",
+          "completed": "已完成"
         }
       },
-      "messages": {
-        "loadingError": "We could not load this order. Please try again.",
-        "notFound": "We could not find this order.",
-        "itemsError": "Unable to load the order items.",
-        "addressesError": "We could not load the addresses linked to this order."
-      },
-      "fallbacks": {
-        "unknown": "Unknown",
-        "noAddress": "Address unavailable",
-        "noValue": "Not provided"
-      },
-      "metaTitle": "订单概览",
-      "heading": {
-        "title": "订单摘要",
-        "subtitle": "在完成支付前，请再次核对所有信息。"
-      },
-      "status": {
-        "steps": {
-          "address": "地址",
-          "shipping": "配送",
-          "payment": "付款",
-          "complete": "完成"
+      "ecommerceCategory": {
+        "breadcrumbs": {
+          "category": "Category"
+        },
+        "actions": {
+          "goUp": "Go level up",
+          "refresh": "Reload category"
+        },
+        "labels": {
+          "search": "Search",
+          "searchPlaceholder": "Search products",
+          "sort": "Sort",
+          "itemsCount": "{count} items"
+        },
+        "sort": {
+          "position": "Sort by position",
+          "name": "Name (A–Z)",
+          "priceAsc": "Price: low to high",
+          "priceDesc": "Price: high to low"
+        },
+        "status": {
+          "loading": "Loading category…",
+          "failed": "We could not load this category."
+        },
+        "fallbacks": {
+          "description": "Explore our curated selection for this category.",
+          "empty": "We do not have products in this category yet."
         }
-      },
-      "summary": {
-        "title": "订单信息",
-        "currency": "币种",
-        "locale": "语言",
-        "orderNumber": "订单号",
-        "placedOn": "创建时间",
-        "checkoutState": "结账状态",
-        "paymentState": "付款状态",
-        "shippingState": "配送状态"
-      },
-      "addresses": {
-        "billing": "账单地址",
-        "shipping": "收货地址",
-        "missing": "暂无地址信息"
-      },
-      "payments": {
-        "title": "付款记录",
-        "state": "状态",
-        "noPayments": "暂无付款记录。"
-      },
-      "shipments": {
-        "title": "配送记录",
-        "state": "状态",
-        "noShipments": "暂无配送记录。"
-      },
-      "items": {
-        "title": "订单商品",
-        "count": "{count} 件商品",
+      }
+    },
+    "pluginManagement": {
+      "plugins": {
+        "cardTitle": "Plugins",
+        "cardSubtitle": "Manage the available integrations for the platform.",
+        "searchPlaceholder": "Search plugins",
         "table": {
-          "item": "商品",
-          "unitPrice": "单价",
-          "quantity": "数量",
-          "subtotal": "小计"
+          "name": "Name",
+          "key": "Key",
+          "status": "Status",
+          "installed": "Installed",
+          "updatedAt": "Updated at"
         },
-        "empty": "订单中没有商品。"
-      },
-      "totals": {
-        "items": "商品合计",
-        "discounts": "优惠",
-        "shipping": "运费",
-        "taxes": "税费",
-        "grandTotal": "订单总额"
-      },
-      "notes": {
-        "title": "附加备注",
-        "empty": "暂无备注。"
-      },
-      "actions": {
-        "refresh": "刷新订单"
-      },
-      "fallbacks": {
-        "unknownPaymentMethod": "付款方式",
-        "unknownShipmentMethod": "配送方式",
-        "unknownProduct": "商品",
-        "unknownState": "待处理",
-        "unknownLocale": "语言"
-      },
-      "errors": {
-        "loadFailed": "无法加载该订单。"
-      },
-      "states": {
-        "cart": "购物车",
-        "addressed": "地址已确认",
-        "shipping_selected": "已选择配送",
-        "payment_selected": "已选择付款",
-        "completed": "已完成"
-
-      }
-    },
-    "ecommerceCategory": {
-      "breadcrumbs": {
-        "category": "Category"
-      },
-      "actions": {
-        "goUp": "Go level up",
-        "refresh": "Reload category"
-      },
-      "labels": {
-        "search": "Search",
-        "searchPlaceholder": "Search products",
-        "sort": "Sort",
-        "itemsCount": "{count} items"
-      },
-      "sort": {
-        "position": "Sort by position",
-        "name": "Name (A–Z)",
-        "priceAsc": "Price: low to high",
-        "priceDesc": "Price: high to low"
-      },
-      "status": {
-        "loading": "Loading category…",
-        "failed": "We could not load this category."
-      },
-      "fallbacks": {
-        "description": "Explore our curated selection for this category.",
-        "empty": "We do not have products in this category yet."
-      }
-    }
-  },
-  "pluginManagement": {
-    "plugins": {
-      "cardTitle": "Plugins",
-      "cardSubtitle": "Manage the available integrations for the platform.",
-      "searchPlaceholder": "Search plugins",
-      "table": {
-        "name": "Name",
-        "key": "Key",
-        "status": "Status",
-        "installed": "Installed",
-        "updatedAt": "Updated at"
-      },
-      "labels": {
-        "active": "Active",
-        "inactive": "Inactive",
-        "installed": "Installed",
-        "notInstalled": "Not installed",
-        "notAvailable": "Not available",
-        "total": "Total: {count}",
-        "pluginFallback": "this plugin",
-        "createdAt": "Created at",
-        "updatedAt": "Updated at"
-      },
-      "fields": {
-        "name": "Name",
-        "key": "Key",
-        "subTitle": "Subtitle",
-        "description": "Description",
-        "logo": "Logo URL",
-        "icon": "Icon",
-        "link": "Link URL",
-        "pricing": "Pricing",
-        "action": "Action label",
-        "active": "Active",
-        "installed": "Installed"
-      },
-      "dialogs": {
-        "create": {
-          "title": "Create plugin"
+        "labels": {
+          "active": "Active",
+          "inactive": "Inactive",
+          "installed": "Installed",
+          "notInstalled": "Not installed",
+          "notAvailable": "Not available",
+          "total": "Total: {count}",
+          "pluginFallback": "this plugin",
+          "createdAt": "Created at",
+          "updatedAt": "Updated at"
         },
-        "edit": {
-          "title": "Edit {name}"
+        "fields": {
+          "name": "Name",
+          "key": "Key",
+          "subTitle": "Subtitle",
+          "description": "Description",
+          "logo": "Logo URL",
+          "icon": "Icon",
+          "link": "Link URL",
+          "pricing": "Pricing",
+          "action": "Action label",
+          "active": "Active",
+          "installed": "Installed"
         },
-        "delete": {
-          "title": "Delete plugin",
-          "message": "Are you sure you want to delete {name}? This action cannot be undone."
+        "dialogs": {
+          "create": {
+            "title": "Create plugin"
+          },
+          "edit": {
+            "title": "Edit {name}"
+          },
+          "delete": {
+            "title": "Delete plugin",
+            "message": "Are you sure you want to delete {name}? This action cannot be undone."
+          },
+          "view": {
+            "title": "Plugin details – {name}"
+          }
         },
-        "view": {
-          "title": "Plugin details – {name}"
+        "notifications": {
+          "createSuccess": "Plugin created successfully.",
+          "updateSuccess": "Plugin updated successfully.",
+          "deleteSuccess": "Plugin deleted successfully."
+        },
+        "errors": {
+          "loadFailed": "Unable to load the plugins. Please try again later.",
+          "createFailed": "Unable to create the plugin. Please try again later.",
+          "updateFailed": "Unable to update the plugin. Please try again later.",
+          "deleteFailed": "Unable to delete the plugin. Please try again later.",
+          "invalidForm": "Please fill in the required fields before continuing.",
+          "missingIdentifier": "A valid plugin identifier is required to continue.",
+          "loadDetails": "Unable to retrieve the plugin details. Please try again later."
+        },
+        "actions": {
+          "view": "View plugin",
+          "edit": "Edit plugin",
+          "delete": "Delete plugin"
         }
-      },
-      "notifications": {
-        "createSuccess": "Plugin created successfully.",
-        "updateSuccess": "Plugin updated successfully.",
-        "deleteSuccess": "Plugin deleted successfully."
-      },
-      "errors": {
-        "loadFailed": "Unable to load the plugins. Please try again later.",
-        "createFailed": "Unable to create the plugin. Please try again later.",
-        "updateFailed": "Unable to update the plugin. Please try again later.",
-        "deleteFailed": "Unable to delete the plugin. Please try again later.",
-        "invalidForm": "Please fill in the required fields before continuing.",
-        "missingIdentifier": "A valid plugin identifier is required to continue.",
-        "loadDetails": "Unable to retrieve the plugin details. Please try again later."
-      },
-      "actions": {
-        "view": "View plugin",
-        "edit": "Edit plugin",
-        "delete": "Delete plugin"
-      }
-    }
-  },
-  "notificationManagement": {
-    "title": "通知管理",
-    "subtitle": "在一个入口集中监控系统通知并排查投递问题。",
-    "table": {
-      "subject": "主题",
-      "channel": "渠道",
-      "recipient": "收件人",
-      "status": "状态",
-      "createdAt": "创建时间",
-      "scheduledFor": "计划时间",
-      "sentAt": "发送时间"
-    },
-    "filters": {
-      "search": "按主题、渠道或收件人搜索"
-    },
-    "status": {
-      "pending": "待处理",
-      "processing": "处理中",
-      "sent": "已发送",
-      "failed": "发送失败",
-      "cancelled": "已取消",
-      "canceled": "已取消",
-      "queued": "排队中",
-      "delivered": "已送达",
-      "errored": "发送失败",
-      "unknown": "未知"
-    },
-    "channels": {
-      "email": "电子邮件",
-      "sms": "短信",
-      "push": "推送通知",
-      "in_app": "应用内",
-      "inapp": "应用内",
-      "webhook": "Webhook",
-      "unknown": "其他"
-    },
-    "labels": {
-      "subject": "主题",
-      "status": "状态",
-      "recipient": "收件人",
-      "channel": "渠道",
-      "createdAt": "创建时间",
-      "updatedAt": "最后更新",
-      "scheduledFor": "计划时间",
-      "sentAt": "发送时间",
-      "message": "消息内容",
-      "metadata": "元数据",
-      "payload": "Payload",
-      "context": "上下文",
-      "attempts": "投递尝试",
-      "emptyMetadata": "暂无更多可用的通知详情。",
-      "notAvailable": "暂无"
-    },
-    "actions": {
-      "view": "查看通知 {subject}",
-      "updateStatus": "更新 {subject} 的状态"
-    },
-    "dialogs": {
-      "view": {
-        "title": "通知详情"
-      },
-      "status": {
-        "title": "更新通知状态",
-        "description": "请选择要应用到该通知的状态。"
       }
     },
-    "forms": {
-      "status": {
-        "label": "状态",
-        "hint": "选择最符合当前情况的投递状态。",
-        "submit": "保存状态"
-      }
-    },
-    "notifications": {
-      "loadFailed": "无法加载通知。",
-      "detailLoadFailed": "无法加载通知详情。",
-      "statusUpdated": "通知状态已更新为 {status}。",
-      "statusUpdateFailed": "无法更新通知状态。"
-    },
-    "navigation": {
-      "notifications": "Notifications",
-      "templates": "Templates",
-      "send": "Send notification",
-      "batch": "Batch send"
-    },
-    "templates": {
-      "title": "Notification templates",
-      "subtitle": "Browse and upload notification templates available to your workspace.",
-      "filters": {
-        "search": "Search by name, locale or identifier"
-      },
+    "notificationManagement": {
+      "title": "通知管理",
+      "subtitle": "在一个入口集中监控系统通知并排查投递问题。",
       "table": {
-        "name": "Name",
-        "templateId": "Template ID",
-        "locale": "Locale",
-        "updatedAt": "Updated",
-        "createdAt": "Created"
+        "subject": "主题",
+        "channel": "渠道",
+        "recipient": "收件人",
+        "status": "状态",
+        "createdAt": "创建时间",
+        "scheduledFor": "计划时间",
+        "sentAt": "发送时间"
+      },
+      "filters": {
+        "search": "按主题、渠道或收件人搜索"
+      },
+      "status": {
+        "pending": "待处理",
+        "processing": "处理中",
+        "sent": "已发送",
+        "failed": "发送失败",
+        "cancelled": "已取消",
+        "canceled": "已取消",
+        "queued": "排队中",
+        "delivered": "已送达",
+        "errored": "发送失败",
+        "unknown": "未知"
+      },
+      "channels": {
+        "email": "电子邮件",
+        "sms": "短信",
+        "push": "推送通知",
+        "in_app": "应用内",
+        "inapp": "应用内",
+        "webhook": "Webhook",
+        "unknown": "其他"
       },
       "labels": {
-        "name": "Template name",
-        "identifier": "Identifier",
-        "templateId": "Template ID",
-        "locale": "Locale",
-        "createdAt": "Created at",
-        "updatedAt": "Updated at",
-        "variables": "Variables",
-        "emptyVariables": "No variables are defined for this template.",
-        "anyLocale": "Any locale"
+        "subject": "主题",
+        "status": "状态",
+        "recipient": "收件人",
+        "channel": "渠道",
+        "createdAt": "创建时间",
+        "updatedAt": "最后更新",
+        "scheduledFor": "计划时间",
+        "sentAt": "发送时间",
+        "message": "消息内容",
+        "metadata": "元数据",
+        "payload": "Payload",
+        "context": "上下文",
+        "attempts": "投递尝试",
+        "emptyMetadata": "暂无更多可用的通知详情。",
+        "notAvailable": "暂无"
       },
       "actions": {
-        "upload": "Upload template",
-        "refresh": "Refresh",
-        "view": "View template {name}",
-        "viewLabel": "View"
+        "view": "查看通知 {subject}",
+        "updateStatus": "更新 {subject} 的状态"
       },
       "dialogs": {
         "view": {
-          "title": "Template details"
+          "title": "通知详情"
         },
-        "upload": {
-          "title": "Upload notification template",
-          "description": "Select the template archive or JSON file you want to upload."
+        "status": {
+          "title": "更新通知状态",
+          "description": "请选择要应用到该通知的状态。"
         }
       },
       "forms": {
-        "upload": {
-          "fileLabel": "Template file",
-          "fileHint": "Accepted formats: JSON, ZIP, YAML or plain text.",
-          "fileRequired": "Please select a template file before continuing.",
-          "submit": "Upload template"
+        "status": {
+          "label": "状态",
+          "hint": "选择最符合当前情况的投递状态。",
+          "submit": "保存状态"
         }
       },
       "notifications": {
-        "loadFailed": "Unable to load templates.",
-        "detailLoadFailed": "Unable to load the template details.",
-        "detailUnavailable": "Template details are not available.",
-        "uploadSuccess": "Template uploaded successfully.",
-        "uploadFailed": "Unable to upload the template."
+        "loadFailed": "无法加载通知。",
+        "detailLoadFailed": "无法加载通知详情。",
+        "statusUpdated": "通知状态已更新为 {status}。",
+        "statusUpdateFailed": "无法更新通知状态。"
+      },
+      "navigation": {
+        "notifications": "Notifications",
+        "templates": "Templates",
+        "send": "Send notification",
+        "batch": "Batch send"
+      },
+      "templates": {
+        "title": "Notification templates",
+        "subtitle": "Browse and upload notification templates available to your workspace.",
+        "filters": {
+          "search": "Search by name, locale or identifier"
+        },
+        "table": {
+          "name": "Name",
+          "templateId": "Template ID",
+          "locale": "Locale",
+          "updatedAt": "Updated",
+          "createdAt": "Created"
+        },
+        "labels": {
+          "name": "Template name",
+          "identifier": "Identifier",
+          "templateId": "Template ID",
+          "locale": "Locale",
+          "createdAt": "Created at",
+          "updatedAt": "Updated at",
+          "variables": "Variables",
+          "emptyVariables": "No variables are defined for this template.",
+          "anyLocale": "Any locale"
+        },
+        "actions": {
+          "upload": "Upload template",
+          "refresh": "Refresh",
+          "view": "View template {name}",
+          "viewLabel": "View"
+        },
+        "dialogs": {
+          "view": {
+            "title": "Template details"
+          },
+          "upload": {
+            "title": "Upload notification template",
+            "description": "Select the template archive or JSON file you want to upload."
+          }
+        },
+        "forms": {
+          "upload": {
+            "fileLabel": "Template file",
+            "fileHint": "Accepted formats: JSON, ZIP, YAML or plain text.",
+            "fileRequired": "Please select a template file before continuing.",
+            "submit": "Upload template"
+          }
+        },
+        "notifications": {
+          "loadFailed": "Unable to load templates.",
+          "detailLoadFailed": "Unable to load the template details.",
+          "detailUnavailable": "Template details are not available.",
+          "uploadSuccess": "Template uploaded successfully.",
+          "uploadFailed": "Unable to upload the template."
+        }
+      },
+      "send": {
+        "title": "Send a notification",
+        "subtitle": "Compose and send a notification to a recipient or group immediately or at a scheduled time.",
+        "channels": {
+          "email": "Email",
+          "sms": "SMS",
+          "push": "Push"
+        },
+        "fields": {
+          "channel": "Channel",
+          "scope": "Scope",
+          "sendAfter": "Send after",
+          "scopeTarget": "Scope target",
+          "topic": "Topic",
+          "pushTitle": "Push title",
+          "pushSubtitle": "Push subtitle",
+          "pushContent": "Push content",
+          "smsContent": "SMS content",
+          "smsSenderName": "Sender name",
+          "recipients": "Recipients",
+          "emailRecipientsCc": "CC recipients",
+          "emailRecipientsBcc": "BCC recipients",
+          "emailRecipientsReplyTo": "Reply-to recipients",
+          "emailSenderEmail": "Sender email",
+          "emailSenderName": "Sender name",
+          "templateId": "Template ID",
+          "emailSubject": "Email subject",
+          "emailContentPlain": "Plain text content",
+          "emailContentHtml": "HTML content"
+        },
+        "hints": {
+          "channel": "Select the channel that will be used to send this notification.",
+          "scope": "Optional scope for the notification (INDIVIDUAL, GLOBAL, WORKPLACE, SEGMENT).",
+          "sendAfter": "Choose a future date to delay the delivery or leave empty to send immediately.",
+          "scopeTarget": "Provide a JSON object describing the target audience for scoped notifications.",
+          "topic": "Optional topic identifier used by the push provider.",
+          "recipients": "Provide a JSON array or string representing the recipients.",
+          "emailRecipientsCc": "Optional carbon copy recipients as JSON array or string.",
+          "emailRecipientsBcc": "Optional blind carbon copy recipients as JSON array or string.",
+          "emailRecipientsReplyTo": "Optional reply-to recipients as JSON array or string.",
+          "templateId": "Use the template ID to render the email with predefined content."
+        },
+        "sections": {
+          "push": "Push content",
+          "sms": "SMS content",
+          "email": "Email content"
+        },
+        "actions": {
+          "submit": "Send notification"
+        },
+        "notifications": {
+          "success": "Notification sent successfully.",
+          "failed": "Unable to send the notification."
+        }
+      },
+      "batch": {
+        "title": "Send batch notifications",
+        "subtitle": "Dispatch a notification to multiple recipients with a single request.",
+        "channels": {
+          "email": "Email",
+          "sms": "SMS",
+          "push": "Push"
+        },
+        "fields": {
+          "channel": "Channel",
+          "scope": "Scope",
+          "sendAfter": "Send after",
+          "recipients": "Recipients",
+          "emailSenderEmail": "Sender email",
+          "emailSenderName": "Sender name",
+          "templateId": "Template ID",
+          "emailSubject": "Email subject",
+          "emailContentPlain": "Plain text content",
+          "emailContentHtml": "HTML content"
+        },
+        "hints": {
+          "channel": "Select the notification channel for this batch request.",
+          "scope": "Optional scope for the notification (INDIVIDUAL, GLOBAL, WORKPLACE, SEGMENT).",
+          "sendAfter": "Choose a future date to delay the delivery or leave empty to send immediately.",
+          "recipients": "Provide a JSON array or string describing the batch recipients.",
+          "templateId": "Use the template ID to render the email with predefined content."
+        },
+        "sections": {
+          "email": "Email content"
+        },
+        "actions": {
+          "submit": "Send batch"
+        },
+        "notifications": {
+          "success": "Batch notification request submitted successfully.",
+          "failed": "Unable to submit the batch notification request."
+        }
       }
     },
-    "send": {
-      "title": "Send a notification",
-      "subtitle": "Compose and send a notification to a recipient or group immediately or at a scheduled time.",
-      "channels": {
-        "email": "Email",
-        "sms": "SMS",
-        "push": "Push"
+    "workplace": {
+      "drawer": {
+        "title": "World",
+        "addWorld": "Add world",
+        "emptyList": "你还没有任何世界。"
       },
-      "fields": {
-        "channel": "Channel",
-        "scope": "Scope",
-        "sendAfter": "Send after",
-        "scopeTarget": "Scope target",
-        "topic": "Topic",
-        "pushTitle": "Push title",
-        "pushSubtitle": "Push subtitle",
-        "pushContent": "Push content",
-        "smsContent": "SMS content",
-        "smsSenderName": "Sender name",
-        "recipients": "Recipients",
-        "emailRecipientsCc": "CC recipients",
-        "emailRecipientsBcc": "BCC recipients",
-        "emailRecipientsReplyTo": "Reply-to recipients",
-        "emailSenderEmail": "Sender email",
-        "emailSenderName": "Sender name",
-        "templateId": "Template ID",
-        "emailSubject": "Email subject",
-        "emailContentPlain": "Plain text content",
-        "emailContentHtml": "HTML content"
-      },
-      "hints": {
-        "channel": "Select the channel that will be used to send this notification.",
-        "scope": "Optional scope for the notification (INDIVIDUAL, GLOBAL, WORKPLACE, SEGMENT).",
-        "sendAfter": "Choose a future date to delay the delivery or leave empty to send immediately.",
-        "scopeTarget": "Provide a JSON object describing the target audience for scoped notifications.",
-        "topic": "Optional topic identifier used by the push provider.",
-        "recipients": "Provide a JSON array or string representing the recipients.",
-        "emailRecipientsCc": "Optional carbon copy recipients as JSON array or string.",
-        "emailRecipientsBcc": "Optional blind carbon copy recipients as JSON array or string.",
-        "emailRecipientsReplyTo": "Optional reply-to recipients as JSON array or string.",
-        "templateId": "Use the template ID to render the email with predefined content."
-      },
-      "sections": {
-        "push": "Push content",
-        "sms": "SMS content",
-        "email": "Email content"
-      },
-      "actions": {
-        "submit": "Send notification"
-      },
-      "notifications": {
-        "success": "Notification sent successfully.",
-        "failed": "Unable to send the notification."
-      }
-    },
-    "batch": {
-      "title": "Send batch notifications",
-      "subtitle": "Dispatch a notification to multiple recipients with a single request.",
-      "channels": {
-        "email": "Email",
-        "sms": "SMS",
-        "push": "Push"
-      },
-      "fields": {
-        "channel": "Channel",
-        "scope": "Scope",
-        "sendAfter": "Send after",
-        "recipients": "Recipients",
-        "emailSenderEmail": "Sender email",
-        "emailSenderName": "Sender name",
-        "templateId": "Template ID",
-        "emailSubject": "Email subject",
-        "emailContentPlain": "Plain text content",
-        "emailContentHtml": "HTML content"
-      },
-      "hints": {
-        "channel": "Select the notification channel for this batch request.",
-        "scope": "Optional scope for the notification (INDIVIDUAL, GLOBAL, WORKPLACE, SEGMENT).",
-        "sendAfter": "Choose a future date to delay the delivery or leave empty to send immediately.",
-        "recipients": "Provide a JSON array or string describing the batch recipients.",
-        "templateId": "Use the template ID to render the email with predefined content."
-      },
-      "sections": {
-        "email": "Email content"
-      },
-      "actions": {
-        "submit": "Send batch"
-      },
-      "notifications": {
-        "success": "Batch notification request submitted successfully.",
-        "failed": "Unable to submit the batch notification request."
-      }
-    }
-  },
-  "workplace": {
-    "drawer": {
-      "title": "World",
-      "addWorld": "Add world",
-      "emptyList": "你还没有任何世界。"
-    },
-    "dialog": {
-      "title": "Manage your world",
-      "tabs": {
-        "plugins": "Plugins",
-        "members": "Members",
-        "design": "Design"
-      },
-      "steps": {
-        "details": "World details",
-        "settings": "World settings"
-      },
-      "fields": {
-        "name": "World name",
-        "optionalName": "World name (optional)",
-        "identifier": "World identifier",
-        "isPrivate": "Private world",
-        "enabled": "Enable world",
-        "plugins": "Plugin identifiers",
-        "members": "Member identifiers"
-      },
-      "hints": {
-        "identifier": "Use the slug or ID of the world.",
-        "list": "Use commas or line breaks to separate values."
-      },
-      "actions": {
-        "create": "Create world",
-        "update": "Save changes",
-        "delete": "Delete world",
-        "addPlugins": "Add plugins",
-        "removePlugins": "Remove plugins",
-        "addMembers": "Add members",
-        "removeMembers": "Remove members",
-        "saveDesign": "Save design"
-      },
-      "messages": {
-        "createSuccess": "World created successfully.",
-        "updateSuccess": "World updated successfully.",
-        "deleteSuccess": "World deleted successfully.",
-        "addPluginsSuccess": "Plugins added successfully.",
-        "removePluginsSuccess": "Plugins removed successfully.",
-        "addMembersSuccess": "Members added successfully.",
-        "removeMembersSuccess": "Members removed successfully.",
-        "designSaved": "Design saved successfully."
-      },
-      "validation": {
-        "nameRequired": "The world name is required.",
-        "identifierRequired": "The world identifier is required.",
-        "pluginsRequired": "At least one plugin identifier is required.",
-        "membersRequired": "At least one member identifier is required."
+      "dialog": {
+        "title": "Manage your world",
+        "tabs": {
+          "plugins": "Plugins",
+          "members": "Members",
+          "design": "Design"
+        },
+        "steps": {
+          "details": "World details",
+          "settings": "World settings"
+        },
+        "fields": {
+          "name": "World name",
+          "optionalName": "World name (optional)",
+          "identifier": "World identifier",
+          "isPrivate": "Private world",
+          "enabled": "Enable world",
+          "plugins": "Plugin identifiers",
+          "members": "Member identifiers"
+        },
+        "hints": {
+          "identifier": "Use the slug or ID of the world.",
+          "list": "Use commas or line breaks to separate values."
+        },
+        "actions": {
+          "create": "Create world",
+          "update": "Save changes",
+          "delete": "Delete world",
+          "addPlugins": "Add plugins",
+          "removePlugins": "Remove plugins",
+          "addMembers": "Add members",
+          "removeMembers": "Remove members",
+          "saveDesign": "Save design"
+        },
+        "messages": {
+          "createSuccess": "World created successfully.",
+          "updateSuccess": "World updated successfully.",
+          "deleteSuccess": "World deleted successfully.",
+          "addPluginsSuccess": "Plugins added successfully.",
+          "removePluginsSuccess": "Plugins removed successfully.",
+          "addMembersSuccess": "Members added successfully.",
+          "removeMembersSuccess": "Members removed successfully.",
+          "designSaved": "Design saved successfully."
+        },
+        "validation": {
+          "nameRequired": "The world name is required.",
+          "identifierRequired": "The world identifier is required.",
+          "pluginsRequired": "At least one plugin identifier is required.",
+          "membersRequired": "At least one member identifier is required."
+        }
       }
     }
   }
-}
 }

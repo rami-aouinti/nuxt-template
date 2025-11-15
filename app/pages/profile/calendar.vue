@@ -630,7 +630,9 @@ function closeDialog() {
           </v-form>
         </v-card-text>
         <template #actions>
-          <div class="d-flex justify-space-between align-center flex-wrap gap-2 w-100">
+          <div
+            class="d-flex justify-space-between align-center flex-wrap gap-2 w-100"
+          >
             <AppButton
               v-if="editingEvent"
               color="error"
@@ -674,11 +676,7 @@ function closeDialog() {
           <AppButton variant="text" @click="isDeleteDialogOpen = false">
             {{ t('profile.calendar.dialog.cancel') }}
           </AppButton>
-          <AppButton
-            color="error"
-            :loading="isDeleting"
-            @click="confirmDelete"
-          >
+          <AppButton color="error" :loading="isDeleting" @click="confirmDelete">
             {{ t('profile.calendar.actions.delete') }}
           </AppButton>
         </template>

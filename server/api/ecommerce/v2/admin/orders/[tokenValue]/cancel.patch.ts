@@ -14,7 +14,9 @@ export default defineEventHandler(async (event) => {
   )
 
   const acceptLanguage = getEcommerceAcceptLanguage(event)
-  const headers = acceptLanguage ? { 'Accept-Language': acceptLanguage } : undefined
+  const headers = acceptLanguage
+    ? { 'Accept-Language': acceptLanguage }
+    : undefined
 
   return await broWorldEcommerceRequest<OrderResponse>(
     event,

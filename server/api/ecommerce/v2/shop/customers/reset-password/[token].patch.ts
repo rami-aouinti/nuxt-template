@@ -1,16 +1,25 @@
 import { readBody } from 'h3'
 
-import { broWorldEcommerceRequest, getEcommerceAcceptLanguage } from '~~/server/utils/broWorldEcommerceApi'
+import {
+  broWorldEcommerceRequest,
+  getEcommerceAcceptLanguage,
+} from '~~/server/utils/broWorldEcommerceApi'
 import { requireRouteParam } from '~~/server/utils/crud'
 
 type ResetPasswordPayload = Record<string, unknown>
 
 export default defineEventHandler(async (event) => {
-  const token = requireRouteParam(event, 'token', 'Jeton de réinitialisation manquant')
+  const token = requireRouteParam(
+    event,
+    'token',
+    'Jeton de réinitialisation manquant',
+  )
   const body = await readBody<ResetPasswordPayload>(event)
 
   const acceptLanguage = getEcommerceAcceptLanguage(event)
-  const headers: Record<string, string> = { 'Content-Type': 'application/merge-patch+json' }
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/merge-patch+json',
+  }
   if (acceptLanguage) {
     headers['Accept-Language'] = acceptLanguage
   }

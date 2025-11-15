@@ -19,9 +19,7 @@ export interface ImageInterface extends ImageInterfaceAttributes {
 
 export interface ImageInterfaceNoId extends ImageInterfaceAttributes {}
 
-export interface ImageInterfaceJsonld
-  extends ImageInterface,
-    JsonLdResource {}
+export interface ImageInterfaceJsonld extends ImageInterface, JsonLdResource {}
 
 export interface ImageInterfaceJsonldNoId
   extends ImageInterfaceAttributes,

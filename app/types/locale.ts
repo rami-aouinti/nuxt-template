@@ -46,4 +46,6 @@ export type LocaleJsonldSyliusShopLocaleShow = LocaleJsonldSyliusShopLocaleIndex
 
 export interface LocaleInterface extends Locale {}
 
-export interface LocaleInterfaceJsonld extends LocaleInterface, JsonLdResource {}
+export interface LocaleInterfaceJsonld
+  extends LocaleInterface,
+    JsonLdResource {}

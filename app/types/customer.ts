@@ -63,7 +63,8 @@ export interface CustomerSyliusAdminCustomerIndex extends CustomerBase {
   user?: ShopUserSyliusAdminCustomerIndex | null
 }
 
-export interface CustomerSyliusAdminCustomerShow extends CustomerSyliusAdminCustomerIndex {
+export interface CustomerSyliusAdminCustomerShow
+  extends CustomerSyliusAdminCustomerIndex {
   user?: ShopUserSyliusAdminCustomerShow | null
 }
 
@@ -105,14 +106,18 @@ export interface CustomerSyliusShopProductReviewIndex {
   firstName: string | null
 }
 
-export type CustomerSyliusShopProductReviewShow = CustomerSyliusShopProductReviewIndex
+export type CustomerSyliusShopProductReviewShow =
+  CustomerSyliusShopProductReviewIndex
 
 export interface CustomerSyliusShopResetPasswordUpdateJsonMergePatch {
   newPassword: string
   confirmNewPassword: string
 }
 
-export type CustomerSyliusShopShopUserVerificationUpdateJsonMergePatch = Record<string, never>
+export type CustomerSyliusShopShopUserVerificationUpdateJsonMergePatch = Record<
+  string,
+  never
+>
 
 export interface CustomerChangeShopUserPasswordSyliusShopCustomerPasswordUpdate {
   newPassword: string
@@ -133,7 +138,8 @@ export interface CustomerRequestResetPasswordTokenSyliusShopResetPasswordCreate 
   email: string
 }
 
-export type CustomerRequestShopUserVerificationSyliusShopShopUserVerificationCreate = Record<string, never>
+export type CustomerRequestShopUserVerificationSyliusShopShopUserVerificationCreate =
+  Record<string, never>
 
 export interface CustomerJsonldSyliusAdminCustomerIndex
   extends CustomerSyliusAdminCustomerIndex {
@@ -151,9 +157,11 @@ export interface CustomerJsonldSyliusAdminCustomerShow
   user?: ShopUserJsonldSyliusAdminCustomerShow | null
 }
 
-export type CustomerJsonldSyliusAdminCustomerStatisticsShow = CustomerStatisticsJsonLd
+export type CustomerJsonldSyliusAdminCustomerStatisticsShow =
+  CustomerStatisticsJsonLd
 
-export interface CustomerJsonldSyliusShopCartShow extends CustomerSyliusShopCartShow {
+export interface CustomerJsonldSyliusShopCartShow
+  extends CustomerSyliusShopCartShow {
   '@context'?: HydraContext
   '@id'?: string
   '@type'?: string
@@ -174,7 +182,8 @@ export interface CustomerJsonldSyliusShopProductReviewIndex
   '@type'?: string
 }
 
-export type CustomerJsonldSyliusShopProductReviewShow = CustomerJsonldSyliusShopProductReviewIndex
+export type CustomerJsonldSyliusShopProductReviewShow =
+  CustomerJsonldSyliusShopProductReviewIndex
 
 export interface CustomerGroup {
   id?: number
@@ -230,7 +239,8 @@ export interface ShopUserAdminCustomerPayload {
   verified?: boolean
 }
 
-export interface ShopUserAdminCustomerJsonLd extends ShopUserAdminCustomerPayload {
+export interface ShopUserAdminCustomerJsonLd
+  extends ShopUserAdminCustomerPayload {
   '@context'?: HydraContext
   '@id'?: string
   '@type'?: string

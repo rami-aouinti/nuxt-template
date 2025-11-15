@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
-import { createDateFormatter, createNumberFormatter, formatDateValue, formatNumberValue } from '~/utils/formatters'
+import {
+  createDateFormatter,
+  createNumberFormatter,
+  formatDateValue,
+  formatNumberValue,
+} from '~/utils/formatters'
 import {
   getBoolean,
   getNumber,
@@ -96,14 +101,18 @@ const rows = computed(() => {
     let couponsLabel: string
 
     if (!couponBased) {
-      couponsLabel = t('admin.ecommerce.configuration.cartPromotions.table.noCoupons')
+      couponsLabel = t(
+        'admin.ecommerce.configuration.cartPromotions.table.noCoupons',
+      )
     } else if (usageLimit > 0) {
       couponsLabel = `${formatNumberValue(
         couponsUsed,
         numberFormatter.value,
       )} / ${formatNumberValue(usageLimit, numberFormatter.value)}`
     } else {
-      couponsLabel = t('admin.ecommerce.configuration.cartPromotions.table.unlimited')
+      couponsLabel = t(
+        'admin.ecommerce.configuration.cartPromotions.table.unlimited',
+      )
     }
 
     const startsAt = formatDateValue(
@@ -121,12 +130,12 @@ const rows = computed(() => {
     const state = getString(record, ['state', 'status'])
     const isActive =
       getBoolean(record, ['enabled', 'isEnabled', 'active'], true) ||
-      (state ? ['active', 'enabled', 'published'].includes(state.toLowerCase()) : false)
+      (state
+        ? ['active', 'enabled', 'published'].includes(state.toLowerCase())
+        : false)
 
     const stateLabel = state
-      ? state
-          .replace(/_/g, ' ')
-          .replace(/\b\w/g, (char) => char.toUpperCase())
+      ? state.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
       : isActive
         ? t('admin.ecommerce.common.enabled')
         : t('admin.ecommerce.common.disabled')

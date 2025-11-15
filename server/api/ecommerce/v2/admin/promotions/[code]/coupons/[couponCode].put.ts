@@ -1,6 +1,9 @@
 import { readBody } from 'h3'
 
-import { broWorldEcommerceRequest, getEcommerceAcceptLanguage } from '~~/server/utils/broWorldEcommerceApi'
+import {
+  broWorldEcommerceRequest,
+  getEcommerceAcceptLanguage,
+} from '~~/server/utils/broWorldEcommerceApi'
 import { requireRouteParam } from '~~/server/utils/crud'
 
 type PromotionCouponPayload = Record<string, unknown>
@@ -9,7 +12,11 @@ type PromotionCouponResponse = Record<string, unknown>
 
 export default defineEventHandler(async (event) => {
   const promotionCode = requireRouteParam(event, 'code', 'de la promotion')
-  const couponCode = requireRouteParam(event, 'couponCode', 'du coupon de promotion')
+  const couponCode = requireRouteParam(
+    event,
+    'couponCode',
+    'du coupon de promotion',
+  )
   const body = await readBody<PromotionCouponPayload>(event)
 
   const acceptLanguage = getEcommerceAcceptLanguage(event)

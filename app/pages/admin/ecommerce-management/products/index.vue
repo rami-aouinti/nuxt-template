@@ -91,8 +91,8 @@ const rows = computed(() => {
     const mainTaxonRecord =
       toRecord(record?.mainTaxon) ?? toRecord(record?.main_taxon)
     const mainTaxon = mainTaxonRecord
-      ? resolveLocalizedString(mainTaxonRecord, locale, ['name', 'title']) ??
-        getString(mainTaxonRecord, ['code'])
+      ? (resolveLocalizedString(mainTaxonRecord, locale, ['name', 'title']) ??
+        getString(mainTaxonRecord, ['code']))
       : t('admin.ecommerce.common.none')
 
     const channelEntries = getArray(record, ['channels', 'channel'])
@@ -152,9 +152,7 @@ const errorMessage = computed(() => {
     return null
   }
   const err = error.value as { data?: { message?: string }; message?: string }
-  return (
-    err?.data?.message || err?.message || t('common.unexpectedError')
-  )
+  return err?.data?.message || err?.message || t('common.unexpectedError')
 })
 </script>
 

@@ -189,10 +189,7 @@ export interface CreatePostViewModelOptions extends CommentTransformOptions {
 }
 
 export const normalizePostTagValue = (value: string) =>
-  value
-    .trim()
-    .replace(/^#+/, '')
-    .replace(/\s+/g, '')
+  value.trim().replace(/^#+/, '').replace(/\s+/g, '')
 
 const normalizeTagValue = normalizePostTagValue
 
@@ -204,11 +201,13 @@ export const resolvePostTags = (
   }
 
   const source =
-    (post as BlogPost & {
-      tagList?: unknown
-      tagNames?: unknown
-      categories?: unknown
-    }).tags ??
+    (
+      post as BlogPost & {
+        tagList?: unknown
+        tagNames?: unknown
+        categories?: unknown
+      }
+    ).tags ??
     (post as { tagList?: unknown }).tagList ??
     (post as { tagNames?: unknown }).tagNames ??
     (post as { categories?: unknown }).categories ??

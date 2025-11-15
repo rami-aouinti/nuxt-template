@@ -122,7 +122,8 @@ export const useEcommerceCartStore = defineStore('ecommerce-cart', () => {
 
   const createOrder = async (options: CreateOrderOptions = {}) => {
     const body: Record<string, unknown> = {}
-    const channelCode = options.channelCode ?? resolveChannelCode(options.channel)
+    const channelCode =
+      options.channelCode ?? resolveChannelCode(options.channel)
     if (channelCode) {
       body.channelCode = channelCode
     }
@@ -374,7 +375,9 @@ export const useEcommerceCartStore = defineStore('ecommerce-cart', () => {
     const sources: unknown[] = []
 
     if (Array.isArray((record as UnknownRecord).optionValuesCollection)) {
-      sources.push(...((record as UnknownRecord).optionValuesCollection as unknown[]))
+      sources.push(
+        ...((record as UnknownRecord).optionValuesCollection as unknown[]),
+      )
     }
 
     if (Array.isArray((record as UnknownRecord).optionValue)) {
@@ -437,7 +440,9 @@ export const useEcommerceCartStore = defineStore('ecommerce-cart', () => {
     return segments.pop() || trimmed
   }
 
-  function resolveVariantResource(variant: ProductVariantInterface | null | undefined) {
+  function resolveVariantResource(
+    variant: ProductVariantInterface | null | undefined,
+  ) {
     const record = toRecord(variant)
     if (!record) {
       return null

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {computed, onMounted, reactive, ref} from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { Notify } from '~/stores/notification'
-import {axios, AxiosError} from "~/utils/axios";
-import type {LoginResponse} from "~/types/auth";
+import { axios, AxiosError } from '~/utils/axios'
+import type { LoginResponse } from '~/types/auth'
 const { t } = useI18n()
 interface VerificationCredentials {
   email?: string
@@ -46,7 +46,6 @@ const token = computed(() => {
 const isLoading = ref(false)
 const error = ref<string | null>(null)
 const verificationResult = ref<Any | null>(null)
-
 
 const hasVerifiedSuccessfully = computed(() =>
   Boolean(verificationResult.value),
@@ -146,11 +145,7 @@ onMounted(() => {
     <v-container v-if="isLoading">
       <v-row>
         <v-col class="text-center">
-          <v-progress-circular
-            indeterminate
-            color="primary"
-            class="mb-4"
-          />
+          <v-progress-circular indeterminate color="primary" class="mb-4" />
           <h2>Email Verification</h2>
           <p>Your email is being verified...</p>
         </v-col>
@@ -170,31 +165,31 @@ onMounted(() => {
           <v-card class="mx-auto" max-width="400">
             <v-card-text>
               <v-form class="credentials-dialog__form" @submit.prevent="submit">
-                  <v-text-field
-                    v-model="credentials.username"
-                    :label="t('auth.username')"
-                    autocomplete="username"
-                    prepend-inner-icon="mdi-account"
-                    variant="solo-filled"
-                    color="primary"
-                    class="mb-4"
-                    density="comfortable"
-                    required
-                    :disabled="loading"
-                  />
-                  <v-text-field
-                    v-model="credentials.password"
-                    :label="t('auth.password')"
-                    type="password"
-                    autocomplete="current-password"
-                    prepend-inner-icon="mdi-lock"
-                    variant="solo-filled"
-                    color="primary"
-                    class="mb-2"
-                    density="comfortable"
-                    required
-                    :disabled="loading"
-                  />
+                <v-text-field
+                  v-model="credentials.username"
+                  :label="t('auth.username')"
+                  autocomplete="username"
+                  prepend-inner-icon="mdi-account"
+                  variant="solo-filled"
+                  color="primary"
+                  class="mb-4"
+                  density="comfortable"
+                  required
+                  :disabled="loading"
+                />
+                <v-text-field
+                  v-model="credentials.password"
+                  :label="t('auth.password')"
+                  type="password"
+                  autocomplete="current-password"
+                  prepend-inner-icon="mdi-lock"
+                  variant="solo-filled"
+                  color="primary"
+                  class="mb-2"
+                  density="comfortable"
+                  required
+                  :disabled="loading"
+                />
               </v-form>
               <v-btn
                 color="primary"

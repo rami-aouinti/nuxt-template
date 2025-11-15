@@ -20,8 +20,16 @@ definePageMeta({
 const { t, locale } = useI18n()
 
 const headers = computed(() => [
-  { title: t('admin.ecommerce.configuration.locales.table.name'), key: 'name', minWidth: 220 },
-  { title: t('admin.ecommerce.configuration.locales.table.code'), key: 'code', minWidth: 140 },
+  {
+    title: t('admin.ecommerce.configuration.locales.table.name'),
+    key: 'name',
+    minWidth: 220,
+  },
+  {
+    title: t('admin.ecommerce.configuration.locales.table.code'),
+    key: 'code',
+    minWidth: 140,
+  },
   {
     title: t('admin.ecommerce.configuration.locales.table.enabled'),
     key: 'enabled',

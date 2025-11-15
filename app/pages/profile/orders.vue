@@ -131,7 +131,8 @@ const selectedOrderSummary = computed(() => {
     stateKey,
     rawState: ensureString(order.state) ?? '',
     stateLabel: getStateLabel(stateKey, ensureString(order.state) ?? ''),
-    customer: extractCustomerName(order) ?? t('profile.orders.labels.shipToUnknown'),
+    customer:
+      extractCustomerName(order) ?? t('profile.orders.labels.shipToUnknown'),
     customerEmail:
       ensureString(order.customerWithAuthorization?.email) ??
       ensureString(order.customerWithAuthorization?.emailCanonical) ??
@@ -399,7 +400,9 @@ function mapOrderRecord(
   index: number,
 ): EcommerceOrderListItem | null {
   const id =
-    ensureString(record['@id']) ?? ensureString(record['id']) ?? `order-${index}`
+    ensureString(record['@id']) ??
+    ensureString(record['id']) ??
+    `order-${index}`
   const number =
     ensureString(record['number']) ?? `#${String(index + 1).padStart(6, '0')}`
   const createdAt =
@@ -531,7 +534,13 @@ function closeOrderDetails() {
 }
 
 function extractNestedUrl(record: Record<string, unknown>): string | null {
-  const potentialKeys = ['redirectUrl', 'redirectURL', 'redirect_uri', 'url', 'paymentUrl']
+  const potentialKeys = [
+    'redirectUrl',
+    'redirectURL',
+    'redirect_uri',
+    'url',
+    'paymentUrl',
+  ]
 
   for (const key of potentialKeys) {
     const value = record[key]
@@ -769,7 +778,10 @@ async function handlePay(order: EcommerceOrderListItem) {
             {{ detailsState.error }}
           </p>
         </div>
-        <div v-else-if="selectedOrderSummary" class="profile-order-details__content">
+        <div
+          v-else-if="selectedOrderSummary"
+          class="profile-order-details__content"
+        >
           <dl class="profile-order-details__meta">
             <div>
               <dt>{{ t('profile.orders.details.placedOn') }}</dt>
@@ -849,13 +861,15 @@ async function handlePay(order: EcommerceOrderListItem) {
             </p>
           </div>
 
-          <div class="profile-order-details__section profile-order-details__addresses">
+          <div
+            class="profile-order-details__section profile-order-details__addresses"
+          >
             <div>
               <h3>{{ t('profile.orders.details.shippingAddress') }}</h3>
               <p>
                 {{
                   selectedOrderSummary.shippingAddress ??
-                    t('profile.orders.details.addressUnavailable')
+                  t('profile.orders.details.addressUnavailable')
                 }}
               </p>
             </div>
@@ -864,7 +878,7 @@ async function handlePay(order: EcommerceOrderListItem) {
               <p>
                 {{
                   selectedOrderSummary.billingAddress ??
-                    t('profile.orders.details.addressUnavailable')
+                  t('profile.orders.details.addressUnavailable')
                 }}
               </p>
             </div>

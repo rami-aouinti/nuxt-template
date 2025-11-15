@@ -124,7 +124,10 @@ export interface ProductVariantChannelPricingPromotion {
   scopes: string[]
   actions: string[]
   enabled: boolean
-  translations?: Record<string, { label: string; description: string; locale: string }>
+  translations?: Record<
+    string,
+    { label: string; description: string; locale: string }
+  >
   currentLocale?: string
   fallbackLocale?: string
   channel?: ProductChannel[]
@@ -351,7 +354,10 @@ export interface ProductTranslationPayload {
   metaDescription?: string | null
 }
 
-export type ProductTranslationsPayload = Record<string, ProductTranslationPayload>
+export type ProductTranslationsPayload = Record<
+  string,
+  ProductTranslationPayload
+>
 
 export interface ProductAttributeAssignmentPayload {
   attribute: string
@@ -425,19 +431,26 @@ export type ProductJsonldSyliusShopProductShow = ProductInterfaceJsonLd
 
 export type ProductImageJsonld = ProductImageInterfaceJsonLd
 
-export type ProductImageJsonldSyliusAdminProductIndex = ProductImageInterfaceJsonLd
+export type ProductImageJsonldSyliusAdminProductIndex =
+  ProductImageInterfaceJsonLd
 
-export type ProductImageJsonldSyliusAdminProductShow = ProductImageInterfaceJsonLd
+export type ProductImageJsonldSyliusAdminProductShow =
+  ProductImageInterfaceJsonLd
 
-export type ProductImageJsonldSyliusAdminProductImageIndex = ProductImageInterfaceJsonLd
+export type ProductImageJsonldSyliusAdminProductImageIndex =
+  ProductImageInterfaceJsonLd
 
-export type ProductImageJsonldSyliusAdminProductImageShow = ProductImageInterfaceJsonLd
+export type ProductImageJsonldSyliusAdminProductImageShow =
+  ProductImageInterfaceJsonLd
 
-export type ProductImageJsonldSyliusShopProductIndex = ProductImageInterfaceJsonLd
+export type ProductImageJsonldSyliusShopProductIndex =
+  ProductImageInterfaceJsonLd
 
-export type ProductImageJsonldSyliusShopProductShow = ProductImageInterfaceJsonLd
+export type ProductImageJsonldSyliusShopProductShow =
+  ProductImageInterfaceJsonLd
 
-export type ProductImageJsonldSyliusShopProductImageShow = ProductImageInterfaceJsonLd
+export type ProductImageJsonldSyliusShopProductImageShow =
+  ProductImageInterfaceJsonLd
 
 export interface ProductVariantCollection {
   productVariant?: ProductVariantInterface[]
@@ -446,4 +459,3 @@ export interface ProductVariantCollection {
 export interface ProductImageCollection {
   image?: ProductImageInterface[]
 }
-

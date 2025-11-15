@@ -36,16 +36,22 @@ export namespace Model {
   export type ProductInterface = ProductTypes.ProductInterface
   export type ProductInterfaceJsonld = ProductTypes.ProductInterfaceJsonLd
   export type ProductVariantInterface = ProductTypes.ProductVariantInterface
-  export type ProductVariantInterfaceJsonld = ProductTypes.ProductVariantInterfaceJsonLd
+  export type ProductVariantInterfaceJsonld =
+    ProductTypes.ProductVariantInterfaceJsonLd
   export type ProductImageInterface = ProductTypes.ProductImageInterface
-  export type ProductImageInterfaceJsonld = ProductTypes.ProductImageInterfaceJsonLd
+  export type ProductImageInterfaceJsonld =
+    ProductTypes.ProductImageInterfaceJsonLd
   export type ProductOption = ProductTypes.ProductOption
   export type ProductOptionValue = ProductTypes.ProductOptionValue
   export type ProductOptionValueSummary = ProductTypes.ProductOptionValueSummary
-  export type ProductOptionValueTranslation = ProductTypes.ProductOptionValueTranslation
-  export type ProductVariantTranslationSummary = ProductTypes.ProductVariantTranslationSummary
-  export type ProductVariantChannelPricing = ProductTypes.ProductVariantChannelPricing
-  export type ProductVariantChannelPricingPromotion = ProductTypes.ProductVariantChannelPricingPromotion
+  export type ProductOptionValueTranslation =
+    ProductTypes.ProductOptionValueTranslation
+  export type ProductVariantTranslationSummary =
+    ProductTypes.ProductVariantTranslationSummary
+  export type ProductVariantChannelPricing =
+    ProductTypes.ProductVariantChannelPricing
+  export type ProductVariantChannelPricingPromotion =
+    ProductTypes.ProductVariantChannelPricingPromotion
   export type ProductPromotionAction = ProductTypes.ProductPromotionAction
   export type ProductPromotionScope = ProductTypes.ProductPromotionScope
   export type ProductChannel = ProductTypes.ProductChannel
@@ -53,8 +59,10 @@ export namespace Model {
   export type ProductAssociation = ProductTypes.ProductAssociation
   export type ProductTaxon = ProductTypes.ProductTaxon
   export type ProductRelationCollection = ProductTypes.ProductRelationCollection
-  export type ProductTranslationRelation = ProductTypes.ProductTranslationRelation
-  export type ProductTranslationReference = ProductTypes.ProductTranslationReference
+  export type ProductTranslationRelation =
+    ProductTypes.ProductTranslationRelation
+  export type ProductTranslationReference =
+    ProductTypes.ProductTranslationReference
   export type ProductTranslationDetail = ProductTypes.ProductTranslationDetail
   export type ProductTranslations = ProductTypes.ProductTranslations
 }

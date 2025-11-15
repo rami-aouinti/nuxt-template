@@ -39,10 +39,14 @@ export const useNotificationManagementStore = defineStore(
     const notificationsFetchedAt = ref<number | null>(null)
     let notificationsPromise: Promise<AdminNotification[] | null> | null = null
 
-    const notificationDetails = reactive<Record<string, AdminNotificationDetail | null>>({})
+    const notificationDetails = reactive<
+      Record<string, AdminNotificationDetail | null>
+    >({})
     const notificationDetailPending = reactive<Record<string, boolean>>({})
     const notificationDetailError = reactive<Record<string, Error | null>>({})
-    const notificationDetailFetchedAt = reactive<Record<string, number | null>>({})
+    const notificationDetailFetchedAt = reactive<Record<string, number | null>>(
+      {},
+    )
     const notificationDetailPromises = reactive<
       Record<string, Promise<AdminNotificationDetail | null> | null>
     >({})
@@ -100,7 +104,10 @@ export const useNotificationManagementStore = defineStore(
 
     async function fetchNotificationDetail(
       id: string,
-      { force = false, ttl = DEFAULT_TTL }: { force?: boolean; ttl?: number } = {},
+      {
+        force = false,
+        ttl = DEFAULT_TTL,
+      }: { force?: boolean; ttl?: number } = {},
     ) {
       const normalizedId = normalizeId(id)
 
@@ -161,7 +168,9 @@ export const useNotificationManagementStore = defineStore(
     }
 
     function upsertNotification(updated: AdminNotification) {
-      const index = notifications.value.findIndex((item) => item.id === updated.id)
+      const index = notifications.value.findIndex(
+        (item) => item.id === updated.id,
+      )
 
       if (index >= 0) {
         notifications.value.splice(index, 1, {
