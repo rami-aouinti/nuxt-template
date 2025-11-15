@@ -33,6 +33,27 @@ const profileCache = useAuthProfileCache()
 const credentialsDialog = ref(false)
 const controlChevronSize = 18
 
+const hasAdminAccess = computed(() => {
+  const profile = session.value?.profile
+  if (!profile || typeof profile !== 'object') {
+    return false
+  }
+
+  const rawRoles = (profile as Record<string, unknown>).roles
+  if (!Array.isArray(rawRoles)) {
+    return false
+  }
+
+  const normalizedRoles = rawRoles
+    .filter((role): role is string => typeof role === 'string')
+    .map((role) => role.trim().toUpperCase())
+    .filter((role) => role.length > 0)
+
+  return normalizedRoles.some((role) =>
+    role === 'ROLE_ADMIN' || role === 'ROLE_ROOT',
+  )
+})
+
 const accountAvatarAlt = computed(() => {
   if (!loggedIn.value) {
     return t('profile.page.avatar.alt')
@@ -300,13 +321,12 @@ watch(loggedIn, (value) => {
         <v-list>
           <template v-if="loggedIn">
             <v-list-item
-              v-if="loggedIn"
               :title="t('navigation.profile')"
               prepend-icon="mdi-face"
               :to="localePath('profile')"
             />
             <v-list-item
-              v-if="loggedIn"
+              v-if="hasAdminAccess"
               :title="t('navigation.admin')"
               prepend-icon="mdi-shield-account"
               :to="localePath('admin')"
