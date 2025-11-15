@@ -53,7 +53,7 @@ const createGroup = (
   kind: 'group',
   icon,
   label,
-  value: `${icon}-${label}`,
+  value: icon,
   children: children.map((child) =>
     createLink(child.label, child.icon, child.path),
   ),
@@ -262,7 +262,7 @@ const pageSubtitle = computed(() =>
             <v-list nav density="comfortable" class="py-2">
               <v-list-item
                 v-for="link in primaryLinks"
-                :key="link.label"
+                :key="link.to"
                 :prepend-icon="link.icon"
                 :title="link.label"
                 :to="link.to"
@@ -285,7 +285,7 @@ const pageSubtitle = computed(() =>
 
               <v-list-group
                 v-for="section in groupedSections"
-                :key="section.label"
+                :key="section.value"
                 :value="section.value"
                 :model-value="true"
                 color="primary"
@@ -301,7 +301,7 @@ const pageSubtitle = computed(() =>
                 </template>
                 <v-list-item
                   v-for="child in section.children"
-                  :key="`${section.label}-${child.label}`"
+                  :key="`${section.value}-${child.to}`"
                   :prepend-icon="child.icon"
                   :title="child.label"
                   :to="child.to"
