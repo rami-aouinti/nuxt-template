@@ -7,6 +7,9 @@ export default defineEventHandler(async (event) => {
   const id = requireEntityId(event, 'du modèle de notification')
 
   return await fetchAdminDetail(event, 'notification_template', id, () =>
-    broWorldNotificationRequest<NotificationTemplate>(event, `/templates/${id}`),
+    broWorldNotificationRequest<NotificationTemplate>(
+      event,
+      `/templates/${id}`,
+    ),
   )
 })

@@ -53,7 +53,11 @@ function normalizeHeaders(headers?: HeadersInput): Record<string, string> {
   return normalized
 }
 
-function appendQueryValue(params: URLSearchParams, key: string, value: unknown) {
+function appendQueryValue(
+  params: URLSearchParams,
+  key: string,
+  value: unknown,
+) {
   if (value === undefined || value === null) {
     return
   }

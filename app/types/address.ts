@@ -53,28 +53,35 @@ export type AddressSyliusShopCartShow = AddressAttributes
 
 export type AddressSyliusShopOrderAccountShow = AddressAttributes
 
-export type AddressJsonld = JsonLdResource & Address
+export interface AddressJsonld extends JsonLdResource, Address {}
 
-export type AddressJsonldSyliusAdminAddressShow =
-  JsonLdResource & AddressSyliusAdminAddressShow
+export interface AddressJsonldSyliusAdminAddressShow
+  extends JsonLdResource,
+    AddressSyliusAdminAddressShow {}
 
-export type AddressJsonldSyliusAdminOrderIndex =
-  JsonLdResource & AddressSyliusAdminOrderIndex
+export interface AddressJsonldSyliusAdminOrderIndex
+  extends JsonLdResource,
+    AddressSyliusAdminOrderIndex {}
 
-export type AddressJsonldSyliusAdminOrderShow =
-  JsonLdResource & AddressSyliusAdminOrderShow
+export interface AddressJsonldSyliusAdminOrderShow
+  extends JsonLdResource,
+    AddressSyliusAdminOrderShow {}
 
-export type AddressJsonldSyliusShopAddressIndex =
-  JsonLdResource & AddressSyliusShopAddressIndex
+export interface AddressJsonldSyliusShopAddressIndex
+  extends JsonLdResource,
+    AddressSyliusShopAddressIndex {}
 
-export type AddressJsonldSyliusShopAddressShow =
-  JsonLdResource & AddressSyliusShopAddressShow
+export interface AddressJsonldSyliusShopAddressShow
+  extends JsonLdResource,
+    AddressSyliusShopAddressShow {}
 
-export type AddressJsonldSyliusShopCartShow =
-  JsonLdResource & AddressSyliusShopCartShow
+export interface AddressJsonldSyliusShopCartShow
+  extends JsonLdResource,
+    AddressSyliusShopCartShow {}
 
-export type AddressJsonldSyliusShopOrderAccountShow =
-  JsonLdResource & AddressSyliusShopOrderAccountShow
+export interface AddressJsonldSyliusShopOrderAccountShow
+  extends JsonLdResource,
+    AddressSyliusShopOrderAccountShow {}
 
 export interface AddressInterface extends AddressAttributes {
   fullName?: string | null
@@ -84,7 +91,9 @@ export interface AddressInterface extends AddressAttributes {
   customer?: string | null
 }
 
-export type AddressInterfaceJsonld = JsonLdResource & AddressInterface
+export interface AddressInterfaceJsonld
+  extends JsonLdResource,
+    AddressInterface {}
 
 export interface AddressLogEntry {
   action: string
@@ -93,7 +102,9 @@ export interface AddressLogEntry {
   data: unknown
 }
 
-export type AddressLogEntrySyliusAdminAddressLogEntryShow = AddressLogEntry
+export interface AddressLogEntrySyliusAdminAddressLogEntryShow
+  extends AddressLogEntry {}
 
-export type AddressLogEntryJsonldSyliusAdminAddressLogEntryShow =
-  JsonLdResource & AddressLogEntrySyliusAdminAddressLogEntryShow
+export interface AddressLogEntryJsonldSyliusAdminAddressLogEntryShow
+  extends JsonLdResource,
+    AddressLogEntrySyliusAdminAddressLogEntryShow {}

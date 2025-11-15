@@ -63,9 +63,7 @@ const emit = defineEmits<{
       content: string
     },
   ]
-  'delete-comment': [
-    { post: BlogPostViewModel; comment: BlogCommentViewModel },
-  ]
+  'delete-comment': [{ post: BlogPostViewModel; comment: BlogCommentViewModel }]
   'select-tag': [{ post: BlogPostViewModel; tag: string; label: string }]
 }>()
 
@@ -108,7 +106,15 @@ type UrlPreview =
       display: string
     }
 
-const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.avif', '.svg']
+const imageExtensions = [
+  '.jpg',
+  '.jpeg',
+  '.png',
+  '.gif',
+  '.webp',
+  '.avif',
+  '.svg',
+]
 const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.m4v', '.mkv']
 
 const postCardStyle = computed(() => {
@@ -158,8 +164,8 @@ const tryParseUrl = (value: string | null | undefined) => {
 
 const isMatchingExtension = (value: string, extensions: string[]) => {
   const normalized = value.toLowerCase()
-  return extensions.some((extension) =>
-    normalized.includes('.') && normalized.endsWith(extension),
+  return extensions.some(
+    (extension) => normalized.includes('.') && normalized.endsWith(extension),
   )
 }
 
@@ -201,7 +207,9 @@ const resolveYoutubeEmbed = (url: URL) => {
   return embedUrl.toString()
 }
 
-const resolveUrlPreview = (value: string | null | undefined): UrlPreview | null => {
+const resolveUrlPreview = (
+  value: string | null | undefined,
+): UrlPreview | null => {
   if (!value) {
     return null
   }
@@ -277,7 +285,8 @@ const mediaGallery = computed<NormalizedMediaItem[]>(() => {
 
   return props.post.medias
     .map((media, index) => {
-      const src = media.url ?? (media as unknown as { path?: string }).path ?? ''
+      const src =
+        media.url ?? (media as unknown as { path?: string }).path ?? ''
       const trimmedSrc = src.trim()
 
       if (!trimmedSrc) {
@@ -287,7 +296,10 @@ const mediaGallery = computed<NormalizedMediaItem[]>(() => {
       const type = media.type?.toLowerCase() ?? ''
       let kind: NormalizedMediaItem['kind'] = 'unknown'
 
-      if (type.startsWith('image/') || isMatchingExtension(trimmedSrc, imageExtensions)) {
+      if (
+        type.startsWith('image/') ||
+        isMatchingExtension(trimmedSrc, imageExtensions)
+      ) {
         kind = 'image'
       } else if (
         type.startsWith('video/') ||
@@ -313,8 +325,8 @@ const postTags = computed(() =>
   })),
 )
 
-const hasVisualPreview = computed(
-  () => Boolean(urlPreview.value && urlPreview.value.kind !== 'link'),
+const hasVisualPreview = computed(() =>
+  Boolean(urlPreview.value && urlPreview.value.kind !== 'link'),
 )
 const reactionType = computed(() =>
   resolveReactionType(props.post.isReacted ?? null),
@@ -423,9 +435,10 @@ const onRemoveCommentReaction = (comment: BlogCommentViewModel) =>
   emit('remove-comment-reaction', { post: props.post, comment })
 const onSubmitCommentReply = (comment: BlogCommentViewModel) =>
   emit('submit-comment-reply', { post: props.post, comment })
-const onSubmitCommentEdit = (
-  payload: { comment: BlogCommentViewModel; content: string },
-) => emit('submit-comment-edit', { post: props.post, ...payload })
+const onSubmitCommentEdit = (payload: {
+  comment: BlogCommentViewModel
+  content: string
+}) => emit('submit-comment-edit', { post: props.post, ...payload })
 const onDeleteComment = (comment: BlogCommentViewModel) =>
   emit('delete-comment', { post: props.post, comment })
 const onRequestEdit = () => {
@@ -585,7 +598,9 @@ const onSelectTag = (tag: { value: string; label: string }) => {
           />
         </div>
         <div
-          v-else-if="urlPreview.kind === 'embed' && urlPreview.provider === 'youtube'"
+          v-else-if="
+            urlPreview.kind === 'embed' && urlPreview.provider === 'youtube'
+          "
           class="facebook-post-card__preview-media facebook-post-card__preview-media--video"
         >
           <div class="facebook-post-card__embed-wrapper">
@@ -671,7 +686,10 @@ const onSelectTag = (tag: { value: string; label: string }) => {
           v-if="reactionPreviewIcons.length || reactionCount > 0"
           class="facebook-post-card__reaction-summary"
         >
-          <div v-if="reactionPreviewIcons.length" class="facebook-post-card__reaction-icons">
+          <div
+            v-if="reactionPreviewIcons.length"
+            class="facebook-post-card__reaction-icons"
+          >
             <span
               v-for="reaction in reactionPreviewIcons"
               :key="reaction.type"
@@ -680,15 +698,6 @@ const onSelectTag = (tag: { value: string; label: string }) => {
               {{ reaction.emoji }}
             </span>
           </div>
-          <v-btn
-            v-if="reactionCount > 0"
-            variant="text"
-            class="facebook-post-card__action-btn facebook-post-card__reaction-count"
-            :aria-label="reactionsButtonLabel"
-            @click="emit('show-reactions', post)"
-          >
-            {{ formattedReactionCount }}
-          </v-btn>
         </div>
         <BlogReactionPicker
           class="facebook-post-card__reaction-picker facebook-post-card__reaction-picker--icon"
@@ -703,6 +712,15 @@ const onSelectTag = (tag: { value: string; label: string }) => {
           @select="onSelectReaction"
           @remove="onRemoveReaction"
         />
+        <v-btn
+          v-if="reactionCount > 0"
+          variant="text"
+          class="facebook-post-card__action-btn facebook-post-card__reaction-count"
+          :aria-label="reactionsButtonLabel"
+          @click="emit('show-reactions', post)"
+        >
+          {{ formattedReactionCount }}
+        </v-btn>
       </div>
       <div class="facebook-post-card__stats-right">
         <v-btn
@@ -720,10 +738,11 @@ const onSelectTag = (tag: { value: string; label: string }) => {
             "
             class="facebook-post-card__action-icon"
           />
-          <span class="facebook-post-card__action-text">{{ commentsActionText }}</span>
-          <span class="facebook-post-card__action-count">{{
-            formattedCommentCount
-          }}</span>
+          <span
+            v-if="formattedCommentCount > 0"
+            class="facebook-post-card__action-count"
+            >{{ formattedCommentCount }}</span
+          >
         </v-btn>
         <v-btn
           variant="text"
@@ -732,12 +751,11 @@ const onSelectTag = (tag: { value: string; label: string }) => {
           @click="emit('share', post)"
         >
           <v-icon icon="mdi-share" class="facebook-post-card__action-icon" />
-          <span class="facebook-post-card__action-text">{{
-            t('blog.actions.sharePost')
-          }}</span>
-          <span class="facebook-post-card__action-count">{{
-            formattedShareCount
-          }}</span>
+          <span
+            v-if="formattedShareCount > 0"
+            class="facebook-post-card__action-count"
+            >{{ formattedShareCount }}</span
+          >
         </v-btn>
       </div>
     </div>
@@ -1182,10 +1200,8 @@ a.facebook-post-card__author-link:focus-visible {
   border-radius: 999px;
 }
 
-.facebook-post-card__reaction-picker--icon
-  :deep(.blog-reaction-picker__label),
-.facebook-post-card__reaction-picker--icon
-  :deep(.blog-reaction-picker__count) {
+.facebook-post-card__reaction-picker--icon :deep(.blog-reaction-picker__label),
+.facebook-post-card__reaction-picker--icon :deep(.blog-reaction-picker__count) {
   display: none;
 }
 

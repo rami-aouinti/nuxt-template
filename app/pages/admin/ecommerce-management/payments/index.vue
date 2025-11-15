@@ -59,7 +59,8 @@ const search = ref('')
 const dateFormatter = createDateFormatter(locale)
 
 const formatCurrency = (amount: number, currencyCode?: string | null) => {
-  const code = currencyCode && currencyCode.trim().length > 0 ? currencyCode : 'USD'
+  const code =
+    currencyCode && currencyCode.trim().length > 0 ? currencyCode : 'USD'
   try {
     return new Intl.NumberFormat(locale.value, {
       style: 'currency',
@@ -136,7 +137,8 @@ const rows = computed(() => {
         getString(paymentRecord, ['currencyCode']) ?? currency,
       )
       const updatedAt = formatDateValue(
-        safeDate(paymentRecord?.updatedAt) ?? safeDate(paymentRecord?.updated_at),
+        safeDate(paymentRecord?.updatedAt) ??
+          safeDate(paymentRecord?.updated_at),
         dateFormatter.value,
         '—',
       )
@@ -172,9 +174,7 @@ const errorMessage = computed(() => {
     return null
   }
   const err = error.value as { data?: { message?: string }; message?: string }
-  return (
-    err?.data?.message || err?.message || t('common.unexpectedError')
-  )
+  return err?.data?.message || err?.message || t('common.unexpectedError')
 })
 </script>
 

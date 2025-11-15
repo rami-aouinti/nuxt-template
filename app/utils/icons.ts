@@ -3,9 +3,7 @@ import type { IconValue } from 'vuetify/lib/composables/icons'
 export type IconInput = IconValue | false | null | undefined
 export type IconProp = IconInput | true
 
-export const normalizeIconValue = (
-  value: IconInput,
-): IconValue | undefined => {
+export const normalizeIconValue = (value: IconInput): IconValue | undefined => {
   if (value === false || value === null || value === undefined) {
     return undefined
   }

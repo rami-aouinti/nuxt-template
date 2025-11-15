@@ -21,10 +21,26 @@ definePageMeta({
 const { t, locale } = useI18n()
 
 const headers = computed(() => [
-  { title: t('admin.ecommerce.configuration.shippingMethods.table.name'), key: 'name', minWidth: 220 },
-  { title: t('admin.ecommerce.configuration.shippingMethods.table.code'), key: 'code', minWidth: 140 },
-  { title: t('admin.ecommerce.configuration.shippingMethods.table.zone'), key: 'zone', minWidth: 200 },
-  { title: t('admin.ecommerce.configuration.shippingMethods.table.channels'), key: 'channels', minWidth: 220 },
+  {
+    title: t('admin.ecommerce.configuration.shippingMethods.table.name'),
+    key: 'name',
+    minWidth: 220,
+  },
+  {
+    title: t('admin.ecommerce.configuration.shippingMethods.table.code'),
+    key: 'code',
+    minWidth: 140,
+  },
+  {
+    title: t('admin.ecommerce.configuration.shippingMethods.table.zone'),
+    key: 'zone',
+    minWidth: 200,
+  },
+  {
+    title: t('admin.ecommerce.configuration.shippingMethods.table.channels'),
+    key: 'channels',
+    minWidth: 220,
+  },
   {
     title: t('admin.ecommerce.configuration.shippingMethods.table.enabled'),
     key: 'enabled',
@@ -53,7 +69,8 @@ const rows = computed(() => {
   const entries = normalizeHydraCollection(rawShippingMethods.value)
   return entries.map((entry, index) => {
     const record = toRecord(entry)
-    const code = getString(record, ['code', 'id', '@id']) ?? `shipping-method-${index + 1}`
+    const code =
+      getString(record, ['code', 'id', '@id']) ?? `shipping-method-${index + 1}`
     const name =
       resolveLocalizedString(record, locale, ['name']) ??
       getString(record, ['name']) ??
@@ -80,7 +97,8 @@ const rows = computed(() => {
       code,
       name,
       zone,
-      channels: channels.filter(Boolean).join(', ') || t('admin.ecommerce.common.none'),
+      channels:
+        channels.filter(Boolean).join(', ') || t('admin.ecommerce.common.none'),
       enabled,
     }
   })

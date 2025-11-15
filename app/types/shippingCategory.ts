@@ -30,6 +30,8 @@ export interface ShippingCategoryJsonld extends ShippingCategory {
   '@type'?: string
 }
 
-export type ShippingCategoryJsonldSyliusAdminShippingCategoryIndex = ShippingCategoryJsonld
+export type ShippingCategoryJsonldSyliusAdminShippingCategoryIndex =
+  ShippingCategoryJsonld
 
-export type ShippingCategoryJsonldSyliusAdminShippingCategoryShow = ShippingCategoryJsonld
+export type ShippingCategoryJsonldSyliusAdminShippingCategoryShow =
+  ShippingCategoryJsonld

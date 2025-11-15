@@ -1,6 +1,9 @@
 import { readBody } from 'h3'
 
-import { broWorldEcommerceRequest, getEcommerceAcceptLanguage } from '~~/server/utils/broWorldEcommerceApi'
+import {
+  broWorldEcommerceRequest,
+  getEcommerceAcceptLanguage,
+} from '~~/server/utils/broWorldEcommerceApi'
 
 type VerifyPayload = Record<string, unknown>
 
@@ -13,13 +16,9 @@ export default defineEventHandler(async (event) => {
     headers['Accept-Language'] = acceptLanguage
   }
 
-  return await broWorldEcommerceRequest(
-    event,
-    '/shop/customers/verify',
-    {
-      method: 'POST',
-      body,
-      headers,
-    },
-  )
+  return await broWorldEcommerceRequest(event, '/shop/customers/verify', {
+    method: 'POST',
+    body,
+    headers,
+  })
 })

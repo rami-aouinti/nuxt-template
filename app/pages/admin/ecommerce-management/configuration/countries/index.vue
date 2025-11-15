@@ -21,9 +21,21 @@ definePageMeta({
 const { t, locale } = useI18n()
 
 const headers = computed(() => [
-  { title: t('admin.ecommerce.configuration.countries.table.name'), key: 'name', minWidth: 220 },
-  { title: t('admin.ecommerce.configuration.countries.table.code'), key: 'code', minWidth: 140 },
-  { title: t('admin.ecommerce.configuration.countries.table.provinces'), key: 'provinces', minWidth: 160 },
+  {
+    title: t('admin.ecommerce.configuration.countries.table.name'),
+    key: 'name',
+    minWidth: 220,
+  },
+  {
+    title: t('admin.ecommerce.configuration.countries.table.code'),
+    key: 'code',
+    minWidth: 140,
+  },
+  {
+    title: t('admin.ecommerce.configuration.countries.table.provinces'),
+    key: 'provinces',
+    minWidth: 160,
+  },
   {
     title: t('admin.ecommerce.configuration.countries.table.enabled'),
     key: 'enabled',
@@ -52,7 +64,8 @@ const rows = computed(() => {
   const entries = normalizeHydraCollection(rawCountries.value)
   return entries.map((entry, index) => {
     const record = toRecord(entry)
-    const code = getString(record, ['code', 'isoCode']) ?? `country-${index + 1}`
+    const code =
+      getString(record, ['code', 'isoCode']) ?? `country-${index + 1}`
     const name =
       resolveLocalizedString(record, locale, ['name']) ??
       getString(record, ['name']) ??

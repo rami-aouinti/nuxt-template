@@ -18,12 +18,11 @@
       />
     </svg>
 
-    <div v-else-if="chartType === 'bar' && barValues.length" class="v-chart-stub__bars">
-      <div
-        v-for="bar in barValues"
-        :key="bar.label"
-        class="v-chart-stub__bar"
-      >
+    <div
+      v-else-if="chartType === 'bar' && barValues.length"
+      class="v-chart-stub__bars"
+    >
+      <div v-for="bar in barValues" :key="bar.label" class="v-chart-stub__bar">
         <div class="v-chart-stub__bar-track">
           <div
             class="v-chart-stub__bar-fill"
@@ -34,11 +33,20 @@
       </div>
     </div>
 
-    <div v-else-if="chartType === 'pie' && pieSegments.length" class="v-chart-stub__pie">
-      <div class="v-chart-stub__pie-figure" :style="{ background: pieGradient }" />
+    <div
+      v-else-if="chartType === 'pie' && pieSegments.length"
+      class="v-chart-stub__pie"
+    >
+      <div
+        class="v-chart-stub__pie-figure"
+        :style="{ background: pieGradient }"
+      />
       <ul class="v-chart-stub__legend">
         <li v-for="segment in pieSegments" :key="segment.label">
-          <span class="v-chart-stub__legend-color" :style="{ background: segment.color }" />
+          <span
+            class="v-chart-stub__legend-color"
+            :style="{ background: segment.color }"
+          />
           <span class="v-chart-stub__legend-label">{{ segment.label }}</span>
           <span class="v-chart-stub__legend-value">{{ segment.percent }}%</span>
         </li>
@@ -69,7 +77,10 @@
     <div v-else class="v-chart-stub__fallback">
       <slot>
         <p class="text-caption mb-0">
-          {{ $t('admin.ecommerce.dashboard.charts.unavailable') || 'Chart preview not available.' }}
+          {{
+            $t('admin.ecommerce.dashboard.charts.unavailable') ||
+            'Chart preview not available.'
+          }}
         </p>
       </slot>
     </div>
@@ -112,7 +123,7 @@ const lineValues = computed(() => {
   }
 
   const dataset = props.option?.dataset as { source?: unknown } | undefined
-  const source = Array.isArray(dataset?.source) ? dataset?.source ?? [] : []
+  const source = Array.isArray(dataset?.source) ? (dataset?.source ?? []) : []
 
   if (source.length) {
     return source
@@ -125,7 +136,7 @@ const lineValues = computed(() => {
   }
 
   const firstSeries = series.value[0]
-  const data = Array.isArray(firstSeries?.data) ? firstSeries?.data ?? [] : []
+  const data = Array.isArray(firstSeries?.data) ? (firstSeries?.data ?? []) : []
 
   return data
     .map((entry) => {
@@ -177,7 +188,13 @@ const lineAreaPath = computed(() => {
 
   const first = points[0]
   const last = points[points.length - 1]
-  return [first, ...points.slice(1, -1), last, `${last.split(',')[0]},55`, `${first.split(',')[0]},55`].join(' ')
+  return [
+    first,
+    ...points.slice(1, -1),
+    last,
+    `${last.split(',')[0]},55`,
+    `${first.split(',')[0]},55`,
+  ].join(' ')
 })
 
 const barValues = computed(() => {
@@ -212,17 +229,24 @@ const barValues = computed(() => {
 
 const pieSegments = computed(() => {
   if (chartType.value !== 'pie') {
-    return [] as { label: string; value: number; percent: string; color: string }[]
+    return [] as {
+      label: string
+      value: number
+      percent: string
+      color: string
+    }[]
   }
 
   const firstSeries = series.value[0]
-  const data = Array.isArray(firstSeries?.data) ? firstSeries?.data ?? [] : []
+  const data = Array.isArray(firstSeries?.data) ? (firstSeries?.data ?? []) : []
   const values = data
     .map((entry, index) => {
       if (entry && typeof entry === 'object' && 'value' in entry) {
         const value = Number((entry as { value: unknown }).value)
         return {
-          label: String((entry as { name?: unknown }).name ?? `Item ${index + 1}`),
+          label: String(
+            (entry as { name?: unknown }).name ?? `Item ${index + 1}`,
+          ),
           value: Number.isFinite(value) ? value : 0,
         }
       }
@@ -251,7 +275,8 @@ const pieGradient = computed(() => {
 
   let start = 0
   const segments: string[] = []
-  const total = pieSegments.value.reduce((sum, entry) => sum + entry.value, 0) || 1
+  const total =
+    pieSegments.value.reduce((sum, entry) => sum + entry.value, 0) || 1
 
   pieSegments.value.forEach((segment) => {
     const angle = (segment.value / total) * 360
@@ -269,20 +294,26 @@ const radarIndicators = computed(() => {
   }
 
   const radar = props.option?.radar as { indicator?: unknown[] } | undefined
-  const indicators = Array.isArray(radar?.indicator) ? radar?.indicator ?? [] : []
+  const indicators = Array.isArray(radar?.indicator)
+    ? (radar?.indicator ?? [])
+    : []
 
-  return indicators
-    .map((entry, index) => {
-      if (entry && typeof entry === 'object' && 'name' in entry) {
-        return String((entry as { name: unknown }).name)
-      }
-      return `Axis ${index + 1}`
-    })
+  return indicators.map((entry, index) => {
+    if (entry && typeof entry === 'object' && 'name' in entry) {
+      return String((entry as { name: unknown }).name)
+    }
+    return `Axis ${index + 1}`
+  })
 })
 
 const radarPolygons = computed(() => {
   if (chartType.value !== 'radar') {
-    return [] as { name: string; points: string; fill: string; stroke: string }[]
+    return [] as {
+      name: string
+      points: string
+      fill: string
+      stroke: string
+    }[]
   }
 
   const dataSeries = series.value.filter((entry) => entry?.type === 'radar')
@@ -320,12 +351,15 @@ const radarPolygons = computed(() => {
           : []
 
       const values = Array.isArray(rawValues)
-        ? rawValues.map((value) => (Number.isFinite(Number(value)) ? Number(value) : 0))
+        ? rawValues.map((value) =>
+            Number.isFinite(Number(value)) ? Number(value) : 0,
+          )
         : []
 
       const indicatorCount = radarIndicators.value.length || values.length || 1
-      const paddedValues = Array.from({ length: indicatorCount }, (_, index) =>
-        values[index] ?? 0,
+      const paddedValues = Array.from(
+        { length: indicatorCount },
+        (_, index) => values[index] ?? 0,
       )
 
       const points = paddedValues.map((value, index) => {
@@ -338,7 +372,9 @@ const radarPolygons = computed(() => {
 
       const color = palette[(serieIndex + entryIndex) % palette.length]
       return {
-        name: String((entry as { name?: unknown }).name ?? `Series ${serieIndex + 1}`),
+        name: String(
+          (entry as { name?: unknown }).name ?? `Series ${serieIndex + 1}`,
+        ),
         points: points.join(' '),
         fill: `${color}22`,
         stroke: color,

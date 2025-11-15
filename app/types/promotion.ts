@@ -139,13 +139,20 @@ export interface PromotionTranslationSummary {
   label?: string | null
 }
 
-export interface PromotionTranslationDetail extends PromotionTranslationSummary {
+export interface PromotionTranslationDetail
+  extends PromotionTranslationSummary {
   locale: string
 }
 
-export type PromotionTranslationsSummary = Record<string, PromotionTranslationSummary>
+export type PromotionTranslationsSummary = Record<
+  string,
+  PromotionTranslationSummary
+>
 
-export type PromotionTranslationsPayload = Record<string, PromotionTranslationDetail>
+export type PromotionTranslationsPayload = Record<
+  string,
+  PromotionTranslationDetail
+>
 
 export interface PromotionTranslation {
   id: number
@@ -252,20 +259,22 @@ export type PromotionAdminCreateJsonLd = PromotionAdminListItemJsonLd
 
 export type PromotionAdminShowJsonLd = PromotionAdminListItemJsonLd
 
-
-export interface PromotionActionAdminListItemJsonLd extends PromotionActionAdminListItem {
+export interface PromotionActionAdminListItemJsonLd
+  extends PromotionActionAdminListItem {
   '@context'?: HydraContext
   '@id'?: string
   '@type'?: string
 }
 
-export interface PromotionRuleAdminListItemJsonLd extends PromotionRuleAdminListItem {
+export interface PromotionRuleAdminListItemJsonLd
+  extends PromotionRuleAdminListItem {
   '@context'?: HydraContext
   '@id'?: string
   '@type'?: string
 }
 
-export interface PromotionCouponAdminListItemJsonLd extends PromotionCouponAdminListItem {
+export interface PromotionCouponAdminListItemJsonLd
+  extends PromotionCouponAdminListItem {
   '@context'?: HydraContext
   '@id'?: string
   '@type'?: string
@@ -276,4 +285,3 @@ export interface PromotionCouponShopJsonLd extends PromotionCouponShopPayload {
   '@id'?: string
   '@type'?: string
 }
-

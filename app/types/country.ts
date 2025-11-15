@@ -44,7 +44,8 @@ export interface CountryJsonldSyliusAdminCountryIndex
   '@type'?: string
 }
 
-export type CountryJsonldSyliusAdminCountryShow = CountryJsonldSyliusAdminCountryIndex
+export type CountryJsonldSyliusAdminCountryShow =
+  CountryJsonldSyliusAdminCountryIndex
 
 export interface CountryProvinceJsonld extends CountryProvinceSummary {
   '@context'?: HydraContext
@@ -52,7 +53,8 @@ export interface CountryProvinceJsonld extends CountryProvinceSummary {
   '@type'?: string
 }
 
-export interface CountryJsonldSyliusShopCountryShow extends CountrySyliusShopCountryShow {
+export interface CountryJsonldSyliusShopCountryShow
+  extends CountrySyliusShopCountryShow {
   '@context'?: HydraContext
   '@id'?: string
   '@type'?: string

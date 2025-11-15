@@ -49,7 +49,10 @@ const headers = computed<DataTableHeader[]>(() => [
     width: 140,
   },
   { title: t('notificationManagement.table.createdAt'), key: 'createdAt' },
-  { title: t('notificationManagement.table.scheduledFor'), key: 'scheduledFor' },
+  {
+    title: t('notificationManagement.table.scheduledFor'),
+    key: 'scheduledFor',
+  },
   { title: t('notificationManagement.table.sentAt'), key: 'sentAt' },
   {
     title: '',
@@ -122,7 +125,8 @@ function resolveErrorMessage(error: unknown, fallback: string) {
   }
 
   if (typeof error === 'object') {
-    const data = (error as { data?: { message?: unknown; error?: unknown } }).data
+    const data = (error as { data?: { message?: unknown; error?: unknown } })
+      .data
     if (data) {
       if (typeof data.message === 'string' && data.message.trim().length > 0) {
         return data.message
@@ -218,9 +222,9 @@ const viewDetail = computed<AdminNotificationDetail | null>(() => {
   return notificationStore.notificationDetails[id] ?? null
 })
 
-const resolvedViewNotification = computed<AdminNotificationDetail | AdminNotification | null>(
-  () => viewDetail.value ?? viewNotification.value,
-)
+const resolvedViewNotification = computed<
+  AdminNotificationDetail | AdminNotification | null
+>(() => viewDetail.value ?? viewNotification.value)
 
 const viewLoading = computed(() => {
   const id = viewNotificationId.value
@@ -284,7 +288,9 @@ const statusForm = reactive<{ status: string }>({ status: '' })
 const statusError = ref('')
 const statusLoading = ref(false)
 
-const statusNotificationId = computed(() => statusNotification.value?.id ?? null)
+const statusNotificationId = computed(
+  () => statusNotification.value?.id ?? null,
+)
 
 const knownStatuses = ['pending', 'processing', 'sent', 'failed', 'cancelled']
 
@@ -369,7 +375,9 @@ async function submitStatus() {
 
     const label = resolveStatusLabel(statusForm.status)
     Notify.success(
-      t('notificationManagement.notifications.statusUpdated', { status: label }),
+      t('notificationManagement.notifications.statusUpdated', {
+        status: label,
+      }),
     )
 
     if (updated) {
@@ -456,7 +464,11 @@ async function refresh() {
             size="small"
             density="comfortable"
             :icon="'mdi-eye-outline'"
-            :aria-label="t('notificationManagement.actions.view', { subject: item.subject })"
+            :aria-label="
+              t('notificationManagement.actions.view', {
+                subject: item.subject,
+              })
+            "
             @click="openView(item)"
           />
           <AppButton
@@ -465,7 +477,11 @@ async function refresh() {
             size="small"
             density="comfortable"
             :icon="'mdi-clipboard-check-outline'"
-            :aria-label="t('notificationManagement.actions.updateStatus', { subject: item.subject })"
+            :aria-label="
+              t('notificationManagement.actions.updateStatus', {
+                subject: item.subject,
+              })
+            "
             @click="openStatus(item)"
           />
         </div>
@@ -497,7 +513,10 @@ async function refresh() {
             <v-progress-circular color="primary" indeterminate />
           </div>
 
-          <div v-else-if="resolvedViewNotification" class="d-flex flex-column gap-6">
+          <div
+            v-else-if="resolvedViewNotification"
+            class="d-flex flex-column gap-6"
+          >
             <div class="d-grid info-grid">
               <div>
                 <span class="text-caption text-medium-emphasis">
@@ -572,7 +591,10 @@ async function refresh() {
               </div>
             </div>
 
-            <div v-if="resolvedViewNotification.message" class="notification-section">
+            <div
+              v-if="resolvedViewNotification.message"
+              class="notification-section"
+            >
               <h3 class="text-subtitle-1 font-weight-semibold mb-2">
                 {{ t('notificationManagement.labels.message') }}
               </h3>
@@ -585,7 +607,10 @@ async function refresh() {
             </div>
 
             <div
-              v-if="resolvedViewNotification.metadata && Object.keys(resolvedViewNotification.metadata).length > 0"
+              v-if="
+                resolvedViewNotification.metadata &&
+                Object.keys(resolvedViewNotification.metadata).length > 0
+              "
               class="notification-section"
             >
               <h3 class="text-subtitle-1 font-weight-semibold mb-2">
@@ -594,13 +619,18 @@ async function refresh() {
               <v-sheet class="pa-4" border rounded>
                 <pre
                   class="mb-0 text-body-2"
-                  v-text="JSON.stringify(resolvedViewNotification.metadata, null, 2)"
+                  v-text="
+                    JSON.stringify(resolvedViewNotification.metadata, null, 2)
+                  "
                 />
               </v-sheet>
             </div>
 
             <div
-              v-if="viewDetail?.payload && Object.keys(viewDetail.payload).length > 0"
+              v-if="
+                viewDetail?.payload &&
+                Object.keys(viewDetail.payload).length > 0
+              "
               class="notification-section"
             >
               <h3 class="text-subtitle-1 font-weight-semibold mb-2">
@@ -615,7 +645,10 @@ async function refresh() {
             </div>
 
             <div
-              v-if="viewDetail?.context && Object.keys(viewDetail.context).length > 0"
+              v-if="
+                viewDetail?.context &&
+                Object.keys(viewDetail.context).length > 0
+              "
               class="notification-section"
             >
               <h3 class="text-subtitle-1 font-weight-semibold mb-2">

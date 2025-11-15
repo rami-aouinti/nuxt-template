@@ -30,12 +30,13 @@ const translations = ref([
   },
 ])
 
-const {
-  data: rawLocales,
-} = await useFetch<unknown>('/api/ecommerce/v2/admin/locales', {
-  key: 'admin-ecommerce-locales',
-  credentials: 'include',
-})
+const { data: rawLocales } = await useFetch<unknown>(
+  '/api/ecommerce/v2/admin/locales',
+  {
+    key: 'admin-ecommerce-locales',
+    credentials: 'include',
+  },
+)
 
 const availableLocales = computed(() => {
   const entries = normalizeHydraCollection(rawLocales.value)
@@ -151,7 +152,9 @@ const submit = async () => {
 }
 
 const formValid = computed(
-  () => form.code.trim().length > 0 && translations.value.some((entry) => entry.name.trim()),
+  () =>
+    form.code.trim().length > 0 &&
+    translations.value.some((entry) => entry.name.trim()),
 )
 </script>
 
@@ -201,7 +204,11 @@ const formValid = computed(
               {{ t('admin.ecommerce.taxons.form.translations') }}
             </h2>
 
-            <v-row v-for="(translation, index) in translations" :key="index" class="mb-4">
+            <v-row
+              v-for="(translation, index) in translations"
+              :key="index"
+              class="mb-4"
+            >
               <v-col cols="12" md="4">
                 <v-select
                   v-model="translation.locale"
@@ -265,18 +272,17 @@ const formValid = computed(
             >
               {{ errorMessage }}
             </v-alert>
-            <v-alert
-              v-if="success"
-              type="success"
-              variant="tonal"
-              class="mb-4"
-            >
+            <v-alert v-if="success" type="success" variant="tonal" class="mb-4">
               {{ t('admin.ecommerce.taxons.form.success') }}
             </v-alert>
 
             <div class="d-flex justify-end gap-4">
               <AppButton
-                :to="localePath({ name: 'admin-ecommerce-management-taxons-index' })"
+                :to="
+                  localePath({
+                    name: 'admin-ecommerce-management-taxons-index',
+                  })
+                "
                 variant="text"
                 color="secondary"
               >
@@ -310,12 +316,16 @@ const formValid = computed(
                 {{ t('admin.ecommerce.taxons.help.naming.subtitle') }}
               </v-list-item-subtitle>
             </v-list-item>
-            <v-list-item :title="t('admin.ecommerce.taxons.help.translations.title')">
+            <v-list-item
+              :title="t('admin.ecommerce.taxons.help.translations.title')"
+            >
               <v-list-item-subtitle>
                 {{ t('admin.ecommerce.taxons.help.translations.subtitle') }}
               </v-list-item-subtitle>
             </v-list-item>
-            <v-list-item :title="t('admin.ecommerce.taxons.help.visibility.title')">
+            <v-list-item
+              :title="t('admin.ecommerce.taxons.help.visibility.title')"
+            >
               <v-list-item-subtitle>
                 {{ t('admin.ecommerce.taxons.help.visibility.subtitle') }}
               </v-list-item-subtitle>

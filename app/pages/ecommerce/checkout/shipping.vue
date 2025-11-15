@@ -27,7 +27,10 @@ const cartStore = useEcommerceCartStore()
 
 const queryOrderToken = computed(() => {
   const queryToken =
-    route.query.order ?? route.query.token ?? route.query.tokenValue ?? route.query.token_id
+    route.query.order ??
+    route.query.token ??
+    route.query.tokenValue ??
+    route.query.token_id
   if (Array.isArray(queryToken)) {
     return queryToken[0] ?? null
   }
@@ -39,7 +42,9 @@ const queryOrderToken = computed(() => {
   return null
 })
 
-const orderToken = computed(() => queryOrderToken.value ?? cartStore.token ?? null)
+const orderToken = computed(
+  () => queryOrderToken.value ?? cartStore.token ?? null,
+)
 
 watch(
   queryOrderToken,
@@ -172,7 +177,9 @@ const extractResourceId = (value: string | null | undefined) => {
   return null
 }
 
-const resolveShipmentId = (shipment: UnknownRecord | null | undefined): string | null => {
+const resolveShipmentId = (
+  shipment: UnknownRecord | null | undefined,
+): string | null => {
   if (!shipment) {
     return null
   }
@@ -250,7 +257,9 @@ const shipments = computed<ShipmentRecord[]>(() => {
   const entries = extractCollectionItems<unknown>(shipmentSource)
   return entries
     .map((entry) => toRecord(entry))
-    .filter((entry): entry is ShipmentRecord => Boolean(entry && resolveShipmentId(entry)))
+    .filter((entry): entry is ShipmentRecord =>
+      Boolean(entry && resolveShipmentId(entry)),
+    )
 })
 
 const shipmentOptions = ref<Record<string, ShippingMethodOption[]>>({})
@@ -271,7 +280,10 @@ const selectingDisabled = computed(
 )
 
 const resolveShippingMethodLabel = (
-  method: ShippingMethodJsonldSyliusShopShippingMethodIndex | UnknownRecord | null,
+  method:
+    | ShippingMethodJsonldSyliusShopShippingMethodIndex
+    | UnknownRecord
+    | null,
 ) => {
   if (!method) {
     return t('pages.ecommerceCheckout.shipping.fallbacks.methodLabel')
@@ -300,7 +312,9 @@ const resolveShippingMethodLabel = (
   if (translationsSource) {
     const fallbackTranslation = resolveTranslation(
       translationsSource,
-      getString(record, 'fallbackLocale') ?? getString(record, 'currentLocale') ?? 'en',
+      getString(record, 'fallbackLocale') ??
+        getString(record, 'currentLocale') ??
+        'en',
     )
     const fallbackName = getString(fallbackTranslation, 'name')
     if (fallbackName) {
@@ -316,7 +330,10 @@ const resolveShippingMethodLabel = (
 }
 
 const resolveShippingMethodDescription = (
-  method: ShippingMethodJsonldSyliusShopShippingMethodIndex | UnknownRecord | null,
+  method:
+    | ShippingMethodJsonldSyliusShopShippingMethodIndex
+    | UnknownRecord
+    | null,
 ) => {
   if (!method) {
     return null
@@ -327,7 +344,10 @@ const resolveShippingMethodDescription = (
     return null
   }
 
-  if (typeof record.description === 'string' && record.description.trim().length > 0) {
+  if (
+    typeof record.description === 'string' &&
+    record.description.trim().length > 0
+  ) {
     return record.description
   }
 
@@ -345,7 +365,9 @@ const resolveShippingMethodDescription = (
   if (translationsSource) {
     const fallbackTranslation = resolveTranslation(
       translationsSource,
-      getString(record, 'fallbackLocale') ?? getString(record, 'currentLocale') ?? 'en',
+      getString(record, 'fallbackLocale') ??
+        getString(record, 'currentLocale') ??
+        'en',
     )
     const fallbackDescription = getString(fallbackTranslation, 'description')
     if (fallbackDescription) {
@@ -357,7 +379,10 @@ const resolveShippingMethodDescription = (
 }
 
 const resolveShippingMethodAmount = (
-  method: ShippingMethodJsonldSyliusShopShippingMethodIndex | UnknownRecord | null,
+  method:
+    | ShippingMethodJsonldSyliusShopShippingMethodIndex
+    | UnknownRecord
+    | null,
 ): number | null => {
   if (!method) {
     return null
@@ -399,7 +424,10 @@ const fetchShipmentMethodsById = async (shipmentId: string, force = false) => {
       },
     )
 
-    const methods = extractCollectionItems<ShippingMethodJsonldSyliusShopShippingMethodIndex>(response)
+    const methods =
+      extractCollectionItems<ShippingMethodJsonldSyliusShopShippingMethodIndex>(
+        response,
+      )
     const options = methods
       .map((method) => {
         const code = resolveMethodCode(method)
@@ -459,10 +487,12 @@ watch(
         const { [existing]: _removed, ...rest } = shipmentOptions.value
         shipmentOptions.value = rest
 
-        const { [existing]: _removedLoading, ...restLoading } = shipmentLoading.value
+        const { [existing]: _removedLoading, ...restLoading } =
+          shipmentLoading.value
         shipmentLoading.value = restLoading
 
-        const { [existing]: _removedError, ...restErrors } = shipmentErrors.value
+        const { [existing]: _removedError, ...restErrors } =
+          shipmentErrors.value
         shipmentErrors.value = restErrors
       }
     }
@@ -502,17 +532,24 @@ const onSelectMethod = async (shipmentId: string, code: string | null) => {
   const nextIri = option?.iri ?? buildMethodIri(code)
 
   if (!nextIri) {
-    updateError.value = t('pages.ecommerceCheckout.shipping.notifications.error')
+    updateError.value = t(
+      'pages.ecommerceCheckout.shipping.notifications.error',
+    )
     return
   }
 
   updateError.value = null
   updateSuccess.value = null
   updatingShipmentId.value = shipmentId
-  selectedMethodCodes.value = { ...selectedMethodCodes.value, [shipmentId]: code }
+  selectedMethodCodes.value = {
+    ...selectedMethodCodes.value,
+    [shipmentId]: code,
+  }
 
   try {
-    const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    }
     if (locale.value) {
       headers['Accept-Language'] = locale.value as string
     }
@@ -526,10 +563,15 @@ const onSelectMethod = async (shipmentId: string, code: string | null) => {
       },
     )
 
-    updateSuccess.value = t('pages.ecommerceCheckout.shipping.notifications.success')
+    updateSuccess.value = t(
+      'pages.ecommerceCheckout.shipping.notifications.success',
+    )
     await refreshOrder()
   } catch (error) {
-    selectedMethodCodes.value = { ...selectedMethodCodes.value, [shipmentId]: previous }
+    selectedMethodCodes.value = {
+      ...selectedMethodCodes.value,
+      [shipmentId]: previous,
+    }
     updateError.value = resolveErrorMessage(
       error,
       t('pages.ecommerceCheckout.shipping.notifications.error'),
@@ -597,13 +639,23 @@ const canProceed = computed(() => {
   <div class="checkout-shipping-page">
     <div class="checkout-shipping-page__background" />
     <v-container class="py-10" fluid>
-      <v-row class="checkout-shipping-page__grid" align="stretch" justify="center">
+      <v-row
+        class="checkout-shipping-page__grid"
+        align="stretch"
+        justify="center"
+      >
         <v-col cols="12" lg="7">
           <AppCard class="checkout-shipping-card" elevation="3">
             <div class="checkout-shipping-card__header">
               <div>
-                <p class="text-body-2 text-uppercase text-medium-emphasis font-weight-medium mb-1">
-                  {{ t('pages.ecommerceCheckout.shipping.headline.step', { step: 2 }) }}
+                <p
+                  class="text-body-2 text-uppercase text-medium-emphasis font-weight-medium mb-1"
+                >
+                  {{
+                    t('pages.ecommerceCheckout.shipping.headline.step', {
+                      step: 2,
+                    })
+                  }}
                 </p>
                 <h1 class="text-h5 text-md-h4 font-weight-bold">
                   {{ t('pages.ecommerceCheckout.shipping.headline.title') }}
@@ -616,7 +668,9 @@ const canProceed = computed(() => {
                 <span class="checkout-shipping-card__step">
                   {{ t('pages.ecommerceCheckout.address.steps.address') }}
                 </span>
-                <span class="checkout-shipping-card__step checkout-shipping-card__step--active">
+                <span
+                  class="checkout-shipping-card__step checkout-shipping-card__step--active"
+                >
                   {{ t('pages.ecommerceCheckout.address.steps.shipping') }}
                 </span>
                 <span class="checkout-shipping-card__step">
@@ -654,17 +708,23 @@ const canProceed = computed(() => {
               class="mb-4"
               density="comfortable"
             >
-              {{ t('pages.ecommerceCheckout.shipping.notifications.missingOrder') }}
+              {{
+                t('pages.ecommerceCheckout.shipping.notifications.missingOrder')
+              }}
             </v-alert>
 
             <section class="checkout-shipping-section">
               <div class="checkout-shipping-section__header">
                 <div>
-                  <h2 class="checkout-shipping-section__title text-h6 font-weight-semibold mb-1">
+                  <h2
+                    class="checkout-shipping-section__title text-h6 font-weight-semibold mb-1"
+                  >
                     {{ t('pages.ecommerceCheckout.shipping.sections.title') }}
                   </h2>
                   <p class="text-body-2 text-medium-emphasis">
-                    {{ t('pages.ecommerceCheckout.shipping.sections.subtitle') }}
+                    {{
+                      t('pages.ecommerceCheckout.shipping.sections.subtitle')
+                    }}
                   </p>
                 </div>
                 <AppButton
@@ -672,7 +732,9 @@ const canProceed = computed(() => {
                   class="text-primary"
                   :to="shipmentChangeAddressRoute"
                 >
-                  {{ t('pages.ecommerceCheckout.shipping.sections.changeAddress') }}
+                  {{
+                    t('pages.ecommerceCheckout.shipping.sections.changeAddress')
+                  }}
                 </AppButton>
               </div>
 
@@ -724,7 +786,9 @@ const canProceed = computed(() => {
                     density="comfortable"
                     class="mb-4"
                   >
-                    <div class="d-flex align-center justify-space-between gap-4">
+                    <div
+                      class="d-flex align-center justify-space-between gap-4"
+                    >
                       <span>
                         {{ shipmentErrors[resolveShipmentId(shipment) ?? ''] }}
                       </span>
@@ -734,17 +798,24 @@ const canProceed = computed(() => {
                         color="primary"
                         @click="
                           resolveShipmentId(shipment)
-                            ? fetchShipmentMethodsById(resolveShipmentId(shipment)!, true)
+                            ? fetchShipmentMethodsById(
+                                resolveShipmentId(shipment)!,
+                                true,
+                              )
                             : undefined
                         "
                       >
-                        {{ t('pages.ecommerceCheckout.shipping.sections.retry') }}
+                        {{
+                          t('pages.ecommerceCheckout.shipping.sections.retry')
+                        }}
                       </AppButton>
                     </div>
                   </v-alert>
 
                   <v-progress-linear
-                    v-else-if="shipmentLoading[resolveShipmentId(shipment) ?? '']"
+                    v-else-if="
+                      shipmentLoading[resolveShipmentId(shipment) ?? '']
+                    "
                     indeterminate
                     color="primary"
                     class="mb-4"
@@ -752,26 +823,42 @@ const canProceed = computed(() => {
 
                   <div v-else>
                     <p
-                      v-if="(shipmentOptions[resolveShipmentId(shipment) ?? ''] ?? []).length === 0"
+                      v-if="
+                        (
+                          shipmentOptions[resolveShipmentId(shipment) ?? ''] ??
+                          []
+                        ).length === 0
+                      "
                       class="text-body-2 text-medium-emphasis"
                     >
-                      {{ t('pages.ecommerceCheckout.shipping.sections.noMethods') }}
+                      {{
+                        t('pages.ecommerceCheckout.shipping.sections.noMethods')
+                      }}
                     </p>
 
                     <v-radio-group
                       v-else
-                      :model-value="selectedMethodCodes[resolveShipmentId(shipment) ?? ''] ?? null"
+                      :model-value="
+                        selectedMethodCodes[
+                          resolveShipmentId(shipment) ?? ''
+                        ] ?? null
+                      "
                       :disabled="selectingDisabled"
                       class="checkout-shipping-options"
                       @update:model-value="
                         (value) =>
                           resolveShipmentId(shipment)
-                            ? onSelectMethod(resolveShipmentId(shipment)!, value)
+                            ? onSelectMethod(
+                                resolveShipmentId(shipment)!,
+                                value,
+                              )
                             : undefined
                       "
                     >
                       <v-radio
-                        v-for="option in shipmentOptions[resolveShipmentId(shipment) ?? '']"
+                        v-for="option in shipmentOptions[
+                          resolveShipmentId(shipment) ?? ''
+                        ]"
                         :key="option.code"
                         :value="option.code"
                         class="checkout-shipping-option"
@@ -779,7 +866,9 @@ const canProceed = computed(() => {
                         <template #label>
                           <div class="checkout-shipping-option__content">
                             <div>
-                              <span class="checkout-shipping-option__name">{{ option.label }}</span>
+                              <span class="checkout-shipping-option__name">{{
+                                option.label
+                              }}</span>
                               <span
                                 v-if="option.description"
                                 class="checkout-shipping-option__description"
@@ -788,7 +877,13 @@ const canProceed = computed(() => {
                               </span>
                             </div>
                             <span class="checkout-shipping-option__price">
-                              {{ option.amount == null ? t('pages.ecommerceCheckout.shipping.labels.unavailable') : formatAmount(option.amount) }}
+                              {{
+                                option.amount == null
+                                  ? t(
+                                      'pages.ecommerceCheckout.shipping.labels.unavailable',
+                                    )
+                                  : formatAmount(option.amount)
+                              }}
                             </span>
                           </div>
                         </template>
@@ -845,19 +940,31 @@ const canProceed = computed(() => {
 
               <ul class="checkout-summary__items">
                 <li class="checkout-summary__row">
-                  <span>{{ t('pages.ecommerceCheckout.address.summary.itemsTotal') }}</span>
+                  <span>{{
+                    t('pages.ecommerceCheckout.address.summary.itemsTotal')
+                  }}</span>
                   <strong>{{ formatAmount(orderTotals.itemsTotal) }}</strong>
                 </li>
                 <li class="checkout-summary__row">
-                  <span>{{ t('pages.ecommerceCheckout.address.summary.discount') }}</span>
-                  <strong>-{{ formatAmount(Math.abs(orderTotals.orderPromotionTotal)) }}</strong>
+                  <span>{{
+                    t('pages.ecommerceCheckout.address.summary.discount')
+                  }}</span>
+                  <strong
+                    >-{{
+                      formatAmount(Math.abs(orderTotals.orderPromotionTotal))
+                    }}</strong
+                  >
                 </li>
                 <li class="checkout-summary__row">
-                  <span>{{ t('pages.ecommerceCheckout.address.summary.shipping') }}</span>
+                  <span>{{
+                    t('pages.ecommerceCheckout.address.summary.shipping')
+                  }}</span>
                   <strong>{{ formatAmount(orderTotals.shippingTotal) }}</strong>
                 </li>
                 <li class="checkout-summary__row">
-                  <span>{{ t('pages.ecommerceCheckout.address.summary.taxes') }}</span>
+                  <span>{{
+                    t('pages.ecommerceCheckout.address.summary.taxes')
+                  }}</span>
                   <strong>{{ formatAmount(orderTotals.taxTotal) }}</strong>
                 </li>
               </ul>
@@ -865,14 +972,18 @@ const canProceed = computed(() => {
               <v-divider class="my-4" />
 
               <div class="checkout-summary__total">
-                <span>{{ t('pages.ecommerceCheckout.address.summary.total') }}</span>
+                <span>{{
+                  t('pages.ecommerceCheckout.address.summary.total')
+                }}</span>
                 <strong>{{ formatAmount(orderTotals.total) }}</strong>
               </div>
 
               <p class="text-body-2 text-medium-emphasis mt-4">
-                {{ t('pages.ecommerceCheckout.address.summary.itemsLabel', {
-                  count: orderTotals.itemsCount,
-                }) }}
+                {{
+                  t('pages.ecommerceCheckout.address.summary.itemsLabel', {
+                    count: orderTotals.itemsCount,
+                  })
+                }}
               </p>
             </AppCard>
           </div>
@@ -886,15 +997,28 @@ const canProceed = computed(() => {
 .checkout-shipping-page {
   position: relative;
   min-height: 100%;
-  background: linear-gradient(120deg, rgba(111, 66, 193, 0.1), rgba(59, 130, 246, 0.12));
+  background: linear-gradient(
+    120deg,
+    rgba(111, 66, 193, 0.1),
+    rgba(59, 130, 246, 0.12)
+  );
   padding-block: 3rem;
 }
 
 .checkout-shipping-page__background {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.2), transparent 45%),
-    radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.18), transparent 45%);
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(59, 130, 246, 0.2),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at bottom left,
+      rgba(236, 72, 153, 0.18),
+      transparent 45%
+    );
   pointer-events: none;
 }
 
@@ -932,7 +1056,11 @@ const canProceed = computed(() => {
 }
 
 .checkout-shipping-card__step--active {
-  background: linear-gradient(135deg, rgb(var(--v-theme-primary)), rgb(var(--v-theme-primary-darken-1)));
+  background: linear-gradient(
+    135deg,
+    rgb(var(--v-theme-primary)),
+    rgb(var(--v-theme-primary-darken-1))
+  );
   color: white;
 }
 

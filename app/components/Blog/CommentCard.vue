@@ -102,7 +102,10 @@ const onToggleReply = () => emit('toggle-reply')
                 {{ formattedRelativeDate }}
               </p>
             </div>
-            <div v-if="$slots['meta-actions']" class="blog-comment-card__meta-actions">
+            <div
+              v-if="$slots['meta-actions']"
+              class="blog-comment-card__meta-actions"
+            >
               <slot name="meta-actions" />
             </div>
           </div>

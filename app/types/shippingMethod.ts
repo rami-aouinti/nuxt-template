@@ -81,7 +81,8 @@ export interface ShippingMethodSyliusAdminShippingMethodCreate {
 
 export type ShippingMethodSyliusAdminShippingMethodIndex = ShippingMethod
 
-export type ShippingMethodSyliusAdminShippingMethodShow = ShippingMethodSyliusAdminShippingMethodIndex
+export type ShippingMethodSyliusAdminShippingMethodShow =
+  ShippingMethodSyliusAdminShippingMethodIndex
 
 export interface ShippingMethodSyliusAdminShippingMethodUpdate {
   zone: string
@@ -103,21 +104,23 @@ export interface ShippingMethodSyliusShopShippingMethodIndex {
   price?: number
 }
 
-export type ShippingMethodSyliusShopShippingMethodShow = ShippingMethodSyliusShopShippingMethodIndex
+export type ShippingMethodSyliusShopShippingMethodShow =
+  ShippingMethodSyliusShopShippingMethodIndex
 
-export interface ShippingMethodJsonld
-  extends JsonLdResource,
-    ShippingMethod {}
+export interface ShippingMethodJsonld extends JsonLdResource, ShippingMethod {}
 
-export type ShippingMethodJsonldSyliusAdminShippingMethodIndex = ShippingMethodJsonld
+export type ShippingMethodJsonldSyliusAdminShippingMethodIndex =
+  ShippingMethodJsonld
 
-export type ShippingMethodJsonldSyliusAdminShippingMethodShow = ShippingMethodJsonldSyliusAdminShippingMethodIndex
+export type ShippingMethodJsonldSyliusAdminShippingMethodShow =
+  ShippingMethodJsonldSyliusAdminShippingMethodIndex
 
 export interface ShippingMethodJsonldSyliusShopShippingMethodIndex
   extends JsonLdResource,
     ShippingMethodSyliusShopShippingMethodIndex {}
 
-export type ShippingMethodJsonldSyliusShopShippingMethodShow = ShippingMethodJsonldSyliusShopShippingMethodIndex
+export type ShippingMethodJsonldSyliusShopShippingMethodShow =
+  ShippingMethodJsonldSyliusShopShippingMethodIndex
 
 export interface ShippingMethodRule {
   id?: number
@@ -125,21 +128,26 @@ export interface ShippingMethodRule {
   configuration?: Array<string | null>
 }
 
-export type ShippingMethodRuleSyliusAdminShippingMethodCreate = ShippingMethodRulePayload
+export type ShippingMethodRuleSyliusAdminShippingMethodCreate =
+  ShippingMethodRulePayload
 
-export type ShippingMethodRuleSyliusAdminShippingMethodIndex = ShippingMethodRule
+export type ShippingMethodRuleSyliusAdminShippingMethodIndex =
+  ShippingMethodRule
 
 export type ShippingMethodRuleSyliusAdminShippingMethodShow = ShippingMethodRule
 
-export type ShippingMethodRuleSyliusAdminShippingMethodUpdate = ShippingMethodRulePayload
+export type ShippingMethodRuleSyliusAdminShippingMethodUpdate =
+  ShippingMethodRulePayload
 
 export interface ShippingMethodRuleJsonld
   extends JsonLdResource,
     ShippingMethodRule {}
 
-export type ShippingMethodRuleJsonldSyliusAdminShippingMethodIndex = ShippingMethodRuleJsonld
+export type ShippingMethodRuleJsonldSyliusAdminShippingMethodIndex =
+  ShippingMethodRuleJsonld
 
-export type ShippingMethodRuleJsonldSyliusAdminShippingMethodShow = ShippingMethodRuleJsonldSyliusAdminShippingMethodIndex
+export type ShippingMethodRuleJsonldSyliusAdminShippingMethodShow =
+  ShippingMethodRuleJsonldSyliusAdminShippingMethodIndex
 
 export interface ShippingMethodRuleInterface extends ShippingMethodRule {
   shippingMethod?: string | null
@@ -162,9 +170,11 @@ export interface ShippingMethodTranslationSyliusAdminShippingMethodCreate {
   locale: string
 }
 
-export type ShippingMethodTranslationSyliusAdminShippingMethodIndex = ShippingMethodTranslation
+export type ShippingMethodTranslationSyliusAdminShippingMethodIndex =
+  ShippingMethodTranslation
 
-export type ShippingMethodTranslationSyliusAdminShippingMethodShow = ShippingMethodTranslation
+export type ShippingMethodTranslationSyliusAdminShippingMethodShow =
+  ShippingMethodTranslation
 
 export interface ShippingMethodTranslationSyliusAdminShippingMethodUpdate {
   name: string
@@ -176,6 +186,8 @@ export interface ShippingMethodTranslationJsonld
   extends JsonLdResource,
     ShippingMethodTranslation {}
 
-export type ShippingMethodTranslationJsonldSyliusAdminShippingMethodIndex = ShippingMethodTranslationJsonld
+export type ShippingMethodTranslationJsonldSyliusAdminShippingMethodIndex =
+  ShippingMethodTranslationJsonld
 
-export type ShippingMethodTranslationJsonldSyliusAdminShippingMethodShow = ShippingMethodTranslationJsonldSyliusAdminShippingMethodIndex
+export type ShippingMethodTranslationJsonldSyliusAdminShippingMethodShow =
+  ShippingMethodTranslationJsonldSyliusAdminShippingMethodIndex

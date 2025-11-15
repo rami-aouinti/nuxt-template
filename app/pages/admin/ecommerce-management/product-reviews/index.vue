@@ -81,7 +81,10 @@ const rows = computed(() => {
     const customerRecord = toRecord(record?.customer)
 
     const ratingValue = getNumber(record, ['rating', 'ratingValue'])
-    const ratingMax = Math.max(getNumber(record, ['ratingScale', 'rating_scale'], 5), 1)
+    const ratingMax = Math.max(
+      getNumber(record, ['ratingScale', 'rating_scale'], 5),
+      1,
+    )
 
     const ratingDisplay = `${ratingValue} / ${ratingMax}`
 
@@ -95,15 +98,23 @@ const rows = computed(() => {
       t('admin.ecommerce.common.none')
 
     const customer =
-      getString(customerRecord, ['email', 'username', 'fullName', 'full_name']) ??
-      t('admin.ecommerce.configuration.productReviews.anonymous')
+      getString(customerRecord, [
+        'email',
+        'username',
+        'fullName',
+        'full_name',
+      ]) ?? t('admin.ecommerce.configuration.productReviews.anonymous')
 
     const state = getString(record, ['status', 'state']) ?? 'pending'
     const normalizedState = state.toLowerCase()
 
     const stateLabelMap: Record<string, string> = {
-      accepted: t('admin.ecommerce.configuration.productReviews.states.accepted'),
-      rejected: t('admin.ecommerce.configuration.productReviews.states.rejected'),
+      accepted: t(
+        'admin.ecommerce.configuration.productReviews.states.accepted',
+      ),
+      rejected: t(
+        'admin.ecommerce.configuration.productReviews.states.rejected',
+      ),
       pending: t('admin.ecommerce.configuration.productReviews.states.pending'),
       new: t('admin.ecommerce.configuration.productReviews.states.pending'),
     }
@@ -185,7 +196,9 @@ const errorMessage = computed(() => {
           readonly
           class="me-2"
         />
-        <span class="text-caption text-medium-emphasis">{{ item.ratingDisplay }}</span>
+        <span class="text-caption text-medium-emphasis">{{
+          item.ratingDisplay
+        }}</span>
       </div>
     </template>
 

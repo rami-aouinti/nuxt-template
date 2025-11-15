@@ -20,11 +20,31 @@ definePageMeta({
 const { t, locale } = useI18n()
 
 const headers = computed(() => [
-  { title: t('admin.ecommerce.configuration.channels.table.name'), key: 'name', minWidth: 220 },
-  { title: t('admin.ecommerce.configuration.channels.table.code'), key: 'code', minWidth: 140 },
-  { title: t('admin.ecommerce.configuration.channels.table.currency'), key: 'currency', minWidth: 140 },
-  { title: t('admin.ecommerce.configuration.channels.table.locale'), key: 'locale', minWidth: 140 },
-  { title: t('admin.ecommerce.configuration.channels.table.hostname'), key: 'hostname', minWidth: 220 },
+  {
+    title: t('admin.ecommerce.configuration.channels.table.name'),
+    key: 'name',
+    minWidth: 220,
+  },
+  {
+    title: t('admin.ecommerce.configuration.channels.table.code'),
+    key: 'code',
+    minWidth: 140,
+  },
+  {
+    title: t('admin.ecommerce.configuration.channels.table.currency'),
+    key: 'currency',
+    minWidth: 140,
+  },
+  {
+    title: t('admin.ecommerce.configuration.channels.table.locale'),
+    key: 'locale',
+    minWidth: 140,
+  },
+  {
+    title: t('admin.ecommerce.configuration.channels.table.hostname'),
+    key: 'hostname',
+    minWidth: 220,
+  },
   {
     title: t('admin.ecommerce.configuration.channels.table.enabled'),
     key: 'enabled',
@@ -53,7 +73,8 @@ const rows = computed(() => {
   const entries = normalizeHydraCollection(rawChannels.value)
   return entries.map((entry, index) => {
     const record = toRecord(entry)
-    const code = getString(record, ['code', 'id', '@id']) ?? `channel-${index + 1}`
+    const code =
+      getString(record, ['code', 'id', '@id']) ?? `channel-${index + 1}`
     const name =
       resolveLocalizedString(record, locale, ['name', 'label']) ??
       getString(record, ['name']) ??

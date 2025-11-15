@@ -97,4 +97,7 @@ const stats = computed(() => [
   </v-container>
 </template>
 
-<style scoped src="~/assets/styles/pages/admin/setting-management/dashboard.css"></style>
+<style
+  scoped
+  src="~/assets/styles/pages/admin/setting-management/dashboard.css"
+></style>

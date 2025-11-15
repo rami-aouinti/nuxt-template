@@ -153,9 +153,7 @@ const errorMessage = computed(() => {
   }
 
   const err = error.value as { data?: { message?: string }; message?: string }
-  return (
-    err?.data?.message || err?.message || t('common.unexpectedError')
-  )
+  return err?.data?.message || err?.message || t('common.unexpectedError')
 })
 </script>
 

@@ -55,14 +55,17 @@ const createdBillingAddress = ref<AddressJsonld | null>(null)
 const createdShippingAddress = ref<AddressJsonld | null>(null)
 
 const queryOrderToken = computed(() => {
-  const queryToken = route.query.order ?? route.query.token ?? route.query.tokenValue
+  const queryToken =
+    route.query.order ?? route.query.token ?? route.query.tokenValue
   if (Array.isArray(queryToken)) {
     return queryToken[0] ?? null
   }
   return queryToken ? String(queryToken) : null
 })
 
-const orderToken = computed(() => queryOrderToken.value ?? cartStore.token ?? null)
+const orderToken = computed(
+  () => queryOrderToken.value ?? cartStore.token ?? null,
+)
 
 watch(
   queryOrderToken,
@@ -81,7 +84,9 @@ const {
 } = await useAsyncData<OrderJsonLd | null>(
   () =>
     orderToken.value
-      ? $fetch<OrderJsonLd>(`/api/ecommerce/v2/shop/orders/${encodeURIComponent(orderToken.value)}`)
+      ? $fetch<OrderJsonLd>(
+          `/api/ecommerce/v2/shop/orders/${encodeURIComponent(orderToken.value)}`,
+        )
       : Promise.resolve(null),
   {
     watch: [orderToken],
@@ -108,7 +113,8 @@ const countries = computed(() => countriesData.value ?? [])
 
 const rules = {
   required: (value: string) =>
-    Boolean(value?.toString().trim()) || t('pages.ecommerceCheckout.address.form.validation.required'),
+    Boolean(value?.toString().trim()) ||
+    t('pages.ecommerceCheckout.address.form.validation.required'),
   email: (value: string) =>
     /[\w.!#$%&'*+/=?^`{|}~-]+@[\w-]+(?:\.[\w-]+)+/.test(value) ||
     t('pages.ecommerceCheckout.address.form.validation.email'),
@@ -272,7 +278,9 @@ const submit = async () => {
     ])
 
     createdBillingAddress.value = billingResponse
-    createdShippingAddress.value = useDifferentShipping.value ? shippingResponse : null
+    createdShippingAddress.value = useDifferentShipping.value
+      ? shippingResponse
+      : null
     submissionState.value = 'success'
 
     clearFormFields()
@@ -289,13 +297,23 @@ const submit = async () => {
   <div class="checkout-address-page">
     <div class="checkout-address-page__background" />
     <v-container class="py-10" fluid>
-      <v-row class="checkout-address-page__grid" align="stretch" justify="center">
+      <v-row
+        class="checkout-address-page__grid"
+        align="stretch"
+        justify="center"
+      >
         <v-col cols="12" lg="7">
           <AppCard class="checkout-address-card" elevation="3">
             <div class="checkout-address-card__header">
               <div>
-                <p class="text-body-2 text-uppercase text-medium-emphasis font-weight-medium mb-1">
-                  {{ t('pages.ecommerceCheckout.address.headline.step', { step: 1 }) }}
+                <p
+                  class="text-body-2 text-uppercase text-medium-emphasis font-weight-medium mb-1"
+                >
+                  {{
+                    t('pages.ecommerceCheckout.address.headline.step', {
+                      step: 1,
+                    })
+                  }}
                 </p>
                 <h1 class="text-h5 text-md-h4 font-weight-bold">
                   {{ t('pages.ecommerceCheckout.address.headline.title') }}
@@ -305,7 +323,9 @@ const submit = async () => {
                 </p>
               </div>
               <div class="checkout-address-card__steps">
-                <span class="checkout-address-card__step checkout-address-card__step--active">
+                <span
+                  class="checkout-address-card__step checkout-address-card__step--active"
+                >
                   {{ t('pages.ecommerceCheckout.address.steps.address') }}
                 </span>
                 <span class="checkout-address-card__step">
@@ -341,12 +361,16 @@ const submit = async () => {
 
             <v-form ref="formRef" @submit.prevent="submit">
               <section class="checkout-address-section mb-6">
-                <h2 class="checkout-address-section__title text-h6 font-weight-semibold mb-4">
+                <h2
+                  class="checkout-address-section__title text-h6 font-weight-semibold mb-4"
+                >
                   {{ t('pages.ecommerceCheckout.address.form.contact.title') }}
                 </h2>
                 <v-text-field
                   v-model="email"
-                  :label="t('pages.ecommerceCheckout.address.form.contact.email')"
+                  :label="
+                    t('pages.ecommerceCheckout.address.form.contact.email')
+                  "
                   :rules="[rules.required, rules.email]"
                   autocomplete="email"
                   type="email"
@@ -357,18 +381,30 @@ const submit = async () => {
 
               <section class="checkout-address-section mb-6">
                 <div class="checkout-address-section__header">
-                  <h2 class="checkout-address-section__title text-h6 font-weight-semibold">
-                    {{ t('pages.ecommerceCheckout.address.form.billing.title') }}
+                  <h2
+                    class="checkout-address-section__title text-h6 font-weight-semibold"
+                  >
+                    {{
+                      t('pages.ecommerceCheckout.address.form.billing.title')
+                    }}
                   </h2>
                   <p class="text-body-2 text-medium-emphasis">
-                    {{ t('pages.ecommerceCheckout.address.form.billing.description') }}
+                    {{
+                      t(
+                        'pages.ecommerceCheckout.address.form.billing.description',
+                      )
+                    }}
                   </p>
                 </div>
                 <v-row dense>
                   <v-col cols="12" md="6">
                     <v-text-field
                       v-model="billingAddress.firstName"
-                      :label="t('pages.ecommerceCheckout.address.form.billing.firstName')"
+                      :label="
+                        t(
+                          'pages.ecommerceCheckout.address.form.billing.firstName',
+                        )
+                      "
                       :rules="[rules.required]"
                       autocomplete="given-name"
                       variant="outlined"
@@ -378,7 +414,11 @@ const submit = async () => {
                   <v-col cols="12" md="6">
                     <v-text-field
                       v-model="billingAddress.lastName"
-                      :label="t('pages.ecommerceCheckout.address.form.billing.lastName')"
+                      :label="
+                        t(
+                          'pages.ecommerceCheckout.address.form.billing.lastName',
+                        )
+                      "
                       :rules="[rules.required]"
                       autocomplete="family-name"
                       variant="outlined"
@@ -388,7 +428,11 @@ const submit = async () => {
                   <v-col cols="12">
                     <v-text-field
                       v-model="billingAddress.company"
-                      :label="t('pages.ecommerceCheckout.address.form.billing.company')"
+                      :label="
+                        t(
+                          'pages.ecommerceCheckout.address.form.billing.company',
+                        )
+                      "
                       autocomplete="organization"
                       variant="outlined"
                       rounded
@@ -397,7 +441,9 @@ const submit = async () => {
                   <v-col cols="12">
                     <v-text-field
                       v-model="billingAddress.street"
-                      :label="t('pages.ecommerceCheckout.address.form.billing.street')"
+                      :label="
+                        t('pages.ecommerceCheckout.address.form.billing.street')
+                      "
                       :rules="[rules.required]"
                       autocomplete="address-line1"
                       variant="outlined"
@@ -407,7 +453,9 @@ const submit = async () => {
                   <v-col cols="12" md="6">
                     <v-text-field
                       v-model="billingAddress.city"
-                      :label="t('pages.ecommerceCheckout.address.form.billing.city')"
+                      :label="
+                        t('pages.ecommerceCheckout.address.form.billing.city')
+                      "
                       :rules="[rules.required]"
                       autocomplete="address-level2"
                       variant="outlined"
@@ -417,7 +465,11 @@ const submit = async () => {
                   <v-col cols="12" md="6">
                     <v-text-field
                       v-model="billingAddress.postcode"
-                      :label="t('pages.ecommerceCheckout.address.form.billing.postcode')"
+                      :label="
+                        t(
+                          'pages.ecommerceCheckout.address.form.billing.postcode',
+                        )
+                      "
                       :rules="[rules.required]"
                       autocomplete="postal-code"
                       variant="outlined"
@@ -427,7 +479,11 @@ const submit = async () => {
                   <v-col cols="12" md="6">
                     <v-select
                       v-model="billingAddress.countryCode"
-                      :label="t('pages.ecommerceCheckout.address.form.billing.country')"
+                      :label="
+                        t(
+                          'pages.ecommerceCheckout.address.form.billing.country',
+                        )
+                      "
                       :items="countries"
                       :item-title="(country) => country.name ?? country.code"
                       item-value="code"
@@ -441,7 +497,11 @@ const submit = async () => {
                   <v-col cols="12" md="6">
                     <v-text-field
                       v-model="billingAddress.provinceName"
-                      :label="t('pages.ecommerceCheckout.address.form.billing.province')"
+                      :label="
+                        t(
+                          'pages.ecommerceCheckout.address.form.billing.province',
+                        )
+                      "
                       autocomplete="address-level1"
                       variant="outlined"
                       rounded
@@ -450,7 +510,11 @@ const submit = async () => {
                   <v-col cols="12" md="6">
                     <v-text-field
                       v-model="billingAddress.phoneNumber"
-                      :label="t('pages.ecommerceCheckout.address.form.billing.phoneNumber')"
+                      :label="
+                        t(
+                          'pages.ecommerceCheckout.address.form.billing.phoneNumber',
+                        )
+                      "
                       autocomplete="tel"
                       variant="outlined"
                       rounded
@@ -463,28 +527,47 @@ const submit = async () => {
 
               <section class="checkout-address-section">
                 <div class="d-flex align-center justify-space-between mb-4">
-                  <h2 class="checkout-address-section__title text-h6 font-weight-semibold mb-0">
-                    {{ t('pages.ecommerceCheckout.address.form.shipping.title') }}
+                  <h2
+                    class="checkout-address-section__title text-h6 font-weight-semibold mb-0"
+                  >
+                    {{
+                      t('pages.ecommerceCheckout.address.form.shipping.title')
+                    }}
                   </h2>
                   <v-switch
                     v-model="useDifferentShipping"
                     inset
                     color="primary"
                     density="comfortable"
-                    :label="t('pages.ecommerceCheckout.address.form.shipping.useDifferent')"
+                    :label="
+                      t(
+                        'pages.ecommerceCheckout.address.form.shipping.useDifferent',
+                      )
+                    "
                   />
                 </div>
 
                 <v-expand-transition>
-                  <div v-if="useDifferentShipping" class="checkout-address-section__shipping">
+                  <div
+                    v-if="useDifferentShipping"
+                    class="checkout-address-section__shipping"
+                  >
                     <p class="text-body-2 text-medium-emphasis mb-4">
-                      {{ t('pages.ecommerceCheckout.address.form.shipping.description') }}
+                      {{
+                        t(
+                          'pages.ecommerceCheckout.address.form.shipping.description',
+                        )
+                      }}
                     </p>
                     <v-row dense>
                       <v-col cols="12" md="6">
                         <v-text-field
                           v-model="shippingAddress.firstName"
-                          :label="t('pages.ecommerceCheckout.address.form.shipping.firstName')"
+                          :label="
+                            t(
+                              'pages.ecommerceCheckout.address.form.shipping.firstName',
+                            )
+                          "
                           :rules="[rules.required]"
                           autocomplete="shipping given-name"
                           variant="outlined"
@@ -494,7 +577,11 @@ const submit = async () => {
                       <v-col cols="12" md="6">
                         <v-text-field
                           v-model="shippingAddress.lastName"
-                          :label="t('pages.ecommerceCheckout.address.form.shipping.lastName')"
+                          :label="
+                            t(
+                              'pages.ecommerceCheckout.address.form.shipping.lastName',
+                            )
+                          "
                           :rules="[rules.required]"
                           autocomplete="shipping family-name"
                           variant="outlined"
@@ -504,7 +591,11 @@ const submit = async () => {
                       <v-col cols="12">
                         <v-text-field
                           v-model="shippingAddress.company"
-                          :label="t('pages.ecommerceCheckout.address.form.shipping.company')"
+                          :label="
+                            t(
+                              'pages.ecommerceCheckout.address.form.shipping.company',
+                            )
+                          "
                           autocomplete="shipping organization"
                           variant="outlined"
                           rounded
@@ -513,7 +604,11 @@ const submit = async () => {
                       <v-col cols="12">
                         <v-text-field
                           v-model="shippingAddress.street"
-                          :label="t('pages.ecommerceCheckout.address.form.shipping.street')"
+                          :label="
+                            t(
+                              'pages.ecommerceCheckout.address.form.shipping.street',
+                            )
+                          "
                           :rules="[rules.required]"
                           autocomplete="shipping address-line1"
                           variant="outlined"
@@ -523,7 +618,11 @@ const submit = async () => {
                       <v-col cols="12" md="6">
                         <v-text-field
                           v-model="shippingAddress.city"
-                          :label="t('pages.ecommerceCheckout.address.form.shipping.city')"
+                          :label="
+                            t(
+                              'pages.ecommerceCheckout.address.form.shipping.city',
+                            )
+                          "
                           :rules="[rules.required]"
                           autocomplete="shipping address-level2"
                           variant="outlined"
@@ -533,7 +632,11 @@ const submit = async () => {
                       <v-col cols="12" md="6">
                         <v-text-field
                           v-model="shippingAddress.postcode"
-                          :label="t('pages.ecommerceCheckout.address.form.shipping.postcode')"
+                          :label="
+                            t(
+                              'pages.ecommerceCheckout.address.form.shipping.postcode',
+                            )
+                          "
                           :rules="[rules.required]"
                           autocomplete="shipping postal-code"
                           variant="outlined"
@@ -543,21 +646,33 @@ const submit = async () => {
                       <v-col cols="12" md="6">
                         <v-select
                           v-model="shippingAddress.countryCode"
-                          :label="t('pages.ecommerceCheckout.address.form.shipping.country')"
+                          :label="
+                            t(
+                              'pages.ecommerceCheckout.address.form.shipping.country',
+                            )
+                          "
                           :items="countries"
-                          :item-title="(country) => country.name ?? country.code"
+                          :item-title="
+                            (country) => country.name ?? country.code
+                          "
                           item-value="code"
                           :loading="isCountriesLoading"
                           :rules="[rules.required]"
                           variant="outlined"
                           rounded
-                          @blur="countriesError ? refreshCountries() : undefined"
+                          @blur="
+                            countriesError ? refreshCountries() : undefined
+                          "
                         />
                       </v-col>
                       <v-col cols="12" md="6">
                         <v-text-field
                           v-model="shippingAddress.provinceName"
-                          :label="t('pages.ecommerceCheckout.address.form.shipping.province')"
+                          :label="
+                            t(
+                              'pages.ecommerceCheckout.address.form.shipping.province',
+                            )
+                          "
                           autocomplete="shipping address-level1"
                           variant="outlined"
                           rounded
@@ -566,7 +681,11 @@ const submit = async () => {
                       <v-col cols="12" md="6">
                         <v-text-field
                           v-model="shippingAddress.phoneNumber"
-                          :label="t('pages.ecommerceCheckout.address.form.shipping.phoneNumber')"
+                          :label="
+                            t(
+                              'pages.ecommerceCheckout.address.form.shipping.phoneNumber',
+                            )
+                          "
                           autocomplete="shipping tel"
                           variant="outlined"
                           rounded
@@ -592,7 +711,9 @@ const submit = async () => {
                   variant="outlined"
                   :to="shippingRoute"
                 >
-                  {{ t('pages.ecommerceCheckout.address.actions.goToShipping') }}
+                  {{
+                    t('pages.ecommerceCheckout.address.actions.goToShipping')
+                  }}
                 </AppButton>
                 <AppButton
                   color="primary"
@@ -632,19 +753,31 @@ const submit = async () => {
 
               <ul class="checkout-summary__items">
                 <li class="checkout-summary__row">
-                  <span>{{ t('pages.ecommerceCheckout.address.summary.itemsTotal') }}</span>
+                  <span>{{
+                    t('pages.ecommerceCheckout.address.summary.itemsTotal')
+                  }}</span>
                   <strong>{{ formatAmount(orderTotals.itemsTotal) }}</strong>
                 </li>
                 <li class="checkout-summary__row">
-                  <span>{{ t('pages.ecommerceCheckout.address.summary.discount') }}</span>
-                  <strong>-{{ formatAmount(Math.abs(orderTotals.orderPromotionTotal)) }}</strong>
+                  <span>{{
+                    t('pages.ecommerceCheckout.address.summary.discount')
+                  }}</span>
+                  <strong
+                    >-{{
+                      formatAmount(Math.abs(orderTotals.orderPromotionTotal))
+                    }}</strong
+                  >
                 </li>
                 <li class="checkout-summary__row">
-                  <span>{{ t('pages.ecommerceCheckout.address.summary.shipping') }}</span>
+                  <span>{{
+                    t('pages.ecommerceCheckout.address.summary.shipping')
+                  }}</span>
                   <strong>{{ formatAmount(orderTotals.shippingTotal) }}</strong>
                 </li>
                 <li class="checkout-summary__row">
-                  <span>{{ t('pages.ecommerceCheckout.address.summary.taxes') }}</span>
+                  <span>{{
+                    t('pages.ecommerceCheckout.address.summary.taxes')
+                  }}</span>
                   <strong>{{ formatAmount(orderTotals.taxTotal) }}</strong>
                 </li>
               </ul>
@@ -652,14 +785,18 @@ const submit = async () => {
               <v-divider class="my-4" />
 
               <div class="checkout-summary__total">
-                <span>{{ t('pages.ecommerceCheckout.address.summary.total') }}</span>
+                <span>{{
+                  t('pages.ecommerceCheckout.address.summary.total')
+                }}</span>
                 <strong>{{ formatAmount(orderTotals.total) }}</strong>
               </div>
 
               <p class="text-body-2 text-medium-emphasis mt-4">
-                {{ t('pages.ecommerceCheckout.address.summary.itemsLabel', {
-                  count: orderTotals.itemsCount,
-                }) }}
+                {{
+                  t('pages.ecommerceCheckout.address.summary.itemsLabel', {
+                    count: orderTotals.itemsCount,
+                  })
+                }}
               </p>
             </AppCard>
 
@@ -670,22 +807,32 @@ const submit = async () => {
                 elevation="1"
               >
                 <h3 class="text-subtitle-1 font-weight-semibold mb-3">
-                  {{ t('pages.ecommerceCheckout.address.summary.confirmationTitle') }}
+                  {{
+                    t(
+                      'pages.ecommerceCheckout.address.summary.confirmationTitle',
+                    )
+                  }}
                 </h3>
                 <div v-if="createdBillingAddress" class="mb-3">
                   <h4 class="text-body-2 font-weight-medium mb-1">
-                    {{ t('pages.ecommerceCheckout.address.summary.billingSaved') }}
+                    {{
+                      t('pages.ecommerceCheckout.address.summary.billingSaved')
+                    }}
                   </h4>
                   <p class="text-body-2 text-medium-emphasis">
-                    {{ createdBillingAddress.firstName }} {{ createdBillingAddress.lastName }}
+                    {{ createdBillingAddress.firstName }}
+                    {{ createdBillingAddress.lastName }}
                   </p>
                 </div>
                 <div v-if="createdShippingAddress">
                   <h4 class="text-body-2 font-weight-medium mb-1">
-                    {{ t('pages.ecommerceCheckout.address.summary.shippingSaved') }}
+                    {{
+                      t('pages.ecommerceCheckout.address.summary.shippingSaved')
+                    }}
                   </h4>
                   <p class="text-body-2 text-medium-emphasis">
-                    {{ createdShippingAddress.firstName }} {{ createdShippingAddress.lastName }}
+                    {{ createdShippingAddress.firstName }}
+                    {{ createdShippingAddress.lastName }}
                   </p>
                 </div>
               </AppCard>
@@ -701,15 +848,28 @@ const submit = async () => {
 .checkout-address-page {
   position: relative;
   min-height: 100%;
-  background: linear-gradient(120deg, rgba(111, 66, 193, 0.1), rgba(59, 130, 246, 0.12));
+  background: linear-gradient(
+    120deg,
+    rgba(111, 66, 193, 0.1),
+    rgba(59, 130, 246, 0.12)
+  );
   padding-block: 3rem;
 }
 
 .checkout-address-page__background {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.2), transparent 45%),
-    radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.18), transparent 45%);
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(59, 130, 246, 0.2),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at bottom left,
+      rgba(236, 72, 153, 0.18),
+      transparent 45%
+    );
   pointer-events: none;
 }
 
@@ -747,7 +907,11 @@ const submit = async () => {
 }
 
 .checkout-address-card__step--active {
-  background: linear-gradient(135deg, rgb(var(--v-theme-primary)), rgb(var(--v-theme-primary-darken-1)));
+  background: linear-gradient(
+    135deg,
+    rgb(var(--v-theme-primary)),
+    rgb(var(--v-theme-primary-darken-1))
+  );
   color: white;
 }
 

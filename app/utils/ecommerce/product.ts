@@ -15,7 +15,7 @@ export const isRecord = (value: unknown): value is UnknownRecord =>
   Boolean(value && typeof value === 'object')
 
 export const toRecord = (value: unknown): UnknownRecord | null =>
-  (isRecord(value) ? (value as UnknownRecord) : null)
+  isRecord(value) ? (value as UnknownRecord) : null
 
 export const getString = (
   value: UnknownRecord | null | undefined,
@@ -258,7 +258,10 @@ export const resolveProductVariants = (
   }
 
   const enabledVariants = toRecord(record.enabledVariants)
-  if (enabledVariants?.productVariant && Array.isArray(enabledVariants.productVariant)) {
+  if (
+    enabledVariants?.productVariant &&
+    Array.isArray(enabledVariants.productVariant)
+  ) {
     possibleCollections.push(...enabledVariants.productVariant)
   }
 
@@ -304,7 +307,8 @@ export const resolveProductPricing = (
   }
 
   const variantWithPricing =
-    variants.find((variant) => resolveVariantPricings(variant).length > 0) || variants[0]
+    variants.find((variant) => resolveVariantPricings(variant).length > 0) ||
+    variants[0]
 
   const pricings = resolveVariantPricings(variantWithPricing)
   if (!pricings.length) {
@@ -330,7 +334,9 @@ export const resolveProductPricing = (
     return null
   }
 
-  const primaryPricing = pricings.find((pricing) => normalizeAmount(pricing.price) != null)
+  const primaryPricing = pricings.find(
+    (pricing) => normalizeAmount(pricing.price) != null,
+  )
   const pricing = primaryPricing || pricings[0]
   const price = normalizeAmount(pricing.price)
   const originalPrice = normalizeAmount(pricing.originalPrice)

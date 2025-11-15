@@ -112,19 +112,20 @@ export interface PaymentMethodSyliusShopPaymentMethodIndex {
   instructions?: string | null
 }
 
-export type PaymentMethodSyliusShopPaymentMethodShow = PaymentMethodSyliusShopPaymentMethodIndex
+export type PaymentMethodSyliusShopPaymentMethodShow =
+  PaymentMethodSyliusShopPaymentMethodIndex
 
 export interface PaymentMethodSyliusShopPaymentShow {
   name?: string | null
 }
 
-export interface PaymentMethodJsonld
-  extends JsonLdResource,
-    PaymentMethod {}
+export interface PaymentMethodJsonld extends JsonLdResource, PaymentMethod {}
 
-export type PaymentMethodJsonldSyliusAdminPaymentMethodIndex = PaymentMethodJsonld
+export type PaymentMethodJsonldSyliusAdminPaymentMethodIndex =
+  PaymentMethodJsonld
 
-export type PaymentMethodJsonldSyliusAdminPaymentMethodShow = PaymentMethodJsonldSyliusAdminPaymentMethodIndex
+export type PaymentMethodJsonldSyliusAdminPaymentMethodShow =
+  PaymentMethodJsonldSyliusAdminPaymentMethodIndex
 
 export interface PaymentMethodJsonldSyliusShopPaymentShow
   extends JsonLdResource,
@@ -134,47 +135,58 @@ export interface PaymentMethodJsonldSyliusShopPaymentMethodIndex
   extends JsonLdResource,
     PaymentMethodSyliusShopPaymentMethodIndex {}
 
-export type PaymentMethodJsonldSyliusShopPaymentMethodShow = PaymentMethodJsonldSyliusShopPaymentMethodIndex
+export type PaymentMethodJsonldSyliusShopPaymentMethodShow =
+  PaymentMethodJsonldSyliusShopPaymentMethodIndex
 
-export type PaymentMethodTranslationSyliusAdminPaymentMethodCreate = PaymentMethodTranslationPayload
+export type PaymentMethodTranslationSyliusAdminPaymentMethodCreate =
+  PaymentMethodTranslationPayload
 
-export type PaymentMethodTranslationSyliusAdminPaymentMethodIndex = PaymentMethodTranslation
+export type PaymentMethodTranslationSyliusAdminPaymentMethodIndex =
+  PaymentMethodTranslation
 
-export type PaymentMethodTranslationSyliusAdminPaymentMethodShow = PaymentMethodTranslation
+export type PaymentMethodTranslationSyliusAdminPaymentMethodShow =
+  PaymentMethodTranslation
 
-export type PaymentMethodTranslationSyliusAdminPaymentMethodUpdate = PaymentMethodTranslationPayload
+export type PaymentMethodTranslationSyliusAdminPaymentMethodUpdate =
+  PaymentMethodTranslationPayload
 
 export interface PaymentMethodTranslationJsonld
   extends JsonLdResource,
     PaymentMethodTranslation {}
 
-export type PaymentMethodTranslationJsonldSyliusAdminPaymentMethodIndex = PaymentMethodTranslationJsonld
+export type PaymentMethodTranslationJsonldSyliusAdminPaymentMethodIndex =
+  PaymentMethodTranslationJsonld
 
-export type PaymentMethodTranslationJsonldSyliusAdminPaymentMethodShow = PaymentMethodTranslationJsonldSyliusAdminPaymentMethodIndex
+export type PaymentMethodTranslationJsonldSyliusAdminPaymentMethodShow =
+  PaymentMethodTranslationJsonldSyliusAdminPaymentMethodIndex
 
 export interface PaymentMethodTranslationSyliusAdminPaymentIndex {
   name: string
 }
 
-export type PaymentMethodTranslationSyliusAdminPaymentShow = PaymentMethodTranslationSyliusAdminPaymentIndex
+export type PaymentMethodTranslationSyliusAdminPaymentShow =
+  PaymentMethodTranslationSyliusAdminPaymentIndex
 
 export interface PaymentMethodTranslationJsonldSyliusAdminPaymentIndex
   extends JsonLdResource,
     PaymentMethodTranslationSyliusAdminPaymentIndex {}
 
-export type PaymentMethodTranslationJsonldSyliusAdminPaymentShow = PaymentMethodTranslationJsonldSyliusAdminPaymentIndex
+export type PaymentMethodTranslationJsonldSyliusAdminPaymentShow =
+  PaymentMethodTranslationJsonldSyliusAdminPaymentIndex
 
 export interface PaymentMethodSyliusAdminPaymentIndex {
   translations?: PaymentMethodSummaryTranslations
 }
 
-export type PaymentMethodSyliusAdminPaymentShow = PaymentMethodSyliusAdminPaymentIndex
+export type PaymentMethodSyliusAdminPaymentShow =
+  PaymentMethodSyliusAdminPaymentIndex
 
 export interface PaymentMethodJsonldSyliusAdminPaymentIndex
   extends JsonLdResource,
     PaymentMethodSyliusAdminPaymentIndex {}
 
-export type PaymentMethodJsonldSyliusAdminPaymentShow = PaymentMethodJsonldSyliusAdminPaymentIndex
+export type PaymentMethodJsonldSyliusAdminPaymentShow =
+  PaymentMethodJsonldSyliusAdminPaymentIndex
 
 export interface PaymentSyliusAdminOrderIndex {
   id?: number
@@ -210,15 +222,14 @@ export interface PaymentSyliusShopOrderAccountShow {
 
 export type PaymentSyliusShopPaymentShow = PaymentAttributes
 
-export interface PaymentJsonld
-  extends JsonLdResource,
-    PaymentAttributes {}
+export interface PaymentJsonld extends JsonLdResource, PaymentAttributes {}
 
 export interface PaymentJsonldSyliusAdminOrderIndex
   extends JsonLdResource,
     PaymentSyliusAdminOrderIndex {}
 
-export type PaymentJsonldSyliusAdminOrderShow = PaymentJsonldSyliusAdminOrderIndex
+export type PaymentJsonldSyliusAdminOrderShow =
+  PaymentJsonldSyliusAdminOrderIndex
 
 export type PaymentJsonldSyliusAdminPaymentIndex = PaymentJsonld
 
@@ -251,7 +262,8 @@ export interface PaymentRequest {
 
 export type PaymentRequestSyliusAdminPaymentRequestIndex = PaymentRequest
 
-export type PaymentRequestSyliusAdminPaymentRequestShow = PaymentRequestSyliusAdminPaymentRequestIndex
+export type PaymentRequestSyliusAdminPaymentRequestShow =
+  PaymentRequestSyliusAdminPaymentRequestIndex
 
 export type PaymentRequestSyliusShopPaymentRequestShow = PaymentRequest
 
@@ -266,13 +278,13 @@ export interface PaymentRequestUpdatePaymentRequestSyliusShopPaymentRequestUpdat
   payload?: string | null
 }
 
-export interface PaymentRequestJsonld
-  extends JsonLdResource,
-    PaymentRequest {}
+export interface PaymentRequestJsonld extends JsonLdResource, PaymentRequest {}
 
-export type PaymentRequestJsonldSyliusAdminPaymentRequestIndex = PaymentRequestJsonld
+export type PaymentRequestJsonldSyliusAdminPaymentRequestIndex =
+  PaymentRequestJsonld
 
-export type PaymentRequestJsonldSyliusAdminPaymentRequestShow = PaymentRequestJsonldSyliusAdminPaymentRequestIndex
+export type PaymentRequestJsonldSyliusAdminPaymentRequestShow =
+  PaymentRequestJsonldSyliusAdminPaymentRequestIndex
 
 export interface PaymentRequestJsonldSyliusShopPaymentRequestShow
   extends JsonLdResource,

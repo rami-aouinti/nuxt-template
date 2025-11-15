@@ -35,7 +35,8 @@ export interface ShopUserJsonld extends JsonLdResource, ShopUser {}
 
 export type ShopUserJsonldSyliusAdminCustomerIndex = ShopUserJsonld
 
-export type ShopUserJsonldSyliusAdminCustomerShow = ShopUserJsonldSyliusAdminCustomerIndex
+export type ShopUserJsonldSyliusAdminCustomerShow =
+  ShopUserJsonldSyliusAdminCustomerIndex
 
 export interface ShopUserJsonldSyliusShopCustomerShow
   extends JsonLdResource,

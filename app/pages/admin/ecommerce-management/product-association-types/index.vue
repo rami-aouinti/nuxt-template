@@ -71,7 +71,10 @@ const rows = computed(() => {
     const record = toRecord(entry)
     const code =
       getString(record, ['code', '@id', 'id']) ?? `association-${index + 1}`
-    const translation = resolveLocalizedString(record, locale, ['name', 'title'])
+    const translation = resolveLocalizedString(record, locale, [
+      'name',
+      'title',
+    ])
     const description =
       resolveLocalizedString(record, locale, ['description']) ||
       getString(record, ['description']) ||
@@ -109,9 +112,7 @@ const errorMessage = computed(() => {
     return null
   }
   const err = error.value as { data?: { message?: string }; message?: string }
-  return (
-    err?.data?.message || err?.message || t('common.unexpectedError')
-  )
+  return err?.data?.message || err?.message || t('common.unexpectedError')
 })
 </script>
 

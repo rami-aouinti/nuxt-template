@@ -173,7 +173,8 @@ function resolveErrorMessage(error: unknown, fallback: string) {
   }
 
   if (typeof error === 'object') {
-    const data = (error as { data?: { message?: unknown; error?: unknown } }).data
+    const data = (error as { data?: { message?: unknown; error?: unknown } })
+      .data
     if (data) {
       if (typeof data.message === 'string' && data.message.trim().length > 0) {
         return data.message
@@ -388,8 +389,12 @@ async function submit() {
                   density="comfortable"
                   rows="3"
                   auto-grow
-                  :label="t('notificationManagement.send.fields.emailRecipientsCc')"
-                  :hint="t('notificationManagement.send.hints.emailRecipientsCc')"
+                  :label="
+                    t('notificationManagement.send.fields.emailRecipientsCc')
+                  "
+                  :hint="
+                    t('notificationManagement.send.hints.emailRecipientsCc')
+                  "
                   persistent-hint
                   :disabled="sending"
                 />
@@ -399,8 +404,12 @@ async function submit() {
                   density="comfortable"
                   rows="3"
                   auto-grow
-                  :label="t('notificationManagement.send.fields.emailRecipientsBcc')"
-                  :hint="t('notificationManagement.send.hints.emailRecipientsBcc')"
+                  :label="
+                    t('notificationManagement.send.fields.emailRecipientsBcc')
+                  "
+                  :hint="
+                    t('notificationManagement.send.hints.emailRecipientsBcc')
+                  "
                   persistent-hint
                   :disabled="sending"
                 />
@@ -410,8 +419,16 @@ async function submit() {
                   density="comfortable"
                   rows="3"
                   auto-grow
-                  :label="t('notificationManagement.send.fields.emailRecipientsReplyTo')"
-                  :hint="t('notificationManagement.send.hints.emailRecipientsReplyTo')"
+                  :label="
+                    t(
+                      'notificationManagement.send.fields.emailRecipientsReplyTo',
+                    )
+                  "
+                  :hint="
+                    t(
+                      'notificationManagement.send.hints.emailRecipientsReplyTo',
+                    )
+                  "
                   persistent-hint
                   :disabled="sending"
                 />
@@ -419,14 +436,18 @@ async function submit() {
                   v-model="form.emailSenderEmail"
                   variant="outlined"
                   density="comfortable"
-                  :label="t('notificationManagement.send.fields.emailSenderEmail')"
+                  :label="
+                    t('notificationManagement.send.fields.emailSenderEmail')
+                  "
                   :disabled="sending"
                 />
                 <v-text-field
                   v-model="form.emailSenderName"
                   variant="outlined"
                   density="comfortable"
-                  :label="t('notificationManagement.send.fields.emailSenderName')"
+                  :label="
+                    t('notificationManagement.send.fields.emailSenderName')
+                  "
                   :disabled="sending"
                 />
                 <v-text-field
@@ -451,7 +472,9 @@ async function submit() {
                   density="comfortable"
                   rows="4"
                   auto-grow
-                  :label="t('notificationManagement.send.fields.emailContentPlain')"
+                  :label="
+                    t('notificationManagement.send.fields.emailContentPlain')
+                  "
                   :disabled="sending"
                 />
                 <v-textarea
@@ -460,7 +483,9 @@ async function submit() {
                   density="comfortable"
                   rows="6"
                   auto-grow
-                  :label="t('notificationManagement.send.fields.emailContentHtml')"
+                  :label="
+                    t('notificationManagement.send.fields.emailContentHtml')
+                  "
                   :disabled="sending"
                 />
               </div>

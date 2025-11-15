@@ -13,13 +13,17 @@ export interface ShopBillingData extends ShopBillingDataAttributes {
   id?: number
 }
 
-export type ShopBillingDataSyliusAdminChannelCreateNoId = ShopBillingDataAttributes
+export type ShopBillingDataSyliusAdminChannelCreateNoId =
+  ShopBillingDataAttributes
 
-export type ShopBillingDataSyliusAdminChannelIndexNoId = ShopBillingDataAttributes
+export type ShopBillingDataSyliusAdminChannelIndexNoId =
+  ShopBillingDataAttributes
 
-export type ShopBillingDataSyliusAdminChannelShowNoId = ShopBillingDataAttributes
+export type ShopBillingDataSyliusAdminChannelShowNoId =
+  ShopBillingDataAttributes
 
-export type ShopBillingDataSyliusAdminChannelUpdateNoId = ShopBillingDataAttributes
+export type ShopBillingDataSyliusAdminChannelUpdateNoId =
+  ShopBillingDataAttributes
 
 export interface ShopBillingDataJsonld extends ShopBillingData {
   '@context'?: HydraContext

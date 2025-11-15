@@ -41,16 +41,19 @@ export interface CatalogPromotionScopeJsonLd
 
 export type CatalogPromotionScopeAdminListItem = CatalogPromotionScope
 
-export type CatalogPromotionScopeAdminCreatePayload = CatalogPromotionScopeReference
+export type CatalogPromotionScopeAdminCreatePayload =
+  CatalogPromotionScopeReference
 
-export type CatalogPromotionScopeAdminUpdatePayload = CatalogPromotionScopeReference
+export type CatalogPromotionScopeAdminUpdatePayload =
+  CatalogPromotionScopeReference
 
 export interface CatalogPromotionActionReference {
   type: string
   configuration: (string | null)[]
 }
 
-export interface CatalogPromotionAction extends CatalogPromotionActionReference {
+export interface CatalogPromotionAction
+  extends CatalogPromotionActionReference {
   catalogPromotion: string | null
   id: number
 }
@@ -61,9 +64,11 @@ export interface CatalogPromotionActionJsonLd
 
 export type CatalogPromotionActionAdminListItem = CatalogPromotionAction
 
-export type CatalogPromotionActionAdminCreatePayload = CatalogPromotionActionReference
+export type CatalogPromotionActionAdminCreatePayload =
+  CatalogPromotionActionReference
 
-export type CatalogPromotionActionAdminUpdatePayload = CatalogPromotionActionReference
+export type CatalogPromotionActionAdminUpdatePayload =
+  CatalogPromotionActionReference
 
 export interface CatalogPromotionTranslationSummary {
   label?: string | null
@@ -160,7 +165,8 @@ export interface CatalogPromotionProductVariant {
   code: string
 }
 
-export type CatalogPromotionProductVariantAdminListItem = CatalogPromotionProductVariant
+export type CatalogPromotionProductVariantAdminListItem =
+  CatalogPromotionProductVariant
 
 export interface CatalogPromotionProductVariantJsonLd
   extends CatalogPromotionProductVariant,

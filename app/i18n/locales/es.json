@@ -977,1723 +977,1722 @@
           "title": "Customer groups",
           "subtitle": "Organize customers into shared pricing or perks.",
           "table": {
-          "name": "Name",
-          "code": "Code",
-          "members": "Members"
-        }
-      },
-      "cartPromotions": {
-        "title": "Cart promotions",
-        "subtitle": "Monitor discounts triggered during checkout.",
-        "table": {
-          "name": "Name",
-          "code": "Code",
-          "coupons": "Coupons",
-          "startsAt": "Starts at",
-          "endsAt": "Ends at",
-          "enabled": "State",
-          "noCoupons": "No coupons",
-          "unlimited": "Unlimited"
-        }
-      },
-      "catalogPromotions": {
-        "title": "Catalog promotions",
-        "subtitle": "Track automated discounts applied directly to products.",
-        "table": {
-          "name": "Name",
-          "code": "Code",
-          "channels": "Channels",
-          "startDate": "Start date",
-          "endDate": "End date",
-          "state": "State",
-          "noChannels": "No channels",
-          "active": "Active",
-          "inactive": "Inactive"
-        }
-      },
-      "productReviews": {
-        "title": "Product reviews",
-        "subtitle": "Moderate customer feedback across the catalog.",
-        "table": {
-          "rating": "Rating",
-          "title": "Title",
-          "product": "Product",
-          "customer": "Customer",
-          "state": "State",
-          "createdAt": "Created at"
+            "name": "Name",
+            "code": "Code",
+            "members": "Members"
+          }
         },
-        "noTitle": "No title",
-        "anonymous": "Anonymous",
-        "states": {
-          "accepted": "Accepted",
-          "rejected": "Rejected",
-          "pending": "Pending review"
+        "cartPromotions": {
+          "title": "Cart promotions",
+          "subtitle": "Monitor discounts triggered during checkout.",
+          "table": {
+            "name": "Name",
+            "code": "Code",
+            "coupons": "Coupons",
+            "startsAt": "Starts at",
+            "endsAt": "Ends at",
+            "enabled": "State",
+            "noCoupons": "No coupons",
+            "unlimited": "Unlimited"
+          }
+        },
+        "catalogPromotions": {
+          "title": "Catalog promotions",
+          "subtitle": "Track automated discounts applied directly to products.",
+          "table": {
+            "name": "Name",
+            "code": "Code",
+            "channels": "Channels",
+            "startDate": "Start date",
+            "endDate": "End date",
+            "state": "State",
+            "noChannels": "No channels",
+            "active": "Active",
+            "inactive": "Inactive"
+          }
+        },
+        "productReviews": {
+          "title": "Product reviews",
+          "subtitle": "Moderate customer feedback across the catalog.",
+          "table": {
+            "rating": "Rating",
+            "title": "Title",
+            "product": "Product",
+            "customer": "Customer",
+            "state": "State",
+            "createdAt": "Created at"
+          },
+          "noTitle": "No title",
+          "anonymous": "Anonymous",
+          "states": {
+            "accepted": "Accepted",
+            "rejected": "Rejected",
+            "pending": "Pending review"
+          }
         }
       }
-    }
-  },
-  "auth": {
-    "profile": "Perfil",
-    "login": "Iniciar sesión",
-    "loginWithGithub": "Iniciar sesión con GitHub",
-    "loginWithGoogle": "Iniciar sesión con Google",
-    "loginWithFacebook": "Iniciar sesión con Facebook",
-    "loginWithCredentials": "Iniciar sesión con credenciales",
-    "loginSubtitle": "¡Nos alegra verte de nuevo! Inicia sesión para continuar.",
-    "oauthSignInPrompt": "Elige uno de los proveedores siguientes para continuar.",
-    "credentialsSignInPrompt": "O",
-    "credentialsRegisterPrompt": "Usa tu correo electrónico y una contraseña para crear tu cuenta.",
-    "register": "Crear cuenta",
-    "registerSubtitle": "Únete a la comunidad en solo unos pasos.",
-    "logout": "Cerrar sesión",
-    "loginSuccess": "Inicio de sesión correcto",
-    "logoutSuccess": "Cierre de sesión correcto",
-    "loginRequired": "Debes iniciar sesión para acceder a esta página.",
-    "adminOnly": "Acceso restringido a administradores.",
-    "loginFailed": "Error de autenticación.",
-    "registerFailed": "Error al registrarse.",
-    "registerSuccess": "Cuenta creada con éxito.",
-    "guest": "Usuario",
-    "username": "Nombre de usuario",
-    "password": "Contraseña",
-    "email": "Correo electrónico",
-    "repeatPassword": "Confirmar contraseña",
-    "passwordMismatch": "Las contraseñas no coinciden.",
-    "noAccountPrompt": "¿Todavía no tienes cuenta?",
-    "haveAccountPrompt": "¿Ya tienes una cuenta?",
-    "switchToRegister": "Regístrate",
-    "switchToLogin": "Inicia sesión",
-    "registerAction": "Crear cuenta"
-  },
-  "common": {
-    "unexpectedError": "Se produjo un error inesperado.",
-    "actions": {
-      "cancel": "Cancelar",
-      "create": "Crear",
-      "save": "Guardar",
-      "edit": "Editar",
-      "close": "Cerrar",
-      "back": "Atrás",
-      "continue": "Continuar",
-      "delete": "Eliminar",
-      "link": "Vincular",
-      "share": "Compartir",
-      "remove": "Remove"
     },
-    "labels": {
-      "all": "Todos",
-      "search": "Buscar",
-      "group": "Grupo",
-      "user": "Usuario",
-      "export": "Exportar",
-      "exportPdf": "Exportar en PDF",
-      "exportExcel": "Exportar en Excel",
-      "yes": "Yes",
-      "no": "No"
+    "auth": {
+      "profile": "Perfil",
+      "login": "Iniciar sesión",
+      "loginWithGithub": "Iniciar sesión con GitHub",
+      "loginWithGoogle": "Iniciar sesión con Google",
+      "loginWithFacebook": "Iniciar sesión con Facebook",
+      "loginWithCredentials": "Iniciar sesión con credenciales",
+      "loginSubtitle": "¡Nos alegra verte de nuevo! Inicia sesión para continuar.",
+      "oauthSignInPrompt": "Elige uno de los proveedores siguientes para continuar.",
+      "credentialsSignInPrompt": "O",
+      "credentialsRegisterPrompt": "Usa tu correo electrónico y una contraseña para crear tu cuenta.",
+      "register": "Crear cuenta",
+      "registerSubtitle": "Únete a la comunidad en solo unos pasos.",
+      "logout": "Cerrar sesión",
+      "loginSuccess": "Inicio de sesión correcto",
+      "logoutSuccess": "Cierre de sesión correcto",
+      "loginRequired": "Debes iniciar sesión para acceder a esta página.",
+      "adminOnly": "Acceso restringido a administradores.",
+      "loginFailed": "Error de autenticación.",
+      "registerFailed": "Error al registrarse.",
+      "registerSuccess": "Cuenta creada con éxito.",
+      "guest": "Usuario",
+      "username": "Nombre de usuario",
+      "password": "Contraseña",
+      "email": "Correo electrónico",
+      "repeatPassword": "Confirmar contraseña",
+      "passwordMismatch": "Las contraseñas no coinciden.",
+      "noAccountPrompt": "¿Todavía no tienes cuenta?",
+      "haveAccountPrompt": "¿Ya tienes una cuenta?",
+      "switchToRegister": "Regístrate",
+      "switchToLogin": "Inicia sesión",
+      "registerAction": "Crear cuenta"
     },
-    "placeholders": {
-      "selectGroup": "Selecciona un grupo",
-      "selectUser": "Selecciona un usuario",
-      "selectWorkplace": "Selecciona un lugar de trabajo"
-    },
-    "pagination": {
-      "rowsPerPage": "Filas por página",
-      "range": "Mostrando {start}–{end} de {total}"
-    }
-  },
-  "profile": {
-    "updateSuccess": "Perfil actualizado correctamente.",
-    "updateFailed": "La actualización del perfil falló.",
-    "page": {
-      "edit": {
-        "title": "Editar perfil",
-        "description": "Actualiza tu información personal para mantener tu perfil al día en la plataforma."
+    "common": {
+      "unexpectedError": "Se produjo un error inesperado.",
+      "actions": {
+        "cancel": "Cancelar",
+        "create": "Crear",
+        "save": "Guardar",
+        "edit": "Editar",
+        "close": "Cerrar",
+        "back": "Atrás",
+        "continue": "Continuar",
+        "delete": "Eliminar",
+        "link": "Vincular",
+        "share": "Compartir",
+        "remove": "Remove"
       },
-      "alerts": {
-        "emptyProfile": "No hay datos de perfil disponibles. Inicia sesión para consultar tu información."
+      "labels": {
+        "all": "Todos",
+        "search": "Buscar",
+        "group": "Grupo",
+        "user": "Usuario",
+        "export": "Exportar",
+        "exportPdf": "Exportar en PDF",
+        "exportExcel": "Exportar en Excel",
+        "yes": "Yes",
+        "no": "No"
       },
-      "avatar": {
-        "alt": "Foto de perfil"
+      "placeholders": {
+        "selectGroup": "Selecciona un grupo",
+        "selectUser": "Selecciona un usuario",
+        "selectWorkplace": "Selecciona un lugar de trabajo"
+      },
+      "pagination": {
+        "rowsPerPage": "Filas por página",
+        "range": "Mostrando {start}–{end} de {total}"
       }
     },
-    "fields": {
-      "title": "Puesto",
-      "gender": "Género",
-      "phone": "Teléfono",
-      "address": "Dirección",
-      "birthday": "Fecha de nacimiento",
-      "description": "Descripción",
-      "photo": "Foto de perfil",
-      "userId": "Identificador de usuario"
+    "profile": {
+      "updateSuccess": "Perfil actualizado correctamente.",
+      "updateFailed": "La actualización del perfil falló.",
+      "page": {
+        "edit": {
+          "title": "Editar perfil",
+          "description": "Actualiza tu información personal para mantener tu perfil al día en la plataforma."
+        },
+        "alerts": {
+          "emptyProfile": "No hay datos de perfil disponibles. Inicia sesión para consultar tu información."
+        },
+        "avatar": {
+          "alt": "Foto de perfil"
+        }
+      },
+      "fields": {
+        "title": "Puesto",
+        "gender": "Género",
+        "phone": "Teléfono",
+        "address": "Dirección",
+        "birthday": "Fecha de nacimiento",
+        "description": "Descripción",
+        "photo": "Foto de perfil",
+        "userId": "Identificador de usuario"
+      },
+      "sections": {
+        "personalInfo": {
+          "title": "Información personal"
+        },
+        "details": {
+          "title": "Detalles del perfil"
+        },
+        "roles": {
+          "title": "Roles",
+          "empty": "Todavía no hay roles asignados."
+        },
+        "plugins": {
+          "title": "Complementos del espacio de trabajo",
+          "description": "Activa las herramientas que necesitas y personaliza tu experiencia.",
+          "empty": "Todavía no hay complementos disponibles.",
+          "status": {
+            "active": "Activo",
+            "inactive": "Inactivo"
+          },
+          "pricing": {
+            "free": "Gratis",
+            "paid": "De pago"
+          },
+          "actions": {
+            "refresh": "Actualizar",
+            "activate": "Activar",
+            "deactivate": "Desactivar",
+            "open": "Abrir",
+            "install": "Instalar"
+          },
+          "notifications": {
+            "toggleSuccess": "El estado de \"{name}\" se ha actualizado."
+          },
+          "errors": {
+            "loadFailed": "No se pudieron cargar los complementos. Inténtalo de nuevo más tarde.",
+            "toggleFailed": "No se pudo actualizar este complemento. Inténtalo de nuevo más tarde."
+          }
+        },
+        "settings": {
+          "title": "Preferencias"
+        }
+      },
+      "orders": {
+        "page": {
+          "title": "Historial de pedidos",
+          "subtitle": "Revisa tus compras anteriores y gestiona pagos pendientes."
+        },
+        "table": {
+          "number": "Número",
+          "date": "Fecha",
+          "shipTo": "Enviar a",
+          "total": "Total",
+          "state": "Estado",
+          "actions": "Acciones",
+          "empty": "Aún no tienes pedidos."
+        },
+        "actions": {
+          "refresh": "Actualizar",
+          "show": "Ver",
+          "pay": "Pagar",
+          "retry": "Intentar de nuevo"
+        },
+        "states": {
+          "new": "Nuevo",
+          "cancelled": "Cancelado",
+          "fulfilled": "Enviado",
+          "completed": "Completado",
+          "processing": "En proceso",
+          "cart": "En carrito",
+          "unknown": "Desconocido"
+        },
+        "notifications": {
+          "loadFailed": "No se pudieron cargar tus pedidos. Inténtalo de nuevo más tarde.",
+          "detailsLoadFailed": "No se pudo cargar el detalle del pedido. Inténtalo de nuevo más tarde.",
+          "paymentConfigMissing": "No encontramos un enlace de pago para este pedido.",
+          "paymentOpenFailed": "No se pudo abrir la página de pago. Inténtalo de nuevo más tarde."
+        },
+        "labels": {
+          "shipToUnknown": "Pendiente de asignación"
+        },
+        "details": {
+          "title": "Detalles del pedido",
+          "placedOn": "Realizado el",
+          "updatedAt": "Actualizado el",
+          "itemsTotal": "Artículos",
+          "shippingTotal": "Envío",
+          "taxTotal": "Impuestos",
+          "total": "Total",
+          "customer": "Cliente",
+          "email": "Correo electrónico",
+          "phone": "Teléfono",
+          "shippingAddress": "Dirección de envío",
+          "billingAddress": "Dirección de facturación",
+          "addressUnavailable": "No disponible",
+          "loading": "Cargando detalles del pedido…"
+        }
+      },
+      "settings": {
+        "allowSendEmail": {
+          "title": "Recibir correos electrónicos",
+          "description": "Permitir que la plataforma envíe actualizaciones y alertas por correo electrónico."
+        },
+        "allowNotification": {
+          "title": "Activar las notificaciones en la aplicación",
+          "description": "Recibir notificaciones directamente en la aplicación."
+        },
+        "actions": {
+          "refresh": "Recargar"
+        },
+        "notifications": {
+          "updateSuccess": "Preferencia actualizada correctamente."
+        },
+        "errors": {
+          "loadFailed": "No se pudieron cargar sus preferencias. Inténtelo de nuevo más tarde.",
+          "saveFailed": "No se pudieron guardar sus preferencias. Inténtelo de nuevo más tarde.",
+          "metadataMissing": "No se pudieron determinar los identificadores necesarios para guardar estas preferencias.",
+          "noConfiguration": "Todavía no se encontraron preferencias guardadas."
+        }
+      },
+      "notifications": {
+        "page": {
+          "title": "Notificaciones",
+          "subtitle": "Revisa tus últimas alertas y mantente al día."
+        },
+        "actions": {
+          "refresh": "Actualizar"
+        },
+        "states": {
+          "loading": "Cargando notificaciones…",
+          "retry": "Intentar de nuevo",
+          "error": "No se pudieron cargar tus notificaciones. Por favor, inténtalo más tarde.",
+          "empty": "¡Todo en orden! No hay notificaciones para mostrar."
+        },
+        "labels": {
+          "unread": "Sin leer",
+          "receivedAt": "Recibida el {date}"
+        },
+        "fallback": {
+          "title": "Notificación"
+        }
+      },
+      "public": {
+        "page": {
+          "title": "Perfil público",
+          "description": "Consulta la información pública compartida por este miembro."
+        },
+        "actions": {
+          "retry": "Intentar de nuevo",
+          "message": "Mensaje"
+        },
+        "errors": {
+          "load": "No se pudo cargar este perfil.",
+          "notFound": "No se encontró este perfil.",
+          "authenticationRequired": "Debes iniciar sesión para enviar mensajes.",
+          "messengerUnavailable": "No se puede abrir Messenger. Inténtalo de nuevo más tarde."
+        },
+        "labels": {
+          "email": "Correo electrónico",
+          "language": "Idioma",
+          "locale": "Configuración regional",
+          "timezone": "Zona horaria",
+          "enabled": "Activo",
+          "disabled": "Inactivo",
+          "friends": "Amigos",
+          "stories": "Historias",
+          "empty": "No disponible"
+        }
+      },
+      "calendar": {
+        "page": {
+          "title": "Mi calendario",
+          "subtitle": "Consulta, crea y organiza tus eventos personales."
+        },
+        "actions": {
+          "new": "Nuevo evento",
+          "refresh": "Actualizar",
+          "delete": "Eliminar evento"
+        },
+        "view": {
+          "month": "Mes",
+          "week": "Semana",
+          "day": "Día"
+        },
+        "list": {
+          "title": "Próximos eventos",
+          "empty": "Aún no hay eventos programados."
+        },
+        "dialog": {
+          "createTitle": "Crear evento",
+          "editTitle": "Editar evento",
+          "submit": "Crear",
+          "save": "Guardar",
+          "cancel": "Cancelar"
+        },
+        "form": {
+          "title": "Título",
+          "description": "Descripción",
+          "location": "Ubicación",
+          "color": "Color",
+          "allDay": "Todo el día",
+          "isPrivate": "Evento privado",
+          "startDate": "Fecha de inicio",
+          "startTime": "Hora de inicio",
+          "endDate": "Fecha de finalización",
+          "endTime": "Hora de finalización"
+        },
+        "delete": {
+          "title": "Eliminar evento",
+          "message": "¿Seguro que deseas eliminar este evento? Esta acción no se puede deshacer."
+        },
+        "notifications": {
+          "created": "Evento creado correctamente.",
+          "updated": "Evento actualizado correctamente.",
+          "deleted": "Evento eliminado correctamente.",
+          "genericError": "No se pudo procesar la solicitud. Inténtalo de nuevo."
+        },
+        "validation": {
+          "titleRequired": "Se requiere un título.",
+          "startRequired": "Se requiere la fecha de inicio."
+        }
+      }
     },
-    "sections": {
-      "personalInfo": {
-        "title": "Información personal"
-      },
-      "details": {
-        "title": "Detalles del perfil"
-      },
-      "roles": {
-        "title": "Roles",
-        "empty": "Todavía no hay roles asignados."
-      },
-      "plugins": {
-        "title": "Complementos del espacio de trabajo",
-        "description": "Activa las herramientas que necesitas y personaliza tu experiencia.",
-        "empty": "Todavía no hay complementos disponibles.",
+    "userManagement": {
+      "users": {
+        "notifications": {
+          "createSuccess": "Usuario creado correctamente.",
+          "updateSuccess": "Usuario actualizado correctamente.",
+          "attachSuccess": "Grupo vinculado al usuario correctamente.",
+          "detachSuccess": "Grupo desvinculado del usuario.",
+          "deleteSuccess": "Usuario eliminado correctamente."
+        },
+        "errors": {
+          "usernameEmailRequired": "Se requieren el nombre de usuario y el correo electrónico.",
+          "passwordRequired": "Se requiere una contraseña para crear un nuevo usuario.",
+          "createFailed": "No se pudo crear el usuario.",
+          "updateFailed": "No se pudo actualizar el usuario.",
+          "openView": "No se pudieron abrir los detalles de este usuario.",
+          "loadDetails": "No se pudieron recuperar los detalles del usuario.",
+          "loadGroups": "No se pudieron recuperar los grupos del usuario.",
+          "selectGroup": "Selecciona un grupo para vincular este usuario.",
+          "attachFailed": "No se pudo vincular este grupo al usuario.",
+          "detachFailed": "No se pudo desvincular este grupo del usuario.",
+          "deleteFailed": "No se pudo eliminar el usuario."
+        },
+        "table": {
+          "username": "Nombre de usuario",
+          "firstName": "Nombre",
+          "lastName": "Apellido",
+          "email": "Correo electrónico",
+          "status": "Estado"
+        },
         "status": {
           "active": "Activo",
           "inactive": "Inactivo"
         },
-        "pricing": {
-          "free": "Gratis",
-          "paid": "De pago"
-        },
+        "cardTitle": "Gestión de usuarios",
         "actions": {
-          "refresh": "Actualizar",
-          "activate": "Activar",
-          "deactivate": "Desactivar",
-          "open": "Abrir",
-          "install": "Instalar"
+          "new": "Nuevo usuario",
+          "viewTooltip": "Ver {username}",
+          "editTooltip": "Editar {username}",
+          "deleteTooltip": "Eliminar {username}"
         },
+        "alerts": {
+          "loadFailed": "Error al cargar los usuarios."
+        },
+        "fields": {
+          "username": "Nombre de usuario",
+          "email": "Correo electrónico",
+          "firstName": "Nombre",
+          "lastName": "Apellido",
+          "language": "Idioma",
+          "locale": "Configuración regional",
+          "timezone": "Zona horaria",
+          "password": "Contraseña",
+          "newPassword": "Nueva contraseña (opcional)",
+          "enabled": "Usuario activo",
+          "status": "Estado"
+        },
+        "hints": {
+          "keepPassword": "Deja en blanco para mantener la contraseña actual."
+        },
+        "labels": {
+          "userFallback": "este usuario"
+        },
+        "dialogs": {
+          "create": {
+            "title": "Crear usuario"
+          },
+          "edit": {
+            "title": "Editar {username}"
+          },
+          "view": {
+            "title": "Detalles del usuario"
+          },
+          "attachGroup": {
+            "title": "Vincular un grupo"
+          },
+          "delete": {
+            "title": "Eliminar usuario",
+            "warningPrefix": "Esta acción no se puede deshacer. ¿Realmente quieres eliminar",
+            "warningSuffix": "?"
+          }
+        },
+        "details": {
+          "groups": {
+            "title": "Grupos",
+            "actions": {
+              "link": "Vincular un grupo"
+            },
+            "empty": "No hay grupos vinculados."
+          },
+          "empty": "Ningún usuario seleccionado."
+        },
+        "logs": {
+          "openDetail": "Abriendo el diálogo de detalles del usuario"
+        }
+      },
+      "groups": {
         "notifications": {
-          "toggleSuccess": "El estado de \"{name}\" se ha actualizado."
+          "createSuccess": "Grupo de usuarios creado correctamente.",
+          "updateSuccess": "Grupo de usuarios actualizado correctamente.",
+          "deleteSuccess": "Grupo de usuarios eliminado correctamente.",
+          "attachSuccess": "Usuario vinculado al grupo.",
+          "detachSuccess": "Usuario desvinculado del grupo."
         },
         "errors": {
-          "loadFailed": "No se pudieron cargar los complementos. Inténtalo de nuevo más tarde.",
-          "toggleFailed": "No se pudo actualizar este complemento. Inténtalo de nuevo más tarde."
-        }
-      },
-      "settings": {
-        "title": "Preferencias"
-      }
-    },
-    "orders": {
-      "page": {
-        "title": "Historial de pedidos",
-        "subtitle": "Revisa tus compras anteriores y gestiona pagos pendientes."
-      },
-      "table": {
-        "number": "Número",
-        "date": "Fecha",
-        "shipTo": "Enviar a",
-        "total": "Total",
-        "state": "Estado",
-        "actions": "Acciones",
-        "empty": "Aún no tienes pedidos."
-      },
-      "actions": {
-        "refresh": "Actualizar",
-        "show": "Ver",
-        "pay": "Pagar",
-        "retry": "Intentar de nuevo"
-      },
-      "states": {
-        "new": "Nuevo",
-        "cancelled": "Cancelado",
-        "fulfilled": "Enviado",
-        "completed": "Completado",
-        "processing": "En proceso",
-        "cart": "En carrito",
-        "unknown": "Desconocido"
-      },
-      "notifications": {
-        "loadFailed": "No se pudieron cargar tus pedidos. Inténtalo de nuevo más tarde.",
-        "detailsLoadFailed": "No se pudo cargar el detalle del pedido. Inténtalo de nuevo más tarde.",
-        "paymentConfigMissing": "No encontramos un enlace de pago para este pedido.",
-        "paymentOpenFailed": "No se pudo abrir la página de pago. Inténtalo de nuevo más tarde."
-      },
-      "labels": {
-        "shipToUnknown": "Pendiente de asignación"
-      },
-      "details": {
-        "title": "Detalles del pedido",
-        "placedOn": "Realizado el",
-        "updatedAt": "Actualizado el",
-        "itemsTotal": "Artículos",
-        "shippingTotal": "Envío",
-        "taxTotal": "Impuestos",
-        "total": "Total",
-        "customer": "Cliente",
-        "email": "Correo electrónico",
-        "phone": "Teléfono",
-        "shippingAddress": "Dirección de envío",
-        "billingAddress": "Dirección de facturación",
-        "addressUnavailable": "No disponible",
-        "loading": "Cargando detalles del pedido…"
-      }
-    },
-    "settings": {
-      "allowSendEmail": {
-        "title": "Recibir correos electrónicos",
-        "description": "Permitir que la plataforma envíe actualizaciones y alertas por correo electrónico."
-      },
-      "allowNotification": {
-        "title": "Activar las notificaciones en la aplicación",
-        "description": "Recibir notificaciones directamente en la aplicación."
-      },
-      "actions": {
-        "refresh": "Recargar"
-      },
-      "notifications": {
-        "updateSuccess": "Preferencia actualizada correctamente."
-      },
-      "errors": {
-        "loadFailed": "No se pudieron cargar sus preferencias. Inténtelo de nuevo más tarde.",
-        "saveFailed": "No se pudieron guardar sus preferencias. Inténtelo de nuevo más tarde.",
-        "metadataMissing": "No se pudieron determinar los identificadores necesarios para guardar estas preferencias.",
-        "noConfiguration": "Todavía no se encontraron preferencias guardadas."
-      }
-    },
-    "notifications": {
-      "page": {
-        "title": "Notificaciones",
-        "subtitle": "Revisa tus últimas alertas y mantente al día."
-      },
-      "actions": {
-        "refresh": "Actualizar"
-      },
-      "states": {
-        "loading": "Cargando notificaciones…",
-        "retry": "Intentar de nuevo",
-        "error": "No se pudieron cargar tus notificaciones. Por favor, inténtalo más tarde.",
-        "empty": "¡Todo en orden! No hay notificaciones para mostrar."
-      },
-      "labels": {
-        "unread": "Sin leer",
-        "receivedAt": "Recibida el {date}"
-      },
-      "fallback": {
-        "title": "Notificación"
-      }
-    },
-    "public": {
-      "page": {
-        "title": "Perfil público",
-        "description": "Consulta la información pública compartida por este miembro."
-      },
-      "actions": {
-        "retry": "Intentar de nuevo",
-        "message": "Mensaje"
-      },
-      "errors": {
-        "load": "No se pudo cargar este perfil.",
-        "notFound": "No se encontró este perfil.",
-        "authenticationRequired": "Debes iniciar sesión para enviar mensajes.",
-        "messengerUnavailable": "No se puede abrir Messenger. Inténtalo de nuevo más tarde."
-      },
-      "labels": {
-        "email": "Correo electrónico",
-        "language": "Idioma",
-        "locale": "Configuración regional",
-        "timezone": "Zona horaria",
-        "enabled": "Activo",
-        "disabled": "Inactivo",
-        "friends": "Amigos",
-        "stories": "Historias",
-        "empty": "No disponible"
-      }
-    },
-    "calendar": {
-      "page": {
-        "title": "Mi calendario",
-        "subtitle": "Consulta, crea y organiza tus eventos personales."
-      },
-      "actions": {
-        "new": "Nuevo evento",
-        "refresh": "Actualizar",
-        "delete": "Eliminar evento"
-      },
-      "view": {
-        "month": "Mes",
-        "week": "Semana",
-        "day": "Día"
-      },
-      "list": {
-        "title": "Próximos eventos",
-        "empty": "Aún no hay eventos programados."
-      },
-      "dialog": {
-        "createTitle": "Crear evento",
-        "editTitle": "Editar evento",
-        "submit": "Crear",
-        "save": "Guardar",
-        "cancel": "Cancelar"
-      },
-      "form": {
-        "title": "Título",
-        "description": "Descripción",
-        "location": "Ubicación",
-        "color": "Color",
-        "allDay": "Todo el día",
-        "isPrivate": "Evento privado",
-        "startDate": "Fecha de inicio",
-        "startTime": "Hora de inicio",
-        "endDate": "Fecha de finalización",
-        "endTime": "Hora de finalización"
-      },
-      "delete": {
-        "title": "Eliminar evento",
-        "message": "¿Seguro que deseas eliminar este evento? Esta acción no se puede deshacer."
-      },
-      "notifications": {
-        "created": "Evento creado correctamente.",
-        "updated": "Evento actualizado correctamente.",
-        "deleted": "Evento eliminado correctamente.",
-        "genericError": "No se pudo procesar la solicitud. Inténtalo de nuevo."
-      },
-      "validation": {
-        "titleRequired": "Se requiere un título.",
-        "startRequired": "Se requiere la fecha de inicio."
-      }
-    }
-  },
-  "userManagement": {
-    "users": {
-      "notifications": {
-        "createSuccess": "Usuario creado correctamente.",
-        "updateSuccess": "Usuario actualizado correctamente.",
-        "attachSuccess": "Grupo vinculado al usuario correctamente.",
-        "detachSuccess": "Grupo desvinculado del usuario.",
-        "deleteSuccess": "Usuario eliminado correctamente."
-      },
-      "errors": {
-        "usernameEmailRequired": "Se requieren el nombre de usuario y el correo electrónico.",
-        "passwordRequired": "Se requiere una contraseña para crear un nuevo usuario.",
-        "createFailed": "No se pudo crear el usuario.",
-        "updateFailed": "No se pudo actualizar el usuario.",
-        "openView": "No se pudieron abrir los detalles de este usuario.",
-        "loadDetails": "No se pudieron recuperar los detalles del usuario.",
-        "loadGroups": "No se pudieron recuperar los grupos del usuario.",
-        "selectGroup": "Selecciona un grupo para vincular este usuario.",
-        "attachFailed": "No se pudo vincular este grupo al usuario.",
-        "detachFailed": "No se pudo desvincular este grupo del usuario.",
-        "deleteFailed": "No se pudo eliminar el usuario."
-      },
-      "table": {
-        "username": "Nombre de usuario",
-        "firstName": "Nombre",
-        "lastName": "Apellido",
-        "email": "Correo electrónico",
-        "status": "Estado"
-      },
-      "status": {
-        "active": "Activo",
-        "inactive": "Inactivo"
-      },
-      "cardTitle": "Gestión de usuarios",
-      "actions": {
-        "new": "Nuevo usuario",
-        "viewTooltip": "Ver {username}",
-        "editTooltip": "Editar {username}",
-        "deleteTooltip": "Eliminar {username}"
-      },
-      "alerts": {
-        "loadFailed": "Error al cargar los usuarios."
-      },
-      "fields": {
-        "username": "Nombre de usuario",
-        "email": "Correo electrónico",
-        "firstName": "Nombre",
-        "lastName": "Apellido",
-        "language": "Idioma",
-        "locale": "Configuración regional",
-        "timezone": "Zona horaria",
-        "password": "Contraseña",
-        "newPassword": "Nueva contraseña (opcional)",
-        "enabled": "Usuario activo",
-        "status": "Estado"
-      },
-      "hints": {
-        "keepPassword": "Deja en blanco para mantener la contraseña actual."
-      },
-      "labels": {
-        "userFallback": "este usuario"
-      },
-      "dialogs": {
-        "create": {
-          "title": "Crear usuario"
+          "nameRequired": "El nombre del grupo es obligatorio.",
+          "createFailed": "No se pudo crear el grupo de usuarios.",
+          "updateFailed": "No se pudo actualizar el grupo de usuarios.",
+          "loadDetails": "No se pudieron cargar los detalles del grupo de usuarios.",
+          "loadUsers": "No se pudieron recuperar los usuarios del grupo.",
+          "selectUser": "Selecciona un usuario para vincularlo a este grupo.",
+          "attachFailed": "No se pudo vincular este usuario al grupo.",
+          "detachFailed": "No se pudo desvincular este usuario del grupo.",
+          "deleteFailed": "No se pudo eliminar este grupo de usuarios."
         },
-        "edit": {
-          "title": "Editar {username}"
+        "table": {
+          "name": "Nombre",
+          "id": "Identificador",
+          "actions": "Acciones"
         },
-        "view": {
-          "title": "Detalles del usuario"
+        "cardTitle": "Grupos de usuarios",
+        "actions": {
+          "new": "Nuevo grupo",
+          "viewTooltip": "Ver {name}",
+          "editTooltip": "Editar {name}",
+          "deleteTooltip": "Eliminar {name}"
         },
-        "attachGroup": {
-          "title": "Vincular un grupo"
+        "alerts": {
+          "loadFailed": "Error al cargar los grupos de usuarios."
         },
-        "delete": {
-          "title": "Eliminar usuario",
-          "warningPrefix": "Esta acción no se puede deshacer. ¿Realmente quieres eliminar",
-          "warningSuffix": "?"
-        }
-      },
-      "details": {
-        "groups": {
-          "title": "Grupos",
-          "actions": {
-            "link": "Vincular un grupo"
+        "fields": {
+          "name": "Nombre del grupo",
+          "description": "Descripción",
+          "id": "Identificador"
+        },
+        "labels": {
+          "groupFallback": "este grupo"
+        },
+        "dialogs": {
+          "create": {
+            "title": "Crear grupo de usuarios"
           },
-          "empty": "No hay grupos vinculados."
-        },
-        "empty": "Ningún usuario seleccionado."
-      },
-      "logs": {
-        "openDetail": "Abriendo el diálogo de detalles del usuario"
-      }
-    },
-    "groups": {
-      "notifications": {
-        "createSuccess": "Grupo de usuarios creado correctamente.",
-        "updateSuccess": "Grupo de usuarios actualizado correctamente.",
-        "deleteSuccess": "Grupo de usuarios eliminado correctamente.",
-        "attachSuccess": "Usuario vinculado al grupo.",
-        "detachSuccess": "Usuario desvinculado del grupo."
-      },
-      "errors": {
-        "nameRequired": "El nombre del grupo es obligatorio.",
-        "createFailed": "No se pudo crear el grupo de usuarios.",
-        "updateFailed": "No se pudo actualizar el grupo de usuarios.",
-        "loadDetails": "No se pudieron cargar los detalles del grupo de usuarios.",
-        "loadUsers": "No se pudieron recuperar los usuarios del grupo.",
-        "selectUser": "Selecciona un usuario para vincularlo a este grupo.",
-        "attachFailed": "No se pudo vincular este usuario al grupo.",
-        "detachFailed": "No se pudo desvincular este usuario del grupo.",
-        "deleteFailed": "No se pudo eliminar este grupo de usuarios."
-      },
-      "table": {
-        "name": "Nombre",
-        "id": "Identificador",
-        "actions": "Acciones"
-      },
-      "cardTitle": "Grupos de usuarios",
-      "actions": {
-        "new": "Nuevo grupo",
-        "viewTooltip": "Ver {name}",
-        "editTooltip": "Editar {name}",
-        "deleteTooltip": "Eliminar {name}"
-      },
-      "alerts": {
-        "loadFailed": "Error al cargar los grupos de usuarios."
-      },
-      "fields": {
-        "name": "Nombre del grupo",
-        "description": "Descripción",
-        "id": "Identificador"
-      },
-      "labels": {
-        "groupFallback": "este grupo"
-      },
-      "dialogs": {
-        "create": {
-          "title": "Crear grupo de usuarios"
-        },
-        "edit": {
-          "title": "Editar grupo de usuarios"
-        },
-        "view": {
-          "title": "Detalles del grupo de usuarios"
-        },
-        "attachUser": {
-          "title": "Vincular un usuario"
-        },
-        "delete": {
-          "title": "Eliminar grupo de usuarios",
-          "warningPrefix": "Esta acción no se puede deshacer. ¿Realmente quieres eliminar",
-          "warningSuffix": "?"
-        }
-      },
-      "details": {
-        "users": {
-          "title": "Usuarios",
-          "actions": {
-            "link": "Vincular un usuario"
+          "edit": {
+            "title": "Editar grupo de usuarios"
           },
-          "empty": "No hay usuarios vinculados."
-        },
-        "empty": "Ningún grupo seleccionado."
-      }
-    },
-    "workplaces": {
-      "notifications": {
-        "createSuccess": "Workplace created successfully.",
-        "updateSuccess": "Workplace updated successfully.",
-        "deleteSuccess": "Workplace deleted successfully."
-      },
-      "errors": {
-        "nameRequired": "A workplace name is required.",
-        "createFailed": "Unable to create the workplace.",
-        "updateFailed": "Unable to update the workplace.",
-        "loadDetails": "Unable to load the workplace details.",
-        "deleteFailed": "Unable to delete the workplace."
-      },
-      "table": {
-        "name": "Name",
-        "slug": "Slug",
-        "id": "Identifier",
-        "actions": "Actions"
-      },
-      "cardTitle": "Workplaces",
-      "actions": {
-        "new": "New workplace",
-        "viewTooltip": "View {name}",
-        "editTooltip": "Edit {name}",
-        "deleteTooltip": "Delete {name}"
-      },
-      "alerts": {
-        "loadFailed": "Failed to load workplaces."
-      },
-      "fields": {
-        "name": "Workplace name",
-        "slug": "Slug",
-        "id": "Identifier"
-      },
-      "labels": {
-        "workplaceFallback": "this workplace"
-      },
-      "dialogs": {
-        "create": {
-          "title": "Create workplace"
-        },
-        "edit": {
-          "title": "Edit workplace"
-        },
-        "view": {
-          "title": "Workplace details"
-        },
-        "delete": {
-          "title": "Delete workplace",
-          "warningPrefix": "This action cannot be undone. Do you really want to delete",
-          "warningSuffix": "?"
-        }
-      },
-      "details": {
-        "empty": "No workplace selected."
-      }
-    },
-    "apiKeys": {
-      "labels": {
-        "v1": "API v1",
-        "v2": "API v2",
-        "keyFallback": "esta clave API"
-      },
-      "notifications": {
-        "createSuccess": "Clave API creada correctamente ({version}).",
-        "updateSuccess": "Clave API actualizada correctamente ({version}).",
-        "deleteSuccess": "Clave API eliminada ({version})."
-      },
-      "errors": {
-        "descriptionRequired": "La descripción es obligatoria.",
-        "createFailed": "No se pudo crear la clave API.",
-        "updateFailed": "No se pudo actualizar la clave API.",
-        "loadDetails": "No se pudieron cargar los detalles de la clave API.",
-        "deleteFailed": "No se pudo eliminar la clave API.",
-        "partialUpdateRequired": "Proporciona al menos un campo para actualizar la clave API."
-      },
-      "cardTitle": "Claves API",
-      "table": {
-        "description": "Descripción",
-        "token": "Token",
-        "id": "Identificador",
-        "actions": "Acciones"
-      },
-      "actions": {
-        "new": "Nueva clave API ({version})",
-        "viewTooltip": "Ver {description}",
-        "editTooltip": "Editar {description}",
-        "deleteTooltip": "Eliminar {description}"
-      },
-      "alerts": {
-        "loadFailed": "Error al cargar las claves API de {version}."
-      },
-      "fields": {
-        "description": "Descripción",
-        "token": "Token",
-        "id": "Identificador"
-      },
-      "hints": {
-        "keepToken": "Deja en blanco para mantener el token actual (solo PATCH)."
-      },
-      "dialogs": {
-        "create": {
-          "title": "Crear clave API ({version})"
-        },
-        "edit": {
-          "title": "Editar clave API ({version})"
-        },
-        "view": {
-          "title": "Detalles de la clave API ({version})",
-          "empty": "No se ha seleccionado ninguna clave API."
-        },
-        "delete": {
-          "title": "Eliminar clave API",
-          "warningPrefix": "¿Seguro que quieres eliminar esta clave API",
-          "warningSuffix": "?"
-        }
-      }
-    },
-    "roles": {
-      "table": {
-        "id": "ID de rol",
-        "description": "Descripción"
-      },
-      "cardTitle": "Roles",
-      "alerts": {
-        "loadFailed": "Error al cargar los roles."
-      }
-    }
-  },
-  "configurationManagement": {
-    "metrics": {
-      "configurations": "Número de configuraciones",
-      "configurationsCaption": "Entradas de configuración activas"
-    },
-    "configurations": {
-      "title": "Configuraciones",
-      "subtitle": "Consultar y supervisar las entradas de configuración",
-      "searchPlaceholder": "Buscar configuraciones",
-      "actions": {
-        "new": "Nueva configuración"
-      },
-      "alerts": {
-        "loadFailed": "No se pudieron cargar las configuraciones."
-      },
-      "dialogs": {
-        "create": {
-          "title": "Crear configuración",
-          "submit": "Crear configuración"
-        }
-      },
-      "fields": {
-        "key": "Clave de configuración",
-        "contextKey": "Clave de contexto",
-        "contextId": "ID de contexto",
-        "value": "Valor de configuración",
-        "valueHint": "Ingrese texto sin formato o JSON válido.",
-        "flags": "Indicadores",
-        "flagsHint": "Proporcione valores separados por comas.",
-        "workplace": "Lugar de trabajo"
-      },
-      "errors": {
-        "keyRequired": "Se requiere una clave de configuración.",
-        "contextKeyRequired": "Se requiere una clave de contexto.",
-        "valueRequired": "Se requiere un valor de configuración.",
-        "createFailed": "No se pudo crear la configuración.",
-        "workplaceLoadFailed": "No se pudieron cargar los lugares de trabajo."
-      },
-      "notifications": {
-        "createSuccess": "Configuración creada correctamente."
-      },
-      "table": {
-        "title": "Configuraciones",
-        "subtitle": "{count} configuraciones",
-        "key": "Clave",
-        "contextKey": "Clave de contexto",
-        "contextId": "ID de contexto",
-        "value": "Valor",
-        "flags": "Indicadores",
-        "noFlags": "Sin indicadores",
-        "updatedAt": "Actualizado el"
-      }
-    }
-  },
-  "pages": {
-    "ecommerce": {
-      "drawer": {
-        "title": "Boutique Seālius",
-        "subtitle": "Silhuetas bañadas por el sol seleccionadas junto a nuestros socios costeros.",
-        "metrics": {
-          "products": "{count} productos",
-          "categories": "{count} categorías"
-        }
-      },
-      "hero": {
-        "brand": "Seālius",
-        "tagline": "Colección costera",
-        "description": "Descubre tejidos ligeros, tonos oceánicos y cortes relajados pensados para los días y noches frente al mar."
-      },
-      "categories": {
-        "title": "Explorar por categoría",
-        "all": "Todo"
-      },
-      "sections": {
-        "latestDeals": {
-          "title": "Últimas ofertas",
-          "subtitle": "Promociones por tiempo limitado listas para enviarse a cualquier parte del mundo."
-        },
-        "newCollection": {
-          "title": "Nueva colección",
-          "subtitle": "Superpone texturas naturales y fibras inspiradas en la costa."
-        },
-        "latestProducts": {
-          "title": "Novedades",
-          "subtitle": "Las incorporaciones más recientes del marketplace de Bro World.",
-          "emptyFiltered": "Aún no hay artículos en esta categoría."
-        }
-      },
-      "labels": {
-        "deal": "Oferta destacada"
-      },
-      "actions": {
-        "shopNow": "Comprar ahora",
-        "exploreCollection": "Explorar colección",
-        "refresh": "Actualizar catálogo",
-        "retry": "Reintentar"
-      },
-      "fallbacks": {
-        "unknownProduct": "Producto",
-        "priceUnavailable": "Precio no disponible",
-        "noProducts": "No hay productos disponibles por ahora.",
-        "categoryFallback": "Colección"
-      },
-      "errors": {
-        "failedToLoad": "No pudimos cargar la tienda. Inténtalo de nuevo más tarde."
-      }
-    },
-    "ecommercePayment": {
-      "meta": {
-        "title": "Pago",
-        "subtitle": "Selecciona tu método de pago preferido para finalizar la compra."
-      },
-      "steps": {
-        "address": "Dirección",
-        "shipping": "Envío",
-        "payment": "Pago",
-        "complete": "Finalizar"
-      },
-      "labels": {
-        "paymentTitle": "Pago n.º {index}",
-        "paymentSubtitle": "Elige una opción de pago",
-        "changeShipping": "Cambiar método de envío",
-        "noSelection": "Selecciona un método de pago para continuar"
-      },
-      "actions": {
-        "next": "Siguiente"
-      },
-      "summary": {
-        "title": "Resumen",
-        "customerFallback": "Cliente",
-        "itemCount": {
-          "one": "{count} artículo",
-          "other": "{count} artículos"
-        },
-        "itemsTotal": "Subtotal de artículos",
-        "discount": "Descuento",
-        "shipping": "Costo de envío estimado",
-        "taxes": "Impuestos",
-        "total": "Total del pedido"
-      },
-      "notifications": {
-        "loadingError": "No pudimos cargar los detalles de pago. Vuelve a intentarlo.",
-        "updateFailed": "No se pudo actualizar el método de pago. Vuelve a intentarlo.",
-        "updateSuccess": "Método de pago actualizado.",
-        "completeSuccess": "Pedido completado con éxito.",
-        "completeFailed": "No se pudo finalizar el pedido. Vuelve a intentarlo."
-      },
-      "states": {
-        "loading": "Cargando métodos de pago…",
-        "empty": "No hay métodos de pago disponibles para este pedido.",
-        "defaultMethodName": "Método de pago"
-      }
-    },
-    "settings": {
-      "title": "Configuración de la cuenta",
-      "subtitle": "Personaliza tu experiencia y mantén segura tu información desde un solo lugar.",
-      "sections": {
-        "profile": {
-          "title": "Preferencias del perfil",
-          "description": "Actualiza tu nombre, avatar, idioma y otros detalles que se muestran a tu equipo.",
-          "fields": {
-            "displayName": "Nombre para mostrar",
-            "username": "Nombre de usuario"
+          "view": {
+            "title": "Detalles del grupo de usuarios"
+          },
+          "attachUser": {
+            "title": "Vincular un usuario"
+          },
+          "delete": {
+            "title": "Eliminar grupo de usuarios",
+            "warningPrefix": "Esta acción no se puede deshacer. ¿Realmente quieres eliminar",
+            "warningSuffix": "?"
           }
         },
-        "security": {
-          "title": "Seguridad y privacidad",
-          "description": "Revisa las sesiones activas, habilita la autenticación multifactor y administra las aplicaciones conectadas."
+        "details": {
+          "users": {
+            "title": "Usuarios",
+            "actions": {
+              "link": "Vincular un usuario"
+            },
+            "empty": "No hay usuarios vinculados."
+          },
+          "empty": "Ningún grupo seleccionado."
+        }
+      },
+      "workplaces": {
+        "notifications": {
+          "createSuccess": "Workplace created successfully.",
+          "updateSuccess": "Workplace updated successfully.",
+          "deleteSuccess": "Workplace deleted successfully."
+        },
+        "errors": {
+          "nameRequired": "A workplace name is required.",
+          "createFailed": "Unable to create the workplace.",
+          "updateFailed": "Unable to update the workplace.",
+          "loadDetails": "Unable to load the workplace details.",
+          "deleteFailed": "Unable to delete the workplace."
+        },
+        "table": {
+          "name": "Name",
+          "slug": "Slug",
+          "id": "Identifier",
+          "actions": "Actions"
+        },
+        "cardTitle": "Workplaces",
+        "actions": {
+          "new": "New workplace",
+          "viewTooltip": "View {name}",
+          "editTooltip": "Edit {name}",
+          "deleteTooltip": "Delete {name}"
+        },
+        "alerts": {
+          "loadFailed": "Failed to load workplaces."
+        },
+        "fields": {
+          "name": "Workplace name",
+          "slug": "Slug",
+          "id": "Identifier"
+        },
+        "labels": {
+          "workplaceFallback": "this workplace"
+        },
+        "dialogs": {
+          "create": {
+            "title": "Create workplace"
+          },
+          "edit": {
+            "title": "Edit workplace"
+          },
+          "view": {
+            "title": "Workplace details"
+          },
+          "delete": {
+            "title": "Delete workplace",
+            "warningPrefix": "This action cannot be undone. Do you really want to delete",
+            "warningSuffix": "?"
+          }
+        },
+        "details": {
+          "empty": "No workplace selected."
+        }
+      },
+      "apiKeys": {
+        "labels": {
+          "v1": "API v1",
+          "v2": "API v2",
+          "keyFallback": "esta clave API"
         },
         "notifications": {
-          "title": "Notificaciones",
-          "description": "Elige cómo recibir avisos de actividad por correo electrónico, alertas push o mensajes en la aplicación."
-        }
-      },
-      "tips": {
-        "title": "¿Necesitas ayuda?",
-        "description": "Visita el Centro de ayuda para obtener guías paso a paso o contacta a nuestro equipo de soporte si te quedas atascado."
-      }
-    },
-    "help": {
-      "title": "Centro de ayuda",
-      "subtitle": "Encuentra respuestas rápidas con documentación seleccionada, preguntas frecuentes y debates de la comunidad.",
-      "explanation": {
-        "title": "¿Qué es Bro World?",
-        "description": "Bro World centraliza la comunicación, el conocimiento y los flujos de trabajo de tu equipo para que puedas concentrarte en entregar valor.",
-        "highlights": {
-          "workspace": "Organiza proyectos, documentos y debates en espacios dedicados a cada iniciativa.",
-          "collaboration": "Colabora en tiempo real con notas compartidas, mensajería integrada y notificaciones oportunas.",
-          "support": "Supervisa el progreso desde paneles interactivos y contacta a nuestro equipo cuando necesites orientación.",
-          "automation": "Automatiza tareas repetitivas con recetas de orquestación que activan acciones en tus herramientas.",
-          "integrations": "Conecta Bro World con GitHub, Slack, Figma y decenas de socios para mantener el flujo de datos.",
-          "aiAssistant": "Utiliza el asistente de IA para obtener resúmenes al instante, redactar actualizaciones y sugerir próximos pasos."
-        }
-      },
-      "sections": {
-        "guides": {
-          "title": "Guías del producto",
-          "description": "Explora tutoriales ilustrados para aprender lo básico y descubrir flujos de trabajo avanzados."
+          "createSuccess": "Clave API creada correctamente ({version}).",
+          "updateSuccess": "Clave API actualizada correctamente ({version}).",
+          "deleteSuccess": "Clave API eliminada ({version})."
         },
-        "faq": {
-          "title": "Preguntas frecuentes",
-          "description": "Consulta las soluciones a los temas más consultados por nuestros usuarios cada día."
+        "errors": {
+          "descriptionRequired": "La descripción es obligatoria.",
+          "createFailed": "No se pudo crear la clave API.",
+          "updateFailed": "No se pudo actualizar la clave API.",
+          "loadDetails": "No se pudieron cargar los detalles de la clave API.",
+          "deleteFailed": "No se pudo eliminar la clave API.",
+          "partialUpdateRequired": "Proporciona al menos un campo para actualizar la clave API."
         },
-        "community": {
-          "title": "Foro de la comunidad",
-          "description": "Únete a las conversaciones con otros miembros, comparte consejos y vota por nuevas funciones."
-        },
-        "automation": {
-          "title": "Biblioteca de automatizaciones",
-          "description": "Explora guías listas para conectar workflows, aprobaciones y reportes en cuestión de minutos."
-        },
-        "updates": {
-          "title": "Novedades y lanzamientos",
-          "description": "Revisa los anuncios más recientes, los hitos de la hoja de ruta y las oportunidades de programas beta."
-        }
-      },
-      "questions": {
-        "title": "Preguntas habituales",
-        "items": {
-          "accountAccess": {
-            "question": "¿Cómo accedo a mi cuenta?",
-            "answer": "Inicia sesión con el correo que utilizaste para registrarte. Si tienes problemas, restablece tu contraseña desde la página de acceso o contacta al soporte."
-          },
-          "inviteTeam": {
-            "question": "¿Puedo invitar a mi equipo?",
-            "answer": "Sí. Abre la configuración del espacio de trabajo, elige \"Miembros\" y envía invitaciones por correo para colaborar al instante."
-          },
-          "getSupport": {
-            "question": "¿Dónde obtengo más ayuda?",
-            "answer": "Consulta las guías anteriores para seguir tutoriales paso a paso o escríbenos directamente para recibir asistencia personalizada."
-          },
-          "automationTemplates": {
-            "question": "¿Cómo habilito las nuevas plantillas de automatización?",
-            "answer": "Abre la biblioteca de automatizaciones desde el Centro de ayuda, elige una receta y vincula cada paso con las integraciones conectadas a tu espacio de trabajo."
-          },
-          "mobileAccess": {
-            "question": "¿Hay experiencia móvil?",
-            "answer": "Sí. Instala la aplicación para iOS o Android para recibir notificaciones push, aprobar flujos y chatear con tu equipo desde cualquier lugar."
-          },
-          "billing": {
-            "question": "¿Dónde gestiono la facturación?",
-            "answer": "Los administradores pueden ir a Configuración → Facturación para actualizar métodos de pago, descargar facturas o ajustar el número de licencias."
-          }
-        }
-      },
-      "contact": {
-        "title": "¿Aún necesitas ayuda?",
-        "description": "Envíanos un mensaje desde la página de contacto, inicia un chat en vivo o agenda una sesión con nuestro equipo de éxito."
-      }
-    },
-    "about": {
-      "title": "Acerca de Bro World",
-      "subtitle": "Descubre la plataforma llena de funciones que impulsa a Bro World en equipos, productos y comunidades.",
-      "intro": "Bro World se ha convertido en un espacio de trabajo digital unificado que combina comunidad, publicación de contenido, mensajería y automatización en una experiencia cohesionada.",
-      "mission": "Nuestra misión es ayudar a los equipos a prototipar rápido, lanzar antes y gestionar las operaciones diarias con confianza mediante bloques modulares.",
-      "vision": "Desde flujos de trabajo asistidos por IA hasta paneles de colaboración en tiempo real, cada función está diseñada para adaptarse a medida que evoluciona tu organización.",
-      "sections": {
-        "frontend": {
-          "title": "Experiencia front-end",
-          "description": "Nuxt 3, Vue 3, TypeScript y Vuetify 3 impulsan una interfaz accesible con microfrontends, caché sin conexión y un diseño responsivo que se siente veloz en cualquier dispositivo."
-        },
-        "backend": {
-          "title": "Base back-end",
-          "description": "Los servicios de Node.js orquestan colas, WebSockets, indexación de búsqueda y persistencia en PostgreSQL detrás de escena."
-        },
-        "api": {
-          "title": "Microservicios Symfony",
-          "description": "Microservicios desacoplados de Symfony exponen API REST y GraphQL seguras junto con integraciones llave en mano y webhooks."
-        },
-        "realtime": {
-          "title": "Colaboración en tiempo real",
-          "description": "La presencia en vivo, los comentarios compartidos y los eventos WebSocket mantienen a los equipos alineados mientras las actualizaciones se publican en segundos."
-        },
-        "automation": {
-          "title": "Automatización e inteligencia",
-          "description": "Tareas en segundo plano, asistentes con IA y flujos programados eliminan el trabajo repetitivo y resaltan la próxima mejor acción."
-        },
-        "devops": {
-          "title": "DevOps y seguridad",
-          "description": "Canales de infraestructura como código, despliegues contenedorizados y escaneos de seguridad continuos protegen cada lanzamiento."
-        }
-      },
-      "highlights": {
-        "collaboration": {
-          "title": "Colaboración en workspaces",
-          "description": "Espacios de trabajo multi-tenant, permisos basados en roles y calendarios compartidos respaldan a los equipos distribuidos."
-        },
-        "analytics": {
-          "title": "Analítica accionable",
-          "description": "Paneles interactivos, reportes exportables y métricas unificadas revelan la salud del producto en segundos."
-        },
-        "customization": {
-          "title": "Personalización profunda",
-          "description": "El generador de temas, los hooks de extensión y los ajustes granulares permiten adaptar cada superficie a tu marca."
-        },
-        "marketplace": {
-          "title": "Marketplace del ecosistema",
-          "description": "Plugins curados, kits de integración y APIs abiertas aceleran la entrega de nuevas funciones."
-        }
-      },
-      "callToAction": {
-        "title": "Construye con Bro World",
-        "description": "¿Listo para ampliar la plataforma o conectar tu stack? Ponte en contacto y diseñemos juntos la próxima generación de funciones."
-      }
-    },
-    "ecommerceThankYou": {
-      "heroTitle": "¡Gracias!",
-      "heroSubtitle": "Tu pedido se ha realizado correctamente.",
-      "orderTokenLabel": "ID de confirmación: {token}",
-      "viewOrder": "Ver pedido",
-      "backToShop": "Volver a la tienda",
-      "orderSummary": "Resumen del pedido",
-      "placedOn": "Realizado el {date}",
-      "orderNumber": "Pedido {number}",
-      "items": "Artículos",
-      "itemCount": "{count} artículos",
-      "emptyItems": "No se encontraron artículos en este pedido.",
-      "itemFallback": "Artículo",
-      "unitPrice": "Precio unitario: {price}",
-      "totals": "Resumen de pago",
-      "subtotal": "Subtotal",
-      "shipping": "Envío",
-      "shippingMethod": "Método de envío",
-      "tax": "Impuestos",
-      "total": "Total",
-      "contact": "Contacto",
-      "email": "Correo electrónico",
-      "phone": "Teléfono",
-      "shippingAddress": "Dirección de envío",
-      "billingAddress": "Dirección de facturación",
-      "noAddress": "No se proporcionó ninguna dirección.",
-      "noOrder": "No pudimos mostrar los detalles de tu pedido.",
-      "missingToken": "No podemos encontrar tu pedido sin un token de confirmación.",
-      "loadError": "No pudimos cargar los detalles de tu pedido. Inténtalo de nuevo.",
-      "retry": "Reintentar"
-    },
-    "contact": {
-      "title": "Contáctanos",
-      "subtitle": "Estamos aquí para responder tus preguntas y guiarte hacia las soluciones adecuadas.",
-      "sections": {
-        "support": {
-          "title": "Soporte al cliente",
-          "description": "Obtén asistencia técnica, reporta incidencias o solicita cambios en la cuenta con nuestro equipo dedicado."
-        },
-        "partnerships": {
-          "title": "Alianzas",
-          "description": "Habla sobre integraciones, oportunidades de co-marketing o paquetes empresariales a medida."
-        },
-        "press": {
-          "title": "Prensa y medios",
-          "description": "Solicita entrevistas, logotipos o kits de prensa para presentar a Bro World en tu publicación."
-        }
-      },
-      "details": {
-        "title": "Cómo contactarnos",
-        "description": "Envía un correo a {email} o abre un ticket desde tu panel. Respondemos en un día hábil."
-      },
-      "form": {
-        "title": "Envíanos un mensaje",
-        "description": "Comparte algunos detalles sobre tu solicitud y te pondremos en contacto con la persona adecuada.",
-        "fields": {
-          "subject": "Título del mensaje",
-          "email": "Correo electrónico",
-          "message": "Descripción"
+        "cardTitle": "Claves API",
+        "table": {
+          "description": "Descripción",
+          "token": "Token",
+          "id": "Identificador",
+          "actions": "Acciones"
         },
         "actions": {
-          "submit": "Enviar mensaje"
+          "new": "Nueva clave API ({version})",
+          "viewTooltip": "Ver {description}",
+          "editTooltip": "Editar {description}",
+          "deleteTooltip": "Eliminar {description}"
         },
-        "status": {
-          "success": "¡Gracias! Tu mensaje se envió correctamente.",
-          "error": "Algo salió mal. Inténtalo de nuevo."
+        "alerts": {
+          "loadFailed": "Error al cargar las claves API de {version}."
         },
-        "validation": {
-          "required": "Este campo es obligatorio.",
-          "email": "Introduce una dirección de correo válida."
+        "fields": {
+          "description": "Descripción",
+          "token": "Token",
+          "id": "Identificador"
+        },
+        "hints": {
+          "keepToken": "Deja en blanco para mantener el token actual (solo PATCH)."
+        },
+        "dialogs": {
+          "create": {
+            "title": "Crear clave API ({version})"
+          },
+          "edit": {
+            "title": "Editar clave API ({version})"
+          },
+          "view": {
+            "title": "Detalles de la clave API ({version})",
+            "empty": "No se ha seleccionado ninguna clave API."
+          },
+          "delete": {
+            "title": "Eliminar clave API",
+            "warningPrefix": "¿Seguro que quieres eliminar esta clave API",
+            "warningSuffix": "?"
+          }
         }
       },
-      "location": {
-        "title": "Visítanos en Colonia",
-        "description": "Encuentra a nuestro equipo en nuestra oficina de Colonia, Alemania."
+      "roles": {
+        "table": {
+          "id": "ID de rol",
+          "description": "Descripción"
+        },
+        "cardTitle": "Roles",
+        "alerts": {
+          "loadFailed": "Error al cargar los roles."
+        }
       }
     },
-    "ecommerceOrder": {
-      "meta": {
-        "title": "Order details"
+    "configurationManagement": {
+      "metrics": {
+        "configurations": "Número de configuraciones",
+        "configurationsCaption": "Entradas de configuración activas"
       },
-      "heading": {
-        "title": "Order #{number}",
-        "subtitle": "Your account"
-      },
-      "breadcrumbs": {
-        "account": "My account",
-        "orders": "Order history"
-      },
-      "actions": {
-        "pay": "Pay",
-        "retry": "Try again",
-        "refresh": "Refresh"
-      },
-      "labels": {
-        "token": "Token: {token}",
-        "createdAt": "Created at",
-        "completedAt": "Completed at",
-        "updatedAt": "Last update",
-        "currency": "Currency",
-        "locale": "Locale",
-        "checkoutState": "Checkout state",
-        "paymentState": "Payment state",
-        "shippingState": "Shipping state",
-        "state": "Order state",
-        "channel": "Channel",
-        "customer": "Customer",
-        "email": "Email",
-        "quantity": "Items"
-      },
-      "sections": {
-        "information": {
-          "title": "Order information"
+      "configurations": {
+        "title": "Configuraciones",
+        "subtitle": "Consultar y supervisar las entradas de configuración",
+        "searchPlaceholder": "Buscar configuraciones",
+        "actions": {
+          "new": "Nueva configuración"
         },
-        "addresses": {
-          "title": "Addresses",
-          "billing": "Billing address",
-          "shipping": "Shipping address",
-          "loading": "Loading addresses…"
+        "alerts": {
+          "loadFailed": "No se pudieron cargar las configuraciones."
         },
-        "items": {
-          "title": "Items",
-          "empty": "This order does not contain any items.",
-          "table": {
-            "product": "Product",
-            "unitPrice": "Unit price",
-            "quantity": "Qty",
-            "total": "Total"
+        "dialogs": {
+          "create": {
+            "title": "Crear configuración",
+            "submit": "Crear configuración"
           }
         },
-        "payments": {
-          "title": "Payments",
-          "empty": "No payments recorded for this order."
+        "fields": {
+          "key": "Clave de configuración",
+          "contextKey": "Clave de contexto",
+          "contextId": "ID de contexto",
+          "value": "Valor de configuración",
+          "valueHint": "Ingrese texto sin formato o JSON válido.",
+          "flags": "Indicadores",
+          "flagsHint": "Proporcione valores separados por comas.",
+          "workplace": "Lugar de trabajo"
         },
-        "shipments": {
-          "title": "Shipments",
-          "empty": "No shipments recorded for this order."
+        "errors": {
+          "keyRequired": "Se requiere una clave de configuración.",
+          "contextKeyRequired": "Se requiere una clave de contexto.",
+          "valueRequired": "Se requiere un valor de configuración.",
+          "createFailed": "No se pudo crear la configuración.",
+          "workplaceLoadFailed": "No se pudieron cargar los lugares de trabajo."
         },
-        "summary": {
-          "title": "Summary",
-          "itemsTotal": "Subtotal",
-          "taxTotal": "Taxes",
-          "shippingTotal": "Shipping",
-          "total": "Order total"
+        "notifications": {
+          "createSuccess": "Configuración creada correctamente."
+        },
+        "table": {
+          "title": "Configuraciones",
+          "subtitle": "{count} configuraciones",
+          "key": "Clave",
+          "contextKey": "Clave de contexto",
+          "contextId": "ID de contexto",
+          "value": "Valor",
+          "flags": "Indicadores",
+          "noFlags": "Sin indicadores",
+          "updatedAt": "Actualizado el"
+        }
+      }
+    },
+    "pages": {
+      "ecommerce": {
+        "drawer": {
+          "title": "Boutique Seālius",
+          "subtitle": "Silhuetas bañadas por el sol seleccionadas junto a nuestros socios costeros.",
+          "metrics": {
+            "products": "{count} productos",
+            "categories": "{count} categorías"
+          }
+        },
+        "hero": {
+          "brand": "Seālius",
+          "tagline": "Colección costera",
+          "description": "Descubre tejidos ligeros, tonos oceánicos y cortes relajados pensados para los días y noches frente al mar."
+        },
+        "categories": {
+          "title": "Explorar por categoría",
+          "all": "Todo"
+        },
+        "sections": {
+          "latestDeals": {
+            "title": "Últimas ofertas",
+            "subtitle": "Promociones por tiempo limitado listas para enviarse a cualquier parte del mundo."
+          },
+          "newCollection": {
+            "title": "Nueva colección",
+            "subtitle": "Superpone texturas naturales y fibras inspiradas en la costa."
+          },
+          "latestProducts": {
+            "title": "Novedades",
+            "subtitle": "Las incorporaciones más recientes del marketplace de Bro World.",
+            "emptyFiltered": "Aún no hay artículos en esta categoría."
+          }
+        },
+        "labels": {
+          "deal": "Oferta destacada"
+        },
+        "actions": {
+          "shopNow": "Comprar ahora",
+          "exploreCollection": "Explorar colección",
+          "refresh": "Actualizar catálogo",
+          "retry": "Reintentar"
+        },
+        "fallbacks": {
+          "unknownProduct": "Producto",
+          "priceUnavailable": "Precio no disponible",
+          "noProducts": "No hay productos disponibles por ahora.",
+          "categoryFallback": "Colección"
+        },
+        "errors": {
+          "failedToLoad": "No pudimos cargar la tienda. Inténtalo de nuevo más tarde."
         }
       },
-      "messages": {
-        "loadingError": "We could not load this order. Please try again.",
-        "notFound": "We could not find this order.",
-        "itemsError": "Unable to load the order items.",
-        "addressesError": "We could not load the addresses linked to this order."
-      },
-      "fallbacks": {
-        "unknown": "Unknown",
-        "noAddress": "Address unavailable",
-        "noValue": "Not provided"
-      },
-      "metaTitle": "Resumen del pedido",
-      "heading": {
-        "title": "Resumen de tu pedido",
-        "subtitle": "Revisa todos los detalles antes de finalizar tu compra."
-      },
-      "status": {
+      "ecommercePayment": {
+        "meta": {
+          "title": "Pago",
+          "subtitle": "Selecciona tu método de pago preferido para finalizar la compra."
+        },
         "steps": {
           "address": "Dirección",
           "shipping": "Envío",
           "payment": "Pago",
-          "complete": "Completado"
+          "complete": "Finalizar"
+        },
+        "labels": {
+          "paymentTitle": "Pago n.º {index}",
+          "paymentSubtitle": "Elige una opción de pago",
+          "changeShipping": "Cambiar método de envío",
+          "noSelection": "Selecciona un método de pago para continuar"
+        },
+        "actions": {
+          "next": "Siguiente"
+        },
+        "summary": {
+          "title": "Resumen",
+          "customerFallback": "Cliente",
+          "itemCount": {
+            "one": "{count} artículo",
+            "other": "{count} artículos"
+          },
+          "itemsTotal": "Subtotal de artículos",
+          "discount": "Descuento",
+          "shipping": "Costo de envío estimado",
+          "taxes": "Impuestos",
+          "total": "Total del pedido"
+        },
+        "notifications": {
+          "loadingError": "No pudimos cargar los detalles de pago. Vuelve a intentarlo.",
+          "updateFailed": "No se pudo actualizar el método de pago. Vuelve a intentarlo.",
+          "updateSuccess": "Método de pago actualizado.",
+          "completeSuccess": "Pedido completado con éxito.",
+          "completeFailed": "No se pudo finalizar el pedido. Vuelve a intentarlo."
+        },
+        "states": {
+          "loading": "Cargando métodos de pago…",
+          "empty": "No hay métodos de pago disponibles para este pedido.",
+          "defaultMethodName": "Método de pago"
         }
       },
-      "summary": {
-        "title": "Información del pedido",
-        "currency": "Moneda",
-        "locale": "Idioma",
-        "orderNumber": "Pedido n.º",
-        "placedOn": "Realizado el",
-        "checkoutState": "Checkout",
-        "paymentState": "Pago",
-        "shippingState": "Envío"
-      },
-      "addresses": {
-        "billing": "Dirección de facturación",
-        "shipping": "Dirección de envío",
-        "missing": "Dirección no disponible"
-      },
-      "payments": {
-        "title": "Pagos",
-        "state": "Estado",
-        "noPayments": "No hay pagos registrados."
-      },
-      "shipments": {
-        "title": "Envíos",
-        "state": "Estado",
-        "noShipments": "No hay envíos registrados."
-      },
-      "items": {
-        "title": "Artículos",
-        "count": "{count} artículos",
-        "table": {
-          "item": "Artículo",
-          "unitPrice": "Precio unitario",
-          "quantity": "Cant.",
-          "subtotal": "Subtotal"
+      "settings": {
+        "title": "Configuración de la cuenta",
+        "subtitle": "Personaliza tu experiencia y mantén segura tu información desde un solo lugar.",
+        "sections": {
+          "profile": {
+            "title": "Preferencias del perfil",
+            "description": "Actualiza tu nombre, avatar, idioma y otros detalles que se muestran a tu equipo.",
+            "fields": {
+              "displayName": "Nombre para mostrar",
+              "username": "Nombre de usuario"
+            }
+          },
+          "security": {
+            "title": "Seguridad y privacidad",
+            "description": "Revisa las sesiones activas, habilita la autenticación multifactor y administra las aplicaciones conectadas."
+          },
+          "notifications": {
+            "title": "Notificaciones",
+            "description": "Elige cómo recibir avisos de actividad por correo electrónico, alertas push o mensajes en la aplicación."
+          }
         },
-        "empty": "Este pedido no contiene artículos."
+        "tips": {
+          "title": "¿Necesitas ayuda?",
+          "description": "Visita el Centro de ayuda para obtener guías paso a paso o contacta a nuestro equipo de soporte si te quedas atascado."
+        }
       },
-      "totals": {
-        "items": "Total artículos",
-        "discounts": "Descuentos",
+      "help": {
+        "title": "Centro de ayuda",
+        "subtitle": "Encuentra respuestas rápidas con documentación seleccionada, preguntas frecuentes y debates de la comunidad.",
+        "explanation": {
+          "title": "¿Qué es Bro World?",
+          "description": "Bro World centraliza la comunicación, el conocimiento y los flujos de trabajo de tu equipo para que puedas concentrarte en entregar valor.",
+          "highlights": {
+            "workspace": "Organiza proyectos, documentos y debates en espacios dedicados a cada iniciativa.",
+            "collaboration": "Colabora en tiempo real con notas compartidas, mensajería integrada y notificaciones oportunas.",
+            "support": "Supervisa el progreso desde paneles interactivos y contacta a nuestro equipo cuando necesites orientación.",
+            "automation": "Automatiza tareas repetitivas con recetas de orquestación que activan acciones en tus herramientas.",
+            "integrations": "Conecta Bro World con GitHub, Slack, Figma y decenas de socios para mantener el flujo de datos.",
+            "aiAssistant": "Utiliza el asistente de IA para obtener resúmenes al instante, redactar actualizaciones y sugerir próximos pasos."
+          }
+        },
+        "sections": {
+          "guides": {
+            "title": "Guías del producto",
+            "description": "Explora tutoriales ilustrados para aprender lo básico y descubrir flujos de trabajo avanzados."
+          },
+          "faq": {
+            "title": "Preguntas frecuentes",
+            "description": "Consulta las soluciones a los temas más consultados por nuestros usuarios cada día."
+          },
+          "community": {
+            "title": "Foro de la comunidad",
+            "description": "Únete a las conversaciones con otros miembros, comparte consejos y vota por nuevas funciones."
+          },
+          "automation": {
+            "title": "Biblioteca de automatizaciones",
+            "description": "Explora guías listas para conectar workflows, aprobaciones y reportes en cuestión de minutos."
+          },
+          "updates": {
+            "title": "Novedades y lanzamientos",
+            "description": "Revisa los anuncios más recientes, los hitos de la hoja de ruta y las oportunidades de programas beta."
+          }
+        },
+        "questions": {
+          "title": "Preguntas habituales",
+          "items": {
+            "accountAccess": {
+              "question": "¿Cómo accedo a mi cuenta?",
+              "answer": "Inicia sesión con el correo que utilizaste para registrarte. Si tienes problemas, restablece tu contraseña desde la página de acceso o contacta al soporte."
+            },
+            "inviteTeam": {
+              "question": "¿Puedo invitar a mi equipo?",
+              "answer": "Sí. Abre la configuración del espacio de trabajo, elige \"Miembros\" y envía invitaciones por correo para colaborar al instante."
+            },
+            "getSupport": {
+              "question": "¿Dónde obtengo más ayuda?",
+              "answer": "Consulta las guías anteriores para seguir tutoriales paso a paso o escríbenos directamente para recibir asistencia personalizada."
+            },
+            "automationTemplates": {
+              "question": "¿Cómo habilito las nuevas plantillas de automatización?",
+              "answer": "Abre la biblioteca de automatizaciones desde el Centro de ayuda, elige una receta y vincula cada paso con las integraciones conectadas a tu espacio de trabajo."
+            },
+            "mobileAccess": {
+              "question": "¿Hay experiencia móvil?",
+              "answer": "Sí. Instala la aplicación para iOS o Android para recibir notificaciones push, aprobar flujos y chatear con tu equipo desde cualquier lugar."
+            },
+            "billing": {
+              "question": "¿Dónde gestiono la facturación?",
+              "answer": "Los administradores pueden ir a Configuración → Facturación para actualizar métodos de pago, descargar facturas o ajustar el número de licencias."
+            }
+          }
+        },
+        "contact": {
+          "title": "¿Aún necesitas ayuda?",
+          "description": "Envíanos un mensaje desde la página de contacto, inicia un chat en vivo o agenda una sesión con nuestro equipo de éxito."
+        }
+      },
+      "about": {
+        "title": "Acerca de Bro World",
+        "subtitle": "Descubre la plataforma llena de funciones que impulsa a Bro World en equipos, productos y comunidades.",
+        "intro": "Bro World se ha convertido en un espacio de trabajo digital unificado que combina comunidad, publicación de contenido, mensajería y automatización en una experiencia cohesionada.",
+        "mission": "Nuestra misión es ayudar a los equipos a prototipar rápido, lanzar antes y gestionar las operaciones diarias con confianza mediante bloques modulares.",
+        "vision": "Desde flujos de trabajo asistidos por IA hasta paneles de colaboración en tiempo real, cada función está diseñada para adaptarse a medida que evoluciona tu organización.",
+        "sections": {
+          "frontend": {
+            "title": "Experiencia front-end",
+            "description": "Nuxt 3, Vue 3, TypeScript y Vuetify 3 impulsan una interfaz accesible con microfrontends, caché sin conexión y un diseño responsivo que se siente veloz en cualquier dispositivo."
+          },
+          "backend": {
+            "title": "Base back-end",
+            "description": "Los servicios de Node.js orquestan colas, WebSockets, indexación de búsqueda y persistencia en PostgreSQL detrás de escena."
+          },
+          "api": {
+            "title": "Microservicios Symfony",
+            "description": "Microservicios desacoplados de Symfony exponen API REST y GraphQL seguras junto con integraciones llave en mano y webhooks."
+          },
+          "realtime": {
+            "title": "Colaboración en tiempo real",
+            "description": "La presencia en vivo, los comentarios compartidos y los eventos WebSocket mantienen a los equipos alineados mientras las actualizaciones se publican en segundos."
+          },
+          "automation": {
+            "title": "Automatización e inteligencia",
+            "description": "Tareas en segundo plano, asistentes con IA y flujos programados eliminan el trabajo repetitivo y resaltan la próxima mejor acción."
+          },
+          "devops": {
+            "title": "DevOps y seguridad",
+            "description": "Canales de infraestructura como código, despliegues contenedorizados y escaneos de seguridad continuos protegen cada lanzamiento."
+          }
+        },
+        "highlights": {
+          "collaboration": {
+            "title": "Colaboración en workspaces",
+            "description": "Espacios de trabajo multi-tenant, permisos basados en roles y calendarios compartidos respaldan a los equipos distribuidos."
+          },
+          "analytics": {
+            "title": "Analítica accionable",
+            "description": "Paneles interactivos, reportes exportables y métricas unificadas revelan la salud del producto en segundos."
+          },
+          "customization": {
+            "title": "Personalización profunda",
+            "description": "El generador de temas, los hooks de extensión y los ajustes granulares permiten adaptar cada superficie a tu marca."
+          },
+          "marketplace": {
+            "title": "Marketplace del ecosistema",
+            "description": "Plugins curados, kits de integración y APIs abiertas aceleran la entrega de nuevas funciones."
+          }
+        },
+        "callToAction": {
+          "title": "Construye con Bro World",
+          "description": "¿Listo para ampliar la plataforma o conectar tu stack? Ponte en contacto y diseñemos juntos la próxima generación de funciones."
+        }
+      },
+      "ecommerceThankYou": {
+        "heroTitle": "¡Gracias!",
+        "heroSubtitle": "Tu pedido se ha realizado correctamente.",
+        "orderTokenLabel": "ID de confirmación: {token}",
+        "viewOrder": "Ver pedido",
+        "backToShop": "Volver a la tienda",
+        "orderSummary": "Resumen del pedido",
+        "placedOn": "Realizado el {date}",
+        "orderNumber": "Pedido {number}",
+        "items": "Artículos",
+        "itemCount": "{count} artículos",
+        "emptyItems": "No se encontraron artículos en este pedido.",
+        "itemFallback": "Artículo",
+        "unitPrice": "Precio unitario: {price}",
+        "totals": "Resumen de pago",
+        "subtotal": "Subtotal",
         "shipping": "Envío",
-        "taxes": "Impuestos",
-        "grandTotal": "Total del pedido"
+        "shippingMethod": "Método de envío",
+        "tax": "Impuestos",
+        "total": "Total",
+        "contact": "Contacto",
+        "email": "Correo electrónico",
+        "phone": "Teléfono",
+        "shippingAddress": "Dirección de envío",
+        "billingAddress": "Dirección de facturación",
+        "noAddress": "No se proporcionó ninguna dirección.",
+        "noOrder": "No pudimos mostrar los detalles de tu pedido.",
+        "missingToken": "No podemos encontrar tu pedido sin un token de confirmación.",
+        "loadError": "No pudimos cargar los detalles de tu pedido. Inténtalo de nuevo.",
+        "retry": "Reintentar"
       },
-      "notes": {
-        "title": "Notas adicionales",
-        "empty": "No se añadieron notas."
+      "contact": {
+        "title": "Contáctanos",
+        "subtitle": "Estamos aquí para responder tus preguntas y guiarte hacia las soluciones adecuadas.",
+        "sections": {
+          "support": {
+            "title": "Soporte al cliente",
+            "description": "Obtén asistencia técnica, reporta incidencias o solicita cambios en la cuenta con nuestro equipo dedicado."
+          },
+          "partnerships": {
+            "title": "Alianzas",
+            "description": "Habla sobre integraciones, oportunidades de co-marketing o paquetes empresariales a medida."
+          },
+          "press": {
+            "title": "Prensa y medios",
+            "description": "Solicita entrevistas, logotipos o kits de prensa para presentar a Bro World en tu publicación."
+          }
+        },
+        "details": {
+          "title": "Cómo contactarnos",
+          "description": "Envía un correo a {email} o abre un ticket desde tu panel. Respondemos en un día hábil."
+        },
+        "form": {
+          "title": "Envíanos un mensaje",
+          "description": "Comparte algunos detalles sobre tu solicitud y te pondremos en contacto con la persona adecuada.",
+          "fields": {
+            "subject": "Título del mensaje",
+            "email": "Correo electrónico",
+            "message": "Descripción"
+          },
+          "actions": {
+            "submit": "Enviar mensaje"
+          },
+          "status": {
+            "success": "¡Gracias! Tu mensaje se envió correctamente.",
+            "error": "Algo salió mal. Inténtalo de nuevo."
+          },
+          "validation": {
+            "required": "Este campo es obligatorio.",
+            "email": "Introduce una dirección de correo válida."
+          }
+        },
+        "location": {
+          "title": "Visítanos en Colonia",
+          "description": "Encuentra a nuestro equipo en nuestra oficina de Colonia, Alemania."
+        }
       },
-      "actions": {
-        "refresh": "Actualizar pedido"
+      "ecommerceOrder": {
+        "meta": {
+          "title": "Order details"
+        },
+        "heading": {
+          "title": "Order #{number}",
+          "subtitle": "Your account"
+        },
+        "breadcrumbs": {
+          "account": "My account",
+          "orders": "Order history"
+        },
+        "actions": {
+          "pay": "Pay",
+          "retry": "Try again",
+          "refresh": "Refresh"
+        },
+        "labels": {
+          "token": "Token: {token}",
+          "createdAt": "Created at",
+          "completedAt": "Completed at",
+          "updatedAt": "Last update",
+          "currency": "Currency",
+          "locale": "Locale",
+          "checkoutState": "Checkout state",
+          "paymentState": "Payment state",
+          "shippingState": "Shipping state",
+          "state": "Order state",
+          "channel": "Channel",
+          "customer": "Customer",
+          "email": "Email",
+          "quantity": "Items"
+        },
+        "sections": {
+          "information": {
+            "title": "Order information"
+          },
+          "addresses": {
+            "title": "Addresses",
+            "billing": "Billing address",
+            "shipping": "Shipping address",
+            "loading": "Loading addresses…"
+          },
+          "items": {
+            "title": "Items",
+            "empty": "This order does not contain any items.",
+            "table": {
+              "product": "Product",
+              "unitPrice": "Unit price",
+              "quantity": "Qty",
+              "total": "Total"
+            }
+          },
+          "payments": {
+            "title": "Payments",
+            "empty": "No payments recorded for this order."
+          },
+          "shipments": {
+            "title": "Shipments",
+            "empty": "No shipments recorded for this order."
+          },
+          "summary": {
+            "title": "Summary",
+            "itemsTotal": "Subtotal",
+            "taxTotal": "Taxes",
+            "shippingTotal": "Shipping",
+            "total": "Order total"
+          }
+        },
+        "messages": {
+          "loadingError": "We could not load this order. Please try again.",
+          "notFound": "We could not find this order.",
+          "itemsError": "Unable to load the order items.",
+          "addressesError": "We could not load the addresses linked to this order."
+        },
+        "fallbacks": {
+          "unknown": "Unknown",
+          "noAddress": "Address unavailable",
+          "noValue": "Not provided"
+        },
+        "metaTitle": "Resumen del pedido",
+        "heading": {
+          "title": "Resumen de tu pedido",
+          "subtitle": "Revisa todos los detalles antes de finalizar tu compra."
+        },
+        "status": {
+          "steps": {
+            "address": "Dirección",
+            "shipping": "Envío",
+            "payment": "Pago",
+            "complete": "Completado"
+          }
+        },
+        "summary": {
+          "title": "Información del pedido",
+          "currency": "Moneda",
+          "locale": "Idioma",
+          "orderNumber": "Pedido n.º",
+          "placedOn": "Realizado el",
+          "checkoutState": "Checkout",
+          "paymentState": "Pago",
+          "shippingState": "Envío"
+        },
+        "addresses": {
+          "billing": "Dirección de facturación",
+          "shipping": "Dirección de envío",
+          "missing": "Dirección no disponible"
+        },
+        "payments": {
+          "title": "Pagos",
+          "state": "Estado",
+          "noPayments": "No hay pagos registrados."
+        },
+        "shipments": {
+          "title": "Envíos",
+          "state": "Estado",
+          "noShipments": "No hay envíos registrados."
+        },
+        "items": {
+          "title": "Artículos",
+          "count": "{count} artículos",
+          "table": {
+            "item": "Artículo",
+            "unitPrice": "Precio unitario",
+            "quantity": "Cant.",
+            "subtotal": "Subtotal"
+          },
+          "empty": "Este pedido no contiene artículos."
+        },
+        "totals": {
+          "items": "Total artículos",
+          "discounts": "Descuentos",
+          "shipping": "Envío",
+          "taxes": "Impuestos",
+          "grandTotal": "Total del pedido"
+        },
+        "notes": {
+          "title": "Notas adicionales",
+          "empty": "No se añadieron notas."
+        },
+        "actions": {
+          "refresh": "Actualizar pedido"
+        },
+        "fallbacks": {
+          "unknownPaymentMethod": "Método de pago",
+          "unknownShipmentMethod": "Envío",
+          "unknownProduct": "Artículo",
+          "unknownState": "Pendiente",
+          "unknownLocale": "Idioma"
+        },
+        "errors": {
+          "loadFailed": "No se pudo cargar este pedido."
+        },
+        "states": {
+          "cart": "Carrito",
+          "addressed": "Dirección confirmada",
+          "shipping_selected": "Envío seleccionado",
+          "payment_selected": "Pago seleccionado",
+          "completed": "Completado"
+        }
       },
-      "fallbacks": {
-        "unknownPaymentMethod": "Método de pago",
-        "unknownShipmentMethod": "Envío",
-        "unknownProduct": "Artículo",
-        "unknownState": "Pendiente",
-        "unknownLocale": "Idioma"
-      },
-      "errors": {
-        "loadFailed": "No se pudo cargar este pedido."
-      },
-      "states": {
-        "cart": "Carrito",
-        "addressed": "Dirección confirmada",
-        "shipping_selected": "Envío seleccionado",
-        "payment_selected": "Pago seleccionado",
-        "completed": "Completado"
-
+      "ecommerceCategory": {
+        "breadcrumbs": {
+          "category": "Category"
+        },
+        "actions": {
+          "goUp": "Go level up",
+          "refresh": "Reload category"
+        },
+        "labels": {
+          "search": "Search",
+          "searchPlaceholder": "Search products",
+          "sort": "Sort",
+          "itemsCount": "{count} items"
+        },
+        "sort": {
+          "position": "Sort by position",
+          "name": "Name (A–Z)",
+          "priceAsc": "Price: low to high",
+          "priceDesc": "Price: high to low"
+        },
+        "status": {
+          "loading": "Loading category…",
+          "failed": "We could not load this category."
+        },
+        "fallbacks": {
+          "description": "Explore our curated selection for this category.",
+          "empty": "We do not have products in this category yet."
+        }
       }
     },
-    "ecommerceCategory": {
-      "breadcrumbs": {
-        "category": "Category"
+    "$vuetify": {
+      "close": "Cerrar"
+    },
+    "workspace": {
+      "page": {
+        "title": "My workspace",
+        "subtitle": "Organize and share your personal folders and files."
+      },
+      "tree": {
+        "title": "Folders",
+        "empty": "No folders available yet.",
+        "actions": {
+          "createRoot": "Create root folder"
+        }
       },
       "actions": {
-        "goUp": "Go level up",
-        "refresh": "Reload category"
+        "newFolder": "New folder",
+        "uploadFile": "Upload file",
+        "renameFolder": "Rename",
+        "deleteFolder": "Delete folder",
+        "refresh": "Refresh"
       },
-      "labels": {
-        "search": "Search",
-        "searchPlaceholder": "Search products",
-        "sort": "Sort",
-        "itemsCount": "{count} items"
-      },
-      "sort": {
-        "position": "Sort by position",
-        "name": "Name (A–Z)",
-        "priceAsc": "Price: low to high",
-        "priceDesc": "Price: high to low"
-      },
-      "status": {
-        "loading": "Loading category…",
-        "failed": "We could not load this category."
-      },
-      "fallbacks": {
-        "description": "Explore our curated selection for this category.",
-        "empty": "We do not have products in this category yet."
-      }
-    }
-  },
-  "$vuetify": {
-    "close": "Cerrar"
-  },
-  "workspace": {
-    "page": {
-      "title": "My workspace",
-      "subtitle": "Organize and share your personal folders and files."
-    },
-    "tree": {
-      "title": "Folders",
-      "empty": "No folders available yet.",
-      "actions": {
-        "createRoot": "Create root folder"
-      }
-    },
-    "actions": {
-      "newFolder": "New folder",
-      "uploadFile": "Upload file",
-      "renameFolder": "Rename",
-      "deleteFolder": "Delete folder",
-      "refresh": "Refresh"
-    },
-    "details": {
-      "items": {
-        "none": "No subfolders",
-        "one": "1 subfolder",
-        "other": "{count} subfolders"
+      "details": {
+        "items": {
+          "none": "No subfolders",
+          "one": "1 subfolder",
+          "other": "{count} subfolders"
+        },
+        "files": {
+          "none": "No files",
+          "one": "1 file",
+          "other": "{count} files"
+        },
+        "private": "Private",
+        "favorite": "Favorite"
       },
       "files": {
-        "none": "No files",
-        "one": "1 file",
-        "other": "{count} files"
-      },
-      "private": "Private",
-      "favorite": "Favorite"
-    },
-    "files": {
-      "title": "Files",
-      "empty": "No files in this folder yet.",
-      "favorite": "Favorite",
-      "sizeUnknown": "Unknown size",
-      "headers": {
-        "name": "Name",
-        "type": "Type",
-        "extension": "Extension",
-        "size": "Size",
-        "actions": "Actions"
-      },
-      "actions": {
-        "open": "Open",
-        "delete": "Delete"
-      }
-    },
-    "dialogs": {
-      "create": {
-        "title": "Create folder",
-        "subtitle": "Choose a name and optionally a parent folder."
-      },
-      "edit": {
-        "title": "Rename folder"
-      },
-      "delete": {
-        "title": "Delete folder",
-        "message": "Are you sure you want to delete this folder and all of its content?"
-      },
-      "upload": {
-        "title": "Upload file",
-        "subtitle": "Select a file to add to the current folder."
-      },
-      "deleteFile": {
-        "title": "Delete file",
-        "message": "Are you sure you want to delete this file?"
-      },
-      "fields": {
-        "name": "Folder name",
-        "parent": "Parent folder",
-        "private": "Private folder",
-        "favorite": "Mark as favorite",
-        "file": "File"
-      },
-      "actions": {
-        "cancel": "Cancel",
-        "create": "Create",
-        "save": "Save changes",
-        "delete": "Delete",
-        "upload": "Upload"
-      }
-    },
-    "notifications": {
-      "folderCreated": "Folder created successfully.",
-      "folderUpdated": "Folder updated successfully.",
-      "folderDeleted": "Folder deleted successfully.",
-      "fileUploaded": "File uploaded successfully.",
-      "fileDeleted": "File deleted successfully."
-    },
-    "errors": {
-      "loadFolders": "Unable to load folders. Please try again.",
-      "createFolder": "Unable to create the folder.",
-      "updateFolder": "Unable to update the folder.",
-      "deleteFolder": "Unable to delete the folder.",
-      "uploadFile": "Unable to upload the file.",
-      "deleteFile": "Unable to delete the file.",
-      "noFolderSelected": "Select a folder before uploading a file."
-    },
-    "validation": {
-      "nameRequired": "Folder name is required.",
-      "fileRequired": "A file must be selected."
-    },
-    "messages": {
-      "selectFolder": "Select a folder from the list to display its content.",
-      "refreshing": "Refreshing folder content..."
-    }
-  },
-  "pluginManagement": {
-    "plugins": {
-      "cardTitle": "Plugins",
-      "cardSubtitle": "Manage the available integrations for the platform.",
-      "searchPlaceholder": "Search plugins",
-      "table": {
-        "name": "Name",
-        "key": "Key",
-        "status": "Status",
-        "installed": "Installed",
-        "updatedAt": "Updated at"
-      },
-      "labels": {
-        "active": "Active",
-        "inactive": "Inactive",
-        "installed": "Installed",
-        "notInstalled": "Not installed",
-        "notAvailable": "Not available",
-        "total": "Total: {count}",
-        "pluginFallback": "this plugin",
-        "createdAt": "Created at",
-        "updatedAt": "Updated at"
-      },
-      "fields": {
-        "name": "Name",
-        "key": "Key",
-        "subTitle": "Subtitle",
-        "description": "Description",
-        "logo": "Logo URL",
-        "icon": "Icon",
-        "link": "Link URL",
-        "pricing": "Pricing",
-        "action": "Action label",
-        "active": "Active",
-        "installed": "Installed"
+        "title": "Files",
+        "empty": "No files in this folder yet.",
+        "favorite": "Favorite",
+        "sizeUnknown": "Unknown size",
+        "headers": {
+          "name": "Name",
+          "type": "Type",
+          "extension": "Extension",
+          "size": "Size",
+          "actions": "Actions"
+        },
+        "actions": {
+          "open": "Open",
+          "delete": "Delete"
+        }
       },
       "dialogs": {
         "create": {
-          "title": "Create plugin"
+          "title": "Create folder",
+          "subtitle": "Choose a name and optionally a parent folder."
         },
         "edit": {
-          "title": "Edit {name}"
+          "title": "Rename folder"
         },
         "delete": {
-          "title": "Delete plugin",
-          "message": "Are you sure you want to delete {name}? This action cannot be undone."
+          "title": "Delete folder",
+          "message": "Are you sure you want to delete this folder and all of its content?"
         },
-        "view": {
-          "title": "Plugin details – {name}"
+        "upload": {
+          "title": "Upload file",
+          "subtitle": "Select a file to add to the current folder."
+        },
+        "deleteFile": {
+          "title": "Delete file",
+          "message": "Are you sure you want to delete this file?"
+        },
+        "fields": {
+          "name": "Folder name",
+          "parent": "Parent folder",
+          "private": "Private folder",
+          "favorite": "Mark as favorite",
+          "file": "File"
+        },
+        "actions": {
+          "cancel": "Cancel",
+          "create": "Create",
+          "save": "Save changes",
+          "delete": "Delete",
+          "upload": "Upload"
         }
       },
       "notifications": {
-        "createSuccess": "Plugin created successfully.",
-        "updateSuccess": "Plugin updated successfully.",
-        "deleteSuccess": "Plugin deleted successfully."
+        "folderCreated": "Folder created successfully.",
+        "folderUpdated": "Folder updated successfully.",
+        "folderDeleted": "Folder deleted successfully.",
+        "fileUploaded": "File uploaded successfully.",
+        "fileDeleted": "File deleted successfully."
       },
       "errors": {
-        "loadFailed": "Unable to load the plugins. Please try again later.",
-        "createFailed": "Unable to create the plugin. Please try again later.",
-        "updateFailed": "Unable to update the plugin. Please try again later.",
-        "deleteFailed": "Unable to delete the plugin. Please try again later.",
-        "invalidForm": "Please fill in the required fields before continuing.",
-        "missingIdentifier": "A valid plugin identifier is required to continue.",
-        "loadDetails": "Unable to retrieve the plugin details. Please try again later."
+        "loadFolders": "Unable to load folders. Please try again.",
+        "createFolder": "Unable to create the folder.",
+        "updateFolder": "Unable to update the folder.",
+        "deleteFolder": "Unable to delete the folder.",
+        "uploadFile": "Unable to upload the file.",
+        "deleteFile": "Unable to delete the file.",
+        "noFolderSelected": "Select a folder before uploading a file."
       },
-      "actions": {
-        "view": "View plugin",
-        "edit": "Edit plugin",
-        "delete": "Delete plugin"
-      }
-    }
-  },
-  "notificationManagement": {
-    "title": "Gestión de notificaciones",
-    "subtitle": "Supervisa las notificaciones del sistema y resuelve incidencias de entrega desde un único lugar.",
-    "table": {
-      "subject": "Asunto",
-      "channel": "Canal",
-      "recipient": "Destinatario",
-      "status": "Estado",
-      "createdAt": "Creada",
-      "scheduledFor": "Programada",
-      "sentAt": "Enviada"
-    },
-    "filters": {
-      "search": "Buscar por asunto, canal o destinatario"
-    },
-    "status": {
-      "pending": "Pendiente",
-      "processing": "En curso",
-      "sent": "Enviada",
-      "failed": "Fallida",
-      "cancelled": "Cancelada",
-      "canceled": "Cancelada",
-      "queued": "En cola",
-      "delivered": "Entregada",
-      "errored": "Fallida",
-      "unknown": "Desconocido"
-    },
-    "channels": {
-      "email": "Correo electrónico",
-      "sms": "SMS",
-      "push": "Notificación push",
-      "in_app": "En la aplicación",
-      "inapp": "En la aplicación",
-      "webhook": "Webhook",
-      "unknown": "Otro"
-    },
-    "labels": {
-      "subject": "Asunto",
-      "status": "Estado",
-      "recipient": "Destinatario",
-      "channel": "Canal",
-      "createdAt": "Creada el",
-      "updatedAt": "Última actualización",
-      "scheduledFor": "Programada para",
-      "sentAt": "Enviada el",
-      "message": "Mensaje",
-      "metadata": "Metadatos",
-      "payload": "Payload",
-      "context": "Contexto",
-      "attempts": "Intentos de entrega",
-      "emptyMetadata": "No hay detalles adicionales disponibles para esta notificación.",
-      "notAvailable": "No disponible"
-    },
-    "actions": {
-      "view": "Ver notificación {subject}",
-      "updateStatus": "Actualizar estado de {subject}"
-    },
-    "dialogs": {
-      "view": {
-        "title": "Detalles de la notificación"
+      "validation": {
+        "nameRequired": "Folder name is required.",
+        "fileRequired": "A file must be selected."
       },
-      "status": {
-        "title": "Actualizar estado de la notificación",
-        "description": "Elige el estado que debe aplicarse a esta notificación."
+      "messages": {
+        "selectFolder": "Select a folder from the list to display its content.",
+        "refreshing": "Refreshing folder content..."
       }
     },
-    "forms": {
-      "status": {
-        "label": "Estado",
-        "hint": "Selecciona el estado de entrega que mejor describa la situación actual.",
-        "submit": "Guardar estado"
+    "pluginManagement": {
+      "plugins": {
+        "cardTitle": "Plugins",
+        "cardSubtitle": "Manage the available integrations for the platform.",
+        "searchPlaceholder": "Search plugins",
+        "table": {
+          "name": "Name",
+          "key": "Key",
+          "status": "Status",
+          "installed": "Installed",
+          "updatedAt": "Updated at"
+        },
+        "labels": {
+          "active": "Active",
+          "inactive": "Inactive",
+          "installed": "Installed",
+          "notInstalled": "Not installed",
+          "notAvailable": "Not available",
+          "total": "Total: {count}",
+          "pluginFallback": "this plugin",
+          "createdAt": "Created at",
+          "updatedAt": "Updated at"
+        },
+        "fields": {
+          "name": "Name",
+          "key": "Key",
+          "subTitle": "Subtitle",
+          "description": "Description",
+          "logo": "Logo URL",
+          "icon": "Icon",
+          "link": "Link URL",
+          "pricing": "Pricing",
+          "action": "Action label",
+          "active": "Active",
+          "installed": "Installed"
+        },
+        "dialogs": {
+          "create": {
+            "title": "Create plugin"
+          },
+          "edit": {
+            "title": "Edit {name}"
+          },
+          "delete": {
+            "title": "Delete plugin",
+            "message": "Are you sure you want to delete {name}? This action cannot be undone."
+          },
+          "view": {
+            "title": "Plugin details – {name}"
+          }
+        },
+        "notifications": {
+          "createSuccess": "Plugin created successfully.",
+          "updateSuccess": "Plugin updated successfully.",
+          "deleteSuccess": "Plugin deleted successfully."
+        },
+        "errors": {
+          "loadFailed": "Unable to load the plugins. Please try again later.",
+          "createFailed": "Unable to create the plugin. Please try again later.",
+          "updateFailed": "Unable to update the plugin. Please try again later.",
+          "deleteFailed": "Unable to delete the plugin. Please try again later.",
+          "invalidForm": "Please fill in the required fields before continuing.",
+          "missingIdentifier": "A valid plugin identifier is required to continue.",
+          "loadDetails": "Unable to retrieve the plugin details. Please try again later."
+        },
+        "actions": {
+          "view": "View plugin",
+          "edit": "Edit plugin",
+          "delete": "Delete plugin"
+        }
       }
     },
-    "notifications": {
-      "loadFailed": "No se pudieron cargar las notificaciones.",
-      "detailLoadFailed": "No se pudieron cargar los detalles de la notificación.",
-      "statusUpdated": "El estado de la notificación se actualizó a {status}.",
-      "statusUpdateFailed": "No se pudo actualizar el estado de la notificación."
-    },
-    "navigation": {
-      "notifications": "Notifications",
-      "templates": "Templates",
-      "send": "Send notification",
-      "batch": "Batch send"
-    },
-    "templates": {
-      "title": "Notification templates",
-      "subtitle": "Browse and upload notification templates available to your workspace.",
-      "filters": {
-        "search": "Search by name, locale or identifier"
-      },
+    "notificationManagement": {
+      "title": "Gestión de notificaciones",
+      "subtitle": "Supervisa las notificaciones del sistema y resuelve incidencias de entrega desde un único lugar.",
       "table": {
-        "name": "Name",
-        "templateId": "Template ID",
-        "locale": "Locale",
-        "updatedAt": "Updated",
-        "createdAt": "Created"
+        "subject": "Asunto",
+        "channel": "Canal",
+        "recipient": "Destinatario",
+        "status": "Estado",
+        "createdAt": "Creada",
+        "scheduledFor": "Programada",
+        "sentAt": "Enviada"
+      },
+      "filters": {
+        "search": "Buscar por asunto, canal o destinatario"
+      },
+      "status": {
+        "pending": "Pendiente",
+        "processing": "En curso",
+        "sent": "Enviada",
+        "failed": "Fallida",
+        "cancelled": "Cancelada",
+        "canceled": "Cancelada",
+        "queued": "En cola",
+        "delivered": "Entregada",
+        "errored": "Fallida",
+        "unknown": "Desconocido"
+      },
+      "channels": {
+        "email": "Correo electrónico",
+        "sms": "SMS",
+        "push": "Notificación push",
+        "in_app": "En la aplicación",
+        "inapp": "En la aplicación",
+        "webhook": "Webhook",
+        "unknown": "Otro"
       },
       "labels": {
-        "name": "Template name",
-        "identifier": "Identifier",
-        "templateId": "Template ID",
-        "locale": "Locale",
-        "createdAt": "Created at",
-        "updatedAt": "Updated at",
-        "variables": "Variables",
-        "emptyVariables": "No variables are defined for this template.",
-        "anyLocale": "Any locale"
+        "subject": "Asunto",
+        "status": "Estado",
+        "recipient": "Destinatario",
+        "channel": "Canal",
+        "createdAt": "Creada el",
+        "updatedAt": "Última actualización",
+        "scheduledFor": "Programada para",
+        "sentAt": "Enviada el",
+        "message": "Mensaje",
+        "metadata": "Metadatos",
+        "payload": "Payload",
+        "context": "Contexto",
+        "attempts": "Intentos de entrega",
+        "emptyMetadata": "No hay detalles adicionales disponibles para esta notificación.",
+        "notAvailable": "No disponible"
       },
       "actions": {
-        "upload": "Upload template",
-        "refresh": "Refresh",
-        "view": "View template {name}",
-        "viewLabel": "View"
+        "view": "Ver notificación {subject}",
+        "updateStatus": "Actualizar estado de {subject}"
       },
       "dialogs": {
         "view": {
-          "title": "Template details"
+          "title": "Detalles de la notificación"
         },
-        "upload": {
-          "title": "Upload notification template",
-          "description": "Select the template archive or JSON file you want to upload."
+        "status": {
+          "title": "Actualizar estado de la notificación",
+          "description": "Elige el estado que debe aplicarse a esta notificación."
         }
       },
       "forms": {
-        "upload": {
-          "fileLabel": "Template file",
-          "fileHint": "Accepted formats: JSON, ZIP, YAML or plain text.",
-          "fileRequired": "Please select a template file before continuing.",
-          "submit": "Upload template"
+        "status": {
+          "label": "Estado",
+          "hint": "Selecciona el estado de entrega que mejor describa la situación actual.",
+          "submit": "Guardar estado"
         }
       },
       "notifications": {
-        "loadFailed": "Unable to load templates.",
-        "detailLoadFailed": "Unable to load the template details.",
-        "detailUnavailable": "Template details are not available.",
-        "uploadSuccess": "Template uploaded successfully.",
-        "uploadFailed": "Unable to upload the template."
+        "loadFailed": "No se pudieron cargar las notificaciones.",
+        "detailLoadFailed": "No se pudieron cargar los detalles de la notificación.",
+        "statusUpdated": "El estado de la notificación se actualizó a {status}.",
+        "statusUpdateFailed": "No se pudo actualizar el estado de la notificación."
+      },
+      "navigation": {
+        "notifications": "Notifications",
+        "templates": "Templates",
+        "send": "Send notification",
+        "batch": "Batch send"
+      },
+      "templates": {
+        "title": "Notification templates",
+        "subtitle": "Browse and upload notification templates available to your workspace.",
+        "filters": {
+          "search": "Search by name, locale or identifier"
+        },
+        "table": {
+          "name": "Name",
+          "templateId": "Template ID",
+          "locale": "Locale",
+          "updatedAt": "Updated",
+          "createdAt": "Created"
+        },
+        "labels": {
+          "name": "Template name",
+          "identifier": "Identifier",
+          "templateId": "Template ID",
+          "locale": "Locale",
+          "createdAt": "Created at",
+          "updatedAt": "Updated at",
+          "variables": "Variables",
+          "emptyVariables": "No variables are defined for this template.",
+          "anyLocale": "Any locale"
+        },
+        "actions": {
+          "upload": "Upload template",
+          "refresh": "Refresh",
+          "view": "View template {name}",
+          "viewLabel": "View"
+        },
+        "dialogs": {
+          "view": {
+            "title": "Template details"
+          },
+          "upload": {
+            "title": "Upload notification template",
+            "description": "Select the template archive or JSON file you want to upload."
+          }
+        },
+        "forms": {
+          "upload": {
+            "fileLabel": "Template file",
+            "fileHint": "Accepted formats: JSON, ZIP, YAML or plain text.",
+            "fileRequired": "Please select a template file before continuing.",
+            "submit": "Upload template"
+          }
+        },
+        "notifications": {
+          "loadFailed": "Unable to load templates.",
+          "detailLoadFailed": "Unable to load the template details.",
+          "detailUnavailable": "Template details are not available.",
+          "uploadSuccess": "Template uploaded successfully.",
+          "uploadFailed": "Unable to upload the template."
+        }
+      },
+      "send": {
+        "title": "Send a notification",
+        "subtitle": "Compose and send a notification to a recipient or group immediately or at a scheduled time.",
+        "channels": {
+          "email": "Email",
+          "sms": "SMS",
+          "push": "Push"
+        },
+        "fields": {
+          "channel": "Channel",
+          "scope": "Scope",
+          "sendAfter": "Send after",
+          "scopeTarget": "Scope target",
+          "topic": "Topic",
+          "pushTitle": "Push title",
+          "pushSubtitle": "Push subtitle",
+          "pushContent": "Push content",
+          "smsContent": "SMS content",
+          "smsSenderName": "Sender name",
+          "recipients": "Recipients",
+          "emailRecipientsCc": "CC recipients",
+          "emailRecipientsBcc": "BCC recipients",
+          "emailRecipientsReplyTo": "Reply-to recipients",
+          "emailSenderEmail": "Sender email",
+          "emailSenderName": "Sender name",
+          "templateId": "Template ID",
+          "emailSubject": "Email subject",
+          "emailContentPlain": "Plain text content",
+          "emailContentHtml": "HTML content"
+        },
+        "hints": {
+          "channel": "Select the channel that will be used to send this notification.",
+          "scope": "Optional scope for the notification (INDIVIDUAL, GLOBAL, WORKPLACE, SEGMENT).",
+          "sendAfter": "Choose a future date to delay the delivery or leave empty to send immediately.",
+          "scopeTarget": "Provide a JSON object describing the target audience for scoped notifications.",
+          "topic": "Optional topic identifier used by the push provider.",
+          "recipients": "Provide a JSON array or string representing the recipients.",
+          "emailRecipientsCc": "Optional carbon copy recipients as JSON array or string.",
+          "emailRecipientsBcc": "Optional blind carbon copy recipients as JSON array or string.",
+          "emailRecipientsReplyTo": "Optional reply-to recipients as JSON array or string.",
+          "templateId": "Use the template ID to render the email with predefined content."
+        },
+        "sections": {
+          "push": "Push content",
+          "sms": "SMS content",
+          "email": "Email content"
+        },
+        "actions": {
+          "submit": "Send notification"
+        },
+        "notifications": {
+          "success": "Notification sent successfully.",
+          "failed": "Unable to send the notification."
+        }
+      },
+      "batch": {
+        "title": "Send batch notifications",
+        "subtitle": "Dispatch a notification to multiple recipients with a single request.",
+        "channels": {
+          "email": "Email",
+          "sms": "SMS",
+          "push": "Push"
+        },
+        "fields": {
+          "channel": "Channel",
+          "scope": "Scope",
+          "sendAfter": "Send after",
+          "recipients": "Recipients",
+          "emailSenderEmail": "Sender email",
+          "emailSenderName": "Sender name",
+          "templateId": "Template ID",
+          "emailSubject": "Email subject",
+          "emailContentPlain": "Plain text content",
+          "emailContentHtml": "HTML content"
+        },
+        "hints": {
+          "channel": "Select the notification channel for this batch request.",
+          "scope": "Optional scope for the notification (INDIVIDUAL, GLOBAL, WORKPLACE, SEGMENT).",
+          "sendAfter": "Choose a future date to delay the delivery or leave empty to send immediately.",
+          "recipients": "Provide a JSON array or string describing the batch recipients.",
+          "templateId": "Use the template ID to render the email with predefined content."
+        },
+        "sections": {
+          "email": "Email content"
+        },
+        "actions": {
+          "submit": "Send batch"
+        },
+        "notifications": {
+          "success": "Batch notification request submitted successfully.",
+          "failed": "Unable to submit the batch notification request."
+        }
       }
     },
-    "send": {
-      "title": "Send a notification",
-      "subtitle": "Compose and send a notification to a recipient or group immediately or at a scheduled time.",
-      "channels": {
-        "email": "Email",
-        "sms": "SMS",
-        "push": "Push"
+    "workplace": {
+      "drawer": {
+        "title": "World",
+        "addWorld": "Add world",
+        "emptyList": "Todavía no tienes mundos."
       },
-      "fields": {
-        "channel": "Channel",
-        "scope": "Scope",
-        "sendAfter": "Send after",
-        "scopeTarget": "Scope target",
-        "topic": "Topic",
-        "pushTitle": "Push title",
-        "pushSubtitle": "Push subtitle",
-        "pushContent": "Push content",
-        "smsContent": "SMS content",
-        "smsSenderName": "Sender name",
-        "recipients": "Recipients",
-        "emailRecipientsCc": "CC recipients",
-        "emailRecipientsBcc": "BCC recipients",
-        "emailRecipientsReplyTo": "Reply-to recipients",
-        "emailSenderEmail": "Sender email",
-        "emailSenderName": "Sender name",
-        "templateId": "Template ID",
-        "emailSubject": "Email subject",
-        "emailContentPlain": "Plain text content",
-        "emailContentHtml": "HTML content"
-      },
-      "hints": {
-        "channel": "Select the channel that will be used to send this notification.",
-        "scope": "Optional scope for the notification (INDIVIDUAL, GLOBAL, WORKPLACE, SEGMENT).",
-        "sendAfter": "Choose a future date to delay the delivery or leave empty to send immediately.",
-        "scopeTarget": "Provide a JSON object describing the target audience for scoped notifications.",
-        "topic": "Optional topic identifier used by the push provider.",
-        "recipients": "Provide a JSON array or string representing the recipients.",
-        "emailRecipientsCc": "Optional carbon copy recipients as JSON array or string.",
-        "emailRecipientsBcc": "Optional blind carbon copy recipients as JSON array or string.",
-        "emailRecipientsReplyTo": "Optional reply-to recipients as JSON array or string.",
-        "templateId": "Use the template ID to render the email with predefined content."
-      },
-      "sections": {
-        "push": "Push content",
-        "sms": "SMS content",
-        "email": "Email content"
-      },
-      "actions": {
-        "submit": "Send notification"
-      },
-      "notifications": {
-        "success": "Notification sent successfully.",
-        "failed": "Unable to send the notification."
-      }
-    },
-    "batch": {
-      "title": "Send batch notifications",
-      "subtitle": "Dispatch a notification to multiple recipients with a single request.",
-      "channels": {
-        "email": "Email",
-        "sms": "SMS",
-        "push": "Push"
-      },
-      "fields": {
-        "channel": "Channel",
-        "scope": "Scope",
-        "sendAfter": "Send after",
-        "recipients": "Recipients",
-        "emailSenderEmail": "Sender email",
-        "emailSenderName": "Sender name",
-        "templateId": "Template ID",
-        "emailSubject": "Email subject",
-        "emailContentPlain": "Plain text content",
-        "emailContentHtml": "HTML content"
-      },
-      "hints": {
-        "channel": "Select the notification channel for this batch request.",
-        "scope": "Optional scope for the notification (INDIVIDUAL, GLOBAL, WORKPLACE, SEGMENT).",
-        "sendAfter": "Choose a future date to delay the delivery or leave empty to send immediately.",
-        "recipients": "Provide a JSON array or string describing the batch recipients.",
-        "templateId": "Use the template ID to render the email with predefined content."
-      },
-      "sections": {
-        "email": "Email content"
-      },
-      "actions": {
-        "submit": "Send batch"
-      },
-      "notifications": {
-        "success": "Batch notification request submitted successfully.",
-        "failed": "Unable to submit the batch notification request."
-      }
-    }
-  },
-  "workplace": {
-    "drawer": {
-      "title": "World",
-      "addWorld": "Add world",
-      "emptyList": "Todavía no tienes mundos."
-    },
-    "dialog": {
-      "title": "Manage your world",
-      "tabs": {
-        "plugins": "Plugins",
-        "members": "Members",
-        "design": "Design"
-      },
-      "steps": {
-        "details": "World details",
-        "settings": "World settings"
-      },
-      "fields": {
-        "name": "World name",
-        "optionalName": "World name (optional)",
-        "identifier": "World identifier",
-        "isPrivate": "Private world",
-        "enabled": "Enable world",
-        "plugins": "Plugin identifiers",
-        "members": "Member identifiers"
-      },
-      "hints": {
-        "identifier": "Use the slug or ID of the world.",
-        "list": "Use commas or line breaks to separate values."
-      },
-      "actions": {
-        "create": "Create world",
-        "update": "Save changes",
-        "delete": "Delete world",
-        "addPlugins": "Add plugins",
-        "removePlugins": "Remove plugins",
-        "addMembers": "Add members",
-        "removeMembers": "Remove members",
-        "saveDesign": "Save design"
-      },
-      "messages": {
-        "createSuccess": "World created successfully.",
-        "updateSuccess": "World updated successfully.",
-        "deleteSuccess": "World deleted successfully.",
-        "addPluginsSuccess": "Plugins added successfully.",
-        "removePluginsSuccess": "Plugins removed successfully.",
-        "addMembersSuccess": "Members added successfully.",
-        "removeMembersSuccess": "Members removed successfully.",
-        "designSaved": "Design saved successfully."
-      },
-      "validation": {
-        "nameRequired": "The world name is required.",
-        "identifierRequired": "The world identifier is required.",
-        "pluginsRequired": "At least one plugin identifier is required.",
-        "membersRequired": "At least one member identifier is required."
+      "dialog": {
+        "title": "Manage your world",
+        "tabs": {
+          "plugins": "Plugins",
+          "members": "Members",
+          "design": "Design"
+        },
+        "steps": {
+          "details": "World details",
+          "settings": "World settings"
+        },
+        "fields": {
+          "name": "World name",
+          "optionalName": "World name (optional)",
+          "identifier": "World identifier",
+          "isPrivate": "Private world",
+          "enabled": "Enable world",
+          "plugins": "Plugin identifiers",
+          "members": "Member identifiers"
+        },
+        "hints": {
+          "identifier": "Use the slug or ID of the world.",
+          "list": "Use commas or line breaks to separate values."
+        },
+        "actions": {
+          "create": "Create world",
+          "update": "Save changes",
+          "delete": "Delete world",
+          "addPlugins": "Add plugins",
+          "removePlugins": "Remove plugins",
+          "addMembers": "Add members",
+          "removeMembers": "Remove members",
+          "saveDesign": "Save design"
+        },
+        "messages": {
+          "createSuccess": "World created successfully.",
+          "updateSuccess": "World updated successfully.",
+          "deleteSuccess": "World deleted successfully.",
+          "addPluginsSuccess": "Plugins added successfully.",
+          "removePluginsSuccess": "Plugins removed successfully.",
+          "addMembersSuccess": "Members added successfully.",
+          "removeMembersSuccess": "Members removed successfully.",
+          "designSaved": "Design saved successfully."
+        },
+        "validation": {
+          "nameRequired": "The world name is required.",
+          "identifierRequired": "The world identifier is required.",
+          "pluginsRequired": "At least one plugin identifier is required.",
+          "membersRequired": "At least one member identifier is required."
+        }
       }
     }
   }
-}
 }

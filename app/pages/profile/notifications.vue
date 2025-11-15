@@ -30,9 +30,7 @@ const notifications = ref<NotificationViewModel[]>([])
 const isLoading = ref(false)
 const loadError = ref<string | null>(null)
 
-const hasNotifications = computed(
-  () => notifications.value.length > 0,
-)
+const hasNotifications = computed(() => notifications.value.length > 0)
 
 function ensureString(value: unknown): string | null {
   if (typeof value === 'string') {
@@ -147,7 +145,9 @@ function extractNotificationTitle(record: Record<string, unknown>): string {
   return t('profile.notifications.fallback.title')
 }
 
-function extractNotificationDescription(record: Record<string, unknown>): string {
+function extractNotificationDescription(
+  record: Record<string, unknown>,
+): string {
   const potentialKeys = [
     'message',
     'body',
@@ -333,7 +333,6 @@ if (import.meta.client) {
     },
     { immediate: true },
   )
-
 }
 
 function formatNotificationTimestamp(date: Date) {
@@ -387,15 +386,26 @@ function formatNotificationTimestamp(date: Date) {
               </AppButton>
             </div>
 
-            <div v-else-if="hasNotifications" class="profile-notifications__list">
-              <v-list density="comfortable" class="profile-notifications__v-list">
-                <template v-for="(notification, index) in notifications" :key="notification.id">
+            <div
+              v-else-if="hasNotifications"
+              class="profile-notifications__list"
+            >
+              <v-list
+                density="comfortable"
+                class="profile-notifications__v-list"
+              >
+                <template
+                  v-for="(notification, index) in notifications"
+                  :key="notification.id"
+                >
                   <v-list-item class="profile-notifications__item">
                     <template #prepend>
                       <v-avatar color="primary" variant="tonal" size="40">
                         <v-icon
                           :icon="
-                            notification.isRead ? 'mdi-bell-outline' : 'mdi-bell-ring'
+                            notification.isRead
+                              ? 'mdi-bell-outline'
+                              : 'mdi-bell-ring'
                           "
                         />
                       </v-avatar>
@@ -429,7 +439,9 @@ function formatNotificationTimestamp(date: Date) {
                       >
                         {{
                           t('profile.notifications.labels.receivedAt', {
-                            date: formatNotificationTimestamp(notification.createdAt),
+                            date: formatNotificationTimestamp(
+                              notification.createdAt,
+                            ),
                           })
                         }}
                       </span>

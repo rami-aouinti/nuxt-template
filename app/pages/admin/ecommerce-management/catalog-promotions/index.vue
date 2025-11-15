@@ -79,7 +79,8 @@ const rows = computed(() => {
     const record = toRecord(entry)
 
     const code =
-      getString(record, ['code', 'id', '@id']) ?? `catalog-promotion-${index + 1}`
+      getString(record, ['code', 'id', '@id']) ??
+      `catalog-promotion-${index + 1}`
 
     const name =
       resolveLocalizedString(record, locale, ['name', 'title']) ?? code
@@ -112,12 +113,12 @@ const rows = computed(() => {
     const state = getString(record, ['state', 'status'])
     const isActive =
       getBoolean(record, ['enabled', 'isEnabled', 'active'], true) ||
-      (state ? ['active', 'enabled', 'published'].includes(state.toLowerCase()) : false)
+      (state
+        ? ['active', 'enabled', 'published'].includes(state.toLowerCase())
+        : false)
 
     const stateLabel = state
-      ? state
-          .replace(/_/g, ' ')
-          .replace(/\b\w/g, (char) => char.toUpperCase())
+      ? state.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
       : isActive
         ? t('admin.ecommerce.configuration.catalogPromotions.table.active')
         : t('admin.ecommerce.configuration.catalogPromotions.table.inactive')
@@ -126,7 +127,8 @@ const rows = computed(() => {
       code,
       name,
       channels:
-        channels || t('admin.ecommerce.configuration.catalogPromotions.table.noChannels'),
+        channels ||
+        t('admin.ecommerce.configuration.catalogPromotions.table.noChannels'),
       startDate,
       endDate,
       stateLabel,

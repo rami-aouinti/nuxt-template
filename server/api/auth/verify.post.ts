@@ -25,10 +25,12 @@ export default defineEventHandler(async (event) => {
       const statusCode = error.response?.status ?? 500
       const statusMessage =
         error.response?.data && typeof error.response.data === 'object'
-          ? ((error.response.data as Record<string, unknown>).message as
-              string | undefined) ?? error.response?.statusText ??
-            'Failed to verify email'
-          : error.response?.statusText ?? 'Failed to verify email'
+          ? (((error.response.data as Record<string, unknown>).message as
+              | string
+              | undefined) ??
+            error.response?.statusText ??
+            'Failed to verify email')
+          : (error.response?.statusText ?? 'Failed to verify email')
 
       throw createError({
         statusCode,

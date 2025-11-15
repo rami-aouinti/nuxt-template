@@ -155,7 +155,10 @@ export function resolveTranslationRecord(
     return exactLocale
   }
 
-  return formatted.find((entry) => Boolean(getString(entry, ['name', 'title']))) ?? null
+  return (
+    formatted.find((entry) => Boolean(getString(entry, ['name', 'title']))) ??
+    null
+  )
 }
 
 export function resolveLocalizedString(
@@ -206,4 +209,3 @@ export function safeDate(value: unknown): string | null {
 
   return null
 }
-

@@ -47,7 +47,8 @@ const resolveProductName = (product: ProductJsonldSyliusShopProductIndex) => {
     return translatedName
   }
 
-  const altName = getString(translation, 'label') || getString(translation, 'title')
+  const altName =
+    getString(translation, 'label') || getString(translation, 'title')
   if (altName) {
     return altName
   }
@@ -66,7 +67,9 @@ const resolveProductName = (product: ProductJsonldSyliusShopProductIndex) => {
   return t('pages.ecommerce.fallbacks.unknownProduct')
 }
 
-const resolveProductSummary = (product: ProductJsonldSyliusShopProductIndex) => {
+const resolveProductSummary = (
+  product: ProductJsonldSyliusShopProductIndex,
+) => {
   const translation = resolveProductTranslation(product, locale.value)
   const summary =
     getString(translation, 'shortDescription') ||
@@ -101,7 +104,9 @@ const resolveTaxonName = (taxon: TaxonJsonLdSyliusShopTaxonIndex) => {
   return t('pages.ecommerce.fallbacks.categoryFallback')
 }
 
-const resolveProductIdentifier = (product: ProductJsonldSyliusShopProductIndex) => {
+const resolveProductIdentifier = (
+  product: ProductJsonldSyliusShopProductIndex,
+) => {
   const record = product as UnknownRecord
   const code = getString(record, 'code')
   if (code) {
@@ -138,7 +143,9 @@ const resolveProductSlug = (product: ProductJsonldSyliusShopProductIndex) => {
   return null
 }
 
-const getProductDetailRoute = (product: ProductJsonldSyliusShopProductIndex) => {
+const getProductDetailRoute = (
+  product: ProductJsonldSyliusShopProductIndex,
+) => {
   const slug = resolveProductSlug(product)
   if (!slug) {
     return null
@@ -232,7 +239,9 @@ const {
 })
 
 const products = computed(() =>
-  extractCollectionItems<ProductJsonldSyliusShopProductIndex>(productsResponse.value),
+  extractCollectionItems<ProductJsonldSyliusShopProductIndex>(
+    productsResponse.value,
+  ),
 )
 
 const taxons = computed(() =>
@@ -240,7 +249,9 @@ const taxons = computed(() =>
 )
 
 const channels = computed(() =>
-  extractCollectionItems<ChannelJsonLdSyliusShopChannelIndex>(channelsResponse.value),
+  extractCollectionItems<ChannelJsonLdSyliusShopChannelIndex>(
+    channelsResponse.value,
+  ),
 )
 
 const activeCategory = ref<string | null>(null)
@@ -350,7 +361,8 @@ const matchesCategory = (
   if (Array.isArray(productTaxon)) {
     for (const item of productTaxon) {
       const itemRecord = toRecord(item)
-      const taxonCode = getString(itemRecord, 'taxon') || getString(itemRecord, 'code')
+      const taxonCode =
+        getString(itemRecord, 'taxon') || getString(itemRecord, 'code')
       if (taxonCode === categoryCode) {
         return true
       }
@@ -390,8 +402,9 @@ const deals = computed(() => {
   return source.slice(0, 3)
 })
 
-const dealIdentifiers = computed(() =>
-  new Set(deals.value.map((product) => resolveProductIdentifier(product))),
+const dealIdentifiers = computed(
+  () =>
+    new Set(deals.value.map((product) => resolveProductIdentifier(product))),
 )
 
 const dealsWithRoutes = computed(() =>
@@ -442,8 +455,8 @@ const collectionImages = computed(() =>
 
 const hasAnyProducts = computed(() => filteredProducts.value.length > 0)
 
-const anyError = computed(
-  () => Boolean(productsError.value || taxonsError.value || channelsError.value),
+const anyError = computed(() =>
+  Boolean(productsError.value || taxonsError.value || channelsError.value),
 )
 
 const anyPending = computed(
@@ -507,8 +520,7 @@ const resolveProductPricingDisplay = (
   const currency = currencyCode.value
   const priceText = formatPriceWithCurrency(pricing.price, formatter, currency)
   const originalText =
-    pricing.originalPrice != null &&
-    pricing.originalPrice > pricing.price
+    pricing.originalPrice != null && pricing.originalPrice > pricing.price
       ? formatPriceWithCurrency(pricing.originalPrice, formatter, currency)
       : null
 
@@ -585,7 +597,8 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
             class="ecommerce-hero__category"
             :class="{
               'ecommerce-hero__category--active':
-                activeCategory === category.code || (!category.code && !activeCategory),
+                activeCategory === category.code ||
+                (!category.code && !activeCategory),
             }"
             @click="handleCategoryClick(category)"
           >
@@ -638,7 +651,9 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
         variant="tonal"
         class="mb-6"
       >
-        <div class="d-flex flex-column flex-md-row align-md-center justify-space-between gap-3">
+        <div
+          class="d-flex flex-column flex-md-row align-md-center justify-space-between gap-3"
+        >
           <span>{{ t('pages.ecommerce.errors.failedToLoad') }}</span>
           <AppButton color="primary" variant="flat" @click="refreshAll">
             {{ t('pages.ecommerce.actions.retry') }}
@@ -861,7 +876,11 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
 
 <style scoped>
 .ecommerce-page {
-  background: linear-gradient(180deg, rgba(248, 248, 255, 0.9), rgba(238, 241, 255, 0.9));
+  background: linear-gradient(
+    180deg,
+    rgba(248, 248, 255, 0.9),
+    rgba(238, 241, 255, 0.9)
+  );
 }
 
 .ecommerce-drawer {
@@ -889,7 +908,11 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
 .ecommerce-hero__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, rgba(12, 26, 75, 0.7), rgba(12, 26, 75, 0.2));
+  background: linear-gradient(
+    120deg,
+    rgba(12, 26, 75, 0.7),
+    rgba(12, 26, 75, 0.2)
+  );
 }
 
 .ecommerce-hero__content {
@@ -918,7 +941,9 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
   letter-spacing: 0.08em;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .ecommerce-hero__category:hover,
@@ -1079,7 +1104,11 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
 .ecommerce-collection__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(160deg, rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.25));
+  background: linear-gradient(
+    160deg,
+    rgba(15, 23, 42, 0.65),
+    rgba(15, 23, 42, 0.25)
+  );
   display: flex;
   align-items: flex-end;
   padding: 20px;

@@ -22,11 +22,31 @@ definePageMeta({
 const { t, locale } = useI18n()
 
 const headers = computed(() => [
-  { title: t('admin.ecommerce.configuration.administrators.table.name'), key: 'name', minWidth: 220 },
-  { title: t('admin.ecommerce.configuration.administrators.table.email'), key: 'email', minWidth: 220 },
-  { title: t('admin.ecommerce.configuration.administrators.table.username'), key: 'username', minWidth: 160 },
-  { title: t('admin.ecommerce.configuration.administrators.table.locale'), key: 'locale', minWidth: 120 },
-  { title: t('admin.ecommerce.configuration.administrators.table.roles'), key: 'roles', minWidth: 220 },
+  {
+    title: t('admin.ecommerce.configuration.administrators.table.name'),
+    key: 'name',
+    minWidth: 220,
+  },
+  {
+    title: t('admin.ecommerce.configuration.administrators.table.email'),
+    key: 'email',
+    minWidth: 220,
+  },
+  {
+    title: t('admin.ecommerce.configuration.administrators.table.username'),
+    key: 'username',
+    minWidth: 160,
+  },
+  {
+    title: t('admin.ecommerce.configuration.administrators.table.locale'),
+    key: 'locale',
+    minWidth: 120,
+  },
+  {
+    title: t('admin.ecommerce.configuration.administrators.table.roles'),
+    key: 'roles',
+    minWidth: 220,
+  },
   {
     title: t('admin.ecommerce.configuration.administrators.table.lastLogin'),
     key: 'lastLogin',
@@ -62,16 +82,20 @@ const rows = computed(() => {
   const entries = normalizeHydraCollection(rawAdministrators.value)
   return entries.map((entry, index) => {
     const record = toRecord(entry)
-    const email = getString(record, ['email']) ?? `admin-${index + 1}@example.com`
+    const email =
+      getString(record, ['email']) ?? `admin-${index + 1}@example.com`
     const firstName = getString(record, ['firstName', 'first_name'])
     const lastName = getString(record, ['lastName', 'last_name'])
     const username = getString(record, ['username']) ?? email
-    const name = [firstName, lastName].filter(Boolean).join(' ').trim() || username
+    const name =
+      [firstName, lastName].filter(Boolean).join(' ').trim() || username
     const localeCode =
       getString(record, ['localeCode', 'locale_code', 'locale']) ??
       t('admin.ecommerce.configuration.administrators.fallback.locale')
     const enabled = getBoolean(record, ['enabled', 'isEnabled'], true)
-    const roles = getArray(record, ['roles']).filter((role): role is string => typeof role === 'string')
+    const roles = getArray(record, ['roles']).filter(
+      (role): role is string => typeof role === 'string',
+    )
     const lastLoginRaw = safeDate(record?.lastLogin ?? record?.last_login)
     const lastLogin = lastLoginRaw
       ? formatDateValue(lastLoginRaw, dateFormatter.value, '')
@@ -83,7 +107,9 @@ const rows = computed(() => {
       name,
       locale: localeCode,
       enabled,
-      roles: roles.join(', ') || t('admin.ecommerce.configuration.administrators.fallback.roles'),
+      roles:
+        roles.join(', ') ||
+        t('admin.ecommerce.configuration.administrators.fallback.roles'),
       lastLogin,
     }
   })

@@ -133,7 +133,8 @@ function resolveErrorMessage(error: unknown, fallback: string) {
   }
 
   if (typeof error === 'object') {
-    const data = (error as { data?: { message?: unknown; error?: unknown } }).data
+    const data = (error as { data?: { message?: unknown; error?: unknown } })
+      .data
     if (data) {
       if (typeof data.message === 'string' && data.message.trim().length > 0) {
         return data.message
@@ -269,14 +270,18 @@ async function submit() {
                 v-model="form.emailSenderEmail"
                 variant="outlined"
                 density="comfortable"
-                :label="t('notificationManagement.batch.fields.emailSenderEmail')"
+                :label="
+                  t('notificationManagement.batch.fields.emailSenderEmail')
+                "
                 :disabled="sending"
               />
               <v-text-field
                 v-model="form.emailSenderName"
                 variant="outlined"
                 density="comfortable"
-                :label="t('notificationManagement.batch.fields.emailSenderName')"
+                :label="
+                  t('notificationManagement.batch.fields.emailSenderName')
+                "
                 :disabled="sending"
               />
               <v-text-field
@@ -301,7 +306,9 @@ async function submit() {
                 density="comfortable"
                 rows="4"
                 auto-grow
-                :label="t('notificationManagement.batch.fields.emailContentPlain')"
+                :label="
+                  t('notificationManagement.batch.fields.emailContentPlain')
+                "
                 :disabled="sending"
               />
               <v-textarea
@@ -310,7 +317,9 @@ async function submit() {
                 density="comfortable"
                 rows="6"
                 auto-grow
-                :label="t('notificationManagement.batch.fields.emailContentHtml')"
+                :label="
+                  t('notificationManagement.batch.fields.emailContentHtml')
+                "
                 :disabled="sending"
               />
             </div>

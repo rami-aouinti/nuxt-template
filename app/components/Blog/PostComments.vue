@@ -77,7 +77,8 @@ const sortByPublishedAt = (
 ): ((a: BlogCommentViewModel, b: BlogCommentViewModel) => number) => {
   const multiplier = direction === 'desc' ? -1 : 1
   return (a, b) =>
-    (formatTimestamp(a.publishedAt) - formatTimestamp(b.publishedAt)) * multiplier
+    (formatTimestamp(a.publishedAt) - formatTimestamp(b.publishedAt)) *
+    multiplier
 }
 
 const commentsToDisplay = computed(() => {
@@ -156,10 +157,7 @@ const selectFilter = (value: CommentFilterValue) => {
       </template>
     </BlogCommentEditor>
 
-    <div
-      v-if="hasFilterMenu"
-      class="facebook-post-card__comments-toolbar"
-    >
+    <div v-if="hasFilterMenu" class="facebook-post-card__comments-toolbar">
       <AppMenu>
         <template #activator="{ props: activatorProps }">
           <AppButton
@@ -172,7 +170,10 @@ const selectFilter = (value: CommentFilterValue) => {
             {{ t(selectedFilterOption.label) }}
           </AppButton>
         </template>
-        <v-list density="comfortable" class="facebook-post-card__comments-filter-menu">
+        <v-list
+          density="comfortable"
+          class="facebook-post-card__comments-filter-menu"
+        >
           <v-list-subheader>
             {{ t('blog.comments.filters.label') }}
           </v-list-subheader>

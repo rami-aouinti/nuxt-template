@@ -73,7 +73,9 @@ const fetchTaxon = async () => {
 const fetchProducts = async () => {
   const slug = slugParam.value
   if (!slug) {
-    return { 'hydra:member': [] } as HydraCollection<ProductJsonldSyliusShopProductIndex>
+    return {
+      'hydra:member': [],
+    } as HydraCollection<ProductJsonldSyliusShopProductIndex>
   }
 
   return await $fetch<HydraCollection<ProductJsonldSyliusShopProductIndex>>(
@@ -159,10 +161,14 @@ const taxon = computed(() => taxonData.value ?? null)
 const parentTaxon = computed(() => parentTaxonData.value ?? null)
 
 const channels = computed(() =>
-  extractCollectionItems<ChannelJsonLdSyliusShopChannelIndex>(channelsResponse.value),
+  extractCollectionItems<ChannelJsonLdSyliusShopChannelIndex>(
+    channelsResponse.value,
+  ),
 )
 
-const currencyCode = computed(() => resolveDefaultCurrency(channels.value, 'USD'))
+const currencyCode = computed(() =>
+  resolveDefaultCurrency(channels.value, 'USD'),
+)
 
 const priceFormatter = computed(() => {
   try {
@@ -190,9 +196,10 @@ const taxonName = computed(() => {
   )
 })
 
-const taxonDescription = computed(() =>
-  resolveTaxonDescription(taxon.value, locale.value) ??
-  t('pages.ecommerceCategory.fallbacks.description'),
+const taxonDescription = computed(
+  () =>
+    resolveTaxonDescription(taxon.value, locale.value) ??
+    t('pages.ecommerceCategory.fallbacks.description'),
 )
 
 const taxonCode = computed(() => getString(toRecord(taxon.value), 'code'))
@@ -230,7 +237,10 @@ const parentSlug = computed(() => {
 
 const goUpLink = computed(() => {
   if (parentSlug.value) {
-    return localePath({ name: 'ecommerce-category-slug', params: { slug: parentSlug.value } })
+    return localePath({
+      name: 'ecommerce-category-slug',
+      params: { slug: parentSlug.value },
+    })
   }
 
   return localePath('ecommerce')
@@ -239,13 +249,19 @@ const goUpLink = computed(() => {
 const breadcrumbItems = computed(() => {
   const items: { label: string; to: string | null }[] = [
     { label: t('navigation.home'), to: localePath('index') },
-    { label: t('pages.ecommerceCategory.breadcrumbs.category'), to: localePath('ecommerce') },
+    {
+      label: t('pages.ecommerceCategory.breadcrumbs.category'),
+      to: localePath('ecommerce'),
+    },
   ]
 
   if (parentName.value && parentSlug.value) {
     items.push({
       label: parentName.value,
-      to: localePath({ name: 'ecommerce-category-slug', params: { slug: parentSlug.value } }),
+      to: localePath({
+        name: 'ecommerce-category-slug',
+        params: { slug: parentSlug.value },
+      }),
     })
   }
 
@@ -254,7 +270,9 @@ const breadcrumbItems = computed(() => {
 })
 
 const products = computed(() =>
-  extractCollectionItems<ProductJsonldSyliusShopProductIndex>(productsResponse.value),
+  extractCollectionItems<ProductJsonldSyliusShopProductIndex>(
+    productsResponse.value,
+  ),
 )
 
 const matchesCategory = (
@@ -274,7 +292,8 @@ const matchesCategory = (
   if (Array.isArray(productTaxon)) {
     for (const item of productTaxon) {
       const itemRecord = toRecord(item)
-      const taxonCode = getString(itemRecord, 'taxon') || getString(itemRecord, 'code')
+      const taxonCode =
+        getString(itemRecord, 'taxon') || getString(itemRecord, 'code')
       if (taxonCode === categoryCode) {
         return true
       }
@@ -289,13 +308,19 @@ const categoryProducts = computed(() => {
     return products.value
   }
 
-  return products.value.filter((product) => matchesCategory(product, taxonCode.value as string))
+  return products.value.filter((product) =>
+    matchesCategory(product, taxonCode.value as string),
+  )
 })
 
 const searchTerm = ref('')
-const normalizedSearchTerm = computed(() => searchTerm.value.trim().toLowerCase())
+const normalizedSearchTerm = computed(() =>
+  searchTerm.value.trim().toLowerCase(),
+)
 
-const sortOption = ref<'position' | 'name' | 'price-asc' | 'price-desc'>('position')
+const sortOption = ref<'position' | 'name' | 'price-asc' | 'price-desc'>(
+  'position',
+)
 
 const sortItems = computed(() => [
   {
@@ -336,7 +361,11 @@ const preparedProducts = computed<PreparedProduct[]>(() =>
       t('pages.ecommerce.fallbacks.unknownProduct'),
     )
 
-    const summary = resolveProductSummary(product, locale.value, MAX_PRODUCT_SUMMARY_LENGTH)
+    const summary = resolveProductSummary(
+      product,
+      locale.value,
+      MAX_PRODUCT_SUMMARY_LENGTH,
+    )
     const record = toRecord(product)
 
     const pricing = resolveProductPricing(product)
@@ -346,7 +375,10 @@ const preparedProducts = computed<PreparedProduct[]>(() =>
       identifier: resolveProductIdentifier(product, name),
       name,
       summary,
-      imageUrl: buildImageUrl(resolveProductImagePath(product), FALLBACK_PRODUCT_IMAGE),
+      imageUrl: buildImageUrl(
+        resolveProductImagePath(product),
+        FALLBACK_PRODUCT_IMAGE,
+      ),
       price: pricing?.price ?? null,
       originalPrice: pricing?.originalPrice ?? null,
       position: getNumber(record, 'position'),
@@ -410,8 +442,11 @@ const sortedProducts = computed(() => {
 const displayedProducts = computed(() =>
   sortedProducts.value.map((item) => {
     const priceLabel =
-      formatPriceWithCurrency(item.price, priceFormatter.value, currencyCode.value) ??
-      t('pages.ecommerce.fallbacks.priceUnavailable')
+      formatPriceWithCurrency(
+        item.price,
+        priceFormatter.value,
+        currencyCode.value,
+      ) ?? t('pages.ecommerce.fallbacks.priceUnavailable')
 
     const originalPriceLabel = formatPriceWithCurrency(
       item.originalPrice,
@@ -424,7 +459,9 @@ const displayedProducts = computed(() =>
       priceLabel,
       originalPriceLabel,
       hasDiscount:
-        item.price != null && item.originalPrice != null && item.originalPrice > item.price,
+        item.price != null &&
+        item.originalPrice != null &&
+        item.originalPrice > item.price,
     }
   }),
 )
@@ -443,14 +480,13 @@ const isLoading = computed(
     parentPending.value,
 )
 
-const hasError = computed(
-  () =>
-    Boolean(
-      taxonError.value ||
-        productsError.value ||
-        channelsError.value ||
-        parentError.value,
-    ),
+const hasError = computed(() =>
+  Boolean(
+    taxonError.value ||
+      productsError.value ||
+      channelsError.value ||
+      parentError.value,
+  ),
 )
 
 const refreshAll = () => {
@@ -478,7 +514,10 @@ useHead(() => ({
     <v-container fluid class="pa-0">
       <section class="category-hero">
         <nav class="category-breadcrumbs" aria-label="Breadcrumb">
-          <template v-for="(item, index) in breadcrumbItems" :key="`${item.label}-${index}`">
+          <template
+            v-for="(item, index) in breadcrumbItems"
+            :key="`${item.label}-${index}`"
+          >
             <NuxtLink
               v-if="item.to"
               :to="item.to"
@@ -486,7 +525,9 @@ useHead(() => ({
             >
               {{ item.label }}
             </NuxtLink>
-            <span v-else class="category-breadcrumbs__current">{{ item.label }}</span>
+            <span v-else class="category-breadcrumbs__current">{{
+              item.label
+            }}</span>
             <span
               v-if="index < breadcrumbItems.length - 1"
               class="category-breadcrumbs__separator"
@@ -552,12 +593,20 @@ useHead(() => ({
 
       <section v-else class="category-products">
         <div v-if="isLoading" class="category-products__loading">
-          <v-progress-circular indeterminate color="primary" size="42" class="mr-4" />
+          <v-progress-circular
+            indeterminate
+            color="primary"
+            size="42"
+            class="mr-4"
+          />
           <span>{{ t('pages.ecommerceCategory.status.loading') }}</span>
         </div>
 
         <div v-else>
-          <div v-if="!displayedProducts.length" class="category-products__empty">
+          <div
+            v-if="!displayedProducts.length"
+            class="category-products__empty"
+          >
             {{ t('pages.ecommerceCategory.fallbacks.empty') }}
           </div>
 
@@ -586,7 +635,9 @@ useHead(() => ({
                   </p>
 
                   <div class="category-product-card__pricing">
-                    <span class="category-product-card__price">{{ item.priceLabel }}</span>
+                    <span class="category-product-card__price">{{
+                      item.priceLabel
+                    }}</span>
                     <span
                       v-if="item.hasDiscount && item.originalPriceLabel"
                       class="category-product-card__price--original"
@@ -612,7 +663,11 @@ useHead(() => ({
 
 .category-hero {
   padding: clamp(32px, 8vw, 72px) clamp(16px, 6vw, 72px);
-  background: linear-gradient(135deg, rgba(38, 93, 214, 0.12), rgba(133, 193, 233, 0.08));
+  background: linear-gradient(
+    135deg,
+    rgba(38, 93, 214, 0.12),
+    rgba(133, 193, 233, 0.08)
+  );
 }
 
 .category-breadcrumbs {

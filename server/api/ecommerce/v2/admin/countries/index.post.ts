@@ -1,6 +1,9 @@
 import { readBody } from 'h3'
 
-import { broWorldEcommerceRequest, getEcommerceAcceptLanguage } from '~~/server/utils/broWorldEcommerceApi'
+import {
+  broWorldEcommerceRequest,
+  getEcommerceAcceptLanguage,
+} from '~~/server/utils/broWorldEcommerceApi'
 
 type CountryPayload = Record<string, unknown>
 
@@ -15,9 +18,13 @@ export default defineEventHandler(async (event) => {
     headers['Accept-Language'] = acceptLanguage
   }
 
-  return await broWorldEcommerceRequest<CountryResponse>(event, '/admin/countries', {
-    method: 'POST',
-    body,
-    headers,
-  })
+  return await broWorldEcommerceRequest<CountryResponse>(
+    event,
+    '/admin/countries',
+    {
+      method: 'POST',
+      body,
+      headers,
+    },
+  )
 })

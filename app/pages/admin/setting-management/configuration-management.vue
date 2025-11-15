@@ -495,9 +495,7 @@ async function submitCreate() {
             <v-col cols="12">
               <v-text-field
                 v-model="form.configurationKey"
-                :label="
-                  t('configurationManagement.configurations.fields.key')
-                "
+                :label="t('configurationManagement.configurations.fields.key')"
                 :disabled="createLoading"
                 required
                 rounded
@@ -508,9 +506,7 @@ async function submitCreate() {
               <v-text-field
                 v-model="form.contextKey"
                 :label="
-                  t(
-                    'configurationManagement.configurations.fields.contextKey',
-                  )
+                  t('configurationManagement.configurations.fields.contextKey')
                 "
                 :disabled="createLoading"
                 required
@@ -601,4 +597,7 @@ async function submitCreate() {
   </v-container>
 </template>
 
-<style scoped src="~/assets/styles/pages/admin/setting-management/configuration-management.css"></style>
+<style
+  scoped
+  src="~/assets/styles/pages/admin/setting-management/configuration-management.css"
+></style>
