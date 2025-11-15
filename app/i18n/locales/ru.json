@@ -1031,6 +1031,15 @@
             "pending": "Pending review"
           }
         }
+      },
+      "navigationGroups": {
+        "productsManagement": "Управление товарами",
+        "orderManagement": "Управление заказами",
+        "paymentManagement": "Управление платежами",
+        "customerManagement": "Управление клиентами",
+        "configuration": "Конфигурация",
+        "taxManagement": "Управление налогами",
+        "marketing": "Маркетинг"
       }
     },
     "auth": {
@@ -2160,17 +2169,15 @@
           "title": "Order details"
         },
         "heading": {
-          "title": "Order #{number}",
-          "subtitle": "Your account"
+          "title": "Сводка вашего заказа",
+          "subtitle": "Проверьте данные перед завершением покупки."
         },
         "breadcrumbs": {
           "account": "My account",
           "orders": "Order history"
         },
         "actions": {
-          "pay": "Pay",
-          "retry": "Try again",
-          "refresh": "Refresh"
+          "refresh": "Обновить заказ"
         },
         "labels": {
           "token": "Token: {token}",
@@ -2231,15 +2238,13 @@
           "addressesError": "We could not load the addresses linked to this order."
         },
         "fallbacks": {
-          "unknown": "Unknown",
-          "noAddress": "Address unavailable",
-          "noValue": "Not provided"
+          "unknownPaymentMethod": "Способ оплаты",
+          "unknownShipmentMethod": "Доставка",
+          "unknownProduct": "Товар",
+          "unknownState": "В ожидании",
+          "unknownLocale": "Язык"
         },
         "metaTitle": "Сводка заказа",
-        "heading": {
-          "title": "Сводка вашего заказа",
-          "subtitle": "Проверьте данные перед завершением покупки."
-        },
         "status": {
           "steps": {
             "address": "Адрес",
@@ -2294,16 +2299,6 @@
         "notes": {
           "title": "Дополнительные примечания",
           "empty": "Примечаний нет."
-        },
-        "actions": {
-          "refresh": "Обновить заказ"
-        },
-        "fallbacks": {
-          "unknownPaymentMethod": "Способ оплаты",
-          "unknownShipmentMethod": "Доставка",
-          "unknownProduct": "Товар",
-          "unknownState": "В ожидании",
-          "unknownLocale": "Язык"
         },
         "errors": {
           "loadFailed": "Не удалось загрузить этот заказ."

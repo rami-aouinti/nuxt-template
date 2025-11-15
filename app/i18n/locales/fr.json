@@ -1040,6 +1040,15 @@
             "pending": "Pending review"
           }
         }
+      },
+      "navigationGroups": {
+        "productsManagement": "Gestion des produits",
+        "orderManagement": "Gestion des commandes",
+        "paymentManagement": "Gestion des paiements",
+        "customerManagement": "Gestion des clients",
+        "configuration": "Configuration",
+        "taxManagement": "Gestion des taxes",
+        "marketing": "Marketing"
       }
     },
     "auth": {
@@ -2065,17 +2074,15 @@
           "title": "Détails de la commande"
         },
         "heading": {
-          "title": "Commande n°{number}",
-          "subtitle": "Votre compte"
+          "title": "Résumé de votre commande",
+          "subtitle": "Vérifiez chaque information ci-dessous avant de finaliser votre achat."
         },
         "breadcrumbs": {
           "account": "Mon compte",
           "orders": "Historique des commandes"
         },
         "actions": {
-          "pay": "Payer",
-          "retry": "Réessayer",
-          "refresh": "Actualiser"
+          "refresh": "Actualiser la commande"
         },
         "labels": {
           "token": "Jeton : {token}",
@@ -2136,15 +2143,13 @@
           "addressesError": "Impossible de charger les adresses associées à cette commande."
         },
         "fallbacks": {
-          "unknown": "Inconnu",
-          "noAddress": "Adresse indisponible",
-          "noValue": "Non renseigné"
+          "unknownPaymentMethod": "Mode de paiement",
+          "unknownShipmentMethod": "Expédition",
+          "unknownProduct": "Article",
+          "unknownState": "En attente",
+          "unknownLocale": "Langue"
         },
         "metaTitle": "Résumé de la commande",
-        "heading": {
-          "title": "Résumé de votre commande",
-          "subtitle": "Vérifiez chaque information ci-dessous avant de finaliser votre achat."
-        },
         "status": {
           "steps": {
             "address": "Adresse",
@@ -2199,16 +2204,6 @@
         "notes": {
           "title": "Notes supplémentaires",
           "empty": "Aucune note n'a été communiquée."
-        },
-        "actions": {
-          "refresh": "Actualiser la commande"
-        },
-        "fallbacks": {
-          "unknownPaymentMethod": "Mode de paiement",
-          "unknownShipmentMethod": "Expédition",
-          "unknownProduct": "Article",
-          "unknownState": "En attente",
-          "unknownLocale": "Langue"
         },
         "errors": {
           "loadFailed": "Impossible de charger cette commande."

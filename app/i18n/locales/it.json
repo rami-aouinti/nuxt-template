@@ -1031,6 +1031,15 @@
             "pending": "Pending review"
           }
         }
+      },
+      "navigationGroups": {
+        "productsManagement": "Gestione prodotti",
+        "orderManagement": "Gestione ordini",
+        "paymentManagement": "Gestione pagamenti",
+        "customerManagement": "Gestione clienti",
+        "configuration": "Configurazione",
+        "taxManagement": "Gestione fiscale",
+        "marketing": "Marketing"
       }
     },
     "auth": {
@@ -2158,17 +2167,15 @@
           "title": "Order details"
         },
         "heading": {
-          "title": "Order #{number}",
-          "subtitle": "Your account"
+          "title": "Riepilogo del tuo ordine",
+          "subtitle": "Controlla tutti i dettagli prima di completare l'acquisto."
         },
         "breadcrumbs": {
           "account": "My account",
           "orders": "Order history"
         },
         "actions": {
-          "pay": "Pay",
-          "retry": "Try again",
-          "refresh": "Refresh"
+          "refresh": "Aggiorna ordine"
         },
         "labels": {
           "token": "Token: {token}",
@@ -2229,15 +2236,13 @@
           "addressesError": "We could not load the addresses linked to this order."
         },
         "fallbacks": {
-          "unknown": "Unknown",
-          "noAddress": "Address unavailable",
-          "noValue": "Not provided"
+          "unknownPaymentMethod": "Metodo di pagamento",
+          "unknownShipmentMethod": "Spedizione",
+          "unknownProduct": "Articolo",
+          "unknownState": "In sospeso",
+          "unknownLocale": "Lingua"
         },
         "metaTitle": "Riepilogo ordine",
-        "heading": {
-          "title": "Riepilogo del tuo ordine",
-          "subtitle": "Controlla tutti i dettagli prima di completare l'acquisto."
-        },
         "status": {
           "steps": {
             "address": "Indirizzo",
@@ -2292,16 +2297,6 @@
         "notes": {
           "title": "Note aggiuntive",
           "empty": "Non sono state aggiunte note."
-        },
-        "actions": {
-          "refresh": "Aggiorna ordine"
-        },
-        "fallbacks": {
-          "unknownPaymentMethod": "Metodo di pagamento",
-          "unknownShipmentMethod": "Spedizione",
-          "unknownProduct": "Articolo",
-          "unknownState": "In sospeso",
-          "unknownLocale": "Lingua"
         },
         "errors": {
           "loadFailed": "Impossibile caricare questo ordine."

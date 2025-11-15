@@ -1031,6 +1031,15 @@
             "pending": "Pending review"
           }
         }
+      },
+      "navigationGroups": {
+        "productsManagement": "إدارة المنتجات",
+        "orderManagement": "إدارة الطلبات",
+        "paymentManagement": "إدارة المدفوعات",
+        "customerManagement": "إدارة العملاء",
+        "configuration": "الإعدادات",
+        "taxManagement": "إدارة الضرائب",
+        "marketing": "التسويق"
       }
     },
     "auth": {
@@ -2162,17 +2171,15 @@
           "title": "Order details"
         },
         "heading": {
-          "title": "Order #{number}",
-          "subtitle": "Your account"
+          "title": "ملخص طلبك",
+          "subtitle": "راجع جميع التفاصيل قبل إتمام عملية الشراء."
         },
         "breadcrumbs": {
           "account": "My account",
           "orders": "Order history"
         },
         "actions": {
-          "pay": "Pay",
-          "retry": "Try again",
-          "refresh": "Refresh"
+          "refresh": "تحديث الطلب"
         },
         "labels": {
           "token": "Token: {token}",
@@ -2233,15 +2240,13 @@
           "addressesError": "We could not load the addresses linked to this order."
         },
         "fallbacks": {
-          "unknown": "Unknown",
-          "noAddress": "Address unavailable",
-          "noValue": "Not provided"
+          "unknownPaymentMethod": "طريقة الدفع",
+          "unknownShipmentMethod": "طريقة الشحن",
+          "unknownProduct": "عنصر",
+          "unknownState": "قيد الانتظار",
+          "unknownLocale": "اللغة"
         },
         "metaTitle": "ملخص الطلب",
-        "heading": {
-          "title": "ملخص طلبك",
-          "subtitle": "راجع جميع التفاصيل قبل إتمام عملية الشراء."
-        },
         "status": {
           "steps": {
             "address": "العنوان",
@@ -2296,16 +2301,6 @@
         "notes": {
           "title": "ملاحظات إضافية",
           "empty": "لا توجد ملاحظات."
-        },
-        "actions": {
-          "refresh": "تحديث الطلب"
-        },
-        "fallbacks": {
-          "unknownPaymentMethod": "طريقة الدفع",
-          "unknownShipmentMethod": "طريقة الشحن",
-          "unknownProduct": "عنصر",
-          "unknownState": "قيد الانتظار",
-          "unknownLocale": "اللغة"
         },
         "errors": {
           "loadFailed": "تعذر تحميل هذا الطلب."

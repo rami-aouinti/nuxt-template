@@ -1083,6 +1083,15 @@
             "pending": "Pending review"
           }
         }
+      },
+      "navigationGroups": {
+        "productsManagement": "Products management",
+        "orderManagement": "Order management",
+        "paymentManagement": "Payment management",
+        "customerManagement": "Customer management",
+        "configuration": "Configuration",
+        "taxManagement": "Tax management",
+        "marketing": "Marketing"
       }
     },
     "$vuetify": {
