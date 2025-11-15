@@ -121,7 +121,7 @@ const profileFields = computed(() => {
 })
 
 const profileEmail = computed(() => {
-  if (profile.value && typeof profile.value.email === 'string') {
+  if (profile.value) {
     const trimmed = profile.value.email.trim()
     if (trimmed.length > 0) {
       return trimmed
@@ -211,7 +211,7 @@ const submitPasswordChange = async () => {
     )
 
     const successMessage = (() => {
-      if (response?.message && typeof response.message === 'string') {
+      if (response?.message) {
         const trimmed = response.message.trim()
         if (trimmed.length > 0) {
           return trimmed
@@ -231,7 +231,7 @@ const submitPasswordChange = async () => {
     if (error instanceof FetchError) {
       const data = error.data as { message?: string } | undefined
 
-      if (data?.message && typeof data.message === 'string') {
+      if (data?.message) {
         const trimmed = data.message.trim()
         if (trimmed.length > 0) {
           message = trimmed
@@ -305,161 +305,109 @@ const sections = computed<SettingsSection[]>(() => {
 <template>
   <div class="profile-settings-page">
     <client-only>
-      <teleport to="#app-drawer-right" />
-    </client-only>
-    <ProfilePageShell>
-      <v-row class="d-flex">
-        <v-col cols="12">
-          <AppCard class="pa-6" elevation="2" rounded="xl">
-            <v-card-title class="text-h4 font-weight-bold pb-2">
-              {{ t('pages.settings.title') }}
-            </v-card-title>
-            <v-card-subtitle class="text-body-1 pb-6">
-              {{ t('pages.settings.subtitle') }}
-            </v-card-subtitle>
-            <v-divider class="mb-6" />
-            <v-row dense>
-              <v-col
-                v-for="section in sections"
-                :key="section.key"
-                cols="12"
-                sm="4"
-                class="d-flex"
-              >
-                <v-sheet elevation="1" rounded="lg" class="pa-4 flex-grow-1">
-                  <div class="d-flex align-center mb-3">
-                    <v-icon
-                      :icon="section.icon"
-                      size="32"
-                      class="mr-3 text-primary"
-                    />
-                    <h2 class="text-h6 font-weight-medium mb-0">
-                      {{ section.title }}
-                    </h2>
-                  </div>
-                  <p class="text-body-1 mb-0">
-                    {{ section.description }}
-                  </p>
-                  <template
-                    v-if="section.key === 'profile' && section.fields?.length"
-                  >
-                    <v-divider class="my-4" />
-                    <div class="d-flex flex-column gap-3">
-                      <div
-                        v-for="field in section.fields"
-                        :key="`${section.key}-${field.label}`"
-                        class="d-flex flex-column"
-                      >
-                        <span class="text-caption text-medium-emphasis">
-                          {{ field.label }}
-                        </span>
-                        <span class="text-subtitle-2 font-weight-medium">
-                          {{ field.value }}
-                        </span>
-                      </div>
-                    </div>
-                  </template>
-                  <template v-else-if="section.key === 'security'">
-                    <v-divider class="my-4" />
-                    <p class="text-body-2 mb-3">
-                      {{
-                        t('pages.settings.sections.security.form.description')
-                      }}
-                    </p>
-                    <v-alert
-                      v-if="profileEmail"
-                      type="info"
-                      variant="tonal"
-                      density="comfortable"
-                      class="mb-3"
-                    >
-                      {{
-                        t('pages.settings.sections.security.form.emailInfo', {
-                          email: profileEmail,
-                        })
-                      }}
-                    </v-alert>
-                    <v-alert
-                      v-else
-                      type="warning"
-                      variant="tonal"
-                      density="comfortable"
-                      class="mb-3"
-                    >
-                      {{
-                        t('pages.settings.sections.security.form.emailMissing')
-                      }}
-                    </v-alert>
-                    <v-alert
-                      v-if="passwordError"
-                      type="error"
-                      variant="tonal"
-                      density="compact"
-                      class="mb-3"
-                    >
-                      {{ passwordError }}
-                    </v-alert>
-                    <v-alert
-                      v-if="passwordSuccessMessage"
-                      type="success"
-                      variant="tonal"
-                      density="compact"
-                      class="mb-3"
-                    >
-                      {{ passwordSuccessMessage }}
-                    </v-alert>
-                    <v-form @submit.prevent="submitPasswordChange">
-                      <v-text-field
-                        v-model="passwordForm.newPassword"
-                        :label="
+      <teleport to="#app-drawer-right">
+        <div class="d-flex align-center mb-3">
+          <v-icon
+            icon="mdi-shield-lock-outline"
+            size="32"
+            class="mr-3 text-primary"
+          />
+          <h4 class="text-h6 font-weight-medium mb-0">
+            {{ t('pages.settings.sections.security.title') }}
+          </h4>
+        </div>
+        <v-divider class="my-4" />
+        <p class="text-body-2 mb-3">
+          {{
+            t('pages.settings.sections.security.form.description')
+          }}
+        </p>
+        <v-alert
+          v-if="profileEmail"
+          type="info"
+          variant="tonal"
+          density="comfortable"
+          class="mb-3"
+        >
+          {{
+            t('pages.settings.sections.security.form.emailInfo', {
+              email: profileEmail,
+            })
+          }}
+        </v-alert>
+        <v-alert
+          v-else
+          type="warning"
+          variant="tonal"
+          density="comfortable"
+          class="mb-3"
+        >
+          {{
+            t('pages.settings.sections.security.form.emailMissing')
+          }}
+        </v-alert>
+        <v-alert
+          v-if="passwordError"
+          type="error"
+          variant="tonal"
+          density="compact"
+          class="mb-3"
+        >
+          {{ passwordError }}
+        </v-alert>
+        <v-alert
+          v-if="passwordSuccessMessage"
+          type="success"
+          variant="tonal"
+          density="compact"
+          class="mb-3"
+        >
+          {{ passwordSuccessMessage }}
+        </v-alert>
+        <v-form @submit.prevent="submitPasswordChange">
+          <v-text-field
+            v-model="passwordForm.newPassword"
+            :label="
                           t(
                             'pages.settings.sections.security.form.newPasswordLabel',
                           )
                         "
-                        type="password"
-                        autocomplete="new-password"
-                        :disabled="isSubmittingPassword || !profileEmail"
-                        rounded
-                        class="mb-3"
-                      />
-                      <v-text-field
-                        v-model="passwordForm.confirmPassword"
-                        :label="
+            type="password"
+            autocomplete="new-password"
+            :disabled="isSubmittingPassword || !profileEmail"
+            rounded
+            class="mb-3"
+          />
+          <v-text-field
+            v-model="passwordForm.confirmPassword"
+            :label="
                           t(
                             'pages.settings.sections.security.form.confirmPasswordLabel',
                           )
                         "
-                        type="password"
-                        autocomplete="new-password"
-                        :disabled="isSubmittingPassword || !profileEmail"
-                        rounded
-                        class="mb-4"
-                      />
-                      <div class="d-flex justify-end">
-                        <v-btn
-                          type="submit"
-                          color="primary"
-                          :loading="isSubmittingPassword"
-                          :disabled="!canSubmitPassword"
-                        >
-                          {{
-                            t('pages.settings.sections.security.form.submit')
-                          }}
-                        </v-btn>
-                      </div>
-                    </v-form>
-                  </template>
-                </v-sheet>
-              </v-col>
-            </v-row>
-            <v-alert class="mt-6" type="info" variant="tonal" rounded="lg">
-              <strong class="d-block mb-1">{{
-                t('pages.settings.tips.title')
-              }}</strong>
-              <span>{{ t('pages.settings.tips.description') }}</span>
-            </v-alert>
-          </AppCard>
-        </v-col>
+            type="password"
+            autocomplete="new-password"
+            :disabled="isSubmittingPassword || !profileEmail"
+            rounded
+            class="mb-4"
+          />
+          <div class="d-flex justify-end">
+            <v-btn
+              type="submit"
+              color="primary"
+              :loading="isSubmittingPassword"
+              :disabled="!canSubmitPassword"
+            >
+              {{
+                t('pages.settings.sections.security.form.submit')
+              }}
+            </v-btn>
+          </div>
+        </v-form>
+      </teleport>
+    </client-only>
+    <ProfilePageShell>
+      <v-row class="d-flex">
       </v-row>
     </ProfilePageShell>
   </div>
