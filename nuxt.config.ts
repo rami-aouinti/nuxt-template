@@ -13,6 +13,10 @@ const DEFAULT_MERCURE_PUBLIC_URL =
 const DEFAULT_MESSENGER_API_BASE = 'https://bro-world.org/api/v1/messenger'
 const DEFAULT_MESSENGER_NOTIFICATION_TOPIC =
   'https://bro-world.org/notifications/'
+const DEFAULT_MESSENGER_NOTIFICATION_TOPICS = [
+  DEFAULT_MESSENGER_NOTIFICATION_TOPIC,
+  '/notifications',
+]
 const DEFAULT_MESSENGER_SUBSCRIPTION_TOPIC =
   '/messages/{userId}/{conversationId}'
 
@@ -279,6 +283,9 @@ export default defineNuxtConfig({
         notificationTopic:
           process.env.NUXT_PUBLIC_MESSENGER_NOTIFICATION_TOPIC ||
           DEFAULT_MESSENGER_NOTIFICATION_TOPIC,
+        notificationTopics:
+          process.env.NUXT_PUBLIC_MESSENGER_NOTIFICATION_TOPICS ||
+          DEFAULT_MESSENGER_NOTIFICATION_TOPICS,
         notificationReconnectDelay: toPositiveInteger(
           process.env.NUXT_PUBLIC_MESSENGER_NOTIFICATION_RECONNECT_DELAY,
           5000,

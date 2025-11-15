@@ -15,6 +15,10 @@ interface MercureNotificationPayload {
 
 const DEFAULT_HUB_URL = 'http://bro-world.org:3000/.well-known/mercure'
 const DEFAULT_NOTIFICATION_TOPIC = 'https://bro-world.org/notifications/'
+const DEFAULT_NOTIFICATION_TOPICS = [
+  DEFAULT_NOTIFICATION_TOPIC,
+  '/notifications',
+]
 const DEFAULT_RECONNECT_DELAY = 5000
 const DEFAULT_WITH_CREDENTIALS = true
 const MAX_TRACKED_EVENT_IDS = 100
@@ -159,6 +163,60 @@ function resolveWithCredentials(value: unknown) {
   return DEFAULT_WITH_CREDENTIALS
 }
 
+function parseNotificationTopics(value: unknown): string[] {
+  if (!value) {
+    return []
+  }
+
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => (typeof item === 'string' ? item.trim() : ''))
+      .filter((item): item is string => item.length > 0)
+  }
+
+  if (typeof value === 'string') {
+    const trimmed = value.trim()
+
+    if (!trimmed) {
+      return []
+    }
+
+    try {
+      const parsed = JSON.parse(trimmed)
+      if (Array.isArray(parsed)) {
+        return parseNotificationTopics(parsed)
+      }
+    } catch (error) {
+      console.debug('Unable to parse notification topics as JSON', error)
+    }
+
+    return trimmed
+      .split(',')
+      .map((item) => item.trim())
+      .filter((item) => item.length > 0)
+  }
+
+  return []
+}
+
+function resolveNotificationTopics(
+  topics: unknown,
+  fallbackTopic: unknown,
+): string[] {
+  const resolved = new Set<string>()
+
+  parseNotificationTopics(topics).forEach((topic) => resolved.add(topic))
+
+  const fallback = toStringValue(fallbackTopic)
+  if (fallback) {
+    resolved.add(fallback)
+  }
+
+  DEFAULT_NOTIFICATION_TOPICS.forEach((topic) => resolved.add(topic))
+
+  return Array.from(resolved)
+}
+
 export const useNotificationMercureStore = defineStore(
   'notification-mercure',
   () => {
@@ -170,9 +228,10 @@ export const useNotificationMercureStore = defineStore(
       runtimeConfig.public?.messenger?.mercureHubUrl ||
       runtimeConfig.public?.mercure?.hubUrl ||
       DEFAULT_HUB_URL
-    const notificationTopic =
-      runtimeConfig.public?.messenger?.notificationTopic ||
-      DEFAULT_NOTIFICATION_TOPIC
+    const notificationTopics = resolveNotificationTopics(
+      runtimeConfig.public?.messenger?.notificationTopics,
+      runtimeConfig.public?.messenger?.notificationTopic,
+    )
     const reconnectDelay = resolveReconnectDelay(
       runtimeConfig.public?.messenger?.notificationReconnectDelay,
     )
@@ -197,7 +256,7 @@ export const useNotificationMercureStore = defineStore(
         isSupported.value &&
         loggedIn.value &&
         Boolean(currentUserId.value) &&
-        Boolean(notificationTopic),
+        notificationTopics.length > 0,
     )
 
     const clearReconnectTimer = () => {
@@ -278,7 +337,9 @@ export const useNotificationMercureStore = defineStore(
 
       try {
         const url = new URL(hubUrl)
-        url.searchParams.append('topic', notificationTopic)
+        notificationTopics.forEach((topic) => {
+          url.searchParams.append('topic', topic)
+        })
 
         const eventSourceOptions: EventSourceInit = {
           withCredentials,
