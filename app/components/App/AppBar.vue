@@ -8,6 +8,7 @@ import {
   onBeforeUnmount,
 } from 'vue'
 import { useTheme } from 'vuetify'
+import type { RouteRecordNormalized } from 'vue-router'
 import type { LocaleObject } from '#i18n'
 import { Notify } from '~/stores/notification'
 
@@ -19,22 +20,51 @@ const router = useRouter()
 const { t, locale, locales } = useI18n()
 const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
+const paramNamePattern = /:([A-Za-z0-9_]+)(?:\([^)]*\))?/g
+
+const resolveRecordParams = (record: RouteRecordNormalized) => {
+  const params: Record<string, unknown> = {}
+  const matches = record.path.matchAll(paramNamePattern)
+
+  for (const match of matches) {
+    const paramName = match[1]
+    const value = route.params[paramName]
+
+    if (value !== undefined) {
+      params[paramName] = value
+    }
+  }
+
+  return params
+}
+
+const normalizeRouteName = (name?: string) => {
+  if (!name) {
+    return undefined
+  }
+
+  return name.split('___')[0]
+}
+
 const breadcrumbs = computed(() => {
   return route!.matched
     .filter((item) => item.meta && item.meta.title)
-    .map((r) => {
-      const routeName = typeof r.name === 'string' ? r.name : undefined
+    .map((record) => {
+      const recordName = normalizeRouteName(
+        typeof record.name === 'string' ? record.name : undefined,
+      )
+      const recordParams = resolveRecordParams(record)
+
       const localizedPath =
-        routeName != null
+        recordName != null
           ? localePath({
-              name: routeName,
-              params: route.params,
-              query: route.query,
+              name: recordName,
+              params: recordParams,
             })
-          : route.path
+          : localePath(record.path)
 
       return {
-        title: t(String(r.meta.title!)),
+        title: t(String(record.meta.title!)),
         disabled: localizedPath === route.path,
         to: localizedPath,
       }
