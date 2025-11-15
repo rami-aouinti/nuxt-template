@@ -98,7 +98,9 @@ const formatPriceWithCurrency = (
   }
 }
 
-const getProductDetailRoute = (product: ProductJsonldSyliusShopProductIndex) => {
+const getProductDetailRoute = (
+  product: ProductJsonldSyliusShopProductIndex,
+) => {
   const slug = resolveProductSlug(product)
   if (!slug) {
     return null
@@ -277,42 +279,39 @@ watch(
   },
 )
 
-watch(
-  page,
-  (value) => {
-    if (value < 1) {
-      page.value = 1
+watch(page, (value) => {
+  if (value < 1) {
+    page.value = 1
+    return
+  }
+
+  if (value > pageCount.value) {
+    page.value = pageCount.value
+    return
+  }
+
+  if (import.meta.client) {
+    const current = resolvePageFromRoute(route.query.page)
+    if (current === value) {
       return
     }
 
-    if (value > pageCount.value) {
-      page.value = pageCount.value
-      return
+    const query = { ...route.query }
+    if (value > 1) {
+      query.page = String(value)
+    } else {
+      delete query.page
     }
 
-    if (import.meta.client) {
-      const current = resolvePageFromRoute(route.query.page)
-      if (current === value) {
-        return
-      }
-
-      const query = { ...route.query }
-      if (value > 1) {
-        query.page = String(value)
-      } else {
-        delete query.page
-      }
-
-      router.replace({ query }).catch(() => {})
-    }
-  },
-)
+    router.replace({ query }).catch(() => {})
+  }
+})
 
 const anyPending = computed(
   () => productsPending.value || channelsPending.value,
 )
-const anyError = computed(
-  () => Boolean(productsError.value || channelsError.value),
+const anyError = computed(() =>
+  Boolean(productsError.value || channelsError.value),
 )
 
 const catalogueItems = computed(() =>
@@ -323,7 +322,8 @@ const catalogueItems = computed(() =>
       product,
       name: resolveProductName(product),
       image: buildProductImageUrl(resolveProductImagePath(product)),
-      price: pricing?.priceText ?? t('pages.ecommerce.fallbacks.priceUnavailable'),
+      price:
+        pricing?.priceText ?? t('pages.ecommerce.fallbacks.priceUnavailable'),
       originalPrice: pricing?.originalText ?? null,
       route,
     }

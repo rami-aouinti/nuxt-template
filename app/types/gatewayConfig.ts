@@ -18,7 +18,8 @@ export type GatewayConfigSyliusAdminPaymentMethodIndex = GatewayConfig
 
 export type GatewayConfigSyliusAdminPaymentMethodShow = GatewayConfig
 
-export type GatewayConfigSyliusAdminPaymentMethodCreate = GatewayConfigAttributes
+export type GatewayConfigSyliusAdminPaymentMethodCreate =
+  GatewayConfigAttributes
 
 export interface GatewayConfigSyliusAdminPaymentMethodUpdate {
   config?: Array<string | null>
@@ -26,6 +27,8 @@ export interface GatewayConfigSyliusAdminPaymentMethodUpdate {
 
 export type GatewayConfigJsonld = GatewayConfig & JsonLdResource
 
-export type GatewayConfigJsonldSyliusAdminPaymentMethodIndex = GatewayConfigJsonld
+export type GatewayConfigJsonldSyliusAdminPaymentMethodIndex =
+  GatewayConfigJsonld
 
-export type GatewayConfigJsonldSyliusAdminPaymentMethodShow = GatewayConfigJsonld
+export type GatewayConfigJsonldSyliusAdminPaymentMethodShow =
+  GatewayConfigJsonld

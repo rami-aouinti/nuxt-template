@@ -77,7 +77,10 @@ const excerpt = computed(() => {
         </div>
       </div>
     </div>
-    <NuxtLink :to="postLink" class="shared-post-preview__title text-decoration-none">
+    <NuxtLink
+      :to="postLink"
+      class="shared-post-preview__title text-decoration-none"
+    >
       {{ post.title }}
     </NuxtLink>
     <p class="shared-post-preview__excerpt">

@@ -110,8 +110,7 @@ const resolveViewportWidth = () => {
 
 const ensureInitialDrawerState = () => {
   const viewportWidth = resolveViewportWidth()
-  const shouldExpand =
-    false
+  const shouldExpand = false
 
   if (drawerState.value !== shouldExpand) {
     drawerState.value = shouldExpand

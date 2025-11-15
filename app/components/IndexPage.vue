@@ -39,7 +39,6 @@ const items = computed(() =>
 
 <template>
   <v-container class="admin-index py-0">
-
     <section class="page-section">
       <div class="page-section__header">
         <h2 class="section-title">
@@ -63,7 +62,13 @@ const items = computed(() =>
       <v-row class="g-6">
         <v-col v-for="item in items" :key="item.title" cols="12" md="6" lg="4">
           <div class="stat-card">
-            <v-list-item v-bind="item" :title="translate(item.title)" :ripple="true" class="py-6" style="background-color: transparent" />
+            <v-list-item
+              v-bind="item"
+              :title="translate(item.title)"
+              :ripple="true"
+              class="py-6"
+              style="background-color: transparent"
+            />
           </div>
         </v-col>
       </v-row>

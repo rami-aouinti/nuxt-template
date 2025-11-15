@@ -38,8 +38,8 @@ export type LocaleJsonldSyliusAdminLocaleIndex = LocaleJsonld
 
 export type LocaleJsonldSyliusAdminLocaleShow = LocaleJsonld
 
-export type LocaleJsonldSyliusShopLocaleIndex =
-  LocaleSyliusShopLocaleIndex & JsonLdResource
+export type LocaleJsonldSyliusShopLocaleIndex = LocaleSyliusShopLocaleIndex &
+  JsonLdResource
 
 export type LocaleJsonldSyliusShopLocaleShow = LocaleJsonldSyliusShopLocaleIndex
 

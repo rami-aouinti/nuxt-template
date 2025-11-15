@@ -1163,9 +1163,7 @@ watch(
               {{ shareDialog.post.title }}
             </div>
             <p class="share-dialog__preview-text">
-              {{
-                getPostExcerpt(shareDialog.post)
-              }}
+              {{ getPostExcerpt(shareDialog.post) }}
             </p>
           </div>
         </div>

@@ -318,9 +318,7 @@ const sections = computed<SettingsSection[]>(() => {
         </div>
         <v-divider class="my-4" />
         <p class="text-body-2 mb-3">
-          {{
-            t('pages.settings.sections.security.form.description')
-          }}
+          {{ t('pages.settings.sections.security.form.description') }}
         </p>
         <v-alert
           v-if="profileEmail"
@@ -342,9 +340,7 @@ const sections = computed<SettingsSection[]>(() => {
           density="comfortable"
           class="mb-3"
         >
-          {{
-            t('pages.settings.sections.security.form.emailMissing')
-          }}
+          {{ t('pages.settings.sections.security.form.emailMissing') }}
         </v-alert>
         <v-alert
           v-if="passwordError"
@@ -367,11 +363,7 @@ const sections = computed<SettingsSection[]>(() => {
         <v-form @submit.prevent="submitPasswordChange">
           <v-text-field
             v-model="passwordForm.newPassword"
-            :label="
-                          t(
-                            'pages.settings.sections.security.form.newPasswordLabel',
-                          )
-                        "
+            :label="t('pages.settings.sections.security.form.newPasswordLabel')"
             type="password"
             autocomplete="new-password"
             :disabled="isSubmittingPassword || !profileEmail"
@@ -381,10 +373,8 @@ const sections = computed<SettingsSection[]>(() => {
           <v-text-field
             v-model="passwordForm.confirmPassword"
             :label="
-                          t(
-                            'pages.settings.sections.security.form.confirmPasswordLabel',
-                          )
-                        "
+              t('pages.settings.sections.security.form.confirmPasswordLabel')
+            "
             type="password"
             autocomplete="new-password"
             :disabled="isSubmittingPassword || !profileEmail"
@@ -398,17 +388,14 @@ const sections = computed<SettingsSection[]>(() => {
               :loading="isSubmittingPassword"
               :disabled="!canSubmitPassword"
             >
-              {{
-                t('pages.settings.sections.security.form.submit')
-              }}
+              {{ t('pages.settings.sections.security.form.submit') }}
             </v-btn>
           </div>
         </v-form>
       </teleport>
     </client-only>
     <ProfilePageShell>
-      <v-row class="d-flex">
-      </v-row>
+      <v-row class="d-flex" />
     </ProfilePageShell>
   </div>
 </template>

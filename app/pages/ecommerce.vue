@@ -270,9 +270,7 @@ const categories = computed<CategoryItem[]>(() => {
       const taxonRecord = toRecord(taxon)
       const translation = resolveTaxonTranslation(taxon, locale.value)
       const slug =
-        getString(translation, 'slug') ||
-        getString(taxonRecord, 'slug') ||
-        null
+        getString(translation, 'slug') || getString(taxonRecord, 'slug') || null
       const route = slug
         ? localePath({ name: 'ecommerce-category-slug', params: { slug } })
         : null
@@ -627,29 +625,29 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
             <AppButton color="primary" size="large" @click="handleShopNow">
               {{ t('pages.ecommerce.actions.shopNow') }}
             </AppButton>
-          <AppButton
-            class="ml-3"
-            color="secondary"
-            size="large"
-            variant="tonal"
-            @click="handleExploreCollection"
-          >
-            {{ t('pages.ecommerce.actions.exploreCollection') }}
-          </AppButton>
-          <AppButton
-            class="ml-3"
-            color="primary"
-            size="large"
-            variant="outlined"
-            :to="productsListRoute"
-          >
-            {{ t('pages.ecommerce.actions.viewAllProducts') }}
-          </AppButton>
-          <AppButton
-            v-if="checkoutRoute"
-            class="ml-3"
-            color="primary"
-            size="large"
+            <AppButton
+              class="ml-3"
+              color="secondary"
+              size="large"
+              variant="tonal"
+              @click="handleExploreCollection"
+            >
+              {{ t('pages.ecommerce.actions.exploreCollection') }}
+            </AppButton>
+            <AppButton
+              class="ml-3"
+              color="primary"
+              size="large"
+              variant="outlined"
+              :to="productsListRoute"
+            >
+              {{ t('pages.ecommerce.actions.viewAllProducts') }}
+            </AppButton>
+            <AppButton
+              v-if="checkoutRoute"
+              class="ml-3"
+              color="primary"
+              size="large"
               variant="flat"
               :to="checkoutRoute"
             >
@@ -702,7 +700,9 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
         >
           <div
             class="ecommerce-product-card__link"
-            :class="{ 'ecommerce-product-card__link--interactive': Boolean(route) }"
+            :class="{
+              'ecommerce-product-card__link--interactive': Boolean(route),
+            }"
             :role="route ? 'link' : null"
             :tabindex="route ? 0 : null"
             @click="handleProductNavigation(route)"
@@ -773,8 +773,14 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
           </p>
         </div>
       </div>
-      <div class="ecommerce-collection" :class="{ 'ecommerce-collection--empty': !collectionProducts.length }">
-        <div v-if="collectionProducts.length" class="ecommerce-collection__grid">
+      <div
+        class="ecommerce-collection"
+        :class="{ 'ecommerce-collection--empty': !collectionProducts.length }"
+      >
+        <div
+          v-if="collectionProducts.length"
+          class="ecommerce-collection__grid"
+        >
           <div
             v-for="({ product, route }, index) in collectionProductsWithRoutes"
             :key="resolveProductIdentifier(product)"
@@ -783,7 +789,9 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
               `ecommerce-collection__item--${index}`,
               { 'ecommerce-collection__item--interactive': Boolean(route) },
             ]"
-            :style="{ backgroundImage: `url(${collectionImages[index] ?? FALLBACK_PRODUCT_IMAGE})` }"
+            :style="{
+              backgroundImage: `url(${collectionImages[index] ?? FALLBACK_PRODUCT_IMAGE})`,
+            }"
             :role="route ? 'link' : null"
             :tabindex="route ? 0 : null"
             @click="handleProductNavigation(route)"
@@ -828,7 +836,9 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
         >
           <div
             class="ecommerce-product-card__link"
-            :class="{ 'ecommerce-product-card__link--interactive': Boolean(route) }"
+            :class="{
+              'ecommerce-product-card__link--interactive': Boolean(route),
+            }"
             :role="route ? 'link' : null"
             :tabindex="route ? 0 : null"
             @click="handleProductNavigation(route)"
