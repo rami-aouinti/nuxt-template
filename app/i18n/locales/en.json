@@ -317,6 +317,7 @@
     "about": "About",
     "contact": "Contact",
     "ecommerce": "Shop",
+    "ecommerceProducts": "Product catalogue",
     "ecommerceManagement": "E-commerce management",
     "ecommerceThankYou": "Order confirmation",
     "pluginManagement": "Plugin management",
@@ -1795,7 +1796,8 @@
         "shopNow": "Shop now",
         "exploreCollection": "Explore collection",
         "refresh": "Refresh catalogue",
-        "retry": "Try again"
+        "retry": "Try again",
+        "viewAllProducts": "Browse all products"
       },
       "fallbacks": {
         "unknownProduct": "Product",
@@ -1805,6 +1807,18 @@
       },
       "errors": {
         "failedToLoad": "We could not load the shop data. Please try again in a moment."
+      },
+      "productsList": {
+        "title": "All products",
+        "subtitle": "Browse every item in the Seālius boutique and open one to add it to your cart.",
+        "count": "{count} products",
+        "pagination": "Page {page} of {total}",
+        "backToShowcase": "Back to curated highlights",
+        "errorTitle": "We could not load the catalogue",
+        "errorDescription": "Please refresh the page or try again in a moment.",
+        "emptyTitle": "No products to display",
+        "emptyDescription": "We will add items to this catalogue soon.",
+        "viewDetails": "View details"
       },
       "product": {
         "status": {

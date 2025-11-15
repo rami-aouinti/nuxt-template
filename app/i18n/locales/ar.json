@@ -277,6 +277,7 @@
     "about": "معلومات عنا",
     "contact": "اتصل بنا",
     "ecommerce": "المتجر",
+    "ecommerceProducts": "كتالوج المنتجات",
     "ecommerceThankYou": "تأكيد الطلب",
     "pluginManagement": "إدارة الإضافات",
     "plugins": "Plugins",
@@ -1852,7 +1853,8 @@
           "shopNow": "تسوّق الآن",
           "exploreCollection": "استكشف المجموعة",
           "refresh": "تحديث الكتالوج",
-          "retry": "إعادة المحاولة"
+          "retry": "إعادة المحاولة",
+          "viewAllProducts": "تصفّح كل المنتجات"
         },
         "fallbacks": {
           "unknownProduct": "منتج",
@@ -1862,6 +1864,18 @@
         },
         "errors": {
           "failedToLoad": "تعذر تحميل بيانات المتجر حالياً. يرجى المحاولة لاحقاً."
+        },
+        "productsList": {
+          "title": "جميع المنتجات",
+          "subtitle": "تصفح كامل مجموعة Seālius وافتح أي عنصر لإضافته إلى سلة التسوق.",
+          "count": "{count} منتج",
+          "pagination": "الصفحة {page} من {total}",
+          "backToShowcase": "العودة إلى العروض المنسّقة",
+          "errorTitle": "تعذر تحميل الكتالوج",
+          "errorDescription": "يرجى تحديث الصفحة أو المحاولة لاحقاً.",
+          "emptyTitle": "لا توجد منتجات للعرض",
+          "emptyDescription": "سنقوم بإضافة عناصر إلى هذا الكتالوج قريباً.",
+          "viewDetails": "عرض التفاصيل"
         }
       },
       "ecommercePayment": {

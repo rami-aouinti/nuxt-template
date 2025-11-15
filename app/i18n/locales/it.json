@@ -277,6 +277,7 @@
     "about": "Informazioni",
     "contact": "Contatti",
     "ecommerce": "Negozio",
+    "ecommerceProducts": "Catalogo prodotti",
     "ecommerceThankYou": "Conferma ordine",
     "pluginManagement": "Gestione plugin",
     "plugins": "Plugins",
@@ -1852,7 +1853,8 @@
           "shopNow": "Acquista ora",
           "exploreCollection": "Esplora la collezione",
           "refresh": "Aggiorna catalogo",
-          "retry": "Riprova"
+          "retry": "Riprova",
+          "viewAllProducts": "Vedi tutti i prodotti"
         },
         "fallbacks": {
           "unknownProduct": "Prodotto",
@@ -1862,6 +1864,18 @@
         },
         "errors": {
           "failedToLoad": "Impossibile caricare i dati del negozio. Riprova più tardi."
+        },
+        "productsList": {
+          "title": "Tutti i prodotti",
+          "subtitle": "Esplora l'intero catalogo Seālius e apri un articolo per aggiungerlo al carrello.",
+          "count": "{count} prodotti",
+          "pagination": "Pagina {page} di {total}",
+          "backToShowcase": "Torna alle selezioni",
+          "errorTitle": "Impossibile caricare il catalogo",
+          "errorDescription": "Aggiorna la pagina o riprova più tardi.",
+          "emptyTitle": "Nessun prodotto da mostrare",
+          "emptyDescription": "Nuovi articoli arriveranno presto in questo catalogo.",
+          "viewDetails": "Vedi dettagli"
         }
       },
       "ecommercePayment": {

@@ -277,6 +277,7 @@
     "about": "关于我们",
     "contact": "联系我们",
     "ecommerce": "商店",
+    "ecommerceProducts": "商品目录",
     "ecommerceThankYou": "订单确认",
     "pluginManagement": "插件管理",
     "plugins": "Plugins",
@@ -1852,7 +1853,8 @@
           "shopNow": "立即选购",
           "exploreCollection": "浏览系列",
           "refresh": "刷新目录",
-          "retry": "重试"
+          "retry": "重试",
+          "viewAllProducts": "查看全部商品"
         },
         "fallbacks": {
           "unknownProduct": "商品",
@@ -1862,6 +1864,18 @@
         },
         "errors": {
           "failedToLoad": "暂时无法加载商店数据，请稍后重试。"
+        },
+        "productsList": {
+          "title": "全部商品",
+          "subtitle": "浏览 Seālius 全部商品并打开任意商品以加入购物车。",
+          "count": "{count} 件商品",
+          "pagination": "第 {page} 页，共 {total} 页",
+          "backToShowcase": "返回精选",
+          "errorTitle": "无法加载目录",
+          "errorDescription": "请刷新页面或稍后再试。",
+          "emptyTitle": "暂无可展示的商品",
+          "emptyDescription": "我们很快会为目录补充更多商品。",
+          "viewDetails": "查看详情"
         }
       },
       "ecommercePayment": {
