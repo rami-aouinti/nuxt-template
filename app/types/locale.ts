@@ -32,18 +32,17 @@ export interface LocaleSyliusShopLocaleIndex {
 
 export type LocaleSyliusShopLocaleShow = LocaleSyliusShopLocaleIndex
 
-export interface LocaleJsonld extends Locale, JsonLdResource {}
+export type LocaleJsonld = Locale & JsonLdResource
 
 export type LocaleJsonldSyliusAdminLocaleIndex = LocaleJsonld
 
 export type LocaleJsonldSyliusAdminLocaleShow = LocaleJsonld
 
-export interface LocaleJsonldSyliusShopLocaleIndex
-  extends LocaleSyliusShopLocaleIndex,
-    JsonLdResource {}
+export type LocaleJsonldSyliusShopLocaleIndex =
+  LocaleSyliusShopLocaleIndex & JsonLdResource
 
 export type LocaleJsonldSyliusShopLocaleShow = LocaleJsonldSyliusShopLocaleIndex
 
-export interface LocaleInterface extends Locale {}
+export type LocaleInterface = Locale
 
-export interface LocaleInterfaceJsonld extends LocaleInterface, JsonLdResource {}
+export type LocaleInterfaceJsonld = LocaleInterface & JsonLdResource

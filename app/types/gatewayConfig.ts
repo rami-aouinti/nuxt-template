@@ -12,22 +12,19 @@ export interface GatewayConfigAttributes {
   config?: Array<string | null>
 }
 
-export interface GatewayConfig extends GatewayConfigAttributes {}
+export type GatewayConfig = GatewayConfigAttributes
 
 export type GatewayConfigSyliusAdminPaymentMethodIndex = GatewayConfig
 
 export type GatewayConfigSyliusAdminPaymentMethodShow = GatewayConfig
 
-export interface GatewayConfigSyliusAdminPaymentMethodCreate
-  extends GatewayConfigAttributes {}
+export type GatewayConfigSyliusAdminPaymentMethodCreate = GatewayConfigAttributes
 
 export interface GatewayConfigSyliusAdminPaymentMethodUpdate {
   config?: Array<string | null>
 }
 
-export interface GatewayConfigJsonld
-  extends GatewayConfig,
-    JsonLdResource {}
+export type GatewayConfigJsonld = GatewayConfig & JsonLdResource
 
 export type GatewayConfigJsonldSyliusAdminPaymentMethodIndex = GatewayConfigJsonld
 

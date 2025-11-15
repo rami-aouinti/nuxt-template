@@ -1,5 +1,5 @@
 import { defineEventHandler, readBody, createError } from 'h3'
-import { axios, AxiosError } from '~/utils/axios'
+import { axios } from '~/utils/axios'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)

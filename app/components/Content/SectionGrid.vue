@@ -41,6 +41,9 @@ const props = withDefaults(
     descriptionClass?: ClassValue
   }>(),
   {
+    rowProps: () => ({}),
+    itemProps: () => ({}),
+    sheetProps: () => ({}),
     iconSize: 32,
     iconColor: 'primary',
     iconClass: undefined,

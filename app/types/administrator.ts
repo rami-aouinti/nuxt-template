@@ -104,7 +104,7 @@ export interface AdministratorListItemJsonLd extends AdministratorListItem {
   '@type'?: string
 }
 
-export interface AdministratorDetailJsonLd extends AdministratorJsonLd {}
+export type AdministratorDetailJsonLd = AdministratorJsonLd
 
 export interface AdministratorTokenRead {
   token: string

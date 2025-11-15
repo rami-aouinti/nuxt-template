@@ -25,12 +25,14 @@ const emit = defineEmits<{
     e: 'select-reaction',
     payload: { comment: BlogCommentViewModel; type: BlogReactionType },
   ): void
-  (e: 'remove-reaction' | 'submit-reply', comment: BlogCommentViewModel): void
+  (
+    e: 'remove-reaction' | 'submit-reply' | 'delete-comment',
+    comment: BlogCommentViewModel,
+  ): void
   (
     e: 'submit-edit',
     payload: { comment: BlogCommentViewModel; content: string },
   ): void
-  (e: 'delete-comment', comment: BlogCommentViewModel): void
 }>()
 
 const { t } = useI18n()
@@ -244,9 +246,7 @@ const buildCommentMenuItems = (comment: BlogCommentViewModel): CommentMenuItem[]
                     <v-icon>mdi-microphone-outline</v-icon>
                   </AppButton>
                 </template>
-                <template
-                  #actions-right="{ loading, canSubmit, submit, cancel }"
-                >
+                <template #actions-right="{ loading, canSubmit, submit }">
                   <AppButton
                     variant="text"
                     icon
