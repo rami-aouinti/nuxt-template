@@ -257,6 +257,16 @@ export const extractPostTagsFromText = (value: string): string[] => {
   return Array.from(unique.values())
 }
 
+export const stripPostTagsFromText = (value: string): string => {
+  if (typeof value !== 'string') {
+    return ''
+  }
+
+  const withoutTags = value.replace(hashtagPattern, '$1')
+
+  return withoutTags.replace(/\s+/g, ' ').trim()
+}
+
 export const createPostViewModel = (
   post: BlogPost,
   { currentUserId, commentsVisible = false }: CreatePostViewModelOptions = {},
