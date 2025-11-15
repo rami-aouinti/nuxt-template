@@ -736,6 +736,7 @@ const pageSubtitle = computed(() =>
                 :key="section.value"
                 :value="section.value"
                 :model-value="true"
+                eager
                 color="primary"
                 class="navigation-tree__group"
               >
