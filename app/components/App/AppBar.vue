@@ -35,7 +35,7 @@ const breadcrumbs = computed(() => {
 
       return {
         title: t(String(r.meta.title!)),
-        disabled: localizedPath === route.path || false,
+        disabled: localizedPath === route.path,
         to: localizedPath,
       }
     })

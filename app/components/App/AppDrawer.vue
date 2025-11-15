@@ -111,9 +111,7 @@ const resolveViewportWidth = () => {
 const ensureInitialDrawerState = () => {
   const viewportWidth = resolveViewportWidth()
   const shouldExpand =
-    typeof viewportWidth === 'number'
-      ? viewportWidth >= 1280
-      : lgAndUp.value && width.value >= 1280
+    false
 
   if (drawerState.value !== shouldExpand) {
     drawerState.value = shouldExpand
@@ -183,27 +181,6 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
         </span>
         <span class="brand-title--italic">{{ brandTitleParts.after }}</span>
       </NuxtLink>
-    </template>
-    <v-list nav density="compact">
-      <AppDrawerItem
-        v-for="route in availableRoutes"
-        :key="drawerRouteKey(route)"
-        :item="route"
-      />
-    </v-list>
-    <v-spacer />
-    <template #append>
-      <v-list-item class="drawer-footer px-0 d-flex flex-column justify-center">
-        <div class="text-caption pt-6 pt-md-0 text-center text-no-wrap">
-          {{ footerCopyright }}
-          <a
-            href="https://github.com/rami-aouinti"
-            class="font-weight-bold text-primary"
-            target="_blank"
-            >{{ footerBrand }}</a
-          >
-        </div>
-      </v-list-item>
     </template>
   </v-navigation-drawer>
 </template>
