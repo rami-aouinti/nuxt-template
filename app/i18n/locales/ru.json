@@ -277,6 +277,7 @@
     "about": "О нас",
     "contact": "Контакты",
     "ecommerce": "Магазин",
+    "ecommerceProducts": "Каталог товаров",
     "ecommerceThankYou": "Подтверждение заказа",
     "pluginManagement": "Управление плагинами",
     "plugins": "Plugins",
@@ -1852,7 +1853,8 @@
           "shopNow": "Купить сейчас",
           "exploreCollection": "Посмотреть коллекцию",
           "refresh": "Обновить каталог",
-          "retry": "Повторить попытку"
+          "retry": "Повторить попытку",
+          "viewAllProducts": "Все товары"
         },
         "fallbacks": {
           "unknownProduct": "Товар",
@@ -1862,6 +1864,18 @@
         },
         "errors": {
           "failedToLoad": "Не удалось загрузить данные магазина. Попробуйте позже."
+        },
+        "productsList": {
+          "title": "Все товары",
+          "subtitle": "Просмотрите весь каталог Seālius и откройте товар, чтобы добавить его в корзину.",
+          "count": "{count} товаров",
+          "pagination": "Страница {page} из {total}",
+          "backToShowcase": "Назад к подборке",
+          "errorTitle": "Не удалось загрузить каталог",
+          "errorDescription": "Обновите страницу или попробуйте позже.",
+          "emptyTitle": "Нет товаров для отображения",
+          "emptyDescription": "Скоро в каталоге появятся новые позиции.",
+          "viewDetails": "Подробнее"
         }
       },
       "ecommercePayment": {
