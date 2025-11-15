@@ -500,6 +500,14 @@ const checkoutRoute = computed(() => {
   })
 })
 
+const productsListRoute = computed(() => {
+  // ensure locale reactivity
+  void locale.value
+  return localePath({
+    name: 'ecommerce-products',
+  })
+})
+
 onMounted(() => {
   cartStore.restore().catch(() => {})
 })
@@ -619,20 +627,29 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
             <AppButton color="primary" size="large" @click="handleShopNow">
               {{ t('pages.ecommerce.actions.shopNow') }}
             </AppButton>
-            <AppButton
-              class="ml-3"
-              color="secondary"
-              size="large"
-              variant="tonal"
-              @click="handleExploreCollection"
-            >
-              {{ t('pages.ecommerce.actions.exploreCollection') }}
-            </AppButton>
-            <AppButton
-              v-if="checkoutRoute"
-              class="ml-3"
-              color="primary"
-              size="large"
+          <AppButton
+            class="ml-3"
+            color="secondary"
+            size="large"
+            variant="tonal"
+            @click="handleExploreCollection"
+          >
+            {{ t('pages.ecommerce.actions.exploreCollection') }}
+          </AppButton>
+          <AppButton
+            class="ml-3"
+            color="primary"
+            size="large"
+            variant="outlined"
+            :to="productsListRoute"
+          >
+            {{ t('pages.ecommerce.actions.viewAllProducts') }}
+          </AppButton>
+          <AppButton
+            v-if="checkoutRoute"
+            class="ml-3"
+            color="primary"
+            size="large"
               variant="flat"
               :to="checkoutRoute"
             >

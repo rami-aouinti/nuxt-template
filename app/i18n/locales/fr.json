@@ -277,6 +277,7 @@
     "about": "À propos",
     "contact": "Contact",
     "ecommerce": "Boutique",
+    "ecommerceProducts": "Catalogue produits",
     "ecommerceThankYou": "Confirmation de commande",
     "pluginManagement": "Gestion des plugins",
     "plugins": "Plugins",
@@ -1748,7 +1749,8 @@
           "shopNow": "Acheter maintenant",
           "exploreCollection": "Explorer la collection",
           "refresh": "Actualiser le catalogue",
-          "retry": "Réessayer"
+          "retry": "Réessayer",
+          "viewAllProducts": "Voir tous les produits"
         },
         "fallbacks": {
           "unknownProduct": "Produit",
@@ -1758,6 +1760,18 @@
         },
         "errors": {
           "failedToLoad": "Impossible de charger la boutique pour le moment. Veuillez réessayer plus tard."
+        },
+        "productsList": {
+          "title": "Tous les produits",
+          "subtitle": "Parcourez l’intégralité du catalogue Seālius et ouvrez un article pour l’ajouter à votre panier.",
+          "count": "{count} produits",
+          "pagination": "Page {page} sur {total}",
+          "backToShowcase": "Retour aux sélections",
+          "errorTitle": "Impossible de charger le catalogue",
+          "errorDescription": "Actualisez la page ou réessayez plus tard.",
+          "emptyTitle": "Aucun produit à afficher",
+          "emptyDescription": "De nouveaux articles arriveront bientôt dans ce catalogue.",
+          "viewDetails": "Voir les détails"
         }
       },
       "ecommercePayment": {
