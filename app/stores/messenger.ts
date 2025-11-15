@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed, watch } from 'vue'
+import { resolveSessionUserId } from '~/utils/session'
 import type {
   ConversationSummary,
   MessengerMercureEvent,
@@ -18,43 +19,6 @@ function toNormalizedIdentifier(value: unknown) {
 
   if (typeof value === 'number' && Number.isFinite(value)) {
     return String(value)
-  }
-
-  return ''
-}
-
-function resolveSessionUserId(sessionValue: unknown) {
-  if (!sessionValue || typeof sessionValue !== 'object') {
-    return ''
-  }
-
-  const record = sessionValue as Record<string, unknown>
-
-  const profile =
-    record.profile && typeof record.profile === 'object'
-      ? (record.profile as Record<string, unknown>)
-      : null
-
-  const user =
-    record.user && typeof record.user === 'object'
-      ? (record.user as Record<string, unknown>)
-      : null
-
-  const candidates = [
-    profile?.id,
-    user?.id,
-    user?.userId,
-    user?.user_id,
-    record.userId,
-    record.user_id,
-    record.id,
-  ]
-
-  for (const candidate of candidates) {
-    const normalized = toNormalizedIdentifier(candidate)
-    if (normalized) {
-      return normalized
-    }
   }
 
   return ''
