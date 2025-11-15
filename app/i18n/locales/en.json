@@ -681,6 +681,44 @@
         "title": "Run your store in just a few clicks",
         "subtitle": "Browse by functional domain to quickly find every e-commerce module."
       },
+      "entityManager": {
+        "title": "Entity operations",
+        "subtitle": "Create, update or delete any e-commerce entity with the raw API payload.",
+        "helper": "Requests target {path}. Make sure the JSON payload matches the e-commerce API schema.",
+        "fields": {
+          "entity": "Entity",
+          "identifier": "Identifier",
+          "identifierHint": "Code or ID used by the API",
+          "payload": "JSON payload",
+          "payloadPlaceholder": "{ \"code\": \"EXAMPLE_CODE\" }",
+          "code": "Code",
+          "id": "ID"
+        },
+        "actions": {
+          "load": "Load entity",
+          "create": "Create",
+          "update": "Update",
+          "delete": "Delete"
+        },
+        "notifications": {
+          "loadSuccess": "Entity loaded successfully.",
+          "createSuccess": "Entity created successfully.",
+          "updateSuccess": "Entity updated successfully.",
+          "deleteSuccess": "Entity deleted successfully."
+        },
+        "errors": {
+          "identifierRequired": "An identifier is required for this operation.",
+          "payloadInvalid": "The JSON payload is invalid."
+        },
+        "dialogs": {
+          "deleteConfirm": "Are you sure you want to delete this entity? This action cannot be undone."
+        },
+        "entities": {
+          "productAttributes": "Product attributes",
+          "shippingCategories": "Shipping categories",
+          "exchangeRates": "Exchange rates"
+        }
+      },
       "common": {
         "none": "None",
         "enabled": "Enabled",
