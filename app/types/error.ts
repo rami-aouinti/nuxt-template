@@ -14,7 +14,7 @@ export interface ErrorAttributes {
   type?: string
 }
 
-export interface ErrorSchema extends ErrorAttributes {}
+export type ErrorSchema = ErrorAttributes
 
 export interface ErrorJsonld extends ErrorAttributes, JsonLdResource {
   description?: string | null

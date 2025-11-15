@@ -40,6 +40,7 @@ const props = withDefaults(
     variant: 'tonal',
     prominent: false,
     icon: undefined,
+    description: undefined,
     alertProps: () => ({}),
     contentClass: undefined,
     titleClass: () => ['d-block', 'mb-1'],

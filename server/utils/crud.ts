@@ -10,7 +10,7 @@ export function requireRouteParam(
   event: H3Event,
   paramName: string,
   errorMessage: string,
-  entityLabel: string,
+  _entityLabel: string,
 ) {
   const value = getRouterParam(event, paramName)
 

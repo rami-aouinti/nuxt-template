@@ -149,7 +149,7 @@ const formatCurrency = (amount: number, currencyCode?: string | null) => {
       currency: code,
     })
     return formatter.format(amount)
-  } catch (_error) {
+  } catch {
     return currencyFormatter.value.format(amount)
   }
 }

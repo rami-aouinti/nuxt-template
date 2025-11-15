@@ -1,18 +1,6 @@
 import { defineEventHandler, readBody, createError } from 'h3'
 import { axios, AxiosError } from '~/utils/axios'
 
-type VerificationCredentials = {
-  email?: string
-  password?: string
-}
-
-type VerificationResponse = {
-  success: boolean
-  message?: string
-  credentials?: VerificationCredentials | null
-  [key: string]: unknown
-}
-
 export default defineEventHandler(async (event) => {
   const body = await readBody<{ token?: string }>(event)
 

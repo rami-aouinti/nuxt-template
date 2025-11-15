@@ -222,9 +222,9 @@ export interface OrderAdjustment extends AdjustmentInterface {
   shipment?: string | null
 }
 
-export interface OrderCouponJsonLd extends OrderCoupon, OrderJsonLdResource {}
+export type OrderCouponJsonLd = OrderCoupon & OrderJsonLdResource
 
-export interface OrderPromotionJsonLd extends OrderPromotion, OrderJsonLdResource {}
+export type OrderPromotionJsonLd = OrderPromotion & OrderJsonLdResource
 
 export interface Order {
   customer?: string | null
@@ -284,9 +284,9 @@ export interface Order {
 
 export type OrderJsonLd = Order & OrderJsonLdResource
 
-export interface OrderSyliusAdminOrderIndex extends Order {}
+export type OrderSyliusAdminOrderIndex = Order
 
-export interface OrderSyliusAdminOrderShow extends Order {}
+export type OrderSyliusAdminOrderShow = Order
 
 export interface OrderSyliusShopCartShow extends Order {
   customer?: { email: string } | null
@@ -295,7 +295,7 @@ export interface OrderSyliusShopCartShow extends Order {
   promotionCoupon?: { code: string } | null
 }
 
-export interface OrderSyliusShopOrderAccountShow extends Order {}
+export type OrderSyliusShopOrderAccountShow = Order
 
 export interface OrderSyliusShopOrderIndex {
   channel?: string | null
@@ -332,7 +332,7 @@ export interface OrderCompleteOrderPayload {
   notes?: string | null
 }
 
-export interface OrderPickupCartPayload {}
+export type OrderPickupCartPayload = Record<string, never>
 
 export interface OrderResendOrderConfirmationEmailPayload {
   orderTokenValue: string
@@ -353,13 +353,12 @@ export type OrderJsonLdSyliusShopCartShow = OrderJsonLd
 
 export type OrderJsonLdSyliusShopOrderAccountShow = OrderJsonLd
 
-export interface OrderJsonLdSyliusShopOrderIndex
-  extends OrderSyliusShopOrderIndex,
-    OrderJsonLdResource {}
+export type OrderJsonLdSyliusShopOrderIndex =
+  OrderSyliusShopOrderIndex & OrderJsonLdResource
 
-export interface OrderItemJsonLdSyliusAdminOrderIndex extends OrderItemJsonLd {}
+export type OrderItemJsonLdSyliusAdminOrderIndex = OrderItemJsonLd
 
-export interface OrderItemJsonLdSyliusAdminOrderShow extends OrderItemJsonLd {}
+export type OrderItemJsonLdSyliusAdminOrderShow = OrderItemJsonLd
 
 export type OrderItemJsonLdSyliusAdminOrderItemShow = OrderItemJsonLd
 
@@ -385,7 +384,7 @@ export interface OrderItemSyliusShopOrderItemShow extends OrderItem {
   order: string
 }
 
-export interface OrderItemUnitSyliusAdminOrderItemUnitShow extends OrderItemUnit {}
+export type OrderItemUnitSyliusAdminOrderItemUnitShow = OrderItemUnit
 
 export type OrderItemUnitJsonLdSyliusAdminOrderItemUnitShow = OrderItemUnitJsonLd
 
@@ -396,7 +395,7 @@ export interface OrderItemUnitInterface extends OrderItemUnit {
 
 export type OrderItemUnitInterfaceJsonLd = OrderItemUnitInterface & OrderJsonLdResource
 
-export interface OrderAdjustmentJsonLd extends OrderAdjustment, OrderJsonLdResource {}
+export type OrderAdjustmentJsonLd = OrderAdjustment & OrderJsonLdResource
 
 export interface OrderCollection extends OrderJsonLdResource {
   'hydra:member': OrderJsonLd[]

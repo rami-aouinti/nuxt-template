@@ -706,9 +706,9 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
       <div class="ecommerce-collection" :class="{ 'ecommerce-collection--empty': !collectionProducts.length }">
         <div v-if="collectionProducts.length" class="ecommerce-collection__grid">
           <component
+            :is="route ? 'NuxtLink' : 'div'"
             v-for="({ product, route }, index) in collectionProductsWithRoutes"
             :key="resolveProductIdentifier(product)"
-            :is="route ? 'NuxtLink' : 'div'"
             class="ecommerce-collection__item"
             :class="`ecommerce-collection__item--${index}`"
             :style="{ backgroundImage: `url(${collectionImages[index] ?? FALLBACK_PRODUCT_IMAGE})` }"

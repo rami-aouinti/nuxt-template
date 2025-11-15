@@ -5,11 +5,6 @@ import { Notify } from '~/stores/notification'
 import {axios, AxiosError} from "~/utils/axios";
 import type {LoginResponse} from "~/types/auth";
 const { t } = useI18n()
-interface VerificationCredentials {
-  email?: string
-  password?: string
-}
-
 const credentials = reactive({
   username: '',
   password: '',
@@ -24,13 +19,6 @@ const canSubmit = computed(() => {
   if (loading.value) return false
   return Boolean(credentials.username && credentials.password)
 })
-
-interface VerificationResponse {
-  success: boolean
-  message?: string
-  credentials?: VerificationCredentials | null
-  [key: string]: unknown
-}
 
 const route = useRoute()
 
