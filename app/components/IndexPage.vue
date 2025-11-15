@@ -39,56 +39,16 @@ const items = computed(() =>
 
 <template>
   <v-container class="admin-index py-0">
-    <section class="admin-index__hero glass-card pa-8 mb-10">
-      <div class="admin-index__hero-content">
-        <div class="animated-badge mb-4">
-          <span class="animated-badge__pulse" />
-          {{ translate('admin.dashboard.welcome', 'Centre de contrôle') }}
-        </div>
-        <h1 class="text-h4 text-md-h3 font-weight-bold mb-3">
+
+    <section class="page-section">
+      <div class="page-section__header">
+        <h2 class="section-title">
           {{
             translate(
               'admin.dashboard.title',
               'Gérez chaque espace en un clin d’œil',
             )
           }}
-        </h1>
-        <p class="text-body-1 text-medium-emphasis mb-6">
-          {{
-            translate(
-              'admin.dashboard.subtitle',
-              'Accédez rapidement aux sections clés de l’administration et suivez vos indicateurs.',
-            )
-          }}
-        </p>
-        <div class="admin-index__hero-stats">
-          <div class="stat-card">
-            <p class="text-caption text-medium-emphasis mb-1">
-              {{ translate('admin.dashboard.sections', 'Sections') }}
-            </p>
-            <p class="text-h5 font-weight-semibold mb-0">
-              {{ items?.length || 0 }}
-            </p>
-          </div>
-          <div class="stat-card">
-            <p class="text-caption text-medium-emphasis mb-1">
-              {{ translate('admin.dashboard.activity', 'Activité') }}
-            </p>
-            <p class="text-h5 font-weight-semibold mb-0">
-              {{ translate('admin.dashboard.updated', 'Mis à jour') }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="page-section">
-      <div class="page-section__header">
-        <span class="section-eyebrow">{{
-          translate('admin.dashboard.sectionsTitle', 'Navigation rapide')
-        }}</span>
-        <h2 class="section-title">
-          {{ translate('admin.dashboard.choose', 'Choisissez une section') }}
         </h2>
         <p class="section-subtitle">
           {{
@@ -102,9 +62,9 @@ const items = computed(() =>
 
       <v-row class="g-6">
         <v-col v-for="item in items" :key="item.title" cols="12" md="6" lg="4">
-          <v-card class="admin-index__card h-100" elevation="0">
-            <v-list-item v-bind="item" :ripple="false" class="py-6" />
-          </v-card>
+          <div class="stat-card">
+            <v-list-item v-bind="item" :title="translate(item.title)" :ripple="true" class="py-6" style="background-color: transparent" />
+          </div>
         </v-col>
       </v-row>
     </section>
@@ -147,7 +107,6 @@ const items = computed(() =>
 }
 
 .admin-index__card::after {
-  content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;
