@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import type { DataTableHeader } from 'vuetify'
+import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
 import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
 import { Notify } from '~/stores/notification'
 
@@ -34,6 +36,14 @@ type EcommerceEntityDefinition = {
 }
 
 type CrudAction = 'load' | 'create' | 'update' | 'delete'
+
+type EntityTableRow = {
+  value: string
+  label: string
+  identifier: string
+  endpoint: string
+  definition: EcommerceEntityDefinition
+}
 
 const { t } = useI18n()
 const localePath = useLocalePath()
@@ -439,61 +449,114 @@ const entityDefinitions = computed<EcommerceEntityDefinition[]>(() => {
   ]
 })
 
-const selectedEntity = ref('')
+const entitySearch = ref('')
+const entityTableHeaders = computed<DataTableHeader[]>(() => [
+  {
+    title: t('admin.ecommerce.entityManager.table.entity'),
+    key: 'label',
+    minWidth: 240,
+  },
+  {
+    title: t('admin.ecommerce.entityManager.table.identifier'),
+    key: 'identifier',
+    minWidth: 200,
+  },
+  {
+    title: t('admin.ecommerce.entityManager.table.endpoint'),
+    key: 'endpoint',
+    minWidth: 280,
+  },
+  { title: '', key: 'actions', sortable: false, align: 'end', width: 160 },
+])
+
+const entityTableItems = computed<EntityTableRow[]>(() =>
+  entityDefinitions.value.map((definition) => ({
+    value: definition.value,
+    label: definition.label,
+    identifier:
+      definition.identifierLabel ??
+      t('admin.ecommerce.entityManager.fields.identifier'),
+    endpoint: definition.basePath,
+    definition,
+  })),
+)
+
+const filteredEntityItems = computed(() => {
+  const term = entitySearch.value.toLowerCase().trim()
+  if (!term) {
+    return entityTableItems.value
+  }
+
+  return entityTableItems.value.filter((item) =>
+    [item.label, item.identifier, item.endpoint]
+      .filter(Boolean)
+      .some((value) => value.toLowerCase().includes(term)),
+  )
+})
+
+const managerDialog = ref(false)
+const activeEntity = ref<EcommerceEntityDefinition | null>(null)
 const entityIdentifier = ref('')
 const entityPayload = ref(DEFAULT_PAYLOAD)
 const busyAction = ref<CrudAction | null>(null)
 const formError = ref<string | null>(null)
 
-const currentEntity = computed(() =>
-  entityDefinitions.value.find((entity) => entity.value === selectedEntity.value) ??
-  null,
+const dialogTitle = computed(() =>
+  activeEntity.value
+    ? t('admin.ecommerce.entityManager.dialogs.manageTitle', {
+        entity: activeEntity.value.label,
+      })
+    : '',
 )
 
-watch(
-  entityDefinitions,
-  (definitions) => {
-    if (!definitions.length) {
-      selectedEntity.value = ''
-      return
-    }
+function resetManagerState() {
+  entityIdentifier.value = ''
+  entityPayload.value = DEFAULT_PAYLOAD
+  formError.value = null
+  busyAction.value = null
+}
 
-    const hasSelection = definitions.some(
-      (definition) => definition.value === selectedEntity.value,
-    )
+function openEntityManager(entity: EcommerceEntityDefinition) {
+  activeEntity.value = entity
+  entityPayload.value = formatPayloadTemplate(entity.payloadTemplate)
+  entityIdentifier.value = ''
+  formError.value = null
+  busyAction.value = null
+  managerDialog.value = true
+}
 
-    if (!hasSelection) {
-      selectedEntity.value = definitions[0].value
-    }
-  },
-  { immediate: true },
-)
+function closeEntityManager() {
+  if (busyAction.value) {
+    return
+  }
 
-watch(
-  selectedEntity,
-  () => {
-    entityPayload.value = formatPayloadTemplate(currentEntity.value?.payloadTemplate)
-    entityIdentifier.value = ''
-    formError.value = null
-  },
-  { immediate: true },
-)
+  managerDialog.value = false
+  activeEntity.value = null
+  resetManagerState()
+}
+
+watch(managerDialog, (value) => {
+  if (!value && busyAction.value === null) {
+    activeEntity.value = null
+    resetManagerState()
+  }
+})
 
 const hasIdentifier = computed(() => entityIdentifier.value.trim().length > 0)
 const identifierLabel = computed(
   () =>
-    currentEntity.value?.identifierLabel ??
+    activeEntity.value?.identifierLabel ??
     t('admin.ecommerce.entityManager.fields.identifier'),
 )
 const identifierHint = computed(
   () =>
-    currentEntity.value?.identifierHint ??
+    activeEntity.value?.identifierHint ??
     t('admin.ecommerce.entityManager.fields.identifierHint'),
 )
 const helperText = computed(() =>
-  currentEntity.value
+  activeEntity.value
     ? t('admin.ecommerce.entityManager.helper', {
-        path: currentEntity.value.basePath,
+        path: activeEntity.value.basePath,
       })
     : '',
 )
@@ -553,7 +616,7 @@ function parsePayloadBody() {
 }
 
 async function loadEntity() {
-  if (!currentEntity.value) {
+  if (!activeEntity.value) {
     return
   }
 
@@ -567,7 +630,7 @@ async function loadEntity() {
 
   try {
     const response = await $fetch(
-      `${currentEntity.value.basePath}/${encodeURIComponent(identifier)}`,
+      `${activeEntity.value.basePath}/${encodeURIComponent(identifier)}`,
       {
         credentials: 'include',
       },
@@ -584,7 +647,7 @@ async function loadEntity() {
 }
 
 async function submitEntity(action: 'create' | 'update') {
-  if (!currentEntity.value) {
+  if (!activeEntity.value) {
     return
   }
 
@@ -603,8 +666,8 @@ async function submitEntity(action: 'create' | 'update') {
 
   const url =
     action === 'create'
-      ? currentEntity.value.basePath
-      : `${currentEntity.value.basePath}/${encodeURIComponent(identifier!)}`
+      ? activeEntity.value.basePath
+      : `${activeEntity.value.basePath}/${encodeURIComponent(identifier!)}`
 
   try {
     const response = await $fetch(url, {
@@ -632,7 +695,7 @@ async function submitEntity(action: 'create' | 'update') {
 }
 
 async function deleteEntity() {
-  if (!currentEntity.value) {
+  if (!activeEntity.value) {
     return
   }
 
@@ -655,7 +718,7 @@ async function deleteEntity() {
 
   try {
     await $fetch(
-      `${currentEntity.value.basePath}/${encodeURIComponent(identifier)}`,
+      `${activeEntity.value.basePath}/${encodeURIComponent(identifier)}`,
       {
         method: 'DELETE',
         credentials: 'include',
@@ -765,112 +828,149 @@ const pageSubtitle = computed(() =>
     </section>
 
     <section class="page-section">
-      <div class="page-section__header">
-        <h2 class="section-title">
-          {{ t('admin.ecommerce.entityManager.title') }}
-        </h2>
-        <p class="section-subtitle">
-          {{ t('admin.ecommerce.entityManager.subtitle') }}
-        </p>
-      </div>
+      <AdminDataTable
+        v-model:search="entitySearch"
+        class="entity-manager-table"
+        :title="t('admin.ecommerce.entityManager.title')"
+        :subtitle="t('admin.ecommerce.entityManager.subtitle')"
+        :headers="entityTableHeaders"
+        :items="filteredEntityItems"
+        :search-placeholder="t('common.labels.search')"
+        :refreshable="false"
+      >
+        <template #item.actions="{ item }">
+          <v-btn
+            color="primary"
+            variant="tonal"
+            size="small"
+            @click="openEntityManager(item.definition)"
+          >
+            {{ t('admin.ecommerce.entityManager.actions.manage') }}
+          </v-btn>
+        </template>
+      </AdminDataTable>
+    </section>
 
-      <v-row>
-        <v-col cols="12">
-          <v-card class="entity-manager-card" rounded="xl" elevation="2">
-            <v-card-text class="entity-manager-card__content">
-              <v-row dense>
-                <v-col cols="12" md="6">
-                  <v-select
-                    v-model="selectedEntity"
-                    :items="entityDefinitions"
-                    item-title="label"
-                    item-value="value"
-                    :label="t('admin.ecommerce.entityManager.fields.entity')"
-                    density="comfortable"
-                  />
-                </v-col>
-                <v-col cols="12" md="6">
-                  <div class="entity-manager__identifier">
-                    <v-text-field
-                      v-model="entityIdentifier"
-                      class="flex-grow-1"
-                      :label="identifierLabel"
-                      :hint="identifierHint"
-                      autocomplete="off"
-                      density="comfortable"
-                      persistent-hint
-                    />
-                    <v-btn
-                      class="entity-manager__load"
-                      color="primary"
-                      variant="tonal"
-                      :disabled="!currentEntity || !hasIdentifier || busyAction !== null"
-                      :loading="busyAction === 'load'"
-                      @click="loadEntity"
-                    >
-                      {{ t('admin.ecommerce.entityManager.actions.load') }}
-                    </v-btn>
-                  </div>
-                </v-col>
-              </v-row>
+    <v-dialog
+      v-model="managerDialog"
+      max-width="960"
+      :persistent="busyAction !== null"
+    >
+      <v-card class="entity-manager-dialog" rounded="xl" elevation="4">
+        <v-card-title class="entity-manager-dialog__title">
+          <div class="entity-manager-dialog__title-text">
+            <span class="text-overline text-medium-emphasis">
+              {{ t('admin.ecommerce.entityManager.fields.entity') }}
+            </span>
+            <strong class="text-h6">{{ dialogTitle || activeEntity?.label }}</strong>
+          </div>
 
+          <v-btn
+            icon="mdi-close"
+            variant="text"
+            :disabled="busyAction !== null"
+            @click="closeEntityManager"
+          />
+        </v-card-title>
+
+        <v-divider class="mx-4" />
+
+        <v-card-text class="entity-manager-dialog__body">
+          <v-row dense>
+            <v-col cols="12">
+              <div class="entity-manager-dialog__identifier">
+                <v-text-field
+                  v-model="entityIdentifier"
+                  class="flex-grow-1"
+                  :label="identifierLabel"
+                  :hint="identifierHint"
+                  autocomplete="off"
+                  density="comfortable"
+                  persistent-hint
+                />
+                <v-btn
+                  color="primary"
+                  variant="tonal"
+                  :disabled="!activeEntity || !hasIdentifier || busyAction !== null"
+                  :loading="busyAction === 'load'"
+                  @click="loadEntity"
+                >
+                  {{ t('admin.ecommerce.entityManager.actions.load') }}
+                </v-btn>
+              </div>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col cols="12">
               <v-textarea
                 v-model="entityPayload"
-                class="entity-manager__payload"
+                class="entity-manager-dialog__payload"
                 :label="t('admin.ecommerce.entityManager.fields.payload')"
                 :placeholder="payloadPlaceholder"
                 rows="10"
                 auto-grow
                 spellcheck="false"
               />
+            </v-col>
+          </v-row>
 
-              <p v-if="helperText" class="entity-manager__helper text-caption">
-                {{ helperText }}
-              </p>
+          <p v-if="helperText" class="entity-manager-dialog__helper text-caption">
+            {{ helperText }}
+          </p>
 
-              <v-alert
-                v-if="formError"
-                class="mt-4"
-                type="error"
-                variant="tonal"
-                border="start"
-              >
-                {{ formError }}
-              </v-alert>
+          <v-alert
+            v-if="formError"
+            class="mt-4"
+            type="error"
+            variant="tonal"
+            border="start"
+          >
+            {{ formError }}
+          </v-alert>
+        </v-card-text>
 
-              <div class="entity-manager__actions">
-                <v-btn
-                  color="primary"
-                  :disabled="!currentEntity || busyAction !== null"
-                  :loading="busyAction === 'create'"
-                  @click="submitEntity('create')"
-                >
-                  {{ t('admin.ecommerce.entityManager.actions.create') }}
-                </v-btn>
-                <v-btn
-                  color="secondary"
-                  variant="tonal"
-                  :disabled="!currentEntity || !hasIdentifier || busyAction !== null"
-                  :loading="busyAction === 'update'"
-                  @click="submitEntity('update')"
-                >
-                  {{ t('admin.ecommerce.entityManager.actions.update') }}
-                </v-btn>
-                <v-btn
-                  color="error"
-                  variant="tonal"
-                  :disabled="!currentEntity || !hasIdentifier || busyAction !== null"
-                  :loading="busyAction === 'delete'"
-                  @click="deleteEntity"
-                >
-                  {{ t('admin.ecommerce.entityManager.actions.delete') }}
-                </v-btn>
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </section>
+        <v-card-actions class="entity-manager-dialog__actions">
+          <v-btn
+            color="secondary"
+            variant="text"
+            :disabled="busyAction !== null"
+            @click="closeEntityManager"
+          >
+            {{ t('common.actions.close') }}
+          </v-btn>
+
+          <div class="entity-manager-dialog__crud">
+            <v-btn
+              color="primary"
+              :disabled="!activeEntity || busyAction !== null"
+              :loading="busyAction === 'create'"
+              @click="submitEntity('create')"
+            >
+              {{ t('admin.ecommerce.entityManager.actions.create') }}
+            </v-btn>
+            <v-btn
+              color="secondary"
+              variant="tonal"
+              :disabled="!activeEntity || !hasIdentifier || busyAction !== null"
+              :loading="busyAction === 'update'"
+              @click="submitEntity('update')"
+            >
+              {{ t('admin.ecommerce.entityManager.actions.update') }}
+            </v-btn>
+            <v-btn
+              color="error"
+              variant="tonal"
+              :disabled="!activeEntity || !hasIdentifier || busyAction !== null"
+              :loading="busyAction === 'delete'"
+              @click="deleteEntity"
+            >
+              {{ t('admin.ecommerce.entityManager.actions.delete') }}
+            </v-btn>
+          </div>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -912,43 +1012,59 @@ const pageSubtitle = computed(() =>
   border-color: rgba(var(--v-theme-primary), 0.2);
 }
 
-.entity-manager-card {
-  border-radius: 24px;
-  background: color-mix(
-    in srgb,
-    rgba(var(--v-theme-surface), 0.92),
-    rgba(var(--v-theme-primary), 0.08)
-  );
-  border: 1px solid color-mix(in srgb, var(--v-theme-outline-variant) 40%, transparent);
+.entity-manager-table {
+  margin-top: 16px;
 }
 
-.entity-manager-card__content {
-  padding: 28px;
+.entity-manager-dialog {
+  border-radius: 28px;
 }
 
-.entity-manager__identifier {
+.entity-manager-dialog__title {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-inline: 24px;
+  padding-block: 20px 12px;
+}
+
+.entity-manager-dialog__title-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.entity-manager-dialog__body {
+  padding: 24px;
+}
+
+.entity-manager-dialog__identifier {
+  display: flex;
+  flex-wrap: wrap;
   gap: 12px;
-  align-items: flex-start;
+  align-items: flex-end;
 }
 
-.entity-manager__load {
-  white-space: nowrap;
-}
-
-.entity-manager__payload {
+.entity-manager-dialog__payload {
   margin-top: 12px;
 }
 
-.entity-manager__helper {
+.entity-manager-dialog__helper {
   margin-top: 8px;
   color: rgba(var(--v-theme-on-surface), 0.6);
 }
 
-.entity-manager__actions {
+.entity-manager-dialog__actions {
+  justify-content: space-between;
+  padding-inline: 24px;
+  padding-bottom: 24px;
+  gap: 16px;
+}
+
+.entity-manager-dialog__crud {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 20px;
 }
 </style>
