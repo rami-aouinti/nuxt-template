@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
+import { Notify } from '~/stores/notification'
 
 type NavigationAction = {
   label: string
@@ -22,6 +23,17 @@ type NavigationGroup = {
   value: string
   children: NavigationLink[]
 }
+
+type EcommerceEntityDefinition = {
+  value: string
+  label: string
+  basePath: string
+  identifierLabel?: string
+  identifierHint?: string
+  payloadTemplate?: Record<string, unknown>
+}
+
+type CrudAction = 'load' | 'create' | 'update' | 'delete'
 
 const { t } = useI18n()
 const localePath = useLocalePath()
@@ -226,6 +238,442 @@ const groupedSections = computed<NavigationGroup[]>(() => [
   ),
 ])
 
+const DEFAULT_PAYLOAD = '{\n  \n}'
+
+const entityDefinitions = computed<EcommerceEntityDefinition[]>(() => {
+  const codeLabel = t('admin.ecommerce.entityManager.fields.code')
+  const idLabel = t('admin.ecommerce.entityManager.fields.id')
+  const identifierHint = t('admin.ecommerce.entityManager.fields.identifierHint')
+
+  return [
+    {
+      value: 'channels',
+      label: t('admin.ecommerce.configuration.navigation.channels'),
+      basePath: '/api/ecommerce/v2/admin/channels',
+      identifierLabel: codeLabel,
+      identifierHint,
+      payloadTemplate: {
+        code: 'NEW_CHANNEL',
+        name: 'New channel',
+        enabled: true,
+      },
+    },
+    {
+      value: 'catalog-promotions',
+      label: t('admin.ecommerce.navigation.catalogPromotions'),
+      basePath: '/api/ecommerce/v2/admin/catalog-promotions',
+      identifierLabel: codeLabel,
+      identifierHint,
+      payloadTemplate: {
+        code: 'NEW_CATALOG_PROMO',
+        name: 'Catalog promotion',
+        enabled: true,
+      },
+    },
+    {
+      value: 'promotions',
+      label: t('admin.ecommerce.navigation.cartPromotions'),
+      basePath: '/api/ecommerce/v2/admin/promotions',
+      identifierLabel: codeLabel,
+      identifierHint,
+      payloadTemplate: {
+        code: 'NEW_CART_PROMO',
+        name: 'Cart promotion',
+        enabled: true,
+      },
+    },
+    {
+      value: 'customer-groups',
+      label: t('admin.ecommerce.navigation.customerGroups'),
+      basePath: '/api/ecommerce/v2/admin/customer-groups',
+      identifierLabel: codeLabel,
+      identifierHint,
+      payloadTemplate: {
+        code: 'VIP',
+        name: 'VIP customers',
+      },
+    },
+    {
+      value: 'product-options',
+      label: t('admin.ecommerce.navigation.productOptions'),
+      basePath: '/api/ecommerce/v2/admin/product-options',
+      identifierLabel: codeLabel,
+      identifierHint,
+      payloadTemplate: {
+        code: 'FABRIC',
+        name: 'Fabric',
+        values: [],
+      },
+    },
+    {
+      value: 'product-association-types',
+      label: t('admin.ecommerce.navigation.productAssociationTypes'),
+      basePath: '/api/ecommerce/v2/admin/product-association-types',
+      identifierLabel: codeLabel,
+      identifierHint,
+      payloadTemplate: {
+        code: 'UPSELL',
+        name: 'Upsell',
+      },
+    },
+    {
+      value: 'product-attributes',
+      label: t('admin.ecommerce.entityManager.entities.productAttributes'),
+      basePath: '/api/ecommerce/v2/admin/product-attributes',
+      identifierLabel: codeLabel,
+      identifierHint,
+      payloadTemplate: {
+        code: 'MATERIAL',
+        name: 'Material',
+        type: 'text',
+      },
+    },
+    {
+      value: 'products',
+      label: t('admin.ecommerce.navigation.products'),
+      basePath: '/api/ecommerce/v2/admin/products',
+      identifierLabel: codeLabel,
+      identifierHint,
+      payloadTemplate: {
+        code: 'NEW_PRODUCT',
+        name: 'New product',
+        enabled: true,
+        channels: [],
+      },
+    },
+    {
+      value: 'shipping-methods',
+      label: t('admin.ecommerce.configuration.navigation.shippingMethods'),
+      basePath: '/api/ecommerce/v2/admin/shipping-methods',
+      identifierLabel: codeLabel,
+      identifierHint,
+      payloadTemplate: {
+        code: 'EXPRESS',
+        name: 'Express shipping',
+        enabled: true,
+      },
+    },
+    {
+      value: 'shipping-categories',
+      label: t('admin.ecommerce.entityManager.entities.shippingCategories'),
+      basePath: '/api/ecommerce/v2/admin/shipping-categories',
+      identifierLabel: codeLabel,
+      identifierHint,
+      payloadTemplate: {
+        code: 'STANDARD_BOX',
+        name: 'Standard box',
+      },
+    },
+    {
+      value: 'tax-categories',
+      label: t('admin.ecommerce.configuration.navigation.taxCategories'),
+      basePath: '/api/ecommerce/v2/admin/tax-categories',
+      identifierLabel: codeLabel,
+      identifierHint,
+      payloadTemplate: {
+        code: 'DEFAULT_TAX',
+        name: 'Default tax',
+      },
+    },
+    {
+      value: 'tax-rates',
+      label: t('admin.ecommerce.configuration.navigation.taxRates'),
+      basePath: '/api/ecommerce/v2/admin/tax-rates',
+      identifierLabel: codeLabel,
+      identifierHint,
+      payloadTemplate: {
+        code: 'STANDARD_VAT',
+        name: 'Standard VAT',
+        amount: 0.2,
+      },
+    },
+    {
+      value: 'taxons',
+      label: t('admin.ecommerce.navigation.taxons'),
+      basePath: '/api/ecommerce/v2/admin/taxons',
+      identifierLabel: codeLabel,
+      identifierHint,
+      payloadTemplate: {
+        code: 'NEW_TAXON',
+        name: 'New taxon',
+        enabled: true,
+      },
+    },
+    {
+      value: 'zones',
+      label: t('admin.ecommerce.configuration.navigation.zones'),
+      basePath: '/api/ecommerce/v2/admin/zones',
+      identifierLabel: codeLabel,
+      identifierHint,
+      payloadTemplate: {
+        code: 'EU_ZONE',
+        name: 'European zone',
+        members: [],
+      },
+    },
+    {
+      value: 'administrators',
+      label: t('admin.ecommerce.configuration.navigation.administrators'),
+      basePath: '/api/ecommerce/v2/admin/administrators',
+      identifierLabel: idLabel,
+      identifierHint,
+      payloadTemplate: {
+        firstName: 'Alex',
+        lastName: 'Doe',
+        email: 'alex@example.com',
+        enabled: true,
+      },
+    },
+    {
+      value: 'exchange-rates',
+      label: t('admin.ecommerce.entityManager.entities.exchangeRates'),
+      basePath: '/api/ecommerce/v2/admin/exchange-rates',
+      identifierLabel: idLabel,
+      identifierHint,
+      payloadTemplate: {
+        ratio: 1,
+        sourceCurrency: 'USD',
+        targetCurrency: 'EUR',
+      },
+    },
+  ]
+})
+
+const selectedEntity = ref('')
+const entityIdentifier = ref('')
+const entityPayload = ref(DEFAULT_PAYLOAD)
+const busyAction = ref<CrudAction | null>(null)
+const formError = ref<string | null>(null)
+
+const currentEntity = computed(() =>
+  entityDefinitions.value.find((entity) => entity.value === selectedEntity.value) ??
+  null,
+)
+
+watch(
+  entityDefinitions,
+  (definitions) => {
+    if (!definitions.length) {
+      selectedEntity.value = ''
+      return
+    }
+
+    const hasSelection = definitions.some(
+      (definition) => definition.value === selectedEntity.value,
+    )
+
+    if (!hasSelection) {
+      selectedEntity.value = definitions[0].value
+    }
+  },
+  { immediate: true },
+)
+
+watch(
+  selectedEntity,
+  () => {
+    entityPayload.value = formatPayloadTemplate(currentEntity.value?.payloadTemplate)
+    entityIdentifier.value = ''
+    formError.value = null
+  },
+  { immediate: true },
+)
+
+const hasIdentifier = computed(() => entityIdentifier.value.trim().length > 0)
+const identifierLabel = computed(
+  () =>
+    currentEntity.value?.identifierLabel ??
+    t('admin.ecommerce.entityManager.fields.identifier'),
+)
+const identifierHint = computed(
+  () =>
+    currentEntity.value?.identifierHint ??
+    t('admin.ecommerce.entityManager.fields.identifierHint'),
+)
+const helperText = computed(() =>
+  currentEntity.value
+    ? t('admin.ecommerce.entityManager.helper', {
+        path: currentEntity.value.basePath,
+      })
+    : '',
+)
+const payloadPlaceholder = computed(() =>
+  t('admin.ecommerce.entityManager.fields.payloadPlaceholder'),
+)
+
+function formatPayloadTemplate(template?: Record<string, unknown> | unknown) {
+  if (!template) {
+    return DEFAULT_PAYLOAD
+  }
+
+  if (typeof template === 'object' && template !== null) {
+    const keys = Object.keys(template as Record<string, unknown>)
+    if (keys.length === 0) {
+      return DEFAULT_PAYLOAD
+    }
+  }
+
+  try {
+    return JSON.stringify(template, null, 2)
+  } catch (error) {
+    console.warn('Unable to format entity payload template', error)
+    return DEFAULT_PAYLOAD
+  }
+}
+
+function resolveErrorMessage(error: unknown) {
+  const err = error as { data?: { message?: string }; message?: string }
+  return err?.data?.message || err?.message || t('common.unexpectedError')
+}
+
+function requireIdentifier() {
+  const value = entityIdentifier.value.trim()
+  if (!value) {
+    const message = t('admin.ecommerce.entityManager.errors.identifierRequired')
+    formError.value = message
+    Notify.error(message)
+    return null
+  }
+  return value
+}
+
+function parsePayloadBody() {
+  const raw = entityPayload.value.trim()
+  const normalized = raw.length === 0 ? '{}' : raw
+
+  try {
+    return JSON.parse(normalized) as Record<string, unknown>
+  } catch (error) {
+    console.warn('Invalid JSON payload', error)
+    const message = t('admin.ecommerce.entityManager.errors.payloadInvalid')
+    formError.value = message
+    Notify.error(message)
+    return null
+  }
+}
+
+async function loadEntity() {
+  if (!currentEntity.value) {
+    return
+  }
+
+  const identifier = requireIdentifier()
+  if (!identifier) {
+    return
+  }
+
+  busyAction.value = 'load'
+  formError.value = null
+
+  try {
+    const response = await $fetch(
+      `${currentEntity.value.basePath}/${encodeURIComponent(identifier)}`,
+      {
+        credentials: 'include',
+      },
+    )
+    entityPayload.value = formatPayloadTemplate(response)
+    Notify.success(t('admin.ecommerce.entityManager.notifications.loadSuccess'))
+  } catch (error) {
+    const message = resolveErrorMessage(error)
+    formError.value = message
+    Notify.error(message)
+  } finally {
+    busyAction.value = null
+  }
+}
+
+async function submitEntity(action: 'create' | 'update') {
+  if (!currentEntity.value) {
+    return
+  }
+
+  const identifier = action === 'create' ? null : requireIdentifier()
+  if (action !== 'create' && !identifier) {
+    return
+  }
+
+  const body = parsePayloadBody()
+  if (!body) {
+    return
+  }
+
+  busyAction.value = action
+  formError.value = null
+
+  const url =
+    action === 'create'
+      ? currentEntity.value.basePath
+      : `${currentEntity.value.basePath}/${encodeURIComponent(identifier!)}`
+
+  try {
+    const response = await $fetch(url, {
+      method: action === 'create' ? 'POST' : 'PUT',
+      credentials: 'include',
+      body,
+    })
+
+    entityPayload.value = formatPayloadTemplate(response)
+
+    Notify.success(
+      t(
+        action === 'create'
+          ? 'admin.ecommerce.entityManager.notifications.createSuccess'
+          : 'admin.ecommerce.entityManager.notifications.updateSuccess',
+      ),
+    )
+  } catch (error) {
+    const message = resolveErrorMessage(error)
+    formError.value = message
+    Notify.error(message)
+  } finally {
+    busyAction.value = null
+  }
+}
+
+async function deleteEntity() {
+  if (!currentEntity.value) {
+    return
+  }
+
+  const identifier = requireIdentifier()
+  if (!identifier) {
+    return
+  }
+
+  if (import.meta.client) {
+    const confirmed = window.confirm(
+      t('admin.ecommerce.entityManager.dialogs.deleteConfirm'),
+    )
+    if (!confirmed) {
+      return
+    }
+  }
+
+  busyAction.value = 'delete'
+  formError.value = null
+
+  try {
+    await $fetch(
+      `${currentEntity.value.basePath}/${encodeURIComponent(identifier)}`,
+      {
+        method: 'DELETE',
+        credentials: 'include',
+      },
+    )
+
+    Notify.success(
+      t('admin.ecommerce.entityManager.notifications.deleteSuccess'),
+    )
+  } catch (error) {
+    const message = resolveErrorMessage(error)
+    formError.value = message
+    Notify.error(message)
+  } finally {
+    busyAction.value = null
+  }
+}
+
 const pageTitle = computed(() =>
   translate(
     'admin.ecommerce.navigationTree.title',
@@ -314,6 +762,114 @@ const pageSubtitle = computed(() =>
         </v-col>
       </v-row>
     </section>
+
+    <section class="page-section">
+      <div class="page-section__header">
+        <h2 class="section-title">
+          {{ t('admin.ecommerce.entityManager.title') }}
+        </h2>
+        <p class="section-subtitle">
+          {{ t('admin.ecommerce.entityManager.subtitle') }}
+        </p>
+      </div>
+
+      <v-row>
+        <v-col cols="12">
+          <v-card class="entity-manager-card" rounded="xl" elevation="2">
+            <v-card-text class="entity-manager-card__content">
+              <v-row dense>
+                <v-col cols="12" md="6">
+                  <v-select
+                    v-model="selectedEntity"
+                    :items="entityDefinitions"
+                    item-title="label"
+                    item-value="value"
+                    :label="t('admin.ecommerce.entityManager.fields.entity')"
+                    density="comfortable"
+                  />
+                </v-col>
+                <v-col cols="12" md="6">
+                  <div class="entity-manager__identifier">
+                    <v-text-field
+                      v-model="entityIdentifier"
+                      class="flex-grow-1"
+                      :label="identifierLabel"
+                      :hint="identifierHint"
+                      autocomplete="off"
+                      density="comfortable"
+                      persistent-hint
+                    />
+                    <v-btn
+                      class="entity-manager__load"
+                      color="primary"
+                      variant="tonal"
+                      :disabled="!currentEntity || !hasIdentifier || busyAction !== null"
+                      :loading="busyAction === 'load'"
+                      @click="loadEntity"
+                    >
+                      {{ t('admin.ecommerce.entityManager.actions.load') }}
+                    </v-btn>
+                  </div>
+                </v-col>
+              </v-row>
+
+              <v-textarea
+                v-model="entityPayload"
+                class="entity-manager__payload"
+                :label="t('admin.ecommerce.entityManager.fields.payload')"
+                :placeholder="payloadPlaceholder"
+                rows="10"
+                auto-grow
+                spellcheck="false"
+              />
+
+              <p v-if="helperText" class="entity-manager__helper text-caption">
+                {{ helperText }}
+              </p>
+
+              <v-alert
+                v-if="formError"
+                class="mt-4"
+                type="error"
+                variant="tonal"
+                border="start"
+              >
+                {{ formError }}
+              </v-alert>
+
+              <div class="entity-manager__actions">
+                <v-btn
+                  color="primary"
+                  :disabled="!currentEntity || busyAction !== null"
+                  :loading="busyAction === 'create'"
+                  @click="submitEntity('create')"
+                >
+                  {{ t('admin.ecommerce.entityManager.actions.create') }}
+                </v-btn>
+                <v-btn
+                  color="secondary"
+                  variant="tonal"
+                  :disabled="!currentEntity || !hasIdentifier || busyAction !== null"
+                  :loading="busyAction === 'update'"
+                  @click="submitEntity('update')"
+                >
+                  {{ t('admin.ecommerce.entityManager.actions.update') }}
+                </v-btn>
+                <v-btn
+                  color="error"
+                  variant="tonal"
+                  :disabled="!currentEntity || !hasIdentifier || busyAction !== null"
+                  :loading="busyAction === 'delete'"
+                  @click="deleteEntity"
+                >
+                  {{ t('admin.ecommerce.entityManager.actions.delete') }}
+                </v-btn>
+              </div>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </section>
   </v-container>
 </template>
 
@@ -353,5 +909,45 @@ const pageSubtitle = computed(() =>
   background: color-mix(in srgb, rgba(var(--v-theme-surface), 1) 75%, transparent);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
   border-color: rgba(var(--v-theme-primary), 0.2);
+}
+
+.entity-manager-card {
+  border-radius: 24px;
+  background: color-mix(
+    in srgb,
+    rgba(var(--v-theme-surface), 0.92),
+    rgba(var(--v-theme-primary), 0.08)
+  );
+  border: 1px solid color-mix(in srgb, var(--v-theme-outline-variant) 40%, transparent);
+}
+
+.entity-manager-card__content {
+  padding: 28px;
+}
+
+.entity-manager__identifier {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.entity-manager__load {
+  white-space: nowrap;
+}
+
+.entity-manager__payload {
+  margin-top: 12px;
+}
+
+.entity-manager__helper {
+  margin-top: 8px;
+  color: rgba(var(--v-theme-on-surface), 0.6);
+}
+
+.entity-manager__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
 }
 </style>
