@@ -318,7 +318,7 @@ watch(loggedIn, (value) => {
             </template>
           </v-tooltip>
         </template>
-        <v-list>
+        <v-list class="dock-navbar__menu-list">
           <template v-if="loggedIn">
             <v-list-item
               :title="t('navigation.profile')"
@@ -452,6 +452,16 @@ watch(loggedIn, (value) => {
 
 .dock-navbar__menu :deep(.v-overlay__content) {
   margin-top: 0.25rem;
+  padding: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.dock-navbar__menu :deep(.dock-navbar__menu-list) {
+  background-color: rgb(var(--v-theme-surface));
+  box-shadow: var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14));
+  border-radius: var(--app-rounded, 18px);
+  overflow: hidden;
 }
 
 .dock-navbar__action-button {
