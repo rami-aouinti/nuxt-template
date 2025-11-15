@@ -192,7 +192,7 @@ async function handleMemberSubmit() {
 
   memberState.loading = true
   try {
-    await addMembers(props.workplace.slug, { members: memberState.selected })
+    await addMembers(props.workplace.id, { members: memberState.selected })
     Notify.success(
       translate(
         'workplace.dialog.messages.addMembersSuccess',
@@ -225,7 +225,7 @@ async function handlePluginSubmit() {
 
   pluginState.loading = true
   try {
-    await addPlugins(props.workplace.slug, { plugins: pluginState.selected })
+    await addPlugins(props.workplace.id, { plugins: pluginState.selected })
     Notify.success(
       translate(
         'workplace.dialog.messages.addPluginsSuccess',
