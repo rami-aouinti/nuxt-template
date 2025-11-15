@@ -79,7 +79,7 @@ function getBlogInitials(title: string | null | undefined): string {
       >
         <NuxtLink
           class="text-decoration-none text-primary d-flex align-center gap-3"
-          :to="`/blog/${blog.id}`"
+          :to="`/blog/${blog.slug}`"
         >
           <AppAvatar
             :src="blog.logo || undefined"
