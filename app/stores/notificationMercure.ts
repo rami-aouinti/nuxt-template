@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, ref, watch, type WatchStopHandle } from 'vue'
 import type { Notification } from '~/stores/notification'
 import { useNotificationStore } from '~/stores/notification'
+import { resolveSessionUserId } from '~/utils/session'
 
 interface MercureNotificationPayload {
   pushTitle?: unknown
@@ -247,7 +248,7 @@ export const useNotificationMercureStore = defineStore(
 
     const processedEventIds = new Set<string>()
 
-    const currentUserId = computed(() => session.value?.profile?.id ?? '')
+    const currentUserId = computed(() => resolveSessionUserId(session.value))
     const isSupported = computed(
       () => typeof window !== 'undefined' && 'EventSource' in window,
     )
