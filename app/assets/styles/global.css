@@ -125,6 +125,10 @@ body {
   overflow-y: overlay !important;
 }
 
+.v-overlay-container {
+  display: block !important;
+}
+
 .v-btn {
   text-transform: initial !important;
 }
