@@ -690,7 +690,7 @@
           "identifier": "Identifier",
           "identifierHint": "Code or ID used by the API",
           "payload": "JSON payload",
-          "payloadPlaceholder": "{ \"code\": \"EXAMPLE_CODE\" }",
+          "payloadPlaceholder": "\u007B \"code\": \"EXAMPLE_CODE\" \u007D",
           "code": "Code",
           "id": "ID"
         },
