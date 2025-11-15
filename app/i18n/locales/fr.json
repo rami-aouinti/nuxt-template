@@ -284,7 +284,7 @@
     "mediaManagement": "Gestion des médias",
     "media": "Médiathèque",
     "notificationManagement": "Gestion des notifications",
-    "ecommerceManagement": "E-commerce management"
+    "ecommerceManagement": "Gestion du e-commerce"
   },
   "messenger": {
     "title": "Messagerie",
@@ -621,6 +621,7 @@
     "apiKeys": "Nombre de clés API",
     "ecommerce": {
       "navigation": {
+        "dashboard": "Dashboard",
         "taxons": "Taxons",
         "products": "Products",
         "inventory": "Inventory",
@@ -635,6 +636,10 @@
         "cartPromotions": "Cart promotions",
         "catalogPromotions": "Catalog promotions",
         "productReviews": "Product reviews"
+      },
+      "navigationTree": {
+        "title": "Pilotez votre boutique en quelques clics",
+        "subtitle": "Naviguez par domaine fonctionnel pour retrouver rapidement chaque module e-commerce."
       },
       "common": {
         "none": "None",
