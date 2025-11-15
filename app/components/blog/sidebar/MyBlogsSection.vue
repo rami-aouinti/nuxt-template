@@ -65,13 +65,13 @@ const emit = defineEmits<{
       <template v-else-if="filteredBlogs.length">
         <div
           v-for="blog in filteredBlogs"
-          :key="blog.id"
+          :key="blog.slug"
           class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
         >
           <NuxtLink
             style="color: inherit"
             class="text-decoration-none"
-            :to="`/blog/${blog.id}`"
+            :to="`/blog/${blog.slug}`"
           >
             <AppAvatar
               :src="blog.logo || undefined"

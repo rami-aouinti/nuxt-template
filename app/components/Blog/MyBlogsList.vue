@@ -74,7 +74,7 @@ function getBlogInitials(title: string | null | undefined): string {
     <template v-else-if="hasBlogs">
       <div
         v-for="blog in blogs"
-        :key="blog.id"
+        :key="blog.slug"
         class="stat-card d-flex align-center gap-3 mb-3 w-100 px-3"
       >
         <NuxtLink
