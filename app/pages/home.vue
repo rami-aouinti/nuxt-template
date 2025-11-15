@@ -36,6 +36,7 @@ import {
   normalizeReactionsPreview,
   resolvePostTags,
   extractPostTagsFromText,
+  stripPostTagsFromText,
   normalizePostTagValue,
 } from '~/utils/blog/posts'
 import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
@@ -970,12 +971,13 @@ const onSelectPostTag = ({
 async function submitCreatePost() {
   if (!ensureAuthenticated()) return
 
-  const title = createPostDialog.form.title.trim()
+  const rawTitle = createPostDialog.form.title.trim()
   const summary = createPostDialog.form.summary.trim()
   const content = createPostDialog.form.content.trim()
   const filesValue = createPostDialog.form.files
   const files = Array.isArray(filesValue) ? filesValue : []
-  const tags = extractPostTagsFromText(title)
+  const tags = extractPostTagsFromText(rawTitle)
+  const title = stripPostTagsFromText(rawTitle)
 
   if (!title.length) {
     Notify.warning(t('blog.errors.createPostFailed'))
@@ -1159,8 +1161,9 @@ async function submitEdit(post: BlogPostViewModel) {
   if (!ensureAuthenticated()) return
 
   const form = post.ui.editForm
-  const title = form.title.trim()
-  const tags = extractPostTagsFromText(title)
+  const rawTitle = form.title.trim()
+  const tags = extractPostTagsFromText(rawTitle)
+  const title = stripPostTagsFromText(rawTitle)
 
   if (!title) {
     Notify.warning(t('blog.errors.updateFailed'))
