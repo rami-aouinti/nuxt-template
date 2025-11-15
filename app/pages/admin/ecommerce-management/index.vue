@@ -326,6 +326,7 @@ const pageSubtitle = computed(() =>
 .navigation-tree {
   padding: 16px 12px;
   border-radius: 24px;
+  background-color: rgba(var(--v-theme-surface), 0.94);
   background: color-mix(in srgb, rgba(var(--v-theme-surface), 1) 90%, transparent);
   box-shadow: 0 18px 40px rgba(var(--v-theme-primary), 0.08);
   border: 1px solid rgba(var(--v-theme-primary), 0.08);
@@ -348,6 +349,7 @@ const pageSubtitle = computed(() =>
 }
 
 :global(.v-theme--dark) .navigation-tree {
+  background-color: rgba(var(--v-theme-surface), 0.82);
   background: color-mix(in srgb, rgba(var(--v-theme-surface), 1) 75%, transparent);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
   border-color: rgba(var(--v-theme-primary), 0.2);
