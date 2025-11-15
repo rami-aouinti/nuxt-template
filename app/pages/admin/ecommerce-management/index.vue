@@ -19,6 +19,7 @@ type NavigationGroup = {
   kind: 'group'
   icon: string
   label: string
+  value: string
   children: NavigationLink[]
 }
 
@@ -52,6 +53,7 @@ const createGroup = (
   kind: 'group',
   icon,
   label,
+  value: `${icon}-${label}`,
   children: children.map((child) =>
     createLink(child.label, child.icon, child.path),
   ),
@@ -284,7 +286,8 @@ const pageSubtitle = computed(() =>
               <v-list-group
                 v-for="section in groupedSections"
                 :key="section.label"
-                :value="true"
+                :value="section.value"
+                :model-value="true"
                 color="primary"
                 class="navigation-tree__group"
               >
