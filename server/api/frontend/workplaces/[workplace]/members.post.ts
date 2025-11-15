@@ -1,6 +1,6 @@
 import { createError, getRouterParam } from 'h3'
 import { invalidateUserWorkplaces } from '~~/server/utils/cache/workplace'
-import { requestFrontendWithJsonBody } from '~~/server/utils/crud'
+import { broWorldRequest } from '~~/server/utils/broWorldApi'
 import type { Workplace, WorkplaceMemberPayload } from '~/types/workplace'
 
 export default defineEventHandler(async (event) => {
@@ -16,10 +16,15 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<WorkplaceMemberPayload>(event)
 
-  const response = await requestFrontendWithJsonBody<
-    Workplace,
-    WorkplaceMemberPayload
-  >(event, `/workplaces/${encodeURIComponent(workplace)}/members`, 'POST', body)
+  const response = await broWorldRequest<Workplace>(
+    event,
+    `/frontend/workplaces/${encodeURIComponent(workplace)}/members`,
+    {
+      method: 'POST',
+      body,
+      headers: { 'Content-Type': 'application/json' },
+    },
+  )
 
   await invalidateUserWorkplaces(event)
 
