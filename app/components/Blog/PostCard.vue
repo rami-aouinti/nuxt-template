@@ -659,16 +659,10 @@ const onSelectTag = (tag: { value: string; label: string }) => {
           v-if="reactionPreviewIcons.length"
           class="facebook-post-card__reaction-icons"
         >
-          <span
-            v-for="reaction in reactionPreviewIcons"
-            :key="reaction.type"
-            class="facebook-post-card__reaction-icon"
-            :class="`facebook-post-card__reaction-icon--${reaction.type}`"
-          >
-            <span class="facebook-post-card__reaction-emoji">{{
+          <span v-for="reaction in reactionPreviewIcons"
+                :key="reaction.type" class="facebook-post-card__reaction-emoji">{{
               reaction.emoji
             }}</span>
-          </span>
         </div>
         <div
           class="facebook-post-card__stat-value facebook-post-card__stat-value--reactions"
@@ -1132,7 +1126,7 @@ a.facebook-post-card__author-link:focus-visible {
 }
 
 .facebook-post-card__reaction-emoji {
-  font-size: 16px;
+  font-size: 20px;
   line-height: 1;
 }
 
