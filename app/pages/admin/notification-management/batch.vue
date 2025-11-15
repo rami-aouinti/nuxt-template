@@ -57,7 +57,7 @@ function parseJsonInput(value: string) {
 
   try {
     return JSON.parse(normalized)
-  } catch (error) {
+  } catch {
     return normalized
   }
 }

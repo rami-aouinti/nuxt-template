@@ -19,13 +19,13 @@ export interface Adjustment {
   credit?: boolean
 }
 
-export interface AdjustmentSyliusAdminAdjustmentShow extends Adjustment {}
+export type AdjustmentSyliusAdminAdjustmentShow = Adjustment
 
-export interface AdjustmentSyliusAdminOrderItemIndex extends Adjustment {}
+export type AdjustmentSyliusAdminOrderItemIndex = Adjustment
 
-export interface AdjustmentSyliusAdminOrderItemUnitIndex extends Adjustment {}
+export type AdjustmentSyliusAdminOrderItemUnitIndex = Adjustment
 
-export interface AdjustmentSyliusAdminShipmentIndex extends Adjustment {}
+export type AdjustmentSyliusAdminShipmentIndex = Adjustment
 
 export interface AdjustmentSyliusShopCartShow extends Adjustment {
   id: number
@@ -37,17 +37,13 @@ export interface AdjustmentJsonld extends Adjustment {
   '@type'?: string
 }
 
-export interface AdjustmentJsonldSyliusAdminAdjustmentShow
-  extends AdjustmentJsonld {}
+export type AdjustmentJsonldSyliusAdminAdjustmentShow = AdjustmentJsonld
 
-export interface AdjustmentJsonldSyliusAdminOrderItemIndex
-  extends AdjustmentJsonld {}
+export type AdjustmentJsonldSyliusAdminOrderItemIndex = AdjustmentJsonld
 
-export interface AdjustmentJsonldSyliusAdminOrderItemUnitIndex
-  extends AdjustmentJsonld {}
+export type AdjustmentJsonldSyliusAdminOrderItemUnitIndex = AdjustmentJsonld
 
-export interface AdjustmentJsonldSyliusAdminShipmentIndex
-  extends AdjustmentJsonld {}
+export type AdjustmentJsonldSyliusAdminShipmentIndex = AdjustmentJsonld
 
 export interface AdjustmentJsonldSyliusShopCartShow extends AdjustmentJsonld {
   id: number
@@ -73,7 +69,7 @@ export interface AdjustableInterface {
   adjustmentsTotal?: number
 }
 
-export interface AdjustableInterfaceJsonld extends AdjustableInterface {}
+export type AdjustableInterfaceJsonld = AdjustableInterface
 
 export interface AdjustmentInterface {
   adjustable?: AdjustableInterface | null
@@ -94,4 +90,4 @@ export interface AdjustmentInterface {
   updatedAt?: string | null
 }
 
-export interface AdjustmentInterfaceJsonld extends AdjustmentInterface {}
+export type AdjustmentInterfaceJsonld = AdjustmentInterface

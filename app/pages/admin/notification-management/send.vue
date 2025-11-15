@@ -54,7 +54,6 @@ const channelOptions = computed(() => [
   { value: 'push', title: t('notificationManagement.send.channels.push') },
 ])
 
-const isEmail = computed(() => form.channel === 'email')
 const isSms = computed(() => form.channel === 'sms')
 const isPush = computed(() => form.channel === 'push')
 
@@ -71,7 +70,7 @@ function parseJsonInput(value: string) {
 
   try {
     return JSON.parse(normalized)
-  } catch (error) {
+  } catch {
     return normalized
   }
 }

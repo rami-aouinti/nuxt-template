@@ -157,7 +157,7 @@ const tryParseUrl = (value: string | null | undefined) => {
 
   try {
     return new URL(value)
-  } catch (error) {
+  } catch {
     return null
   }
 }
@@ -380,14 +380,6 @@ const commentsToggleLabel = computed(() => {
 
   return `${base} (${t('blog.stats.comments', { count: commentCount.value })})`
 })
-
-const commentsActionText = computed(() =>
-  t(
-    props.post.ui?.commentsVisible
-      ? 'blog.actions.hideComments'
-      : 'blog.actions.showComments',
-  ),
-)
 
 const reactionsButtonLabel = computed(() => {
   const base = t('blog.actions.viewReactions')

@@ -66,7 +66,7 @@ const formatCurrency = (amount: number, currencyCode?: string | null) => {
       style: 'currency',
       currency: code,
     }).format(amount)
-  } catch (_error) {
+  } catch {
     return `${amount.toFixed(2)} ${code}`
   }
 }

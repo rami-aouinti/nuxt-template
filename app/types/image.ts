@@ -17,12 +17,10 @@ export interface ImageInterface extends ImageInterfaceAttributes {
   id?: unknown
 }
 
-export interface ImageInterfaceNoId extends ImageInterfaceAttributes {}
+export type ImageInterfaceNoId = ImageInterfaceAttributes
 
-export interface ImageInterfaceJsonld extends ImageInterface, JsonLdResource {}
+export type ImageInterfaceJsonld = ImageInterface & JsonLdResource
 
-export interface ImageInterfaceJsonldNoId
-  extends ImageInterfaceAttributes,
-    JsonLdResource {}
+export type ImageInterfaceJsonldNoId = ImageInterfaceAttributes & JsonLdResource
 
 export type ImageInterfaceJsonldNoIdAlias = ImageInterfaceJsonldNoId
