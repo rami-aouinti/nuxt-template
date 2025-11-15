@@ -213,7 +213,7 @@ export const useBlogApi = () => {
 
     if (headers) {
       attempts.push({
-        url: `${PRIVATE_POSTS_ENDPOINT}/${encodedSlug}`,
+        url: `${PUBLIC_POSTS_ENDPOINT}/${encodedSlug}`,
         options: { headers },
       })
       attempts.push({
