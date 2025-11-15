@@ -19,6 +19,7 @@ import {
   shadowHoverValues,
 } from '~/composables/useThemePreferences'
 import AppCard from '~/components/ui/AppCard.vue'
+import BlogSharedPostPreview from '~/components/Blog/SharedPostPreview.vue'
 import { resolvePostTags } from '~/utils/blog/posts'
 
 defineOptions({ name: 'BlogPostCard' })
@@ -324,6 +325,7 @@ const postTags = computed(() =>
     label: tag.startsWith('#') ? tag : `#${tag}`,
   })),
 )
+const sharedPost = computed(() => props.post.sharedFrom ?? null)
 
 const hasVisualPreview = computed(() =>
   Boolean(urlPreview.value && urlPreview.value.kind !== 'link'),
@@ -640,6 +642,12 @@ const onSelectTag = (tag: { value: string; label: string }) => {
           />
         </a>
       </div>
+      <div v-if="sharedPost" class="facebook-post-card__shared-post">
+        <BlogSharedPostPreview
+          :post="sharedPost"
+          :format-relative-published-at="formatRelativePublishedAt"
+        />
+      </div>
       <div v-if="mediaGallery.length" class="facebook-post-card__media-gallery">
         <div
           v-for="media in mediaGallery"
@@ -914,6 +922,10 @@ a.facebook-post-card__author-link:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.facebook-post-card__shared-post {
+  margin-top: 12px;
 }
 
 .facebook-post-card__title {
