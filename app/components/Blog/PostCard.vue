@@ -69,7 +69,7 @@ const emit = defineEmits<{
   'select-tag': [{ post: BlogPostViewModel; tag: string; label: string }]
 }>()
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const { getAuthorName, getAuthorProfileLink, getAuthorAvatar } = useBlogAuthor()
 const { radius, shadow } = useThemePreferences()
@@ -334,7 +334,7 @@ const reactionPreviewIcons = computed<BlogReactionDefinition[]>(() => {
     unique.push(definition)
     seen.add(definition.type)
 
-    if (unique.length >= 3) {
+    if (unique.length >= 4) {
       break
     }
   }
@@ -344,6 +344,18 @@ const reactionPreviewIcons = computed<BlogReactionDefinition[]>(() => {
 const commentCount = computed(() => props.post.totalComments ?? 0)
 const shareCount = computed(() => props.post.sharedFrom?.length ?? 0)
 const currentUserId = computed(() => props.currentUserId ?? null)
+
+const formatCount = (value: number) => {
+  try {
+    return new Intl.NumberFormat(locale.value).format(value)
+  } catch {
+    return String(value)
+  }
+}
+
+const formattedReactionCount = computed(() => formatCount(reactionCount.value))
+const formattedCommentCount = computed(() => formatCount(commentCount.value))
+const formattedShareCount = computed(() => formatCount(shareCount.value))
 
 const commentsToggleLabel = computed(() => {
   const baseKey = props.post.ui?.commentsVisible
@@ -356,6 +368,14 @@ const commentsToggleLabel = computed(() => {
 
   return `${base} (${t('blog.stats.comments', { count: commentCount.value })})`
 })
+
+const commentsActionText = computed(() =>
+  t(
+    props.post.ui?.commentsVisible
+      ? 'blog.actions.hideComments'
+      : 'blog.actions.showComments',
+  ),
+)
 
 const reactionsButtonLabel = computed(() => {
   const base = t('blog.actions.viewReactions')
@@ -656,44 +676,46 @@ const onSelectTag = (tag: { value: string; label: string }) => {
     <div class="facebook-post-card__stats">
       <div class="facebook-post-card__stats-left">
         <div
-          v-if="reactionPreviewIcons.length"
-          class="facebook-post-card__reaction-icons"
+          v-if="reactionPreviewIcons.length || reactionCount > 0"
+          class="facebook-post-card__reaction-summary"
         >
-          <span v-for="reaction in reactionPreviewIcons"
-                :key="reaction.type" class="facebook-post-card__reaction-emoji">{{
-              reaction.emoji
-            }}</span>
-        </div>
-        <div
-          class="facebook-post-card__stat-value facebook-post-card__stat-value--reactions"
-        >
-          <BlogReactionPicker
-            class="facebook-post-card__reaction-picker"
-            size="small"
-            density="comfortable"
-            :model-value="reactionType"
-            :count="reactionCount"
-            :loading="post.ui.likeLoading"
-            :disabled="!loggedIn"
-            :show-caret="loggedIn"
-            :show-count="false"
-            @select="onSelectReaction"
-            @remove="onRemoveReaction"
-          />
+          <div v-if="reactionPreviewIcons.length" class="facebook-post-card__reaction-icons">
+            <span
+              v-for="reaction in reactionPreviewIcons"
+              :key="reaction.type"
+              class="facebook-post-card__reaction-emoji"
+            >
+              {{ reaction.emoji }}
+            </span>
+          </div>
           <v-btn
+            v-if="reactionCount > 0"
             variant="text"
-            class="facebook-post-card__action-btn facebook-post-card__count-btn"
+            class="facebook-post-card__action-btn facebook-post-card__reaction-count"
             :aria-label="reactionsButtonLabel"
             @click="emit('show-reactions', post)"
           >
-            {{ reactionCount }}
+            {{ formattedReactionCount }}
           </v-btn>
         </div>
+        <BlogReactionPicker
+          class="facebook-post-card__reaction-picker facebook-post-card__reaction-picker--icon"
+          size="small"
+          density="comfortable"
+          :model-value="reactionType"
+          :count="reactionCount"
+          :loading="post.ui.likeLoading"
+          :disabled="!loggedIn"
+          :show-caret="loggedIn"
+          :show-count="false"
+          @select="onSelectReaction"
+          @remove="onRemoveReaction"
+        />
       </div>
       <div class="facebook-post-card__stats-right">
         <v-btn
           variant="text"
-          class="facebook-post-card__action-btn"
+          class="facebook-post-card__action-btn facebook-post-card__action-btn--stat"
           :loading="post.ui.commentsLoading"
           :aria-label="commentsToggleLabel"
           @click="emit('toggle-comments', post)"
@@ -704,18 +726,26 @@ const onSelectTag = (tag: { value: string; label: string }) => {
                 ? 'mdi-comment-off-outline'
                 : 'mdi-comment-text-outline'
             "
-            class="mr-1"
+            class="facebook-post-card__action-icon"
           />
-          {{ commentCount }}
+          <span class="facebook-post-card__action-text">{{ commentsActionText }}</span>
+          <span class="facebook-post-card__action-count">{{
+            formattedCommentCount
+          }}</span>
         </v-btn>
         <v-btn
           variant="text"
-          class="facebook-post-card__action-btn"
+          class="facebook-post-card__action-btn facebook-post-card__action-btn--stat"
           :aria-label="shareButtonLabel"
           @click="emit('share', post)"
         >
-          <v-icon icon="mdi-share" class="mr-1" />
-          {{ shareCount }}
+          <v-icon icon="mdi-share" class="facebook-post-card__action-icon" />
+          <span class="facebook-post-card__action-text">{{
+            t('blog.actions.sharePost')
+          }}</span>
+          <span class="facebook-post-card__action-count">{{
+            formattedShareCount
+          }}</span>
         </v-btn>
       </div>
     </div>
@@ -1106,80 +1136,74 @@ a.facebook-post-card__author-link:focus-visible {
 .facebook-post-card__stats-right {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 12px;
+}
+
+.facebook-post-card__reaction-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .facebook-post-card__reaction-icons {
   display: flex;
   align-items: center;
-}
-
-.facebook-post-card__reaction-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid rgba(var(--blog-surface-rgb), 1);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+  gap: 6px;
 }
 
 .facebook-post-card__reaction-emoji {
   font-size: 20px;
   line-height: 1;
-}
-
-.facebook-post-card__reaction-icon + .facebook-post-card__reaction-icon {
-  margin-left: -8px;
-}
-
-.facebook-post-card__reaction-icon--like {
-  background: #1877f2;
-}
-
-.facebook-post-card__reaction-icon--love {
-  background: #f33e58;
-}
-
-.facebook-post-card__reaction-icon--care {
-  background: #f7b125;
-}
-
-.facebook-post-card__reaction-icon--haha {
-  background: #fbc02d;
-}
-
-.facebook-post-card__reaction-icon--wow {
-  background: #ffa000;
-}
-
-.facebook-post-card__reaction-icon--sad {
-  background: #2196f3;
-}
-
-.facebook-post-card__reaction-icon--angry {
-  background: #ff5722;
-}
-
-.facebook-post-card__stat-value {
-  white-space: nowrap;
-}
-
-.facebook-post-card__stat-value--reactions {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
 }
 
-.facebook-post-card__count-btn {
-  min-width: 48px;
-  padding-inline: 10px;
+.facebook-post-card__reaction-count {
+  min-width: auto;
+  padding-inline: 12px;
+  border-radius: 999px;
+  font-weight: 600;
+  color: rgba(var(--v-theme-on-surface), 0.7);
+}
+
+.facebook-post-card__reaction-count:hover,
+.facebook-post-card__reaction-count:focus-visible {
+  color: rgba(var(--v-theme-on-surface), 0.9);
+  background: rgba(var(--v-theme-primary), 0.08);
 }
 
 .facebook-post-card__reaction-picker {
   display: inline-flex;
   align-items: center;
+}
+
+.facebook-post-card__reaction-picker--icon {
+  order: 2;
+}
+
+.facebook-post-card__reaction-picker--icon
+  :deep(.blog-reaction-picker__action) {
+  min-width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 999px;
+}
+
+.facebook-post-card__reaction-picker--icon
+  :deep(.blog-reaction-picker__label),
+.facebook-post-card__reaction-picker--icon
+  :deep(.blog-reaction-picker__count) {
+  display: none;
+}
+
+.facebook-post-card__reaction-picker--icon :deep(.blog-reaction-picker__emoji) {
+  margin-right: 0;
+  font-size: 20px;
+}
+
+.facebook-post-card__reaction-picker--icon :deep(.v-icon) {
+  margin-right: 0;
 }
 
 .facebook-post-card__reaction-picker--placeholder {
@@ -1221,6 +1245,26 @@ a.facebook-post-card__author-link:focus-visible {
 .facebook-post-card__action-btn:focus-visible {
   color: rgba(var(--v-theme-on-surface), 0.9);
   background: rgba(var(--v-theme-primary), 0.08);
+}
+
+.facebook-post-card__action-btn--stat {
+  gap: 8px;
+  padding-inline: 16px;
+}
+
+.facebook-post-card__action-icon {
+  margin-right: 0;
+}
+
+.facebook-post-card__action-text {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.facebook-post-card__action-count {
+  font-weight: 600;
+  color: rgba(var(--v-theme-on-surface), 0.75);
 }
 
 .facebook-post-card__meta-separator {
