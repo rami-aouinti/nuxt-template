@@ -661,6 +661,7 @@
     "apiKeys": "Number of API keys",
     "ecommerce": {
       "navigation": {
+        "dashboard": "Dashboard",
         "taxons": "Taxons",
         "products": "Products",
         "inventory": "Inventory",
@@ -675,6 +676,10 @@
         "cartPromotions": "Cart promotions",
         "catalogPromotions": "Catalog promotions",
         "productReviews": "Product reviews"
+      },
+      "navigationTree": {
+        "title": "Run your store in just a few clicks",
+        "subtitle": "Browse by functional domain to quickly find every e-commerce module."
       },
       "common": {
         "none": "None",

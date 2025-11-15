@@ -284,7 +284,7 @@
     "mediaManagement": "媒体管理",
     "media": "媒体库",
     "notificationManagement": "通知管理",
-    "ecommerceManagement": "E-commerce management"
+    "ecommerceManagement": "电商管理"
   },
   "messenger": {
     "title": "消息",
@@ -612,6 +612,7 @@
     "apiKeys": "API 密钥数量",
     "ecommerce": {
       "navigation": {
+        "dashboard": "Dashboard",
         "taxons": "Taxons",
         "products": "Products",
         "inventory": "Inventory",
@@ -626,6 +627,10 @@
         "cartPromotions": "Cart promotions",
         "catalogPromotions": "Catalog promotions",
         "productReviews": "Product reviews"
+      },
+      "navigationTree": {
+        "title": "Run your store in just a few clicks",
+        "subtitle": "Browse by functional domain to quickly find every e-commerce module."
       },
       "common": {
         "none": "None",
