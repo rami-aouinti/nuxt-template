@@ -46,6 +46,30 @@ export const normalizeAmount = (value: unknown): number | null => {
   return null
 }
 
+const extractPricingFromRecord = (
+  input: UnknownRecord | null,
+): { price: number | null; originalPrice: number | null } | null => {
+  if (!input) {
+    return null
+  }
+
+  const price = normalizeAmount(input['price'])
+  const originalPrice = normalizeAmount(input['originalPrice'])
+  const lowestPriceBeforeDiscount = normalizeAmount(
+    input['lowestPriceBeforeDiscount'],
+  )
+  const effectivePrice = price ?? lowestPriceBeforeDiscount ?? originalPrice
+
+  if (effectivePrice == null && originalPrice == null) {
+    return null
+  }
+
+  return {
+    price: effectivePrice,
+    originalPrice,
+  }
+}
+
 export function extractCollectionItems<T>(input: unknown): T[] {
   if (!input) {
     return []
@@ -284,6 +308,25 @@ export const resolveProductPricing = (
 
   const pricings = resolveVariantPricings(variantWithPricing)
   if (!pricings.length) {
+    const productRecord = product as UnknownRecord
+    const fallbackSources: (UnknownRecord | null)[] = [
+      toRecord(productRecord.defaultVariantData),
+      toRecord(productRecord.defaultVariant),
+      toRecord(productRecord.pricing),
+    ]
+
+    for (const source of fallbackSources) {
+      const fallback = extractPricingFromRecord(source)
+      if (fallback) {
+        return fallback
+      }
+    }
+
+    const directPricing = extractPricingFromRecord(productRecord)
+    if (directPricing) {
+      return directPricing
+    }
+
     return null
   }
 

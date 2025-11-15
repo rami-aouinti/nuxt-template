@@ -26,6 +26,7 @@ definePageMeta({
 
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
+const router = useRouter()
 const cartStore = useEcommerceCartStore()
 
 type HydraCollection<T> = {
@@ -244,14 +245,30 @@ const channels = computed(() =>
 
 const activeCategory = ref<string | null>(null)
 
-const categories = computed(() => {
+type CategoryItem = {
+  code: string | null
+  label: string
+  route: string | null
+}
+
+const categories = computed<CategoryItem[]>(() => {
   const uniqueCodes = new Set<string>()
   const items = taxons.value
     .map((taxon) => {
       const code = typeof taxon.code === 'string' ? taxon.code : null
+      const taxonRecord = toRecord(taxon)
+      const translation = resolveTaxonTranslation(taxon, locale.value)
+      const slug =
+        getString(translation, 'slug') ||
+        getString(taxonRecord, 'slug') ||
+        null
+      const route = slug
+        ? localePath({ name: 'ecommerce-category-slug', params: { slug } })
+        : null
       return {
         code,
         label: resolveTaxonName(taxon),
+        route,
       }
     })
     .filter((item) => {
@@ -276,10 +293,19 @@ const categories = computed(() => {
     {
       code: null,
       label: t('pages.ecommerce.categories.all'),
+      route: null,
     },
     ...items,
   ]
 })
+
+const handleCategoryClick = (category: CategoryItem) => {
+  activeCategory.value = category.code
+
+  if (category.route) {
+    router.push(category.route).catch(() => {})
+  }
+}
 
 const defaultChannel = computed(() => channels.value[0] ?? null)
 
@@ -441,6 +467,14 @@ const handleExploreCollection = () => {
   scrollToSection(collectionSectionRef)
 }
 
+const handleProductNavigation = (route: string | null) => {
+  if (!route) {
+    return
+  }
+
+  router.push(route).catch(() => {})
+}
+
 const checkoutRoute = computed(() => {
   const token = cartStore.token
   if (!token) {
@@ -553,7 +587,7 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
               'ecommerce-hero__category--active':
                 activeCategory === category.code || (!category.code && !activeCategory),
             }"
-            @click="activeCategory = category.code"
+            @click="handleCategoryClick(category)"
           >
             {{ category.label }}
           </button>
@@ -634,10 +668,14 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
           cols="12"
           md="4"
         >
-          <component
-            :is="route ? 'NuxtLink' : 'div'"
+          <div
             class="ecommerce-product-card__link"
-            v-bind="route ? { to: route } : {}"
+            :class="{ 'ecommerce-product-card__link--interactive': Boolean(route) }"
+            :role="route ? 'link' : null"
+            :tabindex="route ? 0 : null"
+            @click="handleProductNavigation(route)"
+            @keydown.enter="handleProductNavigation(route)"
+            @keydown.space.prevent="handleProductNavigation(route)"
           >
             <AppCard class="ecommerce-product-card" elevation="3">
               <v-img
@@ -682,7 +720,7 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
                 </div>
               </div>
             </AppCard>
-          </component>
+          </div>
         </v-col>
       </v-row>
       <div v-else class="text-center py-10">
@@ -705,21 +743,27 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
       </div>
       <div class="ecommerce-collection" :class="{ 'ecommerce-collection--empty': !collectionProducts.length }">
         <div v-if="collectionProducts.length" class="ecommerce-collection__grid">
-          <component
-            :is="route ? 'NuxtLink' : 'div'"
+          <div
             v-for="({ product, route }, index) in collectionProductsWithRoutes"
             :key="resolveProductIdentifier(product)"
             class="ecommerce-collection__item"
-            :class="`ecommerce-collection__item--${index}`"
+            :class="[
+              `ecommerce-collection__item--${index}`,
+              { 'ecommerce-collection__item--interactive': Boolean(route) },
+            ]"
             :style="{ backgroundImage: `url(${collectionImages[index] ?? FALLBACK_PRODUCT_IMAGE})` }"
-            v-bind="route ? { to: route } : {}"
+            :role="route ? 'link' : null"
+            :tabindex="route ? 0 : null"
+            @click="handleProductNavigation(route)"
+            @keydown.enter="handleProductNavigation(route)"
+            @keydown.space.prevent="handleProductNavigation(route)"
           >
             <div class="ecommerce-collection__overlay">
               <span class="ecommerce-collection__label">
                 {{ resolveProductName(product) }}
               </span>
             </div>
-          </component>
+          </div>
         </div>
         <div v-else class="text-center py-10">
           <p class="text-body-1 text-medium-emphasis mb-0">
@@ -750,10 +794,14 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
           cols="12"
           md="4"
         >
-          <component
-            :is="route ? 'NuxtLink' : 'div'"
+          <div
             class="ecommerce-product-card__link"
-            v-bind="route ? { to: route } : {}"
+            :class="{ 'ecommerce-product-card__link--interactive': Boolean(route) }"
+            :role="route ? 'link' : null"
+            :tabindex="route ? 0 : null"
+            @click="handleProductNavigation(route)"
+            @keydown.enter="handleProductNavigation(route)"
+            @keydown.space.prevent="handleProductNavigation(route)"
           >
             <AppCard class="ecommerce-product-card" elevation="2">
               <v-img
@@ -795,7 +843,7 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
                 </div>
               </div>
             </AppCard>
-          </component>
+          </div>
         </v-col>
       </v-row>
       <div v-else class="text-center py-10">
@@ -943,6 +991,15 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
   text-decoration: none;
 }
 
+.ecommerce-product-card__link--interactive {
+  cursor: pointer;
+}
+
+.ecommerce-product-card__link--interactive:focus-visible {
+  outline: 2px solid rgba(var(--v-theme-primary), 0.7);
+  outline-offset: 4px;
+}
+
 .ecommerce-product-card__image {
   border-radius: var(--app-rounded, 18px);
 }
@@ -989,6 +1046,15 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
   background-position: center;
   overflow: hidden;
   box-shadow: var(--app-shadow, 0 16px 35px rgba(15, 23, 42, 0.22));
+}
+
+.ecommerce-collection__item--interactive {
+  cursor: pointer;
+}
+
+.ecommerce-collection__item--interactive:focus-visible {
+  outline: 2px solid rgba(var(--v-theme-primary), 0.7);
+  outline-offset: 4px;
 }
 
 .ecommerce-collection__item--0 {
