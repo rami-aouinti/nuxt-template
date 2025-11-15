@@ -645,11 +645,17 @@
           "code": "Code",
           "id": "ID"
         },
+        "table": {
+          "entity": "Entity",
+          "identifier": "Identifier",
+          "endpoint": "API endpoint"
+        },
         "actions": {
           "load": "Load entity",
           "create": "Create",
           "update": "Update",
-          "delete": "Delete"
+          "delete": "Delete",
+          "manage": "Manage"
         },
         "notifications": {
           "loadSuccess": "Entity loaded successfully.",
@@ -662,7 +668,8 @@
           "payloadInvalid": "The JSON payload is invalid."
         },
         "dialogs": {
-          "deleteConfirm": "Are you sure you want to delete this entity? This action cannot be undone."
+          "deleteConfirm": "Are you sure you want to delete this entity? This action cannot be undone.",
+          "manageTitle": "Manage {entity}"
         },
         "entities": {
           "productAttributes": "Product attributes",
