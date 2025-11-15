@@ -1031,6 +1031,15 @@
             "pending": "Pending review"
           }
         }
+      },
+      "navigationGroups": {
+        "productsManagement": "Gestión de productos",
+        "orderManagement": "Gestión de pedidos",
+        "paymentManagement": "Gestión de pagos",
+        "customerManagement": "Gestión de clientes",
+        "configuration": "Configuración",
+        "taxManagement": "Gestión fiscal",
+        "marketing": "Marketing"
       }
     },
     "auth": {
@@ -2045,17 +2054,15 @@
           "title": "Order details"
         },
         "heading": {
-          "title": "Order #{number}",
-          "subtitle": "Your account"
+          "title": "Resumen de tu pedido",
+          "subtitle": "Revisa todos los detalles antes de finalizar tu compra."
         },
         "breadcrumbs": {
           "account": "My account",
           "orders": "Order history"
         },
         "actions": {
-          "pay": "Pay",
-          "retry": "Try again",
-          "refresh": "Refresh"
+          "refresh": "Actualizar pedido"
         },
         "labels": {
           "token": "Token: {token}",
@@ -2116,15 +2123,13 @@
           "addressesError": "We could not load the addresses linked to this order."
         },
         "fallbacks": {
-          "unknown": "Unknown",
-          "noAddress": "Address unavailable",
-          "noValue": "Not provided"
+          "unknownPaymentMethod": "Método de pago",
+          "unknownShipmentMethod": "Envío",
+          "unknownProduct": "Artículo",
+          "unknownState": "Pendiente",
+          "unknownLocale": "Idioma"
         },
         "metaTitle": "Resumen del pedido",
-        "heading": {
-          "title": "Resumen de tu pedido",
-          "subtitle": "Revisa todos los detalles antes de finalizar tu compra."
-        },
         "status": {
           "steps": {
             "address": "Dirección",
@@ -2179,16 +2184,6 @@
         "notes": {
           "title": "Notas adicionales",
           "empty": "No se añadieron notas."
-        },
-        "actions": {
-          "refresh": "Actualizar pedido"
-        },
-        "fallbacks": {
-          "unknownPaymentMethod": "Método de pago",
-          "unknownShipmentMethod": "Envío",
-          "unknownProduct": "Artículo",
-          "unknownState": "Pendiente",
-          "unknownLocale": "Idioma"
         },
         "errors": {
           "loadFailed": "No se pudo cargar este pedido."

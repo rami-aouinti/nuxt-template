@@ -1031,6 +1031,15 @@
             "pending": "Pending review"
           }
         }
+      },
+      "navigationGroups": {
+        "productsManagement": "商品管理",
+        "orderManagement": "订单管理",
+        "paymentManagement": "支付管理",
+        "customerManagement": "客户管理",
+        "configuration": "配置",
+        "taxManagement": "税务管理",
+        "marketing": "营销"
       }
     },
     "auth": {
@@ -2158,17 +2167,15 @@
           "title": "Order details"
         },
         "heading": {
-          "title": "Order #{number}",
-          "subtitle": "Your account"
+          "title": "订单摘要",
+          "subtitle": "在完成支付前，请再次核对所有信息。"
         },
         "breadcrumbs": {
           "account": "My account",
           "orders": "Order history"
         },
         "actions": {
-          "pay": "Pay",
-          "retry": "Try again",
-          "refresh": "Refresh"
+          "refresh": "刷新订单"
         },
         "labels": {
           "token": "Token: {token}",
@@ -2229,15 +2236,13 @@
           "addressesError": "We could not load the addresses linked to this order."
         },
         "fallbacks": {
-          "unknown": "Unknown",
-          "noAddress": "Address unavailable",
-          "noValue": "Not provided"
+          "unknownPaymentMethod": "付款方式",
+          "unknownShipmentMethod": "配送方式",
+          "unknownProduct": "商品",
+          "unknownState": "待处理",
+          "unknownLocale": "语言"
         },
         "metaTitle": "订单概览",
-        "heading": {
-          "title": "订单摘要",
-          "subtitle": "在完成支付前，请再次核对所有信息。"
-        },
         "status": {
           "steps": {
             "address": "地址",
@@ -2292,16 +2297,6 @@
         "notes": {
           "title": "附加备注",
           "empty": "暂无备注。"
-        },
-        "actions": {
-          "refresh": "刷新订单"
-        },
-        "fallbacks": {
-          "unknownPaymentMethod": "付款方式",
-          "unknownShipmentMethod": "配送方式",
-          "unknownProduct": "商品",
-          "unknownState": "待处理",
-          "unknownLocale": "语言"
         },
         "errors": {
           "loadFailed": "无法加载该订单。"

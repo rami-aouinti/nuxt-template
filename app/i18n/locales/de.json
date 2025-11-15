@@ -1031,6 +1031,15 @@
             "pending": "Pending review"
           }
         }
+      },
+      "navigationGroups": {
+        "productsManagement": "Produktverwaltung",
+        "orderManagement": "Bestellverwaltung",
+        "paymentManagement": "Zahlungsverwaltung",
+        "customerManagement": "Kundenverwaltung",
+        "configuration": "Konfiguration",
+        "taxManagement": "Steuerverwaltung",
+        "marketing": "Marketing"
       }
     },
     "auth": {
@@ -2158,17 +2167,15 @@
           "title": "Order details"
         },
         "heading": {
-          "title": "Order #{number}",
-          "subtitle": "Your account"
+          "title": "Zusammenfassung deiner Bestellung",
+          "subtitle": "Prüfe alle Angaben, bevor du den Kauf endgültig abschließt."
         },
         "breadcrumbs": {
           "account": "My account",
           "orders": "Order history"
         },
         "actions": {
-          "pay": "Pay",
-          "retry": "Try again",
-          "refresh": "Refresh"
+          "refresh": "Bestellung aktualisieren"
         },
         "labels": {
           "token": "Token: {token}",
@@ -2229,15 +2236,13 @@
           "addressesError": "We could not load the addresses linked to this order."
         },
         "fallbacks": {
-          "unknown": "Unknown",
-          "noAddress": "Address unavailable",
-          "noValue": "Not provided"
+          "unknownPaymentMethod": "Zahlungsmethode",
+          "unknownShipmentMethod": "Versandart",
+          "unknownProduct": "Artikel",
+          "unknownState": "Ausstehend",
+          "unknownLocale": "Sprache"
         },
         "metaTitle": "Bestellübersicht",
-        "heading": {
-          "title": "Zusammenfassung deiner Bestellung",
-          "subtitle": "Prüfe alle Angaben, bevor du den Kauf endgültig abschließt."
-        },
         "status": {
           "steps": {
             "address": "Adresse",
@@ -2292,16 +2297,6 @@
         "notes": {
           "title": "Zusätzliche Hinweise",
           "empty": "Keine Hinweise hinterlegt."
-        },
-        "actions": {
-          "refresh": "Bestellung aktualisieren"
-        },
-        "fallbacks": {
-          "unknownPaymentMethod": "Zahlungsmethode",
-          "unknownShipmentMethod": "Versandart",
-          "unknownProduct": "Artikel",
-          "unknownState": "Ausstehend",
-          "unknownLocale": "Sprache"
         },
         "errors": {
           "loadFailed": "Diese Bestellung konnte nicht geladen werden."
