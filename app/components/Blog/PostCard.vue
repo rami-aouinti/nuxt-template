@@ -146,7 +146,7 @@ const excerptState = computed(() => {
   }
 
   return {
-    text: t('blog.placeholders.noSummary'),
+    text: '',
     isMuted: true,
   }
 })

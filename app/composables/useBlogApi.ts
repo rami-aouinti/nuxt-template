@@ -217,7 +217,7 @@ export const useBlogApi = () => {
         options: { headers },
       })
       attempts.push({
-        url: `${PRIVATE_POSTS_ENDPOINT}/slug/${encodedSlug}`,
+        url: `${PUBLIC_POSTS_ENDPOINT}/slug/${encodedSlug}`,
         options: { headers },
       })
     }

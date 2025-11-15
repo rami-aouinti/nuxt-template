@@ -1002,8 +1002,7 @@ watch(
             </div>
             <p class="share-dialog__preview-text">
               {{
-                getPostExcerpt(shareDialog.post) ||
-                t('blog.placeholders.noSummary')
+                getPostExcerpt(shareDialog.post)
               }}
             </p>
           </div>

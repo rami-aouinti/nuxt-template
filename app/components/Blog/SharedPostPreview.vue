@@ -38,7 +38,7 @@ const excerpt = computed(() => {
       : content
   }
 
-  return t('blog.placeholders.noSummary')
+  return ''
 })
 </script>
 

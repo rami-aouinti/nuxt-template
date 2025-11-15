@@ -56,7 +56,7 @@ function getPostExcerpt(post: BlogPost, maxLength = 50) {
   const normalized = source.replace(/\s+/g, ' ').trim()
 
   if (!normalized.length) {
-    return t('blog.placeholders.noSummary')
+    return ''
   }
 
   return truncateText(normalized, maxLength)

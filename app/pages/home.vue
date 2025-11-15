@@ -1924,8 +1924,7 @@ if (import.meta.client) {
             </div>
             <p class="share-dialog__preview-text">
               {{
-                getPostExcerpt(shareDialog.post) ||
-                t('blog.placeholders.noSummary')
+                getPostExcerpt(shareDialog.post)
               }}
             </p>
           </div>
@@ -2063,10 +2062,12 @@ if (import.meta.client) {
       :close-disabled="createPostDialog.loading"
     >
       <v-card-text>
-        <v-text-field
+        <v-textarea
           v-model="createPostDialog.form.title"
           :label="t('blog.forms.createPost.title')"
           :disabled="createPostDialog.loading"
+          rows="1"
+          auto-grow
           required
           rounded
         />
