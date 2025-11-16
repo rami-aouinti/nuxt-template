@@ -23,7 +23,7 @@
 }
 
 .stat-card {
-  border-radius: 20px;
+  border-radius: var(--app-rounded, 20px);
   padding: 6px;
   --stat-card-background: linear-gradient(
     135deg,

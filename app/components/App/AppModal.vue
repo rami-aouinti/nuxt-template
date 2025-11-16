@@ -119,7 +119,7 @@ const handleClose = () => {
 
 <style scoped>
 .app-modal {
-  border-radius: 22px;
+  border-radius: var(--app-rounded, 22px);
   overflow: hidden;
   box-shadow: 0 24px 48px rgba(var(--v-theme-primary), 0.24);
 }
@@ -166,7 +166,7 @@ const handleClose = () => {
   justify-content: center;
   width: 44px;
   height: 44px;
-  border-radius: 14px;
+  border-radius: var(--app-rounded, 14px);
   background: rgba(var(--v-theme-on-primary), 0.12);
   backdrop-filter: blur(12px);
 }
@@ -198,6 +198,6 @@ const handleClose = () => {
 }
 
 :deep(.v-alert) {
-  border-radius: 14px;
+  border-radius: var(--app-rounded, 14px);
 }
 </style>
