@@ -1260,7 +1260,9 @@
     "pagination": {
       "rowsPerPage": "Rows per page",
       "range": "{start}–{end} of {total}"
-    }
+    },
+    "enabled": "Enabled",
+    "disabled": "Disabled"
   },
   "profile": {
     "updateSuccess": "Profile updated successfully.",

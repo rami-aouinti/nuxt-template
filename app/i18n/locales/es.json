@@ -1164,11 +1164,11 @@
       "unexpectedError": "Se produjo un error inesperado.",
       "actions": {
         "cancel": "Cancelar",
-      "create": "Crear",
-      "save": "Guardar",
-      "edit": "Editar",
-      "view": "Ver",
-      "close": "Cerrar",
+        "create": "Crear",
+        "save": "Guardar",
+        "edit": "Editar",
+        "view": "Ver",
+        "close": "Cerrar",
         "back": "Atrás",
         "continue": "Continuar",
         "delete": "Eliminar",
@@ -2834,5 +2834,9 @@
         "backCta": "Volver al inicio de sesión"
       }
     }
+  },
+  "common": {
+    "enabled": "Habilitado",
+    "disabled": "Deshabilitado"
   }
 }

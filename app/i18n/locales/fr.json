@@ -622,119 +622,119 @@
     "apiKeys": "Nombre de clés API",
     "ecommerce": {
       "navigation": {
-        "dashboard": "Dashboard",
+        "dashboard": "Tableau de bord",
         "taxons": "Taxons",
-        "products": "Products",
-        "inventory": "Inventory",
-        "productOptions": "Product options",
-        "productAssociationTypes": "Product association types",
-        "orders": "Orders",
-        "payments": "Payments",
-        "shipments": "Shipments",
+        "products": "Produits",
+        "inventory": "Stock",
+        "productOptions": "Options produit",
+        "productAssociationTypes": "Types d'association produit",
+        "orders": "Commandes",
+        "payments": "Paiements",
+        "shipments": "Expéditions",
         "configuration": "Configuration",
-        "customers": "Customers",
-        "customerGroups": "Customer groups",
-        "cartPromotions": "Cart promotions",
-        "catalogPromotions": "Catalog promotions",
-        "productReviews": "Product reviews"
+        "customers": "Clients",
+        "customerGroups": "Groupes de clients",
+        "cartPromotions": "Promotions panier",
+        "catalogPromotions": "Promotions catalogue",
+        "productReviews": "Avis produits"
       },
       "navigationTree": {
         "title": "Pilotez votre boutique en quelques clics",
-        "subtitle": "Naviguez par domaine fonctionnel pour retrouver rapidement chaque module e-commerce."
+        "subtitle": "Parcourez les domaines fonctionnels pour retrouver rapidement chaque module e-commerce."
       },
       "entityManager": {
-        "title": "Entity operations",
-        "subtitle": "Create, update or delete any e-commerce entity with the raw API payload.",
-        "helper": "Requests target {path}. Make sure the JSON payload matches the e-commerce API schema.",
+        "title": "Opérations sur les entités",
+        "subtitle": "Créez, mettez à jour ou supprimez toute entité e-commerce via la charge utile API.",
+        "helper": "Les requêtes ciblent {path}. Vérifiez que le JSON respecte le schéma de l'API e-commerce.",
         "fields": {
-          "entity": "Entity",
-          "identifier": "Identifier",
-          "identifierHint": "Code or ID used by the API",
-          "payload": "JSON payload",
-          "payloadPlaceholder": "Example payload: \"code\": \"EXAMPLE_CODE\"",
+          "entity": "Entité",
+          "identifier": "Identifiant",
+          "identifierHint": "Code ou ID utilisé par l'API",
+          "payload": "Charge utile JSON",
+          "payloadPlaceholder": "Exemple : \"code\": \"EXEMPLE_CODE\"",
           "code": "Code",
           "id": "ID"
         },
         "table": {
-          "entity": "Entity",
-          "identifier": "Identifier",
-          "endpoint": "API endpoint"
+          "entity": "Entité",
+          "identifier": "Identifiant",
+          "endpoint": "Point d'API"
         },
         "actions": {
-          "load": "Load entity",
-          "create": "Create",
-          "update": "Update",
-          "delete": "Delete",
-          "manage": "Manage"
+          "load": "Charger l'entité",
+          "create": "Créer",
+          "update": "Mettre à jour",
+          "delete": "Supprimer",
+          "manage": "Gérer"
         },
         "notifications": {
-          "loadSuccess": "Entity loaded successfully.",
-          "createSuccess": "Entity created successfully.",
-          "updateSuccess": "Entity updated successfully.",
-          "deleteSuccess": "Entity deleted successfully."
+          "loadSuccess": "Entité chargée avec succès.",
+          "createSuccess": "Entité créée avec succès.",
+          "updateSuccess": "Entité mise à jour avec succès.",
+          "deleteSuccess": "Entité supprimée avec succès."
         },
         "errors": {
-          "identifierRequired": "An identifier is required for this operation.",
-          "payloadInvalid": "The JSON payload is invalid."
+          "identifierRequired": "Un identifiant est requis pour cette opération.",
+          "payloadInvalid": "La charge utile JSON est invalide."
         },
         "dialogs": {
-          "deleteConfirm": "Are you sure you want to delete this entity? This action cannot be undone.",
-          "manageTitle": "Manage {entity}"
+          "deleteConfirm": "Voulez-vous vraiment supprimer cette entité ? Cette action est irréversible.",
+          "manageTitle": "Gérer {entity}"
         },
         "preview": {
-          "title": "Entity preview",
-          "empty": "Load the entity to display its fields."
+          "title": "Aperçu de l'entité",
+          "empty": "Chargez l'entité pour afficher ses champs."
         },
         "entities": {
-          "productAttributes": "Product attributes",
-          "shippingCategories": "Shipping categories",
-          "exchangeRates": "Exchange rates"
+          "productAttributes": "Attributs produit",
+          "shippingCategories": "Catégories d'expédition",
+          "exchangeRates": "Taux de change"
         },
         "forms": {
-          "subtitle": "Edit scalar fields such as names, codes or flags.",
-          "empty": "This entity does not expose editable scalar fields."
+          "subtitle": "Modifiez les champs scalaires comme les noms, codes ou indicateurs.",
+          "empty": "Cette entité n'expose aucun champ scalaire modifiable."
         },
         "detailsCard": {
-          "title": "Entity details",
-          "empty": "No scalar attributes detected for this entity."
+          "title": "Détails de l'entité",
+          "empty": "Aucun attribut scalaire détecté pour cette entité."
         },
         "relations": {
-          "title": "Entity relations",
-          "subtitle": "Linked resources and associations detected for this entity.",
-          "empty": "No relationships detected for this entity."
+          "title": "Relations de l'entité",
+          "subtitle": "Ressources liées et associations détectées pour cette entité.",
+          "empty": "Aucune relation détectée pour cette entité."
         }
       },
       "common": {
-        "none": "None",
-        "enabled": "Enabled",
-        "disabled": "Disabled",
-        "unknownCustomer": "Unknown customer",
-        "defaultChannel": "Default channel",
-        "unknownState": "Unknown",
-        "unknownOrder": "Unknown order"
+        "none": "Aucun",
+        "enabled": "Activé",
+        "disabled": "Désactivé",
+        "unknownCustomer": "Client inconnu",
+        "defaultChannel": "Canal par défaut",
+        "unknownState": "Inconnu",
+        "unknownOrder": "Commande inconnue"
       },
       "dashboard": {
         "metrics": {
-          "sales": "Total sales",
-          "salesCaption": "Gross sales over the selected period",
-          "orders": "Orders",
-          "ordersCaption": "Orders created across every channel",
-          "customers": "Customers",
-          "customersCaption": "New customers registered this month",
-          "averageOrderValue": "Average order value",
-          "averageOrderValueCaption": "Average checkout amount"
+          "sales": "Ventes totales",
+          "salesCaption": "Ventes brutes sur la période sélectionnée",
+          "orders": "Commandes",
+          "ordersCaption": "Commandes créées sur l'ensemble des canaux",
+          "customers": "Clients",
+          "customersCaption": "Nouveaux clients inscrits ce mois-ci",
+          "averageOrderValue": "Panier moyen",
+          "averageOrderValueCaption": "Montant moyen à la caisse"
         },
         "salesTrend": {
-          "title": "Sales trend",
-          "subtitle": "Revenue performance over time"
+          "title": "Tendance des ventes",
+          "subtitle": "Performance du chiffre d'affaires dans le temps"
         },
         "customerGrowth": {
-          "title": "Customer growth",
-          "subtitle": "Returning customers compared to new shoppers"
+          "title": "Croissance clients",
+          "subtitle": "Clients fidèles comparés aux nouveaux acheteurs"
         },
         "filters": {
-          "title": "Filtres d’activité commerciale",
-          "subtitle": "Choisissez le canal et la période pour actualiser la vue d’ensemble.",
+          "title": "Filtres d'activité",
+          "subtitle": "Choisissez le canal et la période pour actualiser l'aperçu.",
           "channel": "Canal",
           "interval": "Intervalle",
           "startDate": "Date de début",
@@ -749,207 +749,210 @@
             "invalidRange": "La date de début doit être antérieure à la date de fin."
           }
         },
+        "charts": {
+          "unavailable": "Aperçu du graphique indisponible."
+        },
         "pending": {
-          "title": "Pending actions",
-          "subtitle": "Keep your fulfillment pipeline flowing",
-          "orders": "Orders to review",
-          "shipments": "Shipments ready to send",
-          "payments": "Payments awaiting capture",
-          "lowStock": "Products low on stock",
-          "items": "{value} items"
+          "title": "Actions en attente",
+          "subtitle": "Gardez votre chaîne logistique fluide",
+          "orders": "Commandes à vérifier",
+          "shipments": "Expéditions prêtes à partir",
+          "payments": "Paiements en attente de capture",
+          "lowStock": "Produits avec peu de stock",
+          "items": "{value} éléments"
         },
         "orders": {
-          "title": "Latest orders",
-          "subtitle": "Most recent purchases across all channels",
+          "title": "Dernières commandes",
+          "subtitle": "Achats récents tous canaux confondus",
           "table": {
-            "number": "Number",
-            "customer": "Customer",
-            "channel": "Channel",
-            "state": "State",
-            "paymentState": "Payment state",
-            "shippingState": "Shipping state",
+            "number": "Numéro",
+            "customer": "Client",
+            "channel": "Canal",
+            "state": "Statut",
+            "paymentState": "Statut de paiement",
+            "shippingState": "Statut d'expédition",
             "total": "Total",
-            "placedAt": "Placed at"
+            "placedAt": "Passée le"
           }
         }
       },
       "taxons": {
-        "title": "Product taxons",
-        "subtitle": "Organise your catalog with hierarchical categories.",
+        "title": "Taxons produits",
+        "subtitle": "Organisez votre catalogue avec des catégories hiérarchiques.",
         "table": {
-          "name": "Name",
+          "name": "Nom",
           "code": "Code",
           "parent": "Parent",
-          "children": "Children",
-          "enabled": "Enabled",
-          "updatedAt": "Updated"
+          "children": "Enfants",
+          "enabled": "Activé",
+          "updatedAt": "Mis à jour"
         },
-        "create": "New taxon",
-        "createTitle": "Create a taxon",
-        "createSubtitle": "Define a new category and translate it for every channel.",
+        "create": "Nouveau taxon",
+        "createTitle": "Créer un taxon",
+        "createSubtitle": "Définissez une nouvelle catégorie et traduisez-la pour chaque canal.",
         "validation": {
-          "code": "A unique code is required."
+          "code": "Un code unique est requis."
         },
         "form": {
           "code": "Code",
           "parent": "Parent",
-          "parentHint": "Provide a taxon code or an API identifier.",
-          "enabled": "Enabled",
-          "translations": "Translations",
-          "locale": "Locale",
-          "name": "Name",
+          "parentHint": "Indiquez un code de taxon ou un identifiant API.",
+          "enabled": "Activé",
+          "translations": "Traductions",
+          "locale": "Langue",
+          "name": "Nom",
           "slug": "Slug",
           "description": "Description",
-          "addTranslation": "Add translation",
-          "success": "Taxon created successfully.",
-          "submit": "Create taxon"
+          "addTranslation": "Ajouter une traduction",
+          "success": "Taxon créé avec succès.",
+          "submit": "Créer le taxon"
         },
         "help": {
-          "title": "How taxons work",
-          "description": "Use taxons to structure your collections and improve discovery.",
+          "title": "Comprendre les taxons",
+          "description": "Servez-vous des taxons pour structurer vos collections et améliorer la découverte.",
           "naming": {
-            "title": "Naming",
-            "subtitle": "Choose a clear, customer-friendly name."
+            "title": "Nommer",
+            "subtitle": "Choisissez un nom clair et orienté client."
           },
           "translations": {
-            "title": "Translations",
-            "subtitle": "Add every locale to keep storefronts consistent."
+            "title": "Traductions",
+            "subtitle": "Ajoutez chaque langue pour garder des vitrines cohérentes."
           },
           "visibility": {
-            "title": "Visibility",
-            "subtitle": "Disable a taxon to hide it from the storefront."
+            "title": "Visibilité",
+            "subtitle": "Désactivez un taxon pour le masquer de la boutique."
           }
         }
       },
       "products": {
-        "title": "Products",
-        "subtitle": "Browse the full catalog with channel and stock insights.",
+        "title": "Produits",
+        "subtitle": "Parcourez tout le catalogue avec les détails de canal et de stock.",
         "table": {
-          "name": "Name",
+          "name": "Nom",
           "code": "Code",
-          "mainTaxon": "Main taxon",
-          "channels": "Channels",
-          "inventory": "Inventory",
-          "enabled": "Enabled"
+          "mainTaxon": "Taxon principal",
+          "channels": "Canaux",
+          "inventory": "Stock",
+          "enabled": "Activé"
         }
       },
       "inventory": {
-        "title": "Inventory",
-        "subtitle": "Track on-hand, reserved, and available quantities per variant.",
+        "title": "Stock",
+        "subtitle": "Suivez les quantités en stock, réservées et disponibles par variante.",
         "table": {
-          "product": "Product",
-          "variant": "Variant",
+          "product": "Produit",
+          "variant": "Variante",
           "sku": "SKU",
-          "onHand": "On hand",
-          "onHold": "Reserved",
-          "available": "Available",
-          "tracked": "Tracked",
-          "defaultVariant": "Default variant"
+          "onHand": "En stock",
+          "onHold": "Réservé",
+          "available": "Disponible",
+          "tracked": "Suivi",
+          "defaultVariant": "Variante par défaut"
         }
       },
       "productOptions": {
-        "title": "Product options",
-        "subtitle": "Manage selectable attributes such as size and color.",
+        "title": "Options produit",
+        "subtitle": "Gérez les attributs sélectionnables comme la taille ou la couleur.",
         "table": {
-          "name": "Name",
+          "name": "Nom",
           "code": "Code",
-          "values": "Values",
+          "values": "Valeurs",
           "position": "Position",
-          "updatedAt": "Updated"
+          "updatedAt": "Mis à jour"
         }
       },
       "productAssociationTypes": {
-        "title": "Product association types",
-        "subtitle": "Create relationships like recommended or similar items.",
+        "title": "Types d'association produit",
+        "subtitle": "Créez des relations comme recommandé ou similaire.",
         "table": {
-          "name": "Name",
+          "name": "Nom",
           "code": "Code",
           "description": "Description",
-          "updatedAt": "Updated"
+          "updatedAt": "Mis à jour"
         }
       },
       "orders": {
-        "title": "Orders",
-        "subtitle": "Monitor order states, payments, and fulfillment progress.",
+        "title": "Commandes",
+        "subtitle": "Surveillez les statuts, paiements et l'avancement de l'exécution.",
         "table": {
-          "number": "Number",
-          "customer": "Customer",
-          "channel": "Channel",
-          "state": "State",
-          "paymentState": "Payment state",
-          "shippingState": "Shipping state",
+          "number": "Numéro",
+          "customer": "Client",
+          "channel": "Canal",
+          "state": "Statut",
+          "paymentState": "Statut de paiement",
+          "shippingState": "Statut d'expédition",
           "total": "Total",
-          "placedAt": "Placed at"
+          "placedAt": "Passée le"
         }
       },
       "payments": {
-        "title": "Payments",
-        "subtitle": "Review payment attempts grouped by order.",
+        "title": "Paiements",
+        "subtitle": "Consultez les tentatives de paiement regroupées par commande.",
         "table": {
-          "order": "Order",
-          "customer": "Customer",
-          "method": "Method",
-          "state": "State",
-          "amount": "Amount",
-          "updatedAt": "Updated",
-          "noPayments": "No payments recorded"
+          "order": "Commande",
+          "customer": "Client",
+          "method": "Méthode",
+          "state": "Statut",
+          "amount": "Montant",
+          "updatedAt": "Mis à jour",
+          "noPayments": "Aucun paiement enregistré"
         }
       },
       "shipments": {
-        "title": "Shipments",
-        "subtitle": "Follow every shipment from preparation to delivery.",
+        "title": "Expéditions",
+        "subtitle": "Suivez chaque expédition de la préparation à la livraison.",
         "table": {
-          "number": "Number",
-          "order": "Order",
-          "method": "Method",
-          "state": "State",
-          "tracking": "Tracking",
-          "updatedAt": "Updated",
-          "noTracking": "No tracking information"
+          "number": "Numéro",
+          "order": "Commande",
+          "method": "Méthode",
+          "state": "Statut",
+          "tracking": "Suivi",
+          "updatedAt": "Mis à jour",
+          "noTracking": "Pas d'information de suivi"
         }
       },
       "customers": {
-        "title": "Customers",
-        "subtitle": "Manage registered buyers and their account status.",
+        "title": "Clients",
+        "subtitle": "Suivez les acheteurs inscrits et l'état de leurs comptes.",
         "table": {
-          "email": "Email",
-          "lastName": "Last name",
-          "firstName": "First name",
-          "registrationDate": "Registration date",
-          "enabled": "Enabled",
-          "verified": "Verified"
+          "email": "E-mail",
+          "lastName": "Nom",
+          "firstName": "Prénom",
+          "registrationDate": "Date d'inscription",
+          "enabled": "Activé",
+          "verified": "Vérifié"
         }
       },
       "configuration": {
         "title": "Configuration de la boutique",
-        "subtitle": "Contrôlez les canaux, la localisation et la fiscalité de votre vitrine.",
+        "subtitle": "Contrôlez les canaux, la localisation et la fiscalité de votre boutique.",
         "navigation": {
           "channels": "Canaux",
           "countries": "Pays",
           "zones": "Zones",
           "currencies": "Devises",
-          "locales": "Locales",
-          "paymentMethods": "Moyens de paiement",
-          "shippingMethods": "Modes de livraison",
+          "locales": "Langues",
+          "paymentMethods": "Méthodes de paiement",
+          "shippingMethods": "Méthodes d'expédition",
           "taxCategories": "Catégories de taxe",
           "taxRates": "Taux de taxe",
           "administrators": "Administrateurs"
         },
         "channels": {
           "title": "Canaux de vente",
-          "subtitle": "Consultez les canaux, leurs devises, locales et disponibilité.",
+          "subtitle": "Passez en revue les canaux, leurs devises, langues et disponibilité.",
           "table": {
             "name": "Nom",
             "code": "Code",
             "currency": "Devise de base",
-            "locale": "Locale par défaut",
+            "locale": "Langue par défaut",
             "hostname": "Nom d'hôte",
             "enabled": "Activé"
           }
         },
         "countries": {
           "title": "Pays",
-          "subtitle": "Consultez les pays disponibles pour vos canaux de vente.",
+          "subtitle": "Passez en revue les pays disponibles pour vos canaux de vente.",
           "table": {
             "name": "Nom",
             "code": "Code",
@@ -959,7 +962,7 @@
         },
         "zones": {
           "title": "Zones",
-          "subtitle": "Regroupez les pays ou régions pour la livraison et la fiscalité.",
+          "subtitle": "Regroupez des pays ou régions pour les réutiliser dans les expéditions et taxes.",
           "table": {
             "name": "Nom",
             "code": "Code",
@@ -978,24 +981,24 @@
             "name": "Nom",
             "exchangeRate": "Taux de change",
             "updatedAt": "Mis à jour",
-            "enabled": "Activée"
+            "enabled": "Activé"
           },
           "fallback": {
             "updatedAt": "Jamais"
           }
         },
         "locales": {
-          "title": "Locales",
-          "subtitle": "Activez les langues disponibles sur la vitrine.",
+          "title": "Langues",
+          "subtitle": "Activez les langues proposées sur la boutique.",
           "table": {
             "name": "Nom",
             "code": "Code",
-            "enabled": "Activée"
+            "enabled": "Activé"
           }
         },
         "paymentMethods": {
-          "title": "Moyens de paiement",
-          "subtitle": "Liste des moyens de paiement disponibles et des canaux associés.",
+          "title": "Méthodes de paiement",
+          "subtitle": "Listez les méthodes de paiement disponibles et leurs canaux.",
           "table": {
             "name": "Nom",
             "code": "Code",
@@ -1008,8 +1011,8 @@
           }
         },
         "shippingMethods": {
-          "title": "Modes de livraison",
-          "subtitle": "Surveillez les modes de livraison, zones et canaux associés.",
+          "title": "Méthodes d'expédition",
+          "subtitle": "Suivez les méthodes d'expédition, leurs zones et canaux.",
           "table": {
             "name": "Nom",
             "code": "Code",
@@ -1023,7 +1026,7 @@
         },
         "taxCategories": {
           "title": "Catégories de taxe",
-          "subtitle": "Organisez les règles fiscales en catégories descriptives.",
+          "subtitle": "Organisez les règles fiscales en catégories explicites.",
           "table": {
             "name": "Nom",
             "code": "Code",
@@ -1032,7 +1035,7 @@
         },
         "taxRates": {
           "title": "Taux de taxe",
-          "subtitle": "Inspectez les taux appliqués par zone et catégorie.",
+          "subtitle": "Consultez les taux appliqués par zone et catégorie.",
           "table": {
             "name": "Nom",
             "code": "Code",
@@ -1057,72 +1060,72 @@
             "name": "Nom",
             "email": "E-mail",
             "username": "Nom d'utilisateur",
-            "locale": "Locale",
+            "locale": "Langue",
             "roles": "Rôles",
             "lastLogin": "Dernière connexion",
             "enabled": "Activé"
           },
           "fallback": {
-            "locale": "Aucune locale",
+            "locale": "Aucune langue",
             "roles": "Aucun rôle",
             "lastLogin": "Jamais"
           }
         },
         "customerGroups": {
-          "title": "Customer groups",
-          "subtitle": "Organize customers into shared pricing or perks.",
+          "title": "Groupes de clients",
+          "subtitle": "Regroupez vos clients par tarification ou avantages communs.",
           "table": {
-            "name": "Name",
+            "name": "Nom",
             "code": "Code",
-            "members": "Members"
+            "members": "Membres"
           }
         },
         "cartPromotions": {
-          "title": "Cart promotions",
-          "subtitle": "Monitor discounts triggered during checkout.",
+          "title": "Promotions panier",
+          "subtitle": "Suivez les remises déclenchées lors du paiement.",
           "table": {
-            "name": "Name",
+            "name": "Nom",
             "code": "Code",
             "coupons": "Coupons",
-            "startsAt": "Starts at",
-            "endsAt": "Ends at",
-            "enabled": "State",
-            "noCoupons": "No coupons",
-            "unlimited": "Unlimited"
+            "startsAt": "Commence le",
+            "endsAt": "Se termine le",
+            "enabled": "Statut",
+            "noCoupons": "Aucun coupon",
+            "unlimited": "Illimité"
           }
         },
         "catalogPromotions": {
-          "title": "Catalog promotions",
-          "subtitle": "Track automated discounts applied directly to products.",
+          "title": "Promotions catalogue",
+          "subtitle": "Suivez les remises automatiques appliquées directement aux produits.",
           "table": {
-            "name": "Name",
+            "name": "Nom",
             "code": "Code",
-            "channels": "Channels",
-            "startDate": "Start date",
-            "endDate": "End date",
-            "state": "State",
-            "noChannels": "No channels",
-            "active": "Active",
-            "inactive": "Inactive"
+            "channels": "Canaux",
+            "startDate": "Date de début",
+            "endDate": "Date de fin",
+            "state": "Statut",
+            "noChannels": "Aucun canal",
+            "active": "Actif",
+            "inactive": "Inactif"
           }
         },
         "productReviews": {
-          "title": "Product reviews",
-          "subtitle": "Moderate customer feedback across the catalog.",
+          "title": "Avis produits",
+          "subtitle": "Modérez les retours clients sur tout le catalogue.",
           "table": {
-            "rating": "Rating",
-            "title": "Title",
-            "product": "Product",
-            "customer": "Customer",
-            "state": "State",
-            "createdAt": "Created at"
+            "rating": "Note",
+            "title": "Titre",
+            "product": "Produit",
+            "customer": "Client",
+            "state": "Statut",
+            "createdAt": "Créé le"
           },
-          "noTitle": "No title",
-          "anonymous": "Anonymous",
+          "noTitle": "Sans titre",
+          "anonymous": "Anonyme",
           "states": {
-            "accepted": "Accepted",
-            "rejected": "Rejected",
-            "pending": "Pending review"
+            "accepted": "Accepté",
+            "rejected": "Rejeté",
+            "pending": "En attente de revue"
           }
         }
       },
@@ -1132,7 +1135,7 @@
         "paymentManagement": "Gestion des paiements",
         "customerManagement": "Gestion des clients",
         "configuration": "Configuration",
-        "taxManagement": "Gestion des taxes",
+        "taxManagement": "Gestion fiscale",
         "marketing": "Marketing"
       }
     },
@@ -1173,11 +1176,11 @@
       "unexpectedError": "Une erreur inattendue s'est produite.",
       "actions": {
         "cancel": "Annuler",
-      "create": "Créer",
-      "save": "Enregistrer",
-      "edit": "Modifier",
-      "view": "Afficher",
-      "close": "Fermer",
+        "create": "Créer",
+        "save": "Enregistrer",
+        "edit": "Modifier",
+        "view": "Afficher",
+        "close": "Fermer",
         "back": "Retour",
         "continue": "Continuer",
         "delete": "Supprimer",
@@ -2854,5 +2857,9 @@
         "backCta": "Retour à la connexion"
       }
     }
+  },
+  "common": {
+    "enabled": "Activé",
+    "disabled": "Désactivé"
   }
 }

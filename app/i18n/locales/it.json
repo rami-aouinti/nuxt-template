@@ -1164,11 +1164,11 @@
       "unexpectedError": "Si è verificato un errore imprevisto.",
       "actions": {
         "cancel": "Annulla",
-      "create": "Crea",
-      "save": "Salva",
-      "edit": "Modifica",
-      "view": "Visualizza",
-      "close": "Chiudi",
+        "create": "Crea",
+        "save": "Salva",
+        "edit": "Modifica",
+        "view": "Visualizza",
+        "close": "Chiudi",
         "back": "Indietro",
         "continue": "Continua",
         "delete": "Elimina",
@@ -2834,5 +2834,9 @@
         "backCta": "Torna all'accesso"
       }
     }
+  },
+  "common": {
+    "enabled": "Abilitato",
+    "disabled": "Disabilitato"
   }
 }
