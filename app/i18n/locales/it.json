@@ -2859,6 +2859,41 @@
     }
   },
   "common": {
+    "unexpectedError": "Si è verificato un errore imprevisto.",
+    "actions": {
+      "cancel": "Annulla",
+      "create": "Crea",
+      "save": "Salva",
+      "edit": "Modifica",
+      "view": "Visualizza",
+      "close": "Chiudi",
+      "back": "Indietro",
+      "continue": "Continua",
+      "delete": "Elimina",
+      "remove": "Rimuovi",
+      "link": "Collega",
+      "share": "Condividi"
+    },
+    "labels": {
+      "all": "Tutti",
+      "search": "Ricerca",
+      "group": "Gruppo",
+      "user": "Utente",
+      "export": "Esporta",
+      "exportPdf": "Esporta in PDF",
+      "exportExcel": "Esporta in Excel",
+      "yes": "Sì",
+      "no": "No"
+    },
+    "placeholders": {
+      "selectGroup": "Seleziona un gruppo",
+      "selectUser": "Seleziona un utente",
+      "selectWorkplace": "Seleziona un luogo di lavoro"
+    },
+    "pagination": {
+      "rowsPerPage": "Righe per pagina",
+      "range": "{start}–{end} di {total}"
+    },
     "enabled": "Abilitato",
     "disabled": "Disabilitato"
   }

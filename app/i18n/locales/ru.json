@@ -2861,6 +2861,41 @@
     }
   },
   "common": {
+    "unexpectedError": "Произошла непредвиденная ошибка.",
+    "actions": {
+      "cancel": "Отмена",
+      "create": "Создать",
+      "save": "Сохранить",
+      "edit": "Редактировать",
+      "view": "Просмотр",
+      "close": "Закрыть",
+      "back": "Назад",
+      "continue": "Продолжить",
+      "delete": "Удалить",
+      "remove": "Убрать",
+      "link": "Связать",
+      "share": "Поделиться"
+    },
+    "labels": {
+      "all": "Все",
+      "search": "Поиск",
+      "group": "Группа",
+      "user": "Пользователь",
+      "export": "Экспорт",
+      "exportPdf": "Экспорт в PDF",
+      "exportExcel": "Экспорт в Excel",
+      "yes": "Да",
+      "no": "Нет"
+    },
+    "placeholders": {
+      "selectGroup": "Выберите группу",
+      "selectUser": "Выберите пользователя",
+      "selectWorkplace": "Выберите рабочее пространство"
+    },
+    "pagination": {
+      "rowsPerPage": "Строк на странице",
+      "range": "{start}–{end} из {total}"
+    },
     "enabled": "Включено",
     "disabled": "Отключено"
   }
