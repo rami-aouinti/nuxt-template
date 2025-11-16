@@ -8,6 +8,7 @@ const props = withDefaults(
     subtitle?: string
     persistent?: boolean
     scrim?: string
+    attach?: string | HTMLElement | null
   }>(),
   {
     modelValue: false,
@@ -15,6 +16,7 @@ const props = withDefaults(
     subtitle: '',
     persistent: true,
     scrim: 'rgba(16, 16, 29, 0.78)',
+    attach: null,
   },
 )
 
@@ -31,6 +33,7 @@ const computedSubtitle = computed(
     :model-value="props.modelValue"
     :persistent="props.persistent"
     :scrim="props.scrim"
+    :attach="props.attach ?? undefined"
     class="app-loader"
     location="center"
   >

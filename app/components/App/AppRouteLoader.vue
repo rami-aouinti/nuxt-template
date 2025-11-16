@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAttrs } from 'vue'
+import { ref, useAttrs } from 'vue'
 
 defineOptions({
   inheritAttrs: false,
@@ -7,15 +7,22 @@ defineOptions({
 
 const attrs = useAttrs()
 const routeLoading = useRouteLoading()
+const containerRef = ref<HTMLElement | null>(null)
 </script>
 
 <template>
   <transition name="fade-loader" mode="out-in">
-    <div v-if="routeLoading" class="app-route-loader" v-bind="attrs">
+    <div
+      v-if="routeLoading"
+      ref="containerRef"
+      class="app-route-loader"
+      v-bind="attrs"
+    >
       <AppLoader
         :model-value="routeLoading"
         title="Navigation en cours"
         subtitle="Nous préparons la prochaine page pour vous."
+        :attach="containerRef"
       >
         <div class="d-flex flex-column align-center ga-2">
           <v-chip
