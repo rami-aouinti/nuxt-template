@@ -24,12 +24,6 @@ body {
   border-radius: var(--app-rounded, 18px);
 }
 
-.v-overlay,
-.v-overlay__scrim,
-.v-overlay-container {
-  border-radius: 0 !important;
-}
-
 :where(
   form,
   .v-form,
@@ -129,12 +123,6 @@ body {
 
 .v-overlay__content > .v-card {
   overflow-y: overlay !important;
-}
-
-.v-overlay-container {
-  display: block !important;
-  pointer-events: auto !important;
-  z-index: 4000 !important;
 }
 
 .v-btn {
