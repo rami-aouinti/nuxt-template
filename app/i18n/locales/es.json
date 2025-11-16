@@ -671,6 +671,10 @@
           "deleteConfirm": "Are you sure you want to delete this entity? This action cannot be undone.",
           "manageTitle": "Manage {entity}"
         },
+        "preview": {
+          "title": "Vista previa de la entidad",
+          "empty": "Carga la entidad para mostrar sus campos."
+        },
         "entities": {
           "productAttributes": "Product attributes",
           "shippingCategories": "Shipping categories",

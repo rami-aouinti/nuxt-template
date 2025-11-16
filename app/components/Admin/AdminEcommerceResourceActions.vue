@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 
+import AdminEntityTreePreview from '~/components/Admin/AdminEntityTreePreview.vue'
+import type { AdminEntityPreviewNode } from '~/types/adminEntityPreview'
+
 const props = withDefaults(
   defineProps<{
     showUrl?: string | null
@@ -54,18 +57,9 @@ const actionEndpoint = computed(() =>
   activeAction.value ? normalizedLinks.value[activeAction.value] : null,
 )
 
-const formattedResponse = computed(() => {
-  if (!responsePreview.value) {
-    return ''
-  }
-
-  try {
-    return JSON.stringify(responsePreview.value, null, 2)
-  } catch (error) {
-    console.error('Failed to stringify response', error)
-    return ''
-  }
-})
+const responseTree = computed<AdminEntityPreviewNode[]>(() =>
+  buildPreviewTree(responsePreview.value ?? null),
+)
 
 const dialogTitle = computed(() => {
   switch (activeAction.value) {
@@ -104,6 +98,84 @@ function resetDialog() {
   responsePreview.value = null
   deleteSuccess.value = false
   updateSuccess.value = false
+}
+
+function buildPreviewTree(
+  value: unknown,
+  path = 'root',
+): AdminEntityPreviewNode[] {
+  if (value === null || value === undefined) {
+    return []
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item, index) => {
+      const id = `${path}-${index}`
+      if (isPrimitive(item)) {
+        return {
+          id,
+          title: `[${index}]`,
+          value: formatPrimitive(item),
+        }
+      }
+
+      return {
+        id,
+        title: `[${index}]`,
+        children: buildPreviewTree(item, id),
+      }
+    })
+  }
+
+  if (typeof value === 'object') {
+    return Object.entries(value as Record<string, unknown>).map(
+      ([key, entry]) => {
+        const id = `${path}-${key}`
+        if (isPrimitive(entry)) {
+          return {
+            id,
+            title: key,
+            value: formatPrimitive(entry),
+          }
+        }
+
+        return {
+          id,
+          title: key,
+          children: buildPreviewTree(entry, id),
+        }
+      },
+    )
+  }
+
+  return [
+    {
+      id: path,
+      title: path,
+      value: formatPrimitive(value),
+    },
+  ]
+}
+
+function isPrimitive(value: unknown): value is string | number | boolean | null {
+  return (
+    value === null ||
+    typeof value === 'string' ||
+    typeof value === 'number' ||
+    typeof value === 'boolean'
+  )
+}
+
+function formatPrimitive(value: string | number | boolean | null): string {
+  if (value === null) {
+    return 'null'
+  }
+
+  if (typeof value === 'boolean') {
+    return value ? 'true' : 'false'
+  }
+
+  return String(value)
 }
 
 async function openAction(action: ActionType) {
@@ -153,7 +225,7 @@ async function submitUpdate() {
     parsedPayload = actionPayload.value
       ? JSON.parse(actionPayload.value)
       : undefined
-  } catch (error) {
+  } catch {
     actionError.value = t('admin.ecommerce.entityManager.errors.payloadInvalid')
     return
   }
@@ -331,24 +403,19 @@ const isDeleteDisabled = computed(() => !normalizedLinks.value.delete)
             :disabled="actionLoading"
           />
 
-          <div v-if="formattedResponse" class="admin-ecommerce-actions__preview">
-            <label class="text-caption">
-              {{ t('admin.ecommerce.entityManager.table.endpoint') }}
-            </label>
-            <pre>{{ formattedResponse }}</pre>
-          </div>
+          <AdminEntityTreePreview
+            :title="t('admin.ecommerce.entityManager.preview.title')"
+            :empty-text="t('admin.ecommerce.entityManager.preview.empty')"
+            :nodes="responseTree"
+          />
         </div>
 
         <div v-else-if="activeAction === 'show'">
-          <div v-if="formattedResponse" class="admin-ecommerce-actions__preview">
-            <label class="text-caption">
-              {{ t('admin.ecommerce.entityManager.table.endpoint') }}
-            </label>
-            <pre>{{ formattedResponse }}</pre>
-          </div>
-          <p v-else class="text-body-2">
-            {{ t('admin.ecommerce.entityManager.actions.load') }}
-          </p>
+          <AdminEntityTreePreview
+            :title="t('admin.ecommerce.entityManager.preview.title')"
+            :empty-text="t('admin.ecommerce.entityManager.preview.empty')"
+            :nodes="responseTree"
+          />
         </div>
       </v-card-text>
       <v-card-actions>
@@ -396,18 +463,4 @@ const isDeleteDisabled = computed(() => !normalizedLinks.value.delete)
   gap: 4px;
 }
 
-.admin-ecommerce-actions__preview {
-  border: 1px solid rgb(var(--v-theme-outline));
-  border-radius: 8px;
-  padding: 12px;
-  background-color: rgb(var(--v-theme-surface));
-}
-
-.admin-ecommerce-actions__preview pre {
-  margin: 0;
-  white-space: pre-wrap;
-  word-break: break-word;
-  font-size: 0.85rem;
-  line-height: 1.4;
-}
 </style>
