@@ -2863,6 +2863,41 @@
     }
   },
   "common": {
+    "unexpectedError": "حدث خطأ غير متوقع.",
+    "actions": {
+      "cancel": "إلغاء",
+      "create": "إنشاء",
+      "save": "حفظ",
+      "edit": "تعديل",
+      "view": "عرض",
+      "close": "إغلاق",
+      "back": "رجوع",
+      "continue": "متابعة",
+      "delete": "حذف",
+      "remove": "إزالة",
+      "link": "ربط",
+      "share": "مشاركة"
+    },
+    "labels": {
+      "all": "الكل",
+      "search": "بحث",
+      "group": "مجموعة",
+      "user": "مستخدم",
+      "export": "تصدير",
+      "exportPdf": "تصدير كـ PDF",
+      "exportExcel": "تصدير كـ Excel",
+      "yes": "نعم",
+      "no": "لا"
+    },
+    "placeholders": {
+      "selectGroup": "اختر مجموعة",
+      "selectUser": "اختر مستخدمًا",
+      "selectWorkplace": "اختر مساحة عمل"
+    },
+    "pagination": {
+      "rowsPerPage": "عدد الصفوف لكل صفحة",
+      "range": "{start}–{end} من {total}"
+    },
     "enabled": "مفعل",
     "disabled": "معطل"
   }

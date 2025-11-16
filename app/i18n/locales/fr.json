@@ -2882,6 +2882,41 @@
     }
   },
   "common": {
+    "unexpectedError": "Une erreur inattendue s'est produite.",
+    "actions": {
+      "cancel": "Annuler",
+      "create": "Créer",
+      "save": "Enregistrer",
+      "edit": "Modifier",
+      "view": "Afficher",
+      "close": "Fermer",
+      "back": "Retour",
+      "continue": "Continuer",
+      "delete": "Supprimer",
+      "remove": "Retirer",
+      "link": "Lier",
+      "share": "Partager"
+    },
+    "labels": {
+      "all": "Tous",
+      "search": "Recherche",
+      "group": "Groupe",
+      "user": "Utilisateur",
+      "export": "Exporter",
+      "exportPdf": "Exporter en PDF",
+      "exportExcel": "Exporter en Excel",
+      "yes": "Oui",
+      "no": "Non"
+    },
+    "placeholders": {
+      "selectGroup": "Sélectionnez un groupe",
+      "selectUser": "Sélectionnez un utilisateur",
+      "selectWorkplace": "Sélectionnez un espace de travail"
+    },
+    "pagination": {
+      "rowsPerPage": "Lignes par page",
+      "range": "{start}–{end} sur {total}"
+    },
     "enabled": "Activé",
     "disabled": "Désactivé"
   }

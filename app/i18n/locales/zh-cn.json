@@ -2859,6 +2859,41 @@
     }
   },
   "common": {
+    "unexpectedError": "发生意外错误。",
+    "actions": {
+      "cancel": "取消",
+      "create": "创建",
+      "save": "保存",
+      "edit": "编辑",
+      "view": "查看",
+      "close": "关闭",
+      "back": "返回",
+      "continue": "继续",
+      "delete": "删除",
+      "remove": "移除",
+      "link": "关联",
+      "share": "分享"
+    },
+    "labels": {
+      "all": "全部",
+      "search": "搜索",
+      "group": "群组",
+      "user": "用户",
+      "export": "导出",
+      "exportPdf": "导出为 PDF",
+      "exportExcel": "导出为 Excel",
+      "yes": "是",
+      "no": "否"
+    },
+    "placeholders": {
+      "selectGroup": "选择一个群组",
+      "selectUser": "选择一个用户",
+      "selectWorkplace": "选择一个工作区"
+    },
+    "pagination": {
+      "rowsPerPage": "每页行数",
+      "range": "第 {start}–{end} 条，共 {total} 条"
+    },
     "enabled": "已启用",
     "disabled": "已禁用"
   }
