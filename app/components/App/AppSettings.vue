@@ -94,21 +94,10 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
     </template>
     <v-card width="360" class="app-settings-card">
       <v-card-text class="app-settings-card__body">
-        <v-label class="mb-3"> {{ themePaletteLabel }} </v-label>
-        <v-color-picker
-          v-model="color"
-          show-swatches
-          elevation="0"
-          width="288"
-          mode="rgb"
-          :modes="['rgb', 'hex', 'hsl']"
-          :swatches="colors"
-        />
-        <v-divider class="my-4" />
         <v-label class="mb-2"> {{ t('app.settings.cornerRadius') }} </v-label>
         <v-btn-toggle
           v-model="rounded"
-          class="app-settings-card__toggle"
+          class="app-settings-card__toggle justify-center"
           density="compact"
           mandatory
         >
@@ -129,7 +118,7 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
         <v-label class="mb-2"> {{ t('app.settings.shadowDepth') }} </v-label>
         <v-btn-toggle
           v-model="shadowPreset"
-          class="app-settings-card__toggle"
+          class="app-settings-card__toggle justify-center"
           density="compact"
           mandatory
         >
@@ -147,6 +136,16 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
             {{ option.label }}
           </v-btn>
         </v-btn-toggle>
+        <v-label class="mb-3"> {{ themePaletteLabel }} </v-label>
+        <v-color-picker
+          v-model="color"
+          show-swatches
+          elevation="0"
+          width="288"
+          mode="rgb"
+          :modes="['rgb', 'hex', 'hsl']"
+          :swatches="colors"
+        />
       </v-card-text>
     </v-card>
   </v-menu>

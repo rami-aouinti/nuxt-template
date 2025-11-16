@@ -111,7 +111,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       },
       aliases,
     }
-    const primary = useStorage('theme-primary', '#15874b').value
+    const primary = useStorage('theme-primary', '#f30775').value
     vuetifyOptions.theme = {
       themes: {
         light: { colors: { primary } },

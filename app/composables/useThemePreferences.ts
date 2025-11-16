@@ -67,11 +67,6 @@ export const themeShadowOptions: ReadonlyArray<ThemeOption<ThemeShadowPreset>> =
       labelKey: 'app.settings.shadowDepthOptions.bold.label',
       descriptionKey: 'app.settings.shadowDepthOptions.bold.description',
     },
-    {
-      value: 'deep',
-      labelKey: 'app.settings.shadowDepthOptions.deep.label',
-      descriptionKey: 'app.settings.shadowDepthOptions.deep.description',
-    },
   ]
 
 export type { ThemeOption }
