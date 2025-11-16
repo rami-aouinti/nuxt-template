@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import AppCard from '~/components/ui/AppCard.vue'
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
 import StatsCard from '~/components/StatsCard.vue'
@@ -78,11 +78,70 @@ const headers = computed(() => [
   },
 ])
 
+const now = new Date()
+const createDateInput = (date: Date) => {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
+const startOfYear = new Date(now.getFullYear(), 0, 1)
+const endOfYear = new Date(now.getFullYear(), 11, 31)
+
+const selectedChannel = ref<string | null>(null)
+const interval = ref<'day' | 'week' | 'month'>('month')
+const startDateInput = ref(createDateInput(startOfYear))
+const endDateInput = ref(createDateInput(endOfYear))
+
+const buildDateTime = (value: string | null | undefined, type: 'start' | 'end') => {
+  if (!value) {
+    return undefined
+  }
+
+  return `${value}T${type === 'start' ? '00:00:00' : '23:59:59'}`
+}
+
+const startDateParam = computed(() => buildDateTime(startDateInput.value, 'start'))
+const endDateParam = computed(() => buildDateTime(endDateInput.value, 'end'))
+
+const isDateRangeValid = computed(() => {
+  if (!startDateInput.value || !endDateInput.value) {
+    return true
+  }
+
+  return startDateInput.value <= endDateInput.value
+})
+
+const statisticsQuery = computed(() => {
+  const query: Record<string, string> = {
+    interval: interval.value,
+  }
+
+  if (selectedChannel.value) {
+    query.channelCode = selectedChannel.value
+  }
+
+  if (isDateRangeValid.value) {
+    if (startDateParam.value) {
+      query.startDate = startDateParam.value
+    }
+
+    if (endDateParam.value) {
+      query.endDate = endDateParam.value
+    }
+  }
+
+  return query
+})
+
 const { data: statistics } = await useFetch<Record<string, unknown>>(
   '/api/ecommerce/v2/admin/statistics',
   {
     key: 'admin-ecommerce-statistics',
     credentials: 'include',
+    query: statisticsQuery,
+    watch: [statisticsQuery],
   },
 )
 
@@ -135,10 +194,70 @@ const { data: rawCustomers } = await useFetch<unknown>(
   },
 )
 
+const { data: rawChannels } = await useFetch<unknown>(
+  '/api/ecommerce/v2/shop/channels',
+  {
+    key: 'admin-ecommerce-channels',
+    credentials: 'include',
+  },
+)
+
 const orders = computed(() => normalizeHydraCollection(rawOrders.value))
 const shipments = computed(() => normalizeHydraCollection(rawShipments.value))
 const products = computed(() => normalizeHydraCollection(rawProducts.value))
 const customers = computed(() => normalizeHydraCollection(rawCustomers.value))
+const channels = computed(() => normalizeHydraCollection(rawChannels.value))
+
+const channelOptions = computed(() =>
+  channels.value
+    .map((entry) => {
+      const record = toRecord(entry)
+      const code = getString(record, ['code', 'codeValue'])
+      if (!code) {
+        return null
+      }
+
+      const label =
+        resolveLocalizedString(record, locale, ['name', 'label']) ??
+        code ??
+        t('admin.ecommerce.common.defaultChannel')
+
+      return {
+        label,
+        value: code,
+      }
+    })
+    .filter((option): option is { label: string; value: string } => Boolean(option)),
+)
+
+watchEffect(() => {
+  if (!selectedChannel.value && channelOptions.value.length) {
+    selectedChannel.value = channelOptions.value[0].value
+  }
+})
+
+const intervalOptions = computed(() => [
+  {
+    label: t('admin.ecommerce.dashboard.filters.intervalOptions.day'),
+    value: 'day',
+  },
+  {
+    label: t('admin.ecommerce.dashboard.filters.intervalOptions.week'),
+    value: 'week',
+  },
+  {
+    label: t('admin.ecommerce.dashboard.filters.intervalOptions.month'),
+    value: 'month',
+  },
+])
+
+const dateRangeError = computed(() => {
+  if (isDateRangeValid.value) {
+    return ''
+  }
+
+  return t('admin.ecommerce.dashboard.filters.errors.invalidRange')
+})
 
 const formatCurrency = (amount: number, currencyCode?: string | null) => {
   const code =
@@ -432,6 +551,78 @@ const returningCustomers = computed(() => {
 
 <template>
   <v-container fluid>
+    <AppCard class="pa-4 mb-6 admin-dashboard__filters">
+      <div
+        class="d-flex flex-column flex-sm-row justify-space-between mb-4"
+        style="gap: 12px"
+      >
+        <div>
+          <h2 class="text-h6 text-medium-emphasis mb-1">
+            {{ t('admin.ecommerce.dashboard.filters.title') }}
+          </h2>
+          <p class="text-body-2 text-disabled mb-0">
+            {{ t('admin.ecommerce.dashboard.filters.subtitle') }}
+          </p>
+        </div>
+        <p class="text-caption text-medium-emphasis mb-0">
+          {{ t('admin.ecommerce.dashboard.filters.helper') }}
+        </p>
+      </div>
+      <v-row class="g-4">
+        <v-col cols="12" md="3">
+          <v-select
+            v-model="selectedChannel"
+            :items="channelOptions"
+            item-title="label"
+            item-value="value"
+            :label="t('admin.ecommerce.dashboard.filters.channel')"
+            :disabled="!channelOptions.length"
+            density="comfortable"
+            variant="outlined"
+          />
+        </v-col>
+        <v-col cols="12" md="3">
+          <v-select
+            v-model="interval"
+            :items="intervalOptions"
+            item-title="label"
+            item-value="value"
+            :label="t('admin.ecommerce.dashboard.filters.interval')"
+            density="comfortable"
+            variant="outlined"
+          />
+        </v-col>
+        <v-col cols="12" md="3">
+          <v-text-field
+            v-model="startDateInput"
+            type="date"
+            :label="t('admin.ecommerce.dashboard.filters.startDate')"
+            density="comfortable"
+            variant="outlined"
+            :error="Boolean(dateRangeError)"
+          />
+        </v-col>
+        <v-col cols="12" md="3">
+          <v-text-field
+            v-model="endDateInput"
+            type="date"
+            :label="t('admin.ecommerce.dashboard.filters.endDate')"
+            density="comfortable"
+            variant="outlined"
+            :error="Boolean(dateRangeError)"
+          />
+        </v-col>
+      </v-row>
+      <v-alert
+        v-if="dateRangeError"
+        type="warning"
+        variant="tonal"
+        density="compact"
+        class="mt-4"
+      >
+        {{ dateRangeError }}
+      </v-alert>
+    </AppCard>
     <v-row>
       <v-col
         v-for="stat in stats"
@@ -549,6 +740,12 @@ const returningCustomers = computed(() => {
 </template>
 
 <style scoped>
+.admin-dashboard__filters {
+  position: sticky;
+  top: 24px;
+  z-index: 2;
+}
+
 .admin-dashboard__orders :deep(.admin-data-table__toolbar) {
   padding-inline: 16px;
   padding-block: 12px;

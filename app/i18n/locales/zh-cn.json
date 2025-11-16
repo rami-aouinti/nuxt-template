@@ -723,6 +723,23 @@
           "title": "Customer growth",
           "subtitle": "Returning customers compared to new shoppers"
         },
+        "filters": {
+          "title": "Business activity filters",
+          "subtitle": "Choose the channel and date range to refresh the overview.",
+          "channel": "Channel",
+          "interval": "Interval",
+          "startDate": "Start date",
+          "endDate": "End date",
+          "helper": "Statistics refresh automatically when you change these filters.",
+          "intervalOptions": {
+            "day": "Daily",
+            "week": "Weekly",
+            "month": "Monthly"
+          },
+          "errors": {
+            "invalidRange": "The start date must be earlier than the end date."
+          }
+        },
         "pending": {
           "title": "Pending actions",
           "subtitle": "Keep your fulfillment pipeline flowing",
