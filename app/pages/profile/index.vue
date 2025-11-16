@@ -8,13 +8,14 @@ import { Notify } from '~/stores/notification'
 import AppButton from '~/components/ui/AppButton.vue'
 import AppCard from '~/components/ui/AppCard.vue'
 import AppList from '~/components/ui/AppList.vue'
+import { DEFAULT_LOCALE } from '~/utils/i18n/locales'
 
 definePageMeta({
   title: 'navigation.profile',
   middleware: 'auth',
 })
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const { session, user, fetch: refreshSession } = useAppUserSession()
 const profileCache = useAuthProfileCache()
 
@@ -160,16 +161,17 @@ function formatDateForInput(value: unknown) {
   return ''
 }
 
-function formatDateForDisplay(value: unknown) {
+function formatDateForDisplay(value: unknown, localeCode?: string) {
   if (!value) return ''
   const dateValue =
     value instanceof Date ? value : new Date(String(value).trim())
   if (!Number.isNaN(dateValue.getTime())) {
-    return dateValue.toLocaleDateString(undefined, {
+    const formatter = new Intl.DateTimeFormat(localeCode || DEFAULT_LOCALE, {
       day: '2-digit',
       month: 'long',
       year: 'numeric',
     })
+    return formatter.format(dateValue)
   }
   return typeof value === 'string' ? value : ''
 }
@@ -605,7 +607,10 @@ const hasChanges = computed(() => {
 })
 
 const formattedBirthday = computed(() =>
-  formatDateForDisplay(getProfileStringValue(profile.value, 'birthday')),
+  formatDateForDisplay(
+    getProfileStringValue(profile.value, 'birthday'),
+    locale.value,
+  ),
 )
 
 function openEditDialog(context: Exclude<EditContext, 'avatar'>) {
