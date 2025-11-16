@@ -94,7 +94,10 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
     </template>
     <v-card width="360" class="app-settings-card">
       <v-card-text class="app-settings-card__body">
-        <v-label class="mb-2"> {{ t('app.settings.cornerRadius') }} </v-label>
+        <div class="animated-badge mb-4">
+          <span class="animated-badge__pulse" />
+          {{ t('app.settings.cornerRadius') }}
+        </div>
         <v-btn-toggle
           v-model="rounded"
           class="app-settings-card__toggle justify-center"
@@ -115,7 +118,10 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
             {{ option.label }}
           </v-btn>
         </v-btn-toggle>
-        <v-label class="mb-2"> {{ t('app.settings.shadowDepth') }} </v-label>
+        <div class="animated-badge mb-4">
+          <span class="animated-badge__pulse" />
+          {{ t('app.settings.shadowDepth') }}
+        </div>
         <v-btn-toggle
           v-model="shadowPreset"
           class="app-settings-card__toggle justify-center"
@@ -136,7 +142,10 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
             {{ option.label }}
           </v-btn>
         </v-btn-toggle>
-        <v-label class="mb-3"> {{ themePaletteLabel }} </v-label>
+        <div class="animated-badge mb-4">
+          <span class="animated-badge__pulse" />
+          {{ themePaletteLabel }}
+        </div>
         <v-color-picker
           v-model="color"
           show-swatches
