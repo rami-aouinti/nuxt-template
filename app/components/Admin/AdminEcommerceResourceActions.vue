@@ -2,6 +2,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 
 import AdminEntityTreePreview from '~/components/Admin/AdminEntityTreePreview.vue'
+import AppModal from '~/components/ui/AppModal.vue'
 import type { AdminEntityPreviewNode } from '~/types/adminEntityPreview'
 
 const props = withDefaults(
@@ -56,12 +57,24 @@ const entityRelations = ref<EntityRelationGroup[]>([])
 const entityTitle = ref('')
 const editForm = reactive<Record<string, EntityFieldValue | undefined>>({})
 
+const relationDialog = ref(false)
+const relationDialogTitle = ref('')
+const relationDialogSubtitle = ref('')
+const relationDialogEndpoint = ref<string | null>(null)
+const relationDialogLoading = ref(false)
+const relationDialogError = ref<string | null>(null)
+const relationDialogPreview = ref<unknown>(null)
+
 const actionEndpoint = computed(() =>
   activeAction.value ? normalizedLinks.value[activeAction.value] : null,
 )
 
 const responseTree = computed<AdminEntityPreviewNode[]>(() =>
   buildPreviewTree(responsePreview.value ?? null),
+)
+
+const relationPreviewTree = computed<AdminEntityPreviewNode[]>(() =>
+  buildPreviewTree(relationDialogPreview.value ?? null),
 )
 
 const dialogTitle = computed(() => {
@@ -87,9 +100,25 @@ const helperText = computed(() => {
   })
 })
 
+const relationHelperText = computed(() => {
+  if (!relationDialogEndpoint.value) {
+    return null
+  }
+
+  return t('admin.ecommerce.entityManager.helper', {
+    path: relationDialogEndpoint.value,
+  })
+})
+
 watch(dialog, (isOpen) => {
   if (!isOpen) {
     resetDialog()
+  }
+})
+
+watch(relationDialog, (isOpen) => {
+  if (!isOpen) {
+    resetRelationDialog()
   }
 })
 
@@ -104,6 +133,15 @@ function resetDialog() {
   entityRelations.value = []
   entityTitle.value = ''
   resetEditForm()
+}
+
+function resetRelationDialog() {
+  relationDialogTitle.value = ''
+  relationDialogSubtitle.value = ''
+  relationDialogEndpoint.value = null
+  relationDialogLoading.value = false
+  relationDialogError.value = null
+  relationDialogPreview.value = null
 }
 
 function buildPreviewTree(
@@ -316,6 +354,7 @@ interface EntityRelationItem {
   id: string
   primary: string
   secondary?: string | null
+  endpoint?: string | null
 }
 
 interface EntityRelationGroup {
@@ -448,6 +487,7 @@ function buildRelationItem(id: string, value: unknown): EntityRelationItem | nul
     return {
       id,
       primary: String(value),
+      endpoint: extractEndpointFromValue(value),
     }
   }
 
@@ -469,6 +509,7 @@ function buildRelationItemFromObject(
   id: string,
   value: Record<string, unknown>,
 ): EntityRelationItem | null {
+  const endpoint = extractEndpointFromValue(value)
   const labelKeys = ['name', 'code', 'title', 'label']
   for (const key of labelKeys) {
     const entry = value[key]
@@ -477,6 +518,7 @@ function buildRelationItemFromObject(
         id,
         primary: entry,
         secondary: formatRelationSubtitle(value),
+        endpoint,
       }
     }
   }
@@ -486,10 +528,55 @@ function buildRelationItemFromObject(
       id,
       primary: String(value.id),
       secondary: formatRelationSubtitle(value),
+      endpoint,
     }
   }
 
   return null
+}
+
+function extractEndpointFromValue(value: unknown): string | null {
+  if (typeof value === 'string') {
+    return normalizeEndpoint(value)
+  }
+
+  if (!value || typeof value !== 'object') {
+    return null
+  }
+
+  const candidateKeys = ['@id', 'href', 'endpoint'] as const
+  for (const key of candidateKeys) {
+    const entry = (value as Record<string, unknown>)[key]
+    if (typeof entry === 'string') {
+      const normalized = normalizeEndpoint(entry)
+      if (normalized) {
+        return normalized
+      }
+    }
+  }
+
+  return null
+}
+
+function normalizeEndpoint(value: string): string | null {
+  const trimmed = value.trim()
+  if (!trimmed) {
+    return null
+  }
+
+  if (/^https?:\/\//i.test(trimmed)) {
+    return trimmed
+  }
+
+  if (trimmed.startsWith('/')) {
+    return trimmed
+  }
+
+  if (trimmed.startsWith('api/')) {
+    return `/${trimmed}`
+  }
+
+  return trimmed.includes('/api/') ? trimmed : null
 }
 
 function formatRelationSubtitle(value: Record<string, unknown>): string | null {
@@ -576,6 +663,32 @@ function formatFieldValue(value: EntityFieldValue): string {
   }
   return String(value)
 }
+
+async function inspectRelation(item: EntityRelationItem) {
+  if (!item.endpoint) {
+    return
+  }
+
+  relationDialog.value = true
+  relationDialogTitle.value = item.primary
+  relationDialogSubtitle.value = item.secondary ?? ''
+  relationDialogEndpoint.value = item.endpoint
+  relationDialogLoading.value = true
+  relationDialogError.value = null
+  relationDialogPreview.value = null
+
+  try {
+    const data = await requestFetch(item.endpoint, {
+      method: 'GET',
+    })
+    relationDialogPreview.value = data
+  } catch (error) {
+    console.error(error)
+    relationDialogError.value = resolveErrorMessage(error)
+  } finally {
+    relationDialogLoading.value = false
+  }
+}
 </script>
 
 <template>
@@ -629,139 +742,148 @@ function formatFieldValue(value: EntityFieldValue): string {
     </v-tooltip>
   </div>
 
-  <v-dialog v-model="dialog" max-width="960">
-    <v-card>
-      <v-card-title>{{ dialogTitle }}</v-card-title>
-      <v-card-text>
-        <div v-if="helperText" class="mb-4">
-          <v-alert type="info" variant="tonal">
+  <AppModal v-model="dialog" :max-width="1040" :scrollable="true" :shadow="true">
+    <template #header>
+      <div class="admin-ecommerce-actions__modal-header">
+        <div>
+          <p class="text-overline text-medium-emphasis mb-1">{{ dialogTitle }}</p>
+          <h3 class="text-h5 mb-1">
+            {{ entityTitle || t('admin.ecommerce.entityManager.fields.entity') }}
+          </h3>
+          <p v-if="helperText" class="text-body-2 text-medium-emphasis">
             {{ helperText }}
-          </v-alert>
+          </p>
         </div>
+        <div v-if="actionEndpoint" class="admin-ecommerce-actions__endpoint">
+          <span class="text-caption text-medium-emphasis">
+            {{ t('admin.ecommerce.entityManager.table.endpoint') }}
+          </span>
+          <span class="text-body-2">{{ actionEndpoint }}</span>
+        </div>
+      </div>
+    </template>
 
-        <v-progress-linear
-          v-if="actionLoading"
-          color="primary"
-          indeterminate
-          class="mb-4"
-        />
+    <div class="admin-ecommerce-actions__modal-body">
+      <v-progress-linear
+        v-if="actionLoading"
+        color="primary"
+        indeterminate
+        class="mb-4"
+      />
 
-        <v-alert v-if="actionError" type="error" variant="tonal" class="mb-4">
-          {{ actionError }}
-        </v-alert>
+      <v-alert v-if="actionError" type="error" variant="tonal" class="mb-4">
+        {{ actionError }}
+      </v-alert>
+
+      <v-alert
+        v-if="deleteSuccess && activeAction === 'delete'"
+        type="success"
+        variant="tonal"
+        class="mb-4"
+      >
+        {{ t('admin.ecommerce.entityManager.notifications.deleteSuccess') }}
+      </v-alert>
+
+      <v-alert
+        v-if="updateSuccess && activeAction === 'edit'"
+        type="success"
+        variant="tonal"
+        class="mb-4"
+      >
+        {{ t('admin.ecommerce.entityManager.notifications.updateSuccess') }}
+      </v-alert>
+
+      <div v-if="activeAction === 'delete'" class="admin-ecommerce-actions__delete">
+        <v-icon icon="mdi-alert-outline" color="warning" size="36" class="mb-3" />
+        <p class="text-body-1 font-weight-medium mb-2">
+          {{ t('admin.ecommerce.entityManager.dialogs.deleteConfirm') }}
+        </p>
+        <p v-if="entityTitle" class="text-subtitle-1">
+          {{ entityTitle }}
+        </p>
+      </div>
+
+      <div v-else-if="activeAction === 'edit'" class="admin-ecommerce-actions__form">
+        <p class="text-body-2 text-medium-emphasis mb-4">
+          {{ t('admin.ecommerce.entityManager.forms.subtitle') }}
+        </p>
 
         <v-alert
-          v-if="deleteSuccess && activeAction === 'delete'"
-          type="success"
+          v-if="!hasEditableFields && !actionLoading"
+          type="info"
           variant="tonal"
           class="mb-4"
         >
-          {{ t('admin.ecommerce.entityManager.notifications.deleteSuccess') }}
+          {{ t('admin.ecommerce.entityManager.forms.empty') }}
         </v-alert>
 
-        <v-alert
-          v-if="updateSuccess && activeAction === 'edit'"
-          type="success"
-          variant="tonal"
-          class="mb-4"
-        >
-          {{ t('admin.ecommerce.entityManager.notifications.updateSuccess') }}
-        </v-alert>
+        <v-form v-else @submit.prevent="submitUpdate">
+          <v-row>
+            <v-col
+              v-for="field in entityFields"
+              :key="field.key"
+              cols="12"
+              md="6"
+            >
+              <v-text-field
+                v-if="field.type === 'string'"
+                v-model="(editForm[field.key] as string | null)"
+                :label="field.label"
+                variant="outlined"
+                density="comfortable"
+                :disabled="actionLoading"
+              />
+              <v-text-field
+                v-else-if="field.type === 'number'"
+                v-model.number="(editForm[field.key] as number | null)"
+                type="number"
+                :label="field.label"
+                variant="outlined"
+                density="comfortable"
+                :disabled="actionLoading"
+              />
+              <v-switch
+                v-else-if="field.type === 'boolean'"
+                v-model="(editForm[field.key] as boolean | null)"
+                :label="field.label"
+                color="primary"
+                hide-details
+                :disabled="actionLoading"
+              />
+            </v-col>
+          </v-row>
+        </v-form>
+      </div>
 
-        <div v-if="activeAction === 'delete'" class="mb-4">
-          <p class="text-body-2 mb-2">
-            {{ t('admin.ecommerce.entityManager.dialogs.deleteConfirm') }}
-          </p>
-          <p v-if="entityTitle" class="text-subtitle-1 font-weight-medium">
-            {{ entityTitle }}
-          </p>
-        </div>
-
-        <div v-else-if="activeAction === 'edit'" class="admin-ecommerce-actions__form">
-          <p class="text-body-2 text-medium-emphasis mb-4">
-            {{ t('admin.ecommerce.entityManager.forms.subtitle') }}
-          </p>
-
-          <v-alert
-            v-if="!hasEditableFields && !actionLoading"
-            type="info"
-            variant="tonal"
-            class="mb-4"
-          >
-            {{ t('admin.ecommerce.entityManager.forms.empty') }}
-          </v-alert>
-
-          <v-form v-else @submit.prevent="submitUpdate">
-            <v-row>
-              <v-col
-                v-for="field in entityFields"
-                :key="field.key"
-                cols="12"
-                md="6"
-              >
-                <v-text-field
-                  v-if="field.type === 'string'"
-                  v-model="(editForm[field.key] as string | null)"
-                  :label="field.label"
-                  variant="outlined"
-                  density="comfortable"
-                  :disabled="actionLoading"
-                />
-                <v-text-field
-                  v-else-if="field.type === 'number'"
-                  v-model.number="(editForm[field.key] as number | null)"
-                  type="number"
-                  :label="field.label"
-                  variant="outlined"
-                  density="comfortable"
-                  :disabled="actionLoading"
-                />
-                <v-switch
-                  v-else-if="field.type === 'boolean'"
-                  v-model="(editForm[field.key] as boolean | null)"
-                  :label="field.label"
-                  color="primary"
-                  hide-details
-                  :disabled="actionLoading"
-                />
-              </v-col>
-            </v-row>
-          </v-form>
-        </div>
-
-        <div v-else-if="activeAction === 'show'" class="admin-ecommerce-actions__details">
-          <v-card variant="tonal" class="mb-4">
-            <div class="admin-ecommerce-actions__details-header">
-              <div>
-                <p class="text-subtitle-1 mb-1">{{ entityTitle }}</p>
-                <p class="text-body-2 text-medium-emphasis mb-0">
-                  {{ t('admin.ecommerce.entityManager.detailsCard.title') }}
-                </p>
-              </div>
-            </div>
-
-            <div v-if="entityFields.length" class="admin-ecommerce-actions__details-grid">
-              <div
-                v-for="field in entityFields"
-                :key="field.key"
-                class="admin-ecommerce-actions__details-item"
-              >
-                <p class="text-caption text-medium-emphasis mb-1">
-                  {{ field.label }}
-                </p>
-                <p class="text-body-2 mb-0">
-                  {{ formatFieldValue(field.value) }}
-                </p>
-              </div>
-            </div>
-            <p v-else class="text-body-2 mb-0">
-              {{ t('admin.ecommerce.entityManager.detailsCard.empty') }}
+      <div v-else-if="activeAction === 'show'" class="admin-ecommerce-actions__details">
+        <section class="admin-ecommerce-actions__summary">
+          <header>
+            <p class="text-caption text-medium-emphasis mb-1">
+              {{ t('admin.ecommerce.entityManager.detailsCard.title') }}
             </p>
-          </v-card>
+            <p class="text-h6 mb-0">{{ entityTitle }}</p>
+          </header>
+          <div v-if="entityFields.length" class="admin-ecommerce-actions__details-grid">
+            <div
+              v-for="field in entityFields"
+              :key="field.key"
+              class="admin-ecommerce-actions__details-item"
+            >
+              <span class="text-caption text-medium-emphasis">
+                {{ field.label }}
+              </span>
+              <strong>{{ formatFieldValue(field.value) }}</strong>
+            </div>
+          </div>
+          <p v-else class="text-body-2">
+            {{ t('admin.ecommerce.entityManager.detailsCard.empty') }}
+          </p>
+        </section>
 
-          <v-card variant="outlined" class="mb-4">
-            <div class="admin-ecommerce-actions__relations-header">
-              <p class="text-subtitle-2 mb-1">
+        <section class="admin-ecommerce-actions__relations">
+          <header>
+            <div>
+              <p class="text-caption text-medium-emphasis mb-1">
                 {{ t('admin.ecommerce.entityManager.relations.title') }}
               </p>
               <p class="text-body-2 text-medium-emphasis mb-0">
@@ -771,46 +893,57 @@ function formatFieldValue(value: EntityFieldValue): string {
                 }}
               </p>
             </div>
-            <div v-if="hasRelations" class="admin-ecommerce-actions__relations-content">
-              <div
-                v-for="group in entityRelations"
-                :key="group.title"
-                class="admin-ecommerce-actions__relation-group"
-              >
-                <p class="text-caption text-medium-emphasis mb-2">
-                  {{ group.title }}
-                </p>
-                <div class="admin-ecommerce-actions__chips">
-                  <v-chip
-                    v-for="item in group.items"
-                    :key="item.id"
-                    variant="tonal"
-                    color="primary"
-                    size="small"
-                    class="admin-ecommerce-actions__chip"
-                  >
-                    <span class="d-block">{{ item.primary }}</span>
-                    <span
+          </header>
+          <div v-if="hasRelations" class="admin-ecommerce-actions__relations-content">
+            <div
+              v-for="group in entityRelations"
+              :key="group.title"
+              class="admin-ecommerce-actions__relation-group"
+            >
+              <p class="text-caption text-uppercase text-medium-emphasis">
+                {{ group.title }}
+              </p>
+              <div class="admin-ecommerce-actions__relation-items">
+                <div
+                  v-for="item in group.items"
+                  :key="item.id"
+                  class="admin-ecommerce-actions__relation-item"
+                >
+                  <div>
+                    <p class="text-body-2 mb-0">{{ item.primary }}</p>
+                    <p
                       v-if="item.secondary"
-                      class="text-caption text-medium-emphasis d-block"
+                      class="text-caption text-medium-emphasis mb-0"
                     >
                       {{ item.secondary }}
-                    </span>
-                  </v-chip>
+                    </p>
+                  </div>
+                  <v-btn
+                    v-if="item.endpoint"
+                    size="small"
+                    variant="tonal"
+                    color="primary"
+                    append-icon="mdi-open-in-new"
+                    @click="inspectRelation(item)"
+                  >
+                    {{ t('admin.ecommerce.entityManager.actions.load') }}
+                  </v-btn>
                 </div>
               </div>
             </div>
-          </v-card>
+          </div>
+        </section>
 
-          <AdminEntityTreePreview
-            :title="t('admin.ecommerce.entityManager.preview.title')"
-            :empty-text="t('admin.ecommerce.entityManager.preview.empty')"
-            :nodes="responseTree"
-          />
-        </div>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer />
+        <AdminEntityTreePreview
+          :title="t('admin.ecommerce.entityManager.preview.title')"
+          :empty-text="t('admin.ecommerce.entityManager.preview.empty')"
+          :nodes="responseTree"
+        />
+      </div>
+    </div>
+
+    <template #actions>
+      <div class="admin-ecommerce-actions__modal-actions">
         <v-btn
           v-if="actionEndpoint"
           :href="actionEndpoint"
@@ -820,6 +953,7 @@ function formatFieldValue(value: EntityFieldValue): string {
         >
           {{ t('admin.ecommerce.entityManager.table.endpoint') }}
         </v-btn>
+        <div class="admin-ecommerce-actions__actions-gap" />
         <v-btn variant="text" @click="dialog = false">
           {{ t('common.actions.close') }}
         </v-btn>
@@ -841,9 +975,79 @@ function formatFieldValue(value: EntityFieldValue): string {
         >
           {{ t('admin.ecommerce.entityManager.actions.delete') }}
         </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+      </div>
+    </template>
+  </AppModal>
+
+  <AppModal
+    v-model="relationDialog"
+    :max-width="840"
+    :scrollable="true"
+    :shadow="true"
+  >
+    <template #header>
+      <div class="admin-ecommerce-actions__modal-header">
+        <div>
+          <p class="text-overline text-medium-emphasis mb-1">
+            {{ t('admin.ecommerce.entityManager.actions.load') }}
+          </p>
+          <h3 class="text-h5 mb-1">{{ relationDialogTitle }}</h3>
+          <p v-if="relationDialogSubtitle" class="text-body-2 text-medium-emphasis">
+            {{ relationDialogSubtitle }}
+          </p>
+          <p v-if="relationHelperText" class="text-body-2 text-medium-emphasis">
+            {{ relationHelperText }}
+          </p>
+        </div>
+        <div v-if="relationDialogEndpoint" class="admin-ecommerce-actions__endpoint">
+          <span class="text-caption text-medium-emphasis">
+            {{ t('admin.ecommerce.entityManager.table.endpoint') }}
+          </span>
+          <span class="text-body-2">{{ relationDialogEndpoint }}</span>
+        </div>
+      </div>
+    </template>
+
+    <div class="admin-ecommerce-actions__modal-body">
+      <v-progress-linear
+        v-if="relationDialogLoading"
+        color="primary"
+        indeterminate
+        class="mb-4"
+      />
+      <v-alert
+        v-if="relationDialogError"
+        type="error"
+        variant="tonal"
+        class="mb-4"
+      >
+        {{ relationDialogError }}
+      </v-alert>
+      <AdminEntityTreePreview
+        :title="t('admin.ecommerce.entityManager.preview.title')"
+        :empty-text="t('admin.ecommerce.entityManager.preview.empty')"
+        :nodes="relationPreviewTree"
+      />
+    </div>
+
+    <template #actions>
+      <div class="admin-ecommerce-actions__modal-actions">
+        <v-btn
+          v-if="relationDialogEndpoint"
+          :href="relationDialogEndpoint"
+          target="_blank"
+          rel="noopener"
+          variant="text"
+        >
+          {{ t('admin.ecommerce.entityManager.table.endpoint') }}
+        </v-btn>
+        <div class="admin-ecommerce-actions__actions-gap" />
+        <v-btn variant="text" @click="relationDialog = false">
+          {{ t('common.actions.close') }}
+        </v-btn>
+      </div>
+    </template>
+  </AppModal>
 </template>
 
 <style scoped>
@@ -854,45 +1058,111 @@ function formatFieldValue(value: EntityFieldValue): string {
   gap: 4px;
 }
 
-.admin-ecommerce-actions__form {
-  min-height: 120px;
+.admin-ecommerce-actions__modal-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 24px 0;
 }
 
-.admin-ecommerce-actions__details-header,
-.admin-ecommerce-actions__relations-header {
+@media (min-width: 768px) {
+  .admin-ecommerce-actions__modal-header {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+}
+
+.admin-ecommerce-actions__modal-body {
+  padding: 24px;
+}
+
+.admin-ecommerce-actions__modal-actions {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 12px;
+  align-items: center;
+  gap: 12px;
+  padding: 0 24px 24px;
+}
+
+.admin-ecommerce-actions__actions-gap {
+  flex: 1;
+}
+
+.admin-ecommerce-actions__endpoint {
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(var(--v-theme-primary), 0.08);
+  max-width: 320px;
+  word-break: break-all;
+}
+
+.admin-ecommerce-actions__details {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.admin-ecommerce-actions__summary,
+.admin-ecommerce-actions__relations {
+  border: 1px solid rgba(var(--v-border-color), 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  background: rgba(var(--v-theme-surface-variant), 0.3);
 }
 
 .admin-ecommerce-actions__details-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 12px;
+  margin-top: 16px;
 }
 
 .admin-ecommerce-actions__details-item {
   padding: 12px;
-  border-radius: 8px;
-  background-color: rgba(var(--v-theme-surface-variant), 0.4);
+  border-radius: 12px;
+  background: rgba(var(--v-theme-surface), 0.9);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .admin-ecommerce-actions__relations-content {
   display: flex;
   flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.admin-ecommerce-actions__relation-group {
+  display: flex;
+  flex-direction: column;
   gap: 12px;
 }
 
-.admin-ecommerce-actions__chips {
+.admin-ecommerce-actions__relation-items {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.admin-ecommerce-actions__chip {
-  border-radius: 999px;
+.admin-ecommerce-actions__relation-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(var(--v-theme-surface), 0.8);
+  border: 1px solid rgba(var(--v-border-color), 0.2);
+}
+
+.admin-ecommerce-actions__form {
+  min-height: 120px;
+}
+
+.admin-ecommerce-actions__delete {
+  text-align: center;
+  padding: 32px 16px;
+  border-radius: 16px;
+  background: rgba(var(--v-theme-warning), 0.1);
 }
 
 </style>
