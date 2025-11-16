@@ -3,6 +3,7 @@ import {
   getEcommerceAcceptLanguage,
 } from '~~/server/utils/broWorldEcommerceApi'
 import { requireEntityId } from '~~/server/utils/crud'
+import { hydrateShipmentRecordResponse } from '~~/server/utils/ecommerce/shipments'
 
 export default defineEventHandler(async (event) => {
   const id = requireEntityId(event, "de l'expédition")
@@ -12,11 +13,13 @@ export default defineEventHandler(async (event) => {
     ? { 'Accept-Language': acceptLanguage }
     : undefined
 
-  return await broWorldEcommerceRequest(
+  const response = await broWorldEcommerceRequest(
     event,
     `/admin/shipments/${encodeURIComponent(id)}`,
     {
       headers,
     },
   )
+
+  return await hydrateShipmentRecordResponse(event, response, { headers })
 })
