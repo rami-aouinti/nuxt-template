@@ -2,7 +2,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 
 import AdminEntityTreePreview from '~/components/Admin/AdminEntityTreePreview.vue'
-import AppModal from '~/components/ui/AppModal.vue'
+import AppModal from '~/components/App/AppModal.vue'
 import type { AdminEntityPreviewNode } from '~/types/adminEntityPreview'
 
 const props = withDefaults(
@@ -742,207 +742,194 @@ async function inspectRelation(item: EntityRelationItem) {
     </v-tooltip>
   </div>
 
-  <AppModal v-model="dialog" :max-width="1040" :scrollable="true" :shadow="true">
-    <template #header>
-      <div class="admin-ecommerce-actions__modal-header">
-        <div>
-          <p class="text-overline text-medium-emphasis mb-1">{{ dialogTitle }}</p>
-          <h3 class="text-h5 mb-1">
-            {{ entityTitle || t('admin.ecommerce.entityManager.fields.entity') }}
-          </h3>
-          <p v-if="helperText" class="text-body-2 text-medium-emphasis">
-            {{ helperText }}
-          </p>
-        </div>
-        <div v-if="actionEndpoint" class="admin-ecommerce-actions__endpoint">
-          <span class="text-caption text-medium-emphasis">
-            {{ t('admin.ecommerce.entityManager.table.endpoint') }}
-          </span>
-          <span class="text-body-2">{{ actionEndpoint }}</span>
-        </div>
-      </div>
-    </template>
+  <AppModal :title="entityTitle || t('admin.ecommerce.entityManager.fields.entity')" v-model="dialog" :max-width="1040" :scrollable="true" :shadow="true">
 
-    <div class="admin-ecommerce-actions__modal-body">
-      <v-progress-linear
-        v-if="actionLoading"
-        color="primary"
-        indeterminate
-        class="mb-4"
-      />
+    <v-card-text class="pt-6">
+      <div class="admin-ecommerce-actions__modal-body">
+        <v-progress-linear
+          v-if="actionLoading"
+          color="primary"
+          indeterminate
+          class="mb-4"
+        />
 
-      <v-alert v-if="actionError" type="error" variant="tonal" class="mb-4">
-        {{ actionError }}
-      </v-alert>
-
-      <v-alert
-        v-if="deleteSuccess && activeAction === 'delete'"
-        type="success"
-        variant="tonal"
-        class="mb-4"
-      >
-        {{ t('admin.ecommerce.entityManager.notifications.deleteSuccess') }}
-      </v-alert>
-
-      <v-alert
-        v-if="updateSuccess && activeAction === 'edit'"
-        type="success"
-        variant="tonal"
-        class="mb-4"
-      >
-        {{ t('admin.ecommerce.entityManager.notifications.updateSuccess') }}
-      </v-alert>
-
-      <div v-if="activeAction === 'delete'" class="admin-ecommerce-actions__delete">
-        <v-icon icon="mdi-alert-outline" color="warning" size="36" class="mb-3" />
-        <p class="text-body-1 font-weight-medium mb-2">
-          {{ t('admin.ecommerce.entityManager.dialogs.deleteConfirm') }}
-        </p>
-        <p v-if="entityTitle" class="text-subtitle-1">
-          {{ entityTitle }}
-        </p>
-      </div>
-
-      <div v-else-if="activeAction === 'edit'" class="admin-ecommerce-actions__form">
-        <p class="text-body-2 text-medium-emphasis mb-4">
-          {{ t('admin.ecommerce.entityManager.forms.subtitle') }}
-        </p>
+        <v-alert v-if="actionError" type="error" variant="tonal" class="mb-4">
+          {{ actionError }}
+        </v-alert>
 
         <v-alert
-          v-if="!hasEditableFields && !actionLoading"
-          type="info"
+          v-if="deleteSuccess && activeAction === 'delete'"
+          type="success"
           variant="tonal"
           class="mb-4"
         >
-          {{ t('admin.ecommerce.entityManager.forms.empty') }}
+          {{ t('admin.ecommerce.entityManager.notifications.deleteSuccess') }}
         </v-alert>
 
-        <v-form v-else @submit.prevent="submitUpdate">
-          <v-row>
-            <v-col
-              v-for="field in entityFields"
-              :key="field.key"
-              cols="12"
-              md="6"
-            >
-              <v-text-field
-                v-if="field.type === 'string'"
-                v-model="(editForm[field.key] as string | null)"
-                :label="field.label"
-                variant="outlined"
-                density="comfortable"
-                :disabled="actionLoading"
-              />
-              <v-text-field
-                v-else-if="field.type === 'number'"
-                v-model.number="(editForm[field.key] as number | null)"
-                type="number"
-                :label="field.label"
-                variant="outlined"
-                density="comfortable"
-                :disabled="actionLoading"
-              />
-              <v-switch
-                v-else-if="field.type === 'boolean'"
-                v-model="(editForm[field.key] as boolean | null)"
-                :label="field.label"
-                color="primary"
-                hide-details
-                :disabled="actionLoading"
-              />
-            </v-col>
-          </v-row>
-        </v-form>
-      </div>
+        <v-alert
+          v-if="updateSuccess && activeAction === 'edit'"
+          type="success"
+          variant="tonal"
+          class="mb-4"
+        >
+          {{ t('admin.ecommerce.entityManager.notifications.updateSuccess') }}
+        </v-alert>
 
-      <div v-else-if="activeAction === 'show'" class="admin-ecommerce-actions__details">
-        <section class="admin-ecommerce-actions__summary">
-          <header>
-            <p class="text-caption text-medium-emphasis mb-1">
-              {{ t('admin.ecommerce.entityManager.detailsCard.title') }}
-            </p>
-            <p class="text-h6 mb-0">{{ entityTitle }}</p>
-          </header>
-          <div v-if="entityFields.length" class="admin-ecommerce-actions__details-grid">
-            <div
-              v-for="field in entityFields"
-              :key="field.key"
-              class="admin-ecommerce-actions__details-item"
-            >
+        <div v-if="activeAction === 'delete'" class="admin-ecommerce-actions__delete">
+          <v-icon icon="mdi-alert-outline" color="warning" size="36" class="mb-3" />
+          <p class="text-body-1 font-weight-medium mb-2">
+            {{ t('admin.ecommerce.entityManager.dialogs.deleteConfirm') }}
+          </p>
+          <p v-if="entityTitle" class="text-subtitle-1">
+            {{ entityTitle }}
+          </p>
+        </div>
+
+        <div v-else-if="activeAction === 'edit'" class="admin-ecommerce-actions__form">
+          <p class="text-body-2 text-medium-emphasis mb-4">
+            {{ t('admin.ecommerce.entityManager.forms.subtitle') }}
+          </p>
+
+          <v-alert
+            v-if="!hasEditableFields && !actionLoading"
+            type="info"
+            variant="tonal"
+            class="mb-4"
+          >
+            {{ t('admin.ecommerce.entityManager.forms.empty') }}
+          </v-alert>
+
+          <v-form v-else @submit.prevent="submitUpdate">
+            <v-row>
+              <v-col
+                v-for="field in entityFields"
+                :key="field.key"
+                cols="12"
+                md="6"
+              >
+                <v-text-field
+                  v-if="field.type === 'string'"
+                  v-model="(editForm[field.key] as string | null)"
+                  :label="field.label"
+                  variant="outlined"
+                  density="comfortable"
+                  :disabled="actionLoading"
+                />
+                <v-text-field
+                  v-else-if="field.type === 'number'"
+                  v-model.number="(editForm[field.key] as number | null)"
+                  type="number"
+                  :label="field.label"
+                  variant="outlined"
+                  density="comfortable"
+                  :disabled="actionLoading"
+                />
+                <v-switch
+                  v-else-if="field.type === 'boolean'"
+                  v-model="(editForm[field.key] as boolean | null)"
+                  :label="field.label"
+                  color="primary"
+                  hide-details
+                  :disabled="actionLoading"
+                />
+              </v-col>
+            </v-row>
+          </v-form>
+        </div>
+
+        <div v-else-if="activeAction === 'show'" class="admin-ecommerce-actions__details">
+          <section class="admin-ecommerce-actions__summary">
+            <header>
+              <p class="text-caption text-medium-emphasis mb-1">
+                {{ t('admin.ecommerce.entityManager.detailsCard.title') }}
+              </p>
+              <p class="text-h6 mb-0">{{ entityTitle }}</p>
+            </header>
+            <div v-if="entityFields.length" class="admin-ecommerce-actions__details-grid">
+              <div
+                v-for="field in entityFields"
+                :key="field.key"
+                class="admin-ecommerce-actions__details-item"
+              >
               <span class="text-caption text-medium-emphasis">
                 {{ field.label }}
               </span>
-              <strong>{{ formatFieldValue(field.value) }}</strong>
-            </div>
-          </div>
-          <p v-else class="text-body-2">
-            {{ t('admin.ecommerce.entityManager.detailsCard.empty') }}
-          </p>
-        </section>
-
-        <section class="admin-ecommerce-actions__relations">
-          <header>
-            <div>
-              <p class="text-caption text-medium-emphasis mb-1">
-                {{ t('admin.ecommerce.entityManager.relations.title') }}
-              </p>
-              <p class="text-body-2 text-medium-emphasis mb-0">
-                {{ hasRelations
-                  ? t('admin.ecommerce.entityManager.relations.subtitle')
-                  : t('admin.ecommerce.entityManager.relations.empty')
-                }}
-              </p>
-            </div>
-          </header>
-          <div v-if="hasRelations" class="admin-ecommerce-actions__relations-content">
-            <div
-              v-for="group in entityRelations"
-              :key="group.title"
-              class="admin-ecommerce-actions__relation-group"
-            >
-              <p class="text-caption text-uppercase text-medium-emphasis">
-                {{ group.title }}
-              </p>
-              <div class="admin-ecommerce-actions__relation-items">
-                <div
-                  v-for="item in group.items"
-                  :key="item.id"
-                  class="admin-ecommerce-actions__relation-item"
-                >
-                  <div>
-                    <p class="text-body-2 mb-0">{{ item.primary }}</p>
-                    <p
-                      v-if="item.secondary"
-                      class="text-caption text-medium-emphasis mb-0"
-                    >
-                      {{ item.secondary }}
-                    </p>
-                  </div>
-                  <v-btn
-                    v-if="item.endpoint"
-                    size="small"
-                    variant="tonal"
+                <div v-if="field.type === 'boolean'">
+                  <v-switch
+                    :value="field.value"
+                    :label="field.label"
                     color="primary"
-                    append-icon="mdi-open-in-new"
-                    @click="inspectRelation(item)"
-                  >
-                    {{ t('admin.ecommerce.entityManager.actions.load') }}
-                  </v-btn>
+                    hide-details
+                  />
+                </div>
+                <div v-else class="d-flex align-center">
+                  <strong class="px-4">{{ formatFieldValue(field.value) }}</strong>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+            <p v-else class="text-body-2">
+              {{ t('admin.ecommerce.entityManager.detailsCard.empty') }}
+            </p>
+          </section>
 
-        <AdminEntityTreePreview
-          :title="t('admin.ecommerce.entityManager.preview.title')"
-          :empty-text="t('admin.ecommerce.entityManager.preview.empty')"
-          :nodes="responseTree"
-        />
+          <section class="admin-ecommerce-actions__relations">
+            <header>
+              <div>
+                <p class="text-caption text-medium-emphasis mb-1">
+                  {{ t('admin.ecommerce.entityManager.relations.title') }}
+                </p>
+                <p class="text-body-2 text-medium-emphasis mb-0">
+                  {{ hasRelations
+                  ? t('admin.ecommerce.entityManager.relations.subtitle')
+                  : t('admin.ecommerce.entityManager.relations.empty')
+                  }}
+                </p>
+              </div>
+            </header>
+            <div v-if="hasRelations" class="admin-ecommerce-actions__relations-content">
+              <div
+                v-for="group in entityRelations"
+                :key="group.title"
+                class="admin-ecommerce-actions__relation-group"
+              >
+                <p class="text-caption text-uppercase text-medium-emphasis">
+                  {{ group.title }}
+                </p>
+                <div class="admin-ecommerce-actions__relation-items">
+                  <div
+                    v-for="item in group.items"
+                    :key="item.id"
+                    class="admin-ecommerce-actions__relation-item"
+                  >
+                    <div>
+                      <p class="text-body-2 mb-0">{{ item.primary }}</p>
+                      <p
+                        v-if="item.secondary"
+                        class="text-caption text-medium-emphasis mb-0"
+                      >
+                        {{ item.secondary }}
+                      </p>
+                    </div>
+                    <v-btn
+                      v-if="item.endpoint"
+                      size="small"
+                      variant="tonal"
+                      color="primary"
+                      append-icon="mdi-open-in-new"
+                      @click="inspectRelation(item)"
+                    >
+                      {{ t('admin.ecommerce.entityManager.actions.load') }}
+                    </v-btn>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
-    </div>
-
-    <template #actions>
+    </v-card-text>
+    <v-divider />
+    <v-card-actions class="justify-space-between align-center flex-wrap gap-3">
       <div class="admin-ecommerce-actions__modal-actions">
         <v-btn
           v-if="actionEndpoint"
@@ -976,7 +963,7 @@ async function inspectRelation(item: EntityRelationItem) {
           {{ t('admin.ecommerce.entityManager.actions.delete') }}
         </v-btn>
       </div>
-    </template>
+    </v-card-actions>
   </AppModal>
 
   <AppModal
@@ -1107,7 +1094,6 @@ async function inspectRelation(item: EntityRelationItem) {
   border: 1px solid rgba(var(--v-border-color), 0.2);
   border-radius: 16px;
   padding: 20px;
-  background: rgba(var(--v-theme-surface-variant), 0.3);
 }
 
 .admin-ecommerce-actions__details-grid {
