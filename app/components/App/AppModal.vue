@@ -91,9 +91,6 @@ const model = computed({
   get: () => props.modelValue,
   set: (value: boolean) => {
     emit('update:modelValue', value)
-    if (!value) {
-      emit('close')
-    }
   },
 })
 
@@ -102,6 +99,11 @@ watch(
   (value, oldValue) => {
     if (value && !oldValue) {
       emit('open')
+      return
+    }
+
+    if (!value && oldValue) {
+      emit('close')
     }
   },
 )
@@ -112,7 +114,6 @@ const handleClose = () => {
   }
 
   emit('update:modelValue', false)
-  emit('close')
 }
 </script>
 

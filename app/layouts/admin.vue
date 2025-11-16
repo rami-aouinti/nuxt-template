@@ -15,7 +15,9 @@ const routeLoading = useRouteLoading()
             </div>
           </div>
         </div>
-        <AppRouteLoader v-if="routeLoading" class="route-container__loader" />
+        <div v-if="routeLoading" class="route-container__loader">
+          <AppRouteLoader />
+        </div>
       </div>
     </v-main>
   </v-app>
