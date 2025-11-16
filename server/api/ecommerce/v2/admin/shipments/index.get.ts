@@ -5,6 +5,7 @@ import {
   broWorldEcommerceRequest,
   getEcommerceAcceptLanguage,
 } from '~~/server/utils/broWorldEcommerceApi'
+import { hydrateShipmentCollectionResponse } from '~~/server/utils/ecommerce/shipments'
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
@@ -15,11 +16,13 @@ export default defineEventHandler(async (event) => {
     ? { 'Accept-Language': acceptLanguage }
     : undefined
 
-  return await broWorldEcommerceRequest(
+  const response = await broWorldEcommerceRequest(
     event,
     `/admin/shipments${queryString}`,
     {
       headers,
     },
   )
+
+  return await hydrateShipmentCollectionResponse(event, response, { headers })
 })
