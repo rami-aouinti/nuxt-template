@@ -319,7 +319,13 @@ const hasRelations = computed(() => entityRelations.value.length > 0)
 
 type EntityFieldValue = string | number | boolean | null
 type EntityFieldType = 'string' | 'number' | 'boolean'
-type EntityFieldDisplayType = 'text' | 'number' | 'boolean' | 'date' | 'link'
+type EntityFieldDisplayType =
+  | 'text'
+  | 'number'
+  | 'boolean'
+  | 'date'
+  | 'datetime'
+  | 'link'
 
 interface EntityField {
   key: string
@@ -410,8 +416,9 @@ function resolveFieldDisplayType(value: unknown): EntityFieldDisplayType {
     return 'number'
   }
   if (typeof value === 'string') {
-    if (isLikelyDate(value)) {
-      return 'date'
+    const temporalType = detectTemporalType(value)
+    if (temporalType) {
+      return temporalType
     }
     if (normalizeEndpoint(value)) {
       return 'link'
@@ -441,15 +448,36 @@ function isNumericString(value: string): boolean {
   return !Number.isNaN(Number(value))
 }
 
-function isLikelyDate(value: string): boolean {
-  if (value.length < 8) {
-    return false
+type TemporalFieldType = Extract<EntityFieldDisplayType, 'date' | 'datetime'>
+
+function detectTemporalType(value: string): TemporalFieldType | null {
+  const trimmed = value.trim()
+  if (trimmed.length < 8 || !/[tT:\-\/]/.test(trimmed)) {
+    return null
   }
-  if (/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:?\d{2})?)?$/i.test(value)) {
-    return true
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+    return 'date'
   }
-  const parsed = Date.parse(value)
-  return !Number.isNaN(parsed)
+
+  if (
+    /^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(:\d{2})?(\.\d+)?(Z|[+-]\d{2}:?\d{2})?$/i.test(
+      trimmed,
+    )
+  ) {
+    return 'datetime'
+  }
+
+  const parsed = Date.parse(trimmed)
+  if (Number.isNaN(parsed)) {
+    return null
+  }
+
+  if (/[T ]\d{2}:\d{2}/.test(trimmed)) {
+    return 'datetime'
+  }
+
+  return 'date'
 }
 
 function extractEntityRelations(
@@ -734,17 +762,38 @@ function formatDisplayValue(field: EntityField): string {
     }
   }
 
-  if (field.displayType === 'date' && typeof value === 'string') {
-    const date = new Date(value)
-    if (!Number.isNaN(date.getTime())) {
-      return date.toLocaleString(locale.value || undefined, {
-        dateStyle: 'medium',
-        timeStyle: 'short',
-      })
+  if (
+    (field.displayType === 'date' || field.displayType === 'datetime') &&
+    typeof value === 'string'
+  ) {
+    const formattedDate = formatTemporalDisplayValue(value, field.displayType)
+    if (formattedDate) {
+      return formattedDate
     }
   }
 
   return String(value)
+}
+
+function formatTemporalDisplayValue(
+  value: string,
+  type: TemporalFieldType,
+): string | null {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) {
+    return null
+  }
+
+  if (type === 'date') {
+    return date.toLocaleDateString(locale.value || undefined, {
+      dateStyle: 'medium',
+    })
+  }
+
+  return date.toLocaleString(locale.value || undefined, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  })
 }
 
 async function inspectRelation(item: EntityRelationItem) {
