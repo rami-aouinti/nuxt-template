@@ -24,6 +24,12 @@ body {
   border-radius: var(--app-rounded, 18px);
 }
 
+.v-overlay,
+.v-overlay__scrim,
+.v-overlay-container {
+  border-radius: 0 !important;
+}
+
 :where(
   form,
   .v-form,
