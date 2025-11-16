@@ -31,6 +31,20 @@ const normalizedLinks = computed(() => ({
   delete: normalizeUrl(props.deleteUrl),
 }))
 
+const actionButtons = computed<ActionButton[]>(() =>
+  (Object.entries(ACTION_METADATA) as [ActionType, ActionMetadata][]).map(
+    ([type, metadata]) => {
+      const endpoint = normalizedLinks.value[type]
+      return {
+        ...metadata,
+        type,
+        endpoint,
+        disabled: !endpoint,
+      }
+    },
+  ),
+)
+
 function normalizeUrl(url?: string | null) {
   if (typeof url !== 'string') {
     return null
@@ -48,6 +62,36 @@ const buttonProps = {
 }
 
 type ActionType = 'show' | 'edit' | 'delete'
+
+interface ActionMetadata {
+  icon: string
+  color: string
+  translationKey: string
+}
+
+interface ActionButton extends ActionMetadata {
+  type: ActionType
+  endpoint: string | null
+  disabled: boolean
+}
+
+const ACTION_METADATA: Record<ActionType, ActionMetadata> = {
+  show: {
+    icon: 'mdi-eye-outline',
+    color: 'primary',
+    translationKey: 'common.actions.view',
+  },
+  edit: {
+    icon: 'mdi-pencil-outline',
+    color: 'warning',
+    translationKey: 'common.actions.edit',
+  },
+  delete: {
+    icon: 'mdi-delete-outline',
+    color: 'error',
+    translationKey: 'common.actions.delete',
+  },
+}
 
 const dialog = ref(false)
 const activeAction = ref<ActionType | null>(null)
@@ -311,9 +355,6 @@ function resolveErrorMessage(error: unknown): string {
   return defaultMessage
 }
 
-const isShowDisabled = computed(() => !normalizedLinks.value.show)
-const isEditDisabled = computed(() => !normalizedLinks.value.edit)
-const isDeleteDisabled = computed(() => !normalizedLinks.value.delete)
 const hasEditableFields = computed(() => entityFields.value.length > 0)
 const hasRelations = computed(() => entityRelations.value.length > 0)
 
@@ -825,53 +866,23 @@ async function inspectRelation(item: EntityRelationItem) {
 
 <template>
   <div class="admin-ecommerce-actions">
-    <v-tooltip
-      v-if="normalizedLinks.show"
-      :text="t('common.actions.view')"
-      :location="tooltipLocation"
-    >
-      <template #activator="{ props: tooltipProps }">
-        <v-btn
-          v-bind="{ ...buttonProps, ...tooltipProps }"
-          :disabled="isShowDisabled"
-          icon="mdi-eye-outline"
-          color="primary"
-          @click="openAction('show')"
-        />
-      </template>
-    </v-tooltip>
-
-    <v-tooltip
-      v-if="normalizedLinks.edit"
-      :text="t('common.actions.edit')"
-      :location="tooltipLocation"
-    >
-      <template #activator="{ props: tooltipProps }">
-        <v-btn
-          v-bind="{ ...buttonProps, ...tooltipProps }"
-          :disabled="isEditDisabled"
-          icon="mdi-pencil-outline"
-          color="warning"
-          @click="openAction('edit')"
-        />
-      </template>
-    </v-tooltip>
-
-    <v-tooltip
-      v-if="normalizedLinks.delete"
-      :text="t('common.actions.delete')"
-      :location="tooltipLocation"
-    >
-      <template #activator="{ props: tooltipProps }">
-        <v-btn
-          v-bind="{ ...buttonProps, ...tooltipProps }"
-          :disabled="isDeleteDisabled"
-          icon="mdi-delete-outline"
-          color="error"
-          @click="openAction('delete')"
-        />
-      </template>
-    </v-tooltip>
+    <template v-for="action in actionButtons" :key="action.type">
+      <v-tooltip
+        v-if="action.endpoint"
+        :text="t(action.translationKey)"
+        :location="tooltipLocation"
+      >
+        <template #activator="{ props: tooltipProps }">
+          <v-btn
+            v-bind="{ ...buttonProps, ...tooltipProps }"
+            :disabled="action.disabled"
+            :icon="action.icon"
+            :color="action.color"
+            @click="openAction(action.type)"
+          />
+        </template>
+      </v-tooltip>
+    </template>
   </div>
 
   <AppModal v-model="dialog" :title="entityTitle || t('admin.ecommerce.entityManager.fields.entity')" :max-width="1040" :scrollable="true" :shadow="true">
