@@ -241,8 +241,8 @@ export default defineNuxtConfig({
     redis: {
       url: process.env.REDIS_URL || '',
       profileTtl: toPositiveInteger(process.env.REDIS_PROFILE_TTL, 60 * 60),
-      adminTtl: toPositiveInteger(process.env.REDIS_ADMIN_TTL, 60),
-      blogTtl: toPositiveInteger(process.env.REDIS_BLOG_TTL, 60),
+      adminTtl: toPositiveInteger(process.env.REDIS_ADMIN_TTL, 6000),
+      blogTtl: toPositiveInteger(process.env.REDIS_BLOG_TTL, 6000),
       profileEventsTtl: toPositiveInteger(
         process.env.REDIS_PROFILE_EVENTS_TTL,
         60,
@@ -259,9 +259,9 @@ export default defineNuxtConfig({
         process.env.REDIS_PROFILE_PUBLIC_TTL,
         60,
       ),
-      workspaceTtl: toPositiveInteger(process.env.REDIS_WORKSPACE_TTL, 60),
-      workplaceTtl: toPositiveInteger(process.env.REDIS_WORKPLACE_TTL, 60),
-      ecommerceTtl: toPositiveInteger(process.env.REDIS_ECOMMERCE_TTL, 60),
+      workspaceTtl: toPositiveInteger(process.env.REDIS_WORKSPACE_TTL, 6000),
+      workplaceTtl: toPositiveInteger(process.env.REDIS_WORKPLACE_TTL, 6000),
+      ecommerceTtl: toPositiveInteger(process.env.REDIS_ECOMMERCE_TTL, 6000),
     },
     profileCookie: {
       name: process.env.PROFILE_COOKIE_NAME || 'bro_profile',
