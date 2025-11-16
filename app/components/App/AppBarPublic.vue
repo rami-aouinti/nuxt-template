@@ -450,14 +450,20 @@ watch(loggedIn, (value) => {
   margin-left: 0.75rem;
 }
 
-.dock-navbar__menu :deep(.v-overlay__content) {
+:global(.v-overlay.dock-navbar__menu) {
+  pointer-events: auto;
+}
+
+:global(.v-overlay.dock-navbar__menu .v-overlay__content) {
   margin-top: 0.25rem;
   padding: 0;
   background-color: transparent;
   box-shadow: none;
+  pointer-events: auto;
+  z-index: 4100;
 }
 
-.dock-navbar__menu :deep(.dock-navbar__menu-list) {
+:global(.v-overlay.dock-navbar__menu .dock-navbar__menu-list) {
   background-color: rgb(var(--v-theme-surface));
   box-shadow: var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14));
   border-radius: var(--app-rounded, 18px);
