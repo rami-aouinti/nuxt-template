@@ -389,7 +389,8 @@
       },
       "createBlog": {
         "title": "Название блога",
-        "subtitle": "Подзаголовок"
+        "subtitle": "Подзаголовок",
+        "logo": "Логотип"
       },
       "createPost": {
         "blog": "Блог",

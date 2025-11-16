@@ -389,7 +389,8 @@
       },
       "createBlog": {
         "title": "عنوان المدونة",
-        "subtitle": "العنوان الفرعي"
+        "subtitle": "العنوان الفرعي",
+        "logo": "الشعار"
       },
       "createPost": {
         "blog": "مدونة",

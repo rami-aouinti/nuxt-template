@@ -389,7 +389,8 @@
       },
       "createBlog": {
         "title": "博客标题",
-        "subtitle": "副标题"
+        "subtitle": "副标题",
+        "logo": "徽标"
       },
       "createPost": {
         "blog": "博客",
