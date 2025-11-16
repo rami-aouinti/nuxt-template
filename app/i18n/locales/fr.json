@@ -732,6 +732,23 @@
           "title": "Customer growth",
           "subtitle": "Returning customers compared to new shoppers"
         },
+        "filters": {
+          "title": "Filtres d’activité commerciale",
+          "subtitle": "Choisissez le canal et la période pour actualiser la vue d’ensemble.",
+          "channel": "Canal",
+          "interval": "Intervalle",
+          "startDate": "Date de début",
+          "endDate": "Date de fin",
+          "helper": "Les statistiques se mettent à jour automatiquement lorsque vous modifiez ces filtres.",
+          "intervalOptions": {
+            "day": "Quotidien",
+            "week": "Hebdomadaire",
+            "month": "Mensuel"
+          },
+          "errors": {
+            "invalidRange": "La date de début doit être antérieure à la date de fin."
+          }
+        },
         "pending": {
           "title": "Pending actions",
           "subtitle": "Keep your fulfillment pipeline flowing",
