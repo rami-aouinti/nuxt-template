@@ -166,7 +166,7 @@ onBeforeUnmount(() => {
         </v-btn>
       </template>
       <v-card elevation="6" width="360" class="messenger-card">
-        <v-toolbar flat density="compact">
+        <v-toolbar style="background-color: transparent" density="compact">
           <v-toolbar-title class="font-weight-light text-body-1">
             {{ t('messenger.title') }}
           </v-toolbar-title>
@@ -192,7 +192,7 @@ onBeforeUnmount(() => {
           </div>
           <template v-else>
             <div v-if="hasConversations" class="messenger-conversations">
-              <v-list density="comfortable">
+              <v-list density="comfortable" nav class="py-0" lines="two">
                 <v-list-item
                   v-for="conversation in conversations"
                   :key="conversation.id"
@@ -296,10 +296,6 @@ onBeforeUnmount(() => {
 .messenger-conversations {
   max-height: 45vh;
   overflow-y: auto;
-}
-
-.messenger-item {
-  border-radius: 8px;
 }
 
 .messenger-loading,

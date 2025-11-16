@@ -50,7 +50,7 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
         </v-tooltip>
       </template>
       <v-card elevation="6" width="360" class="notification-card">
-        <v-toolbar flat density="compact">
+        <v-toolbar  style="background-color: transparent" density="comfortable">
           <v-toolbar-title
             class="font-weight-light text-body-1"
             :text="hasNotifications ? 'Notifications' : 'No New Notifications'"
