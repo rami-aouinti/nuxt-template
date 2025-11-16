@@ -75,7 +75,7 @@ const onSelect = (action: ComposerAction) => emit('select', action)
   gap: 12px;
   width: 100%;
   padding: 12px 16px;
-  border-radius: 999px;
+  border-radius: var(--app-rounded, 18px);
   border: 1px solid rgba(var(--v-theme-outline), 0.24);
   background-color: rgba(var(--v-theme-surface), 0.9);
   cursor: pointer;
