@@ -926,17 +926,6 @@ async function submit() {
                     :disabled="isSaving"
                   />
                 </v-col>
-                <v-col cols="12">
-                  <v-file-input
-                    v-model="photoFiles"
-                    :label="t('profile.fields.photo')"
-                    accept="image/*"
-                    prepend-icon="mdi-camera"
-                    clearable
-                    show-size
-                    :disabled="isSaving"
-                  />
-                </v-col>
               </template>
             </v-row>
           </v-form>
