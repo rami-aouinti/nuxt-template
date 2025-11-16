@@ -18,7 +18,7 @@ const props = withDefaults(
   },
 )
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const requestFetch = useRequestFetch()
 
 const normalizedLinks = computed(() => ({
@@ -69,36 +69,9 @@ const actionEndpoint = computed(() =>
   activeAction.value ? normalizedLinks.value[activeAction.value] : null,
 )
 
-const responseTree = computed<AdminEntityPreviewNode[]>(() =>
-  buildPreviewTree(responsePreview.value ?? null),
-)
-
 const relationPreviewTree = computed<AdminEntityPreviewNode[]>(() =>
   buildPreviewTree(relationDialogPreview.value ?? null),
 )
-
-const dialogTitle = computed(() => {
-  switch (activeAction.value) {
-    case 'show':
-      return t('admin.ecommerce.entityManager.actions.load')
-    case 'edit':
-      return t('admin.ecommerce.entityManager.actions.update')
-    case 'delete':
-      return t('admin.ecommerce.entityManager.actions.delete')
-    default:
-      return ''
-  }
-})
-
-const helperText = computed(() => {
-  if (!actionEndpoint.value) {
-    return null
-  }
-
-  return t('admin.ecommerce.entityManager.helper', {
-    path: actionEndpoint.value,
-  })
-})
 
 const relationHelperText = computed(() => {
   if (!relationDialogEndpoint.value) {
@@ -342,12 +315,15 @@ const hasRelations = computed(() => entityRelations.value.length > 0)
 
 type EntityFieldValue = string | number | boolean | null
 type EntityFieldType = 'string' | 'number' | 'boolean'
+type EntityFieldDisplayType = 'text' | 'number' | 'boolean' | 'date' | 'link'
 
 interface EntityField {
   key: string
   label: string
   type: EntityFieldType
   value: EntityFieldValue
+  displayType: EntityFieldDisplayType
+  endpoint: string | null
 }
 
 interface EntityRelationItem {
@@ -395,6 +371,8 @@ function extractEntityFields(entity: Record<string, unknown>): EntityField[] {
       label: formatFieldLabel(key),
       type: resolveFieldType(entry),
       value: normalizeScalar(entry),
+      displayType: resolveFieldDisplayType(entry),
+      endpoint: typeof entry === 'string' ? normalizeEndpoint(entry) : null,
     }))
 }
 
@@ -420,6 +398,27 @@ function resolveFieldType(value: unknown): EntityFieldType {
   return 'string'
 }
 
+function resolveFieldDisplayType(value: unknown): EntityFieldDisplayType {
+  if (typeof value === 'boolean') {
+    return 'boolean'
+  }
+  if (typeof value === 'number') {
+    return 'number'
+  }
+  if (typeof value === 'string') {
+    if (isLikelyDate(value)) {
+      return 'date'
+    }
+    if (normalizeEndpoint(value)) {
+      return 'link'
+    }
+    if (isNumericString(value)) {
+      return 'number'
+    }
+  }
+  return 'text'
+}
+
 function normalizeScalar(value: unknown): EntityFieldValue {
   if (
     typeof value === 'string' ||
@@ -429,6 +428,24 @@ function normalizeScalar(value: unknown): EntityFieldValue {
     return value
   }
   return null
+}
+
+function isNumericString(value: string): boolean {
+  if (!value.trim()) {
+    return false
+  }
+  return !Number.isNaN(Number(value))
+}
+
+function isLikelyDate(value: string): boolean {
+  if (value.length < 8) {
+    return false
+  }
+  if (/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:?\d{2})?)?$/i.test(value)) {
+    return true
+  }
+  const parsed = Date.parse(value)
+  return !Number.isNaN(parsed)
 }
 
 function extractEntityRelations(
@@ -654,13 +671,35 @@ function buildEditPayload(): Record<string, unknown> | null {
   return Object.keys(payload).length > 0 ? payload : null
 }
 
-function formatFieldValue(value: EntityFieldValue): string {
-  if (value === null || value === undefined) {
+function formatDisplayValue(field: EntityField): string {
+  const { value } = field
+  if (value === null || value === undefined || value === '') {
     return '—'
   }
-  if (typeof value === 'boolean') {
+
+  if (field.displayType === 'boolean' && typeof value === 'boolean') {
     return value ? t('common.enabled') : t('common.disabled')
   }
+
+  if (field.displayType === 'number') {
+    const numeric = typeof value === 'number' ? value : Number(value)
+    if (Number.isFinite(numeric)) {
+      return new Intl.NumberFormat(locale.value || undefined, {
+        maximumFractionDigits: 4,
+      }).format(numeric)
+    }
+  }
+
+  if (field.displayType === 'date' && typeof value === 'string') {
+    const date = new Date(value)
+    if (!Number.isNaN(date.getTime())) {
+      return date.toLocaleString(locale.value || undefined, {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      })
+    }
+  }
+
   return String(value)
 }
 
@@ -742,7 +781,7 @@ async function inspectRelation(item: EntityRelationItem) {
     </v-tooltip>
   </div>
 
-  <AppModal :title="entityTitle || t('admin.ecommerce.entityManager.fields.entity')" v-model="dialog" :max-width="1040" :scrollable="true" :shadow="true">
+  <AppModal v-model="dialog" :title="entityTitle || t('admin.ecommerce.entityManager.fields.entity')" :max-width="1040" :scrollable="true" :shadow="true">
 
     <v-card-text class="pt-6">
       <div class="admin-ecommerce-actions__modal-body">
@@ -851,19 +890,54 @@ async function inspectRelation(item: EntityRelationItem) {
                 :key="field.key"
                 class="admin-ecommerce-actions__details-item"
               >
-              <span class="text-caption text-medium-emphasis">
-                {{ field.label }}
-              </span>
-                <div v-if="field.type === 'boolean'">
-                  <v-switch
-                    :value="field.value"
-                    :label="field.label"
-                    color="primary"
-                    hide-details
-                  />
-                </div>
-                <div v-else class="d-flex align-center">
-                  <strong class="px-4">{{ formatFieldValue(field.value) }}</strong>
+                <div class="admin-ecommerce-actions__details-field">
+                  <span class="admin-ecommerce-actions__details-label">
+                    {{ field.label }}
+                  </span>
+                  <div class="admin-ecommerce-actions__details-value">
+                    <template v-if="field.displayType === 'boolean'">
+                      <v-chip
+                        size="small"
+                        :color="field.value ? 'success' : 'grey-darken-1'"
+                        variant="flat"
+                        class="text-uppercase"
+                      >
+                        <v-icon
+                          start
+                          :icon="field.value ? 'mdi-check-circle' : 'mdi-close-circle'"
+                        />
+                        {{ formatDisplayValue(field) }}
+                      </v-chip>
+                    </template>
+                    <template v-else-if="field.displayType === 'link' && field.endpoint">
+                      <div class="admin-ecommerce-actions__details-link">
+                        <v-btn
+                          :href="field.endpoint"
+                          target="_blank"
+                          rel="noopener"
+                          size="small"
+                          color="primary"
+                          variant="tonal"
+                          append-icon="mdi-open-in-new"
+                        >
+                          {{ t('admin.ecommerce.entityManager.table.endpoint') }}
+                        </v-btn>
+                        <span class="admin-ecommerce-actions__details-endpoint">
+                          {{ field.endpoint }}
+                        </span>
+                      </div>
+                    </template>
+                    <template v-else>
+                      <span
+                        class="admin-ecommerce-actions__details-text"
+                        :class="{
+                          'text-end': field.displayType === 'number',
+                        }"
+                      >
+                        {{ formatDisplayValue(field) }}
+                      </span>
+                    </template>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1098,16 +1172,68 @@ async function inspectRelation(item: EntityRelationItem) {
 
 .admin-ecommerce-actions__details-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
   margin-top: 16px;
 }
 
 .admin-ecommerce-actions__details-item {
-  padding: 12px;
-  border-radius: 12px;
-  background: rgba(var(--v-theme-surface), 0.9);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  padding: 16px 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(var(--v-border-color), 0.24);
+  background: linear-gradient(
+      145deg,
+      rgba(var(--v-theme-surface), 0.92),
+      rgba(var(--v-theme-surface-variant), 0.6)
+    ),
+    rgba(var(--v-theme-surface), 0.7);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.admin-ecommerce-actions__details-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-ecommerce-actions__details-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(var(--v-theme-on-surface), 0.65);
+  flex: 1;
+  min-width: 120px;
+}
+
+.admin-ecommerce-actions__details-value {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  min-width: 0;
+  margin-left: auto;
+}
+
+.admin-ecommerce-actions__details-text {
+  font-weight: 600;
+  color: rgba(var(--v-theme-on-surface), 0.92);
+  word-break: break-word;
+}
+
+.admin-ecommerce-actions__details-link {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  max-width: 100%;
+}
+
+.admin-ecommerce-actions__details-endpoint {
+  font-size: 0.75rem;
+  color: rgba(var(--v-theme-on-surface), 0.65);
+  max-width: 100%;
+  word-break: break-all;
 }
 
 .admin-ecommerce-actions__relations-content {
