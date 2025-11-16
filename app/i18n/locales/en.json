@@ -324,6 +324,7 @@
     "plugins": "Plugins",
     "mediaManagement": "Media management",
     "media": "Media library",
+    "notificationManagement": "Notification management",
     "configurationManagement": "Configuration management",
     "productManagement": "Product management",
     "customerManagement": "Customer management",
