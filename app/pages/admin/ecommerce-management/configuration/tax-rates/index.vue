@@ -2,8 +2,10 @@
 import { computed, ref } from 'vue'
 
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
+import AdminEcommerceResourceActions from '~/components/Admin/AdminEcommerceResourceActions.vue'
 import { createNumberFormatter, formatNumberValue } from '~/utils/formatters'
 import {
+  buildAdminResourceActionLinks,
   getBoolean,
   getNumber,
   getString,
@@ -53,6 +55,13 @@ const headers = computed(() => [
     key: 'includedInPrice',
     align: 'center',
     width: 180,
+  },
+  {
+    title: '',
+    key: 'actions',
+    sortable: false,
+    align: 'end',
+    width: 140,
   },
 ])
 
@@ -116,6 +125,12 @@ const rows = computed(() => {
       category,
       amount,
       includedInPrice,
+      actions: buildAdminResourceActionLinks(
+        getString(record, ['@id']) ??
+          (code
+            ? `/api/ecommerce/v2/admin/tax-rates/${encodeURIComponent(code)}`
+            : null),
+      ),
     }
   })
 })
@@ -166,6 +181,13 @@ const errorMessage = computed(() => {
             : t('admin.ecommerce.configuration.taxRates.labels.excluded')
         }}
       </v-chip>
+    </template>
+    <template #item.actions="{ item }">
+      <AdminEcommerceResourceActions
+        :show-url="item.actions?.show"
+        :edit-url="item.actions?.edit"
+        :delete-url="item.actions?.delete"
+      />
     </template>
   </AdminDataTable>
 </template>

@@ -2,7 +2,9 @@
 import { computed, ref } from 'vue'
 
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
+import AdminEcommerceResourceActions from '~/components/Admin/AdminEcommerceResourceActions.vue'
 import {
+  buildAdminResourceActionLinks,
   getArray,
   getString,
   normalizeHydraCollection,
@@ -39,6 +41,13 @@ const headers = computed(() => [
     title: t('admin.ecommerce.configuration.zones.table.members'),
     key: 'members',
     minWidth: 160,
+  },
+  {
+    title: '',
+    key: 'actions',
+    sortable: false,
+    align: 'end',
+    width: 140,
   },
 ])
 
@@ -79,6 +88,12 @@ const rows = computed(() => {
       name,
       type,
       members: members.length,
+      actions: buildAdminResourceActionLinks(
+        getString(record, ['@id']) ??
+          (code
+            ? `/api/ecommerce/v2/admin/zones/${encodeURIComponent(code)}`
+            : null),
+      ),
     }
   })
 })
@@ -117,5 +132,13 @@ const errorMessage = computed(() => {
     :error="errorMessage"
     :search-placeholder="t('common.labels.search')"
     @refresh="refresh"
-  />
+  >
+    <template #item.actions="{ item }">
+      <AdminEcommerceResourceActions
+        :show-url="item.actions?.show"
+        :edit-url="item.actions?.edit"
+        :delete-url="item.actions?.delete"
+      />
+    </template>
+  </AdminDataTable>
 </template>

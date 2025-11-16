@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
+import AdminEcommerceResourceActions from '~/components/Admin/AdminEcommerceResourceActions.vue'
 import {
   createDateFormatter,
   createNumberFormatter,
@@ -9,6 +10,7 @@ import {
   formatNumberValue,
 } from '~/utils/formatters'
 import {
+  buildAdminResourceActionLinks,
   getBoolean,
   getNumber,
   getString,
@@ -51,6 +53,13 @@ const headers = computed(() => [
     title: t('admin.ecommerce.configuration.currencies.table.enabled'),
     key: 'enabled',
     align: 'center',
+    width: 140,
+  },
+  {
+    title: '',
+    key: 'actions',
+    sortable: false,
+    align: 'end',
     width: 140,
   },
 ])
@@ -106,6 +115,12 @@ const rows = computed(() => {
       exchangeRate,
       enabled,
       updatedAt,
+      actions: buildAdminResourceActionLinks(
+        getString(record, ['@id']) ??
+          (code
+            ? `/api/ecommerce/v2/admin/currencies/${encodeURIComponent(code)}`
+            : null),
+      ),
     }
   })
 })
@@ -153,6 +168,13 @@ const errorMessage = computed(() => {
             : t('admin.ecommerce.common.disabled')
         }}
       </v-chip>
+    </template>
+    <template #item.actions="{ item }">
+      <AdminEcommerceResourceActions
+        :show-url="item.actions?.show"
+        :edit-url="item.actions?.edit"
+        :delete-url="item.actions?.delete"
+      />
     </template>
   </AdminDataTable>
 </template>

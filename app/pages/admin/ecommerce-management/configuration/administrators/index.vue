@@ -2,8 +2,10 @@
 import { computed, ref } from 'vue'
 
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
+import AdminEcommerceResourceActions from '~/components/Admin/AdminEcommerceResourceActions.vue'
 import { createDateFormatter, formatDateValue } from '~/utils/formatters'
 import {
+  buildAdminResourceActionLinks,
   getArray,
   getBoolean,
   getString,
@@ -56,6 +58,13 @@ const headers = computed(() => [
     title: t('admin.ecommerce.configuration.administrators.table.enabled'),
     key: 'enabled',
     align: 'center',
+    width: 140,
+  },
+  {
+    title: '',
+    key: 'actions',
+    sortable: false,
+    align: 'end',
     width: 140,
   },
 ])
@@ -111,6 +120,12 @@ const rows = computed(() => {
         roles.join(', ') ||
         t('admin.ecommerce.configuration.administrators.fallback.roles'),
       lastLogin,
+      actions: buildAdminResourceActionLinks(
+        getString(record, ['@id']) ??
+          (email
+            ? `/api/ecommerce/v2/admin/administrators/${encodeURIComponent(email)}`
+            : null),
+      ),
     }
   })
 })
@@ -158,6 +173,13 @@ const errorMessage = computed(() => {
             : t('admin.ecommerce.common.disabled')
         }}
       </v-chip>
+    </template>
+    <template #item.actions="{ item }">
+      <AdminEcommerceResourceActions
+        :show-url="item.actions?.show"
+        :edit-url="item.actions?.edit"
+        :delete-url="item.actions?.delete"
+      />
     </template>
   </AdminDataTable>
 </template>
