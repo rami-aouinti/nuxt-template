@@ -3,16 +3,24 @@ import { mergeProps } from 'vue'
 
 const notificationStore = useNotificationStore()
 const { notifications } = storeToRefs(notificationStore)
-const notificationsShown = computed(() => [...notifications.value].reverse())
+const mercureNotifications = computed(() =>
+  notifications.value.filter(
+    (notification) => notification.source === 'mercure',
+  ),
+)
+const notificationsShown = computed(() => [...mercureNotifications.value].reverse())
 const menu = ref(false)
 const { loggedIn } = useAppUserSession()
 function deleteNotification(id: number) {
   notificationStore.delNotification(id)
 }
 function emptyNotifications() {
-  notificationStore.$reset()
+  mercureNotifications.value.forEach((notification) =>
+    notificationStore.delNotification(notification.id),
+  )
 }
 const hasNotifications = computed(() => notificationsShown.value.length > 0)
+const notificationCount = computed(() => mercureNotifications.value.length)
 </script>
 
 <template>
@@ -31,14 +39,14 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
               :disabled="!loggedIn"
               v-bind="mergeProps(props, tooltip)"
               :aria-label="
-                notifications.length ? 'Notifications (new)' : 'Notifications'
+                notificationCount ? 'Notifications (new)' : 'Notifications'
               "
               variant="text"
               class="dock-navbar__action-button"
             >
               <v-badge
-                v-if="notifications.length > 0"
-                :content="notifications.length"
+                v-if="notificationCount > 0"
+                :content="notificationCount"
                 color="error"
                 floating
               >
@@ -90,23 +98,6 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
         </div>
       </v-card>
     </v-menu>
-    <Teleport to="body">
-      <div class="notification-float" aria-live="polite" aria-atomic="true">
-        <v-slide-y-transition group>
-          <div
-            v-for="notification in notificationsShown"
-            :key="`float-${notification.id}`"
-            class="notification-float__item"
-          >
-            <AppNotificationItem
-              :notification="notification"
-              class="notification-item"
-              @close="deleteNotification(notification.id)"
-            />
-          </div>
-        </v-slide-y-transition>
-      </div>
-    </Teleport>
     <template #fallback>
       <span class="dock-navbar__action-placeholder" aria-hidden="true" />
     </template>
@@ -152,22 +143,6 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
 
 .notification-item {
   width: 100%;
-}
-
-.notification-float {
-  position: fixed;
-  top: 24px;
-  right: 24px;
-  width: min(360px, calc(100vw - 32px));
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 1100;
-  pointer-events: none;
-}
-
-.notification-float__item {
-  pointer-events: auto;
 }
 
 .notification-empty {

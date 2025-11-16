@@ -3,6 +3,7 @@ export interface Notification {
   text: string
   time: Date
   id: number
+  source: 'app' | 'mercure'
 }
 
 export const useNotificationStore = defineStore('notification', {
@@ -14,12 +15,17 @@ export const useNotificationStore = defineStore('notification', {
     }
   },
   actions: {
-    addNotification(text: string, type: Notification['type'] = 'info') {
+    addNotification(
+      text: string,
+      type: Notification['type'] = 'info',
+      source: Notification['source'] = 'app',
+    ) {
       this.notifications.push({
         id: this.notificationCount++,
         text,
         type,
         time: new Date(),
+        source,
       })
     },
     delNotification(id: number) {

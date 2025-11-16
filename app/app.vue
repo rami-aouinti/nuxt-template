@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import AppNotificationToasts from '~/components/App/AppNotificationToasts.vue'
+
 const theme = useTheme()
 const { t, locale } = useI18n()
 const route = useRoute()
@@ -89,4 +91,5 @@ useSeoMeta(() => ({
     <NuxtPage :key="route.fullPath" />
   </NuxtLayout>
   <NuxtPage v-else :key="route.fullPath" />
+  <AppNotificationToasts />
 </template>
