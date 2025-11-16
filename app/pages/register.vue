@@ -5,7 +5,6 @@ import { axios, AxiosError } from '~/utils/axios'
 const router = useRouter()
 const { t } = useI18n()
 const form = reactive({
-  company: '',
   email: '',
   password: '',
   confirmPassword: '',
@@ -17,7 +16,6 @@ const errorMessage = ref<string | null>(null)
 const canSubmit = computed(
   () =>
     Boolean(
-      form.company.trim() &&
         form.email.trim() &&
         form.password.trim() &&
         form.confirmPassword.trim() &&
@@ -74,7 +72,6 @@ definePageMeta({
 <template>
   <div class="auth-card">
     <div class="auth-card__header">
-      <div class="auth-card__badge">{{ t('pages.auth.register.badge') }}</div>
       <h2>{{ t('pages.auth.register.title') }}</h2>
       <p>{{ t('pages.auth.register.subtitle') }}</p>
     </div>
@@ -88,15 +85,6 @@ definePageMeta({
       {{ errorMessage }}
     </v-alert>
     <v-form class="d-flex flex-column ga-4" @submit.prevent="onSubmit">
-      <v-text-field
-        v-model="form.company"
-        :label="t('pages.auth.register.companyLabel')"
-        variant="outlined"
-        color="primary"
-        density="comfortable"
-        rounded="lg"
-        required
-      />
       <v-text-field
         v-model="form.email"
         :label="t('pages.auth.register.emailLabel')"
@@ -161,7 +149,6 @@ definePageMeta({
 <style scoped>
 .auth-card {
   width: min(460px, 100%);
-  color: rgba(255, 255, 255, 0.9);
 }
 
 .auth-card__header {
@@ -175,8 +162,8 @@ definePageMeta({
   gap: 8px;
   padding: 4px 12px;
   border-radius: 999px;
-  background: rgba(16, 185, 129, 0.12);
-  color: #6ee7b7;
+  background: rgba(var(--v-theme-primary));
+  color: rgba(var(--v-theme-primary), 0.04);
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 0.65rem;
@@ -188,13 +175,8 @@ definePageMeta({
   margin-bottom: 8px;
 }
 
-.auth-card__header p {
-  color: rgba(255, 255, 255, 0.7);
-}
-
 .auth-card__footer {
   margin-top: 24px;
   text-align: center;
-  color: rgba(255, 255, 255, 0.7);
 }
 </style>

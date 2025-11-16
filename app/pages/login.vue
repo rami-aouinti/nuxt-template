@@ -8,6 +8,27 @@ const { t } = useI18n()
 const { fetch } = useAppUserSession()
 const profileCache = useAuthProfileCache()
 
+const oauthProviders = [
+  {
+    key: 'github',
+    icon: 'mdi-github',
+    href: '/api/auth/github',
+    translationKey: 'auth.loginWithGithub',
+  },
+  {
+    key: 'google',
+    icon: 'mdi-google',
+    href: '/api/auth/google',
+    translationKey: 'auth.loginWithGoogle',
+  },
+  {
+    key: 'facebook',
+    icon: 'mdi-facebook',
+    href: '/api/auth/facebook',
+    translationKey: 'auth.loginWithFacebook',
+  },
+] as const
+
 const form = reactive({
   email: '',
   password: '',
@@ -32,7 +53,7 @@ const onSubmit = async () => {
     profileCache.value = data.profile
     await fetch()
     Notify.success(t('auth.loginSuccess'))
-    router.push('/')
+    window.location.href = '/'
   } catch (error) {
     let message = t('auth.loginFailed')
     if (error instanceof AxiosError) {
@@ -65,7 +86,6 @@ definePageMeta({
 <template>
   <div class="auth-card">
     <div class="auth-card__header">
-      <div class="auth-card__badge">{{ t('pages.auth.login.badge') }}</div>
       <h2>{{ t('pages.auth.login.title') }}</h2>
       <p>{{ t('pages.auth.login.subtitle') }}</p>
     </div>
@@ -78,6 +98,31 @@ definePageMeta({
     >
       {{ errorMessage }}
     </v-alert>
+
+    <div class="credentials-dialog__providers">
+      <v-btn
+        v-for="provider in oauthProviders"
+        :key="provider.key"
+        icon
+        size="small"
+        variant="outlined"
+        color="primary"
+        class="text-none"
+        :href="provider.href"
+        rel="external"
+        :aria-label="t(provider.translationKey)"
+        :disabled="loading"
+      >
+        <v-icon :icon="provider.icon" />
+      </v-btn>
+    </div>
+    <div class="credentials-dialog__divider">
+      <v-divider class="flex-grow-1" />
+      <span class="text-caption text-medium-emphasis px-3">
+                {{ t('auth.credentialsSignInPrompt') }}
+              </span>
+      <v-divider class="flex-grow-1" />
+    </div>
     <v-form class="d-flex flex-column ga-4" @submit.prevent="onSubmit">
       <v-text-field
         v-model="form.email"
@@ -119,16 +164,6 @@ definePageMeta({
       >
         {{ t('pages.auth.login.submit') }}
       </v-btn>
-      <v-btn
-        color="white"
-        class="text-primary"
-        size="large"
-        block
-        variant="outlined"
-        prepend-icon="mdi-google"
-      >
-        {{ t('pages.auth.login.google') }}
-      </v-btn>
     </v-form>
     <p class="auth-card__footer">
       {{ t('pages.auth.login.signupPrompt') }}
@@ -142,7 +177,6 @@ definePageMeta({
 <style scoped>
 .auth-card {
   width: min(420px, 100%);
-  color: rgba(255, 255, 255, 0.9);
 }
 
 .auth-card__header {
@@ -156,11 +190,24 @@ definePageMeta({
   gap: 8px;
   padding: 4px 12px;
   border-radius: 999px;
-  background: rgba(99, 102, 241, 0.12);
-  color: #a5b4fc;
+  background: rgba(var(--v-theme-primary));
+  color: rgba(var(--v-theme-primary), 0.04);
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 0.65rem;
+}
+
+.credentials-dialog__providers {
+  justify-content: center;
+  display: flex;
+  gap: 12px;
+}
+
+.credentials-dialog__divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
 }
 
 .auth-card__header h2 {
@@ -169,13 +216,8 @@ definePageMeta({
   margin-bottom: 8px;
 }
 
-.auth-card__header p {
-  color: rgba(255, 255, 255, 0.7);
-}
-
 .auth-card__footer {
   margin-top: 24px;
   text-align: center;
-  color: rgba(255, 255, 255, 0.7);
 }
 </style>

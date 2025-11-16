@@ -6,11 +6,11 @@ const currentYear = new Date().getFullYear()
   <v-app class="auth-app">
     <v-main class="auth-main">
       <div class="auth-shell">
-        <section class="auth-hero">
+        <section class="auth-hero justify-center align-center text-center text-white">
           <div class="auth-hero__glow" />
           <div class="auth-hero__content">
-            <p class="auth-eyebrow">Nuxt + Vuetify</p>
-            <h1>Créez des expériences modernes rapidement.</h1>
+            <v-icon size="92">mdi-earth</v-icon>
+            <h1>Bro World</h1>
             <p>
               Accédez à votre tableau de bord et commencez à piloter votre produit avec une interface
               raffinée, rapide et responsive.
@@ -42,11 +42,6 @@ const currentYear = new Date().getFullYear()
 </template>
 
 <style scoped>
-.auth-app {
-  background: radial-gradient(circle at top, rgba(var(--v-theme-primary)), transparent), rgba(var(--v-theme-primary), 0.14);
-  color: rgba(255, 255, 255, 0.9);
-}
-
 .auth-main {
   min-height: 100vh;
   display: flex;
@@ -92,7 +87,6 @@ const currentYear = new Date().getFullYear()
   text-transform: uppercase;
   letter-spacing: 0.2em;
   margin-bottom: 12px;
-  color: rgba(255, 255, 255, 0.6);
 }
 
 .auth-hero h1 {
@@ -100,11 +94,8 @@ const currentYear = new Date().getFullYear()
   margin-bottom: 16px;
 }
 
-.auth-hero p {
-  color: rgba(255, 255, 255, 0.75);
-}
-
 .auth-hero__stats {
+  justify-content: center;
   display: flex;
   gap: 24px;
   margin-top: 32px;
@@ -115,7 +106,6 @@ const currentYear = new Date().getFullYear()
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.6);
 }
 
 .auth-hero__stats-value {

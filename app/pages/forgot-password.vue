@@ -78,7 +78,6 @@ definePageMeta({
 <template>
   <div class="auth-card">
     <div class="auth-card__header">
-      <div class="auth-card__badge">{{ t('pages.auth.forgotPassword.badge') }}</div>
       <h2>{{ t('pages.auth.forgotPassword.title') }}</h2>
       <p>{{ t('pages.auth.forgotPassword.subtitle') }}</p>
     </div>
@@ -154,7 +153,6 @@ definePageMeta({
 <style scoped>
 .auth-card {
   width: min(420px, 100%);
-  color: rgba(255, 255, 255, 0.9);
 }
 
 .auth-card__header {
@@ -168,8 +166,8 @@ definePageMeta({
   gap: 8px;
   padding: 4px 12px;
   border-radius: 999px;
-  background: rgba(14, 165, 233, 0.12);
-  color: #7dd3fc;
+  background: rgba(var(--v-theme-primary));
+  color: rgba(var(--v-theme-primary), 0.04);
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 0.65rem;
@@ -181,13 +179,8 @@ definePageMeta({
   margin-bottom: 8px;
 }
 
-.auth-card__header p {
-  color: rgba(255, 255, 255, 0.7);
-}
-
 .auth-card__footer {
   margin-top: 24px;
   text-align: center;
-  color: rgba(255, 255, 255, 0.7);
 }
 </style>
