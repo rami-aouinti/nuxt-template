@@ -2753,5 +2753,50 @@
         }
       }
     }
+  },
+  "pages": {
+    "auth": {
+      "login": {
+        "metaTitle": "Anmelden",
+        "badge": "Willkommen",
+        "title": "Melde dich bei deinem Arbeitsbereich an",
+        "subtitle": "Mache genau dort weiter, wo du aufgehört hast – mit einem fokussierten, organisierten Dashboard.",
+        "emailLabel": "Geschäftliche E-Mail",
+        "passwordLabel": "Passwort",
+        "rememberMe": "Angemeldet bleiben",
+        "forgotPassword": "Passwort vergessen?",
+        "submit": "Anmelden",
+        "google": "Mit Google fortfahren",
+        "signupPrompt": "Noch kein Konto?",
+        "signupCta": "Jetzt registrieren"
+      },
+      "register": {
+        "metaTitle": "Konto erstellen",
+        "badge": "Neu",
+        "title": "Erstelle deinen Arbeitsbereich",
+        "subtitle": "Lade dein Team ein und bündle deine Abläufe in wenigen Sekunden.",
+        "companyLabel": "Name der Organisation",
+        "emailLabel": "Geschäftliche E-Mail",
+        "passwordLabel": "Passwort festlegen",
+        "confirmPasswordLabel": "Passwort bestätigen",
+        "termsLabel": "Ich akzeptiere die Nutzungsbedingungen",
+        "submit": "Loslegen",
+        "signinPrompt": "Bereits registriert?",
+        "signinCta": "Anmelden"
+      },
+      "forgotPassword": {
+        "metaTitle": "Passwort zurücksetzen",
+        "badge": "Support",
+        "title": "Setze dein Passwort zurück",
+        "subtitle": "Lege ein neues Passwort fest und erhalte sicheren Zugriff auf deinen Bereich.",
+        "emailLabel": "Geschäftliche E-Mail",
+        "passwordLabel": "Neues Passwort",
+        "confirmPasswordLabel": "Neues Passwort bestätigen",
+        "submit": "Passwort zurücksetzen",
+        "success": "Wir haben dir soeben einen sicheren Link gesendet. Prüfe dein Postfach, um fortzufahren.",
+        "backPrompt": "Passwort wieder eingefallen?",
+        "backCta": "Zur Anmeldung"
+      }
+    }
   }
 }

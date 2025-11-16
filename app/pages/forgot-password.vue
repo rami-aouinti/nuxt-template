@@ -1,34 +1,91 @@
 <script setup lang="ts">
-const email = ref('')
+import { Notify } from '~/stores/notification'
+import { axios, AxiosError } from '~/utils/axios'
+
+const { t } = useI18n()
+const form = reactive({
+  email: '',
+  password: '',
+  confirmPassword: '',
+})
 const loading = ref(false)
-const message = ref('')
+const successMessage = ref<string | null>(null)
+const errorMessage = ref<string | null>(null)
+
+const canSubmit = computed(
+  () =>
+    Boolean(
+      form.email.trim() && form.password.trim() && form.confirmPassword.trim(),
+    ) && !loading.value,
+)
 
 const onSubmit = async () => {
+  if (!canSubmit.value) return
+  if (form.password !== form.confirmPassword) {
+    errorMessage.value = t('auth.passwordMismatch')
+    successMessage.value = null
+    Notify.error(errorMessage.value)
+    return
+  }
   loading.value = true
-  message.value = ''
-  await new Promise((resolve) => setTimeout(resolve, 1200))
-  loading.value = false
-  message.value =
-    'Un lien sécurisé vient de vous être envoyé. Vérifiez votre boîte mail pour continuer.'
+  successMessage.value = null
+  errorMessage.value = null
+  try {
+    const { data } = await axios.post<{ message?: string }>(
+      '/api/auth/reset-password',
+      {
+        email: form.email,
+        password: form.password,
+        confirmPassword: form.confirmPassword,
+      },
+    )
+    successMessage.value =
+      data?.message || t('pages.auth.forgotPassword.success')
+    Notify.success(successMessage.value)
+    form.password = ''
+    form.confirmPassword = ''
+  } catch (error) {
+    let message = t('common.unexpectedError')
+    if (error instanceof AxiosError) {
+      const responseMessage =
+        (error.response?.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data &&
+        typeof error.response.data.message === 'string'
+          ? error.response.data.message
+          : null) || error.response?.statusText || null
+      if (responseMessage) {
+        message = responseMessage
+      } else {
+        message = t('auth.loginFailed')
+      }
+    } else if (error instanceof Error) {
+      message = error.message
+    }
+    errorMessage.value = message
+    Notify.error(message)
+  } finally {
+    loading.value = false
+  }
 }
 
 definePageMeta({
   layout: 'auth',
-  title: 'Réinitialiser le mot de passe',
+  title: 'pages.auth.forgotPassword.metaTitle',
 })
 </script>
 
 <template>
   <div class="auth-card">
     <div class="auth-card__header">
-      <div class="auth-card__badge">Assistance</div>
-      <h2>Réinitialisez votre mot de passe</h2>
-      <p>Nous vous guiderons pour retrouver l'accès à votre espace en quelques instants.</p>
+      <div class="auth-card__badge">{{ t('pages.auth.forgotPassword.badge') }}</div>
+      <h2>{{ t('pages.auth.forgotPassword.title') }}</h2>
+      <p>{{ t('pages.auth.forgotPassword.subtitle') }}</p>
     </div>
     <v-form class="d-flex flex-column ga-4" @submit.prevent="onSubmit">
       <v-text-field
-        v-model="email"
-        label="Email professionnel"
+        v-model="form.email"
+        :label="t('pages.auth.forgotPassword.emailLabel')"
         type="email"
         variant="outlined"
         color="primary"
@@ -36,14 +93,60 @@ definePageMeta({
         rounded="lg"
         required
       />
-      <v-btn type="submit" color="primary" size="large" block :loading="loading">
-        Envoyer le lien sécurisé
+      <v-text-field
+        v-model="form.password"
+        :label="t('pages.auth.forgotPassword.passwordLabel')"
+        type="password"
+        variant="outlined"
+        color="primary"
+        density="comfortable"
+        rounded="lg"
+        required
+      />
+      <v-text-field
+        v-model="form.confirmPassword"
+        :label="t('pages.auth.forgotPassword.confirmPasswordLabel')"
+        type="password"
+        variant="outlined"
+        color="primary"
+        density="comfortable"
+        rounded="lg"
+        required
+      />
+      <v-btn
+        type="submit"
+        color="primary"
+        size="large"
+        block
+        :loading="loading"
+        :disabled="!canSubmit"
+      >
+        {{ t('pages.auth.forgotPassword.submit') }}
       </v-btn>
     </v-form>
-    <v-alert v-if="message" class="mt-4" type="success" variant="tonal">{{ message }}</v-alert>
+    <v-alert
+      v-if="successMessage"
+      class="mt-4"
+      type="success"
+      variant="tonal"
+      density="comfortable"
+    >
+      {{ successMessage }}
+    </v-alert>
+    <v-alert
+      v-else-if="errorMessage"
+      class="mt-4"
+      type="error"
+      variant="tonal"
+      density="comfortable"
+    >
+      {{ errorMessage }}
+    </v-alert>
     <p class="auth-card__footer">
-      Se souvenir de votre mot de passe ?
-      <NuxtLink class="text-primary text-decoration-none" to="/login">Retour à la connexion</NuxtLink>
+      {{ t('pages.auth.forgotPassword.backPrompt') }}
+      <NuxtLink class="text-primary text-decoration-none" to="/login">
+        {{ t('pages.auth.forgotPassword.backCta') }}
+      </NuxtLink>
     </p>
   </div>
 </template>

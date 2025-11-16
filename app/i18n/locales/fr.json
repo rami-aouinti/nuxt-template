@@ -2773,5 +2773,50 @@
         }
       }
     }
+  },
+  "pages": {
+    "auth": {
+      "login": {
+        "metaTitle": "Connexion",
+        "badge": "Bienvenue",
+        "title": "Connectez-vous à votre espace de travail",
+        "subtitle": "Reprenez la main sur vos projets avec un espace parfaitement organisé.",
+        "emailLabel": "Email professionnel",
+        "passwordLabel": "Mot de passe",
+        "rememberMe": "Se souvenir de moi",
+        "forgotPassword": "Mot de passe oublié ?",
+        "submit": "Se connecter",
+        "google": "Continuer avec Google",
+        "signupPrompt": "Pas encore de compte ?",
+        "signupCta": "Créer un compte"
+      },
+      "register": {
+        "metaTitle": "Créer un compte",
+        "badge": "Nouveau",
+        "title": "Créez votre espace de travail",
+        "subtitle": "Invitez votre équipe et centralisez vos opérations en quelques secondes.",
+        "companyLabel": "Nom de l'organisation",
+        "emailLabel": "Email professionnel",
+        "passwordLabel": "Créer un mot de passe",
+        "confirmPasswordLabel": "Confirmez le mot de passe",
+        "termsLabel": "J'accepte les conditions d'utilisation",
+        "submit": "Commencer",
+        "signinPrompt": "Déjà inscrit ?",
+        "signinCta": "Se connecter"
+      },
+      "forgotPassword": {
+        "metaTitle": "Réinitialiser le mot de passe",
+        "badge": "Assistance",
+        "title": "Réinitialisez votre mot de passe",
+        "subtitle": "Définissez un nouveau mot de passe pour retrouver un accès sécurisé.",
+        "emailLabel": "Email professionnel",
+        "passwordLabel": "Nouveau mot de passe",
+        "confirmPasswordLabel": "Confirmez le mot de passe",
+        "submit": "Envoyer le lien sécurisé",
+        "success": "Un lien sécurisé vient de vous être envoyé. Vérifiez votre boîte mail pour continuer.",
+        "backPrompt": "Se souvenir de votre mot de passe ?",
+        "backCta": "Retour à la connexion"
+      }
+    }
   }
 }

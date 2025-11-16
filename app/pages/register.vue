@@ -1,37 +1,96 @@
 <script setup lang="ts">
+import { Notify } from '~/stores/notification'
+import { axios, AxiosError } from '~/utils/axios'
+
 const router = useRouter()
+const { t } = useI18n()
 const form = reactive({
   company: '',
   email: '',
   password: '',
+  confirmPassword: '',
   agree: false,
 })
 const loading = ref(false)
+const errorMessage = ref<string | null>(null)
+
+const canSubmit = computed(
+  () =>
+    Boolean(
+      form.company.trim() &&
+        form.email.trim() &&
+        form.password.trim() &&
+        form.confirmPassword.trim() &&
+        form.agree,
+    ) && !loading.value,
+)
 
 const onSubmit = async () => {
+  if (!canSubmit.value) return
+  if (form.password !== form.confirmPassword) {
+    errorMessage.value = t('auth.passwordMismatch')
+    Notify.error(errorMessage.value)
+    return
+  }
   loading.value = true
-  await new Promise((resolve) => setTimeout(resolve, 1400))
-  loading.value = false
-  router.push('/verify-email')
+  errorMessage.value = null
+  try {
+    await axios.post('/api/auth/register', {
+      email: form.email,
+      password: form.password,
+      repeatPassword: form.confirmPassword,
+    })
+    Notify.success(t('auth.registerSuccess'))
+    router.push('/verify-email')
+  } catch (error) {
+    let message = t('auth.registerFailed')
+    if (error instanceof AxiosError) {
+      const responseMessage =
+        (error.response?.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data &&
+        typeof error.response.data.message === 'string'
+          ? error.response.data.message
+          : null) || error.response?.statusText || null
+      if (responseMessage) {
+        message = responseMessage
+      }
+    } else if (error instanceof Error) {
+      message = error.message
+    }
+    errorMessage.value = message
+    Notify.error(message)
+  } finally {
+    loading.value = false
+  }
 }
 
 definePageMeta({
   layout: 'auth',
-  title: "Créer un compte",
+  title: 'auth.register',
 })
 </script>
 
 <template>
   <div class="auth-card">
     <div class="auth-card__header">
-      <div class="auth-card__badge">Nouveau</div>
-      <h2>Créez un espace de travail</h2>
-      <p>Invitez votre équipe et centralisez vos opérations en quelques secondes.</p>
+      <div class="auth-card__badge">{{ t('pages.auth.register.badge') }}</div>
+      <h2>{{ t('pages.auth.register.title') }}</h2>
+      <p>{{ t('pages.auth.register.subtitle') }}</p>
     </div>
+    <v-alert
+      v-if="errorMessage"
+      class="mb-4"
+      type="error"
+      variant="tonal"
+      density="comfortable"
+    >
+      {{ errorMessage }}
+    </v-alert>
     <v-form class="d-flex flex-column ga-4" @submit.prevent="onSubmit">
       <v-text-field
         v-model="form.company"
-        label="Nom de l'organisation"
+        :label="t('pages.auth.register.companyLabel')"
         variant="outlined"
         color="primary"
         density="comfortable"
@@ -40,7 +99,7 @@ definePageMeta({
       />
       <v-text-field
         v-model="form.email"
-        label="Email professionnel"
+        :label="t('pages.auth.register.emailLabel')"
         type="email"
         variant="outlined"
         color="primary"
@@ -50,7 +109,17 @@ definePageMeta({
       />
       <v-text-field
         v-model="form.password"
-        label="Créer un mot de passe"
+        :label="t('pages.auth.register.passwordLabel')"
+        type="password"
+        variant="outlined"
+        color="primary"
+        density="comfortable"
+        rounded="lg"
+        required
+      />
+      <v-text-field
+        v-model="form.confirmPassword"
+        :label="t('pages.auth.register.confirmPasswordLabel')"
         type="password"
         variant="outlined"
         color="primary"
@@ -66,14 +135,25 @@ definePageMeta({
         :true-value="true"
         :false-value="false"
         class="text-caption"
-        label="J'accepte les conditions d'utilisation"
+        :label="t('pages.auth.register.termsLabel')"
         required
       />
-      <v-btn type="submit" color="primary" size="large" block :loading="loading">Commencer</v-btn>
+      <v-btn
+        type="submit"
+        color="primary"
+        size="large"
+        block
+        :loading="loading"
+        :disabled="!canSubmit"
+      >
+        {{ t('pages.auth.register.submit') }}
+      </v-btn>
     </v-form>
     <p class="auth-card__footer">
-      Déjà inscrit ?
-      <NuxtLink class="text-primary text-decoration-none" to="/login">Se connecter</NuxtLink>
+      {{ t('pages.auth.register.signinPrompt') }}
+      <NuxtLink class="text-primary text-decoration-none" to="/login">
+        {{ t('pages.auth.register.signinCta') }}
+      </NuxtLink>
     </p>
   </div>
 </template>

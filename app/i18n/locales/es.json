@@ -2753,5 +2753,50 @@
         }
       }
     }
+  },
+  "pages": {
+    "auth": {
+      "login": {
+        "metaTitle": "Iniciar sesión",
+        "badge": "Bienvenido",
+        "title": "Inicia sesión en tu espacio de trabajo",
+        "subtitle": "Retoma tus proyectos con un panel organizado y enfocado.",
+        "emailLabel": "Correo de trabajo",
+        "passwordLabel": "Contraseña",
+        "rememberMe": "Recordarme",
+        "forgotPassword": "¿Olvidaste tu contraseña?",
+        "submit": "Iniciar sesión",
+        "google": "Continuar con Google",
+        "signupPrompt": "¿Aún no tienes cuenta?",
+        "signupCta": "Crea una"
+      },
+      "register": {
+        "metaTitle": "Crear cuenta",
+        "badge": "Nuevo",
+        "title": "Crea tu espacio de trabajo",
+        "subtitle": "Invita a tu equipo y centraliza tus operaciones en segundos.",
+        "companyLabel": "Nombre de la organización",
+        "emailLabel": "Correo de trabajo",
+        "passwordLabel": "Crea una contraseña",
+        "confirmPasswordLabel": "Confirma la contraseña",
+        "termsLabel": "Acepto los términos del servicio",
+        "submit": "Empezar",
+        "signinPrompt": "¿Ya estás registrado?",
+        "signinCta": "Inicia sesión"
+      },
+      "forgotPassword": {
+        "metaTitle": "Restablecer contraseña",
+        "badge": "Asistencia",
+        "title": "Restablece tu contraseña",
+        "subtitle": "Configura una nueva contraseña y recupera el acceso seguro a tu espacio.",
+        "emailLabel": "Correo de trabajo",
+        "passwordLabel": "Nueva contraseña",
+        "confirmPasswordLabel": "Confirma la nueva contraseña",
+        "submit": "Restablecer contraseña",
+        "success": "Te enviamos un enlace seguro. Revisa tu correo para continuar.",
+        "backPrompt": "¿Recordaste tu contraseña?",
+        "backCta": "Volver al inicio de sesión"
+      }
+    }
   }
 }

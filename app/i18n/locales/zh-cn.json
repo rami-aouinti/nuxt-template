@@ -2753,5 +2753,50 @@
         }
       }
     }
+  },
+  "pages": {
+    "auth": {
+      "login": {
+        "metaTitle": "登录",
+        "badge": "欢迎",
+        "title": "登录到工作空间",
+        "subtitle": "通过井然有序的控制面板继续你的项目。",
+        "emailLabel": "工作邮箱",
+        "passwordLabel": "密码",
+        "rememberMe": "记住我",
+        "forgotPassword": "忘记密码？",
+        "submit": "登录",
+        "google": "使用 Google 继续",
+        "signupPrompt": "还没有账号？",
+        "signupCta": "立即创建"
+      },
+      "register": {
+        "metaTitle": "创建账号",
+        "badge": "新",
+        "title": "创建你的工作空间",
+        "subtitle": "邀请团队并在数秒内集中管理运营。",
+        "companyLabel": "组织名称",
+        "emailLabel": "工作邮箱",
+        "passwordLabel": "创建密码",
+        "confirmPasswordLabel": "确认密码",
+        "termsLabel": "我同意服务条款",
+        "submit": "开始使用",
+        "signinPrompt": "已经注册？",
+        "signinCta": "立即登录"
+      },
+      "forgotPassword": {
+        "metaTitle": "重置密码",
+        "badge": "支持",
+        "title": "重置你的密码",
+        "subtitle": "设置一个新密码，重新获得安全访问。",
+        "emailLabel": "工作邮箱",
+        "passwordLabel": "新密码",
+        "confirmPasswordLabel": "确认新密码",
+        "submit": "重置密码",
+        "success": "我们已发送一封安全邮件，请检查收件箱继续操作。",
+        "backPrompt": "想起密码了？",
+        "backCta": "返回登录"
+      }
+    }
   }
 }
