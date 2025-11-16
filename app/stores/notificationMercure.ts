@@ -324,7 +324,7 @@ export const useNotificationMercureStore = defineStore(
         payload.pushType ?? payload.type ?? payload.severity ?? 'info'
       const notificationType = parseNotificationType(typeCandidate)
 
-      notificationStore.addNotification(message, notificationType)
+      notificationStore.addNotification(message, notificationType, 'mercure')
 
       if (eventId) {
         trackEventId(eventId)
