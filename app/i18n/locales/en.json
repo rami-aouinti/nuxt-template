@@ -2383,6 +2383,49 @@
         "description": "Explore our curated selection for this category.",
         "empty": "We do not have products in this category yet."
       }
+    },
+    "auth": {
+      "login": {
+        "metaTitle": "Sign in",
+        "badge": "Welcome",
+        "title": "Sign in to your workspace",
+        "subtitle": "Pick up where you left off with a focused, organized dashboard.",
+        "emailLabel": "Work email",
+        "passwordLabel": "Password",
+        "rememberMe": "Remember me",
+        "forgotPassword": "Forgot password?",
+        "submit": "Sign in",
+        "google": "Continue with Google",
+        "signupPrompt": "Don't have an account?",
+        "signupCta": "Create one"
+      },
+      "register": {
+        "metaTitle": "Create account",
+        "badge": "New",
+        "title": "Create your workspace",
+        "subtitle": "Invite your team and centralize operations in seconds.",
+        "companyLabel": "Organization name",
+        "emailLabel": "Work email",
+        "passwordLabel": "Create a password",
+        "confirmPasswordLabel": "Confirm password",
+        "termsLabel": "I agree to the terms of service",
+        "submit": "Get started",
+        "signinPrompt": "Already registered?",
+        "signinCta": "Sign in"
+      },
+      "forgotPassword": {
+        "metaTitle": "Reset password",
+        "badge": "Support",
+        "title": "Reset your password",
+        "subtitle": "Set a new password and regain secure access to your space.",
+        "emailLabel": "Work email",
+        "passwordLabel": "New password",
+        "confirmPasswordLabel": "Confirm new password",
+        "submit": "Reset password",
+        "success": "A secure link has been sent. Check your inbox to continue.",
+        "backPrompt": "Remembered your password?",
+        "backCta": "Back to sign in"
+      }
     }
   },
   "workspace": {

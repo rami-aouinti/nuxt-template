@@ -1,36 +1,87 @@
 <script setup lang="ts">
+import { Notify } from '~/stores/notification'
+import { axios, AxiosError } from '~/utils/axios'
+import type { LoginResponse } from '~/types/auth'
+
 const router = useRouter()
+const { t } = useI18n()
+const { fetch } = useAppUserSession()
+const profileCache = useAuthProfileCache()
+
 const form = reactive({
   email: '',
   password: '',
   remember: true,
 })
 const loading = ref(false)
+const errorMessage = ref<string | null>(null)
+
+const canSubmit = computed(
+  () => Boolean(form.email.trim() && form.password.trim()) && !loading.value,
+)
 
 const onSubmit = async () => {
+  if (!canSubmit.value) return
   loading.value = true
-  await new Promise((resolve) => setTimeout(resolve, 1200))
-  loading.value = false
-  router.push('/')
+  errorMessage.value = null
+  try {
+    const { data } = await axios.post<LoginResponse>('/api/auth/login', {
+      username: form.email,
+      password: form.password,
+    })
+    profileCache.value = data.profile
+    await fetch()
+    Notify.success(t('auth.loginSuccess'))
+    router.push('/')
+  } catch (error) {
+    let message = t('auth.loginFailed')
+    if (error instanceof AxiosError) {
+      const responseMessage =
+        (error.response?.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data &&
+        typeof error.response.data.message === 'string'
+          ? error.response.data.message
+          : null) || error.response?.statusText || null
+      if (responseMessage) {
+        message = responseMessage
+      }
+    } else if (error instanceof Error) {
+      message = error.message
+    }
+    errorMessage.value = message
+    Notify.error(message)
+  } finally {
+    loading.value = false
+  }
 }
 
 definePageMeta({
   layout: 'auth',
-  title: 'Connexion',
+  title: 'auth.login',
 })
 </script>
 
 <template>
   <div class="auth-card">
     <div class="auth-card__header">
-      <div class="auth-card__badge">Bienvenue</div>
-      <h2>Connexion</h2>
-      <p>Reprenez la main sur vos projets avec un espace de travail parfaitement organisé.</p>
+      <div class="auth-card__badge">{{ t('pages.auth.login.badge') }}</div>
+      <h2>{{ t('pages.auth.login.title') }}</h2>
+      <p>{{ t('pages.auth.login.subtitle') }}</p>
     </div>
+    <v-alert
+      v-if="errorMessage"
+      class="mb-4"
+      type="error"
+      variant="tonal"
+      density="comfortable"
+    >
+      {{ errorMessage }}
+    </v-alert>
     <v-form class="d-flex flex-column ga-4" @submit.prevent="onSubmit">
       <v-text-field
         v-model="form.email"
-        label="Email professionnel"
+        :label="t('pages.auth.login.emailLabel')"
         type="email"
         variant="outlined"
         color="primary"
@@ -40,7 +91,7 @@ definePageMeta({
       />
       <v-text-field
         v-model="form.password"
-        label="Mot de passe"
+        :label="t('pages.auth.login.passwordLabel')"
         type="password"
         variant="outlined"
         color="primary"
@@ -49,12 +100,25 @@ definePageMeta({
         required
       />
       <div class="d-flex align-center justify-space-between flex-wrap ga-2">
-        <v-checkbox-btn v-model="form.remember" label="Se souvenir de moi" density="compact" />
+        <v-checkbox-btn
+          v-model="form.remember"
+          :label="t('pages.auth.login.rememberMe')"
+          density="compact"
+        />
         <NuxtLink class="text-primary text-decoration-none" to="/forgot-password">
-          Mot de passe oublié ?
+          {{ t('pages.auth.login.forgotPassword') }}
         </NuxtLink>
       </div>
-      <v-btn type="submit" color="primary" size="large" block :loading="loading">Se connecter</v-btn>
+      <v-btn
+        type="submit"
+        color="primary"
+        size="large"
+        block
+        :loading="loading"
+        :disabled="!canSubmit"
+      >
+        {{ t('pages.auth.login.submit') }}
+      </v-btn>
       <v-btn
         color="white"
         class="text-primary"
@@ -63,12 +127,14 @@ definePageMeta({
         variant="outlined"
         prepend-icon="mdi-google"
       >
-        Continuer avec Google
+        {{ t('pages.auth.login.google') }}
       </v-btn>
     </v-form>
     <p class="auth-card__footer">
-      Pas encore de compte ?
-      <NuxtLink class="text-primary text-decoration-none" to="/register">Créer un compte</NuxtLink>
+      {{ t('pages.auth.login.signupPrompt') }}
+      <NuxtLink class="text-primary text-decoration-none" to="/register">
+        {{ t('pages.auth.login.signupCta') }}
+      </NuxtLink>
     </p>
   </div>
 </template>

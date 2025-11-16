@@ -2753,5 +2753,50 @@
         }
       }
     }
+  },
+  "pages": {
+    "auth": {
+      "login": {
+        "metaTitle": "Accedi",
+        "badge": "Benvenuto",
+        "title": "Accedi al tuo spazio di lavoro",
+        "subtitle": "Riprendi i tuoi progetti con un cruscotto organizzato e focalizzato.",
+        "emailLabel": "Email di lavoro",
+        "passwordLabel": "Password",
+        "rememberMe": "Ricordami",
+        "forgotPassword": "Password dimenticata?",
+        "submit": "Accedi",
+        "google": "Continua con Google",
+        "signupPrompt": "Non hai ancora un account?",
+        "signupCta": "Creane uno"
+      },
+      "register": {
+        "metaTitle": "Crea account",
+        "badge": "Nuovo",
+        "title": "Crea il tuo spazio di lavoro",
+        "subtitle": "Invita il tuo team e centralizza le operazioni in pochi secondi.",
+        "companyLabel": "Nome dell'organizzazione",
+        "emailLabel": "Email di lavoro",
+        "passwordLabel": "Crea una password",
+        "confirmPasswordLabel": "Conferma password",
+        "termsLabel": "Accetto i termini di servizio",
+        "submit": "Inizia",
+        "signinPrompt": "Sei già registrato?",
+        "signinCta": "Accedi"
+      },
+      "forgotPassword": {
+        "metaTitle": "Reimposta password",
+        "badge": "Supporto",
+        "title": "Reimposta la tua password",
+        "subtitle": "Imposta una nuova password e recupera l'accesso sicuro al tuo spazio.",
+        "emailLabel": "Email di lavoro",
+        "passwordLabel": "Nuova password",
+        "confirmPasswordLabel": "Conferma la nuova password",
+        "submit": "Reimposta password",
+        "success": "Ti abbiamo inviato un link sicuro. Controlla la tua casella di posta per continuare.",
+        "backPrompt": "Ti sei ricordato la password?",
+        "backCta": "Torna all'accesso"
+      }
+    }
   }
 }
