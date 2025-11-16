@@ -2790,6 +2790,29 @@
       }
     }
   },
+  "layouts": {
+    "auth": {
+      "hero": {
+        "title": "Bro World",
+        "description": "访问控制面板，借助精致、快速且响应迅速的界面开始掌控你的产品。",
+        "stats": {
+          "availability": {
+            "label": "可用性",
+            "value": "99.9%"
+          },
+          "clients": {
+            "label": "活跃客户",
+            "value": "25k+"
+          },
+          "updates": {
+            "label": "更新",
+            "value": "每周"
+          }
+        }
+      },
+      "footer": "© {year} Nuxt Template。保留所有权利。"
+    }
+  },
   "pages": {
     "auth": {
       "login": {

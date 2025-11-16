@@ -2790,6 +2790,29 @@
       }
     }
   },
+  "layouts": {
+    "auth": {
+      "hero": {
+        "title": "Bro World",
+        "description": "Accedi alla tua dashboard e inizia a guidare il tuo prodotto con un'interfaccia raffinata, veloce e reattiva.",
+        "stats": {
+          "availability": {
+            "label": "Disponibilità",
+            "value": "99.9%"
+          },
+          "clients": {
+            "label": "Clienti attivi",
+            "value": "25k+"
+          },
+          "updates": {
+            "label": "Aggiornamenti",
+            "value": "Settimanali"
+          }
+        }
+      },
+      "footer": "© {year} Nuxt Template. Tutti i diritti riservati."
+    }
+  },
   "pages": {
     "auth": {
       "login": {
