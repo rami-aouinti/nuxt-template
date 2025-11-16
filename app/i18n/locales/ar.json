@@ -671,6 +671,10 @@
           "deleteConfirm": "Are you sure you want to delete this entity? This action cannot be undone.",
           "manageTitle": "Manage {entity}"
         },
+        "preview": {
+          "title": "معاينة الكيان",
+          "empty": "حمّل الكيان لعرض حقوله."
+        },
         "entities": {
           "productAttributes": "Product attributes",
           "shippingCategories": "Shipping categories",

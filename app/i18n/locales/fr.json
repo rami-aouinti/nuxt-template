@@ -680,6 +680,10 @@
           "deleteConfirm": "Are you sure you want to delete this entity? This action cannot be undone.",
           "manageTitle": "Manage {entity}"
         },
+        "preview": {
+          "title": "Entity preview",
+          "empty": "Load the entity to display its fields."
+        },
         "entities": {
           "productAttributes": "Product attributes",
           "shippingCategories": "Shipping categories",

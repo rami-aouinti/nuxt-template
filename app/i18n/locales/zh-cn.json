@@ -671,6 +671,10 @@
           "deleteConfirm": "Are you sure you want to delete this entity? This action cannot be undone.",
           "manageTitle": "Manage {entity}"
         },
+        "preview": {
+          "title": "实体预览",
+          "empty": "加载实体以显示其字段。"
+        },
         "entities": {
           "productAttributes": "Product attributes",
           "shippingCategories": "Shipping categories",
