@@ -2,7 +2,9 @@
 import { computed, ref } from 'vue'
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
 import { createDateFormatter, formatDateValue } from '~/utils/formatters'
+import AdminEcommerceResourceActions from '~/components/Admin/AdminEcommerceResourceActions.vue'
 import {
+  buildAdminResourceActionLinks,
   getBoolean,
   getString,
   normalizeHydraCollection,
@@ -51,6 +53,13 @@ const headers = computed(() => [
     key: 'verified',
     width: 140,
     align: 'center',
+  },
+  {
+    title: '',
+    key: 'actions',
+    sortable: false,
+    align: 'end',
+    width: 140,
   },
 ])
 
@@ -126,6 +135,19 @@ const rows = computed(() => {
       'email_verified',
     ])
 
+    const customerId =
+      getString(record, ['id']) ?? getString(userRecord, ['id']) ?? null
+    const customerEndpoint =
+      getString(record, ['@id']) ??
+      (customerId
+        ? `/api/ecommerce/v2/admin/customers/${encodeURIComponent(customerId)}`
+        : null)
+    const deleteEndpoint = customerEndpoint
+      ? `${customerEndpoint}/user`
+      : customerId
+        ? `/api/ecommerce/v2/admin/customers/${encodeURIComponent(customerId)}/user`
+        : null
+
     return {
       email,
       firstName,
@@ -133,6 +155,9 @@ const rows = computed(() => {
       registrationDate,
       enabled,
       verified,
+      actions: buildAdminResourceActionLinks(customerEndpoint, {
+        delete: deleteEndpoint,
+      }),
     }
   })
 })
@@ -191,6 +216,13 @@ const errorMessage = computed(() => {
             : t('admin.ecommerce.common.disabled')
         }}
       </v-chip>
+    </template>
+    <template #item.actions="{ item }">
+      <AdminEcommerceResourceActions
+        :show-url="item.actions?.show"
+        :edit-url="item.actions?.edit"
+        :delete-url="item.actions?.delete"
+      />
     </template>
   </AdminDataTable>
 </template>
