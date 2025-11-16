@@ -39,7 +39,7 @@ const onSubmit = async () => {
       repeatPassword: form.confirmPassword,
     })
     Notify.success(t('auth.registerSuccess'))
-    router.push('/verify-email')
+    router.push('/login?registered=true')
   } catch (error) {
     let message = t('auth.registerFailed')
     if (error instanceof AxiosError) {
