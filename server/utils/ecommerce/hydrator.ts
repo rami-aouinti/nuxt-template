@@ -4,13 +4,13 @@ import type { FetchOptions } from 'ofetch'
 import {
   broWorldEcommerceRawRequest,
   getEcommerceAcceptLanguage,
+  getEcommerceOrigin,
 } from '../broWorldEcommerceApi'
 import {
   getCachedLinkedResource,
   setCachedLinkedResource,
 } from '../cache/ecommerceLinkedResources'
 
-const ECOMMERCE_ORIGIN = 'https://ecommerce.bro-world.org'
 const API_V2_PREFIX = '/api/v2'
 const API_PREFIX = '/api'
 const DEFAULT_MAX_LINK_DEPTH = 4
@@ -27,13 +27,14 @@ interface HydrationContext {
   maxLinkDepth: number
   pending: Map<string, Promise<unknown>>
   activePaths: Set<string>
+  origin: string
 }
 
 const isRecord = (value: unknown): value is Record<string, unknown> => {
   return Boolean(value && typeof value === 'object' && !Array.isArray(value))
 }
 
-function normalizeLinkedPath(input: string): string | null {
+function normalizeLinkedPath(input: string, origin: string): string | null {
   let value = input.trim()
   if (!value) {
     return null
@@ -42,7 +43,7 @@ function normalizeLinkedPath(input: string): string | null {
   if (/^https?:\/\//i.test(value)) {
     try {
       const url = new URL(value)
-      if (url.origin !== ECOMMERCE_ORIGIN) {
+      if (url.origin !== origin) {
         return null
       }
       value = `${url.pathname}${url.search}`
@@ -104,6 +105,7 @@ function createHydrationContext(event: H3Event, options: HydrationOptions): Hydr
     maxLinkDepth: options.maxLinkDepth ?? DEFAULT_MAX_LINK_DEPTH,
     pending: new Map(),
     activePaths: new Set(),
+    origin: getEcommerceOrigin(event),
   }
 }
 
@@ -171,7 +173,7 @@ async function hydrateLinkedValue(
     return value
   }
 
-  const path = normalizeLinkedPath(value)
+  const path = normalizeLinkedPath(value, context.origin)
   if (!path) {
     return value
   }

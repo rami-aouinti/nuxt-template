@@ -1,11 +1,12 @@
 import { getHeader, type H3Event } from 'h3'
 import type { FetchOptions } from 'ofetch'
+import { useRuntimeConfig } from '#imports'
 
 import { createBroWorldRequest } from './broWorldApi'
 import { fetchEcommerceResponse } from './cache/ecommerce'
 import { hydrateEcommercePayload } from './ecommerce/hydrator'
 
-const ECOMMERCE_BASE_URL = 'https://ecommerce.bro-world.org/api/v2'
+const DEFAULT_ECOMMERCE_ORIGIN = 'https://ecommerce'
 const ECOMMERCE_ERROR_MESSAGE = "Requête à l'API Ecommerce Bro World échouée"
 
 type SessionInput = Record<string, unknown> | null | undefined
@@ -39,23 +40,41 @@ const resolveEcommerceToken = (session: SessionInput, path: string) => {
   return getSessionToken(session, 'token')
 }
 
-const baseBroWorldEcommerceRequest = createBroWorldRequest(
-  ECOMMERCE_BASE_URL,
-  ECOMMERCE_ERROR_MESSAGE,
-  { resolveToken: resolveEcommerceToken },
-)
+function resolveEcommerceOrigin(event: H3Event) {
+  const runtimeConfig = useRuntimeConfig(event)
+  const origin =
+    runtimeConfig.ecommerce?.origin ||
+    runtimeConfig.public?.ecommerce?.origin ||
+    process.env.NUXT_PUBLIC_ECOMMERCE_ORIGIN ||
+    DEFAULT_ECOMMERCE_ORIGIN
+  return origin.replace(/\/+$/, '')
+}
+
+function resolveEcommerceBaseUrl(event: H3Event) {
+  const runtimeConfig = useRuntimeConfig(event)
+  const baseUrl =
+    runtimeConfig.ecommerce?.apiBase ||
+    process.env.NUXT_ECOMMERCE_API_BASE_URL ||
+    `${resolveEcommerceOrigin(event)}/api/v2`
+  return baseUrl.replace(/\/+$/, '')
+}
+
+function createEcommerceRequest(event: H3Event) {
+  const baseUrl = resolveEcommerceBaseUrl(event)
+  const request = createBroWorldRequest(baseUrl, ECOMMERCE_ERROR_MESSAGE, {
+    resolveToken: resolveEcommerceToken,
+  })
+  return { baseUrl, request }
+}
 
 export async function broWorldEcommerceRequest<T>(
   event: H3Event,
   path: string,
   options: FetchOptions<'json'> = {},
 ): Promise<T> {
-  const response = await fetchEcommerceResponse(
-    event,
-    ECOMMERCE_BASE_URL,
-    path,
-    options,
-    () => baseBroWorldEcommerceRequest<T>(event, path, options),
+  const { baseUrl, request } = createEcommerceRequest(event)
+  const response = await fetchEcommerceResponse(event, baseUrl, path, options, () =>
+    request<T>(event, path, options),
   )
 
   return (await hydrateEcommercePayload(event, response, { headers: options.headers })) as T
@@ -66,7 +85,12 @@ export async function broWorldEcommerceRawRequest<T>(
   path: string,
   options: FetchOptions<'json'> = {},
 ): Promise<T> {
-  return await baseBroWorldEcommerceRequest<T>(event, path, options)
+  const { request } = createEcommerceRequest(event)
+  return await request<T>(event, path, options)
+}
+
+export function getEcommerceOrigin(event: H3Event): string {
+  return resolveEcommerceOrigin(event)
 }
 
 export function getEcommerceAcceptLanguage(event: H3Event): string | undefined {

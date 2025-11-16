@@ -5,6 +5,7 @@ import type {
   ProductVariantInterface,
 } from '~/types/product'
 import type { TaxonJsonLdSyliusShopTaxonIndex } from '~/types/tax'
+import { getEcommerceOrigin } from '~/utils/ecommerce/origin'
 
 export type UnknownRecord = Record<string, unknown>
 
@@ -476,7 +477,8 @@ export const buildImageUrl = (
     return path
   }
 
-  return `https://ecommerce.bro-world.org${path.startsWith('/') ? '' : '/'}${path}`
+  const origin = getEcommerceOrigin()
+  return `${origin}${path.startsWith('/') ? '' : '/'}${path}`
 }
 
 export const formatPriceWithCurrency = (

@@ -4,6 +4,7 @@ import { computed, reactive, ref, watch } from 'vue'
 import AdminEntityTreePreview from '~/components/Admin/AdminEntityTreePreview.vue'
 import AppModal from '~/components/App/AppModal.vue'
 import type { AdminEntityPreviewNode } from '~/types/adminEntityPreview'
+import { getEcommerceOrigin } from '~/utils/ecommerce/origin'
 
 const props = withDefaults(
   defineProps<{
@@ -21,8 +22,14 @@ const props = withDefaults(
 const { t, locale } = useI18n()
 const requestFetch = useRequestFetch()
 
-const ECOMMERCE_BASE_URL = 'https://ecommerce.bro-world.org'
-const ECOMMERCE_HOST = new URL(ECOMMERCE_BASE_URL).host
+const ECOMMERCE_BASE_URL = getEcommerceOrigin()
+const ECOMMERCE_HOST = (() => {
+  try {
+    return new URL(ECOMMERCE_BASE_URL).host
+  } catch {
+    return ''
+  }
+})()
 const LOCAL_HOSTNAMES = new Set(['localhost', '127.0.0.1', '0.0.0.0', '::1'])
 
 const normalizedLinks = computed(() => ({
@@ -493,7 +500,7 @@ type TemporalFieldType = Extract<EntityFieldDisplayType, 'date' | 'datetime'>
 
 function detectTemporalType(value: string): TemporalFieldType | null {
   const trimmed = value.trim()
-  if (trimmed.length < 8 || !/[tT:\-\/]/.test(trimmed)) {
+    if (trimmed.length < 8 || !/[tT:/-]/.test(trimmed)) {
     return null
   }
 
