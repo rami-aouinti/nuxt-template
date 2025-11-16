@@ -48,6 +48,7 @@ import {
 } from '~/utils/formatters'
 
 definePageMeta({
+  layout: 'default',
   title: 'navigation.home',
 })
 

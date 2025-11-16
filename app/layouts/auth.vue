@@ -43,7 +43,7 @@ const currentYear = new Date().getFullYear()
 
 <style scoped>
 .auth-app {
-  background: radial-gradient(circle at top, rgba(99, 102, 241, 0.3), transparent), #050311;
+  background: radial-gradient(circle at top, rgba(var(--v-theme-primary)), transparent), rgba(var(--v-theme-primary), 0.14);
   color: rgba(255, 255, 255, 0.9);
 }
 
@@ -67,7 +67,7 @@ const currentYear = new Date().getFullYear()
   position: relative;
   border-radius: 24px;
   padding: 40px;
-  background: rgba(15, 14, 36, 0.65);
+  background: rgba(var(--v-theme-primary));
   border: 1px solid rgba(255, 255, 255, 0.08);
   overflow: hidden;
   min-height: 420px;
@@ -76,7 +76,7 @@ const currentYear = new Date().getFullYear()
 .auth-hero__glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.6), transparent 60%),
+  background: radial-gradient(circle at 20% 20%, rgba(var(--v-theme-primary), 0.14), transparent 60%),
     radial-gradient(circle at 80% 0%, rgba(236, 72, 153, 0.4), transparent 55%);
   filter: blur(35px);
   opacity: 0.7;

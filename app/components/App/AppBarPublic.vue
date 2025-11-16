@@ -292,7 +292,7 @@ watch(loggedIn, (value) => {
       <AppSettings />
       <AppMessenger />
       <AppNotification />
-      <v-menu location="bottom" class="dock-navbar__menu" min-width="200">
+      <v-menu location="bottom" class="dock-navbar__menu">
         <template #activator="{ props: menu }">
           <v-tooltip
             :text="loggedIn ? user!.login : t('auth.guest')"
@@ -318,7 +318,7 @@ watch(loggedIn, (value) => {
             </template>
           </v-tooltip>
         </template>
-        <v-list class="dock-navbar__menu-list">
+        <v-list class="dock-navbar__menu-list" width="200">
           <template v-if="loggedIn">
             <v-list-item
               :title="t('navigation.profile')"
@@ -336,7 +336,7 @@ watch(loggedIn, (value) => {
             <v-list-item
               :title="t('auth.loginWithCredentials')"
               prepend-icon="mdi-lock"
-              @click="credentialsDialog = true"
+              :to="localePath('login')"
             />
           </template>
           <v-list-item
@@ -392,7 +392,7 @@ watch(loggedIn, (value) => {
           </v-btn>
         </template>
 
-        <v-list class="dock-navbar__language-list" density="compact" tag="ul">
+        <v-list class="dock-navbar__language-list" density="compact" tag="ul" width="150">
           <v-list-item
             v-for="language in languageItems"
             :key="language.code"
