@@ -48,11 +48,13 @@ const colors = [
 const menuShow = ref(false)
 const { t } = useI18n()
 const radiusOptions = computed(() =>
-  themeRadiusOptions.map((option) => ({
-    ...option,
-    label: t(option.labelKey),
-    description: t(option.descriptionKey),
-  })),
+  themeRadiusOptions
+    .filter((option) => option.value !== 'lg')
+    .map((option) => ({
+      ...option,
+      label: t(option.labelKey),
+      description: t(option.descriptionKey),
+    })),
 )
 const shadowOptions = computed(() =>
   themeShadowOptions.map((option) => ({
@@ -104,83 +106,47 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
         />
         <v-divider class="my-4" />
         <v-label class="mb-2"> {{ t('app.settings.cornerRadius') }} </v-label>
-        <v-item-group
+        <v-btn-toggle
           v-model="rounded"
-          class="app-settings-card__options app-settings-card__options--grid"
+          class="app-settings-card__toggle"
+          density="compact"
           mandatory
         >
-          <v-item
+          <v-btn
             v-for="option in radiusOptions"
             :key="option.value"
             :value="option.value"
+            class="app-settings-card__toggle-btn"
+            color="primary"
+            rounded="lg"
+            size="small"
+            variant="tonal"
+            :title="option.description"
           >
-            <template #default="{ isSelected, toggle }">
-              <v-sheet
-                class="app-settings-card__option"
-                border="thin opacity-50"
-                color="transparent"
-                rounded="lg"
-                :class="{
-                  'app-settings-card__option--selected': isSelected,
-                }"
-                @click="toggle"
-              >
-                <v-checkbox-btn
-                  :model-value="isSelected"
-                  density="comfortable"
-                  color="primary"
-                  class="mr-3"
-                  hide-details
-                />
-                <div class="text-start">
-                  <div class="font-weight-medium">{{ option.label }}</div>
-                  <div class="text-caption text-medium-emphasis">
-                    {{ option.description }}
-                  </div>
-                </div>
-              </v-sheet>
-            </template>
-          </v-item>
-        </v-item-group>
+            {{ option.label }}
+          </v-btn>
+        </v-btn-toggle>
         <v-label class="mb-2"> {{ t('app.settings.shadowDepth') }} </v-label>
-        <v-item-group
+        <v-btn-toggle
           v-model="shadowPreset"
-          class="app-settings-card__options app-settings-card__options--grid"
+          class="app-settings-card__toggle"
+          density="compact"
           mandatory
         >
-          <v-item
+          <v-btn
             v-for="option in shadowOptions"
             :key="option.value"
             :value="option.value"
+            class="app-settings-card__toggle-btn"
+            color="primary"
+            rounded="lg"
+            size="small"
+            variant="tonal"
+            :title="option.description"
           >
-            <template #default="{ isSelected, toggle }">
-              <v-sheet
-                class="app-settings-card__option"
-                border="thin opacity-50"
-                color="transparent"
-                rounded="lg"
-                :class="{
-                  'app-settings-card__option--selected': isSelected,
-                }"
-                @click="toggle"
-              >
-                <v-checkbox-btn
-                  :model-value="isSelected"
-                  density="comfortable"
-                  color="primary"
-                  class="mr-3"
-                  hide-details
-                />
-                <div class="text-start">
-                  <div class="font-weight-medium">{{ option.label }}</div>
-                  <div class="text-caption text-medium-emphasis">
-                    {{ option.description }}
-                  </div>
-                </div>
-              </v-sheet>
-            </template>
-          </v-item>
-        </v-item-group>
+            {{ option.label }}
+          </v-btn>
+        </v-btn-toggle>
       </v-card-text>
     </v-card>
   </v-menu>
@@ -218,46 +184,15 @@ const themeMenuAriaLabel = computed(() => t('app.settings.openThemeMenu'))
   align-self: center;
 }
 
-.app-settings-card__options {
-  margin-bottom: 8px;
-}
-
-.app-settings-card__options--grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 12px;
-}
-
-.app-settings-card__option {
+.app-settings-card__toggle {
   display: flex;
-  align-items: flex-start;
-  padding: 12px 16px;
-  transition:
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
-  cursor: pointer;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.app-settings-card__option {
-  box-shadow: none;
-}
-
-.app-settings-card__option:hover {
-  box-shadow: 0 6px 16px rgba(var(--v-theme-primary), 0.16);
-}
-
-.app-settings-card__option--selected {
-  box-shadow: var(--app-shadow, 0 10px 26px rgba(var(--v-theme-primary), 0.14));
-}
-
-.app-settings-card__option--selected:hover {
-  box-shadow: var(
-    --app-shadow-hover,
-    0 18px 44px rgba(var(--v-theme-primary), 0.2)
-  );
-}
-
-.app-settings-card__option :deep(.v-selection-control) {
-  margin-inline-end: 12px;
+.app-settings-card__toggle-btn {
+  text-transform: none;
+  font-weight: 600;
+  letter-spacing: normal;
 }
 </style>
