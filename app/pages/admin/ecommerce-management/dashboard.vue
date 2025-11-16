@@ -276,29 +276,51 @@ const formatCurrency = (amount: number, currencyCode?: string | null) => {
 
 const formatPercent = (value: number) => `${Math.round(value)}%`
 
+const normalizePeriodDate = (value: unknown): string | null => {
+  const raw = safeDate(value)
+  if (typeof raw !== 'string') {
+    return null
+  }
+
+  const trimmed = raw.trim()
+  if (!trimmed) {
+    return null
+  }
+
+  if (/^\d{4}-\d{2}$/.test(trimmed)) {
+    return `${trimmed}-01`
+  }
+
+  return trimmed
+}
+
 const stats = computed(() => {
   const statsRecord = toRecord(statistics.value)
-  const totalSales = getNumber(statsRecord, [
-    'total_sales',
-    'totalSales',
-    'sales',
-  ])
-  const averageOrderValue = getNumber(statsRecord, [
-    'average_order_value',
-    'averageOrderValue',
-    'avgOrder',
-  ])
-  const orderCount = getNumber(statsRecord, [
-    'orders',
-    'order_count',
-    'orderCount',
-  ])
-  const newCustomers = getNumber(statsRecord, [
-    'new_customers',
-    'newCustomers',
-    'customers',
-  ])
-  const currency = getString(statsRecord, 'currency', 'USD')
+  const summaryRecord = toRecord(statsRecord?.businessActivitySummary)
+  const readSummaryNumber = (keys: string | string[]) => {
+    if (!summaryRecord) {
+      return null
+    }
+
+    const value = getNumber(summaryRecord, keys, Number.NaN)
+    return Number.isNaN(value) ? null : value
+  }
+
+  const totalSales =
+    readSummaryNumber(['totalSales', 'total_sales']) ??
+    getNumber(statsRecord, ['total_sales', 'totalSales', 'sales'])
+  const averageOrderValue =
+    readSummaryNumber(['averageOrderValue', 'average_order_value']) ??
+    getNumber(statsRecord, ['average_order_value', 'averageOrderValue', 'avgOrder'])
+  const orderCount =
+    readSummaryNumber(['paidOrdersCount', 'paid_orders_count']) ??
+    getNumber(statsRecord, ['orders', 'order_count', 'orderCount'])
+  const newCustomers =
+    readSummaryNumber(['newCustomersCount', 'new_customers_count']) ??
+    getNumber(statsRecord, ['new_customers', 'newCustomers', 'customers'])
+  const currency =
+    getString(summaryRecord, ['currencyCode', 'currency']) ??
+    getString(statsRecord, 'currency', 'USD')
   const formatCurrencyValue = (value: number) => formatCurrency(value, currency)
 
   return [
@@ -468,19 +490,23 @@ const recentOrders = computed(() =>
 
 const salesTrend = computed(() => {
   const statsRecord = toRecord(statistics.value)
-  const sales = getArray(statsRecord, ['sales_trend', 'salesTrend'])
-  if (!sales.length) {
+  const trendEntries = getArray(statsRecord, ['sales_trend', 'salesTrend'])
+  const salesEntries = trendEntries.length
+    ? trendEntries
+    : getArray(statsRecord, ['sales'])
+  if (!salesEntries.length) {
     return []
   }
 
-  return sales
+  return salesEntries
     .map((entry) => {
       const record = toRecord(entry)
       if (!record) {
         return null
       }
 
-      const date = safeDate(record?.date) ?? safeDate(record?.period)
+      const date =
+        normalizePeriodDate(record?.date) ?? normalizePeriodDate(record?.period)
       const total = getNumber(record, ['total', 'amount', 'value'])
       if (!date) {
         return null
@@ -511,11 +537,11 @@ const customersGrowth = computed(() => {
       }
 
       return {
-        period,
+        label: period,
         value: getNumber(record, ['value', 'total', 'count']),
       }
     })
-    .filter((entry): entry is { period: string; value: number } =>
+    .filter((entry): entry is { label: string; value: number } =>
       Boolean(entry),
     )
 })
