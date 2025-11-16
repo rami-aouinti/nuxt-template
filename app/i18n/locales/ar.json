@@ -1164,11 +1164,11 @@
       "unexpectedError": "حدث خطأ غير متوقع.",
       "actions": {
         "cancel": "إلغاء",
-      "create": "إنشاء",
-      "save": "حفظ",
-      "edit": "تحرير",
-      "view": "عرض",
-      "close": "إغلاق",
+        "create": "إنشاء",
+        "save": "حفظ",
+        "edit": "تحرير",
+        "view": "عرض",
+        "close": "إغلاق",
         "back": "رجوع",
         "continue": "متابعة",
         "delete": "حذف",
@@ -2838,5 +2838,9 @@
         "backCta": "العودة إلى تسجيل الدخول"
       }
     }
+  },
+  "common": {
+    "enabled": "مفعل",
+    "disabled": "معطل"
   }
 }
