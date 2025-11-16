@@ -1,5 +1,14 @@
 <script setup lang="ts">
-const data = [
+import { computed } from 'vue'
+
+type LinePoint = {
+  date: string
+  total: number
+}
+
+const props = defineProps<{ items?: LinePoint[] }>()
+
+const fallbackData: LinePoint[] = [
   ['2022-06-05', 116],
   ['2022-06-06', 129],
   ['2022-06-07', 135],
@@ -50,11 +59,19 @@ const data = [
   ['2022-07-22', 57],
   ['2022-07-23', 55],
   ['2022-07-24', 60],
-]
+].map(([date, total]) => ({ date, total }))
 
-const option = {
+const dataset = computed(() => {
+  if (props.items && props.items.length > 0) {
+    return props.items.map((item) => [item.date, item.total])
+  }
+
+  return fallbackData.map((item) => [item.date, item.total])
+})
+
+const option = computed(() => ({
   backgroundColor: 'transparent',
-  dataset: { source: data },
+  dataset: { source: dataset.value },
   visualMap: {
     show: false,
     type: 'continuous',
@@ -87,7 +104,7 @@ const option = {
       },
     },
   ],
-}
+}))
 </script>
 
 <template>

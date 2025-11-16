@@ -1,5 +1,28 @@
 <script setup lang="ts">
-const option = {
+import { computed } from 'vue'
+
+type BarPoint = {
+  label: string
+  value: number
+}
+
+const props = defineProps<{ items?: BarPoint[] }>()
+
+const fallbackItems: BarPoint[] = [
+  ['Mon', 79],
+  ['Tue', 52],
+  ['Wed', 200],
+  ['Thu', 334],
+  ['Fri', 390],
+  ['Sat', 330],
+  ['Sun', 220],
+].map(([label, value]) => ({ label, value }))
+
+const chartItems = computed(() =>
+  props.items && props.items.length > 0 ? props.items : fallbackItems,
+)
+
+const option = computed(() => ({
   backgroundColor: 'transparent',
   tooltip: {
     trigger: 'axis',
@@ -17,7 +40,7 @@ const option = {
   xAxis: [
     {
       type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      data: chartItems.value.map((item) => item.label),
       axisTick: {
         alignWithLabel: true,
       },
@@ -33,28 +56,14 @@ const option = {
   ],
   series: [
     {
-      name: 'pageA',
+      name: 'value',
       type: 'bar',
-      stack: 'vistors',
+      stack: 'visitors',
       barWidth: '60%',
-      data: [79, 52, 200, 334, 390, 330, 220],
-    },
-    {
-      name: 'pageB',
-      type: 'bar',
-      stack: 'vistors',
-      barWidth: '60%',
-      data: [80, 52, 200, 334, 390, 330, 220],
-    },
-    {
-      name: 'pageC',
-      type: 'bar',
-      stack: 'vistors',
-      barWidth: '60%',
-      data: [30, 52, 200, 334, 390, 330, 220],
+      data: chartItems.value.map((item) => item.value),
     },
   ],
-}
+}))
 </script>
 
 <template>
