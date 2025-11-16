@@ -21,6 +21,10 @@ const props = withDefaults(
 const { t, locale } = useI18n()
 const requestFetch = useRequestFetch()
 
+const ECOMMERCE_BASE_URL = 'https://ecommerce.bro-world.org'
+const ECOMMERCE_HOST = new URL(ECOMMERCE_BASE_URL).host
+const LOCAL_HOSTNAMES = new Set(['localhost', '127.0.0.1', '0.0.0.0', '::1'])
+
 const normalizedLinks = computed(() => ({
   show: normalizeUrl(props.showUrl),
   edit: normalizeUrl(props.editUrl),
@@ -582,18 +586,58 @@ function normalizeEndpoint(value: string): string | null {
   }
 
   if (/^https?:\/\//i.test(trimmed)) {
-    return trimmed
+    return normalizeAbsoluteEndpoint(trimmed)
   }
 
-  if (trimmed.startsWith('/')) {
-    return trimmed
+  const normalizedPath = normalizeRelativeEndpointPath(trimmed)
+  if (!normalizedPath) {
+    return null
   }
 
-  if (trimmed.startsWith('api/')) {
-    return `/${trimmed}`
+  return buildEcommerceEndpoint(normalizedPath)
+}
+
+function normalizeAbsoluteEndpoint(value: string): string | null {
+  try {
+    const url = new URL(value)
+
+    if (url.host === ECOMMERCE_HOST) {
+      return url.href
+    }
+
+    if (LOCAL_HOSTNAMES.has(url.hostname)) {
+      return buildEcommerceEndpoint(`${url.pathname}${url.search}`)
+    }
+
+    return url.href
+  } catch {
+    return null
+  }
+}
+
+function normalizeRelativeEndpointPath(value: string): string | null {
+  if (!value) {
+    return null
   }
 
-  return trimmed.includes('/api/') ? trimmed : null
+  if (value.startsWith('/')) {
+    return value
+  }
+
+  if (value.startsWith('api/')) {
+    return `/${value}`
+  }
+
+  if (value.includes('/api/')) {
+    const apiIndex = value.indexOf('/api/')
+    return value.slice(apiIndex)
+  }
+
+  return null
+}
+
+function buildEcommerceEndpoint(path: string): string {
+  return `${ECOMMERCE_BASE_URL}${path.startsWith('/') ? '' : '/'}${path}`
 }
 
 function formatRelationSubtitle(value: Record<string, unknown>): string | null {
