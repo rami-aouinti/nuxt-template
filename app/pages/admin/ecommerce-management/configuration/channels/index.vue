@@ -2,7 +2,9 @@
 import { computed, ref } from 'vue'
 
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
+import AdminEcommerceResourceActions from '~/components/Admin/AdminEcommerceResourceActions.vue'
 import {
+  buildAdminResourceActionLinks,
   getBoolean,
   getString,
   normalizeHydraCollection,
@@ -49,6 +51,13 @@ const headers = computed(() => [
     title: t('admin.ecommerce.configuration.channels.table.enabled'),
     key: 'enabled',
     align: 'center',
+    width: 140,
+  },
+  {
+    title: '',
+    key: 'actions',
+    sortable: false,
+    align: 'end',
     width: 140,
   },
 ])
@@ -111,6 +120,12 @@ const rows = computed(() => {
       locale: localeCode,
       hostname,
       enabled,
+      actions: buildAdminResourceActionLinks(
+        getString(record, ['@id']) ??
+          (code
+            ? `/api/ecommerce/v2/admin/channels/${encodeURIComponent(code)}`
+            : null),
+      ),
     }
   })
 })
@@ -158,6 +173,13 @@ const errorMessage = computed(() => {
             : t('admin.ecommerce.common.disabled')
         }}
       </v-chip>
+    </template>
+    <template #item.actions="{ item }">
+      <AdminEcommerceResourceActions
+        :show-url="item.actions?.show"
+        :edit-url="item.actions?.edit"
+        :delete-url="item.actions?.delete"
+      />
     </template>
   </AdminDataTable>
 </template>
