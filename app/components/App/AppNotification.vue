@@ -90,6 +90,23 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
         </div>
       </v-card>
     </v-menu>
+    <Teleport to="body">
+      <div class="notification-float" aria-live="polite" aria-atomic="true">
+        <v-slide-y-transition group>
+          <div
+            v-for="notification in notificationsShown"
+            :key="`float-${notification.id}`"
+            class="notification-float__item"
+          >
+            <AppNotificationItem
+              :notification="notification"
+              class="notification-item"
+              @close="deleteNotification(notification.id)"
+            />
+          </div>
+        </v-slide-y-transition>
+      </div>
+    </Teleport>
     <template #fallback>
       <span class="dock-navbar__action-placeholder" aria-hidden="true" />
     </template>
@@ -135,6 +152,22 @@ const hasNotifications = computed(() => notificationsShown.value.length > 0)
 
 .notification-item {
   width: 100%;
+}
+
+.notification-float {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  width: min(360px, calc(100vw - 32px));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 1100;
+  pointer-events: none;
+}
+
+.notification-float__item {
+  pointer-events: auto;
 }
 
 .notification-empty {
