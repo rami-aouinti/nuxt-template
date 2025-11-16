@@ -389,7 +389,8 @@
       },
       "createBlog": {
         "title": "Título del blog",
-        "subtitle": "Subtítulo"
+        "subtitle": "Subtítulo",
+        "logo": "Logotipo"
       },
       "createPost": {
         "blog": "Blog",
