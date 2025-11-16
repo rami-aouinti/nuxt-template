@@ -26,7 +26,8 @@ const props = withDefaults(
   defineProps<{
     title: string
     description?: string
-    type?: string
+    type?: 'success' | 'info' | 'warning' | 'error'
+    color?: string
     variant?: string
     prominent?: boolean
     icon?: string | false
@@ -36,7 +37,8 @@ const props = withDefaults(
     descriptionClass?: ClassValue
   }>(),
   {
-    type: 'primary',
+    color: 'primary',
+    type: undefined,
     variant: 'tonal',
     prominent: false,
     icon: undefined,
@@ -51,6 +53,7 @@ const props = withDefaults(
 const mergedAlertProps = computed(() => {
   const incoming = props.alertProps ?? {}
   return {
+    color: props.color,
     type: props.type,
     variant: props.variant,
     prominent: props.prominent,
