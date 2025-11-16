@@ -2,7 +2,9 @@
 import { computed, ref } from 'vue'
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
 import { createDateFormatter, formatDateValue } from '~/utils/formatters'
+import AdminEcommerceResourceActions from '~/components/Admin/AdminEcommerceResourceActions.vue'
 import {
+  buildAdminResourceActionLinks,
   getArray,
   getNumber,
   getString,
@@ -53,6 +55,13 @@ const headers = computed(() => [
     key: 'updatedAt',
     minWidth: 200,
   },
+  {
+    title: '',
+    key: 'actions',
+    sortable: false,
+    align: 'end',
+    width: 140,
+  },
 ])
 
 const search = ref('')
@@ -91,8 +100,9 @@ const rows = computed(() => {
 
   return entries.flatMap((entry, index) => {
     const record = toRecord(entry)
+    const orderIdentifier = getString(record, ['number', 'tokenValue', 'code'])
     const orderNumber =
-      getString(record, ['number', 'tokenValue', 'code']) ??
+      orderIdentifier ??
       `order-${index + 1}`
     const customerRecord = toRecord(record?.customer)
     const customer =
@@ -142,6 +152,12 @@ const rows = computed(() => {
         dateFormatter.value,
         '—',
       )
+      const paymentId = getString(paymentRecord, ['id', 'number', 'code'])
+      const paymentEndpoint =
+        getString(paymentRecord, ['@id']) ??
+        (orderIdentifier && paymentId
+          ? `/api/ecommerce/v2/admin/orders/${encodeURIComponent(orderIdentifier)}/payments/${encodeURIComponent(paymentId)}`
+          : null)
 
       return {
         orderNumber,
@@ -151,6 +167,7 @@ const rows = computed(() => {
         amount,
         updatedAt,
         index: paymentIndex,
+        actions: buildAdminResourceActionLinks(paymentEndpoint),
       }
     })
   })
@@ -189,5 +206,13 @@ const errorMessage = computed(() => {
     :error="errorMessage"
     :search-placeholder="t('common.labels.search')"
     @refresh="refresh"
-  />
+  >
+    <template #item.actions="{ item }">
+      <AdminEcommerceResourceActions
+        :show-url="item.actions?.show"
+        :edit-url="item.actions?.edit"
+        :delete-url="item.actions?.delete"
+      />
+    </template>
+  </AdminDataTable>
 </template>

@@ -2,7 +2,9 @@
 import { computed, ref } from 'vue'
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
 import { createDateFormatter, formatDateValue } from '~/utils/formatters'
+import AdminEcommerceResourceActions from '~/components/Admin/AdminEcommerceResourceActions.vue'
 import {
+  buildAdminResourceActionLinks,
   getArray,
   getNumber,
   getString,
@@ -63,6 +65,13 @@ const headers = computed(() => [
     key: 'placedAt',
     minWidth: 200,
   },
+  {
+    title: '',
+    key: 'actions',
+    sortable: false,
+    align: 'end',
+    width: 140,
+  },
 ])
 
 const search = ref('')
@@ -100,9 +109,8 @@ const rows = computed(() => {
   const entries = normalizeHydraCollection(rawOrders.value)
   return entries.map((entry, index) => {
     const record = toRecord(entry)
-    const number =
-      getString(record, ['number', 'tokenValue', 'code']) ??
-      `order-${index + 1}`
+    const orderIdentifier = getString(record, ['number', 'tokenValue', 'code'])
+    const number = orderIdentifier ?? `order-${index + 1}`
     const customerRecord = toRecord(record?.customer)
     const channelRecord = toRecord(record?.channel)
     const payments = getArray(record, ['payments'])
@@ -159,6 +167,12 @@ const rows = computed(() => {
       total,
       placedAt,
       paymentMethods,
+      actions: buildAdminResourceActionLinks(
+        getString(record, ['@id']) ??
+          (orderIdentifier
+            ? `/api/ecommerce/v2/admin/orders/${encodeURIComponent(orderIdentifier)}`
+            : null),
+      ),
     }
   })
 })
@@ -204,5 +218,13 @@ const errorMessage = computed(() => {
     :error="errorMessage"
     :search-placeholder="t('common.labels.search')"
     @refresh="refresh"
-  />
+  >
+    <template #item.actions="{ item }">
+      <AdminEcommerceResourceActions
+        :show-url="item.actions?.show"
+        :edit-url="item.actions?.edit"
+        :delete-url="item.actions?.delete"
+      />
+    </template>
+  </AdminDataTable>
 </template>

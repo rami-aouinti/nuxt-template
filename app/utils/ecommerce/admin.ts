@@ -209,3 +209,53 @@ export function safeDate(value: unknown): string | null {
 
   return null
 }
+
+export type AdminResourceActionLinks = {
+  show: string | null
+  edit: string | null
+  delete: string | null
+}
+
+export function resolveAdminEndpoint(path?: string | null): string | null {
+  if (typeof path !== 'string') {
+    return null
+  }
+
+  const trimmed = path.trim()
+  if (!trimmed) {
+    return null
+  }
+
+  if (/^https?:\/\//i.test(trimmed)) {
+    return trimmed
+  }
+
+  if (trimmed.startsWith('/api/ecommerce/')) {
+    return trimmed
+  }
+
+  if (trimmed.startsWith('/api/')) {
+    return `/api/ecommerce${trimmed.replace(/^\/api/, '')}`
+  }
+
+  if (trimmed.startsWith('/admin/')) {
+    return `/api/ecommerce/v2${trimmed}`
+  }
+
+  return `/api/ecommerce/v2/${trimmed.replace(/^\/+/, '')}`
+}
+
+export function buildAdminResourceActionLinks(
+  basePath?: string | null,
+  overrides: Partial<AdminResourceActionLinks> = {},
+): AdminResourceActionLinks {
+  const showSource = overrides.show ?? basePath ?? null
+  const editSource = overrides.edit ?? basePath ?? null
+  const deleteSource = overrides.delete ?? basePath ?? null
+
+  return {
+    show: resolveAdminEndpoint(showSource),
+    edit: resolveAdminEndpoint(editSource),
+    delete: resolveAdminEndpoint(deleteSource),
+  }
+}

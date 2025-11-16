@@ -2,7 +2,9 @@
 import { computed, ref } from 'vue'
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
 import { createDateFormatter, formatDateValue } from '~/utils/formatters'
+import AdminEcommerceResourceActions from '~/components/Admin/AdminEcommerceResourceActions.vue'
 import {
+  buildAdminResourceActionLinks,
   getString,
   normalizeHydraCollection,
   resolveLocalizedString,
@@ -50,6 +52,13 @@ const headers = computed(() => [
     key: 'updatedAt',
     minWidth: 200,
   },
+  {
+    title: '',
+    key: 'actions',
+    sortable: false,
+    align: 'end',
+    width: 140,
+  },
 ])
 
 const search = ref('')
@@ -74,8 +83,8 @@ const rows = computed(() => {
   const entries = normalizeHydraCollection(rawShipments.value)
   return entries.map((entry, index) => {
     const record = toRecord(entry)
-    const number =
-      getString(record, ['number', 'id', '@id']) ?? `shipment-${index + 1}`
+    const identifier = getString(record, ['id', 'number', 'code'])
+    const number = identifier ?? `shipment-${index + 1}`
     const orderRecord = toRecord(record?.order)
     const orderNumber =
       getString(orderRecord, ['number', 'tokenValue']) ??
@@ -104,6 +113,12 @@ const rows = computed(() => {
       state,
       tracking,
       updatedAt,
+      actions: buildAdminResourceActionLinks(
+        getString(record, ['@id']) ??
+          (identifier
+            ? `/api/ecommerce/v2/admin/shipments/${encodeURIComponent(identifier)}`
+            : null),
+      ),
     }
   })
 })
@@ -141,5 +156,13 @@ const errorMessage = computed(() => {
     :error="errorMessage"
     :search-placeholder="t('common.labels.search')"
     @refresh="refresh"
-  />
+  >
+    <template #item.actions="{ item }">
+      <AdminEcommerceResourceActions
+        :show-url="item.actions?.show"
+        :edit-url="item.actions?.edit"
+        :delete-url="item.actions?.delete"
+      />
+    </template>
+  </AdminDataTable>
 </template>
