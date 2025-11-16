@@ -2813,6 +2813,29 @@
       }
     }
   },
+  "layouts": {
+    "auth": {
+      "hero": {
+        "title": "Bro World",
+        "description": "Accédez à votre tableau de bord et commencez à piloter votre produit avec une interface raffinée, rapide et responsive.",
+        "stats": {
+          "availability": {
+            "label": "Disponibilité",
+            "value": "99.9%"
+          },
+          "clients": {
+            "label": "Clients actifs",
+            "value": "25k+"
+          },
+          "updates": {
+            "label": "Mises à jour",
+            "value": "Hebdomadaires"
+          }
+        }
+      },
+      "footer": "© {year} Nuxt Template. Tous droits réservés."
+    }
+  },
   "pages": {
     "auth": {
       "login": {

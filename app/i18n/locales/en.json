@@ -1192,6 +1192,29 @@
       "close": "Close"
     }
   },
+  "layouts": {
+    "auth": {
+      "hero": {
+        "title": "Bro World",
+        "description": "Access your dashboard and start steering your product with a refined, fast, and responsive interface.",
+        "stats": {
+          "availability": {
+            "label": "Availability",
+            "value": "99.9%"
+          },
+          "clients": {
+            "label": "Active customers",
+            "value": "25k+"
+          },
+          "updates": {
+            "label": "Updates",
+            "value": "Weekly"
+          }
+        }
+      },
+      "footer": "© {year} Nuxt Template. All rights reserved."
+    }
+  },
   "auth": {
     "profile": "Profile",
     "login": "Login",

@@ -1,5 +1,26 @@
 <script setup lang="ts">
 const currentYear = new Date().getFullYear()
+const { t } = useI18n()
+
+type HeroStat = {
+  labelKey: string
+  valueKey: string
+}
+
+const heroStats: HeroStat[] = [
+  {
+    labelKey: 'layouts.auth.hero.stats.availability.label',
+    valueKey: 'layouts.auth.hero.stats.availability.value',
+  },
+  {
+    labelKey: 'layouts.auth.hero.stats.clients.label',
+    valueKey: 'layouts.auth.hero.stats.clients.value',
+  },
+  {
+    labelKey: 'layouts.auth.hero.stats.updates.label',
+    valueKey: 'layouts.auth.hero.stats.updates.value',
+  },
+]
 </script>
 
 <template>
@@ -10,27 +31,18 @@ const currentYear = new Date().getFullYear()
           <div class="auth-hero__glow" />
           <div class="auth-hero__content">
             <v-icon size="92">mdi-earth</v-icon>
-            <h1>Bro World</h1>
-            <p>
-              Accédez à votre tableau de bord et commencez à piloter votre produit avec une interface
-              raffinée, rapide et responsive.
-            </p>
+            <h1>{{ t('layouts.auth.hero.title') }}</h1>
+            <p>{{ t('layouts.auth.hero.description') }}</p>
             <div class="auth-hero__stats">
-              <div>
-                <p class="auth-hero__stats-label">Disponibilité</p>
-                <p class="auth-hero__stats-value">99.9%</p>
-              </div>
-              <div>
-                <p class="auth-hero__stats-label">Clients actifs</p>
-                <p class="auth-hero__stats-value">25k+</p>
-              </div>
-              <div>
-                <p class="auth-hero__stats-label">Mises à jour</p>
-                <p class="auth-hero__stats-value">Hebdomadaires</p>
+              <div v-for="stat in heroStats" :key="stat.labelKey">
+                <p class="auth-hero__stats-label">{{ t(stat.labelKey) }}</p>
+                <p class="auth-hero__stats-value">{{ t(stat.valueKey) }}</p>
               </div>
             </div>
             <v-divider class="my-4" opacity="0.3" />
-            <p class="auth-hero__footnote">© {{ currentYear }} Nuxt Template. Tous droits réservés.</p>
+            <p class="auth-hero__footnote">
+              {{ t('layouts.auth.footer', { year: currentYear }) }}
+            </p>
           </div>
         </section>
         <section class="auth-panel">

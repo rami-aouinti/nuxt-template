@@ -2792,6 +2792,29 @@
       }
     }
   },
+  "layouts": {
+    "auth": {
+      "hero": {
+        "title": "Bro World",
+        "description": "Получите доступ к панели и начните управлять продуктом с изящным, быстрым и отзывчивым интерфейсом.",
+        "stats": {
+          "availability": {
+            "label": "Доступность",
+            "value": "99.9%"
+          },
+          "clients": {
+            "label": "Активные клиенты",
+            "value": "25k+"
+          },
+          "updates": {
+            "label": "Обновления",
+            "value": "Еженедельно"
+          }
+        }
+      },
+      "footer": "© {year} Nuxt Template. Все права защищены."
+    }
+  },
   "pages": {
     "auth": {
       "login": {
