@@ -15,11 +15,7 @@ export default defineEventHandler(async (event) => {
     ? { 'Accept-Language': acceptLanguage }
     : undefined
 
-  return await broWorldEcommerceRequest(
-    event,
-    `/admin/shipments${queryString}`,
-    {
-      headers,
-    },
-  )
+  return await broWorldEcommerceRequest(event, `/admin/shipments${queryString}`, {
+    headers,
+  })
 })
