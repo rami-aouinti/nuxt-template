@@ -680,6 +680,19 @@
           "productAttributes": "Product attributes",
           "shippingCategories": "Shipping categories",
           "exchangeRates": "Exchange rates"
+        },
+        "forms": {
+          "subtitle": "Edit scalar fields such as names, codes or flags.",
+          "empty": "This entity does not expose editable scalar fields."
+        },
+        "detailsCard": {
+          "title": "Entity details",
+          "empty": "No scalar attributes detected for this entity."
+        },
+        "relations": {
+          "title": "Entity relations",
+          "subtitle": "Linked resources and associations detected for this entity.",
+          "empty": "No relationships detected for this entity."
         }
       },
       "common": {
