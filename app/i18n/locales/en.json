@@ -324,7 +324,15 @@
     "plugins": "Plugins",
     "mediaManagement": "Media management",
     "media": "Media library",
-    "notificationManagement": "Notification management"
+    "configurationManagement": "Configuration management",
+    "productManagement": "Product management",
+    "customerManagement": "Customer management",
+    "marketingManagement": "Marketing management",
+    "orderManagement": "Order management",
+    "paymentManagement": "Payment management",
+    "shipmentManagement": "Shipment management",
+    "taxManagement": "Tax management",
+    "taxonManagement": "Taxon management"
   },
   "messenger": {
     "title": "Messenger",
