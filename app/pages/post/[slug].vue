@@ -12,6 +12,7 @@ import {
 import { useBlogAuthor } from '~/composables/useBlogAuthor'
 import type {
   BlogComment,
+  BlogCommentPayload,
   BlogCommentViewModel,
   BlogPost,
   BlogPostSharePayload,
@@ -337,11 +338,17 @@ async function submitPostComment(postValue: BlogPostViewModel) {
 
   const content = postValue.ui.commentContent.trim()
   if (!content) return
+  const attachments = postValue.ui.commentAttachments ?? []
+  const payload: BlogCommentPayload = {
+    content,
+    attachments: attachments.length ? attachments : undefined,
+  }
 
   postValue.ui.commentLoading = true
   try {
-    await createComment(postValue.id, { content })
+    await createComment(postValue.id, payload)
     postValue.ui.commentContent = ''
+    postValue.ui.commentAttachments = []
     postValue.totalComments = (postValue.totalComments ?? 0) + 1
     await loadComments(postValue)
     Notify.success(t('blog.notifications.commentCreated'))
@@ -360,11 +367,17 @@ async function submitCommentReply(
 
   const content = comment.ui.replyContent.trim()
   if (!content) return
+  const attachments = comment.ui.replyAttachments ?? []
+  const payload: BlogCommentPayload = {
+    content,
+    attachments: attachments.length ? attachments : undefined,
+  }
 
   comment.ui.replyLoading = true
   try {
-    await replyToComment(comment.id, { content })
+    await replyToComment(comment.id, payload)
     comment.ui.replyContent = ''
+    comment.ui.replyAttachments = []
     comment.ui.replyOpen = false
     comment.totalComments = (comment.totalComments ?? 0) + 1
     await loadComments(postValue)

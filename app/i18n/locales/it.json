@@ -343,7 +343,9 @@
       "editBlog": "Modifica blog",
       "deleteBlog": "Elimina blog",
       "sharePost": "Condividi il post",
-      "viewImage": "Visualizza immagine"
+      "viewImage": "Visualizza immagine",
+      "addAttachment": "Allega file",
+      "clearAttachments": "Rimuovi allegati"
     },
     "feed": {
       "composer": {
@@ -414,6 +416,10 @@
         "newestDescription": "Mostra i commenti più recenti in cima.",
         "all": "Tutti i commenti",
         "allDescription": "Mostra tutti i commenti in ordine cronologico."
+      },
+      "attachments": {
+        "single": "{count} file allegato",
+        "plural": "{count} file allegati"
       }
     },
     "notifications": {

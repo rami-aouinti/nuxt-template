@@ -385,6 +385,33 @@ export const useBlogApi = () => {
     })
   }
 
+  const buildCommentRequestBody = (payload: BlogCommentPayload) => {
+    const canUseFormData = typeof FormData !== 'undefined'
+    const attachments = Array.isArray(payload.attachments)
+      ? payload.attachments.filter((file) => {
+          if (!file) {
+            return false
+          }
+
+          return typeof File === 'undefined' ? true : file instanceof File
+        })
+      : []
+
+    if (!attachments.length || !canUseFormData) {
+      const { attachments: _attachments, ...rest } = payload
+      return rest
+    }
+
+    const formData = new FormData()
+    formData.append('content', payload.content)
+
+    for (const file of attachments) {
+      formData.append('files[]', file)
+    }
+
+    return formData
+  }
+
   const fetchComments = async (
     postId: string,
     page: number,
@@ -423,12 +450,13 @@ export const useBlogApi = () => {
     payload: BlogCommentPayload,
   ): Promise<BlogComment> => {
     const headers = getAuthHeaders(true)
+    const body = buildCommentRequestBody(payload)
 
     return await $fetch<BlogComment>(
       `${PRIVATE_POSTS_ENDPOINT}/${postId}/comment`,
       {
         method: 'POST',
-        body: payload,
+        body,
         headers,
       },
     )
@@ -439,12 +467,13 @@ export const useBlogApi = () => {
     payload: BlogCommentPayload,
   ): Promise<BlogComment> => {
     const headers = getAuthHeaders(true)
+    const body = buildCommentRequestBody(payload)
 
     return await $fetch<BlogComment>(
       `${PRIVATE_COMMENTS_ENDPOINT}/${commentId}/comment`,
       {
         method: 'POST',
-        body: payload,
+        body,
         headers,
       },
     )
@@ -455,12 +484,13 @@ export const useBlogApi = () => {
     payload: BlogCommentPayload,
   ): Promise<BlogComment> => {
     const headers = getAuthHeaders(true)
+    const body = buildCommentRequestBody(payload)
 
     return await $fetch<BlogComment>(
       `${PRIVATE_COMMENTS_ENDPOINT}/${commentId}`,
       {
         method: 'PATCH',
-        body: payload,
+        body,
         headers,
       },
     )

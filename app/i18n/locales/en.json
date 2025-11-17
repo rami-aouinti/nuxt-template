@@ -392,7 +392,9 @@
       "editBlog": "Edit blog",
       "deleteBlog": "Delete blog",
       "sharePost": "Share post",
-      "viewImage": "View image"
+      "viewImage": "View image",
+      "addAttachment": "Attach files",
+      "clearAttachments": "Remove attachments"
     },
     "feed": {
       "composer": {
@@ -463,6 +465,10 @@
         "newestDescription": "Show the most recent comments at the top.",
         "all": "All comments",
         "allDescription": "Show every comment in chronological order."
+      },
+      "attachments": {
+        "single": "{count} file attached",
+        "plural": "{count} files attached"
       }
     },
     "notifications": {

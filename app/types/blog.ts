@@ -95,6 +95,7 @@ export type BlogSummaryListResponse = BlogSummary[]
 
 export interface BlogCommentPayload {
   content: string
+  attachments?: File[] | null
 }
 
 export interface BlogPostUpdatePayload {
@@ -138,6 +139,7 @@ export interface BlogCommentUiState {
   editContent: string
   editLoading: boolean
   deleteLoading: boolean
+  replyAttachments: File[]
 }
 
 export interface BlogCommentViewModel extends BlogComment {
@@ -159,6 +161,7 @@ export interface BlogPostUiState {
   commentsError: string | null
   commentContent: string
   commentLoading: boolean
+  commentAttachments: File[]
   likeLoading: boolean
   deleteLoading: boolean
   editDialog: boolean
