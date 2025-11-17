@@ -7,7 +7,6 @@ import {
   LanguageLevel,
   WorkType,
 } from '~/types/job'
-import { ContractType, WorkType } from '~/types/job'
 import { useJobStore } from '~/stores/job'
 
 definePageMeta({
@@ -49,7 +48,7 @@ const companyShowcase = computed(() => {
 const visibleCompanies = computed(() => companyShowcase.value.slice(0, 6))
 const totalCompanyProfiles = computed(() => companyShowcase.value.length)
 
-const jobs = ref<Job[]>([
+const sampleJobs: Job[] = [
   {
     id: 'job-senior-frontend',
     title: 'Senior Frontend Engineer',
@@ -197,12 +196,16 @@ const jobs = ref<Job[]>([
     createdAt: '2024-03-05T11:15:00.000Z',
     updatedAt: '2024-03-15T09:10:00.000Z',
   },
-] satisfies Job[])
+]
 const jobStore = useJobStore()
 const { jobs, isLoading, error: jobError, hasJobs, lastUpdatedAt } =
   storeToRefs(jobStore)
 
 await jobStore.fetchJobs()
+
+const resolvedJobs = computed(() =>
+  jobs.value.length ? jobs.value : sampleJobs,
+)
 
 const filters = reactive({
   search: '',
@@ -232,7 +235,7 @@ const filteredJobs = computed(() => {
   const search = filters.search.trim().toLowerCase()
   const location = filters.location.trim().toLowerCase()
 
-  return jobs.value.filter((job) => {
+  return resolvedJobs.value.filter((job) => {
     const matchesSearch = search
       ? [
           job.title,
@@ -268,12 +271,15 @@ const filteredJobs = computed(() => {
   })
 })
 
-const totalJobs = computed(() => jobs.value.length)
+const totalJobs = computed(() => resolvedJobs.value.length)
 const remoteFriendlyJobs = computed(
-  () => jobs.value.filter((job) => job.workType === WorkType.REMOTE).length,
+  () =>
+    resolvedJobs.value.filter((job) => job.workType === WorkType.REMOTE).length,
 )
 const hiringCompanies = computed(() => {
-  const set = new Set(jobs.value.map((job) => job.company?.name).filter(Boolean))
+  const set = new Set(
+    resolvedJobs.value.map((job) => job.company?.name).filter(Boolean),
+  )
   return set.size
 })
 
@@ -285,7 +291,7 @@ const heroMetrics = computed(() => [
 
 const skillCloud = computed(() => {
   const counter = new Map<string, number>()
-  jobs.value.forEach((job) => {
+  resolvedJobs.value.forEach((job) => {
     job.requiredSkills?.forEach((skill) => {
       const key = skill.trim()
       if (!key) return
@@ -335,6 +341,32 @@ watch(detailsDialog, (isOpen) => {
           <p class="overline">Bro World · Job platform</p>
           <h4>Find the next job that matches your craft</h4>
         </div>
+      </teleport>
+    </client-only>
+
+    <section class="job-platform__hero">
+      <v-container>
+        <v-card flat class="job-platform__hero-card" color="surface">
+          <div>
+            <p class="overline">Curated roles</p>
+            <h1>Opportunities for builders and operators</h1>
+            <p>
+              Discover remote, hybrid, and on-site roles sourced from the Bro World
+              community. Filter opportunities by craft, location, and contract to
+              focus on the work that matches your energy.
+            </p>
+          </div>
+          <div class="job-platform__hero-metrics">
+            <div
+              v-for="metric in heroMetrics"
+              :key="metric.label"
+              class="job-platform__metric d-flex inline-flex-column align-center"
+            >
+              <p class="job-platform__metric-label">{{ metric.label }}</p>
+              <p class="job-platform__metric-value px-4">{{ metric.value }}</p>
+            </div>
+          </div>
+        </v-card>
       </v-container>
     </section>
 
@@ -499,15 +531,6 @@ watch(detailsDialog, (isOpen) => {
             <v-btn color="secondary" variant="text" class="text-none" @click="clearFilters">
               Reset filters
             </v-btn>
-        <v-divider class="my-2" />
-        <div class="job-platform__hero-metrics">
-          <div
-            v-for="metric in heroMetrics"
-            :key="metric.label"
-            class="job-platform__metric d-flex inline-flex-column align-center"
-          >
-            <p class="job-platform__metric-label">{{ metric.label }}</p>
-            <p class="job-platform__metric-value px-4">{{ metric.value }}</p>
           </div>
         </v-card>
       </v-container>
@@ -573,49 +596,40 @@ watch(detailsDialog, (isOpen) => {
                   {{ job.workType ?? 'Flexible' }}
                 </v-chip>
               </div>
-              <div>
-                <p class="job-card__company-name">
-                  {{ job.company?.name ?? 'Independent team' }}
-                </p>
-                <p class="job-card__location">
-                  {{ job.workLocation || job.company?.location || 'Flexible' }}
-                </p>
+
+              <h3 class="job-card__title">{{ job.title }}</h3>
+              <p class="job-card__description">
+                {{ job.description }}
+              </p>
+
+              <div class="job-card__meta">
+                <v-chip size="small" variant="flat" color="primary">
+                  Experience · {{ job.experience ?? 'Any level' }}
+                </v-chip>
+                <v-chip v-if="job.salaryRange" size="small" variant="flat" color="primary">
+                  {{ job.salaryRange }}
+                </v-chip>
+                <v-chip v-if="job.contractType" size="small" variant="flat" color="primary">
+                  {{ job.contractType }}
+                </v-chip>
               </div>
-            </div>
-            <v-chip size="small" color="primary" variant="elevated">
-              {{ job.workType ?? 'Flexible' }}
-            </v-chip>
-          </div>
-          <h3 class="job-card__title">{{ job.title }}</h3>
-          <p class="job-card__description">
-            {{ job.description }}
-          </p>
-          <div class="job-card__meta">
-            <v-chip size="small" variant="flat" color="primary">
-              Experience · {{ job.experience ?? 'Any level' }}
-            </v-chip>
-            <v-chip v-if="job.salaryRange" size="small" variant="flat" color="primary">
-              {{ job.salaryRange }}
-            </v-chip>
-            <v-chip v-if="job.contractType" size="small" variant="flat" color="primary">
-              {{ job.contractType }}
-            </v-chip>
-          </div>
-          <div v-if="job.requiredSkills?.length" class="job-card__skills">
-            <v-chip
-              v-for="skill in job.requiredSkills.slice(0, 4)"
-              :key="skill"
-              size="x-small"
-              variant="tonal"
-              color="primary"
-              class="mr-1 mb-1"
-            >
-              {{ skill }}
-            </v-chip>
-            <span v-if="job.requiredSkills.length > 4" class="job-card__skills-more">
+
+              <div v-if="job.requiredSkills?.length" class="job-card__skills">
+                <v-chip
+                  v-for="skill in job.requiredSkills.slice(0, 4)"
+                  :key="skill"
+                  size="x-small"
+                  variant="tonal"
+                  color="primary"
+                  class="mr-1 mb-1"
+                >
+                  {{ skill }}
+                </v-chip>
+                <span v-if="job.requiredSkills.length > 4" class="job-card__skills-more">
                   +{{ job.requiredSkills.length - 4 }} more
                 </span>
               </div>
+
               <div class="job-card__actions">
                 <v-btn variant="text" class="text-none" @click="showJobDetails(job)">
                   Role details
