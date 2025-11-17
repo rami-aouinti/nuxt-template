@@ -103,6 +103,8 @@ export interface BlogPostUpdatePayload {
   summary?: string | null
   content?: string | null
   tags?: string[]
+  url?: string | null
+  removeMediaIds?: string[]
 }
 
 export interface BlogPostSharePayload {
@@ -151,6 +153,9 @@ export interface BlogPostEditFormState {
   title: string
   summary: string
   content: string
+  url: string
+  files: File[] | null
+  removedMediaIds: string[]
   loading: boolean
 }
 

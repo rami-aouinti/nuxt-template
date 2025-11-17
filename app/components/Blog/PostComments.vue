@@ -19,6 +19,7 @@ const props = defineProps<{
   formatDate: (value: string) => string
   formatRelativeDate?: (value: string) => string
   currentUserId?: string | null
+  currentUsername?: string | null
 }>()
 
 const emit = defineEmits<{
@@ -283,6 +284,7 @@ const selectFilter = (value: CommentFilterValue) => {
       :can-interact="loggedIn"
       :resolve-profile-link="resolveProfileLink"
       :current-user-id="currentUserId"
+      :current-username="props.currentUsername"
       @select-reaction="emit('select-reaction', $event)"
       @remove-reaction="emit('remove-reaction', $event)"
       @submit-reply="emit('submit-reply', $event)"

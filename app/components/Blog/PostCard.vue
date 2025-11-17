@@ -19,6 +19,7 @@ import {
   shadowHoverValues,
 } from '~/composables/useThemePreferences'
 import AppCard from '~/components/ui/AppCard.vue'
+import AppUploadField from '~/components/ui/AppUploadField.vue'
 import BlogSharedPostPreview from '~/components/Blog/SharedPostPreview.vue'
 import { resolvePostTags } from '~/utils/blog/posts'
 
@@ -32,6 +33,7 @@ const props = defineProps<{
   formatRelativePublishedAt: (value: string) => string
   formatPublishedAt: (value: string) => string
   currentUserId?: string | null
+  currentUsername?: string | null
 }>()
 
 const emit = defineEmits<{
@@ -318,6 +320,33 @@ const mediaGallery = computed<NormalizedMediaItem[]>(() => {
     })
     .filter((media): media is NormalizedMediaItem => Boolean(media))
 })
+
+const mediaRemovalSet = computed(() => {
+  const ids = props.post.ui.editForm.removedMediaIds ?? []
+  return new Set(ids)
+})
+
+const isMediaMarkedForRemoval = (mediaId: string) =>
+  mediaRemovalSet.value.has(mediaId)
+
+const toggleMediaRemoval = (mediaId: string) => {
+  if (!mediaId) {
+    return
+  }
+
+  if (!Array.isArray(props.post.ui.editForm.removedMediaIds)) {
+    props.post.ui.editForm.removedMediaIds = []
+  }
+
+  const list = props.post.ui.editForm.removedMediaIds
+  const index = list.findIndex((id) => id === mediaId)
+
+  if (index >= 0) {
+    list.splice(index, 1)
+  } else {
+    list.push(mediaId)
+  }
+}
 
 const postTags = computed(() =>
   resolvePostTags(props.post).map((tag) => ({
@@ -779,6 +808,7 @@ const onSelectTag = (tag: { value: string; label: string }) => {
           :format-date="formatPublishedAt"
           :format-relative-date="formatRelativePublishedAt"
           :current-user-id="currentUserId"
+          :current-username="currentUsername"
           @submit-comment="onSubmitComment"
           @select-reaction="onSelectCommentReaction"
           @remove-reaction="onRemoveCommentReaction"
@@ -830,6 +860,84 @@ const onSelectTag = (tag: { value: string; label: string }) => {
             :disabled="post.ui.editForm.loading"
             rows="6"
             auto-grow
+          />
+          <v-text-field
+            v-model="post.ui.editForm.url"
+            :label="t('blog.forms.createPost.url')"
+            :disabled="post.ui.editForm.loading"
+            clearable
+          />
+          <div
+            v-if="mediaGallery.length"
+            class="facebook-post-card__edit-media"
+          >
+            <p class="text-subtitle-2 mb-1">
+              {{ t('blog.forms.createPost.images') }}
+            </p>
+            <div class="facebook-post-card__edit-media-list">
+              <div
+                v-for="media in mediaGallery"
+                :key="media.id"
+                class="facebook-post-card__edit-media-item"
+                :class="{
+                  'facebook-post-card__edit-media-item--removed': isMediaMarkedForRemoval(media.id),
+                }"
+              >
+                <div class="facebook-post-card__edit-media-preview">
+                  <v-img
+                    v-if="media.kind === 'image'"
+                    :src="media.src"
+                    :alt="media.alt"
+                    cover
+                  />
+                  <video
+                    v-else-if="media.kind === 'video'"
+                    :src="media.src"
+                    controls
+                    playsinline
+                  />
+                  <div class="facebook-post-card__edit-media-overlay">
+                    <v-btn
+                      icon
+                      density="comfortable"
+                      variant="flat"
+                      color="primary"
+                      size="small"
+                      :aria-label="
+                        isMediaMarkedForRemoval(media.id)
+                          ? t('common.actions.cancel')
+                          : t('common.actions.remove')
+                      "
+                      @click.stop="toggleMediaRemoval(media.id)"
+                    >
+                      <v-icon
+                        :icon="
+                          isMediaMarkedForRemoval(media.id)
+                            ? 'mdi-undo'
+                            : 'mdi-close-thick'
+                        "
+                        size="18"
+                      />
+                    </v-btn>
+                  </div>
+                  <div
+                    v-if="isMediaMarkedForRemoval(media.id)"
+                    class="facebook-post-card__edit-media-badge"
+                  >
+                    {{ t('common.actions.remove') }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <AppUploadField
+            v-model="post.ui.editForm.files"
+            :label="t('blog.forms.createPost.images')"
+            :disabled="post.ui.editForm.loading"
+            accept="image/*,video/*"
+            multiple
+            :placeholder="t('workspace.dialogs.upload.subtitle')"
+            :action-label="t('workspace.actions.uploadFile')"
           />
         </v-card-text>
         <v-card-actions>
@@ -1294,6 +1402,62 @@ a.facebook-post-card__author-link:focus-visible {
 .facebook-post-card__comments-section {
   border-top: 1px solid rgba(var(--v-theme-on-surface), 0.08);
   padding-bottom: 20px;
+}
+
+.facebook-post-card__edit-media {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.facebook-post-card__edit-media-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.facebook-post-card__edit-media-item {
+  position: relative;
+}
+
+.facebook-post-card__edit-media-preview {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(var(--v-theme-surface-variant), 0.3);
+  aspect-ratio: 4 / 3;
+}
+
+.facebook-post-card__edit-media-preview video,
+.facebook-post-card__edit-media-preview :deep(img) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.facebook-post-card__edit-media-overlay {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.facebook-post-card__edit-media-badge {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  background: rgba(var(--v-theme-error), 0.85);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.facebook-post-card__edit-media-item--removed .facebook-post-card__edit-media-preview {
+  filter: grayscale(1);
+  opacity: 0.6;
 }
 
 @media (max-width: 960px) {

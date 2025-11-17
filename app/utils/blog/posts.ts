@@ -285,6 +285,8 @@ export const createPostViewModel = (
     ) ?? ''
   const normalizedSummary = pickString(post.summary, post.description) ?? ''
   const normalizedContent = pickString(post.content) ?? ''
+  const normalizedUrl =
+    pickString(post.url, post.permalink, post.link, post.href) ?? ''
 
   return {
     ...post,
@@ -308,6 +310,9 @@ export const createPostViewModel = (
         title: normalizedTitle,
         summary: normalizedSummary,
         content: normalizedContent,
+        url: normalizedUrl,
+        files: null,
+        removedMediaIds: [],
         loading: false,
       },
     },

@@ -23,6 +23,7 @@ import type {
   BlogCommentViewModel,
   BlogPost,
   BlogPostSharePayload,
+  BlogPostUpdatePayload,
   BlogPostUser,
   BlogPostViewModel,
   BlogReactionPreview,
@@ -779,6 +780,9 @@ function openEditDialog(post: BlogPostViewModel) {
   post.ui.editForm.title = post.title
   post.ui.editForm.summary = post.summary ?? ''
   post.ui.editForm.content = post.content ?? ''
+  post.ui.editForm.url = post.url ?? ''
+  post.ui.editForm.files = []
+  post.ui.editForm.removedMediaIds = []
   post.ui.editDialog = true
 }
 
@@ -797,12 +801,49 @@ async function submitEdit(post: BlogPostViewModel) {
   try {
     const summary = form.summary.trim()
     const content = form.content.trim()
+    const urlValue = form.url.trim()
+    const filesValue = Array.isArray(form.files) ? form.files : []
+    const removedMediaIds = Array.isArray(form.removedMediaIds)
+      ? form.removedMediaIds
+          .map((id) => (typeof id === 'string' ? id.trim() : ''))
+          .filter((id) => id.length > 0)
+      : []
 
-    const updated = await updatePost(post.id, {
+    const normalizedSummary = summary.length ? summary : ''
+    const normalizedContent = content.length ? content : ''
+    const normalizedUrl = urlValue.length ? urlValue : ''
+
+    const payload: BlogPostUpdatePayload & {
+      url?: string | null
+      removeMediaIds?: string[]
+    } = {
       title,
-      summary: summary.length ? summary : null,
-      content: content.length ? content : null,
-    })
+      summary: normalizedSummary,
+      content: normalizedContent,
+      url: normalizedUrl,
+    }
+
+    if (removedMediaIds.length) {
+      payload.removeMediaIds = removedMediaIds
+    }
+
+    let requestBody: typeof payload | FormData = payload
+    if (filesValue.length) {
+      const formData = new FormData()
+      formData.append('title', payload.title)
+      formData.append('summary', payload.summary ?? '')
+      formData.append('content', payload.content ?? '')
+      formData.append('url', payload.url ?? '')
+
+      if (removedMediaIds.length) {
+        removedMediaIds.forEach((id) => formData.append('removeMediaIds[]', id))
+      }
+
+      filesValue.forEach((file) => formData.append('files[]', file))
+      requestBody = formData
+    }
+
+    const updated = await updatePost(post.id, requestBody)
 
     if (updated && typeof updated === 'object') {
       if ('title' in updated && typeof updated.title === 'string') {
@@ -814,20 +855,47 @@ async function submitEdit(post: BlogPostViewModel) {
       if ('summary' in updated) {
         post.summary = (updated as BlogPost).summary ?? null
       } else {
-        post.summary = summary.length ? summary : null
+        post.summary = normalizedSummary.length ? normalizedSummary : null
       }
 
       if ('content' in updated) {
         post.content = (updated as BlogPost).content ?? null
       } else {
-        post.content = content.length ? content : null
+        post.content = normalizedContent.length ? normalizedContent : null
+      }
+
+      if ('url' in updated) {
+        post.url = (updated as BlogPost).url ?? null
+      } else {
+        post.url = normalizedUrl.length ? normalizedUrl : null
+      }
+
+      if ('medias' in updated) {
+        post.medias = (updated as BlogPost).medias ?? []
+      } else if (removedMediaIds.length) {
+        const removedSet = new Set(removedMediaIds)
+        post.medias = (post.medias ?? []).filter((media) => {
+          const mediaId = typeof media?.id === 'string' ? media.id : ''
+          return mediaId.length === 0 || !removedSet.has(mediaId)
+        })
       }
     } else {
       post.title = title
-      post.summary = summary.length ? summary : null
-      post.content = content.length ? content : null
+      post.summary = normalizedSummary.length ? normalizedSummary : null
+      post.content = normalizedContent.length ? normalizedContent : null
+      post.url = normalizedUrl.length ? normalizedUrl : null
+      if (removedMediaIds.length) {
+        const removedSet = new Set(removedMediaIds)
+        post.medias = (post.medias ?? []).filter((media) => {
+          const mediaId = typeof media?.id === 'string' ? media.id : ''
+          return mediaId.length === 0 || !removedSet.has(mediaId)
+        })
+      }
     }
 
+    post.ui.editForm.url = post.url ?? ''
+    post.ui.editForm.files = null
+    post.ui.editForm.removedMediaIds = []
     post.ui.editDialog = false
     Notify.success(t('blog.notifications.postUpdated'))
   } catch (error) {
@@ -1050,6 +1118,7 @@ watch(
                   :format-relative-published-at="formatRelativePublishedAt"
                   :format-published-at="formatPublishedAt"
                   :current-user-id="currentUserId"
+                  :current-username="currentUsername"
                   @request-edit="openEditDialog"
                   @submit-edit="submitEdit"
                   @delete="confirmDeletePost"
