@@ -248,6 +248,9 @@ export default defineNuxtConfig({
             DEFAULT_ECOMMERCE_SHOP_PASSWORD,
         },
       },
+      job: {
+        token: process.env.BRO_WORLD_JOB_TOKEN || '',
+      },
     },
     oauth: {
       github: createOAuthConfig(),
@@ -282,6 +285,7 @@ export default defineNuxtConfig({
       workspaceTtl: toPositiveInteger(process.env.REDIS_WORKSPACE_TTL, 6000),
       workplaceTtl: toPositiveInteger(process.env.REDIS_WORKPLACE_TTL, 6000),
       ecommerceTtl: toPositiveInteger(process.env.REDIS_ECOMMERCE_TTL, 6000),
+      jobTtl: toPositiveInteger(process.env.REDIS_JOB_TTL, 300),
     },
     profileCookie: {
       name: process.env.PROFILE_COOKIE_NAME || 'bro_profile',
