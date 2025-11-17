@@ -102,6 +102,17 @@ const companies = computed<CompanyRecord[]>(() => {
 })
 
 const hasCompanies = computed(() => companies.value.length > 0)
+const companyStats = computed(() => {
+  const total = companies.value.length
+  const withContact = companies.value.filter(
+    (company) => typeof company.contactEmail === 'string' && company.contactEmail.trim().length > 0,
+  ).length
+  const withWebsite = companies.value.filter(
+    (company) => typeof company.siteUrl === 'string' && company.siteUrl.trim().length > 0,
+  ).length
+
+  return { total, withContact, withWebsite }
+})
 const isLoading = computed(() => pending.value)
 
 const loadErrorMessage = computed(() => {
@@ -176,14 +187,84 @@ async function submitCompany() {
     isSaving.value = false
   }
 }
+
+function scrollToCompanyForm() {
+  if (!import.meta.client) {
+    return
+  }
+
+  const element = document.getElementById('profile-companies-form')
+  element?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
 </script>
 
 <template>
   <ProfilePageShell>
     <v-row class="g-6">
+      <v-col cols="12">
+        <AppCard class="profile-companies__hero" variant="flat" elevation="0">
+          <div class="profile-companies__hero-grid">
+            <div>
+              <p class="text-overline text-medium-emphasis mb-1">
+                {{ translate('profile.companies.heading', 'Brand space') }}
+              </p>
+              <h1 class="text-h4 font-weight-bold mb-2">
+                {{ translate('profile.companies.title', 'My companies') }}
+              </h1>
+              <p class="text-body-2 text-medium-emphasis mb-4">
+                {{
+                  translate(
+                    'profile.companies.description',
+                    'Centralize hiring companies, logos, and contact details to reuse across job posts.',
+                  )
+                }}
+              </p>
+              <AppButton color="primary" variant="tonal" @click="refresh">
+                {{ translate('profile.companies.actions.refresh', 'Refresh companies') }}
+              </AppButton>
+            </div>
+            <div class="profile-companies__stats">
+              <div class="profile-companies__stat">
+                <p class="text-overline text-medium-emphasis mb-1">
+                  {{ translate('profile.companies.stats.total', 'Total') }}
+                </p>
+                <p class="profile-companies__stat-value">{{ companyStats.total }}</p>
+              </div>
+              <div class="profile-companies__stat">
+                <p class="text-overline text-medium-emphasis mb-1">
+                  {{ translate('profile.companies.stats.contacts', 'Contacts ready') }}
+                </p>
+                <p class="profile-companies__stat-value">{{ companyStats.withContact }}</p>
+              </div>
+              <div class="profile-companies__stat">
+                <p class="text-overline text-medium-emphasis mb-1">
+                  {{ translate('profile.companies.stats.website', 'Sites linked') }}
+                </p>
+                <p class="profile-companies__stat-value">{{ companyStats.withWebsite }}</p>
+              </div>
+            </div>
+          </div>
+        </AppCard>
+      </v-col>
+
       <v-col cols="12" lg="5">
-        <AppCard :title="translate('profile.companies.form.title', 'Create a company')">
-          <v-form @submit.prevent="submitCompany">
+        <AppCard class="profile-companies__form-card">
+          <template #title>
+            <div class="profile-companies__form-header">
+              <div>
+                <p class="text-overline text-medium-emphasis mb-1">
+                  {{ translate('profile.companies.form.heading', 'New profile') }}
+                </p>
+                <h2 class="text-h5 mb-0">
+                  {{ translate('profile.companies.form.title', 'Create a company') }}
+                </h2>
+              </div>
+              <v-chip color="primary" variant="tonal" size="small">
+                {{ translate('profile.companies.stats.total', 'Total') }}: {{ companyStats.total }}
+              </v-chip>
+            </div>
+          </template>
+          <v-form id="profile-companies-form" @submit.prevent="submitCompany">
             <v-text-field
               v-model="createForm.name"
               :label="translate('profile.companies.form.name', 'Company name')"
@@ -240,62 +321,193 @@ async function submitCompany() {
       </v-col>
 
       <v-col cols="12" lg="7">
-        <AppCard :title="translate('profile.companies.list.title', 'My companies')">
-          <div v-if="isLoading" class="py-6 text-center">
-            <v-progress-circular indeterminate color="primary" />
-          </div>
+        <AppCard
+          class="profile-companies__list-card"
+          :title="translate('profile.companies.list.title', 'My companies')"
+          :loading="isLoading"
+        >
+          <p v-if="loadErrorMessage" class="text-error mb-0">
+            {{ loadErrorMessage }}
+          </p>
 
-          <div v-else>
-            <p v-if="loadErrorMessage" class="text-error mb-0">
-              {{ loadErrorMessage }}
-            </p>
-
-            <p v-else-if="!hasCompanies" class="text-medium-emphasis mb-0">
+          <div v-else-if="!hasCompanies" class="profile-companies__empty">
+            <v-icon icon="mdi-domain-plus" size="42" class="mb-3" />
+            <p class="text-body-2 text-medium-emphasis mb-4">
               {{ translate('profile.companies.list.empty', 'You have not created any companies yet.') }}
             </p>
+            <AppButton color="primary" variant="tonal" @click="scrollToCompanyForm">
+              {{ translate('profile.companies.form.title', 'Create a company') }}
+            </AppButton>
+          </div>
 
-            <v-row v-else class="g-4">
-              <v-col v-for="company in companies" :key="company.id" cols="12">
-                <AppCard hover>
-                  <h3 class="text-h6 mb-2">
+          <div v-else class="profile-companies__list">
+            <AppCard
+              v-for="company in companies"
+              :key="company.id"
+              class="profile-companies__item"
+              hover
+            >
+              <div class="profile-companies__item-header">
+                <div>
+                  <p class="profile-companies__item-name mb-1">
                     {{ company.name || translate('profile.companies.labels.untitled', 'Untitled company') }}
-                  </h3>
-                  <p v-if="company.description" class="text-body-2 mb-2">
-                    {{ company.description }}
                   </p>
-                  <div v-if="company.location" class="text-body-2 mb-1">
-                    <v-icon icon="mdi-map-marker" size="16" class="me-2" />
-                    {{ company.location }}
-                  </div>
-                  <div v-if="company.contactEmail" class="text-body-2 mb-1">
-                    <v-icon icon="mdi-email" size="16" class="me-2" />
-                    {{ company.contactEmail }}
-                  </div>
-                  <div v-if="company.siteUrl" class="text-body-2 mb-3">
-                    <v-icon icon="mdi-link" size="16" class="me-2" />
-                    <a :href="company.siteUrl" target="_blank" rel="noopener" class="text-primary">
-                      {{ company.siteUrl }}
-                    </a>
-                  </div>
                   <p class="text-caption text-medium-emphasis mb-0">
-                    <span v-if="formatDate(company.updatedAt)">
-                      {{ translate('profile.companies.labels.updated', 'Updated') }}:
-                      {{ formatDate(company.updatedAt) }}
-                    </span>
-                    <span v-else-if="formatDate(company.createdAt)">
-                      {{ translate('profile.companies.labels.created', 'Created') }}:
-                      {{ formatDate(company.createdAt) }}
-                    </span>
-                    <span v-else>
-                      {{ translate('profile.companies.labels.noDates', 'No timeline available') }}
-                    </span>
+                    {{ formatDate(company.updatedAt) || formatDate(company.createdAt) ||
+                      translate('profile.companies.labels.noDates', 'No timeline available') }}
                   </p>
-                </AppCard>
-              </v-col>
-            </v-row>
+                </div>
+                <v-chip v-if="company.location" color="primary" size="small" variant="tonal">
+                  <v-icon icon="mdi-map-marker" size="16" class="me-1" />
+                  {{ company.location }}
+                </v-chip>
+              </div>
+              <p v-if="company.description" class="text-body-2 mb-3">
+                {{ company.description }}
+              </p>
+              <div class="profile-companies__item-body">
+                <div v-if="company.contactEmail" class="profile-companies__item-row">
+                  <v-icon icon="mdi-email" size="18" class="me-2" />
+                  {{ company.contactEmail }}
+                </div>
+                <div v-if="company.siteUrl" class="profile-companies__item-row">
+                  <v-icon icon="mdi-link" size="18" class="me-2" />
+                  <a :href="company.siteUrl" target="_blank" rel="noopener" class="text-primary">
+                    {{ company.siteUrl }}
+                  </a>
+                </div>
+              </div>
+              <div class="profile-companies__item-actions">
+                <AppButton
+                  v-if="company.contactEmail"
+                  size="small"
+                  variant="text"
+                  color="primary"
+                  :href="`mailto:${company.contactEmail}`"
+                >
+                  {{ translate('profile.companies.actions.email', 'Email') }}
+                </AppButton>
+                <AppButton
+                  v-if="company.siteUrl"
+                  size="small"
+                  variant="text"
+                  color="secondary"
+                  :href="company.siteUrl"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {{ translate('profile.companies.actions.visit', 'Visit site') }}
+                </AppButton>
+              </div>
+            </AppCard>
           </div>
         </AppCard>
       </v-col>
     </v-row>
   </ProfilePageShell>
 </template>
+
+<style scoped>
+.profile-companies__hero {
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  background: linear-gradient(
+    135deg,
+    rgba(var(--v-theme-primary), 0.08),
+    rgba(var(--v-theme-surface), 0.95)
+  );
+}
+
+.profile-companies__hero-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+@media (min-width: 960px) {
+  .profile-companies__hero-grid {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.profile-companies__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+}
+
+.profile-companies__stat {
+  padding: 1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+  background-color: rgba(var(--v-theme-surface), 0.7);
+}
+
+.profile-companies__stat-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.profile-companies__form-card {
+  padding: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+.profile-companies__form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.profile-companies__list-card {
+  padding: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+.profile-companies__empty {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.profile-companies__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profile-companies__item {
+  padding: 1.25rem;
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+}
+
+.profile-companies__item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.profile-companies__item-name {
+  font-weight: 600;
+}
+
+.profile-companies__item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: rgba(var(--v-theme-on-surface), 0.8);
+}
+
+.profile-companies__item-row {
+  display: flex;
+  align-items: center;
+}
+
+.profile-companies__item-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+</style>

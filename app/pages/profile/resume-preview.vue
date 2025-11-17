@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { FetchError } from 'ofetch'
 
 import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
@@ -52,6 +52,7 @@ definePageMeta({
 const { locale } = useI18n()
 const translate = useTranslateWithFallback()
 const jobApi = useJobPlatformApi()
+const drawerRight = useState('drawerRight', () => false)
 
 function extractRequestError(error: unknown, fallback: string) {
   if (error instanceof FetchError) {
@@ -191,6 +192,10 @@ const referenceItems = computed(() => ensureArray<Reference>(overview.value?.ref
 const isLoading = computed(() => pending.value)
 const isGenerating = ref(false)
 
+onMounted(() => {
+  drawerRight.value = true
+})
+
 const loadErrorMessage = computed(() => {
   if (!error.value) {
     return null
@@ -293,87 +298,7 @@ async function handleGenerate() {
         </AppCard>
       </v-col>
 
-      <v-col cols="12" md="4">
-        <AppCard :title="translate('profile.resumePreview.sections.contact', 'Contact')" :loading="isLoading">
-          <div class="d-flex flex-column gap-2">
-            <p v-if="applicantEmail" class="text-body-2 mb-0">
-              <v-icon icon="mdi-email" size="18" class="me-2" />
-              {{ applicantEmail }}
-            </p>
-            <p v-if="applicantPhone" class="text-body-2 mb-0">
-              <v-icon icon="mdi-phone" size="18" class="me-2" />
-              {{ applicantPhone }}
-            </p>
-            <p v-if="applicantLocation" class="text-body-2 mb-0">
-              <v-icon icon="mdi-map-marker" size="18" class="me-2" />
-              {{ applicantLocation }}
-            </p>
-            <p v-if="!applicantEmail && !applicantPhone && !applicantLocation" class="text-medium-emphasis mb-0">
-              {{ translate('profile.resumePreview.empty.contact', 'No contact details yet.') }}
-            </p>
-          </div>
-        </AppCard>
-
-        <AppCard
-          class="mt-6"
-          :title="translate('profile.resumePreview.sections.skills', 'Skills')"
-          :loading="isLoading"
-        >
-          <div v-if="skillItems.length" class="d-flex flex-wrap gap-2">
-            <v-chip v-for="skill in skillItems" :key="skill.id" color="primary" variant="tonal">
-              {{ skill.name }}
-              <span v-if="skill.type" class="text-caption text-medium-emphasis ms-1">
-                ({{ skill.type }})
-              </span>
-            </v-chip>
-          </div>
-          <p v-else class="text-medium-emphasis mb-0">
-            {{ translate('profile.resumePreview.empty.skills', 'No skills added yet.') }}
-          </p>
-        </AppCard>
-
-        <AppCard
-          class="mt-6"
-          :title="translate('profile.resumePreview.sections.languages', 'Languages')"
-          :loading="isLoading"
-        >
-          <div v-if="languageItems.length" class="d-flex flex-column gap-3">
-            <div v-for="language in languageItems" :key="language.id">
-              <div class="d-flex justify-space-between text-body-2 mb-1">
-                <span>{{ language.name }}</span>
-                <span>{{ language.level }}</span>
-              </div>
-              <v-progress-linear
-                :model-value="Math.min(Math.max(language.level ?? 0, 0), 10) * 10"
-                color="primary"
-                height="6"
-                rounded
-              />
-            </div>
-          </div>
-          <p v-else class="text-medium-emphasis mb-0">
-            {{ translate('profile.resumePreview.empty.languages', 'No languages specified yet.') }}
-          </p>
-        </AppCard>
-
-        <AppCard
-          class="mt-6"
-          :title="translate('profile.resumePreview.sections.hobbies', 'Hobbies')"
-          :loading="isLoading"
-        >
-          <div v-if="hobbyItems.length" class="d-flex flex-wrap gap-2">
-            <v-chip v-for="hobby in hobbyItems" :key="hobby.id" variant="tonal">
-              <v-icon v-if="hobby.icon" :icon="hobby.icon" size="16" class="me-1" />
-              {{ hobby.name }}
-            </v-chip>
-          </div>
-          <p v-else class="text-medium-emphasis mb-0">
-            {{ translate('profile.resumePreview.empty.hobbies', 'Share your interests to personalize your resume.') }}
-          </p>
-        </AppCard>
-      </v-col>
-
-      <v-col cols="12" md="8">
+      <v-col cols="12">
         <AppCard :title="translate('profile.resumePreview.sections.experience', 'Experience')" :loading="isLoading">
           <div v-if="experienceItems.length" class="d-flex flex-column gap-4">
             <div v-for="experience in experienceItems" :key="experience.id">
@@ -474,5 +399,83 @@ async function handleGenerate() {
         </AppCard>
       </v-col>
     </v-row>
+
+    <teleport to="#app-drawer-right">
+      <div class="resume-preview__drawer">
+        <AppCard :title="translate('profile.resumePreview.sections.contact', 'Contact')" :loading="isLoading">
+          <div class="d-flex flex-column gap-2">
+            <p v-if="applicantEmail" class="text-body-2 mb-0">
+              <v-icon icon="mdi-email" size="18" class="me-2" />
+              {{ applicantEmail }}
+            </p>
+            <p v-if="applicantPhone" class="text-body-2 mb-0">
+              <v-icon icon="mdi-phone" size="18" class="me-2" />
+              {{ applicantPhone }}
+            </p>
+            <p v-if="applicantLocation" class="text-body-2 mb-0">
+              <v-icon icon="mdi-map-marker" size="18" class="me-2" />
+              {{ applicantLocation }}
+            </p>
+            <p v-if="!applicantEmail && !applicantPhone && !applicantLocation" class="text-medium-emphasis mb-0">
+              {{ translate('profile.resumePreview.empty.contact', 'No contact details yet.') }}
+            </p>
+          </div>
+        </AppCard>
+
+        <AppCard :title="translate('profile.resumePreview.sections.skills', 'Skills')" :loading="isLoading">
+          <div v-if="skillItems.length" class="d-flex flex-wrap gap-2">
+            <v-chip v-for="skill in skillItems" :key="skill.id" color="primary" variant="tonal">
+              {{ skill.name }}
+              <span v-if="skill.type" class="text-caption text-medium-emphasis ms-1">
+                ({{ skill.type }})
+              </span>
+            </v-chip>
+          </div>
+          <p v-else class="text-medium-emphasis mb-0">
+            {{ translate('profile.resumePreview.empty.skills', 'No skills added yet.') }}
+          </p>
+        </AppCard>
+
+        <AppCard :title="translate('profile.resumePreview.sections.languages', 'Languages')" :loading="isLoading">
+          <div v-if="languageItems.length" class="d-flex flex-column gap-3">
+            <div v-for="language in languageItems" :key="language.id">
+              <div class="d-flex justify-space-between text-body-2 mb-1">
+                <span>{{ language.name }}</span>
+                <span>{{ language.level }}</span>
+              </div>
+              <v-progress-linear
+                :model-value="Math.min(Math.max(language.level ?? 0, 0), 10) * 10"
+                color="primary"
+                height="6"
+                rounded
+              />
+            </div>
+          </div>
+          <p v-else class="text-medium-emphasis mb-0">
+            {{ translate('profile.resumePreview.empty.languages', 'No languages specified yet.') }}
+          </p>
+        </AppCard>
+
+        <AppCard :title="translate('profile.resumePreview.sections.hobbies', 'Hobbies')" :loading="isLoading">
+          <div v-if="hobbyItems.length" class="d-flex flex-wrap gap-2">
+            <v-chip v-for="hobby in hobbyItems" :key="hobby.id" variant="tonal">
+              <v-icon v-if="hobby.icon" :icon="hobby.icon" size="16" class="me-1" />
+              {{ hobby.name }}
+            </v-chip>
+          </div>
+          <p v-else class="text-medium-emphasis mb-0">
+            {{ translate('profile.resumePreview.empty.hobbies', 'Share your interests to personalize your resume.') }}
+          </p>
+        </AppCard>
+      </div>
+    </teleport>
   </ProfilePageShell>
 </template>
+
+<style scoped>
+.resume-preview__drawer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+</style>
