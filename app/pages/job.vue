@@ -430,36 +430,25 @@ const submitApplication = async () => {
       <teleport to="#app-drawer">
         <div class="job-platform__hero-text">
           <p class="overline">Bro World · Job platform</p>
-          <h4>Find the next job that matches your craft</h4>
+          <div>
+            <h2>Matching roles</h2>
+            <p>
+              {{ filteredJobs.length }} opportunities ·
+              <span v-if="formattedLastUpdatedAt">
+                Updated {{ formattedLastUpdatedAt }}
+              </span>
+              <span v-else>Freshly curated</span>
+            </p>
+          </div>
         </div>
-      </teleport>
-    </client-only>
-    <client-only>
-      <teleport to="#app-drawer-right">
+        <v-divider class="my-4" />
         <v-row>
-          <v-col cols="12">
-            <v-text-field
-              v-model="filters.search"
-              label="Search roles or skills"
-              prepend-inner-icon="mdi-magnify"
-              hide-details
-              variant="outlined"
-            />
-          </v-col>
-          <v-col cols="12">
-            <v-text-field
-              v-model="filters.location"
-              label="Location"
-              prepend-inner-icon="mdi-map-marker"
-              hide-details
-              variant="outlined"
-            />
-          </v-col>
           <v-col cols="12">
             <v-select
               v-model="filters.workType"
               :items="workTypeOptions"
               label="Work type"
+              density="compact"
               hide-details
               variant="outlined"
               clearable
@@ -470,6 +459,7 @@ const submitApplication = async () => {
               v-model="filters.contractType"
               :items="contractTypeOptions"
               label="Contract"
+              density="compact"
               hide-details
               variant="outlined"
               clearable
@@ -497,22 +487,47 @@ const submitApplication = async () => {
         </div>
       </teleport>
     </client-only>
+    <client-only>
+      <teleport to="#app-drawer-right">
 
-    <div class="job-platform__list-header">
-      <div>
-        <h2>Matching roles</h2>
-        <p>
-          {{ filteredJobs.length }} opportunities ·
-          <span v-if="formattedLastUpdatedAt">
-                Updated {{ formattedLastUpdatedAt }}
-              </span>
-          <span v-else>Freshly curated</span>
-        </p>
-      </div>
-      <v-btn color="secondary" variant="text" class="text-none" @click="clearFilters">
-        Reset filters
-      </v-btn>
-    </div>
+      </teleport>
+    </client-only>
+
+    <client-only>
+      <teleport to="#app-bar">
+        <div class="d-flex justify-center">
+          <v-text-field
+            v-model="filters.search"
+            class="mr-2"
+            prepend-inner-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+            density="compact"
+            flat
+            icon-color
+            glow
+            color="primary"
+            variant="outlined"
+            style="width: 200px"
+          />
+          <v-text-field
+            v-model="filters.location"
+            class="mr-2"
+            prepend-inner-icon="mdi-map-marker"
+            label="Location"
+            single-line
+            hide-details
+            density="compact"
+            flat
+            icon-color
+            glow
+            color="primary"
+            variant="outlined"
+            style="width: 200px" />
+        </div>
+      </teleport>
+    </client-only>
 
     <v-progress-linear
       v-if="isLoading && !hasJobs"
