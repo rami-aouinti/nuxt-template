@@ -258,6 +258,7 @@
     "profile": "الملف الشخصي",
     "profileCalendar": "تقويم الملف الشخصي",
     "profileWorkspace": "مساحة عمل الملف الشخصي",
+    "profileJobs": "My jobs",
     "profileOrders": "سجل الطلبات",
     "profileNotifications": "الإشعارات",
     "blog": "المدونة",
@@ -1317,6 +1318,54 @@
           "billingAddress": "عنوان الفاتورة",
           "addressUnavailable": "غير متوفر",
           "loading": "جاري تحميل تفاصيل الطلب…"
+        }
+      },
+      "jobs": {
+        "page": {
+          "title": "My jobs",
+          "subtitle": "Track the opportunities you own or applied to.",
+          "refresh": "Refresh"
+        },
+        "states": {
+          "empty": "You have not linked any jobs yet.",
+          "emptyHint": "Use the recruiting workspace to sync your job posts and applications."
+        },
+        "notifications": {
+          "loadFailed": "Unable to load your jobs. Please try again later."
+        },
+        "badges": {
+          "owner": "Owner",
+          "applied": "Applied"
+        },
+        "labels": {
+          "unknownCompany": "Unknown company",
+          "descriptionUnavailable": "No description provided.",
+          "workType": "Work model",
+          "contractType": "Contract",
+          "salaryRange": "Salary",
+          "experience": "Experience",
+          "benefits": "Benefits",
+          "mission": "Role mission",
+          "requiredSkills": "Required skills",
+          "languages": "Languages",
+          "requirements": "Requirements",
+          "applications": "Applications",
+          "applicationsCount": "{count} applications",
+          "applicationStatus": "Status: {status}",
+          "contactApplicant": "Email applicant",
+          "callApplicant": "Call applicant",
+          "applicantFallback": "Applicant",
+          "visitCompany": "Visit company site",
+          "contactCompany": "Contact company",
+          "updatedAt": "Updated {date}",
+          "createdAt": "Created {date}",
+          "dateFallback": "recently"
+        },
+        "applicationStates": {
+          "request": "Request",
+          "progress": "In progress",
+          "completed": "Completed",
+          "rejected": "Rejected"
         }
       },
       "settings": {

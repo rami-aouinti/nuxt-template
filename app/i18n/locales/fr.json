@@ -258,6 +258,7 @@
     "profile": "Profil",
     "profileCalendar": "Calendrier",
     "profileWorkspace": "Espace de travail",
+    "profileJobs": "Mes jobs",
     "profileOrders": "Historique des commandes",
     "profileNotifications": "Notifications",
     "blog": "Blog",
@@ -1314,24 +1315,72 @@
         "labels": {
           "shipToUnknown": "En attente d'attribution"
         },
-        "details": {
-          "title": "Détails de la commande",
-          "placedOn": "Passée le",
-          "updatedAt": "Mise à jour le",
-          "itemsTotal": "Articles",
-          "shippingTotal": "Livraison",
-          "taxTotal": "Taxes",
-          "total": "Total",
-          "customer": "Client",
-          "email": "E-mail",
-          "phone": "Téléphone",
-          "shippingAddress": "Adresse de livraison",
-          "billingAddress": "Adresse de facturation",
-          "addressUnavailable": "Non disponible",
-          "loading": "Chargement des détails de la commande…"
-        }
+      "details": {
+        "title": "Détails de la commande",
+        "placedOn": "Passée le",
+        "updatedAt": "Mise à jour le",
+        "itemsTotal": "Articles",
+        "shippingTotal": "Livraison",
+        "taxTotal": "Taxes",
+        "total": "Total",
+        "customer": "Client",
+        "email": "E-mail",
+        "phone": "Téléphone",
+        "shippingAddress": "Adresse de livraison",
+        "billingAddress": "Adresse de facturation",
+        "addressUnavailable": "Non disponible",
+        "loading": "Chargement des détails de la commande…"
+      }
+    },
+    "jobs": {
+      "page": {
+        "title": "Mes jobs",
+        "subtitle": "Suivez les offres que vous possédez ou celles auxquelles vous avez postulé.",
+        "refresh": "Actualiser"
       },
-      "settings": {
+      "states": {
+        "empty": "Aucune offre n'est liée pour le moment.",
+        "emptyHint": "Connectez vos annonces ou candidatures depuis l'espace recrutement."
+      },
+      "notifications": {
+        "loadFailed": "Impossible de charger vos offres. Veuillez réessayer plus tard."
+      },
+      "badges": {
+        "owner": "Propriétaire",
+        "applied": "Candidat"
+      },
+      "labels": {
+        "unknownCompany": "Entreprise inconnue",
+        "descriptionUnavailable": "Aucune description fournie.",
+        "workType": "Mode de travail",
+        "contractType": "Contrat",
+        "salaryRange": "Salaire",
+        "experience": "Expérience",
+        "benefits": "Avantages",
+        "mission": "Mission du poste",
+        "requiredSkills": "Compétences requises",
+        "languages": "Langues",
+        "requirements": "Pré-requis",
+        "applications": "Candidatures",
+        "applicationsCount": "{count} candidatures",
+        "applicationStatus": "Statut : {status}",
+        "contactApplicant": "Écrire au candidat",
+        "callApplicant": "Appeler le candidat",
+        "applicantFallback": "Candidat",
+        "visitCompany": "Voir le site de l'entreprise",
+        "contactCompany": "Contacter l'entreprise",
+        "updatedAt": "Mis à jour le {date}",
+        "createdAt": "Créé le {date}",
+        "dateFallback": "récemment"
+      },
+      "applicationStates": {
+        "request": "Demande",
+        "progress": "En cours",
+        "completed": "Terminé",
+        "rejected": "Refusé"
+      }
+    },
+    "settings": {
         "allowSendEmail": {
           "title": "Recevoir des e-mails",
           "description": "Autoriser la plateforme à envoyer des mises à jour et des alertes par e-mail."
