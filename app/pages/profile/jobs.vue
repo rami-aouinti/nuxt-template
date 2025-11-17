@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 import AppCard from '~/components/ui/AppCard.vue'
 import AppButton from '~/components/ui/AppButton.vue'
 import { Notify } from '~/stores/notification'
 import { createDateFormatter, formatDateValue } from '~/utils/formatters'
+import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
 
 const jobApi = useJobPlatformApi()
 
@@ -15,6 +16,8 @@ definePageMeta({
 })
 
 const { t, locale } = useI18n()
+const translate = useTranslateWithFallback()
+const drawerRight = useState('drawerRight', () => false)
 
 interface ProfileJobLanguage {
   id: string
@@ -96,6 +99,57 @@ const jobs = computed<ProfileJob[]>(() => {
   return items
     .map((record) => mapJobRecord(record))
     .filter((item): item is ProfileJob => item !== null)
+})
+
+const selectedJobId = ref<string | null>(null)
+
+watch(
+  () => jobs.value,
+  (items) => {
+    if (!items.length) {
+      selectedJobId.value = null
+      return
+    }
+
+    if (!selectedJobId.value || !items.some((job) => job.id === selectedJobId.value)) {
+      selectedJobId.value = items[0].id
+    }
+  },
+  { immediate: true },
+)
+
+const selectedJob = computed<ProfileJob | null>(() => {
+  if (!jobs.value.length) {
+    return null
+  }
+
+  if (!selectedJobId.value) {
+    return jobs.value[0]
+  }
+
+  return jobs.value.find((job) => job.id === selectedJobId.value) ?? jobs.value[0]
+})
+
+const selectedJobApplicants = computed(() => selectedJob.value?.applications ?? [])
+const hasSelectedApplicants = computed(() => selectedJobApplicants.value.length > 0)
+
+const selectedJobCompanyName = computed(() => {
+  if (!selectedJob.value) {
+    return translate('profile.jobs.drawer.placeholderCompany', 'Select a job')
+  }
+
+  return (
+    selectedJob.value.company?.name ||
+    t('profile.jobs.labels.unknownCompany')
+  )
+})
+
+const selectedJobTitle = computed(() => {
+  if (selectedJob.value) {
+    return selectedJob.value.title
+  }
+
+  return translate('profile.jobs.drawer.placeholderTitle', 'Select a job to review applicants')
 })
 
 const totalJobs = computed(() => {
@@ -213,6 +267,11 @@ function mapJobRecord(record: unknown): ProfileJob | null {
     createdAt: ensureDate(value.createdAt),
     updatedAt: ensureDate(value.updatedAt),
   }
+}
+
+function handleApplicantsDrawer(job: ProfileJob) {
+  selectedJobId.value = job.id
+  drawerRight.value = true
 }
 
 function mapCompany(record: unknown): ProfileJobCompany | null {
@@ -640,50 +699,28 @@ function handleRefresh() {
                 </ul>
               </div>
 
-              <div v-if="job.applications.length" class="profile-job__section">
-                <p class="profile-job__section-title">
-                  {{ t('profile.jobs.labels.applications') }}
-                </p>
-                <ul class="profile-job__applications">
-                  <li
-                    v-for="application in job.applications"
-                    :key="application.id"
-                    class="profile-job__application"
-                  >
-                    <div>
-                      <p class="profile-job__application-name">
-                        {{ getApplicantName(application.applicant) }}
-                      </p>
-                      <p class="profile-job__application-meta">
-                        {{
-                          t('profile.jobs.labels.applicationStatus', {
-                            status: formatApplicationStatus(application.status),
-                          })
-                        }}
-                      </p>
-                    </div>
-                    <div class="profile-job__application-actions">
-                      <AppButton
-                        v-if="application.applicant?.contactEmail"
-                        variant="text"
-                        density="comfortable"
-                        color="primary"
-                        :href="`mailto:${application.applicant.contactEmail}`"
-                      >
-                        {{ t('profile.jobs.labels.contactApplicant') }}
-                      </AppButton>
-                      <AppButton
-                        v-if="application.applicant?.phone"
-                        variant="text"
-                        density="comfortable"
-                        color="secondary"
-                        :href="`tel:${application.applicant.phone}`"
-                      >
-                        {{ t('profile.jobs.labels.callApplicant') }}
-                      </AppButton>
-                    </div>
-                  </li>
-                </ul>
+              <div class="profile-job__section profile-job__section--cta">
+                <div>
+                  <p class="profile-job__section-title">
+                    {{ t('profile.jobs.labels.applications') }}
+                  </p>
+                  <p class="profile-job__section-text mb-0">
+                    {{
+                      t('profile.jobs.labels.applicationsCount', {
+                        count: job.applications.length,
+                      })
+                    }}
+                  </p>
+                </div>
+                <AppButton
+                  color="primary"
+                  variant="tonal"
+                  density="comfortable"
+                  :disabled="!job.applications.length"
+                  @click="handleApplicantsDrawer(job)"
+                >
+                  {{ translate('profile.jobs.drawer.openButton', 'View applicants') }}
+                </AppButton>
               </div>
 
               <footer class="profile-job__footer">
@@ -733,6 +770,93 @@ function handleRefresh() {
         </AppCard>
       </v-col>
     </v-row>
+
+    <teleport to="#app-drawer-right">
+      <AppCard class="profile-jobs__drawer" :loading="isLoading">
+        <template #title>
+          <div class="profile-jobs__drawer-header">
+            <p class="profile-jobs__drawer-eyebrow mb-1">
+              {{ selectedJobCompanyName }}
+            </p>
+            <h2 class="profile-jobs__drawer-title mb-0">
+              {{ selectedJobTitle }}
+            </h2>
+          </div>
+        </template>
+
+        <div v-if="!hasJobs" class="profile-jobs__drawer-empty">
+          <p class="text-medium-emphasis mb-0">
+            {{
+              translate(
+                'profile.jobs.drawer.empty',
+                'Create a job to start receiving applicants.',
+              )
+            }}
+          </p>
+        </div>
+        <div v-else>
+          <p class="text-overline text-medium-emphasis mb-1">
+            {{ t('profile.jobs.labels.applications') }}
+          </p>
+          <p class="profile-job__drawer-count">
+            {{
+              t('profile.jobs.labels.applicationsCount', {
+                count: selectedJobApplicants.length,
+              })
+            }}
+          </p>
+
+          <ul v-if="hasSelectedApplicants" class="profile-job__applications">
+            <li
+              v-for="application in selectedJobApplicants"
+              :key="application.id"
+              class="profile-job__application"
+            >
+              <div>
+                <p class="profile-job__application-name">
+                  {{ getApplicantName(application.applicant) }}
+                </p>
+                <p class="profile-job__application-meta">
+                  {{
+                    t('profile.jobs.labels.applicationStatus', {
+                      status: formatApplicationStatus(application.status),
+                    })
+                  }}
+                </p>
+              </div>
+              <div class="profile-job__application-actions">
+                <AppButton
+                  v-if="application.applicant?.contactEmail"
+                  variant="text"
+                  density="comfortable"
+                  color="primary"
+                  :href="`mailto:${application.applicant.contactEmail}`"
+                >
+                  {{ t('profile.jobs.labels.contactApplicant') }}
+                </AppButton>
+                <AppButton
+                  v-if="application.applicant?.phone"
+                  variant="text"
+                  density="comfortable"
+                  color="secondary"
+                  :href="`tel:${application.applicant.phone}`"
+                >
+                  {{ t('profile.jobs.labels.callApplicant') }}
+                </AppButton>
+              </div>
+            </li>
+          </ul>
+          <p v-else class="text-medium-emphasis mb-0">
+            {{
+              translate(
+                'profile.jobs.drawer.noApplicants',
+                'No applicants yet for this job.',
+              )
+            }}
+          </p>
+        </div>
+      </AppCard>
+    </teleport>
   </ProfilePageShell>
 </template>
 
@@ -836,6 +960,14 @@ function handleRefresh() {
   color: rgba(var(--v-theme-on-surface), 0.78);
 }
 
+.profile-job__section--cta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .profile-job__chips {
   display: flex;
   flex-wrap: wrap;
@@ -916,6 +1048,43 @@ function handleRefresh() {
 
 .profile-job__timestamps {
   color: rgba(var(--v-theme-on-surface), 0.6);
+}
+
+.profile-jobs__drawer {
+  padding: 1.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(var(--v-theme-primary), 0.05),
+    rgba(var(--v-theme-surface), 0.95)
+  );
+}
+
+.profile-jobs__drawer-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.profile-jobs__drawer-eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(var(--v-theme-on-surface), 0.6);
+}
+
+.profile-jobs__drawer-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.profile-job__drawer-count {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.profile-jobs__drawer-empty {
+  padding: 1rem 0;
 }
 
 .profile-job__actions {
