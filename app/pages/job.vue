@@ -60,7 +60,7 @@ const { jobs, isLoading, error: jobError, hasJobs, lastUpdatedAt } =
 await jobStore.fetchJobs()
 
 const resolvedJobs = computed(() =>
-  jobs.value.length ? jobs.value : null,
+  jobs.value.length ? jobs.value : [],
 )
 
 const filters = reactive({
