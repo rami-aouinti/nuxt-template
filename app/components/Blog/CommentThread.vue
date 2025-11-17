@@ -18,6 +18,7 @@ const props = defineProps<{
   canInteract: boolean
   resolveProfileLink?: (user: BlogPostUser) => string | null | undefined
   currentUserId?: string | null
+  currentUsername?: string | null
 }>()
 
 const emit = defineEmits<{
@@ -58,10 +59,26 @@ const toggleReply = (comment: BlogCommentViewModel) => {
 const normalizeId = (value: unknown): string =>
   typeof value === 'string' ? value.trim() : ''
 
+const normalizeHandle = (value: unknown): string =>
+  typeof value === 'string' ? value.trim().toLowerCase() : ''
+
 const canManageComment = (comment: BlogCommentViewModel) => {
   const currentId = normalizeId(props.currentUserId ?? null)
   const authorId = normalizeId(comment.user?.id ?? null)
-  return Boolean(currentId) && currentId === authorId
+  if (currentId && authorId && currentId === authorId) {
+    return true
+  }
+
+  const currentHandle = normalizeHandle(props.currentUsername ?? null)
+  if (!currentHandle) {
+    return false
+  }
+
+  const authorHandle = normalizeHandle(
+    comment.user?.username ?? comment.user?.email ?? comment.user?.id ?? null,
+  )
+
+  return Boolean(authorHandle) && currentHandle === authorHandle
 }
 
 const isCommentBusy = (comment: BlogCommentViewModel) =>
@@ -278,6 +295,7 @@ const buildCommentMenuItems = (
               :can-interact="canInteract"
               :resolve-profile-link="props.resolveProfileLink"
               :current-user-id="props.currentUserId"
+              :current-username="props.currentUsername"
               @select-reaction="emit('select-reaction', $event)"
               @remove-reaction="emit('remove-reaction', $event)"
               @submit-reply="emit('submit-reply', $event)"
