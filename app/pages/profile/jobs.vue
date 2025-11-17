@@ -488,41 +488,6 @@ function handleRefresh() {
   <ProfilePageShell>
     <v-row class="justify-center">
       <v-col cols="12">
-        <v-sheet class="rounded-xl mb-6" elevation="2">
-          <div
-            class="pa-6 px-4 py-2 d-flex flex-column flex-sm-row align-sm-center justify-space-between gap-4"
-          >
-            <div class="d-flex flex-column gap-2">
-              <p class="text-caption text-medium-emphasis text-uppercase mb-0">
-                {{ t('navigation.profile') }} · {{ totalJobs }}
-              </p>
-              <h1 class="text-h4 text-h3-md font-weight-bold mb-0">
-                {{ t('profile.jobs.page.title') }}
-              </h1>
-              <p class="text-body-1 text-medium-emphasis mb-0">
-                {{ t('profile.jobs.page.subtitle') }}
-              </p>
-            </div>
-            <v-tooltip
-              :text="t('profile.jobs.page.refresh')"
-              :aria-label="t('profile.jobs.page.refresh')"
-              location="bottom"
-            >
-              <template #activator="{ props }">
-                <AppButton
-                  v-bind="props"
-                  variant="text"
-                  density="comfortable"
-                  icon="mdi-refresh"
-                  :disabled="isLoading"
-                  :loading="isLoading"
-                  @click="handleRefresh"
-                />
-              </template>
-            </v-tooltip>
-          </div>
-        </v-sheet>
-
         <v-alert
           v-if="loadErrorMessage"
           type="error"
@@ -533,241 +498,239 @@ function handleRefresh() {
           {{ loadErrorMessage }}
         </v-alert>
 
-        <AppCard class="profile-jobs-card" :loading="isLoading" elevation="0">
-          <div v-if="!hasJobs && !isLoading" class="profile-jobs__state">
-            <h2 class="text-h5 font-weight-semibold mb-2">
-              {{ t('profile.jobs.states.empty') }}
-            </h2>
-            <p class="text-body-2 text-medium-emphasis mb-4">
-              {{ t('profile.jobs.states.emptyHint') }}
-            </p>
-            <AppButton
-              color="primary"
-              variant="tonal"
-              density="comfortable"
-              :loading="isLoading"
-              @click="handleRefresh"
-            >
-              {{ t('profile.jobs.page.refresh') }}
-            </AppButton>
-          </div>
+        <div v-if="!hasJobs && !isLoading" class="profile-jobs__state">
+          <h2 class="text-h5 font-weight-semibold mb-2">
+            {{ t('profile.jobs.states.empty') }}
+          </h2>
+          <p class="text-body-2 text-medium-emphasis mb-4">
+            {{ t('profile.jobs.states.emptyHint') }}
+          </p>
+          <AppButton
+            color="primary"
+            variant="tonal"
+            density="comfortable"
+            :loading="isLoading"
+            @click="handleRefresh"
+          >
+            {{ t('profile.jobs.page.refresh') }}
+          </AppButton>
+        </div>
 
-          <div v-else class="profile-jobs__list">
-            <article
-              v-for="job in jobs"
-              :key="job.id"
-              class="profile-job"
-            >
-              <header class="profile-job__header">
-                <div>
-                  <p class="profile-job__eyebrow">
-                    {{ job.company?.name || t('profile.jobs.labels.unknownCompany') }}
-                  </p>
-                  <h2 class="profile-job__title">
-                    {{ job.title }}
-                  </h2>
-                </div>
-                <div class="profile-job__status">
-                  <v-chip
-                    v-if="job.owner"
-                    size="small"
-                    density="comfortable"
-                    color="primary"
-                    variant="tonal"
-                  >
-                    {{ t('profile.jobs.badges.owner') }}
-                  </v-chip>
-                  <v-chip
-                    v-if="job.applied"
-                    size="small"
-                    density="comfortable"
-                    color="secondary"
-                    variant="tonal"
-                  >
-                    {{ t('profile.jobs.badges.applied') }}
-                  </v-chip>
-                  <v-chip
-                    v-if="job.applications.length"
-                    size="small"
-                    density="comfortable"
-                    color="info"
-                    variant="tonal"
-                  >
-                    {{
-                      t('profile.jobs.labels.applicationsCount', {
-                        count: job.applications.length,
-                      })
-                    }}
-                  </v-chip>
-                </div>
-              </header>
-
-              <p class="profile-job__description">
-                {{ job.description || t('profile.jobs.labels.descriptionUnavailable') }}
-              </p>
-
-              <div class="profile-job__meta">
-                <div v-if="job.workLocation" class="profile-job__meta-item">
-                  <v-icon icon="mdi-map-marker" size="18" class="me-1" />
-                  <span>{{ job.workLocation }}</span>
-                </div>
-                <div v-if="job.workType" class="profile-job__meta-item">
-                  <v-icon icon="mdi-briefcase" size="18" class="me-1" />
-                  <span>
-                    {{ t('profile.jobs.labels.workType') }} · {{ job.workType }}
-                  </span>
-                </div>
-                <div v-if="job.contractType" class="profile-job__meta-item">
-                  <v-icon icon="mdi-file-document" size="18" class="me-1" />
-                  <span>
-                    {{ t('profile.jobs.labels.contractType') }} · {{ job.contractType }}
-                  </span>
-                </div>
-                <div v-if="job.salaryRange" class="profile-job__meta-item">
-                  <v-icon icon="mdi-cash-multiple" size="18" class="me-1" />
-                  <span>
-                    {{ t('profile.jobs.labels.salaryRange') }} · {{ job.salaryRange }}
-                  </span>
-                </div>
-                <div v-if="job.experience" class="profile-job__meta-item">
-                  <v-icon icon="mdi-school" size="18" class="me-1" />
-                  <span>
-                    {{ t('profile.jobs.labels.experience') }} · {{ job.experience }}
-                  </span>
-                </div>
-                <div v-if="job.benefits" class="profile-job__meta-item">
-                  <v-icon icon="mdi-crown" size="18" class="me-1" />
-                  <span>
-                    {{ t('profile.jobs.labels.benefits') }} · {{ job.benefits }}
-                  </span>
-                </div>
-              </div>
-
-              <div v-if="job.mission" class="profile-job__section">
-                <p class="profile-job__section-title">
-                  {{ t('profile.jobs.labels.mission') }}
+        <div v-else class="profile-jobs__list">
+          <article
+            v-for="job in jobs"
+            :key="job.id"
+            class="profile-job"
+          >
+            <header class="profile-job__header">
+              <div>
+                <p class="profile-job__eyebrow">
+                  {{ job.company?.name || t('profile.jobs.labels.unknownCompany') }}
                 </p>
-                <p class="profile-job__section-text">
-                  {{ job.mission }}
-                </p>
+                <h2 class="profile-job__title">
+                  {{ job.title }}
+                </h2>
               </div>
-
-              <div v-if="job.requiredSkills.length" class="profile-job__section">
-                <p class="profile-job__section-title">
-                  {{ t('profile.jobs.labels.requiredSkills') }}
-                </p>
-                <div class="profile-job__chips">
-                  <v-chip
-                    v-for="skill in job.requiredSkills"
-                    :key="skill"
-                    color="primary"
-                    size="small"
-                    density="comfortable"
-                    variant="tonal"
-                  >
-                    {{ skill }}
-                  </v-chip>
-                </div>
-              </div>
-
-              <div v-if="job.languages.length" class="profile-job__section">
-                <p class="profile-job__section-title">
-                  {{ t('profile.jobs.labels.languages') }}
-                </p>
-                <div class="profile-job__chips">
-                  <v-chip
-                    v-for="language in job.languages"
-                    :key="language.id"
-                    color="secondary"
-                    size="small"
-                    density="comfortable"
-                    variant="tonal"
-                  >
-                    {{ formatLanguage(language) }}
-                  </v-chip>
-                </div>
-              </div>
-
-              <div v-if="job.requirements.length" class="profile-job__section">
-                <p class="profile-job__section-title">
-                  {{ t('profile.jobs.labels.requirements') }}
-                </p>
-                <ul class="profile-job__list">
-                  <li v-for="item in job.requirements" :key="item">
-                    {{ item }}
-                  </li>
-                </ul>
-              </div>
-
-              <div class="profile-job__section profile-job__section--cta">
-                <div>
-                  <p class="profile-job__section-title">
-                    {{ t('profile.jobs.labels.applications') }}
-                  </p>
-                  <p class="profile-job__section-text mb-0">
-                    {{
-                      t('profile.jobs.labels.applicationsCount', {
-                        count: job.applications.length,
-                      })
-                    }}
-                  </p>
-                </div>
-                <AppButton
+              <div class="profile-job__status">
+                <v-chip
+                  v-if="job.owner"
+                  size="small"
+                  density="comfortable"
                   color="primary"
                   variant="tonal"
-                  density="comfortable"
-                  :disabled="!job.applications.length"
-                  @click="handleApplicantsDrawer(job)"
                 >
-                  {{ translate('profile.jobs.drawer.openButton', 'View applicants') }}
+                  {{ t('profile.jobs.badges.owner') }}
+                </v-chip>
+                <v-chip
+                  v-if="job.applied"
+                  size="small"
+                  density="comfortable"
+                  color="secondary"
+                  variant="tonal"
+                >
+                  {{ t('profile.jobs.badges.applied') }}
+                </v-chip>
+                <v-chip
+                  v-if="job.applications.length"
+                  size="small"
+                  density="comfortable"
+                  color="info"
+                  variant="tonal"
+                >
+                  {{
+                    t('profile.jobs.labels.applicationsCount', {
+                      count: job.applications.length,
+                    })
+                  }}
+                </v-chip>
+              </div>
+            </header>
+
+            <p class="profile-job__description">
+              {{ job.description || t('profile.jobs.labels.descriptionUnavailable') }}
+            </p>
+
+            <div class="profile-job__meta">
+              <div v-if="job.workLocation" class="profile-job__meta-item">
+                <v-icon icon="mdi-map-marker" size="18" class="me-1" />
+                <span>{{ job.workLocation }}</span>
+              </div>
+              <div v-if="job.workType" class="profile-job__meta-item">
+                <v-icon icon="mdi-briefcase" size="18" class="me-1" />
+                <span>
+                    {{ t('profile.jobs.labels.workType') }} · {{ job.workType }}
+                  </span>
+              </div>
+              <div v-if="job.contractType" class="profile-job__meta-item">
+                <v-icon icon="mdi-file-document" size="18" class="me-1" />
+                <span>
+                    {{ t('profile.jobs.labels.contractType') }} · {{ job.contractType }}
+                  </span>
+              </div>
+              <div v-if="job.salaryRange" class="profile-job__meta-item">
+                <v-icon icon="mdi-cash-multiple" size="18" class="me-1" />
+                <span>
+                    {{ t('profile.jobs.labels.salaryRange') }} · {{ job.salaryRange }}
+                  </span>
+              </div>
+              <div v-if="job.experience" class="profile-job__meta-item">
+                <v-icon icon="mdi-school" size="18" class="me-1" />
+                <span>
+                    {{ t('profile.jobs.labels.experience') }} · {{ job.experience }}
+                  </span>
+              </div>
+              <div v-if="job.benefits" class="profile-job__meta-item">
+                <v-icon icon="mdi-crown" size="18" class="me-1" />
+                <span>
+                    {{ t('profile.jobs.labels.benefits') }} · {{ job.benefits }}
+                  </span>
+              </div>
+            </div>
+
+            <div v-if="job.mission" class="profile-job__section">
+              <p class="profile-job__section-title">
+                {{ t('profile.jobs.labels.mission') }}
+              </p>
+              <p class="profile-job__section-text">
+                {{ job.mission }}
+              </p>
+            </div>
+
+            <div v-if="job.requiredSkills.length" class="profile-job__section">
+              <p class="profile-job__section-title">
+                {{ t('profile.jobs.labels.requiredSkills') }}
+              </p>
+              <div class="profile-job__chips">
+                <v-chip
+                  v-for="skill in job.requiredSkills"
+                  :key="skill"
+                  color="primary"
+                  size="small"
+                  density="comfortable"
+                  variant="tonal"
+                >
+                  {{ skill }}
+                </v-chip>
+              </div>
+            </div>
+
+            <div v-if="job.languages.length" class="profile-job__section">
+              <p class="profile-job__section-title">
+                {{ t('profile.jobs.labels.languages') }}
+              </p>
+              <div class="profile-job__chips">
+                <v-chip
+                  v-for="language in job.languages"
+                  :key="language.id"
+                  color="secondary"
+                  size="small"
+                  density="comfortable"
+                  variant="tonal"
+                >
+                  {{ formatLanguage(language) }}
+                </v-chip>
+              </div>
+            </div>
+
+            <div v-if="job.requirements.length" class="profile-job__section">
+              <p class="profile-job__section-title">
+                {{ t('profile.jobs.labels.requirements') }}
+              </p>
+              <ul class="profile-job__list">
+                <li v-for="item in job.requirements" :key="item">
+                  {{ item }}
+                </li>
+              </ul>
+            </div>
+
+            <div class="profile-job__section profile-job__section--cta">
+              <div>
+                <p class="profile-job__section-title">
+                  {{ t('profile.jobs.labels.applications') }}
+                </p>
+                <p class="profile-job__section-text mb-0">
+                  {{
+                    t('profile.jobs.labels.applicationsCount', {
+                      count: job.applications.length,
+                    })
+                  }}
+                </p>
+              </div>
+              <AppButton
+                color="primary"
+                variant="tonal"
+                density="comfortable"
+                :disabled="!job.applications.length"
+                @click="handleApplicantsDrawer(job)"
+              >
+                {{ translate('profile.jobs.drawer.openButton', 'View applicants') }}
+              </AppButton>
+            </div>
+
+            <footer class="profile-job__footer">
+              <div class="profile-job__timestamps">
+                <p v-if="formatDate(job.updatedAt)" class="text-caption mb-0">
+                  {{
+                    t('profile.jobs.labels.updatedAt', {
+                      date: formatDate(job.updatedAt),
+                    })
+                  }}
+                </p>
+                <p v-else-if="formatDate(job.createdAt)" class="text-caption mb-0">
+                  {{
+                    t('profile.jobs.labels.createdAt', {
+                      date: formatDate(job.createdAt),
+                    })
+                  }}
+                </p>
+              </div>
+              <div class="profile-job__actions">
+                <AppButton
+                  v-if="job.company?.siteUrl"
+                  variant="tonal"
+                  density="comfortable"
+                  color="primary"
+                  :href="job.company.siteUrl"
+                  target="_blank"
+                  rel="noopener"
+                  prepend-icon="mdi-open-in-new"
+                >
+                  {{ t('profile.jobs.labels.visitCompany') }}
+                </AppButton>
+                <AppButton
+                  v-if="job.company?.contactEmail"
+                  variant="text"
+                  density="comfortable"
+                  color="secondary"
+                  :href="`mailto:${job.company.contactEmail}`"
+                  prepend-icon="mdi-email"
+                >
+                  {{ t('profile.jobs.labels.contactCompany') }}
                 </AppButton>
               </div>
-
-              <footer class="profile-job__footer">
-                <div class="profile-job__timestamps">
-                  <p v-if="formatDate(job.updatedAt)" class="text-caption mb-0">
-                    {{
-                      t('profile.jobs.labels.updatedAt', {
-                        date: formatDate(job.updatedAt),
-                      })
-                    }}
-                  </p>
-                  <p v-else-if="formatDate(job.createdAt)" class="text-caption mb-0">
-                    {{
-                      t('profile.jobs.labels.createdAt', {
-                        date: formatDate(job.createdAt),
-                      })
-                    }}
-                  </p>
-                </div>
-                <div class="profile-job__actions">
-                  <AppButton
-                    v-if="job.company?.siteUrl"
-                    variant="tonal"
-                    density="comfortable"
-                    color="primary"
-                    :href="job.company.siteUrl"
-                    target="_blank"
-                    rel="noopener"
-                    prepend-icon="mdi-open-in-new"
-                  >
-                    {{ t('profile.jobs.labels.visitCompany') }}
-                  </AppButton>
-                  <AppButton
-                    v-if="job.company?.contactEmail"
-                    variant="text"
-                    density="comfortable"
-                    color="secondary"
-                    :href="`mailto:${job.company.contactEmail}`"
-                    prepend-icon="mdi-email"
-                  >
-                    {{ t('profile.jobs.labels.contactCompany') }}
-                  </AppButton>
-                </div>
-              </footer>
-            </article>
-          </div>
-        </AppCard>
+            </footer>
+          </article>
+        </div>
       </v-col>
     </v-row>
 
@@ -1051,12 +1014,8 @@ function handleRefresh() {
 }
 
 .profile-jobs__drawer {
-  padding: 1.5rem;
-  background: linear-gradient(
-    135deg,
-    rgba(var(--v-theme-primary), 0.05),
-    rgba(var(--v-theme-surface), 0.95)
-  );
+  padding: 0.25rem;
+  background: transparent;
 }
 
 .profile-jobs__drawer-header {
