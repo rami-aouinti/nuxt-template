@@ -61,11 +61,32 @@ const baseItems = computed<NavigationItem[]>(() => [
     match: (path) => path.startsWith('/profile/jobs'),
   },
   {
+    value: 'applicants',
+    to: '/profile/applicants',
+    label: t('navigation.profileApplicants'),
+    icon: 'mdi-account-group-outline',
+    match: (path) => path.startsWith('/profile/applicants'),
+  },
+  {
+    value: 'companies',
+    to: '/profile/companies',
+    label: t('navigation.profileCompanies'),
+    icon: 'mdi-domain-plus',
+    match: (path) => path.startsWith('/profile/companies'),
+  },
+  {
     value: 'resume',
     to: '/profile/resume',
     label: t('navigation.profileResume'),
     icon: 'mdi-file-account',
-    match: (path) => path.startsWith('/profile/resume'),
+    match: (path) => path === '/profile/resume' || path.startsWith('/profile/resume/'),
+  },
+  {
+    value: 'resume-preview',
+    to: '/profile/resume-preview',
+    label: t('navigation.profileResumePreview'),
+    icon: 'mdi-file-eye',
+    match: (path) => path.startsWith('/profile/resume-preview'),
   },
   {
     value: 'orders',

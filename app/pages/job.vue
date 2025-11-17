@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { computed, reactive, ref, watch } from 'vue'
-import type { Company, Job } from '~/types/job'
+import type { Applicant, Company, Job } from '~/types/job'
 import {
   ContractType,
   LanguageLevel,
   WorkType,
 } from '~/types/job'
 import { useJobStore } from '~/stores/job'
+import { Notify } from '~/stores/notification'
+
+type ApplicationDialogMode = 'select' | 'create'
 
 definePageMeta({
   layout: 'default',
@@ -15,6 +18,8 @@ definePageMeta({
 })
 
 const JOB_PLATFORM_MEDIA_BASE_URL = 'https://job.bro-world.org'
+const jobApi = useJobPlatformApi()
+const { loggedIn } = useAppUserSession()
 
 const {
   data: jobCompanies,
@@ -316,6 +321,23 @@ const formattedLastUpdatedAt = computed(() => {
 
 const detailsDialog = ref(false)
 const selectedJob = ref<Job | null>(null)
+const applicationDialog = reactive({
+  open: false,
+  job: null as Job | null,
+  applicants: [] as Applicant[],
+  loadingApplicants: false,
+  selectedApplicantId: '',
+  mode: 'select' as ApplicationDialogMode,
+  submitting: false,
+  error: '',
+})
+const applicantForm = reactive({
+  firstName: '',
+  lastName: '',
+  contactEmail: '',
+  phone: '',
+  file: null as File | null,
+})
 
 const showJobDetails = (job: Job) => {
   selectedJob.value = job
@@ -331,6 +353,224 @@ watch(detailsDialog, (isOpen) => {
     selectedJob.value = null
   }
 })
+
+const hasApplicantProfiles = computed(
+  () => applicationDialog.applicants.length > 0,
+)
+
+const canSubmitApplication = computed(() => {
+  if (!applicationDialog.job) {
+    return false
+  }
+
+  if (applicationDialog.mode === 'select') {
+    return applicationDialog.selectedApplicantId.trim().length > 0
+  }
+
+  return (
+    applicantForm.firstName.trim().length > 0 &&
+    applicantForm.lastName.trim().length > 0 &&
+    applicantForm.contactEmail.trim().length > 0
+  )
+})
+
+const applicationActionLabel = computed(() => {
+  if (applicationDialog.mode === 'create') {
+    return 'Create profile & apply'
+  }
+
+  return 'Submit application'
+})
+
+const isAuthenticated = computed(() => loggedIn.value)
+
+const applicationDisabledReason = computed(() => {
+  if (isAuthenticated.value) {
+    return ''
+  }
+
+  return 'Sign in to start your application'
+})
+
+const applicantOptions = computed(() =>
+  applicationDialog.applicants.map((applicant) => {
+    const fullName = [applicant.firstName, applicant.lastName]
+      .map((value) => value?.trim())
+      .filter(Boolean)
+      .join(' ')
+
+    return {
+      title: fullName || applicant.contactEmail,
+      subtitle: applicant.contactEmail,
+      value: applicant.id,
+    }
+  }),
+)
+
+const resetApplicantForm = () => {
+  applicantForm.firstName = ''
+  applicantForm.lastName = ''
+  applicantForm.contactEmail = ''
+  applicantForm.phone = ''
+  applicantForm.file = null
+}
+
+const resetApplicationDialog = () => {
+  applicationDialog.job = null
+  applicationDialog.applicants = []
+  applicationDialog.selectedApplicantId = ''
+  applicationDialog.mode = 'select'
+  applicationDialog.error = ''
+  applicationDialog.loadingApplicants = false
+  applicationDialog.submitting = false
+  resetApplicantForm()
+}
+
+watch(
+  () => applicationDialog.open,
+  (isOpen) => {
+    if (!isOpen) {
+      resetApplicationDialog()
+    }
+  },
+)
+
+watch(
+  () => applicationDialog.mode,
+  (mode) => {
+    if (mode === 'select' && !hasApplicantProfiles.value) {
+      applicationDialog.mode = 'create'
+    }
+    applicationDialog.error = ''
+  },
+)
+
+const resolveJobApiError = (error: unknown, fallback: string) => {
+  if (error instanceof Error && error.message) {
+    return error.message
+  }
+
+  if (
+    error &&
+    typeof error === 'object' &&
+    'data' in error &&
+    error.data &&
+    typeof error.data === 'object'
+  ) {
+    const data = error.data as Record<string, unknown>
+    if (typeof data.message === 'string' && data.message.trim().length > 0) {
+      return data.message
+    }
+    if (typeof data.error === 'string' && data.error.trim().length > 0) {
+      return data.error
+    }
+  }
+
+  return fallback
+}
+
+const loadApplicantProfiles = async () => {
+  applicationDialog.loadingApplicants = true
+  applicationDialog.error = ''
+
+  try {
+    const response = await jobApi.currentApplicant.list<Applicant[]>()
+    const applicants = Array.isArray(response) ? response : []
+    applicationDialog.applicants = applicants
+
+    if (applicants.length > 0) {
+      applicationDialog.selectedApplicantId = applicants[0]?.id ?? ''
+      applicationDialog.mode = 'select'
+    } else {
+      applicationDialog.mode = 'create'
+    }
+  } catch (error) {
+    applicationDialog.error = resolveJobApiError(
+      error,
+      'Unable to load your applicant profiles.',
+    )
+  } finally {
+    applicationDialog.loadingApplicants = false
+  }
+}
+
+const openApplicationDialog = async (job?: Job | null) => {
+  if (!job) {
+    return
+  }
+  if (!isAuthenticated.value) {
+    Notify.error('Please sign in to submit your application.')
+    return
+  }
+
+  applicationDialog.job = job
+  applicationDialog.open = true
+  await loadApplicantProfiles()
+}
+
+const closeApplicationDialog = () => {
+  applicationDialog.open = false
+}
+
+const setApplicantFile = (value: File[] | File | null) => {
+  if (Array.isArray(value)) {
+    applicantForm.file = value[0] ?? null
+    return
+  }
+
+  applicantForm.file = value ?? null
+}
+
+const submitApplication = async () => {
+  if (!applicationDialog.job || !canSubmitApplication.value) {
+    applicationDialog.error = 'Please complete the required fields.'
+    return
+  }
+
+  applicationDialog.submitting = true
+  applicationDialog.error = ''
+
+  try {
+    let applicantId = applicationDialog.selectedApplicantId
+
+    if (applicationDialog.mode === 'create') {
+      const formData = new FormData()
+      formData.set('firstName', applicantForm.firstName.trim())
+      formData.set('lastName', applicantForm.lastName.trim())
+      formData.set('contactEmail', applicantForm.contactEmail.trim())
+      formData.set('phone', applicantForm.phone.trim())
+      if (applicantForm.file) {
+        formData.set('file', applicantForm.file)
+      }
+
+      const createdApplicant = await jobApi.currentApplicant.create<Applicant>(
+        formData,
+      )
+      applicantId = createdApplicant?.id ?? ''
+    }
+
+    if (!applicantId) {
+      throw new Error('Missing applicant information.')
+    }
+
+    await jobApi.applications.create(
+      applicationDialog.job.id,
+      applicantId,
+    )
+
+    Notify.success('Application submitted successfully.')
+    applicationDialog.open = false
+  } catch (error) {
+    const message = resolveJobApiError(
+      error,
+      'Unable to submit your application.',
+    )
+    applicationDialog.error = message
+    Notify.error(message)
+  } finally {
+    applicationDialog.submitting = false
+  }
+}
 </script>
 
 <template>
@@ -634,9 +874,24 @@ watch(detailsDialog, (isOpen) => {
                 <v-btn variant="text" class="text-none" @click="showJobDetails(job)">
                   Role details
                 </v-btn>
-                <v-btn color="primary" variant="flat" class="text-none">
-                  Apply now
-                </v-btn>
+                <v-tooltip
+                  :text="applicationDisabledReason"
+                  :disabled="isAuthenticated"
+                  location="bottom"
+                >
+                  <template #activator="{ props }">
+                    <v-btn
+                      v-bind="props"
+                      color="primary"
+                      variant="flat"
+                      class="text-none"
+                      :disabled="!isAuthenticated"
+                      @click="openApplicationDialog(job)"
+                    >
+                      Apply now
+                    </v-btn>
+                  </template>
+                </v-tooltip>
               </div>
             </v-card>
           </v-col>
@@ -705,8 +960,151 @@ watch(detailsDialog, (isOpen) => {
           <v-btn variant="text" class="text-none" @click="closeJobDetails">
             Close
           </v-btn>
-          <v-btn color="primary" variant="flat" class="text-none">
-            Start application
+          <v-tooltip
+            :text="applicationDisabledReason"
+            :disabled="isAuthenticated"
+            location="bottom"
+          >
+            <template #activator="{ props }">
+              <v-btn
+                v-bind="props"
+                color="primary"
+                variant="flat"
+                class="text-none"
+                :disabled="!isAuthenticated"
+                @click="openApplicationDialog(selectedJob)"
+              >
+                Start application
+              </v-btn>
+            </template>
+          </v-tooltip>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="applicationDialog.open" max-width="640" scrollable>
+      <v-card>
+        <v-card-title class="d-flex justify-space-between align-center">
+          <div>
+            <p class="text-caption text-medium-emphasis mb-1">
+              {{ applicationDialog.job?.company?.name || 'Bro World' }}
+            </p>
+            <h3 class="text-h5 mb-0">Apply to {{ applicationDialog.job?.title }}</h3>
+          </div>
+          <v-btn icon="mdi-close" variant="text" @click="closeApplicationDialog" />
+        </v-card-title>
+        <v-divider />
+        <v-card-text>
+          <v-alert
+            v-if="applicationDialog.error"
+            type="error"
+            variant="tonal"
+            class="mb-4"
+          >
+            {{ applicationDialog.error }}
+          </v-alert>
+          <v-progress-linear
+            v-if="applicationDialog.loadingApplicants"
+            indeterminate
+            color="primary"
+            class="mb-4"
+          />
+          <div v-else class="d-flex flex-column gap-4">
+            <div class="d-flex gap-2 flex-wrap align-center">
+              <v-chip-group
+                v-model="applicationDialog.mode"
+                selected-class="text-primary"
+                mandatory
+              >
+                <v-chip
+                  value="select"
+                  :disabled="!hasApplicantProfiles"
+                >
+                  Use existing profile
+                </v-chip>
+                <v-chip value="create">Create new profile</v-chip>
+              </v-chip-group>
+            </div>
+
+            <div v-if="applicationDialog.mode === 'select'">
+              <v-alert
+                v-if="!hasApplicantProfiles"
+                type="info"
+                variant="tonal"
+                class="mb-0"
+              >
+                No applicant profile found. Switch to "Create new profile" to get
+                started.
+              </v-alert>
+              <v-select
+                v-else
+                v-model="applicationDialog.selectedApplicantId"
+                label="Select applicant profile"
+                :items="applicantOptions"
+                item-title="title"
+                item-value="value"
+                variant="outlined"
+              >
+                <template #item="{ item, props }">
+                  <v-list-item v-bind="props">
+                    <v-list-item-title>{{ item.raw.title }}</v-list-item-title>
+                    <v-list-item-subtitle>
+                      {{ item.raw.subtitle }}
+                    </v-list-item-subtitle>
+                  </v-list-item>
+                </template>
+              </v-select>
+            </div>
+
+            <div v-else class="d-flex flex-column gap-3">
+              <v-text-field
+                v-model="applicantForm.firstName"
+                label="First name"
+                variant="outlined"
+                required
+              />
+              <v-text-field
+                v-model="applicantForm.lastName"
+                label="Last name"
+                variant="outlined"
+                required
+              />
+              <v-text-field
+                v-model="applicantForm.contactEmail"
+                label="Contact email"
+                variant="outlined"
+                required
+                type="email"
+              />
+              <v-text-field
+                v-model="applicantForm.phone"
+                label="Phone"
+                variant="outlined"
+              />
+              <v-file-input
+                :model-value="applicantForm.file ? [applicantForm.file] : []"
+                label="Attach resume (optional)"
+                variant="outlined"
+                accept=".pdf,.doc,.docx,.png,.jpg"
+                prepend-icon="mdi-paperclip"
+                @update:model-value="setApplicantFile"
+              />
+            </div>
+          </div>
+        </v-card-text>
+        <v-divider />
+        <v-card-actions class="justify-end">
+          <v-btn variant="text" class="text-none" @click="closeApplicationDialog">
+            Cancel
+          </v-btn>
+          <v-btn
+            color="primary"
+            variant="flat"
+            class="text-none"
+            :loading="applicationDialog.submitting"
+            :disabled="!canSubmitApplication || applicationDialog.submitting"
+            @click="submitApplication"
+          >
+            {{ applicationActionLabel }}
           </v-btn>
         </v-card-actions>
       </v-card>
