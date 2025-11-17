@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { computed, reactive, ref, watch } from 'vue'
 import type { Company, Job } from '~/types/job'
 import {
@@ -6,6 +7,8 @@ import {
   LanguageLevel,
   WorkType,
 } from '~/types/job'
+import { ContractType, WorkType } from '~/types/job'
+import { useJobStore } from '~/stores/job'
 
 definePageMeta({
   layout: 'default',
@@ -195,6 +198,11 @@ const jobs = ref<Job[]>([
     updatedAt: '2024-03-15T09:10:00.000Z',
   },
 ] satisfies Job[])
+const jobStore = useJobStore()
+const { jobs, isLoading, error: jobError, hasJobs, lastUpdatedAt } =
+  storeToRefs(jobStore)
+
+await jobStore.fetchJobs()
 
 const filters = reactive({
   search: '',
@@ -291,13 +299,13 @@ const skillCloud = computed(() => {
     .map(([skill, count]) => ({ skill, count }))
 })
 
-const lastUpdatedAt = computed(() => {
-  const timestamps = jobs.value
-    .map((job) => job.updatedAt || job.createdAt)
-    .filter(Boolean)
-  if (!timestamps.length) return null
-  const latest = timestamps.sort().at(-1)
-  return latest ? new Date(latest).toLocaleDateString() : null
+const formattedLastUpdatedAt = computed(() => {
+  if (!lastUpdatedAt.value) {
+    return null
+  }
+
+  const value = new Date(lastUpdatedAt.value)
+  return Number.isNaN(value.valueOf()) ? null : value.toLocaleDateString()
 })
 
 const detailsDialog = ref(false)
@@ -320,29 +328,12 @@ watch(detailsDialog, (isOpen) => {
 </script>
 
 <template>
-  <div class="job-platform">
-    <section class="job-platform__hero">
-      <v-container>
-        <div class="job-platform__hero-card">
-          <div class="job-platform__hero-text">
-            <p class="overline">Bro World · Job platform</p>
-            <h1>Find the next job that matches your craft</h1>
-            <p>
-              Curated opportunities across product, design, data, and operations.
-              Every listing highlights requirements, rituals, and the benefits
-              teams offer remote talent.
-            </p>
-          </div>
-          <div class="job-platform__hero-metrics">
-            <div
-              v-for="metric in heroMetrics"
-              :key="metric.label"
-              class="job-platform__metric"
-            >
-              <p class="job-platform__metric-value">{{ metric.value }}</p>
-              <p class="job-platform__metric-label">{{ metric.label }}</p>
-            </div>
-          </div>
+  <v-container fluid>
+    <client-only>
+      <teleport to="#app-drawer">
+        <div class="job-platform__hero-text">
+          <p class="overline">Bro World · Job platform</p>
+          <h4>Find the next job that matches your craft</h4>
         </div>
       </v-container>
     </section>
@@ -508,6 +499,15 @@ watch(detailsDialog, (isOpen) => {
             <v-btn color="secondary" variant="text" class="text-none" @click="clearFilters">
               Reset filters
             </v-btn>
+        <v-divider class="my-2" />
+        <div class="job-platform__hero-metrics">
+          <div
+            v-for="metric in heroMetrics"
+            :key="metric.label"
+            class="job-platform__metric d-flex inline-flex-column align-center"
+          >
+            <p class="job-platform__metric-label">{{ metric.label }}</p>
+            <p class="job-platform__metric-value px-4">{{ metric.value }}</p>
           </div>
         </v-card>
       </v-container>
@@ -520,14 +520,32 @@ watch(detailsDialog, (isOpen) => {
             <h2>Matching roles</h2>
             <p>
               {{ filteredJobs.length }} opportunities ·
-              <span v-if="lastUpdatedAt">Updated {{ lastUpdatedAt }}</span>
+              <span v-if="formattedLastUpdatedAt">
+                Updated {{ formattedLastUpdatedAt }}
+              </span>
               <span v-else>Freshly curated</span>
             </p>
           </div>
-          <v-btn color="primary" variant="flat" class="text-none">
-            Create alert
+          <v-btn color="secondary" variant="text" class="text-none" @click="clearFilters">
+            Reset filters
           </v-btn>
         </div>
+
+        <v-progress-linear
+          v-if="isLoading && !hasJobs"
+          color="primary"
+          indeterminate
+          class="mb-4"
+        />
+
+        <v-alert
+          v-if="jobError"
+          type="error"
+          variant="tonal"
+          class="mb-4"
+        >
+          {{ jobError }}
+        </v-alert>
 
         <v-row dense>
           <v-col
@@ -555,33 +573,46 @@ watch(detailsDialog, (isOpen) => {
                   {{ job.workType ?? 'Flexible' }}
                 </v-chip>
               </div>
-              <h3 class="job-card__title">{{ job.title }}</h3>
-              <p class="job-card__description">
-                {{ job.description }}
-              </p>
-              <div class="job-card__meta">
-                <v-chip size="small" variant="flat" color="primary">
-                  Experience · {{ job.experience ?? 'Any level' }}
-                </v-chip>
-                <v-chip v-if="job.salaryRange" size="small" variant="flat" color="primary">
-                  {{ job.salaryRange }}
-                </v-chip>
-                <v-chip v-if="job.contractType" size="small" variant="flat" color="primary">
-                  {{ job.contractType }}
-                </v-chip>
+              <div>
+                <p class="job-card__company-name">
+                  {{ job.company?.name ?? 'Independent team' }}
+                </p>
+                <p class="job-card__location">
+                  {{ job.workLocation || job.company?.location || 'Flexible' }}
+                </p>
               </div>
-              <div v-if="job.requiredSkills?.length" class="job-card__skills">
-                <v-chip
-                  v-for="skill in job.requiredSkills.slice(0, 4)"
-                  :key="skill"
-                  size="x-small"
-                  variant="tonal"
-                  color="primary"
-                  class="mr-1 mb-1"
-                >
-                  {{ skill }}
-                </v-chip>
-                <span v-if="job.requiredSkills.length > 4" class="job-card__skills-more">
+            </div>
+            <v-chip size="small" color="primary" variant="elevated">
+              {{ job.workType ?? 'Flexible' }}
+            </v-chip>
+          </div>
+          <h3 class="job-card__title">{{ job.title }}</h3>
+          <p class="job-card__description">
+            {{ job.description }}
+          </p>
+          <div class="job-card__meta">
+            <v-chip size="small" variant="flat" color="primary">
+              Experience · {{ job.experience ?? 'Any level' }}
+            </v-chip>
+            <v-chip v-if="job.salaryRange" size="small" variant="flat" color="primary">
+              {{ job.salaryRange }}
+            </v-chip>
+            <v-chip v-if="job.contractType" size="small" variant="flat" color="primary">
+              {{ job.contractType }}
+            </v-chip>
+          </div>
+          <div v-if="job.requiredSkills?.length" class="job-card__skills">
+            <v-chip
+              v-for="skill in job.requiredSkills.slice(0, 4)"
+              :key="skill"
+              size="x-small"
+              variant="tonal"
+              color="primary"
+              class="mr-1 mb-1"
+            >
+              {{ skill }}
+            </v-chip>
+            <span v-if="job.requiredSkills.length > 4" class="job-card__skills-more">
                   +{{ job.requiredSkills.length - 4 }} more
                 </span>
               </div>
@@ -598,12 +629,20 @@ watch(detailsDialog, (isOpen) => {
         </v-row>
 
         <v-alert
-          v-if="!filteredJobs.length"
+          v-if="!isLoading && !jobError && hasJobs && !filteredJobs.length"
           type="info"
           variant="tonal"
           class="mt-6"
         >
           No job matches yet. Try adjusting your filters.
+        </v-alert>
+        <v-alert
+          v-else-if="!isLoading && !jobError && !hasJobs"
+          type="info"
+          variant="tonal"
+          class="mt-6"
+        >
+          New opportunities will be published soon. Come back later.
         </v-alert>
       </v-container>
     </section>
@@ -658,7 +697,7 @@ watch(detailsDialog, (isOpen) => {
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </div>
+  </v-container>
 </template>
 
 <style scoped lang="scss">
