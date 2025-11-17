@@ -13,6 +13,7 @@ import {
   type DateInput,
 } from '~/utils/formatters'
 import type { NotificationTemplate } from '~/types/notification'
+import AppUploadField from "~/components/ui/AppUploadField.vue";
 
 const { t, locale } = useI18n()
 

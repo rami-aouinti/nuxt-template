@@ -258,9 +258,7 @@ export const extractPostTagsFromText = (value: string): string[] => {
 }
 
 export const stripPostTagsFromText = (value: string): string => {
-  if (typeof value !== 'string') {
-    return ''
-  }
+
 
   const withoutTags = value.replace(hashtagPattern, '$1')
 

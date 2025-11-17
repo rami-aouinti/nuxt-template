@@ -10,6 +10,7 @@ import type {
   WorkspaceFolder,
 } from '~/types/workspace'
 import { useWorkspaceStore } from '~/stores/workspace'
+import AppUploadField from "~/components/ui/AppUploadField.vue";
 
 const WORKSPACE_BASE_URL = 'https://bro-world.org'
 
