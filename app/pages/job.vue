@@ -68,6 +68,7 @@ const filters = reactive({
   location: '',
   workType: null as WorkType | null,
   contractType: null as ContractType | null,
+  skill: '' as string,
 })
 
 const workTypeOptions = Object.values(WorkType).map((value) => ({
@@ -85,11 +86,13 @@ const clearFilters = () => {
   filters.location = ''
   filters.workType = null
   filters.contractType = null
+  filters.skill = ''
 }
 
 const filteredJobs = computed(() => {
   const search = filters.search.trim().toLowerCase()
   const location = filters.location.trim().toLowerCase()
+  const skill = filters.skill.trim().toLowerCase()
 
   return resolvedJobs.value.filter((job) => {
     const matchesSearch = search
@@ -118,11 +121,18 @@ const filteredJobs = computed(() => {
       ? job.contractType === filters.contractType
       : true
 
+    const matchesSkill = skill
+      ? job.requiredSkills?.some(
+          (item) => item?.toLowerCase() === skill,
+        ) ?? false
+      : true
+
     return (
       matchesSearch &&
       matchesLocation &&
       matchesWorkType &&
-      matchesContract
+      matchesContract &&
+      matchesSkill
     )
   })
 })
@@ -170,7 +180,6 @@ const formattedLastUpdatedAt = computed(() => {
   return Number.isNaN(value.valueOf()) ? null : value.toLocaleDateString()
 })
 
-const detailsDialog = ref(false)
 const selectedJob = ref<Job | null>(null)
 const applicationDialog = reactive({
   open: false,
@@ -192,18 +201,25 @@ const applicantForm = reactive({
 
 const showJobDetails = (job: Job) => {
   selectedJob.value = job
-  detailsDialog.value = true
 }
 
 const closeJobDetails = () => {
-  detailsDialog.value = false
+  selectedJob.value = null
 }
 
-watch(detailsDialog, (isOpen) => {
-  if (!isOpen) {
+watch(filteredJobs, (jobs) => {
+  if (!selectedJob.value) {
+    return
+  }
+
+  if (!jobs.some((job) => job.id === selectedJob.value?.id)) {
     selectedJob.value = null
   }
 })
+
+const toggleSkillFilter = (skill: string) => {
+  filters.skill = filters.skill === skill ? '' : skill
+}
 
 const hasApplicantProfiles = computed(
   () => applicationDialog.applicants.length > 0,
@@ -475,7 +491,9 @@ const submitApplication = async () => {
               :key="item.skill"
               size="small"
               class="ma-1"
-              variant="tonal"
+              :color="filters.skill === item.skill ? 'primary' : undefined"
+              :variant="filters.skill === item.skill ? 'flat' : 'tonal'"
+              @click="toggleSkillFilter(item.skill)"
             >
               {{ item.skill }}
               <span class="job-platform__skill-count">×{{ item.count }}</span>
@@ -489,7 +507,85 @@ const submitApplication = async () => {
     </client-only>
     <client-only>
       <teleport to="#app-drawer-right">
-
+        <div class="job-platform__drawer">
+          <AppCard v-if="selectedJob" class="job-details" elevation="0">
+            <header class="job-details__header">
+              <div>
+                <p class="text-caption text-medium-emphasis mb-1">
+                  {{ selectedJob.company?.name }} · {{ selectedJob.workType || 'Flexible' }}
+                </p>
+                <h3 class="text-h5 mb-0">{{ selectedJob.title }}</h3>
+              </div>
+              <v-btn icon="mdi-close" variant="text" @click="closeJobDetails" />
+            </header>
+            <v-divider class="my-4" />
+            <section class="job-details__section">
+              <h4>Description</h4>
+              <p class="mb-0">{{ selectedJob.description }}</p>
+            </section>
+            <div v-if="selectedJob.requiredSkills?.length" class="job-details__section">
+              <h4>Required skills</h4>
+              <div class="d-flex flex-wrap gap-2">
+                <v-chip
+                  v-for="skill in selectedJob.requiredSkills"
+                  :key="skill"
+                  size="small"
+                  variant="tonal"
+                  color="primary"
+                >
+                  {{ skill }}
+                </v-chip>
+              </div>
+            </div>
+            <div v-if="selectedJob.requirements?.length" class="job-details__section">
+              <h4>What you will work on</h4>
+              <ul>
+                <li v-for="item in selectedJob.requirements" :key="item">
+                  {{ item }}
+                </li>
+              </ul>
+            </div>
+            <div v-if="selectedJob.languages?.length" class="job-details__section">
+              <h4>Languages</h4>
+              <v-chip
+                v-for="language in selectedJob.languages"
+                :key="language.id"
+                class="ma-1"
+                size="small"
+                variant="tonal"
+              >
+                {{ language.name }} · {{ language.level }}
+              </v-chip>
+            </div>
+            <div v-if="selectedJob.benefits" class="job-details__section">
+              <h4>Benefits</h4>
+              <p>{{ selectedJob.benefits }}</p>
+            </div>
+            <footer class="job-details__actions">
+              <v-tooltip
+                :text="applicationDisabledReason"
+                :disabled="isAuthenticated"
+                location="bottom"
+              >
+                <template #activator="{ props }">
+                  <v-btn
+                    v-bind="props"
+                    color="primary"
+                    variant="flat"
+                    class="text-none"
+                    :disabled="!isAuthenticated"
+                    @click="selectedJob && openApplicationDialog(selectedJob)"
+                  >
+                    Apply now
+                  </v-btn>
+                </template>
+              </v-tooltip>
+            </footer>
+          </AppCard>
+          <AppCard v-else class="job-platform__drawer-placeholder" elevation="0">
+            <p class="mb-0 text-medium-emphasis">Select a job card to view its details.</p>
+          </AppCard>
+        </div>
       </teleport>
     </client-only>
 
@@ -552,7 +648,14 @@ const submitApplication = async () => {
         cols="12"
         md="6"
       >
-        <AppCard class="job-card">
+        <AppCard
+          :class="[
+            'job-card',
+            'job-card--selectable',
+            { 'job-card--active': selectedJob && selectedJob.id === job.id },
+          ]"
+          @click="showJobDetails(job)"
+        >
           <div class="job-card__header">
             <div class="job-card__company">
               <div v-if="job.company?.logo" class="job-card__logo">
@@ -606,9 +709,6 @@ const submitApplication = async () => {
           </div>
 
           <div class="job-card__actions">
-            <v-btn variant="text" class="text-none" @click="showJobDetails(job)">
-              Role details
-            </v-btn>
             <v-tooltip
               :text="applicationDisabledReason"
               :disabled="isAuthenticated"
@@ -621,7 +721,7 @@ const submitApplication = async () => {
                   variant="flat"
                   class="text-none"
                   :disabled="!isAuthenticated"
-                  @click="openApplicationDialog(job)"
+                  @click.stop="openApplicationDialog(job)"
                 >
                   Apply now
                 </v-btn>
@@ -649,71 +749,6 @@ const submitApplication = async () => {
       New opportunities will be published soon. Come back later.
     </v-alert>
 
-    <v-dialog v-model="detailsDialog" max-width="720" scrollable>
-      <v-card v-if="selectedJob" class="job-details">
-        <v-card-title class="d-flex justify-space-between align-center">
-          <div>
-            <p class="text-caption text-medium-emphasis mb-1">
-              {{ selectedJob.company?.name }} · {{ selectedJob.workType || 'Flexible' }}
-            </p>
-            <h3 class="text-h5">{{ selectedJob.title }}</h3>
-          </div>
-          <v-btn icon="mdi-close" variant="text" @click="closeJobDetails" />
-        </v-card-title>
-        <v-divider />
-        <v-card-text>
-          <p class="mb-4">{{ selectedJob.description }}</p>
-          <div v-if="selectedJob.requirements?.length" class="job-details__section">
-            <h4>What you will work on</h4>
-            <ul>
-              <li v-for="item in selectedJob.requirements" :key="item">
-                {{ item }}
-              </li>
-            </ul>
-          </div>
-          <div v-if="selectedJob.languages?.length" class="job-details__section">
-            <h4>Languages</h4>
-            <v-chip
-              v-for="language in selectedJob.languages"
-              :key="language.id"
-              class="ma-1"
-              size="small"
-              variant="tonal"
-            >
-              {{ language.name }} · {{ language.level }}
-            </v-chip>
-          </div>
-          <div v-if="selectedJob.benefits" class="job-details__section">
-            <h4>Benefits</h4>
-            <p>{{ selectedJob.benefits }}</p>
-          </div>
-        </v-card-text>
-        <v-divider />
-        <v-card-actions class="justify-end">
-          <v-btn variant="text" class="text-none" @click="closeJobDetails">
-            Close
-          </v-btn>
-          <v-tooltip
-            :text="applicationDisabledReason"
-            :disabled="isAuthenticated"
-            location="bottom"
-          >
-            <template #activator="{ props }">
-              <v-btn
-                v-bind="props"
-                color="primary"
-                variant="flat"
-                class="text-none"
-                :disabled="!isAuthenticated"
-                @click="openApplicationDialog(selectedJob)"
-              >
-                Start application
-              </v-btn>
-            </template>
-          </v-tooltip>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
     <v-dialog v-model="applicationDialog.open" max-width="640" scrollable>
       <v-card>
         <v-card-title class="d-flex justify-space-between align-center">
@@ -1046,6 +1081,20 @@ const submitApplication = async () => {
   gap: 16px;
 }
 
+.job-card--selectable {
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.job-card--selectable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -12px rgb(15 23 42 / 0.3);
+}
+
+.job-card--active {
+  box-shadow: 0 0 0 2px rgba(var(--v-theme-primary), 0.6);
+}
+
 .job-card__header {
   display: flex;
   justify-content: space-between;
@@ -1105,6 +1154,26 @@ const submitApplication = async () => {
 .job-card__actions {
   justify-content: flex-end;
   margin-top: auto;
+}
+
+.job-platform__drawer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.job-platform__drawer-placeholder {
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.job-details__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .job-details__section {
