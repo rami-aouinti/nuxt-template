@@ -88,3 +88,10 @@ export interface JobApplication {
   createdAt?: string
   updatedAt?: string
 }
+
+export interface JobListingResponse {
+  data: Job[]
+  page: number
+  limit: number
+  count: number
+}

@@ -1,166 +1,20 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { computed, reactive, ref, watch } from 'vue'
 import type { Job } from '~/types/job'
-import {
-  ContractType,
-  LanguageLevel,
-  WorkType,
-} from '~/types/job'
+import { ContractType, WorkType } from '~/types/job'
+import { useJobStore } from '~/stores/job'
 
 definePageMeta({
   layout: 'default',
   title: 'Job platform',
 })
 
-const jobs = ref<Job[]>([
-  {
-    id: 'job-senior-frontend',
-    title: 'Senior Frontend Engineer',
-    description:
-      'Lead the experience layer of our job platform, evolve the design system, and mentor a remote squad of product engineers.',
-    work:
-      'Collaborate with design and product to deliver polished features every sprint while keeping a high-quality bar for accessibility and performance.',
-    requiredSkills: ['Vue 3', 'Nuxt 3', 'TypeScript', 'Design Systems', 'Testing Library'],
-    experience: '5+ years',
-    workType: WorkType.REMOTE,
-    workLocation: 'Remote - Europe (CET ±2)',
-    salaryRange: '€70k – €90k',
-    languages: [
-      { id: 1, name: 'English', level: LanguageLevel.FLUENT },
-      { id: 2, name: 'French', level: LanguageLevel.INTERMEDIATE },
-    ],
-    contractType: ContractType.FULLTIME,
-    requirements: [
-      'Own the frontend roadmap for employer dashboards',
-      'Guide adoption of our component library across teams',
-      'Partner with DX engineers to keep build times low',
-    ],
-    benefits:
-      'Equity plan, personal learning budget, remote stipend, and 30 days of paid vacation.',
-    company: {
-      id: 'company-northwind',
-      name: 'Northwind Talent',
-      description:
-        'Boutique recruitment team building hiring tools for remote-first companies.',
-      location: 'Berlin, Germany',
-      contactEmail: 'hello@northwind.com',
-      logo: 'https://dummyimage.com/80x80/1e2a78/ffffff&text=NT',
-      siteUrl: 'https://northwind.example.com',
-    },
-    user: '00000000-0000-0000-0000-000000000001',
-    createdAt: '2024-02-15T10:00:00.000Z',
-    updatedAt: '2024-03-10T08:45:00.000Z',
-  },
-  {
-    id: 'job-product-designer',
-    title: 'Product Designer – Hiring Journeys',
-    description:
-      'Design adaptive interview experiences, craft service blueprints, and partner with research to improve conversion across the hiring funnel.',
-    work:
-      'You will iterate on white-glove employer experiences, pair with UX writers, and deliver storyboards that engineering can ship every week.',
-    requiredSkills: ['Figma', 'Design systems', 'User Research', 'Prototyping'],
-    experience: '4+ years',
-    workType: WorkType.HYBRID,
-    workLocation: 'Paris, France',
-    salaryRange: '€60k – €75k',
-    languages: [
-      { id: 3, name: 'English', level: LanguageLevel.FLUENT },
-      { id: 4, name: 'French', level: LanguageLevel.NATIVE },
-    ],
-    contractType: ContractType.FULLTIME,
-    requirements: [
-      'Own discovery and delivery rituals with PM/EM partners',
-      'Translate complex service flows into calm employer tools',
-      'Ship polished motion that elevates the brand',
-    ],
-    benefits: 'Hybrid office, mobility budget, and quarterly offsites.',
-    company: {
-      id: 'company-atlas',
-      name: 'Atlas Careers',
-      description:
-        'Multi-country job marketplace helping teams recruit multilingual talent.',
-      location: 'Paris, France',
-      contactEmail: 'design@atlas-careers.com',
-      logo: 'https://dummyimage.com/80x80/0f766e/ffffff&text=AC',
-      siteUrl: 'https://atlas-careers.example.com',
-    },
-    user: '00000000-0000-0000-0000-000000000002',
-    createdAt: '2024-03-01T09:00:00.000Z',
-    updatedAt: '2024-03-12T12:20:00.000Z',
-  },
-  {
-    id: 'job-talent-ops',
-    title: 'Talent Operations Lead',
-    description:
-      'Build repeatable workflows for our candidate success team, automate reporting, and make sure every application receives a thoughtful response.',
-    work:
-      'Coordinate across operations, finance, and sales. You will pilot AI copilots, instrumentation, and guide compliance updates.',
-    requiredSkills: ['Process Design', 'Notion', 'Zapier', 'People Ops'],
-    experience: '3+ years',
-    workType: WorkType.ONSITE,
-    workLocation: 'Lisbon, Portugal',
-    salaryRange: '€45k – €55k',
-    languages: [
-      { id: 5, name: 'English', level: LanguageLevel.FLUENT },
-      { id: 6, name: 'Portuguese', level: LanguageLevel.NATIVE },
-    ],
-    contractType: ContractType.FULLTIME,
-    requirements: [
-      'Design playbooks that scale across multiple hubs',
-      'Implement QA loops for candidate communication',
-      'Partner with finance on headcount forecasting',
-    ],
-    benefits: 'Health insurance, paid lunches, and local transit pass.',
-    company: {
-      id: 'company-tide',
-      name: 'Tidewave',
-      description: 'Climate-tech startup growing its international talent collective.',
-      location: 'Lisbon, Portugal',
-      contactEmail: 'people@tidewave.io',
-      logo: 'https://dummyimage.com/80x80/4338ca/ffffff&text=TW',
-      siteUrl: 'https://tidewave.example.com',
-    },
-    user: '00000000-0000-0000-0000-000000000003',
-    createdAt: '2024-02-25T14:30:00.000Z',
-    updatedAt: '2024-03-09T15:30:00.000Z',
-  },
-  {
-    id: 'job-customer-success',
-    title: 'Customer Success Strategist',
-    description:
-      'Coach employer teams on onboarding, interpret analytics, and translate feedback into crisp product experiments.',
-    work:
-      'Meet executive sponsors weekly, maintain playbooks for success teams, and produce action plans aligned to hiring OKRs.',
-    requiredSkills: ['Account Management', 'Data Storytelling', 'HubSpot', 'Hiring Analytics'],
-    experience: '5+ years',
-    workType: WorkType.REMOTE,
-    workLocation: 'Remote – Americas',
-    salaryRange: '$95k – $115k',
-    languages: [
-      { id: 7, name: 'English', level: LanguageLevel.NATIVE },
-      { id: 8, name: 'Spanish', level: LanguageLevel.INTERMEDIATE },
-    ],
-    contractType: ContractType.FULLTIME,
-    requirements: [
-      'Design ROI reviews with revenue leadership',
-      'Coach recruiters on the analytics workspace',
-      'Coordinate with marketing on co-branded case studies',
-    ],
-    benefits: 'Remote office budget, annual company retreat, flexible PTO.',
-    company: {
-      id: 'company-pulse',
-      name: 'Pulseboard',
-      description: 'Hiring intelligence layer for recruiting platforms.',
-      location: 'Austin, USA',
-      contactEmail: 'talent@pulseboard.com',
-      logo: 'https://dummyimage.com/80x80/ea580c/ffffff&text=PB',
-      siteUrl: 'https://pulseboard.example.com',
-    },
-    user: '00000000-0000-0000-0000-000000000004',
-    createdAt: '2024-03-05T11:15:00.000Z',
-    updatedAt: '2024-03-15T09:10:00.000Z',
-  },
-] satisfies Job[])
+const jobStore = useJobStore()
+const { jobs, isLoading, error: jobError, hasJobs, lastUpdatedAt } =
+  storeToRefs(jobStore)
+
+await jobStore.fetchJobs()
 
 const filters = reactive({
   search: '',
@@ -257,13 +111,13 @@ const skillCloud = computed(() => {
     .map(([skill, count]) => ({ skill, count }))
 })
 
-const lastUpdatedAt = computed(() => {
-  const timestamps = jobs.value
-    .map((job) => job.updatedAt || job.createdAt)
-    .filter(Boolean)
-  if (!timestamps.length) return null
-  const latest = timestamps.sort().at(-1)
-  return latest ? new Date(latest).toLocaleDateString() : null
+const formattedLastUpdatedAt = computed(() => {
+  if (!lastUpdatedAt.value) {
+    return null
+  }
+
+  const value = new Date(lastUpdatedAt.value)
+  return Number.isNaN(value.valueOf()) ? null : value.toLocaleDateString()
 })
 
 const detailsDialog = ref(false)
@@ -386,7 +240,9 @@ watch(detailsDialog, (isOpen) => {
             <h2>Matching roles</h2>
             <p>
               {{ filteredJobs.length }} opportunities ·
-              <span v-if="lastUpdatedAt">Updated {{ lastUpdatedAt }}</span>
+              <span v-if="formattedLastUpdatedAt">
+                Updated {{ formattedLastUpdatedAt }}
+              </span>
               <span v-else>Freshly curated</span>
             </p>
           </div>
@@ -394,6 +250,22 @@ watch(detailsDialog, (isOpen) => {
             Create alert
           </v-btn>
         </div>
+
+        <v-progress-linear
+          v-if="isLoading && !hasJobs"
+          color="primary"
+          indeterminate
+          class="mb-4"
+        />
+
+        <v-alert
+          v-if="jobError"
+          type="error"
+          variant="tonal"
+          class="mb-4"
+        >
+          {{ jobError }}
+        </v-alert>
 
         <v-row dense>
           <v-col
@@ -464,12 +336,20 @@ watch(detailsDialog, (isOpen) => {
         </v-row>
 
         <v-alert
-          v-if="!filteredJobs.length"
+          v-if="!isLoading && !jobError && hasJobs && !filteredJobs.length"
           type="info"
           variant="tonal"
           class="mt-6"
         >
           No job matches yet. Try adjusting your filters.
+        </v-alert>
+        <v-alert
+          v-else-if="!isLoading && !jobError && !hasJobs"
+          type="info"
+          variant="tonal"
+          class="mt-6"
+        >
+          New opportunities will be published soon. Come back later.
         </v-alert>
       </v-container>
     </section>
