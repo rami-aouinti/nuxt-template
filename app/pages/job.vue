@@ -140,94 +140,22 @@ watch(detailsDialog, (isOpen) => {
 </script>
 
 <template>
-  <div class="job-platform">
-    <section class="job-platform__hero">
-      <v-container>
-        <div class="job-platform__hero-card">
-          <div class="job-platform__hero-text">
-            <p class="overline">Bro World · Job platform</p>
-            <h1>Find the next job that matches your craft</h1>
-            <p>
-              Curated opportunities across product, design, data, and operations.
-              Every listing highlights requirements, rituals, and the benefits
-              teams offer remote talent.
-            </p>
-          </div>
-          <div class="job-platform__hero-metrics">
-            <div
-              v-for="metric in heroMetrics"
-              :key="metric.label"
-              class="job-platform__metric"
-            >
-              <p class="job-platform__metric-value">{{ metric.value }}</p>
-              <p class="job-platform__metric-label">{{ metric.label }}</p>
-            </div>
-          </div>
+  <v-container fluid>
+    <client-only>
+      <teleport to="#app-drawer">
+        <div class="job-platform__hero-text">
+          <p class="overline">Bro World · Job platform</p>
+          <h4>Find the next job that matches your craft</h4>
         </div>
-      </v-container>
-    </section>
-
-    <section class="job-platform__filters">
-      <v-container>
-        <v-card flat class="job-platform__filters-card" color="surface">
-          <v-row>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="filters.search"
-                label="Search roles or skills"
-                prepend-inner-icon="mdi-magnify"
-                hide-details
-                variant="outlined"
-              />
-            </v-col>
-            <v-col cols="12" md="3">
-              <v-text-field
-                v-model="filters.location"
-                label="Location"
-                prepend-inner-icon="mdi-map-marker"
-                hide-details
-                variant="outlined"
-              />
-            </v-col>
-            <v-col cols="12" md="3">
-              <v-select
-                v-model="filters.workType"
-                :items="workTypeOptions"
-                label="Work type"
-                hide-details
-                variant="outlined"
-                clearable
-              />
-            </v-col>
-            <v-col cols="12" md="2">
-              <v-select
-                v-model="filters.contractType"
-                :items="contractTypeOptions"
-                label="Contract"
-                hide-details
-                variant="outlined"
-                clearable
-              />
-            </v-col>
-          </v-row>
-          <v-divider class="my-4" />
-          <div class="job-platform__filters-footer">
-            <div class="job-platform__skill-cloud">
-              <span class="job-platform__skill-cloud-label">Trending skills:</span>
-              <v-chip
-                v-for="item in skillCloud"
-                :key="item.skill"
-                size="small"
-                class="ma-1"
-                variant="tonal"
-              >
-                {{ item.skill }}
-                <span class="job-platform__skill-count">×{{ item.count }}</span>
-              </v-chip>
-            </div>
-            <v-btn color="secondary" variant="text" class="text-none" @click="clearFilters">
-              Reset filters
-            </v-btn>
+        <v-divider class="my-2" />
+        <div class="job-platform__hero-metrics">
+          <div
+            v-for="metric in heroMetrics"
+            :key="metric.label"
+            class="job-platform__metric d-flex inline-flex-column align-center"
+          >
+            <p class="job-platform__metric-label">{{ metric.label }}</p>
+            <p class="job-platform__metric-value px-4">{{ metric.value }}</p>
           </div>
         </v-card>
       </v-container>
@@ -246,8 +174,8 @@ watch(detailsDialog, (isOpen) => {
               <span v-else>Freshly curated</span>
             </p>
           </div>
-          <v-btn color="primary" variant="flat" class="text-none">
-            Create alert
+          <v-btn color="secondary" variant="text" class="text-none" @click="clearFilters">
+            Reset filters
           </v-btn>
         </div>
 
@@ -293,33 +221,46 @@ watch(detailsDialog, (isOpen) => {
                   {{ job.workType ?? 'Flexible' }}
                 </v-chip>
               </div>
-              <h3 class="job-card__title">{{ job.title }}</h3>
-              <p class="job-card__description">
-                {{ job.description }}
-              </p>
-              <div class="job-card__meta">
-                <v-chip size="small" variant="flat" color="primary">
-                  Experience · {{ job.experience ?? 'Any level' }}
-                </v-chip>
-                <v-chip v-if="job.salaryRange" size="small" variant="flat" color="primary">
-                  {{ job.salaryRange }}
-                </v-chip>
-                <v-chip v-if="job.contractType" size="small" variant="flat" color="primary">
-                  {{ job.contractType }}
-                </v-chip>
+              <div>
+                <p class="job-card__company-name">
+                  {{ job.company?.name ?? 'Independent team' }}
+                </p>
+                <p class="job-card__location">
+                  {{ job.workLocation || job.company?.location || 'Flexible' }}
+                </p>
               </div>
-              <div v-if="job.requiredSkills?.length" class="job-card__skills">
-                <v-chip
-                  v-for="skill in job.requiredSkills.slice(0, 4)"
-                  :key="skill"
-                  size="x-small"
-                  variant="tonal"
-                  color="primary"
-                  class="mr-1 mb-1"
-                >
-                  {{ skill }}
-                </v-chip>
-                <span v-if="job.requiredSkills.length > 4" class="job-card__skills-more">
+            </div>
+            <v-chip size="small" color="primary" variant="elevated">
+              {{ job.workType ?? 'Flexible' }}
+            </v-chip>
+          </div>
+          <h3 class="job-card__title">{{ job.title }}</h3>
+          <p class="job-card__description">
+            {{ job.description }}
+          </p>
+          <div class="job-card__meta">
+            <v-chip size="small" variant="flat" color="primary">
+              Experience · {{ job.experience ?? 'Any level' }}
+            </v-chip>
+            <v-chip v-if="job.salaryRange" size="small" variant="flat" color="primary">
+              {{ job.salaryRange }}
+            </v-chip>
+            <v-chip v-if="job.contractType" size="small" variant="flat" color="primary">
+              {{ job.contractType }}
+            </v-chip>
+          </div>
+          <div v-if="job.requiredSkills?.length" class="job-card__skills">
+            <v-chip
+              v-for="skill in job.requiredSkills.slice(0, 4)"
+              :key="skill"
+              size="x-small"
+              variant="tonal"
+              color="primary"
+              class="mr-1 mb-1"
+            >
+              {{ skill }}
+            </v-chip>
+            <span v-if="job.requiredSkills.length > 4" class="job-card__skills-more">
                   +{{ job.requiredSkills.length - 4 }} more
                 </span>
               </div>
@@ -404,7 +345,7 @@ watch(detailsDialog, (isOpen) => {
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </div>
+  </v-container>
 </template>
 
 <style scoped lang="scss">
