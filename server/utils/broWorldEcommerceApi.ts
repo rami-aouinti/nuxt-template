@@ -6,7 +6,7 @@ import { createBroWorldRequest } from './broWorldApi'
 import { fetchEcommerceResponse } from './cache/ecommerce'
 import { hydrateEcommercePayload } from './ecommerce/hydrator'
 
-const DEFAULT_ECOMMERCE_ORIGIN = 'https://ecommerce'
+const DEFAULT_ECOMMERCE_ORIGIN = 'https://ecommerce.bro-world.org'
 const ECOMMERCE_ERROR_MESSAGE = "Requête à l'API Ecommerce Bro World échouée"
 
 type SessionInput = Record<string, unknown> | null | undefined

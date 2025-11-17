@@ -1,6 +1,6 @@
 import { useRuntimeConfig } from '#imports'
 
-const DEFAULT_ECOMMERCE_ORIGIN = 'https://ecommerce'
+const DEFAULT_ECOMMERCE_ORIGIN = 'https://ecommerce.bro-world.org'
 
 let cachedOrigin: string | null = null
 

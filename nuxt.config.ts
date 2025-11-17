@@ -24,7 +24,7 @@ const DEFAULT_ECOMMERCE_ADMIN_EMAIL = 'rami.aouinti@gmail.com'
 const DEFAULT_ECOMMERCE_ADMIN_PASSWORD = '19891989aA!'
 const DEFAULT_ECOMMERCE_SHOP_EMAIL = 'rami.aouiti@gmail.com'
 const DEFAULT_ECOMMERCE_SHOP_PASSWORD = '19891989aA!'
-const DEFAULT_ECOMMERCE_ORIGIN = 'https://ecommerce'
+const DEFAULT_ECOMMERCE_ORIGIN = 'https://ecommerce.bro-world.org'
 
 const mercureUrl = process.env.MERCURE_URL || DEFAULT_MERCURE_URL
 const mercurePublicUrl =

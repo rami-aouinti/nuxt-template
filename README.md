@@ -135,7 +135,7 @@ Nuxt Auth Utils generates one for you when running Nuxt in development the first
 
 ### Ecommerce API configuration
 
-Set the `NUXT_ECOMMERCE_API_BASE_URL` and `NUXT_PUBLIC_ECOMMERCE_ORIGIN` variables in your `.env` file if your ecommerce backend runs on a different host than the default `https://ecommerce`. These values are used both on the server (to proxy authenticated requests) and on the client (to build product and taxon image URLs), ensuring the ecommerce page lists products from the expected API.
+Set the `NUXT_ECOMMERCE_API_BASE_URL` and `NUXT_PUBLIC_ECOMMERCE_ORIGIN` variables in your `.env` file if your ecommerce backend runs on a different host than the default `https://ecommerce.bro-world.org`. These values are used both on the server (to proxy authenticated requests) and on the client (to build product and taxon image URLs), ensuring the ecommerce page lists products from the expected API.
 
 ### Development
 
