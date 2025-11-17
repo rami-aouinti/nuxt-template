@@ -7,7 +7,7 @@ import AppButton from '~/components/ui/AppButton.vue'
 import { Notify } from '~/stores/notification'
 import { createDateFormatter, formatDateValue } from '~/utils/formatters'
 
-const JOBS_ENDPOINT = 'https://job.bro-world.org/api/v1/profile/job'
+const JOBS_ENDPOINT = '/api/job/v1/profile/job'
 
 definePageMeta({
   title: 'navigation.profileJobs',
