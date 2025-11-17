@@ -1264,6 +1264,55 @@
         },
         "settings": {
           "title": "Настройки"
+        },
+        "jobActions": {
+          "title": "Job platform actions",
+          "description": "Trigger authenticated job API operations right from your dashboard.",
+          "validation": {
+            "required": "Please fill in all required fields before continuing."
+          },
+          "createCompany": {
+            "title": "Create company profile",
+            "description": "Publish a company form with your current login session.",
+            "submit": "Create company",
+            "success": "Company \"{name}\" created successfully.",
+            "error": "Unable to create the company. Please try again later.",
+            "fields": {
+              "name": "Company name",
+              "description": "Description",
+              "location": "Location",
+              "contactEmail": "Contact email",
+              "siteUrl": "Website",
+              "logo": "Logo"
+            }
+          },
+          "createApplication": {
+            "title": "Create application",
+            "description": "Link an applicant to a job instantly.",
+            "submit": "Create application",
+            "success": "Application created successfully.",
+            "error": "Unable to create the application. Please try again later.",
+            "fields": {
+              "jobId": "Job ID",
+              "applicantId": "Applicant ID"
+            }
+          },
+          "applicationStatus": {
+            "title": "Update application status",
+            "description": "Accept, decline or move an application forward.",
+            "submit": "Update status",
+            "success": "Application status updated to {status}.",
+            "error": "Unable to update the application status. Please try again later.",
+            "fields": {
+              "applicationId": "Application ID",
+              "status": "Status"
+            },
+            "options": {
+              "accept": "Accept",
+              "declined": "Declined",
+              "progress": "In progress"
+            }
+          }
         }
       },
       "orders": {
