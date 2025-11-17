@@ -24,10 +24,9 @@ definePageMeta({
   middleware: 'auth',
 })
 
-const API_BASE_URL = '/api/job/v1/resume'
-
 const { t, locale } = useI18n()
 const translate = useTranslateWithFallback()
+const jobApi = useJobPlatformApi()
 
 const dateFormatter = createDateFormatter(locale, { dateStyle: 'medium' })
 const dateFallbackText = computed(() =>
@@ -372,7 +371,7 @@ async function loadEducation() {
   educationLoading.value = true
   educationError.value = ''
   try {
-    educationItems.value = await $fetch<Formation[]>(`${API_BASE_URL}/education`)
+    educationItems.value = await jobApi.resume.education.list<Formation>()
   } catch (error) {
     educationError.value = resolveErrorMessage(
       error,
@@ -390,9 +389,7 @@ async function loadExperiences() {
   experienceLoading.value = true
   experienceError.value = ''
   try {
-    experienceItems.value = await $fetch<Experience[]>(
-      `${API_BASE_URL}/experience`,
-    )
+    experienceItems.value = await jobApi.resume.experience.list<Experience>()
   } catch (error) {
     experienceError.value = resolveErrorMessage(
       error,
@@ -410,9 +407,7 @@ async function loadLanguages() {
   languageLoading.value = true
   languageError.value = ''
   try {
-    languageItems.value = await $fetch<ResumeLanguage[]>(
-      `${API_BASE_URL}/language`,
-    )
+    languageItems.value = await jobApi.resume.language.list<ResumeLanguage>()
   } catch (error) {
     languageError.value = resolveErrorMessage(
       error,
@@ -429,7 +424,7 @@ async function loadSkills() {
   skillLoading.value = true
   skillError.value = ''
   try {
-    skillItems.value = await $fetch<Skill[]>(`${API_BASE_URL}/skill`)
+    skillItems.value = await jobApi.resume.skill.list<Skill>()
   } catch (error) {
     skillError.value = resolveErrorMessage(
       error,
@@ -447,7 +442,7 @@ async function loadHobbies() {
   hobbyLoading.value = true
   hobbyError.value = ''
   try {
-    hobbyItems.value = await $fetch<Hobby[]>(`${API_BASE_URL}/hobby`)
+    hobbyItems.value = await jobApi.resume.hobby.list<Hobby>()
   } catch (error) {
     hobbyError.value = resolveErrorMessage(
       error,
@@ -465,7 +460,7 @@ async function loadProjects() {
   projectLoading.value = true
   projectError.value = ''
   try {
-    projectItems.value = await $fetch<Project[]>(`${API_BASE_URL}/project`)
+    projectItems.value = await jobApi.resume.project.list<Project>()
   } catch (error) {
     projectError.value = resolveErrorMessage(
       error,
@@ -483,9 +478,7 @@ async function loadReferences() {
   referenceLoading.value = true
   referenceError.value = ''
   try {
-    referenceItems.value = await $fetch<Reference[]>(
-      `${API_BASE_URL}/reference`,
-    )
+    referenceItems.value = await jobApi.resume.reference.list<Reference>()
   } catch (error) {
     referenceError.value = resolveErrorMessage(
       error,
@@ -609,19 +602,13 @@ async function submitEducationForm() {
   }
   try {
     if (educationDialog.mode === 'edit' && educationDialog.entry) {
-      const updated = await $fetch<Formation>(
-        `${API_BASE_URL}/education/${educationDialog.entry.id}`,
-        {
-          method: 'PUT',
-          body: payload,
-        },
+      const updated = await jobApi.resume.education.update<Formation>(
+        educationDialog.entry.id,
+        payload,
       )
       upsertItem(educationItems.value, updated)
     } else {
-      const created = await $fetch<Formation>(`${API_BASE_URL}/education`, {
-        method: 'POST',
-        body: payload,
-      })
+      const created = await jobApi.resume.education.create<Formation>(payload)
       educationItems.value.unshift(created)
     }
     Notify.success(
@@ -656,19 +643,13 @@ async function submitExperienceForm() {
   }
   try {
     if (experienceDialog.mode === 'edit' && experienceDialog.entry) {
-      const updated = await $fetch<Experience>(
-        `${API_BASE_URL}/experience/${experienceDialog.entry.id}`,
-        {
-          method: 'PUT',
-          body: payload,
-        },
+      const updated = await jobApi.resume.experience.update<Experience>(
+        experienceDialog.entry.id,
+        payload,
       )
       upsertItem(experienceItems.value, updated)
     } else {
-      const created = await $fetch<Experience>(`${API_BASE_URL}/experience`, {
-        method: 'POST',
-        body: payload,
-      })
+      const created = await jobApi.resume.experience.create<Experience>(payload)
       experienceItems.value.unshift(created)
     }
     Notify.success(
@@ -701,19 +682,15 @@ async function submitLanguageForm() {
   }
   try {
     if (languageDialog.mode === 'edit' && languageDialog.entry) {
-      const updated = await $fetch<ResumeLanguage>(
-        `${API_BASE_URL}/language/${languageDialog.entry.id}`,
-        {
-          method: 'PUT',
-          body: payload,
-        },
+      const updated = await jobApi.resume.language.update<ResumeLanguage>(
+        languageDialog.entry.id,
+        payload,
       )
       upsertItem(languageItems.value, updated)
     } else {
-      const created = await $fetch<ResumeLanguage>(`${API_BASE_URL}/language`, {
-        method: 'POST',
-        body: payload,
-      })
+      const created = await jobApi.resume.language.create<ResumeLanguage>(
+        payload,
+      )
       languageItems.value.unshift(created)
     }
     Notify.success(
@@ -745,19 +722,13 @@ async function submitSkillForm() {
   }
   try {
     if (skillDialog.mode === 'edit' && skillDialog.entry) {
-      const updated = await $fetch<Skill>(
-        `${API_BASE_URL}/skill/${skillDialog.entry.id}`,
-        {
-          method: 'PUT',
-          body: payload,
-        },
+      const updated = await jobApi.resume.skill.update<Skill>(
+        skillDialog.entry.id,
+        payload,
       )
       upsertItem(skillItems.value, updated)
     } else {
-      const created = await $fetch<Skill>(`${API_BASE_URL}/skill`, {
-        method: 'POST',
-        body: payload,
-      })
+      const created = await jobApi.resume.skill.create<Skill>(payload)
       skillItems.value.unshift(created)
     }
     Notify.success(
@@ -789,19 +760,13 @@ async function submitHobbyForm() {
   }
   try {
     if (hobbyDialog.mode === 'edit' && hobbyDialog.entry) {
-      const updated = await $fetch<Hobby>(
-        `${API_BASE_URL}/hobby/${hobbyDialog.entry.id}`,
-        {
-          method: 'PUT',
-          body: payload,
-        },
+      const updated = await jobApi.resume.hobby.update<Hobby>(
+        hobbyDialog.entry.id,
+        payload,
       )
       upsertItem(hobbyItems.value, updated)
     } else {
-      const created = await $fetch<Hobby>(`${API_BASE_URL}/hobby`, {
-        method: 'POST',
-        body: payload,
-      })
+      const created = await jobApi.resume.hobby.create<Hobby>(payload)
       hobbyItems.value.unshift(created)
     }
     Notify.success(
@@ -834,19 +799,13 @@ async function submitProjectForm() {
   }
   try {
     if (projectDialog.mode === 'edit' && projectDialog.entry) {
-      const updated = await $fetch<Project>(
-        `${API_BASE_URL}/project/${projectDialog.entry.id}`,
-        {
-          method: 'PUT',
-          body: payload,
-        },
+      const updated = await jobApi.resume.project.update<Project>(
+        projectDialog.entry.id,
+        payload,
       )
       upsertItem(projectItems.value, updated)
     } else {
-      const created = await $fetch<Project>(`${API_BASE_URL}/project`, {
-        method: 'POST',
-        body: payload,
-      })
+      const created = await jobApi.resume.project.create<Project>(payload)
       projectItems.value.unshift(created)
     }
     Notify.success(
@@ -881,19 +840,13 @@ async function submitReferenceForm() {
   }
   try {
     if (referenceDialog.mode === 'edit' && referenceDialog.entry) {
-      const updated = await $fetch<Reference>(
-        `${API_BASE_URL}/reference/${referenceDialog.entry.id}`,
-        {
-          method: 'PUT',
-          body: payload,
-        },
+      const updated = await jobApi.resume.reference.update<Reference>(
+        referenceDialog.entry.id,
+        payload,
       )
       upsertItem(referenceItems.value, updated)
     } else {
-      const created = await $fetch<Reference>(`${API_BASE_URL}/reference`, {
-        method: 'POST',
-        body: payload,
-      })
+      const created = await jobApi.resume.reference.create<Reference>(payload)
       referenceItems.value.unshift(created)
     }
     Notify.success(
@@ -917,7 +870,7 @@ async function submitReferenceForm() {
 }
 
 async function deleteEducation(id: string) {
-  await $fetch(`${API_BASE_URL}/education/${id}`, { method: 'DELETE' })
+  await jobApi.resume.education.delete(id)
   educationItems.value = educationItems.value.filter((item) => item.id !== id)
   Notify.success(
     translate(
@@ -928,7 +881,7 @@ async function deleteEducation(id: string) {
 }
 
 async function deleteExperience(id: string) {
-  await $fetch(`${API_BASE_URL}/experience/${id}`, { method: 'DELETE' })
+  await jobApi.resume.experience.delete(id)
   experienceItems.value = experienceItems.value.filter((item) => item.id !== id)
   Notify.success(
     translate(
@@ -939,7 +892,7 @@ async function deleteExperience(id: string) {
 }
 
 async function deleteLanguage(id: string) {
-  await $fetch(`${API_BASE_URL}/language/${id}`, { method: 'DELETE' })
+  await jobApi.resume.language.delete(id)
   languageItems.value = languageItems.value.filter((item) => item.id !== id)
   Notify.success(
     translate(
@@ -950,7 +903,7 @@ async function deleteLanguage(id: string) {
 }
 
 async function deleteSkill(id: string) {
-  await $fetch(`${API_BASE_URL}/skill/${id}`, { method: 'DELETE' })
+  await jobApi.resume.skill.delete(id)
   skillItems.value = skillItems.value.filter((item) => item.id !== id)
   Notify.success(
     translate(
@@ -961,7 +914,7 @@ async function deleteSkill(id: string) {
 }
 
 async function deleteHobby(id: string) {
-  await $fetch(`${API_BASE_URL}/hobby/${id}`, { method: 'DELETE' })
+  await jobApi.resume.hobby.delete(id)
   hobbyItems.value = hobbyItems.value.filter((item) => item.id !== id)
   Notify.success(
     translate(
@@ -972,7 +925,7 @@ async function deleteHobby(id: string) {
 }
 
 async function deleteProject(id: string) {
-  await $fetch(`${API_BASE_URL}/project/${id}`, { method: 'DELETE' })
+  await jobApi.resume.project.delete(id)
   projectItems.value = projectItems.value.filter((item) => item.id !== id)
   Notify.success(
     translate(
@@ -983,7 +936,7 @@ async function deleteProject(id: string) {
 }
 
 async function deleteReference(id: string) {
-  await $fetch(`${API_BASE_URL}/reference/${id}`, { method: 'DELETE' })
+  await jobApi.resume.reference.delete(id)
   referenceItems.value = referenceItems.value.filter((item) => item.id !== id)
   Notify.success(
     translate(

@@ -7,7 +7,7 @@ import AppButton from '~/components/ui/AppButton.vue'
 import { Notify } from '~/stores/notification'
 import { createDateFormatter, formatDateValue } from '~/utils/formatters'
 
-const JOBS_ENDPOINT = '/api/job/v1/profile/job'
+const jobApi = useJobPlatformApi()
 
 definePageMeta({
   title: 'navigation.profileJobs',
@@ -81,7 +81,7 @@ const {
   refresh,
 } = await useAsyncData<ProfileJobCollectionResponse>(
   'profile-jobs',
-  async () => await $fetch<ProfileJobCollectionResponse>(JOBS_ENDPOINT),
+  async () => await jobApi.jobs.profileList<ProfileJobCollectionResponse>(),
   { server: true },
 )
 
