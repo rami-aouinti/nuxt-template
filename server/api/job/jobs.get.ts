@@ -4,7 +4,7 @@ import { broWorldJobRequest } from '~~/server/utils/broWorldJobApi'
 
 export default defineEventHandler(async (event) => {
   return await fetchJobListings(event, async () => {
-    return await broWorldJobRequest<JobListingResponse>(event, '/platform/job', {
+    return await broWorldJobRequest<JobListingResponse>(event, '/api/v1/job', {
       method: 'GET',
     })
   })
