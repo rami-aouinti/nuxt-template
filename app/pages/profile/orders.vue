@@ -8,6 +8,7 @@ import AppButton from '~/components/ui/AppButton.vue'
 import { Notify } from '~/stores/notification'
 import { createDateFormatter, formatDateValue } from '~/utils/formatters'
 import type { OrderJsonLdSyliusShopOrderAccountShow } from '~/types/order'
+import { normalizeRequestHeaders } from '~/utils/headers'
 
 const ORDERS_ENDPOINT = '/api/ecommerce/v2/shop/orders'
 
@@ -53,6 +54,10 @@ interface OrderDetailsState {
 
 const currencyFormatters = new Map<string, Intl.NumberFormat>()
 
+const requestHeaders = import.meta.server
+  ? normalizeRequestHeaders(useRequestHeaders(['cookie', 'authorization']))
+  : undefined
+
 const {
   data: ordersResponse,
   pending,
@@ -60,7 +65,11 @@ const {
   refresh,
 } = await useAsyncData<EcommerceOrderCollectionResponse>(
   'profile-ecommerce-orders',
-  async () => await $fetch<EcommerceOrderCollectionResponse>(ORDERS_ENDPOINT),
+  async () =>
+    await $fetch<EcommerceOrderCollectionResponse>(ORDERS_ENDPOINT, {
+      headers: requestHeaders,
+      credentials: 'include',
+    }),
   { server: true },
 )
 
@@ -513,6 +522,10 @@ async function openOrderDetails(order: EcommerceOrderListItem) {
   try {
     const response = await $fetch<OrderJsonLdSyliusShopOrderAccountShow>(
       resolveOrderDetailsEndpoint(order.tokenValue),
+      {
+        headers: requestHeaders,
+        credentials: 'include',
+      },
     )
     detailsState.order = response
   } catch (err) {
@@ -583,7 +596,10 @@ async function handlePay(order: EcommerceOrderListItem) {
   setPaymentLoading(order.id, true)
 
   try {
-    const configuration = await $fetch<Record<string, unknown>>(endpoint)
+    const configuration = await $fetch<Record<string, unknown>>(endpoint, {
+      headers: requestHeaders,
+      credentials: 'include',
+    })
     const url =
       (configuration && typeof configuration === 'string'
         ? ensureString(configuration)
