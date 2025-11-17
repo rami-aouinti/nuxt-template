@@ -142,12 +142,9 @@ const {
   pending: isLoadingJobRequests,
   error: jobRequestsFetchError,
   refresh: refreshJobRequests,
-} = await useFetch<JobRequestsResponse>(
-  'https://job.bro-world.org/api/v1/requests/job',
-  {
-    server: false,
-  },
-)
+} = await useFetch<JobRequestsResponse>('/api/job/requests', {
+  server: false,
+})
 
 const form = reactive<ProfileForm>({
   firstName: '',

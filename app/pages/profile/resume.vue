@@ -24,7 +24,7 @@ definePageMeta({
   middleware: 'auth',
 })
 
-const API_BASE_URL = 'https://job.bro-world.org/api/v1/resume'
+const API_BASE_URL = '/api/job/resume'
 
 const { t, locale } = useI18n()
 const translate = useTranslateWithFallback()
