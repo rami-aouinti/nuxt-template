@@ -1062,7 +1062,7 @@ await Promise.all([
     </v-row>
 
     <v-row class="profile-resume__grid" dense>
-      <v-col cols="12" lg="6">
+      <v-col cols="12">
         <AppCard class="profile-resume__section">
           <template #title>
             <div class="profile-resume__section-header">
@@ -1200,7 +1200,7 @@ await Promise.all([
         </AppCard>
       </v-col>
 
-      <v-col cols="12" lg="6">
+      <v-col cols="12">
         <AppCard class="profile-resume__section">
           <template #title>
             <div class="profile-resume__section-header">
@@ -1327,7 +1327,7 @@ await Promise.all([
         </AppCard>
       </v-col>
 
-      <v-col cols="12" lg="6">
+      <v-col cols="12">
         <AppCard class="profile-resume__section">
           <template #title>
             <div class="profile-resume__section-header">
@@ -1453,7 +1453,7 @@ await Promise.all([
           </div>
         </AppCard>
       </v-col>
-      <v-col cols="12" lg="6">
+      <v-col cols="12">
         <AppCard class="profile-resume__section">
           <template #title>
             <div class="profile-resume__section-header">
@@ -1568,7 +1568,7 @@ await Promise.all([
         </AppCard>
       </v-col>
 
-      <v-col cols="12" lg="6">
+      <v-col cols="12">
         <AppCard class="profile-resume__section">
           <template #title>
             <div class="profile-resume__section-header">
@@ -1677,7 +1677,7 @@ await Promise.all([
         </AppCard>
       </v-col>
 
-      <v-col cols="12" lg="6">
+      <v-col cols="12">
         <AppCard class="profile-resume__section">
           <template #title>
             <div class="profile-resume__section-header">
@@ -1805,7 +1805,7 @@ await Promise.all([
         </AppCard>
       </v-col>
 
-      <v-col cols="12" lg="6">
+      <v-col cols="12">
         <AppCard class="profile-resume__section">
           <template #title>
             <div class="profile-resume__section-header">
@@ -2526,11 +2526,11 @@ await Promise.all([
 }
 
 .profile-resume__grid {
-  row-gap: 16px;
+  row-gap: 24px;
 }
 
 .profile-resume__section {
-  height: 100%;
+  height: auto;
 }
 
 .profile-resume__section-header {

@@ -5,6 +5,7 @@ import { FetchError } from 'ofetch'
 import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 import AppCard from '~/components/ui/AppCard.vue'
 import AppButton from '~/components/ui/AppButton.vue'
+import AppModal from '~/components/ui/AppModal.vue'
 import { Notify } from '~/stores/notification'
 import { createDateFormatter, formatDateValue } from '~/utils/formatters'
 import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
@@ -109,6 +110,20 @@ const applicants = computed<ApplicantRecord[]>(() => {
 })
 
 const hasApplicants = computed(() => applicants.value.length > 0)
+const applicantStats = computed(() => {
+  const total = applicants.value.length
+  const withResume = applicants.value.filter((applicant) => {
+    if (typeof applicant.resume !== 'string') {
+      return false
+    }
+    return applicant.resume.trim().length > 0
+  }).length
+  const contactable = applicants.value.filter(
+    (applicant) => typeof applicant.contactEmail === 'string' && applicant.contactEmail.trim().length > 0,
+  ).length
+
+  return { total, withResume, contactable }
+})
 const isLoading = computed(() => pending.value)
 
 const loadErrorMessage = computed(() => {
@@ -230,79 +245,179 @@ async function saveApplicant() {
 
 <template>
   <ProfilePageShell>
-    <v-row>
+    <v-row class="g-6">
       <v-col cols="12">
-        <AppCard :title="translate('profile.applicants.title', 'My applicants')" class="mb-6">
+        <AppCard class="profile-applicants__hero" variant="flat" elevation="0">
+          <div class="profile-applicants__hero-grid">
+            <div class="profile-applicants__hero-text">
+              <p class="text-overline text-medium-emphasis mb-1">
+                {{ translate('profile.applicants.heading', 'Talent pipeline') }}
+              </p>
+              <h1 class="text-h4 text-h5-sm font-weight-bold mb-2">
+                {{ translate('profile.applicants.title', 'My applicants') }}
+              </h1>
+              <p class="text-body-2 text-medium-emphasis mb-4">
+                {{
+                  translate(
+                    'profile.applicants.description',
+                    'Keep track of every resume, preference, and contact without leaving your dashboard.',
+                  )
+                }}
+              </p>
+              <div class="profile-applicants__hero-actions">
+                <AppButton color="primary" @click="openCreateDialog">
+                  {{ translate('profile.applicants.actions.create', 'Add applicant') }}
+                </AppButton>
+                <AppButton variant="text" @click="refresh">
+                  {{ translate('profile.applicants.actions.refresh', 'Refresh') }}
+                </AppButton>
+              </div>
+            </div>
+            <div class="profile-applicants__stats">
+              <div class="profile-applicants__stat">
+                <p class="text-overline text-medium-emphasis mb-1">
+                  {{ translate('profile.applicants.stats.total', 'Total') }}
+                </p>
+                <p class="profile-applicants__stat-value">
+                  {{ applicantStats.total }}
+                </p>
+              </div>
+              <div class="profile-applicants__stat">
+                <p class="text-overline text-medium-emphasis mb-1">
+                  {{ translate('profile.applicants.stats.contactable', 'Contact ready') }}
+                </p>
+                <p class="profile-applicants__stat-value">
+                  {{ applicantStats.contactable }}
+                </p>
+              </div>
+              <div class="profile-applicants__stat">
+                <p class="text-overline text-medium-emphasis mb-1">
+                  {{ translate('profile.applicants.stats.withResume', 'With resume') }}
+                </p>
+                <p class="profile-applicants__stat-value">
+                  {{ applicantStats.withResume }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </AppCard>
+      </v-col>
+
+      <v-col cols="12">
+        <AppCard
+          class="profile-applicants__list-card"
+          :title="translate('profile.applicants.list.title', 'Applicants list')"
+          :loading="isLoading"
+        >
           <template #append>
-            <AppButton color="primary" @click="openCreateDialog">
+            <AppButton size="small" variant="tonal" color="primary" @click="openCreateDialog">
               {{ translate('profile.applicants.actions.create', 'Add applicant') }}
             </AppButton>
           </template>
 
-          <div v-if="isLoading" class="py-6 text-center">
-            <v-progress-circular indeterminate color="primary" />
-          </div>
+          <p v-if="loadErrorMessage" class="text-error mb-0">
+            {{ loadErrorMessage }}
+          </p>
 
-          <div v-else>
-            <p v-if="loadErrorMessage" class="text-error mb-0">
-              {{ loadErrorMessage }}
-            </p>
-
-            <p v-else-if="!hasApplicants" class="text-medium-emphasis mb-0">
+          <div v-else-if="!hasApplicants" class="profile-applicants__empty">
+            <v-icon icon="mdi-account-search" size="40" class="mb-3" />
+            <p class="text-body-2 text-medium-emphasis mb-4">
               {{ translate('profile.applicants.empty', 'You have not created any applicants yet.') }}
             </p>
+            <AppButton color="primary" variant="tonal" @click="openCreateDialog">
+              {{ translate('profile.applicants.actions.create', 'Add applicant') }}
+            </AppButton>
+          </div>
 
-            <v-row v-else class="g-4">
-              <v-col v-for="applicant in applicants" :key="applicant.id" cols="12" md="6">
-                <AppCard hover>
-                  <div class="d-flex align-center justify-space-between mb-2">
-                    <h3 class="text-h6 mb-0">
-                      {{ applicantFullName(applicant) }}
-                    </h3>
-                    <AppButton
-                      size="small"
-                      variant="text"
-                      color="primary"
-                      @click="openEditDialog(applicant)"
-                    >
-                      {{ translate('profile.applicants.actions.edit', 'Edit') }}
-                    </AppButton>
-                  </div>
+          <div v-else class="profile-applicants__grid">
+            <AppCard
+              v-for="applicant in applicants"
+              :key="applicant.id"
+              class="profile-applicants__item"
+              hover
+            >
+              <div class="profile-applicants__item-header">
+                <div>
+                  <p class="profile-applicants__item-name mb-1">
+                    {{ applicantFullName(applicant) }}
+                  </p>
+                  <p class="profile-applicants__item-meta mb-0">
+                    {{
+                      applicant.jobPreferences ||
+                        translate(
+                          'profile.applicants.labels.noPreferences',
+                          'No job preferences yet.',
+                        )
+                    }}
+                  </p>
+                </div>
+                <AppButton
+                  size="small"
+                  variant="text"
+                  color="primary"
+                  @click="openEditDialog(applicant)"
+                >
+                  {{ translate('profile.applicants.actions.edit', 'Edit') }}
+                </AppButton>
+              </div>
 
-                  <p v-if="applicant.contactEmail" class="text-body-2 mb-1">
-                    <v-icon icon="mdi-email" size="16" class="me-2" />
-                    {{ applicant.contactEmail }}
-                  </p>
-                  <p v-if="applicant.phone" class="text-body-2 mb-1">
-                    <v-icon icon="mdi-phone" size="16" class="me-2" />
-                    {{ applicant.phone }}
-                  </p>
-                  <p v-if="applicant.jobPreferences" class="text-body-2 mb-1">
-                    <v-icon icon="mdi-briefcase" size="16" class="me-2" />
-                    {{ applicant.jobPreferences }}
-                  </p>
-                  <p class="text-caption text-medium-emphasis mb-0">
-                    <span v-if="formatDate(applicant.updatedAt)">
-                      {{ translate('profile.applicants.labels.updated', 'Updated') }}:
-                      {{ formatDate(applicant.updatedAt) }}
-                    </span>
-                    <span v-else-if="formatDate(applicant.createdAt)">
-                      {{ translate('profile.applicants.labels.created', 'Created') }}:
-                      {{ formatDate(applicant.createdAt) }}
-                    </span>
-                    <span v-else>
-                      {{ translate('profile.applicants.labels.noDates', 'No timeline available') }}
-                    </span>
-                  </p>
-                </AppCard>
-              </v-col>
-            </v-row>
+              <div class="profile-applicants__item-body">
+                <p v-if="applicant.contactEmail" class="text-body-2 mb-1">
+                  <v-icon icon="mdi-email" size="16" class="me-2" />
+                  {{ applicant.contactEmail }}
+                </p>
+                <p v-if="applicant.phone" class="text-body-2 mb-1">
+                  <v-icon icon="mdi-phone" size="16" class="me-2" />
+                  {{ applicant.phone }}
+                </p>
+                <p v-if="applicant.resume" class="text-body-2 mb-1">
+                  <v-icon icon="mdi-paperclip" size="16" class="me-2" />
+                  {{ translate('profile.applicants.labels.resumeUploaded', 'Resume uploaded') }}
+                </p>
+              </div>
+
+              <div class="profile-applicants__item-footer">
+                <p class="text-caption text-medium-emphasis mb-0">
+                  <span v-if="formatDate(applicant.updatedAt)">
+                    {{ translate('profile.applicants.labels.updated', 'Updated') }}:
+                    {{ formatDate(applicant.updatedAt) }}
+                  </span>
+                  <span v-else-if="formatDate(applicant.createdAt)">
+                    {{ translate('profile.applicants.labels.created', 'Created') }}:
+                    {{ formatDate(applicant.createdAt) }}
+                  </span>
+                  <span v-else>
+                    {{ translate('profile.applicants.labels.noDates', 'No timeline available') }}
+                  </span>
+                </p>
+                <div class="profile-applicants__item-actions">
+                  <AppButton
+                    v-if="applicant.contactEmail"
+                    size="small"
+                    variant="text"
+                    color="primary"
+                    :href="`mailto:${applicant.contactEmail}`"
+                  >
+                    {{ translate('profile.applicants.actions.email', 'Email') }}
+                  </AppButton>
+                  <AppButton
+                    v-if="applicant.phone"
+                    size="small"
+                    variant="text"
+                    color="secondary"
+                    :href="`tel:${applicant.phone}`"
+                  >
+                    {{ translate('profile.applicants.actions.call', 'Call') }}
+                  </AppButton>
+                </div>
+              </div>
+            </AppCard>
           </div>
         </AppCard>
       </v-col>
     </v-row>
 
-    <v-dialog v-model="dialog.open" max-width="560">
+    <AppModal v-model="dialog.open" :max-width="640" scrollable>
       <AppCard
         :title="
           dialog.mode === 'edit'
@@ -359,7 +474,7 @@ async function saveApplicant() {
             {{ formError }}
           </p>
 
-          <div class="d-flex justify-end gap-3">
+          <div class="profile-applicants__dialog-actions">
             <AppButton variant="text" @click="closeDialog">
               {{ translate('common.cancel', 'Cancel') }}
             </AppButton>
@@ -372,6 +487,125 @@ async function saveApplicant() {
           </div>
         </v-form>
       </AppCard>
-    </v-dialog>
+    </AppModal>
   </ProfilePageShell>
 </template>
+
+<style scoped>
+.profile-applicants__hero {
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  background: linear-gradient(
+    135deg,
+    rgba(var(--v-theme-primary), 0.08),
+    rgba(var(--v-theme-surface), 0.95)
+  );
+}
+
+.profile-applicants__hero-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 960px) {
+  .profile-applicants__hero-grid {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.profile-applicants__hero-text {
+  flex: 2;
+}
+
+.profile-applicants__hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.profile-applicants__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.profile-applicants__stat {
+  padding: 1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+  background-color: rgba(var(--v-theme-surface), 0.7);
+}
+
+.profile-applicants__stat-value {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.profile-applicants__list-card {
+  padding: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+.profile-applicants__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.profile-applicants__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.profile-applicants__item {
+  padding: 1.25rem;
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+}
+
+.profile-applicants__item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.profile-applicants__item-name {
+  font-weight: 600;
+}
+
+.profile-applicants__item-meta {
+  font-size: 0.9rem;
+  color: rgba(var(--v-theme-on-surface), 0.6);
+}
+
+.profile-applicants__item-body {
+  margin-top: 0.75rem;
+  color: rgba(var(--v-theme-on-surface), 0.8);
+}
+
+.profile-applicants__item-footer {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.profile-applicants__item-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.profile-applicants__dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+</style>
