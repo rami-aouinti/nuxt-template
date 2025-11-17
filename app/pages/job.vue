@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
-import type { Job } from '~/types/job'
+import type { Company, Job } from '~/types/job'
 import {
   ContractType,
   LanguageLevel,
@@ -11,6 +11,40 @@ definePageMeta({
   layout: 'default',
   title: 'Job platform',
 })
+
+const JOB_PLATFORM_MEDIA_BASE_URL = 'https://job.bro-world.org'
+
+const {
+  data: jobCompanies,
+  pending: companiesPending,
+  error: companiesError,
+} = await useFetch<Company[]>('/api/job/companies')
+
+const normalizeMediaUrl = (path?: string | null) => {
+  if (!path) {
+    return null
+  }
+
+  if (/^https?:\/\//i.test(path)) {
+    return path
+  }
+
+  return `${JOB_PLATFORM_MEDIA_BASE_URL}${path}`
+}
+
+const companyShowcase = computed(() => {
+  return (jobCompanies.value ?? []).map((company) => ({
+    ...company,
+    logo: normalizeMediaUrl(company.logo) ?? undefined,
+    medias: company.medias?.map((media) => ({
+      ...media,
+      url: normalizeMediaUrl(media.url) ?? media.url,
+    })),
+  }))
+})
+
+const visibleCompanies = computed(() => companyShowcase.value.slice(0, 6))
+const totalCompanyProfiles = computed(() => companyShowcase.value.length)
 
 const jobs = ref<Job[]>([
   {
@@ -313,6 +347,106 @@ watch(detailsDialog, (isOpen) => {
       </v-container>
     </section>
 
+    <section class="job-platform__companies">
+      <v-container>
+        <div class="job-platform__companies-header">
+          <div>
+            <p class="overline">Hiring companies</p>
+            <h2>Meet the teams behind the roles</h2>
+            <p>
+              Profiles are pulled directly from the Bro World job platform so
+              you always see fresh company snapshots.
+            </p>
+          </div>
+          <v-chip
+            v-if="totalCompanyProfiles"
+            size="small"
+            color="primary"
+            variant="tonal"
+          >
+            {{ totalCompanyProfiles }} profiles
+          </v-chip>
+        </div>
+
+        <v-progress-linear
+          v-if="companiesPending"
+          indeterminate
+          color="primary"
+          class="mb-6"
+        />
+        <v-alert
+          v-else-if="companiesError"
+          type="warning"
+          variant="tonal"
+          class="mb-6"
+        >
+          Unable to load company profiles right now.
+        </v-alert>
+        <template v-else>
+          <v-row v-if="visibleCompanies.length" dense>
+            <v-col
+              v-for="company in visibleCompanies"
+              :key="company.id"
+              cols="12"
+              md="6"
+              lg="4"
+            >
+              <v-card class="company-card" variant="outlined">
+                <div class="company-card__header">
+                  <div v-if="company.logo" class="company-card__logo">
+                    <img :src="company.logo" :alt="company.name" loading="lazy" />
+                  </div>
+                  <div>
+                    <p class="company-card__name">{{ company.name }}</p>
+                    <p class="company-card__location">{{ company.location }}</p>
+                  </div>
+                </div>
+                <p v-if="company.description" class="company-card__description">
+                  {{ company.description }}
+                </p>
+                <div class="company-card__meta">
+                  <v-chip size="x-small" variant="tonal" color="primary">
+                    {{ company.medias?.length ?? 0 }} media
+                  </v-chip>
+                  <v-chip
+                    v-if="company.contactEmail"
+                    size="x-small"
+                    variant="text"
+                    class="company-card__contact"
+                  >
+                    {{ company.contactEmail }}
+                  </v-chip>
+                </div>
+                <div class="company-card__actions">
+                  <v-btn
+                    v-if="company.siteUrl"
+                    :href="company.siteUrl"
+                    target="_blank"
+                    rel="noopener"
+                    variant="text"
+                    class="text-none"
+                  >
+                    Visit site
+                  </v-btn>
+                  <v-btn
+                    v-if="company.contactEmail"
+                    :href="`mailto:${company.contactEmail}`"
+                    variant="text"
+                    class="text-none"
+                  >
+                    Contact
+                  </v-btn>
+                </div>
+              </v-card>
+            </v-col>
+          </v-row>
+          <v-alert v-else type="info" variant="tonal">
+            No company profiles are available yet. Check back soon.
+          </v-alert>
+        </template>
+      </v-container>
+    </section>
+
     <section class="job-platform__filters">
       <v-container>
         <v-card flat class="job-platform__filters-card" color="surface">
@@ -541,6 +675,94 @@ watch(detailsDialog, (isOpen) => {
   border-radius: 24px;
   background: rgba(var(--v-theme-surface), 1);
   box-shadow: 0 25px 50px -12px rgb(15 23 42 / 0.15);
+}
+
+.job-platform__companies {
+  padding: 32px 0 16px;
+}
+
+.job-platform__companies-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.job-platform__companies-header h2 {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.job-platform__companies-header p {
+  color: rgba(var(--v-theme-on-surface), 0.8);
+  margin-bottom: 0;
+}
+
+.job-platform__companies .overline {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(var(--v-theme-primary), 1);
+}
+
+.company-card {
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+
+.company-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.company-card__logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(var(--v-theme-surface), 1);
+}
+
+.company-card__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.company-card__name {
+  font-weight: 600;
+  margin: 0;
+}
+
+.company-card__location {
+  margin: 0;
+  color: rgba(var(--v-theme-on-surface), 0.7);
+}
+
+.company-card__description {
+  margin: 0;
+  color: rgba(var(--v-theme-on-surface), 0.8);
+}
+
+.company-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.company-card__actions {
+  margin-top: auto;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .job-platform__hero-text h1 {

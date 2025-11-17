@@ -28,6 +28,36 @@ export interface CompanyMedia {
   url: string
 }
 
+export interface ApiTimestamp {
+  date: string
+  timezone_type: number
+  timezone: string
+}
+
+export interface CompanyUserProfile {
+  id: string
+  title?: string | null
+  description?: string | null
+  gender?: string | null
+  photo?: string | null
+  birthday?: string | null
+  address?: string | null
+  phone?: string | null
+}
+
+export interface CompanyUser {
+  id: string
+  username: string
+  firstName: string
+  lastName: string
+  email: string
+  language?: string | null
+  locale?: string | null
+  timezone?: string | null
+  enabled: boolean
+  profile?: CompanyUserProfile | null
+}
+
 export interface Company {
   id: string
   name: string
@@ -36,10 +66,10 @@ export interface Company {
   contactEmail: string
   logo?: string | null
   siteUrl?: string | null
-  medias?: CompanyMedia[]
-  user?: string
-  createdAt?: string
-  updatedAt?: string
+  medias?: CompanyMedia[] | null
+  user?: string | CompanyUser | null
+  createdAt?: string | ApiTimestamp | null
+  updatedAt?: string | ApiTimestamp | null
 }
 
 export interface JobLanguage {
