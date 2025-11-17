@@ -510,14 +510,16 @@ async function submitUpload() {
             }}
           </p>
 
-          <v-file-input
+          <AppUploadField
             :label="
               t('notificationManagement.templates.forms.upload.fileLabel')
             "
             :hint="t('notificationManagement.templates.forms.upload.fileHint')"
-            show-size
+            :placeholder="
+              t('notificationManagement.templates.dialogs.upload.description')
+            "
             accept=".json,.zip,.yaml,.yml,.txt"
-            prepend-icon="mdi-file-upload-outline"
+            :icon="'mdi-file-upload-outline'"
             :disabled="uploadPending"
             @update:model-value="handleFileChange"
           />

@@ -2025,14 +2025,13 @@ if (import.meta.client) {
           :disabled="createBlogDialog.loading"
           rounded
         />
-        <v-file-input
+        <AppUploadField
           v-model="createBlogDialog.form.logo"
           :label="translate('blog.forms.createBlog.logo', 'Logo')"
           :disabled="createBlogDialog.loading"
           accept="image/*"
-          prepend-icon="mdi-image-outline"
-          show-size
-          rounded
+          :placeholder="t('workspace.dialogs.upload.subtitle')"
+          :action-label="t('workspace.actions.uploadFile')"
         />
       </v-card-text>
       <v-card-actions>
@@ -2100,15 +2099,14 @@ if (import.meta.client) {
                 auto-grow
                 rounded
               />
-              <v-file-input
+              <AppUploadField
                 v-model="createPostDialog.form.files"
                 :label="t('blog.forms.createPost.images')"
                 :disabled="createPostDialog.loading"
                 accept="image/*"
-                prepend-icon="mdi-image-multiple-outline"
                 multiple
-                show-size
-                rounded
+                :placeholder="t('blog.forms.createPost.images')"
+                :action-label="t('workspace.actions.uploadFile')"
               />
             </v-expansion-panel-text>
           </v-expansion-panel>
