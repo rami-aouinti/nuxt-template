@@ -133,6 +133,21 @@ const selectedJob = computed<ProfileJob | null>(() => {
 const selectedJobApplicants = computed(() => selectedJob.value?.applications ?? [])
 const hasSelectedApplicants = computed(() => selectedJobApplicants.value.length > 0)
 
+const expandedJobIds = ref<string[]>([])
+
+function isJobExpanded(jobId: string): boolean {
+  return expandedJobIds.value.includes(jobId)
+}
+
+function toggleJobDetails(jobId: string) {
+  if (isJobExpanded(jobId)) {
+    expandedJobIds.value = expandedJobIds.value.filter((id) => id !== jobId)
+    return
+  }
+
+  expandedJobIds.value = [...expandedJobIds.value, jobId]
+}
+
 const selectedJobCompanyName = computed(() => {
   if (!selectedJob.value) {
     return translate('profile.jobs.drawer.placeholderCompany', 'Select a job')
@@ -150,11 +165,6 @@ const selectedJobTitle = computed(() => {
   }
 
   return translate('profile.jobs.drawer.placeholderTitle', 'Select a job to review applicants')
-})
-
-const totalJobs = computed(() => {
-  const value = ensureNumber(jobsResponse.value?.count)
-  return value ?? jobs.value.length
 })
 
 const isLoading = computed(() => pending.value)
@@ -192,19 +202,6 @@ function ensureString(value: unknown): string | null {
 
   if (typeof value === 'number' || typeof value === 'bigint') {
     return String(value)
-  }
-
-  return null
-}
-
-function ensureNumber(value: unknown): number | null {
-  if (typeof value === 'number') {
-    return Number.isFinite(value) ? value : null
-  }
-
-  if (typeof value === 'string') {
-    const parsed = Number(value)
-    return Number.isFinite(parsed) ? parsed : null
   }
 
   return null
@@ -607,128 +604,147 @@ function handleRefresh() {
               </div>
             </div>
 
-            <div v-if="job.mission" class="profile-job__section">
-              <p class="profile-job__section-title">
-                {{ t('profile.jobs.labels.mission') }}
-              </p>
-              <p class="profile-job__section-text">
-                {{ job.mission }}
-              </p>
-            </div>
-
-            <div v-if="job.requiredSkills.length" class="profile-job__section">
-              <p class="profile-job__section-title">
-                {{ t('profile.jobs.labels.requiredSkills') }}
-              </p>
-              <div class="profile-job__chips">
-                <v-chip
-                  v-for="skill in job.requiredSkills"
-                  :key="skill"
-                  color="primary"
-                  size="small"
-                  density="comfortable"
-                  variant="tonal"
-                >
-                  {{ skill }}
-                </v-chip>
-              </div>
-            </div>
-
-            <div v-if="job.languages.length" class="profile-job__section">
-              <p class="profile-job__section-title">
-                {{ t('profile.jobs.labels.languages') }}
-              </p>
-              <div class="profile-job__chips">
-                <v-chip
-                  v-for="language in job.languages"
-                  :key="language.id"
-                  color="secondary"
-                  size="small"
-                  density="comfortable"
-                  variant="tonal"
-                >
-                  {{ formatLanguage(language) }}
-                </v-chip>
-              </div>
-            </div>
-
-            <div v-if="job.requirements.length" class="profile-job__section">
-              <p class="profile-job__section-title">
-                {{ t('profile.jobs.labels.requirements') }}
-              </p>
-              <ul class="profile-job__list">
-                <li v-for="item in job.requirements" :key="item">
-                  {{ item }}
-                </li>
-              </ul>
-            </div>
-
-            <div class="profile-job__section profile-job__section--cta">
-              <div>
-                <p class="profile-job__section-title">
-                  {{ t('profile.jobs.labels.applications') }}
-                </p>
-                <p class="profile-job__section-text mb-0">
-                  {{
-                    t('profile.jobs.labels.applicationsCount', {
-                      count: job.applications.length,
-                    })
-                  }}
-                </p>
-              </div>
+            <div class="profile-job__details-toggle">
               <AppButton
-                color="primary"
-                variant="tonal"
+                variant="text"
                 density="comfortable"
-                :disabled="!job.applications.length"
-                @click="handleApplicantsDrawer(job)"
+                color="primary"
+                @click="toggleJobDetails(job.id)"
               >
-                {{ translate('profile.jobs.drawer.openButton', 'View applicants') }}
+                {{
+                  isJobExpanded(job.id)
+                    ? t('profile.jobs.labels.showLess')
+                    : t('profile.jobs.labels.showMore')
+                }}
               </AppButton>
             </div>
 
-            <footer class="profile-job__footer">
-              <div class="profile-job__timestamps">
-                <p v-if="formatDate(job.updatedAt)" class="text-caption mb-0">
-                  {{
-                    t('profile.jobs.labels.updatedAt', {
-                      date: formatDate(job.updatedAt),
-                    })
-                  }}
-                </p>
-                <p v-else-if="formatDate(job.createdAt)" class="text-caption mb-0">
-                  {{
-                    t('profile.jobs.labels.createdAt', {
-                      date: formatDate(job.createdAt),
-                    })
-                  }}
-                </p>
+            <v-expand-transition>
+              <div v-if="isJobExpanded(job.id)" class="profile-job__details">
+                <div v-if="job.mission" class="profile-job__section">
+                  <p class="profile-job__section-title">
+                    {{ t('profile.jobs.labels.mission') }}
+                  </p>
+                  <p class="profile-job__section-text">
+                    {{ job.mission }}
+                  </p>
+                </div>
+
+                <div v-if="job.requiredSkills.length" class="profile-job__section">
+                  <p class="profile-job__section-title">
+                    {{ t('profile.jobs.labels.requiredSkills') }}
+                  </p>
+                  <div class="profile-job__chips">
+                    <v-chip
+                      v-for="skill in job.requiredSkills"
+                      :key="skill"
+                      color="primary"
+                      size="small"
+                      density="comfortable"
+                      variant="tonal"
+                    >
+                      {{ skill }}
+                    </v-chip>
+                  </div>
+                </div>
+
+                <div v-if="job.languages.length" class="profile-job__section">
+                  <p class="profile-job__section-title">
+                    {{ t('profile.jobs.labels.languages') }}
+                  </p>
+                  <div class="profile-job__chips">
+                    <v-chip
+                      v-for="language in job.languages"
+                      :key="language.id"
+                      color="secondary"
+                      size="small"
+                      density="comfortable"
+                      variant="tonal"
+                    >
+                      {{ formatLanguage(language) }}
+                    </v-chip>
+                  </div>
+                </div>
+
+                <div v-if="job.requirements.length" class="profile-job__section">
+                  <p class="profile-job__section-title">
+                    {{ t('profile.jobs.labels.requirements') }}
+                  </p>
+                  <ul class="profile-job__list">
+                    <li v-for="item in job.requirements" :key="item">
+                      {{ item }}
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="profile-job__section profile-job__section--cta">
+                  <div>
+                    <p class="profile-job__section-title">
+                      {{ t('profile.jobs.labels.applications') }}
+                    </p>
+                    <p class="profile-job__section-text mb-0">
+                      {{
+                        t('profile.jobs.labels.applicationsCount', {
+                          count: job.applications.length,
+                        })
+                      }}
+                    </p>
+                  </div>
+                  <AppButton
+                    color="primary"
+                    variant="tonal"
+                    density="comfortable"
+                    :disabled="!job.applications.length"
+                    @click="handleApplicantsDrawer(job)"
+                  >
+                    {{ translate('profile.jobs.drawer.openButton', 'View applicants') }}
+                  </AppButton>
+                </div>
+
+                <footer class="profile-job__footer">
+                  <div class="profile-job__timestamps">
+                    <p v-if="formatDate(job.updatedAt)" class="text-caption mb-0">
+                      {{
+                        t('profile.jobs.labels.updatedAt', {
+                          date: formatDate(job.updatedAt),
+                        })
+                      }}
+                    </p>
+                    <p v-else-if="formatDate(job.createdAt)" class="text-caption mb-0">
+                      {{
+                        t('profile.jobs.labels.createdAt', {
+                          date: formatDate(job.createdAt),
+                        })
+                      }}
+                    </p>
+                  </div>
+                  <div class="profile-job__actions">
+                    <AppButton
+                      v-if="job.company?.siteUrl"
+                      variant="tonal"
+                      density="comfortable"
+                      color="primary"
+                      :href="job.company.siteUrl"
+                      target="_blank"
+                      rel="noopener"
+                      prepend-icon="mdi-open-in-new"
+                    >
+                      {{ t('profile.jobs.labels.visitCompany') }}
+                    </AppButton>
+                    <AppButton
+                      v-if="job.company?.contactEmail"
+                      variant="text"
+                      density="comfortable"
+                      color="secondary"
+                      :href="`mailto:${job.company.contactEmail}`"
+                      prepend-icon="mdi-email"
+                    >
+                      {{ t('profile.jobs.labels.contactCompany') }}
+                    </AppButton>
+                  </div>
+                </footer>
               </div>
-              <div class="profile-job__actions">
-                <AppButton
-                  v-if="job.company?.siteUrl"
-                  variant="tonal"
-                  density="comfortable"
-                  color="primary"
-                  :href="job.company.siteUrl"
-                  target="_blank"
-                  rel="noopener"
-                  prepend-icon="mdi-open-in-new"
-                >
-                  {{ t('profile.jobs.labels.visitCompany') }}
-                </AppButton>
-                <AppButton
-                  v-if="job.company?.contactEmail"
-                  variant="text"
-                  density="comfortable"
-                  color="secondary"
-                  :href="`mailto:${job.company.contactEmail}`"
-                  prepend-icon="mdi-email"
-                >
-                  {{ t('profile.jobs.labels.contactCompany') }}
-                </AppButton>
-              </div>
-            </footer>
+            </v-expand-transition>
           </article>
         </div>
       </v-col>
@@ -904,6 +920,14 @@ function handleRefresh() {
 .profile-job__meta-item {
   display: inline-flex;
   align-items: center;
+}
+
+.profile-job__details-toggle {
+  margin-top: 1rem;
+}
+
+.profile-job__details {
+  margin-top: 1.5rem;
 }
 
 .profile-job__section {

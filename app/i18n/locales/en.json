@@ -1526,7 +1526,9 @@
         "contactCompany": "Contact company",
         "updatedAt": "Updated {date}",
         "createdAt": "Created {date}",
-        "dateFallback": "recently"
+        "dateFallback": "recently",
+        "showMore": "Show details",
+        "showLess": "Hide details"
       },
       "applicationStates": {
         "request": "Request",

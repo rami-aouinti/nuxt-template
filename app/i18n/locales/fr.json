@@ -1448,7 +1448,9 @@
         "contactCompany": "Contacter l'entreprise",
         "updatedAt": "Mis à jour le {date}",
         "createdAt": "Créé le {date}",
-        "dateFallback": "récemment"
+        "dateFallback": "récemment",
+        "showMore": "Afficher les détails",
+        "showLess": "Masquer les détails"
       },
       "applicationStates": {
         "request": "Demande",

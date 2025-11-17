@@ -1418,7 +1418,9 @@
         "contactCompany": "Contact company",
         "updatedAt": "Updated {date}",
         "createdAt": "Created {date}",
-        "dateFallback": "recently"
+        "dateFallback": "recently",
+        "showMore": "Mostrar detalles",
+        "showLess": "Ocultar detalles"
       },
       "applicationStates": {
         "request": "Request",
