@@ -1275,6 +1275,24 @@
         },
         "settings": {
           "title": "Préférences"
+        },
+        "jobRequests": {
+          "title": "Demandes d'emploi",
+          "description": "Retrouvez les postes pour lesquels vous avez envoyé une demande.",
+          "states": {
+            "empty": "Vous n'avez pas encore demandé de poste.",
+            "emptyHint": "Envoyez une demande depuis la page Jobs pour la voir apparaître ici."
+          },
+          "actions": {
+            "refresh": "Actualiser"
+          },
+          "labels": {
+            "requestedOn": "Demande envoyée le {date}",
+            "dateFallback": "date inconnue"
+          },
+          "notifications": {
+            "loadFailed": "Impossible de charger vos demandes d'emploi. Veuillez réessayer plus tard."
+          }
         }
       },
       "orders": {

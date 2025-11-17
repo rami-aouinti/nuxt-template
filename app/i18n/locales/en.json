@@ -1353,6 +1353,24 @@
       },
       "settings": {
         "title": "Preferences"
+      },
+      "jobRequests": {
+        "title": "Job requests",
+        "description": "Follow the roles you've recently requested so you never miss an update.",
+        "states": {
+          "empty": "You have not requested any jobs yet.",
+          "emptyHint": "Submit a request on a job post to see it listed here."
+        },
+        "actions": {
+          "refresh": "Refresh"
+        },
+        "labels": {
+          "requestedOn": "Requested on {date}",
+          "dateFallback": "date unavailable"
+        },
+        "notifications": {
+          "loadFailed": "Unable to load your job requests. Please try again later."
+        }
       }
     },
     "orders": {
