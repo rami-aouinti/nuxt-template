@@ -24,6 +24,7 @@ const DEFAULT_ECOMMERCE_ADMIN_EMAIL = 'rami.aouinti@gmail.com'
 const DEFAULT_ECOMMERCE_ADMIN_PASSWORD = '19891989aA!'
 const DEFAULT_ECOMMERCE_SHOP_EMAIL = 'rami.aouiti@gmail.com'
 const DEFAULT_ECOMMERCE_SHOP_PASSWORD = '19891989aA!'
+const DEFAULT_ECOMMERCE_ORIGIN = 'https://ecommerce.bro-world.org'
 
 const mercureUrl = process.env.MERCURE_URL || DEFAULT_MERCURE_URL
 const mercurePublicUrl =
@@ -31,6 +32,21 @@ const mercurePublicUrl =
   process.env.NUXT_PUBLIC_MESSENGER_HUB_URL ||
   DEFAULT_MERCURE_PUBLIC_URL
 const mercureJwtSecret = process.env.MERCURE_JWT_SECRET || ''
+
+const normalizeOrigin = (value: string | undefined, fallback: string) => {
+  const candidate = value && value.trim().length > 0 ? value.trim() : fallback
+  return candidate.replace(/\/+$/, '')
+}
+
+const ecommerceOrigin = normalizeOrigin(
+  process.env.NUXT_ECOMMERCE_ORIGIN ||
+    process.env.NUXT_PUBLIC_ECOMMERCE_ORIGIN,
+  DEFAULT_ECOMMERCE_ORIGIN,
+)
+
+const ecommerceApiBase =
+  process.env.NUXT_ECOMMERCE_API_BASE_URL?.trim() ||
+  `${ecommerceOrigin}/api/v2`
 
 function createOAuthConfig() {
   return { clientId: '', clientSecret: '' }
@@ -200,6 +216,10 @@ export default defineNuxtConfig({
     vueI18n: './app/i18n/i18n.config.ts',
   },
   runtimeConfig: {
+    ecommerce: {
+      origin: ecommerceOrigin,
+      apiBase: ecommerceApiBase,
+    },
     mercure: {
       url: mercureUrl,
       publicUrl: mercurePublicUrl,
@@ -306,6 +326,10 @@ export default defineNuxtConfig({
             '',
           retry: process.env.NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_RETRY || '',
         },
+      },
+      ecommerce: {
+        origin:
+          process.env.NUXT_PUBLIC_ECOMMERCE_ORIGIN?.trim() || ecommerceOrigin,
       },
     },
   },

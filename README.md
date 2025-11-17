@@ -133,6 +133,10 @@ NUXT_SESSION_SECRET=your-super-long-secret-for-session-encryption
 
 Nuxt Auth Utils generates one for you when running Nuxt in development the first time if no `NUXT_SESSION_PASSWORD` is set.
 
+### Ecommerce API configuration
+
+Set the `NUXT_ECOMMERCE_API_BASE_URL` and `NUXT_PUBLIC_ECOMMERCE_ORIGIN` variables in your `.env` file if your ecommerce backend runs on a different host than the default `https://ecommerce.bro-world.org`. These values are used both on the server (to proxy authenticated requests) and on the client (to build product and taxon image URLs), ensuring the ecommerce page lists products from the expected API.
+
 ### Development
 
 Start the development server on http://localhost:3000
