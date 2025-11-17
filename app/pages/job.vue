@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { computed, reactive, ref, watch } from 'vue'
-import type { Job } from '~/types/job'
+import type { Company, Job } from '~/types/job'
+import {
+  ContractType,
+  LanguageLevel,
+  WorkType,
+} from '~/types/job'
 import { ContractType, WorkType } from '~/types/job'
 import { useJobStore } from '~/stores/job'
 
@@ -10,6 +15,189 @@ definePageMeta({
   title: 'Job platform',
 })
 
+const JOB_PLATFORM_MEDIA_BASE_URL = 'https://job.bro-world.org'
+
+const {
+  data: jobCompanies,
+  pending: companiesPending,
+  error: companiesError,
+} = await useFetch<Company[]>('/api/job/companies')
+
+const normalizeMediaUrl = (path?: string | null) => {
+  if (!path) {
+    return null
+  }
+
+  if (/^https?:\/\//i.test(path)) {
+    return path
+  }
+
+  return `${JOB_PLATFORM_MEDIA_BASE_URL}${path}`
+}
+
+const companyShowcase = computed(() => {
+  return (jobCompanies.value ?? []).map((company) => ({
+    ...company,
+    logo: normalizeMediaUrl(company.logo) ?? undefined,
+    medias: company.medias?.map((media) => ({
+      ...media,
+      url: normalizeMediaUrl(media.url) ?? media.url,
+    })),
+  }))
+})
+
+const visibleCompanies = computed(() => companyShowcase.value.slice(0, 6))
+const totalCompanyProfiles = computed(() => companyShowcase.value.length)
+
+const jobs = ref<Job[]>([
+  {
+    id: 'job-senior-frontend',
+    title: 'Senior Frontend Engineer',
+    description:
+      'Lead the experience layer of our job platform, evolve the design system, and mentor a remote squad of product engineers.',
+    work:
+      'Collaborate with design and product to deliver polished features every sprint while keeping a high-quality bar for accessibility and performance.',
+    requiredSkills: ['Vue 3', 'Nuxt 3', 'TypeScript', 'Design Systems', 'Testing Library'],
+    experience: '5+ years',
+    workType: WorkType.REMOTE,
+    workLocation: 'Remote - Europe (CET ±2)',
+    salaryRange: '€70k – €90k',
+    languages: [
+      { id: 1, name: 'English', level: LanguageLevel.FLUENT },
+      { id: 2, name: 'French', level: LanguageLevel.INTERMEDIATE },
+    ],
+    contractType: ContractType.FULLTIME,
+    requirements: [
+      'Own the frontend roadmap for employer dashboards',
+      'Guide adoption of our component library across teams',
+      'Partner with DX engineers to keep build times low',
+    ],
+    benefits:
+      'Equity plan, personal learning budget, remote stipend, and 30 days of paid vacation.',
+    company: {
+      id: 'company-northwind',
+      name: 'Northwind Talent',
+      description:
+        'Boutique recruitment team building hiring tools for remote-first companies.',
+      location: 'Berlin, Germany',
+      contactEmail: 'hello@northwind.com',
+      logo: 'https://dummyimage.com/80x80/1e2a78/ffffff&text=NT',
+      siteUrl: 'https://northwind.example.com',
+    },
+    user: '00000000-0000-0000-0000-000000000001',
+    createdAt: '2024-02-15T10:00:00.000Z',
+    updatedAt: '2024-03-10T08:45:00.000Z',
+  },
+  {
+    id: 'job-product-designer',
+    title: 'Product Designer – Hiring Journeys',
+    description:
+      'Design adaptive interview experiences, craft service blueprints, and partner with research to improve conversion across the hiring funnel.',
+    work:
+      'You will iterate on white-glove employer experiences, pair with UX writers, and deliver storyboards that engineering can ship every week.',
+    requiredSkills: ['Figma', 'Design systems', 'User Research', 'Prototyping'],
+    experience: '4+ years',
+    workType: WorkType.HYBRID,
+    workLocation: 'Paris, France',
+    salaryRange: '€60k – €75k',
+    languages: [
+      { id: 3, name: 'English', level: LanguageLevel.FLUENT },
+      { id: 4, name: 'French', level: LanguageLevel.NATIVE },
+    ],
+    contractType: ContractType.FULLTIME,
+    requirements: [
+      'Own discovery and delivery rituals with PM/EM partners',
+      'Translate complex service flows into calm employer tools',
+      'Ship polished motion that elevates the brand',
+    ],
+    benefits: 'Hybrid office, mobility budget, and quarterly offsites.',
+    company: {
+      id: 'company-atlas',
+      name: 'Atlas Careers',
+      description:
+        'Multi-country job marketplace helping teams recruit multilingual talent.',
+      location: 'Paris, France',
+      contactEmail: 'design@atlas-careers.com',
+      logo: 'https://dummyimage.com/80x80/0f766e/ffffff&text=AC',
+      siteUrl: 'https://atlas-careers.example.com',
+    },
+    user: '00000000-0000-0000-0000-000000000002',
+    createdAt: '2024-03-01T09:00:00.000Z',
+    updatedAt: '2024-03-12T12:20:00.000Z',
+  },
+  {
+    id: 'job-talent-ops',
+    title: 'Talent Operations Lead',
+    description:
+      'Build repeatable workflows for our candidate success team, automate reporting, and make sure every application receives a thoughtful response.',
+    work:
+      'Coordinate across operations, finance, and sales. You will pilot AI copilots, instrumentation, and guide compliance updates.',
+    requiredSkills: ['Process Design', 'Notion', 'Zapier', 'People Ops'],
+    experience: '3+ years',
+    workType: WorkType.ONSITE,
+    workLocation: 'Lisbon, Portugal',
+    salaryRange: '€45k – €55k',
+    languages: [
+      { id: 5, name: 'English', level: LanguageLevel.FLUENT },
+      { id: 6, name: 'Portuguese', level: LanguageLevel.NATIVE },
+    ],
+    contractType: ContractType.FULLTIME,
+    requirements: [
+      'Design playbooks that scale across multiple hubs',
+      'Implement QA loops for candidate communication',
+      'Partner with finance on headcount forecasting',
+    ],
+    benefits: 'Health insurance, paid lunches, and local transit pass.',
+    company: {
+      id: 'company-tide',
+      name: 'Tidewave',
+      description: 'Climate-tech startup growing its international talent collective.',
+      location: 'Lisbon, Portugal',
+      contactEmail: 'people@tidewave.io',
+      logo: 'https://dummyimage.com/80x80/4338ca/ffffff&text=TW',
+      siteUrl: 'https://tidewave.example.com',
+    },
+    user: '00000000-0000-0000-0000-000000000003',
+    createdAt: '2024-02-25T14:30:00.000Z',
+    updatedAt: '2024-03-09T15:30:00.000Z',
+  },
+  {
+    id: 'job-customer-success',
+    title: 'Customer Success Strategist',
+    description:
+      'Coach employer teams on onboarding, interpret analytics, and translate feedback into crisp product experiments.',
+    work:
+      'Meet executive sponsors weekly, maintain playbooks for success teams, and produce action plans aligned to hiring OKRs.',
+    requiredSkills: ['Account Management', 'Data Storytelling', 'HubSpot', 'Hiring Analytics'],
+    experience: '5+ years',
+    workType: WorkType.REMOTE,
+    workLocation: 'Remote – Americas',
+    salaryRange: '$95k – $115k',
+    languages: [
+      { id: 7, name: 'English', level: LanguageLevel.NATIVE },
+      { id: 8, name: 'Spanish', level: LanguageLevel.INTERMEDIATE },
+    ],
+    contractType: ContractType.FULLTIME,
+    requirements: [
+      'Design ROI reviews with revenue leadership',
+      'Coach recruiters on the analytics workspace',
+      'Coordinate with marketing on co-branded case studies',
+    ],
+    benefits: 'Remote office budget, annual company retreat, flexible PTO.',
+    company: {
+      id: 'company-pulse',
+      name: 'Pulseboard',
+      description: 'Hiring intelligence layer for recruiting platforms.',
+      location: 'Austin, USA',
+      contactEmail: 'talent@pulseboard.com',
+      logo: 'https://dummyimage.com/80x80/ea580c/ffffff&text=PB',
+      siteUrl: 'https://pulseboard.example.com',
+    },
+    user: '00000000-0000-0000-0000-000000000004',
+    createdAt: '2024-03-05T11:15:00.000Z',
+    updatedAt: '2024-03-15T09:10:00.000Z',
+  },
+] satisfies Job[])
 const jobStore = useJobStore()
 const { jobs, isLoading, error: jobError, hasJobs, lastUpdatedAt } =
   storeToRefs(jobStore)
@@ -147,6 +335,170 @@ watch(detailsDialog, (isOpen) => {
           <p class="overline">Bro World · Job platform</p>
           <h4>Find the next job that matches your craft</h4>
         </div>
+      </v-container>
+    </section>
+
+    <section class="job-platform__companies">
+      <v-container>
+        <div class="job-platform__companies-header">
+          <div>
+            <p class="overline">Hiring companies</p>
+            <h2>Meet the teams behind the roles</h2>
+            <p>
+              Profiles are pulled directly from the Bro World job platform so
+              you always see fresh company snapshots.
+            </p>
+          </div>
+          <v-chip
+            v-if="totalCompanyProfiles"
+            size="small"
+            color="primary"
+            variant="tonal"
+          >
+            {{ totalCompanyProfiles }} profiles
+          </v-chip>
+        </div>
+
+        <v-progress-linear
+          v-if="companiesPending"
+          indeterminate
+          color="primary"
+          class="mb-6"
+        />
+        <v-alert
+          v-else-if="companiesError"
+          type="warning"
+          variant="tonal"
+          class="mb-6"
+        >
+          Unable to load company profiles right now.
+        </v-alert>
+        <template v-else>
+          <v-row v-if="visibleCompanies.length" dense>
+            <v-col
+              v-for="company in visibleCompanies"
+              :key="company.id"
+              cols="12"
+              md="6"
+              lg="4"
+            >
+              <v-card class="company-card" variant="outlined">
+                <div class="company-card__header">
+                  <div v-if="company.logo" class="company-card__logo">
+                    <img :src="company.logo" :alt="company.name" loading="lazy" />
+                  </div>
+                  <div>
+                    <p class="company-card__name">{{ company.name }}</p>
+                    <p class="company-card__location">{{ company.location }}</p>
+                  </div>
+                </div>
+                <p v-if="company.description" class="company-card__description">
+                  {{ company.description }}
+                </p>
+                <div class="company-card__meta">
+                  <v-chip size="x-small" variant="tonal" color="primary">
+                    {{ company.medias?.length ?? 0 }} media
+                  </v-chip>
+                  <v-chip
+                    v-if="company.contactEmail"
+                    size="x-small"
+                    variant="text"
+                    class="company-card__contact"
+                  >
+                    {{ company.contactEmail }}
+                  </v-chip>
+                </div>
+                <div class="company-card__actions">
+                  <v-btn
+                    v-if="company.siteUrl"
+                    :href="company.siteUrl"
+                    target="_blank"
+                    rel="noopener"
+                    variant="text"
+                    class="text-none"
+                  >
+                    Visit site
+                  </v-btn>
+                  <v-btn
+                    v-if="company.contactEmail"
+                    :href="`mailto:${company.contactEmail}`"
+                    variant="text"
+                    class="text-none"
+                  >
+                    Contact
+                  </v-btn>
+                </div>
+              </v-card>
+            </v-col>
+          </v-row>
+          <v-alert v-else type="info" variant="tonal">
+            No company profiles are available yet. Check back soon.
+          </v-alert>
+        </template>
+      </v-container>
+    </section>
+
+    <section class="job-platform__filters">
+      <v-container>
+        <v-card flat class="job-platform__filters-card" color="surface">
+          <v-row>
+            <v-col cols="12" md="4">
+              <v-text-field
+                v-model="filters.search"
+                label="Search roles or skills"
+                prepend-inner-icon="mdi-magnify"
+                hide-details
+                variant="outlined"
+              />
+            </v-col>
+            <v-col cols="12" md="3">
+              <v-text-field
+                v-model="filters.location"
+                label="Location"
+                prepend-inner-icon="mdi-map-marker"
+                hide-details
+                variant="outlined"
+              />
+            </v-col>
+            <v-col cols="12" md="3">
+              <v-select
+                v-model="filters.workType"
+                :items="workTypeOptions"
+                label="Work type"
+                hide-details
+                variant="outlined"
+                clearable
+              />
+            </v-col>
+            <v-col cols="12" md="2">
+              <v-select
+                v-model="filters.contractType"
+                :items="contractTypeOptions"
+                label="Contract"
+                hide-details
+                variant="outlined"
+                clearable
+              />
+            </v-col>
+          </v-row>
+          <v-divider class="my-4" />
+          <div class="job-platform__filters-footer">
+            <div class="job-platform__skill-cloud">
+              <span class="job-platform__skill-cloud-label">Trending skills:</span>
+              <v-chip
+                v-for="item in skillCloud"
+                :key="item.skill"
+                size="small"
+                class="ma-1"
+                variant="tonal"
+              >
+                {{ item.skill }}
+                <span class="job-platform__skill-count">×{{ item.count }}</span>
+              </v-chip>
+            </div>
+            <v-btn color="secondary" variant="text" class="text-none" @click="clearFilters">
+              Reset filters
+            </v-btn>
         <v-divider class="my-2" />
         <div class="job-platform__hero-metrics">
           <div
@@ -362,6 +714,94 @@ watch(detailsDialog, (isOpen) => {
   border-radius: 24px;
   background: rgba(var(--v-theme-surface), 1);
   box-shadow: 0 25px 50px -12px rgb(15 23 42 / 0.15);
+}
+
+.job-platform__companies {
+  padding: 32px 0 16px;
+}
+
+.job-platform__companies-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.job-platform__companies-header h2 {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.job-platform__companies-header p {
+  color: rgba(var(--v-theme-on-surface), 0.8);
+  margin-bottom: 0;
+}
+
+.job-platform__companies .overline {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(var(--v-theme-primary), 1);
+}
+
+.company-card {
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+
+.company-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.company-card__logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(var(--v-theme-surface), 1);
+}
+
+.company-card__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.company-card__name {
+  font-weight: 600;
+  margin: 0;
+}
+
+.company-card__location {
+  margin: 0;
+  color: rgba(var(--v-theme-on-surface), 0.7);
+}
+
+.company-card__description {
+  margin: 0;
+  color: rgba(var(--v-theme-on-surface), 0.8);
+}
+
+.company-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.company-card__actions {
+  margin-top: auto;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .job-platform__hero-text h1 {
