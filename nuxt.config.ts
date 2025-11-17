@@ -248,6 +248,12 @@ export default defineNuxtConfig({
             DEFAULT_ECOMMERCE_SHOP_PASSWORD,
         },
       },
+      job: {
+        token:
+          process.env.NUXT_BRO_WORLD_JOB_TOKEN ||
+          process.env.BRO_WORLD_JOB_TOKEN ||
+          '',
+      },
     },
     oauth: {
       github: createOAuthConfig(),
