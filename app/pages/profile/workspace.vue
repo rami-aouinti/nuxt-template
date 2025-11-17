@@ -1040,13 +1040,14 @@ onMounted(() => {
             {{ uploadError }}
           </v-alert>
           <v-form id="upload-file-form" @submit.prevent="submitUpload">
-            <v-file-input
+            <AppUploadField
               v-model="uploadForm.files"
               :label="t('workspace.dialogs.fields.file')"
               :disabled="isUploading"
               accept="*/*"
-              prepend-icon="mdi-paperclip"
-              show-size
+              :placeholder="t('workspace.dialogs.upload.subtitle')"
+              :action-label="t('workspace.actions.uploadFile')"
+              :icon="'mdi-paperclip'"
             />
             <v-checkbox
               v-model="uploadForm.isPrivate"
