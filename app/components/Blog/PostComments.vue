@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /* eslint-disable vue/no-mutating-props */
-import { computed, ref } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import type {
   BlogCommentViewModel,
   BlogPostUser,
@@ -36,6 +36,46 @@ const { getAuthorName, getAuthorProfileLink } = useBlogAuthor()
 const formatAuthor = (user: BlogPostUser) => getAuthorName(user)
 const resolveProfileLink = (user: BlogPostUser) => getAuthorProfileLink(user)
 const currentUserId = computed(() => props.currentUserId ?? null)
+const commentUploadInput = ref<HTMLInputElement | null>(null)
+
+const commentAttachmentCount = computed(
+  () => props.post.ui.commentAttachments?.length ?? 0,
+)
+const hasCommentAttachments = computed(() => commentAttachmentCount.value > 0)
+const commentAttachmentSummary = computed(() => {
+  if (!hasCommentAttachments.value) {
+    return ''
+  }
+
+  const key =
+    commentAttachmentCount.value === 1
+      ? 'blog.comments.attachments.single'
+      : 'blog.comments.attachments.plural'
+
+  return t(key, { count: commentAttachmentCount.value })
+})
+
+const triggerCommentUpload = () => {
+  if (commentUploadInput.value) {
+    commentUploadInput.value.click()
+  }
+}
+
+const onCommentAttachmentsChange = (event: Event) => {
+  const input = event.target as HTMLInputElement | null
+  const files = input?.files ? Array.from(input.files) : []
+  props.post.ui.commentAttachments = files
+}
+
+const clearCommentAttachments = () => {
+  props.post.ui.commentAttachments = []
+}
+
+watchEffect(() => {
+  if (!hasCommentAttachments.value && commentUploadInput.value) {
+    commentUploadInput.value.value = ''
+  }
+})
 
 const commentFilters = [
   {
@@ -106,6 +146,13 @@ const selectFilter = (value: CommentFilterValue) => {
 
 <template>
   <div class="facebook-post-card__comments">
+    <input
+      ref="commentUploadInput"
+      class="facebook-post-card__comment-upload"
+      type="file"
+      multiple
+      @change="onCommentAttachmentsChange"
+    />
     <v-alert
       v-if="!loggedIn"
       type="info"
@@ -135,8 +182,25 @@ const selectFilter = (value: CommentFilterValue) => {
       @submit="emit('submit-comment')"
     >
       <template #actions-left="{ disabled }">
-        <AppButton variant="text" icon density="compact" :disabled="disabled">
-          <v-icon>mdi-paperclip</v-icon>
+        <AppButton
+          variant="text"
+          icon
+          density="compact"
+          :disabled="disabled"
+          :aria-label="t('blog.actions.addAttachment')"
+          @click="!disabled && triggerCommentUpload()"
+        >
+          <v-badge
+            v-if="hasCommentAttachments"
+            inline
+            color="primary"
+            :content="commentAttachmentCount"
+            offset-x="6"
+            offset-y="6"
+          >
+            <v-icon>mdi-paperclip</v-icon>
+          </v-badge>
+          <v-icon v-else>mdi-paperclip</v-icon>
         </AppButton>
         <AppButton variant="text" icon density="compact" :disabled="disabled">
           <v-icon>mdi-microphone-outline</v-icon>
@@ -156,6 +220,18 @@ const selectFilter = (value: CommentFilterValue) => {
         </AppButton>
       </template>
     </BlogCommentEditor>
+    <div v-if="hasCommentAttachments" class="facebook-post-card__comment-attachments">
+      <v-chip
+        size="small"
+        variant="tonal"
+        color="primary"
+        closable
+        :aria-label="t('blog.actions.clearAttachments')"
+        @click:close="clearCommentAttachments"
+      >
+        {{ commentAttachmentSummary }}
+      </v-chip>
+    </div>
 
     <div v-if="hasFilterMenu" class="facebook-post-card__comments-toolbar">
       <AppMenu>
@@ -256,5 +332,20 @@ const selectFilter = (value: CommentFilterValue) => {
   padding: 32px 24px;
   text-align: center;
   background: rgba(var(--blog-surface-rgb), 0.6);
+}
+
+.facebook-post-card__comment-upload {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.facebook-post-card__comment-attachments {
+  margin-top: -8px;
 }
 </style>

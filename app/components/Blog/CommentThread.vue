@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watchEffect } from 'vue'
 import type {
   BlogCommentViewModel,
   BlogPostUser,
@@ -36,6 +36,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const replyUploadInputs = new Map<string, HTMLInputElement>()
 
 const hasComments = computed(() => props.comments?.length > 0)
 
@@ -52,6 +53,7 @@ const toggleReply = (comment: BlogCommentViewModel) => {
   comment.ui.replyOpen = !comment.ui.replyOpen
   if (!comment.ui.replyOpen) {
     comment.ui.replyContent = ''
+    comment.ui.replyAttachments = []
   }
 }
 
@@ -102,6 +104,73 @@ const requestDelete = (comment: BlogCommentViewModel) => {
 
   emit('delete-comment', comment)
 }
+
+const setReplyUploadInput = (
+  commentId: string,
+  el: HTMLInputElement | null,
+) => {
+  if (!el) {
+    replyUploadInputs.delete(commentId)
+    return
+  }
+
+  replyUploadInputs.set(commentId, el)
+}
+
+const getReplyAttachmentCount = (comment: BlogCommentViewModel) =>
+  comment.ui.replyAttachments?.length ?? 0
+
+const hasReplyAttachments = (comment: BlogCommentViewModel) =>
+  getReplyAttachmentCount(comment) > 0
+
+const getReplyAttachmentSummary = (comment: BlogCommentViewModel) => {
+  if (!hasReplyAttachments(comment)) {
+    return ''
+  }
+
+  const key =
+    getReplyAttachmentCount(comment) === 1
+      ? 'blog.comments.attachments.single'
+      : 'blog.comments.attachments.plural'
+
+  return t(key, { count: getReplyAttachmentCount(comment) })
+}
+
+const openReplyAttachmentPicker = (
+  comment: BlogCommentViewModel,
+  disabled: boolean,
+) => {
+  if (disabled) {
+    return
+  }
+
+  const input = replyUploadInputs.get(comment.id)
+  input?.click()
+}
+
+const onReplyAttachmentsChange = (
+  comment: BlogCommentViewModel,
+  event: Event,
+) => {
+  const input = event.target as HTMLInputElement | null
+  const files = input?.files ? Array.from(input.files) : []
+  comment.ui.replyAttachments = files
+}
+
+const clearReplyAttachments = (comment: BlogCommentViewModel) => {
+  comment.ui.replyAttachments = []
+}
+
+watchEffect(() => {
+  for (const comment of props.comments ?? []) {
+    if (!hasReplyAttachments(comment)) {
+      const input = replyUploadInputs.get(comment.id)
+      if (input) {
+        input.value = ''
+      }
+    }
+  }
+})
 
 const buildCommentMenuItems = (
   comment: BlogCommentViewModel,
@@ -222,6 +291,13 @@ const buildCommentMenuItems = (
         <template #reply>
           <v-expand-transition>
             <div v-if="comment.ui.replyOpen" class="blog-comment-thread__reply">
+              <input
+                :ref="(el) => setReplyUploadInput(comment.id, el as HTMLInputElement | null)"
+                class="blog-comment-thread__reply-upload"
+                type="file"
+                multiple
+                @change="(event) => onReplyAttachmentsChange(comment, event)"
+              />
               <BlogCommentEditor
                 v-model="comment.ui.replyContent"
                 :placeholder="t('blog.forms.replyPlaceholder')"
@@ -236,8 +312,20 @@ const buildCommentMenuItems = (
                     icon
                     density="compact"
                     :disabled="disabled"
+                    :aria-label="t('blog.actions.addAttachment')"
+                    @click="openReplyAttachmentPicker(comment, disabled)"
                   >
-                    <v-icon>mdi-paperclip</v-icon>
+                    <v-badge
+                      v-if="hasReplyAttachments(comment)"
+                      inline
+                      color="primary"
+                      :content="getReplyAttachmentCount(comment)"
+                      offset-x="6"
+                      offset-y="6"
+                    >
+                      <v-icon>mdi-paperclip</v-icon>
+                    </v-badge>
+                    <v-icon v-else>mdi-paperclip</v-icon>
                   </AppButton>
                   <AppButton
                     variant="text"
@@ -262,6 +350,21 @@ const buildCommentMenuItems = (
                   </AppButton>
                 </template>
               </BlogCommentEditor>
+              <div
+                v-if="hasReplyAttachments(comment)"
+                class="blog-comment-thread__reply-attachments"
+              >
+                <v-chip
+                  size="small"
+                  variant="tonal"
+                  color="primary"
+                  closable
+                  :aria-label="t('blog.actions.clearAttachments')"
+                  @click:close="clearReplyAttachments(comment)"
+                >
+                  {{ getReplyAttachmentSummary(comment) }}
+                </v-chip>
+              </div>
             </div>
           </v-expand-transition>
         </template>
@@ -313,5 +416,21 @@ const buildCommentMenuItems = (
 
 .blog-comment-thread__menu {
   min-width: 220px;
+}
+
+.blog-comment-thread__reply-upload {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.blog-comment-thread__reply-attachments {
+  margin-top: -8px;
+  margin-left: 48px;
 }
 </style>

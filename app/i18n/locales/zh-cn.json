@@ -346,7 +346,9 @@
       "editBlog": "编辑博客",
       "deleteBlog": "删除博客",
       "sharePost": "分享帖子",
-      "viewImage": "查看图片"
+      "viewImage": "查看图片",
+      "addAttachment": "添加附件",
+      "clearAttachments": "移除附件"
     },
     "feed": {
       "composer": {
@@ -417,6 +419,10 @@
         "newestDescription": "最先显示最新的评论。",
         "all": "所有评论",
         "allDescription": "按时间顺序显示所有评论。"
+      },
+      "attachments": {
+        "single": "{count} 个附件",
+        "plural": "{count} 个附件"
       }
     },
     "notifications": {

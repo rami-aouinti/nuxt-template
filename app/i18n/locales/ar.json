@@ -346,7 +346,9 @@
       "editBlog": "تعديل المدوّنة",
       "deleteBlog": "حذف المدوّنة",
       "sharePost": "مشاركة المنشور",
-      "viewImage": "عرض الصورة"
+      "viewImage": "عرض الصورة",
+      "addAttachment": "إرفاق ملفات",
+      "clearAttachments": "إزالة المرفقات"
     },
     "feed": {
       "composer": {
@@ -417,6 +419,10 @@
         "newestDescription": "عرض أحدث التعليقات في الأعلى.",
         "all": "جميع التعليقات",
         "allDescription": "عرض جميع التعليقات بالترتيب الزمني."
+      },
+      "attachments": {
+        "single": "{count} ملف مرفق",
+        "plural": "{count} ملفات مرفقة"
       }
     },
     "notifications": {

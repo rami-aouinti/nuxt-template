@@ -19,6 +19,7 @@ import { useProfilePostsStore } from '~/stores/profile-posts'
 import { Notify } from '~/stores/notification'
 import type {
   BlogComment,
+  BlogCommentPayload,
   BlogCommentViewModel,
   BlogPost,
   BlogPostSharePayload,
@@ -468,11 +469,17 @@ async function submitPostComment(post: BlogPostViewModel) {
 
   const content = post.ui.commentContent.trim()
   if (!content) return
+  const attachments = post.ui.commentAttachments ?? []
+  const payload: BlogCommentPayload = {
+    content,
+    attachments: attachments.length ? attachments : undefined,
+  }
 
   post.ui.commentLoading = true
   try {
-    await createComment(post.id, { content })
+    await createComment(post.id, payload)
     post.ui.commentContent = ''
+    post.ui.commentAttachments = []
     post.totalComments = (post.totalComments ?? 0) + 1
     await loadComments(post)
     post.ui.commentsVisible = true
@@ -492,11 +499,17 @@ async function submitCommentReply(
 
   const content = comment.ui.replyContent.trim()
   if (!content) return
+  const attachments = comment.ui.replyAttachments ?? []
+  const payload: BlogCommentPayload = {
+    content,
+    attachments: attachments.length ? attachments : undefined,
+  }
 
   comment.ui.replyLoading = true
   try {
-    await replyToComment(comment.id, { content })
+    await replyToComment(comment.id, payload)
     comment.ui.replyContent = ''
+    comment.ui.replyAttachments = []
     comment.ui.replyOpen = false
     comment.totalComments = (comment.totalComments ?? 0) + 1
     await loadComments(post)

@@ -104,6 +104,7 @@ export const createCommentViewModel = (
       editContent: normalized.content,
       editLoading: false,
       deleteLoading: false,
+      replyAttachments: [],
     },
   }
 }
@@ -299,6 +300,7 @@ export const createPostViewModel = (
       commentsError: null,
       commentContent: '',
       commentLoading: false,
+      commentAttachments: [],
       likeLoading: false,
       deleteLoading: false,
       editDialog: false,

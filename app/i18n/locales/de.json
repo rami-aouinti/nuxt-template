@@ -346,7 +346,9 @@
       "editBlog": "Blog bearbeiten",
       "deleteBlog": "Blog löschen",
       "sharePost": "Beitrag teilen",
-      "viewImage": "Bild anzeigen"
+      "viewImage": "Bild anzeigen",
+      "addAttachment": "Dateien anhängen",
+      "clearAttachments": "Anhänge entfernen"
     },
     "feed": {
       "composer": {
@@ -417,6 +419,10 @@
         "newestDescription": "Zeigt die neuesten Kommentare oben an.",
         "all": "Alle Kommentare",
         "allDescription": "Zeigt alle Kommentare in chronologischer Reihenfolge an."
+      },
+      "attachments": {
+        "single": "{count} angehängte Datei",
+        "plural": "{count} angehängte Dateien"
       }
     },
     "notifications": {
