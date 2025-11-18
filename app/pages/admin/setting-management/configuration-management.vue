@@ -9,7 +9,7 @@ import type {
 import type { Workplace } from '~/types/workplace'
 import { useAdminStore } from '~/stores/admin'
 import { Notify } from '~/stores/notification'
-import { normalizeRequestHeaders } from '~/utils/headers'
+import { useServerAuthRequestHeaders } from '~/composables/useServerRequestHeaders'
 import { normalizeCollection } from '~/utils/collections'
 import AppButton from '~/components/ui/AppButton.vue'
 
@@ -24,9 +24,7 @@ definePageMeta({
 const { t, locale } = useI18n()
 const adminStore = useAdminStore()
 
-const headers = import.meta.server
-  ? normalizeRequestHeaders(useRequestHeaders(['cookie', 'authorization']))
-  : undefined
+const headers = useServerAuthRequestHeaders()
 
 const extractCount = (d: any): number => {
   if (typeof d === 'number') return d

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { FetchError } from 'ofetch'
 import { computed, ref, watch } from 'vue'
 
-import { normalizeRequestHeaders } from '~/utils/headers'
+import { useServerAuthRequestHeaders } from '~/composables/useServerRequestHeaders'
 import {
   getString,
   resolveProductVariants,
@@ -53,9 +53,7 @@ export const useEcommerceCartStore = defineStore('ecommerce-cart', () => {
   const error = ref<string | null>(null)
   const restoring = ref(false)
 
-  const requestHeaders = import.meta.server
-    ? normalizeRequestHeaders(useRequestHeaders(['cookie', 'authorization']))
-    : undefined
+  const requestHeaders = useServerAuthRequestHeaders()
 
   const token = computed(() => {
     const value = cookieRef.value

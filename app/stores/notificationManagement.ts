@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { reactive, ref } from 'vue'
 
-import { normalizeRequestHeaders } from '~/utils/headers'
+import { useServerAuthRequestHeaders } from '~/composables/useServerRequestHeaders'
 import type {
   AdminNotification,
   AdminNotificationDetail,
@@ -29,9 +29,7 @@ function normalizeId(id: string) {
 export const useNotificationManagementStore = defineStore(
   'notificationManagement',
   () => {
-    const requestHeaders = import.meta.server
-      ? normalizeRequestHeaders(useRequestHeaders(['cookie', 'authorization']))
-      : undefined
+    const requestHeaders = useServerAuthRequestHeaders()
 
     const notifications = ref<AdminNotification[]>([])
     const notificationsPending = ref(false)

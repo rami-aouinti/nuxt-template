@@ -8,7 +8,7 @@ import AppButton from '~/components/ui/AppButton.vue'
 import { Notify } from '~/stores/notification'
 import { createDateFormatter, formatDateValue } from '~/utils/formatters'
 import type { OrderJsonLdSyliusShopOrderAccountShow } from '~/types/order'
-import { normalizeRequestHeaders } from '~/utils/headers'
+import { useServerAuthRequestHeaders } from '~/composables/useServerRequestHeaders'
 
 const ORDERS_ENDPOINT = '/api/ecommerce/v2/shop/orders'
 
@@ -54,9 +54,7 @@ interface OrderDetailsState {
 
 const currencyFormatters = new Map<string, Intl.NumberFormat>()
 
-const requestHeaders = import.meta.server
-  ? normalizeRequestHeaders(useRequestHeaders(['cookie', 'authorization']))
-  : undefined
+const requestHeaders = useServerAuthRequestHeaders()
 
 const {
   data: ordersResponse,
