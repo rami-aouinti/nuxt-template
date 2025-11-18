@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, type Ref } from 'vue'
-import { normalizeRequestHeaders } from '~/utils/headers'
+import { useServerAuthRequestHeaders } from '~/composables/useServerRequestHeaders'
 import type { AdminPlugin } from '~/types/plugin'
 import type { ApiKey } from '~/types/apiKey'
 import type { Role } from '~/types/role'
@@ -40,9 +40,7 @@ function toError(error: unknown): Error {
 }
 
 export const useAdminStore = defineStore('admin', () => {
-  const requestHeaders = import.meta.server
-    ? normalizeRequestHeaders(useRequestHeaders(['cookie', 'authorization']))
-    : undefined
+  const requestHeaders = useServerAuthRequestHeaders()
 
   type CacheTransform<TInput, TOutput> = (value: TInput) => TOutput
 

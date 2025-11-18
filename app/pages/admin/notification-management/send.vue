@@ -3,7 +3,7 @@ import { reactive, ref, computed } from 'vue'
 
 import AppButton from '~/components/ui/AppButton.vue'
 import { Notify } from '~/stores/notification'
-import { normalizeRequestHeaders } from '~/utils/headers'
+import { useServerAuthRequestHeaders } from '~/composables/useServerRequestHeaders'
 import type { NotificationCreatePayload } from '~/types/notification'
 
 const { t } = useI18n()
@@ -15,9 +15,7 @@ definePageMeta({
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 
-const requestHeaders = import.meta.server
-  ? normalizeRequestHeaders(useRequestHeaders(['cookie', 'authorization']))
-  : undefined
+const requestHeaders = useServerAuthRequestHeaders()
 
 const form = reactive({
   channel: 'email',
