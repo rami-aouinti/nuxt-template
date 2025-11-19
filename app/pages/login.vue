@@ -63,7 +63,9 @@ const onSubmit = async () => {
         'message' in error.response.data &&
         typeof error.response.data.message === 'string'
           ? error.response.data.message
-          : null) || error.response?.statusText || null
+          : null) ||
+        error.response?.statusText ||
+        null
       if (responseMessage) {
         message = responseMessage
       }
@@ -119,8 +121,8 @@ definePageMeta({
     <div class="credentials-dialog__divider">
       <v-divider class="flex-grow-1" />
       <span class="text-caption text-medium-emphasis px-3">
-                {{ t('auth.credentialsSignInPrompt') }}
-              </span>
+        {{ t('auth.credentialsSignInPrompt') }}
+      </span>
       <v-divider class="flex-grow-1" />
     </div>
     <v-form class="d-flex flex-column ga-4" @submit.prevent="onSubmit">
@@ -150,7 +152,10 @@ definePageMeta({
           :label="t('pages.auth.login.rememberMe')"
           density="compact"
         />
-        <NuxtLink class="text-primary text-decoration-none" to="/forgot-password">
+        <NuxtLink
+          class="text-primary text-decoration-none"
+          to="/forgot-password"
+        >
           {{ t('pages.auth.login.forgotPassword') }}
         </NuxtLink>
       </div>

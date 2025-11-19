@@ -94,7 +94,10 @@ const interval = ref<'day' | 'week' | 'month'>('month')
 const startDateInput = ref(createDateInput(startOfYear))
 const endDateInput = ref(createDateInput(endOfYear))
 
-const buildDateTime = (value: string | null | undefined, type: 'start' | 'end') => {
+const buildDateTime = (
+  value: string | null | undefined,
+  type: 'start' | 'end',
+) => {
   if (!value) {
     return undefined
   }
@@ -102,7 +105,9 @@ const buildDateTime = (value: string | null | undefined, type: 'start' | 'end') 
   return `${value}T${type === 'start' ? '00:00:00' : '23:59:59'}`
 }
 
-const startDateParam = computed(() => buildDateTime(startDateInput.value, 'start'))
+const startDateParam = computed(() =>
+  buildDateTime(startDateInput.value, 'start'),
+)
 const endDateParam = computed(() => buildDateTime(endDateInput.value, 'end'))
 
 const isDateRangeValid = computed(() => {
@@ -227,7 +232,9 @@ const channelOptions = computed(() =>
         value: code,
       }
     })
-    .filter((option): option is { label: string; value: string } => Boolean(option)),
+    .filter((option): option is { label: string; value: string } =>
+      Boolean(option),
+    ),
 )
 
 watchEffect(() => {
@@ -311,7 +318,11 @@ const stats = computed(() => {
     getNumber(statsRecord, ['total_sales', 'totalSales', 'sales'])
   const averageOrderValue =
     readSummaryNumber(['averageOrderValue', 'average_order_value']) ??
-    getNumber(statsRecord, ['average_order_value', 'averageOrderValue', 'avgOrder'])
+    getNumber(statsRecord, [
+      'average_order_value',
+      'averageOrderValue',
+      'avgOrder',
+    ])
   const orderCount =
     readSummaryNumber(['paidOrdersCount', 'paid_orders_count']) ??
     getNumber(statsRecord, ['orders', 'order_count', 'orderCount'])

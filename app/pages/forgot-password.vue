@@ -53,7 +53,9 @@ const onSubmit = async () => {
         'message' in error.response.data &&
         typeof error.response.data.message === 'string'
           ? error.response.data.message
-          : null) || error.response?.statusText || null
+          : null) ||
+        error.response?.statusText ||
+        null
       if (responseMessage) {
         message = responseMessage
       } else {

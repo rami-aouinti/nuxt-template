@@ -309,7 +309,13 @@ const buildCommentMenuItems = (
           <v-expand-transition>
             <div v-if="comment.ui.replyOpen" class="blog-comment-thread__reply">
               <input
-                :ref="(el) => setReplyUploadInput(comment.id, el as HTMLInputElement | null)"
+                :ref="
+                  (el) =>
+                    setReplyUploadInput(
+                      comment.id,
+                      el as HTMLInputElement | null,
+                    )
+                "
                 class="blog-comment-thread__reply-upload"
                 type="file"
                 multiple

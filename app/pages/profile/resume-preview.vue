@@ -86,7 +86,9 @@ function ensureArray<T>(value: unknown): T[] {
 }
 
 const dateFormatter = createDateFormatter(locale, { dateStyle: 'medium' })
-const presentLabel = computed(() => translate('profile.resume.labels.present', 'Present'))
+const presentLabel = computed(() =>
+  translate('profile.resume.labels.present', 'Present'),
+)
 
 const {
   data: overviewResponse,
@@ -112,7 +114,10 @@ const applicantProfile = computed<ApplicantProfileRecord | null>(() => {
 
 const applicantName = computed(() => {
   if (!applicantProfile.value) {
-    return translate('profile.resumePreview.labels.unnamed', 'Unnamed applicant')
+    return translate(
+      'profile.resumePreview.labels.unnamed',
+      'Unnamed applicant',
+    )
   }
 
   const firstName = applicantProfile.value.firstName?.trim() ?? ''
@@ -150,7 +155,8 @@ const applicantSummary = computed(() => {
 
 const applicantEmail = computed(() => {
   if (!applicantProfile.value) return null
-  const value = applicantProfile.value.contactEmail ?? applicantProfile.value.email
+  const value =
+    applicantProfile.value.contactEmail ?? applicantProfile.value.email
   if (typeof value === 'string' && value.trim().length > 0) {
     return value
   }
@@ -168,7 +174,8 @@ const applicantPhone = computed(() => {
 
 const applicantLocation = computed(() => {
   if (!applicantProfile.value) return null
-  const value = applicantProfile.value.address ?? applicantProfile.value.location
+  const value =
+    applicantProfile.value.address ?? applicantProfile.value.location
   if (typeof value === 'string' && value.trim().length > 0) {
     return value
   }
@@ -176,18 +183,32 @@ const applicantLocation = computed(() => {
 })
 
 const educationItems = computed(() => {
-  return ensureArray<Formation>(overview.value?.education ?? overview.value?.educations ?? [])
+  return ensureArray<Formation>(
+    overview.value?.education ?? overview.value?.educations ?? [],
+  )
 })
 
 const experienceItems = computed(() => {
-  return ensureArray<Experience>(overview.value?.experience ?? overview.value?.experiences ?? [])
+  return ensureArray<Experience>(
+    overview.value?.experience ?? overview.value?.experiences ?? [],
+  )
 })
 
-const skillItems = computed(() => ensureArray<Skill>(overview.value?.skills ?? []))
-const languageItems = computed(() => ensureArray<ResumeLanguage>(overview.value?.languages ?? []))
-const hobbyItems = computed(() => ensureArray<Hobby>(overview.value?.hobbies ?? []))
-const projectItems = computed(() => ensureArray<Project>(overview.value?.projects ?? []))
-const referenceItems = computed(() => ensureArray<Reference>(overview.value?.references ?? []))
+const skillItems = computed(() =>
+  ensureArray<Skill>(overview.value?.skills ?? []),
+)
+const languageItems = computed(() =>
+  ensureArray<ResumeLanguage>(overview.value?.languages ?? []),
+)
+const hobbyItems = computed(() =>
+  ensureArray<Hobby>(overview.value?.hobbies ?? []),
+)
+const projectItems = computed(() =>
+  ensureArray<Project>(overview.value?.projects ?? []),
+)
+const referenceItems = computed(() =>
+  ensureArray<Reference>(overview.value?.references ?? []),
+)
 
 const isLoading = computed(() => pending.value)
 const isGenerating = ref(false)
@@ -203,7 +224,10 @@ const loadErrorMessage = computed(() => {
 
   return extractRequestError(
     error.value,
-    translate('profile.resumePreview.notifications.loadFailed', 'Unable to load your resume overview.'),
+    translate(
+      'profile.resumePreview.notifications.loadFailed',
+      'Unable to load your resume overview.',
+    ),
   )
 })
 
@@ -216,7 +240,10 @@ watch(
 
     const message = extractRequestError(
       value,
-      translate('profile.resumePreview.notifications.loadFailed', 'Unable to load your resume overview.'),
+      translate(
+        'profile.resumePreview.notifications.loadFailed',
+        'Unable to load your resume overview.',
+      ),
     )
     Notify.error(message)
   },
@@ -224,11 +251,16 @@ watch(
 
 function formatDateRange(start?: string | null, end?: string | null) {
   if (!start && !end) {
-    return translate('profile.resumePreview.labels.noDates', 'Dates unavailable')
+    return translate(
+      'profile.resumePreview.labels.noDates',
+      'Dates unavailable',
+    )
   }
 
   const startText = start ? formatDateValue(start, dateFormatter.value, '') : ''
-  const endText = end ? formatDateValue(end, dateFormatter.value, '') : presentLabel.value
+  const endText = end
+    ? formatDateValue(end, dateFormatter.value, '')
+    : presentLabel.value
 
   if (startText && endText) {
     return `${startText} – ${endText}`
@@ -246,12 +278,18 @@ async function handleGenerate() {
     isGenerating.value = true
     await jobApi.resume.generate()
     Notify.success(
-      translate('profile.resumePreview.notifications.generateSuccess', 'Resume export requested successfully.'),
+      translate(
+        'profile.resumePreview.notifications.generateSuccess',
+        'Resume export requested successfully.',
+      ),
     )
   } catch (requestError) {
     const message = extractRequestError(
       requestError,
-      translate('profile.resumePreview.notifications.generateFailed', 'Unable to generate your resume right now.'),
+      translate(
+        'profile.resumePreview.notifications.generateFailed',
+        'Unable to generate your resume right now.',
+      ),
     )
     Notify.error(message)
   } finally {
@@ -265,10 +303,17 @@ async function handleGenerate() {
     <v-row class="g-6">
       <v-col cols="12">
         <AppCard class="mb-4" :loading="isLoading">
-          <div class="d-flex flex-column flex-md-row align-md-center justify-space-between gap-4">
+          <div
+            class="d-flex flex-column flex-md-row align-md-center justify-space-between gap-4"
+          >
             <div>
               <p class="text-overline mb-1 text-medium-emphasis">
-                {{ translate('profile.resumePreview.labels.heading', 'Resume overview') }}
+                {{
+                  translate(
+                    'profile.resumePreview.labels.heading',
+                    'Resume overview',
+                  )
+                }}
               </p>
               <h1 class="text-h5 mb-1">
                 {{ applicantName }}
@@ -276,19 +321,41 @@ async function handleGenerate() {
               <p v-if="applicantTitle" class="text-body-2 text-primary mb-2">
                 {{ applicantTitle }}
               </p>
-              <p v-if="applicantSummary" class="text-body-2 text-medium-emphasis mb-0">
+              <p
+                v-if="applicantSummary"
+                class="text-body-2 text-medium-emphasis mb-0"
+              >
                 {{ applicantSummary }}
               </p>
               <p v-else class="text-body-2 text-medium-emphasis mb-0">
-                {{ translate('profile.resumePreview.labels.summaryFallback', 'Keep building your profile to showcase it here.') }}
+                {{
+                  translate(
+                    'profile.resumePreview.labels.summaryFallback',
+                    'Keep building your profile to showcase it here.',
+                  )
+                }}
               </p>
             </div>
             <div class="d-flex flex-column flex-sm-row gap-3 justify-end">
               <AppButton variant="tonal" @click="refresh">
-                {{ translate('profile.resumePreview.actions.refresh', 'Refresh data') }}
+                {{
+                  translate(
+                    'profile.resumePreview.actions.refresh',
+                    'Refresh data',
+                  )
+                }}
               </AppButton>
-              <AppButton color="primary" :loading="isGenerating" @click="handleGenerate">
-                {{ translate('profile.resumePreview.actions.generate', 'Generate PDF') }}
+              <AppButton
+                color="primary"
+                :loading="isGenerating"
+                @click="handleGenerate"
+              >
+                {{
+                  translate(
+                    'profile.resumePreview.actions.generate',
+                    'Generate PDF',
+                  )
+                }}
               </AppButton>
             </div>
           </div>
@@ -299,7 +366,12 @@ async function handleGenerate() {
       </v-col>
 
       <v-col cols="12">
-        <AppCard :title="translate('profile.resumePreview.sections.experience', 'Experience')" :loading="isLoading">
+        <AppCard
+          :title="
+            translate('profile.resumePreview.sections.experience', 'Experience')
+          "
+          :loading="isLoading"
+        >
           <div v-if="experienceItems.length" class="d-flex flex-column gap-4">
             <div v-for="experience in experienceItems" :key="experience.id">
               <div class="d-flex justify-space-between flex-wrap gap-2">
@@ -307,10 +379,15 @@ async function handleGenerate() {
                   {{ experience.title }}
                 </h3>
                 <p class="text-body-2 text-medium-emphasis mb-0">
-                  {{ formatDateRange(experience.startedAt, experience.endedAt) }}
+                  {{
+                    formatDateRange(experience.startedAt, experience.endedAt)
+                  }}
                 </p>
               </div>
-              <p v-if="experience.company" class="text-body-2 text-primary mb-1">
+              <p
+                v-if="experience.company"
+                class="text-body-2 text-primary mb-1"
+              >
                 {{ experience.company }}
               </p>
               <p v-if="experience.description" class="text-body-2 mb-0">
@@ -319,11 +396,22 @@ async function handleGenerate() {
             </div>
           </div>
           <p v-else class="text-medium-emphasis mb-0">
-            {{ translate('profile.resumePreview.empty.experience', 'Add your experience to show your journey.') }}
+            {{
+              translate(
+                'profile.resumePreview.empty.experience',
+                'Add your experience to show your journey.',
+              )
+            }}
           </p>
         </AppCard>
 
-        <AppCard class="mt-6" :title="translate('profile.resumePreview.sections.education', 'Education')" :loading="isLoading">
+        <AppCard
+          class="mt-6"
+          :title="
+            translate('profile.resumePreview.sections.education', 'Education')
+          "
+          :loading="isLoading"
+        >
           <div v-if="educationItems.length" class="d-flex flex-column gap-4">
             <div v-for="education in educationItems" :key="education.id">
               <div class="d-flex justify-space-between flex-wrap gap-2">
@@ -343,11 +431,22 @@ async function handleGenerate() {
             </div>
           </div>
           <p v-else class="text-medium-emphasis mb-0">
-            {{ translate('profile.resumePreview.empty.education', 'No education records yet.') }}
+            {{
+              translate(
+                'profile.resumePreview.empty.education',
+                'No education records yet.',
+              )
+            }}
           </p>
         </AppCard>
 
-        <AppCard class="mt-6" :title="translate('profile.resumePreview.sections.projects', 'Projects')" :loading="isLoading">
+        <AppCard
+          class="mt-6"
+          :title="
+            translate('profile.resumePreview.sections.projects', 'Projects')
+          "
+          :loading="isLoading"
+        >
           <div v-if="projectItems.length" class="d-flex flex-column gap-4">
             <div v-for="project in projectItems" :key="project.id">
               <div class="d-flex justify-space-between flex-wrap gap-2">
@@ -361,7 +460,12 @@ async function handleGenerate() {
                   rel="noopener"
                   class="text-primary text-body-2"
                 >
-                  {{ translate('profile.resumePreview.actions.viewProject', 'View project') }}
+                  {{
+                    translate(
+                      'profile.resumePreview.actions.viewProject',
+                      'View project',
+                    )
+                  }}
                 </a>
               </div>
               <p v-if="project.description" class="text-body-2 mb-0">
@@ -370,11 +474,22 @@ async function handleGenerate() {
             </div>
           </div>
           <p v-else class="text-medium-emphasis mb-0">
-            {{ translate('profile.resumePreview.empty.projects', 'No projects added yet.') }}
+            {{
+              translate(
+                'profile.resumePreview.empty.projects',
+                'No projects added yet.',
+              )
+            }}
           </p>
         </AppCard>
 
-        <AppCard class="mt-6" :title="translate('profile.resumePreview.sections.references', 'References')" :loading="isLoading">
+        <AppCard
+          class="mt-6"
+          :title="
+            translate('profile.resumePreview.sections.references', 'References')
+          "
+          :loading="isLoading"
+        >
           <div v-if="referenceItems.length" class="d-flex flex-column gap-4">
             <div v-for="reference in referenceItems" :key="reference.id">
               <div class="d-flex justify-space-between flex-wrap gap-2">
@@ -394,7 +509,12 @@ async function handleGenerate() {
             </div>
           </div>
           <p v-else class="text-medium-emphasis mb-0">
-            {{ translate('profile.resumePreview.empty.references', 'Add references to highlight your collaborations.') }}
+            {{
+              translate(
+                'profile.resumePreview.empty.references',
+                'Add references to highlight your collaborations.',
+              )
+            }}
           </p>
         </AppCard>
       </v-col>
@@ -402,7 +522,12 @@ async function handleGenerate() {
 
     <teleport to="#app-drawer-right">
       <div class="resume-preview__drawer">
-        <AppCard :title="translate('profile.resumePreview.sections.contact', 'Contact')" :loading="isLoading">
+        <AppCard
+          :title="
+            translate('profile.resumePreview.sections.contact', 'Contact')
+          "
+          :loading="isLoading"
+        >
           <div class="d-flex flex-column gap-2">
             <p v-if="applicantEmail" class="text-body-2 mb-0">
               <v-icon icon="mdi-email" size="18" class="me-2" />
@@ -416,27 +541,56 @@ async function handleGenerate() {
               <v-icon icon="mdi-map-marker" size="18" class="me-2" />
               {{ applicantLocation }}
             </p>
-            <p v-if="!applicantEmail && !applicantPhone && !applicantLocation" class="text-medium-emphasis mb-0">
-              {{ translate('profile.resumePreview.empty.contact', 'No contact details yet.') }}
+            <p
+              v-if="!applicantEmail && !applicantPhone && !applicantLocation"
+              class="text-medium-emphasis mb-0"
+            >
+              {{
+                translate(
+                  'profile.resumePreview.empty.contact',
+                  'No contact details yet.',
+                )
+              }}
             </p>
           </div>
         </AppCard>
 
-        <AppCard :title="translate('profile.resumePreview.sections.skills', 'Skills')" :loading="isLoading">
+        <AppCard
+          :title="translate('profile.resumePreview.sections.skills', 'Skills')"
+          :loading="isLoading"
+        >
           <div v-if="skillItems.length" class="d-flex flex-wrap gap-2">
-            <v-chip v-for="skill in skillItems" :key="skill.id" color="primary" variant="tonal">
+            <v-chip
+              v-for="skill in skillItems"
+              :key="skill.id"
+              color="primary"
+              variant="tonal"
+            >
               {{ skill.name }}
-              <span v-if="skill.type" class="text-caption text-medium-emphasis ms-1">
+              <span
+                v-if="skill.type"
+                class="text-caption text-medium-emphasis ms-1"
+              >
                 ({{ skill.type }})
               </span>
             </v-chip>
           </div>
           <p v-else class="text-medium-emphasis mb-0">
-            {{ translate('profile.resumePreview.empty.skills', 'No skills added yet.') }}
+            {{
+              translate(
+                'profile.resumePreview.empty.skills',
+                'No skills added yet.',
+              )
+            }}
           </p>
         </AppCard>
 
-        <AppCard :title="translate('profile.resumePreview.sections.languages', 'Languages')" :loading="isLoading">
+        <AppCard
+          :title="
+            translate('profile.resumePreview.sections.languages', 'Languages')
+          "
+          :loading="isLoading"
+        >
           <div v-if="languageItems.length" class="d-flex flex-column gap-3">
             <div v-for="language in languageItems" :key="language.id">
               <div class="d-flex justify-space-between text-body-2 mb-1">
@@ -444,7 +598,9 @@ async function handleGenerate() {
                 <span>{{ language.level }}</span>
               </div>
               <v-progress-linear
-                :model-value="Math.min(Math.max(language.level ?? 0, 0), 10) * 10"
+                :model-value="
+                  Math.min(Math.max(language.level ?? 0, 0), 10) * 10
+                "
                 color="primary"
                 height="6"
                 rounded
@@ -452,19 +608,39 @@ async function handleGenerate() {
             </div>
           </div>
           <p v-else class="text-medium-emphasis mb-0">
-            {{ translate('profile.resumePreview.empty.languages', 'No languages specified yet.') }}
+            {{
+              translate(
+                'profile.resumePreview.empty.languages',
+                'No languages specified yet.',
+              )
+            }}
           </p>
         </AppCard>
 
-        <AppCard :title="translate('profile.resumePreview.sections.hobbies', 'Hobbies')" :loading="isLoading">
+        <AppCard
+          :title="
+            translate('profile.resumePreview.sections.hobbies', 'Hobbies')
+          "
+          :loading="isLoading"
+        >
           <div v-if="hobbyItems.length" class="d-flex flex-wrap gap-2">
             <v-chip v-for="hobby in hobbyItems" :key="hobby.id" variant="tonal">
-              <v-icon v-if="hobby.icon" :icon="hobby.icon" size="16" class="me-1" />
+              <v-icon
+                v-if="hobby.icon"
+                :icon="hobby.icon"
+                size="16"
+                class="me-1"
+              />
               {{ hobby.name }}
             </v-chip>
           </div>
           <p v-else class="text-medium-emphasis mb-0">
-            {{ translate('profile.resumePreview.empty.hobbies', 'Share your interests to personalize your resume.') }}
+            {{
+              translate(
+                'profile.resumePreview.empty.hobbies',
+                'Share your interests to personalize your resume.',
+              )
+            }}
           </p>
         </AppCard>
       </div>

@@ -22,7 +22,9 @@ interface ApplicantRecord {
   updatedAt?: string | null
 }
 
-type ApplicantCollectionResponse = ApplicantRecord[] | { data?: ApplicantRecord[] }
+type ApplicantCollectionResponse =
+  | ApplicantRecord[]
+  | { data?: ApplicantRecord[] }
 
 type DialogMode = 'create' | 'edit'
 
@@ -119,7 +121,9 @@ const applicantStats = computed(() => {
     return applicant.resume.trim().length > 0
   }).length
   const contactable = applicants.value.filter(
-    (applicant) => typeof applicant.contactEmail === 'string' && applicant.contactEmail.trim().length > 0,
+    (applicant) =>
+      typeof applicant.contactEmail === 'string' &&
+      applicant.contactEmail.trim().length > 0,
   ).length
 
   return { total, withResume, contactable }
@@ -133,7 +137,10 @@ const loadErrorMessage = computed(() => {
 
   return extractRequestError(
     error.value,
-    translate('profile.applicants.notifications.loadFailed', 'Unable to load your applicants.'),
+    translate(
+      'profile.applicants.notifications.loadFailed',
+      'Unable to load your applicants.',
+    ),
   )
 })
 
@@ -146,7 +153,10 @@ watch(
 
     const message = extractRequestError(
       value,
-      translate('profile.applicants.notifications.loadFailed', 'Unable to load your applicants.'),
+      translate(
+        'profile.applicants.notifications.loadFailed',
+        'Unable to load your applicants.',
+      ),
     )
     Notify.error(message)
   },
@@ -209,7 +219,7 @@ async function saveApplicant() {
   payload.set('contactEmail', form.contactEmail)
   payload.set('phone', form.phone)
 
-  const file = Array.isArray(form.file) ? form.file[0] ?? null : form.file
+  const file = Array.isArray(form.file) ? (form.file[0] ?? null) : form.file
   if (file) {
     payload.set('file', file, file.name)
   }
@@ -220,12 +230,18 @@ async function saveApplicant() {
     if (dialog.mode === 'edit' && selectedApplicant.value) {
       await jobApi.currentApplicant.update(selectedApplicant.value.id, payload)
       Notify.success(
-        translate('profile.applicants.notifications.updateSuccess', 'Applicant updated successfully.'),
+        translate(
+          'profile.applicants.notifications.updateSuccess',
+          'Applicant updated successfully.',
+        ),
       )
     } else {
       await jobApi.currentApplicant.create(payload)
       Notify.success(
-        translate('profile.applicants.notifications.createSuccess', 'Applicant created successfully.'),
+        translate(
+          'profile.applicants.notifications.createSuccess',
+          'Applicant created successfully.',
+        ),
       )
     }
 
@@ -235,7 +251,10 @@ async function saveApplicant() {
   } catch (requestError) {
     formError.value = extractRequestError(
       requestError,
-      translate('profile.applicants.notifications.saveFailed', 'Unable to save this applicant.'),
+      translate(
+        'profile.applicants.notifications.saveFailed',
+        'Unable to save this applicant.',
+      ),
     )
   } finally {
     isSaving.value = false
@@ -251,7 +270,12 @@ async function saveApplicant() {
       :loading="isLoading"
     >
       <template #append>
-        <AppButton size="small" variant="tonal" color="primary" @click="openCreateDialog">
+        <AppButton
+          size="small"
+          variant="tonal"
+          color="primary"
+          @click="openCreateDialog"
+        >
           {{ translate('profile.applicants.actions.create', 'Add applicant') }}
         </AppButton>
       </template>
@@ -263,7 +287,12 @@ async function saveApplicant() {
       <div v-else-if="!hasApplicants" class="profile-applicants__empty">
         <v-icon icon="mdi-account-search" size="40" class="mb-3" />
         <p class="text-body-2 text-medium-emphasis mb-4">
-          {{ translate('profile.applicants.empty', 'You have not created any applicants yet.') }}
+          {{
+            translate(
+              'profile.applicants.empty',
+              'You have not created any applicants yet.',
+            )
+          }}
         </p>
         <AppButton color="primary" variant="tonal" @click="openCreateDialog">
           {{ translate('profile.applicants.actions.create', 'Add applicant') }}
@@ -313,23 +342,33 @@ async function saveApplicant() {
             </p>
             <p v-if="applicant.resume" class="text-body-2 mb-1">
               <v-icon icon="mdi-paperclip" size="16" class="me-2" />
-              {{ translate('profile.applicants.labels.resumeUploaded', 'Resume uploaded') }}
+              {{
+                translate(
+                  'profile.applicants.labels.resumeUploaded',
+                  'Resume uploaded',
+                )
+              }}
             </p>
           </div>
 
           <div class="profile-applicants__item-footer">
             <p class="text-caption text-medium-emphasis mb-0">
-                  <span v-if="formatDate(applicant.updatedAt)">
-                    {{ translate('profile.applicants.labels.updated', 'Updated') }}:
-                    {{ formatDate(applicant.updatedAt) }}
-                  </span>
+              <span v-if="formatDate(applicant.updatedAt)">
+                {{ translate('profile.applicants.labels.updated', 'Updated') }}:
+                {{ formatDate(applicant.updatedAt) }}
+              </span>
               <span v-else-if="formatDate(applicant.createdAt)">
-                    {{ translate('profile.applicants.labels.created', 'Created') }}:
-                    {{ formatDate(applicant.createdAt) }}
-                  </span>
+                {{ translate('profile.applicants.labels.created', 'Created') }}:
+                {{ formatDate(applicant.createdAt) }}
+              </span>
               <span v-else>
-                    {{ translate('profile.applicants.labels.noDates', 'No timeline available') }}
-                  </span>
+                {{
+                  translate(
+                    'profile.applicants.labels.noDates',
+                    'No timeline available',
+                  )
+                }}
+              </span>
             </p>
             <div class="profile-applicants__item-actions">
               <AppButton
@@ -374,7 +413,9 @@ async function saveApplicant() {
         </p>
         <div class="profile-applicants__hero-actions">
           <AppButton color="primary" @click="openCreateDialog">
-            {{ translate('profile.applicants.actions.create', 'Add applicant') }}
+            {{
+              translate('profile.applicants.actions.create', 'Add applicant')
+            }}
           </AppButton>
           <AppButton variant="text" @click="refresh">
             {{ translate('profile.applicants.actions.refresh', 'Refresh') }}
@@ -382,7 +423,9 @@ async function saveApplicant() {
         </div>
       </div>
       <div class="profile-applicants__stats">
-        <div class="profile-applicants__stat d-flex inline-flex-column justify-center">
+        <div
+          class="profile-applicants__stat d-flex inline-flex-column justify-center"
+        >
           <p class="text-overline text-medium-emphasis mb-1">
             {{ translate('profile.applicants.stats.total', 'Total') }}
           </p>
@@ -392,7 +435,9 @@ async function saveApplicant() {
         </div>
         <div class="profile-applicants__stat">
           <p class="text-overline text-medium-emphasis mb-1">
-            {{ translate('profile.applicants.stats.contactable', 'Contact ready') }}
+            {{
+              translate('profile.applicants.stats.contactable', 'Contact ready')
+            }}
           </p>
           <p class="profile-applicants__stat-value">
             {{ applicantStats.contactable }}
@@ -400,7 +445,9 @@ async function saveApplicant() {
         </div>
         <div class="profile-applicants__stat">
           <p class="text-overline text-medium-emphasis mb-1">
-            {{ translate('profile.applicants.stats.withResume', 'With resume') }}
+            {{
+              translate('profile.applicants.stats.withResume', 'With resume')
+            }}
           </p>
           <p class="profile-applicants__stat-value">
             {{ applicantStats.withResume }}
@@ -413,7 +460,10 @@ async function saveApplicant() {
         :title="
           dialog.mode === 'edit'
             ? translate('profile.applicants.dialog.editTitle', 'Edit applicant')
-            : translate('profile.applicants.dialog.createTitle', 'Create applicant')
+            : translate(
+                'profile.applicants.dialog.createTitle',
+                'Create applicant',
+              )
         "
       >
         <v-form @submit.prevent="saveApplicant">
@@ -421,7 +471,9 @@ async function saveApplicant() {
             <v-col cols="12" md="6">
               <v-text-field
                 v-model="form.firstName"
-                :label="translate('profile.applicants.form.firstName', 'First name')"
+                :label="
+                  translate('profile.applicants.form.firstName', 'First name')
+                "
                 hide-details="auto"
                 required
               />
@@ -429,7 +481,9 @@ async function saveApplicant() {
             <v-col cols="12" md="6">
               <v-text-field
                 v-model="form.lastName"
-                :label="translate('profile.applicants.form.lastName', 'Last name')"
+                :label="
+                  translate('profile.applicants.form.lastName', 'Last name')
+                "
                 hide-details="auto"
                 required
               />
@@ -437,7 +491,12 @@ async function saveApplicant() {
             <v-col cols="12">
               <v-text-field
                 v-model="form.contactEmail"
-                :label="translate('profile.applicants.form.contactEmail', 'Contact email')"
+                :label="
+                  translate(
+                    'profile.applicants.form.contactEmail',
+                    'Contact email',
+                  )
+                "
                 type="email"
                 hide-details="auto"
                 required
@@ -446,7 +505,9 @@ async function saveApplicant() {
             <v-col cols="12">
               <v-text-field
                 v-model="form.phone"
-                :label="translate('profile.applicants.form.phone', 'Phone number')"
+                :label="
+                  translate('profile.applicants.form.phone', 'Phone number')
+                "
                 hide-details="auto"
               />
             </v-col>
@@ -455,7 +516,9 @@ async function saveApplicant() {
                 v-model="form.file"
                 accept="application/pdf,.doc,.docx,.png,.jpg,.jpeg"
                 prepend-icon="mdi-paperclip"
-                :label="translate('profile.applicants.form.file', 'Resume (optional)')"
+                :label="
+                  translate('profile.applicants.form.file', 'Resume (optional)')
+                "
                 hide-details="auto"
               />
             </v-col>
@@ -470,9 +533,13 @@ async function saveApplicant() {
               {{ translate('common.cancel', 'Cancel') }}
             </AppButton>
             <AppButton color="primary" type="submit" :loading="isSaving">
-              {{ dialog.mode === 'edit'
-                ? translate('profile.applicants.actions.save', 'Save changes')
-                : translate('profile.applicants.actions.createConfirm', 'Create applicant')
+              {{
+                dialog.mode === 'edit'
+                  ? translate('profile.applicants.actions.save', 'Save changes')
+                  : translate(
+                      'profile.applicants.actions.createConfirm',
+                      'Create applicant',
+                    )
               }}
             </AppButton>
           </div>

@@ -74,11 +74,15 @@ function resolveAcceptLanguage(
   headers?: FetchOptions<'json'>['headers'],
 ): string {
   if (headers instanceof Headers) {
-    return headers.get('accept-language') || getEcommerceAcceptLanguage(event) || ''
+    return (
+      headers.get('accept-language') || getEcommerceAcceptLanguage(event) || ''
+    )
   }
 
   if (Array.isArray(headers)) {
-    const header = headers.find(([key]) => String(key).toLowerCase() === 'accept-language')
+    const header = headers.find(
+      ([key]) => String(key).toLowerCase() === 'accept-language',
+    )
     if (header) {
       return String(header[1])
     }
@@ -87,16 +91,25 @@ function resolveAcceptLanguage(
 
   if (headers && typeof headers === 'object') {
     const normalizedHeaders = headers as Record<string, unknown>
-    const rawValue = normalizedHeaders['Accept-Language'] ?? normalizedHeaders['accept-language']
+    const rawValue =
+      normalizedHeaders['Accept-Language'] ??
+      normalizedHeaders['accept-language']
     if (typeof rawValue === 'string') {
       return rawValue
     }
   }
 
-  return getEcommerceAcceptLanguage(event) || getHeader(event, 'accept-language') || ''
+  return (
+    getEcommerceAcceptLanguage(event) ||
+    getHeader(event, 'accept-language') ||
+    ''
+  )
 }
 
-function createHydrationContext(event: H3Event, options: HydrationOptions): HydrationContext {
+function createHydrationContext(
+  event: H3Event,
+  options: HydrationOptions,
+): HydrationContext {
   const acceptLanguage = resolveAcceptLanguage(event, options.headers)
   return {
     event,
@@ -114,7 +127,9 @@ async function hydrateArray(
   value: unknown[],
   depth: number,
 ): Promise<unknown[]> {
-  return await Promise.all(value.map((entry) => hydrateValue(context, entry, depth)))
+  return await Promise.all(
+    value.map((entry) => hydrateValue(context, entry, depth)),
+  )
 }
 
 async function hydrateRecord(
@@ -136,7 +151,11 @@ async function hydrateRecord(
 }
 
 async function loadLinkedResource(context: HydrationContext, path: string) {
-  const cached = await getCachedLinkedResource(context.event, path, context.acceptLanguage)
+  const cached = await getCachedLinkedResource(
+    context.event,
+    path,
+    context.acceptLanguage,
+  )
   if (cached !== null) {
     return cached
   }
@@ -148,13 +167,21 @@ async function loadLinkedResource(context: HydrationContext, path: string) {
         const result = await broWorldEcommerceRawRequest(context.event, path, {
           headers: context.headers,
         })
-        await setCachedLinkedResource(context.event, path, context.acceptLanguage, result)
+        await setCachedLinkedResource(
+          context.event,
+          path,
+          context.acceptLanguage,
+          result,
+        )
         return result
       } finally {
         context.pending.delete(path)
       }
     })().catch((error) => {
-      console.error(`[ecommerce] unable to hydrate linked resource ${path}`, error)
+      console.error(
+        `[ecommerce] unable to hydrate linked resource ${path}`,
+        error,
+      )
       throw error
     })
 
@@ -193,7 +220,11 @@ async function hydrateLinkedValue(
   }
 }
 
-async function hydrateValue(context: HydrationContext, value: unknown, depth: number): Promise<unknown> {
+async function hydrateValue(
+  context: HydrationContext,
+  value: unknown,
+  depth: number,
+): Promise<unknown> {
   if (Array.isArray(value)) {
     return await hydrateArray(context, value, depth)
   }

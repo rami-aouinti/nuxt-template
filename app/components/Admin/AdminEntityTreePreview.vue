@@ -43,7 +43,10 @@ withDefaults(
         </template>
       </v-treeview>
     </div>
-    <div v-else class="admin-entity-tree__empty text-body-2 text-medium-emphasis">
+    <div
+      v-else
+      class="admin-entity-tree__empty text-body-2 text-medium-emphasis"
+    >
       {{ emptyText }}
     </div>
   </v-card>

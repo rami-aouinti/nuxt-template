@@ -105,10 +105,13 @@ const hasCompanies = computed(() => companies.value.length > 0)
 const companyStats = computed(() => {
   const total = companies.value.length
   const withContact = companies.value.filter(
-    (company) => typeof company.contactEmail === 'string' && company.contactEmail.trim().length > 0,
+    (company) =>
+      typeof company.contactEmail === 'string' &&
+      company.contactEmail.trim().length > 0,
   ).length
   const withWebsite = companies.value.filter(
-    (company) => typeof company.siteUrl === 'string' && company.siteUrl.trim().length > 0,
+    (company) =>
+      typeof company.siteUrl === 'string' && company.siteUrl.trim().length > 0,
   ).length
 
   return { total, withContact, withWebsite }
@@ -122,7 +125,10 @@ const loadErrorMessage = computed(() => {
 
   return extractRequestError(
     error.value,
-    translate('profile.companies.notifications.loadFailed', 'Unable to load your companies.'),
+    translate(
+      'profile.companies.notifications.loadFailed',
+      'Unable to load your companies.',
+    ),
   )
 })
 
@@ -135,7 +141,10 @@ watch(
 
     const message = extractRequestError(
       value,
-      translate('profile.companies.notifications.loadFailed', 'Unable to load your companies.'),
+      translate(
+        'profile.companies.notifications.loadFailed',
+        'Unable to load your companies.',
+      ),
     )
     Notify.error(message)
   },
@@ -165,7 +174,9 @@ async function submitCompany() {
   payload.set('contactEmail', createForm.contactEmail)
   payload.set('siteUrl', createForm.siteUrl)
 
-  const file = Array.isArray(createForm.file) ? createForm.file[0] ?? null : createForm.file
+  const file = Array.isArray(createForm.file)
+    ? (createForm.file[0] ?? null)
+    : createForm.file
   if (file) {
     payload.set('file', file, file.name)
   }
@@ -174,14 +185,20 @@ async function submitCompany() {
     isSaving.value = true
     await jobApi.companies.create(payload)
     Notify.success(
-      translate('profile.companies.notifications.createSuccess', 'Company created successfully.'),
+      translate(
+        'profile.companies.notifications.createSuccess',
+        'Company created successfully.',
+      ),
     )
     resetForm()
     await refresh()
   } catch (requestError) {
     formError.value = extractRequestError(
       requestError,
-      translate('profile.companies.notifications.saveFailed', 'Unable to create this company.'),
+      translate(
+        'profile.companies.notifications.saveFailed',
+        'Unable to create this company.',
+      ),
     )
   } finally {
     isSaving.value = false
@@ -220,7 +237,12 @@ function scrollToCompanyForm() {
                 }}
               </p>
               <AppButton color="primary" variant="tonal" @click="refresh">
-                {{ translate('profile.companies.actions.refresh', 'Refresh companies') }}
+                {{
+                  translate(
+                    'profile.companies.actions.refresh',
+                    'Refresh companies',
+                  )
+                }}
               </AppButton>
             </div>
             <div class="profile-companies__stats">
@@ -228,19 +250,32 @@ function scrollToCompanyForm() {
                 <p class="text-overline text-medium-emphasis mb-1">
                   {{ translate('profile.companies.stats.total', 'Total') }}
                 </p>
-                <p class="profile-companies__stat-value">{{ companyStats.total }}</p>
+                <p class="profile-companies__stat-value">
+                  {{ companyStats.total }}
+                </p>
               </div>
               <div class="profile-companies__stat">
                 <p class="text-overline text-medium-emphasis mb-1">
-                  {{ translate('profile.companies.stats.contacts', 'Contacts ready') }}
+                  {{
+                    translate(
+                      'profile.companies.stats.contacts',
+                      'Contacts ready',
+                    )
+                  }}
                 </p>
-                <p class="profile-companies__stat-value">{{ companyStats.withContact }}</p>
+                <p class="profile-companies__stat-value">
+                  {{ companyStats.withContact }}
+                </p>
               </div>
               <div class="profile-companies__stat">
                 <p class="text-overline text-medium-emphasis mb-1">
-                  {{ translate('profile.companies.stats.website', 'Sites linked') }}
+                  {{
+                    translate('profile.companies.stats.website', 'Sites linked')
+                  }}
                 </p>
-                <p class="profile-companies__stat-value">{{ companyStats.withWebsite }}</p>
+                <p class="profile-companies__stat-value">
+                  {{ companyStats.withWebsite }}
+                </p>
               </div>
             </div>
           </div>
@@ -253,14 +288,22 @@ function scrollToCompanyForm() {
             <div class="profile-companies__form-header">
               <div>
                 <p class="text-overline text-medium-emphasis mb-1">
-                  {{ translate('profile.companies.form.heading', 'New profile') }}
+                  {{
+                    translate('profile.companies.form.heading', 'New profile')
+                  }}
                 </p>
                 <h2 class="text-h5 mb-0">
-                  {{ translate('profile.companies.form.title', 'Create a company') }}
+                  {{
+                    translate(
+                      'profile.companies.form.title',
+                      'Create a company',
+                    )
+                  }}
                 </h2>
               </div>
               <v-chip color="primary" variant="tonal" size="small">
-                {{ translate('profile.companies.stats.total', 'Total') }}: {{ companyStats.total }}
+                {{ translate('profile.companies.stats.total', 'Total') }}:
+                {{ companyStats.total }}
               </v-chip>
             </div>
           </template>
@@ -274,7 +317,9 @@ function scrollToCompanyForm() {
             />
             <v-textarea
               v-model="createForm.description"
-              :label="translate('profile.companies.form.description', 'Description')"
+              :label="
+                translate('profile.companies.form.description', 'Description')
+              "
               hide-details="auto"
               class="mb-4"
               auto-grow
@@ -287,7 +332,9 @@ function scrollToCompanyForm() {
             />
             <v-text-field
               v-model="createForm.contactEmail"
-              :label="translate('profile.companies.form.email', 'Contact email')"
+              :label="
+                translate('profile.companies.form.email', 'Contact email')
+              "
               type="email"
               hide-details="auto"
               class="mb-4"
@@ -302,7 +349,9 @@ function scrollToCompanyForm() {
               v-model="createForm.file"
               accept="image/*"
               prepend-icon="mdi-image"
-              :label="translate('profile.companies.form.file', 'Logo (optional)')"
+              :label="
+                translate('profile.companies.form.file', 'Logo (optional)')
+              "
               hide-details="auto"
               class="mb-4"
             />
@@ -313,7 +362,9 @@ function scrollToCompanyForm() {
 
             <div class="d-flex justify-end">
               <AppButton color="primary" type="submit" :loading="isSaving">
-                {{ translate('profile.companies.actions.create', 'Save company') }}
+                {{
+                  translate('profile.companies.actions.create', 'Save company')
+                }}
               </AppButton>
             </div>
           </v-form>
@@ -333,10 +384,21 @@ function scrollToCompanyForm() {
           <div v-else-if="!hasCompanies" class="profile-companies__empty">
             <v-icon icon="mdi-domain-plus" size="42" class="mb-3" />
             <p class="text-body-2 text-medium-emphasis mb-4">
-              {{ translate('profile.companies.list.empty', 'You have not created any companies yet.') }}
+              {{
+                translate(
+                  'profile.companies.list.empty',
+                  'You have not created any companies yet.',
+                )
+              }}
             </p>
-            <AppButton color="primary" variant="tonal" @click="scrollToCompanyForm">
-              {{ translate('profile.companies.form.title', 'Create a company') }}
+            <AppButton
+              color="primary"
+              variant="tonal"
+              @click="scrollToCompanyForm"
+            >
+              {{
+                translate('profile.companies.form.title', 'Create a company')
+              }}
             </AppButton>
           </div>
 
@@ -350,14 +412,31 @@ function scrollToCompanyForm() {
               <div class="profile-companies__item-header">
                 <div>
                   <p class="profile-companies__item-name mb-1">
-                    {{ company.name || translate('profile.companies.labels.untitled', 'Untitled company') }}
+                    {{
+                      company.name ||
+                      translate(
+                        'profile.companies.labels.untitled',
+                        'Untitled company',
+                      )
+                    }}
                   </p>
                   <p class="text-caption text-medium-emphasis mb-0">
-                    {{ formatDate(company.updatedAt) || formatDate(company.createdAt) ||
-                      translate('profile.companies.labels.noDates', 'No timeline available') }}
+                    {{
+                      formatDate(company.updatedAt) ||
+                      formatDate(company.createdAt) ||
+                      translate(
+                        'profile.companies.labels.noDates',
+                        'No timeline available',
+                      )
+                    }}
                   </p>
                 </div>
-                <v-chip v-if="company.location" color="primary" size="small" variant="tonal">
+                <v-chip
+                  v-if="company.location"
+                  color="primary"
+                  size="small"
+                  variant="tonal"
+                >
                   <v-icon icon="mdi-map-marker" size="16" class="me-1" />
                   {{ company.location }}
                 </v-chip>
@@ -366,13 +445,21 @@ function scrollToCompanyForm() {
                 {{ company.description }}
               </p>
               <div class="profile-companies__item-body">
-                <div v-if="company.contactEmail" class="profile-companies__item-row">
+                <div
+                  v-if="company.contactEmail"
+                  class="profile-companies__item-row"
+                >
                   <v-icon icon="mdi-email" size="18" class="me-2" />
                   {{ company.contactEmail }}
                 </div>
                 <div v-if="company.siteUrl" class="profile-companies__item-row">
                   <v-icon icon="mdi-link" size="18" class="me-2" />
-                  <a :href="company.siteUrl" target="_blank" rel="noopener" class="text-primary">
+                  <a
+                    :href="company.siteUrl"
+                    target="_blank"
+                    rel="noopener"
+                    class="text-primary"
+                  >
                     {{ company.siteUrl }}
                   </a>
                 </div>
@@ -396,7 +483,9 @@ function scrollToCompanyForm() {
                   target="_blank"
                   rel="noopener"
                 >
-                  {{ translate('profile.companies.actions.visit', 'Visit site') }}
+                  {{
+                    translate('profile.companies.actions.visit', 'Visit site')
+                  }}
                 </AppButton>
               </div>
             </AppCard>

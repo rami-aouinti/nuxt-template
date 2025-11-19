@@ -83,7 +83,10 @@ function normalizeString(value: StringCandidate) {
   return trimmed.length > 0 ? trimmed : null
 }
 
-function resolveFromRecord(record: Record<string, unknown> | null | undefined, keys: string[]) {
+function resolveFromRecord(
+  record: Record<string, unknown> | null | undefined,
+  keys: string[],
+) {
   if (!record) {
     return null
   }
@@ -176,7 +179,9 @@ export async function ensureDefaultProfileConfigurations(
   const existingKeys = new Set(
     existingConfigurations
       .map((configuration) => configuration.configurationKey)
-      .filter((key): key is string => typeof key === 'string' && key.length > 0),
+      .filter(
+        (key): key is string => typeof key === 'string' && key.length > 0,
+      ),
   )
 
   for (const definition of REQUIRED_CONFIGURATION_DEFINITIONS) {
@@ -198,10 +203,14 @@ export async function ensureDefaultProfileConfigurations(
     }
 
     try {
-      await configurationRequest<Configuration>(event, '/platform/configuration', {
-        method: 'POST',
-        body,
-      })
+      await configurationRequest<Configuration>(
+        event,
+        '/platform/configuration',
+        {
+          method: 'POST',
+          body,
+        },
+      )
     } catch (error) {
       console.error(
         `Failed to create missing configuration "${definition.key}"`,

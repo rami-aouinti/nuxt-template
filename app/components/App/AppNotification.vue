@@ -8,7 +8,9 @@ const mercureNotifications = computed(() =>
     (notification) => notification.source === 'mercure',
   ),
 )
-const notificationsShown = computed(() => [...mercureNotifications.value].reverse())
+const notificationsShown = computed(() =>
+  [...mercureNotifications.value].reverse(),
+)
 const menu = ref(false)
 const { loggedIn } = useAppUserSession()
 function deleteNotification(id: number) {
@@ -58,7 +60,7 @@ const notificationCount = computed(() => mercureNotifications.value.length)
         </v-tooltip>
       </template>
       <v-card elevation="6" width="360" class="notification-card">
-        <v-toolbar  style="background-color: transparent" density="comfortable">
+        <v-toolbar style="background-color: transparent" density="comfortable">
           <v-toolbar-title
             class="font-weight-light text-body-1"
             :text="hasNotifications ? 'Notifications' : 'No New Notifications'"

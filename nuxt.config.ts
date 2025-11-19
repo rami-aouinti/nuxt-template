@@ -39,14 +39,12 @@ const normalizeOrigin = (value: string | undefined, fallback: string) => {
 }
 
 const ecommerceOrigin = normalizeOrigin(
-  process.env.NUXT_ECOMMERCE_ORIGIN ||
-    process.env.NUXT_PUBLIC_ECOMMERCE_ORIGIN,
+  process.env.NUXT_ECOMMERCE_ORIGIN || process.env.NUXT_PUBLIC_ECOMMERCE_ORIGIN,
   DEFAULT_ECOMMERCE_ORIGIN,
 )
 
 const ecommerceApiBase =
-  process.env.NUXT_ECOMMERCE_API_BASE_URL?.trim() ||
-  `${ecommerceOrigin}/api/v2`
+  process.env.NUXT_ECOMMERCE_API_BASE_URL?.trim() || `${ecommerceOrigin}/api/v2`
 
 function createOAuthConfig() {
   return { clientId: '', clientSecret: '' }

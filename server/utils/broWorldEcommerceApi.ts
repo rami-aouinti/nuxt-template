@@ -73,11 +73,17 @@ export async function broWorldEcommerceRequest<T>(
   options: FetchOptions<'json'> = {},
 ): Promise<T> {
   const { baseUrl, request } = createEcommerceRequest(event)
-  const response = await fetchEcommerceResponse(event, baseUrl, path, options, () =>
-    request<T>(event, path, options),
+  const response = await fetchEcommerceResponse(
+    event,
+    baseUrl,
+    path,
+    options,
+    () => request<T>(event, path, options),
   )
 
-  return (await hydrateEcommercePayload(event, response, { headers: options.headers })) as T
+  return (await hydrateEcommercePayload(event, response, {
+    headers: options.headers,
+  })) as T
 }
 
 export async function broWorldEcommerceRawRequest<T>(

@@ -221,7 +221,10 @@ const selectFilter = (value: CommentFilterValue) => {
         </AppButton>
       </template>
     </BlogCommentEditor>
-    <div v-if="hasCommentAttachments" class="facebook-post-card__comment-attachments">
+    <div
+      v-if="hasCommentAttachments"
+      class="facebook-post-card__comment-attachments"
+    >
       <v-chip
         size="small"
         variant="tonal"

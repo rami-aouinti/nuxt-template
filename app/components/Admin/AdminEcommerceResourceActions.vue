@@ -229,7 +229,9 @@ function buildPreviewTree(
   ]
 }
 
-function isPrimitive(value: unknown): value is string | number | boolean | null {
+function isPrimitive(
+  value: unknown,
+): value is string | number | boolean | null {
   return (
     value === null ||
     typeof value === 'string' ||
@@ -500,7 +502,7 @@ type TemporalFieldType = Extract<EntityFieldDisplayType, 'date' | 'datetime'>
 
 function detectTemporalType(value: string): TemporalFieldType | null {
   const trimmed = value.trim()
-    if (trimmed.length < 8 || !/[tT:/-]/.test(trimmed)) {
+  if (trimmed.length < 8 || !/[tT:/-]/.test(trimmed)) {
     return null
   }
 
@@ -575,7 +577,10 @@ function buildRelationItemsFromArray(
     .filter((item): item is EntityRelationItem => Boolean(item))
 }
 
-function buildRelationItem(id: string, value: unknown): EntityRelationItem | null {
+function buildRelationItem(
+  id: string,
+  value: unknown,
+): EntityRelationItem | null {
   if (value === null || value === undefined) {
     return null
   }
@@ -892,8 +897,13 @@ async function inspectRelation(item: EntityRelationItem) {
     </template>
   </div>
 
-  <AppModal v-model="dialog" :title="entityTitle || t('admin.ecommerce.entityManager.fields.entity')" :max-width="1040" :scrollable="true" :shadow="true">
-
+  <AppModal
+    v-model="dialog"
+    :title="entityTitle || t('admin.ecommerce.entityManager.fields.entity')"
+    :max-width="1040"
+    :scrollable="true"
+    :shadow="true"
+  >
     <v-card-text class="pt-6">
       <div class="admin-ecommerce-actions__modal-body">
         <v-progress-linear
@@ -925,8 +935,16 @@ async function inspectRelation(item: EntityRelationItem) {
           {{ t('admin.ecommerce.entityManager.notifications.updateSuccess') }}
         </v-alert>
 
-        <div v-if="activeAction === 'delete'" class="admin-ecommerce-actions__delete">
-          <v-icon icon="mdi-alert-outline" color="warning" size="36" class="mb-3" />
+        <div
+          v-if="activeAction === 'delete'"
+          class="admin-ecommerce-actions__delete"
+        >
+          <v-icon
+            icon="mdi-alert-outline"
+            color="warning"
+            size="36"
+            class="mb-3"
+          />
           <p class="text-body-1 font-weight-medium mb-2">
             {{ t('admin.ecommerce.entityManager.dialogs.deleteConfirm') }}
           </p>
@@ -935,7 +953,10 @@ async function inspectRelation(item: EntityRelationItem) {
           </p>
         </div>
 
-        <div v-else-if="activeAction === 'edit'" class="admin-ecommerce-actions__form">
+        <div
+          v-else-if="activeAction === 'edit'"
+          class="admin-ecommerce-actions__form"
+        >
           <p class="text-body-2 text-medium-emphasis mb-4">
             {{ t('admin.ecommerce.entityManager.forms.subtitle') }}
           </p>
@@ -959,7 +980,7 @@ async function inspectRelation(item: EntityRelationItem) {
               >
                 <v-text-field
                   v-if="field.type === 'string'"
-                  v-model="(editForm[field.key] as string | null)"
+                  v-model="editForm[field.key] as string | null"
                   :label="field.label"
                   variant="outlined"
                   density="comfortable"
@@ -967,7 +988,7 @@ async function inspectRelation(item: EntityRelationItem) {
                 />
                 <v-text-field
                   v-else-if="field.type === 'number'"
-                  v-model.number="(editForm[field.key] as number | null)"
+                  v-model.number="editForm[field.key] as number | null"
                   type="number"
                   :label="field.label"
                   variant="outlined"
@@ -976,7 +997,7 @@ async function inspectRelation(item: EntityRelationItem) {
                 />
                 <v-switch
                   v-else-if="field.type === 'boolean'"
-                  v-model="(editForm[field.key] as boolean | null)"
+                  v-model="editForm[field.key] as boolean | null"
                   :label="field.label"
                   color="primary"
                   hide-details
@@ -987,7 +1008,10 @@ async function inspectRelation(item: EntityRelationItem) {
           </v-form>
         </div>
 
-        <div v-else-if="activeAction === 'show'" class="admin-ecommerce-actions__details">
+        <div
+          v-else-if="activeAction === 'show'"
+          class="admin-ecommerce-actions__details"
+        >
           <section class="admin-ecommerce-actions__summary">
             <header>
               <p class="text-caption text-medium-emphasis mb-1">
@@ -995,7 +1019,10 @@ async function inspectRelation(item: EntityRelationItem) {
               </p>
               <p class="text-h6 mb-0">{{ entityTitle }}</p>
             </header>
-            <div v-if="entityFields.length" class="admin-ecommerce-actions__details-grid">
+            <div
+              v-if="entityFields.length"
+              class="admin-ecommerce-actions__details-grid"
+            >
               <div
                 v-for="field in entityFields"
                 :key="field.key"
@@ -1015,12 +1042,18 @@ async function inspectRelation(item: EntityRelationItem) {
                       >
                         <v-icon
                           start
-                          :icon="field.value ? 'mdi-check-circle' : 'mdi-close-circle'"
+                          :icon="
+                            field.value
+                              ? 'mdi-check-circle'
+                              : 'mdi-close-circle'
+                          "
                         />
                         {{ formatDisplayValue(field) }}
                       </v-chip>
                     </template>
-                    <template v-else-if="field.displayType === 'link' && field.endpoint">
+                    <template
+                      v-else-if="field.displayType === 'link' && field.endpoint"
+                    >
                       <div class="admin-ecommerce-actions__details-link">
                         <v-btn
                           :href="field.endpoint"
@@ -1031,7 +1064,9 @@ async function inspectRelation(item: EntityRelationItem) {
                           variant="tonal"
                           append-icon="mdi-open-in-new"
                         >
-                          {{ t('admin.ecommerce.entityManager.table.endpoint') }}
+                          {{
+                            t('admin.ecommerce.entityManager.table.endpoint')
+                          }}
                         </v-btn>
                         <span class="admin-ecommerce-actions__details-endpoint">
                           {{ field.endpoint }}
@@ -1064,14 +1099,18 @@ async function inspectRelation(item: EntityRelationItem) {
                   {{ t('admin.ecommerce.entityManager.relations.title') }}
                 </p>
                 <p class="text-body-2 text-medium-emphasis mb-0">
-                  {{ hasRelations
-                  ? t('admin.ecommerce.entityManager.relations.subtitle')
-                  : t('admin.ecommerce.entityManager.relations.empty')
+                  {{
+                    hasRelations
+                      ? t('admin.ecommerce.entityManager.relations.subtitle')
+                      : t('admin.ecommerce.entityManager.relations.empty')
                   }}
                 </p>
               </div>
             </header>
-            <div v-if="hasRelations" class="admin-ecommerce-actions__relations-content">
+            <div
+              v-if="hasRelations"
+              class="admin-ecommerce-actions__relations-content"
+            >
               <div
                 v-for="group in entityRelations"
                 :key="group.title"
@@ -1164,14 +1203,20 @@ async function inspectRelation(item: EntityRelationItem) {
             {{ t('admin.ecommerce.entityManager.actions.load') }}
           </p>
           <h3 class="text-h5 mb-1">{{ relationDialogTitle }}</h3>
-          <p v-if="relationDialogSubtitle" class="text-body-2 text-medium-emphasis">
+          <p
+            v-if="relationDialogSubtitle"
+            class="text-body-2 text-medium-emphasis"
+          >
             {{ relationDialogSubtitle }}
           </p>
           <p v-if="relationHelperText" class="text-body-2 text-medium-emphasis">
             {{ relationHelperText }}
           </p>
         </div>
-        <div v-if="relationDialogEndpoint" class="admin-ecommerce-actions__endpoint">
+        <div
+          v-if="relationDialogEndpoint"
+          class="admin-ecommerce-actions__endpoint"
+        >
           <span class="text-caption text-medium-emphasis">
             {{ t('admin.ecommerce.entityManager.table.endpoint') }}
           </span>
@@ -1292,7 +1337,8 @@ async function inspectRelation(item: EntityRelationItem) {
   padding: 16px 20px;
   border-radius: 18px;
   border: 1px solid rgba(var(--v-border-color), 0.24);
-  background: linear-gradient(
+  background:
+    linear-gradient(
       145deg,
       rgba(var(--v-theme-surface), 0.92),
       rgba(var(--v-theme-surface-variant), 0.6)
@@ -1387,5 +1433,4 @@ async function inspectRelation(item: EntityRelationItem) {
   border-radius: 16px;
   background: rgba(var(--v-theme-warning), 0.1);
 }
-
 </style>

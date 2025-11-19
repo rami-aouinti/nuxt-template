@@ -18,7 +18,8 @@ function resolveErrorMessage(error: unknown) {
     error &&
     typeof error === 'object' &&
     'data' in error &&
-    typeof (error as { data?: Record<string, unknown> }).data?.message === 'string'
+    typeof (error as { data?: Record<string, unknown> }).data?.message ===
+      'string'
   ) {
     return String((error as { data?: { message?: string } }).data?.message)
   }

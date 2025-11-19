@@ -817,8 +817,8 @@ async function submit() {
                 />
               </div>
             </v-col>
-            <v-col class="px-4">
-              <div class="text-h6 font-weight-medium">
+            <v-col class="px-2">
+              <div class="text-h7 font-weight-medium">
                 {{ displayName }}
               </div>
               <div class="text-body-2 text-medium-emphasis">
@@ -831,25 +831,84 @@ async function submit() {
                 {{ profile.title }}
               </div>
             </v-col>
+            <v-col class="text-end">
+              <AppButton
+                color="primary"
+                variant="text"
+                size="small"
+                prepend-icon="mdi-pencil"
+                :disabled="isSaving"
+                @click="openEditDialog('personal')"
+              />
+            </v-col>
           </v-row>
 
           <v-divider class="my-4" />
-
+          <div class="d-flex justify-end">
+            <AppButton
+              color="primary"
+              variant="text"
+              size="small"
+              prepend-icon="mdi-pencil"
+              :disabled="isSaving"
+              @click="openEditDialog('details')"
+            />
+          </div>
           <div class="d-flex flex-column" style="row-gap: 12px">
-            <div>
-              <div class="text-caption text-medium-emphasis">
-                {{ t('profile.fields.userId') }}
-              </div>
-              <div class="text-subtitle-2 font-weight-medium">
-                {{ profile.id }}
-              </div>
-            </div>
             <div>
               <div class="text-caption text-medium-emphasis">
                 {{ t('userManagement.users.fields.email') }}
               </div>
               <div class="text-subtitle-2 font-weight-medium">
                 {{ profile.email }}
+              </div>
+            </div>
+            <div>
+              <div class="text-caption text-medium-emphasis">
+                {{ t('profile.fields.title') }}
+              </div>
+              <div class="text-subtitle-2 font-weight-medium">
+                {{ profile.title || '—' }}
+              </div>
+            </div>
+            <div>
+              <div class="text-caption text-medium-emphasis">
+                {{ t('profile.fields.gender') }}
+              </div>
+              <div class="text-subtitle-2 font-weight-medium">
+                {{ profile.gender || '—' }}
+              </div>
+            </div>
+            <div>
+              <div class="text-caption text-medium-emphasis">
+                {{ t('profile.fields.phone') }}
+              </div>
+              <div class="text-subtitle-2 font-weight-medium">
+                {{ profile.phone || '—' }}
+              </div>
+            </div>
+            <div>
+              <div class="text-caption text-medium-emphasis">
+                {{ t('profile.fields.address') }}
+              </div>
+              <div class="text-subtitle-2 font-weight-medium">
+                {{ profile.address || '—' }}
+              </div>
+            </div>
+            <div>
+              <div class="text-caption text-medium-emphasis">
+                {{ t('profile.fields.birthday') }}
+              </div>
+              <div class="text-subtitle-2 font-weight-medium">
+                {{ formattedBirthday || '—' }}
+              </div>
+            </div>
+            <div>
+              <div class="text-caption text-medium-emphasis">
+                {{ t('profile.fields.description') }}
+              </div>
+              <div class="text-body-2">
+                {{ profile.description || '—' }}
               </div>
             </div>
           </div>
@@ -981,132 +1040,6 @@ async function submit() {
           <v-row>
             <v-col cols="12">
               <AppCard elevation="2" rounded="xl" variant="text">
-                <v-card-title class="d-flex align-center gap-4">
-                  <span>{{ t('profile.sections.personalInfo.title') }}</span>
-                  <v-spacer />
-                  <AppButton
-                    color="primary"
-                    variant="text"
-                    prepend-icon="mdi-pencil"
-                    :disabled="isSaving"
-                    @click="openEditDialog('personal')"
-                  >
-                    {{ t('common.actions.edit') }}
-                  </AppButton>
-                </v-card-title>
-                <v-divider />
-                <v-card-text>
-                  <v-row>
-                    <v-col cols="12" sm="6">
-                      <div class="text-caption text-medium-emphasis">
-                        {{ t('userManagement.users.fields.firstName') }}
-                      </div>
-                      <div class="text-subtitle-2 font-weight-medium">
-                        {{ profile.firstName || '—' }}
-                      </div>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <div class="text-caption text-medium-emphasis">
-                        {{ t('userManagement.users.fields.lastName') }}
-                      </div>
-                      <div class="text-subtitle-2 font-weight-medium">
-                        {{ profile.lastName || '—' }}
-                      </div>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <div class="text-caption text-medium-emphasis">
-                        {{ t('userManagement.users.fields.username') }}
-                      </div>
-                      <div class="text-subtitle-2 font-weight-medium">
-                        {{ profile.username }}
-                      </div>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <div class="text-caption text-medium-emphasis">
-                        {{ t('userManagement.users.fields.email') }}
-                      </div>
-                      <div class="text-subtitle-2 font-weight-medium">
-                        {{ profile.email }}
-                      </div>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-              </AppCard>
-            </v-col>
-
-            <v-col cols="12">
-              <AppCard elevation="2" rounded="xl" variant="text">
-                <v-card-title class="d-flex align-center gap-4">
-                  <span>{{ t('profile.sections.details.title') }}</span>
-                  <v-spacer />
-                  <AppButton
-                    color="primary"
-                    variant="text"
-                    prepend-icon="mdi-pencil"
-                    :disabled="isSaving"
-                    @click="openEditDialog('details')"
-                  >
-                    {{ t('common.actions.edit') }}
-                  </AppButton>
-                </v-card-title>
-                <v-divider />
-                <v-card-text>
-                  <v-row>
-                    <v-col cols="12" sm="6">
-                      <div class="text-caption text-medium-emphasis">
-                        {{ t('profile.fields.title') }}
-                      </div>
-                      <div class="text-subtitle-2 font-weight-medium">
-                        {{ profile.title || '—' }}
-                      </div>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <div class="text-caption text-medium-emphasis">
-                        {{ t('profile.fields.gender') }}
-                      </div>
-                      <div class="text-subtitle-2 font-weight-medium">
-                        {{ profile.gender || '—' }}
-                      </div>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <div class="text-caption text-medium-emphasis">
-                        {{ t('profile.fields.phone') }}
-                      </div>
-                      <div class="text-subtitle-2 font-weight-medium">
-                        {{ profile.phone || '—' }}
-                      </div>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <div class="text-caption text-medium-emphasis">
-                        {{ t('profile.fields.address') }}
-                      </div>
-                      <div class="text-subtitle-2 font-weight-medium">
-                        {{ profile.address || '—' }}
-                      </div>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <div class="text-caption text-medium-emphasis">
-                        {{ t('profile.fields.birthday') }}
-                      </div>
-                      <div class="text-subtitle-2 font-weight-medium">
-                        {{ formattedBirthday || '—' }}
-                      </div>
-                    </v-col>
-                    <v-col cols="12">
-                      <div class="text-caption text-medium-emphasis">
-                        {{ t('profile.fields.description') }}
-                      </div>
-                      <div class="text-body-2">
-                        {{ profile.description || '—' }}
-                      </div>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-              </AppCard>
-            </v-col>
-
-            <v-col cols="12">
-              <AppCard elevation="2" rounded="xl" variant="text">
                 <v-card-title class="d-flex align-center gap-3">
                   <span>{{ t('profile.sections.settings.title') }}</span>
                   <v-spacer />
@@ -1192,8 +1125,6 @@ async function submit() {
                 </v-card-text>
               </AppCard>
             </v-col>
-
-
           </v-row>
         </v-col>
       </v-row>

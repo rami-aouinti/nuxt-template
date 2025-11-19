@@ -195,11 +195,16 @@ function formatJobRequestTimestamp(value?: string | null) {
                     class="mb-3"
                   />
                 </div>
-                <div v-else-if="!hasJobRequests" class="profile-job-requests__state">
+                <div
+                  v-else-if="!hasJobRequests"
+                  class="profile-job-requests__state"
+                >
                   <p class="profile-job-requests__state-title">
                     {{ t('profile.sections.jobRequests.states.empty') }}
                   </p>
-                  <p class="profile-job-requests__state-subtitle text-medium-emphasis">
+                  <p
+                    class="profile-job-requests__state-subtitle text-medium-emphasis"
+                  >
                     {{ t('profile.sections.jobRequests.states.emptyHint') }}
                   </p>
                 </div>
@@ -211,11 +216,18 @@ function formatJobRequestTimestamp(value?: string | null) {
                   >
                     <div class="profile-job-request__header">
                       <div>
-                        <p class="profile-job-request__title text-subtitle-1 font-weight-medium mb-1">
+                        <p
+                          class="profile-job-request__title text-subtitle-1 font-weight-medium mb-1"
+                        >
                           {{ job.title }}
                         </p>
-                        <p class="profile-job-request__company text-body-2 text-medium-emphasis mb-0">
-                          {{ job.company?.name || t('profile.jobs.labels.unknownCompany') }}
+                        <p
+                          class="profile-job-request__company text-body-2 text-medium-emphasis mb-0"
+                        >
+                          {{
+                            job.company?.name ||
+                            t('profile.jobs.labels.unknownCompany')
+                          }}
                         </p>
                       </div>
                       <div class="profile-job-request__badges">
@@ -238,9 +250,14 @@ function formatJobRequestTimestamp(value?: string | null) {
                       </div>
                     </div>
                     <p class="profile-job-request__description text-body-2">
-                      {{ job.description || t('profile.jobs.labels.descriptionUnavailable') }}
+                      {{
+                        job.description ||
+                        t('profile.jobs.labels.descriptionUnavailable')
+                      }}
                     </p>
-                    <div class="profile-job-request__meta text-caption text-medium-emphasis">
+                    <div
+                      class="profile-job-request__meta text-caption text-medium-emphasis"
+                    >
                       <span v-if="job.workLocation">
                         {{ job.workLocation }}
                       </span>
@@ -254,16 +271,23 @@ function formatJobRequestTimestamp(value?: string | null) {
                         {{ job.salaryRange }}
                       </span>
                     </div>
-                    <div class="profile-job-request__footer text-caption text-medium-emphasis">
+                    <div
+                      class="profile-job-request__footer text-caption text-medium-emphasis"
+                    >
                       <span>
                         {{
                           t('profile.sections.jobRequests.labels.requestedOn', {
-                            date: formatJobRequestTimestamp(job.updatedAt || job.createdAt),
+                            date: formatJobRequestTimestamp(
+                              job.updatedAt || job.createdAt,
+                            ),
                           })
                         }}
                       </span>
                     </div>
-                    <v-divider v-if="index < jobRequests.length - 1" class="my-4" />
+                    <v-divider
+                      v-if="index < jobRequests.length - 1"
+                      class="my-4"
+                    />
                   </div>
                 </div>
               </div>

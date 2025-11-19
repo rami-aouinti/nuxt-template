@@ -27,7 +27,9 @@ const heroStats: HeroStat[] = [
   <v-app class="auth-app">
     <v-main class="auth-main">
       <div class="auth-shell">
-        <section class="auth-hero justify-center align-center text-center text-white">
+        <section
+          class="auth-hero justify-center align-center text-center text-white"
+        >
           <div class="auth-hero__glow" />
           <div class="auth-hero__content">
             <v-icon size="92">mdi-earth</v-icon>
@@ -83,7 +85,12 @@ const heroStats: HeroStat[] = [
 .auth-hero__glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 20% 20%, rgba(var(--v-theme-primary), 0.14), transparent 60%),
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(var(--v-theme-primary), 0.14),
+      transparent 60%
+    ),
     radial-gradient(circle at 80% 0%, rgba(236, 72, 153, 0.4), transparent 55%);
   filter: blur(35px);
   opacity: 0.7;

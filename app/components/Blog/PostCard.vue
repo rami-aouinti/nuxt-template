@@ -880,7 +880,8 @@ const onSelectTag = (tag: { value: string; label: string }) => {
                 :key="media.id"
                 class="facebook-post-card__edit-media-item"
                 :class="{
-                  'facebook-post-card__edit-media-item--removed': isMediaMarkedForRemoval(media.id),
+                  'facebook-post-card__edit-media-item--removed':
+                    isMediaMarkedForRemoval(media.id),
                 }"
               >
                 <div class="facebook-post-card__edit-media-preview">
@@ -1455,7 +1456,8 @@ a.facebook-post-card__author-link:focus-visible {
   font-weight: 600;
 }
 
-.facebook-post-card__edit-media-item--removed .facebook-post-card__edit-media-preview {
+.facebook-post-card__edit-media-item--removed
+  .facebook-post-card__edit-media-preview {
   filter: grayscale(1);
   opacity: 0.6;
 }

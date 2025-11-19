@@ -11,7 +11,9 @@ type ResumeSectionHandler<T> = {
   delete: (id: string) => Promise<void>
 }
 
-type ResumeSectionFactory = <T = Record<string, unknown>>(path: string) => ResumeSectionHandler<T>
+type ResumeSectionFactory = <T = Record<string, unknown>>(
+  path: string,
+) => ResumeSectionHandler<T>
 
 type RequestFn = <T>(path: string, options?: RequestOptions) => Promise<T>
 
@@ -65,7 +67,8 @@ export function useJobPlatformApi() {
         }),
     },
     currentApplicant: {
-      list: <T = Record<string, unknown>[]>() => request<T>('/profile/applicant'),
+      list: <T = Record<string, unknown>[]>() =>
+        request<T>('/profile/applicant'),
       create: <T = Record<string, unknown>>(payload: RequestBody) =>
         request<T>('/applicant', { method: 'POST', body: payload }),
       get: <T = Record<string, unknown>>(id: string) =>
@@ -78,17 +81,24 @@ export function useJobPlatformApi() {
     },
     applications: {
       list: <T = Record<string, unknown>>() => request<T>('/application'),
-      create: <T = Record<string, unknown>>(jobId: string, applicantId: string) =>
+      create: <T = Record<string, unknown>>(
+        jobId: string,
+        applicantId: string,
+      ) =>
         request<T>(
           `/application/${encodeURIComponent(jobId)}/${encodeURIComponent(applicantId)}`,
           { method: 'POST' },
         ),
-      updateStatus: <T = Record<string, unknown>>(status: string, applicationId: string) =>
+      updateStatus: <T = Record<string, unknown>>(
+        status: string,
+        applicationId: string,
+      ) =>
         request<T>(
           `/applications/${encodeURIComponent(status)}/${encodeURIComponent(applicationId)}`,
           { method: 'POST' },
         ),
-      profileList: <T = Record<string, unknown>>() => request<T>('/profile/application'),
+      profileList: <T = Record<string, unknown>>() =>
+        request<T>('/profile/application'),
     },
     companies: {
       create: <T = Record<string, unknown>>(payload: RequestBody) =>
@@ -96,19 +106,26 @@ export function useJobPlatformApi() {
       list: <T = Record<string, unknown>>() => request<T>('/company'),
       get: <T = Record<string, unknown>>(companyId: string) =>
         request<T>(`/company/${encodeURIComponent(companyId)}`),
-      update: <T = Record<string, unknown>>(companyId: string, payload: RequestBody) =>
+      update: <T = Record<string, unknown>>(
+        companyId: string,
+        payload: RequestBody,
+      ) =>
         request<T>(`/company/${encodeURIComponent(companyId)}`, {
           method: 'PUT',
           body: payload,
         }),
-      profileList: <T = Record<string, unknown>>() => request<T>('/profile/company'),
+      profileList: <T = Record<string, unknown>>() =>
+        request<T>('/profile/company'),
       legacy: {
         list: <T = Record<string, unknown>>() => request<T>('/companies'),
         create: <T = Record<string, unknown>>(payload: RequestBody) =>
           request<T>('/companies', { method: 'POST', body: payload }),
         get: <T = Record<string, unknown>>(id: string) =>
           request<T>(`/companies/${encodeURIComponent(id)}`),
-        update: <T = Record<string, unknown>>(id: string, payload: RequestBody) =>
+        update: <T = Record<string, unknown>>(
+          id: string,
+          payload: RequestBody,
+        ) =>
           request<T>(`/companies/${encodeURIComponent(id)}`, {
             method: 'PUT',
             body: payload,
@@ -125,12 +142,16 @@ export function useJobPlatformApi() {
       list: <T = Record<string, unknown>>() => request<T>('/job'),
       get: <T = Record<string, unknown>>(jobId: string) =>
         request<T>(`/job/${encodeURIComponent(jobId)}`),
-      update: <T = Record<string, unknown>>(jobId: string, payload: RequestBody) =>
+      update: <T = Record<string, unknown>>(
+        jobId: string,
+        payload: RequestBody,
+      ) =>
         request<T>(`/job/${encodeURIComponent(jobId)}`, {
           method: 'PUT',
           body: payload,
         }),
-      profileList: <T = Record<string, unknown>>() => request<T>('/profile/job'),
+      profileList: <T = Record<string, unknown>>() =>
+        request<T>('/profile/job'),
       requests: <T = Record<string, unknown>>() => request<T>('/requests/job'),
       resource: {
         list: <T = Record<string, unknown>>() => request<T>('/jobs'),
@@ -138,7 +159,10 @@ export function useJobPlatformApi() {
           request<T>(`/jobs/${encodeURIComponent(id)}`),
         create: <T = Record<string, unknown>>(payload: RequestBody) =>
           request<T>('/jobs', { method: 'POST', body: payload }),
-        update: <T = Record<string, unknown>>(id: string, payload: RequestBody) =>
+        update: <T = Record<string, unknown>>(
+          id: string,
+          payload: RequestBody,
+        ) =>
           request<T>(`/jobs/${encodeURIComponent(id)}`, {
             method: 'PUT',
             body: payload,
@@ -154,16 +178,21 @@ export function useJobPlatformApi() {
       get: <T = Record<string, unknown>>(id: string) =>
         request<T>(`/jobs_applications/${encodeURIComponent(id)}`),
       listByApplicant: <T = Record<string, unknown>>(applicantId: string) =>
-        request<T>(`/jobs_applications/filter-by-applicant/${encodeURIComponent(applicantId)}`),
+        request<T>(
+          `/jobs_applications/filter-by-applicant/${encodeURIComponent(applicantId)}`,
+        ),
       listByJob: <T = Record<string, unknown>>(jobId: string) =>
-        request<T>(`/jobs_applications/filter-by-job/${encodeURIComponent(jobId)}`),
+        request<T>(
+          `/jobs_applications/filter-by-job/${encodeURIComponent(jobId)}`,
+        ),
       delete: (id: string) =>
         request<undefined>(`/jobs_applications/${encodeURIComponent(id)}`, {
           method: 'DELETE',
         }),
     },
     resume: {
-      overview: <T = Record<string, unknown>>() => request<T>('/profile/resume'),
+      overview: <T = Record<string, unknown>>() =>
+        request<T>('/profile/resume'),
       generate: () => request('/resume/generate'),
       education: resumeSection('/resume/education'),
       experience: resumeSection('/resume/experience'),

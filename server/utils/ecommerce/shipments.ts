@@ -56,7 +56,9 @@ function createLinkedResourceResolver(
 ): LinkedResourceResolver {
   const cache = new Map<string, Promise<unknown>>()
 
-  return async function resolveLinkedResource(value: unknown): Promise<unknown> {
+  return async function resolveLinkedResource(
+    value: unknown,
+  ): Promise<unknown> {
     if (value === null || value === undefined) {
       return value
     }
@@ -79,7 +81,10 @@ function createLinkedResourceResolver(
       loader = broWorldEcommerceRequest(event, path, {
         headers: options.headers,
       }).catch((error) => {
-        console.error(`[ecommerce] Échec du chargement de la ressource ${path}`, error)
+        console.error(
+          `[ecommerce] Échec du chargement de la ressource ${path}`,
+          error,
+        )
         cache.delete(path)
         return value
       })
@@ -111,7 +116,9 @@ async function hydrateShipmentEntry(
 
   if (Array.isArray(hydratedEntry.units)) {
     hydratedEntry.units = await Promise.all(
-      (hydratedEntry.units as unknown[]).map((unit) => resolveLinkedResource(unit)),
+      (hydratedEntry.units as unknown[]).map((unit) =>
+        resolveLinkedResource(unit),
+      ),
     )
   }
 

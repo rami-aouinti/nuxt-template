@@ -99,8 +99,8 @@ const hasAdminAccess = computed(() => {
     .map((role) => role.trim().toUpperCase())
     .filter((role) => role.length > 0)
 
-  return normalizedRoles.some((role) =>
-    role === 'ROLE_ADMIN' || role === 'ROLE_ROOT',
+  return normalizedRoles.some(
+    (role) => role === 'ROLE_ADMIN' || role === 'ROLE_ROOT',
   )
 })
 

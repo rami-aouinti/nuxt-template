@@ -2,14 +2,10 @@
 import { storeToRefs } from 'pinia'
 import { computed, reactive, ref, watch } from 'vue'
 import type { Applicant, Company, Job } from '~/types/job'
-import {
-  ContractType,
-  LanguageLevel,
-  WorkType,
-} from '~/types/job'
+import { ContractType, LanguageLevel, WorkType } from '~/types/job'
 import { useJobStore } from '~/stores/job'
 import { Notify } from '~/stores/notification'
-import AppCard from "~/components/ui/AppCard.vue";
+import AppCard from '~/components/ui/AppCard.vue'
 
 type ApplicationDialogMode = 'select' | 'create'
 
@@ -54,14 +50,17 @@ const companyShowcase = computed(() => {
 const visibleCompanies = computed(() => companyShowcase.value.slice(0, 6))
 const totalCompanyProfiles = computed(() => companyShowcase.value.length)
 const jobStore = useJobStore()
-const { jobs, isLoading, error: jobError, hasJobs, lastUpdatedAt } =
-  storeToRefs(jobStore)
+const {
+  jobs,
+  isLoading,
+  error: jobError,
+  hasJobs,
+  lastUpdatedAt,
+} = storeToRefs(jobStore)
 
 await jobStore.fetchJobs()
 
-const resolvedJobs = computed(() =>
-  jobs.value.length ? jobs.value : [],
-)
+const resolvedJobs = computed(() => (jobs.value.length ? jobs.value : []))
 
 const filters = reactive({
   search: '',
@@ -122,9 +121,8 @@ const filteredJobs = computed(() => {
       : true
 
     const matchesSkill = skill
-      ? job.requiredSkills?.some(
-          (item) => item?.toLowerCase() === skill,
-        ) ?? false
+      ? (job.requiredSkills?.some((item) => item?.toLowerCase() === skill) ??
+        false)
       : true
 
     return (
@@ -410,9 +408,8 @@ const submitApplication = async () => {
         formData.set('file', applicantForm.file)
       }
 
-      const createdApplicant = await jobApi.currentApplicant.create<Applicant>(
-        formData,
-      )
+      const createdApplicant =
+        await jobApi.currentApplicant.create<Applicant>(formData)
       applicantId = createdApplicant?.id ?? ''
     }
 
@@ -420,10 +417,7 @@ const submitApplication = async () => {
       throw new Error('Missing applicant information.')
     }
 
-    await jobApi.applications.create(
-      applicationDialog.job.id,
-      applicantId,
-    )
+    await jobApi.applications.create(applicationDialog.job.id, applicantId)
 
     Notify.success('Application submitted successfully.')
     applicationDialog.open = false
@@ -485,7 +479,9 @@ const submitApplication = async () => {
         <v-divider class="my-4" />
         <div class="job-platform__filters-footer">
           <div class="job-platform__skill-cloud">
-            <span class="job-platform__skill-cloud-label">Trending skills:</span>
+            <span class="job-platform__skill-cloud-label"
+              >Trending skills:</span
+            >
             <v-chip
               v-for="item in skillCloud"
               :key="item.skill"
@@ -499,7 +495,12 @@ const submitApplication = async () => {
               <span class="job-platform__skill-count">×{{ item.count }}</span>
             </v-chip>
           </div>
-          <v-btn color="secondary" variant="text" class="text-none" @click="clearFilters">
+          <v-btn
+            color="secondary"
+            variant="text"
+            class="text-none"
+            @click="clearFilters"
+          >
             Reset filters
           </v-btn>
         </div>
@@ -512,7 +513,8 @@ const submitApplication = async () => {
             <header class="job-details__header">
               <div>
                 <p class="text-caption text-medium-emphasis mb-1">
-                  {{ selectedJob.company?.name }} · {{ selectedJob.workType || 'Flexible' }}
+                  {{ selectedJob.company?.name }} ·
+                  {{ selectedJob.workType || 'Flexible' }}
                 </p>
                 <h3 class="text-h5 mb-0">{{ selectedJob.title }}</h3>
               </div>
@@ -523,7 +525,10 @@ const submitApplication = async () => {
               <h4>Description</h4>
               <p class="mb-0">{{ selectedJob.description }}</p>
             </section>
-            <div v-if="selectedJob.requiredSkills?.length" class="job-details__section">
+            <div
+              v-if="selectedJob.requiredSkills?.length"
+              class="job-details__section"
+            >
               <h4>Required skills</h4>
               <div class="d-flex flex-wrap gap-2">
                 <v-chip
@@ -537,7 +542,10 @@ const submitApplication = async () => {
                 </v-chip>
               </div>
             </div>
-            <div v-if="selectedJob.requirements?.length" class="job-details__section">
+            <div
+              v-if="selectedJob.requirements?.length"
+              class="job-details__section"
+            >
               <h4>What you will work on</h4>
               <ul>
                 <li v-for="item in selectedJob.requirements" :key="item">
@@ -545,7 +553,10 @@ const submitApplication = async () => {
                 </li>
               </ul>
             </div>
-            <div v-if="selectedJob.languages?.length" class="job-details__section">
+            <div
+              v-if="selectedJob.languages?.length"
+              class="job-details__section"
+            >
               <h4>Languages</h4>
               <v-chip
                 v-for="language in selectedJob.languages"
@@ -582,8 +593,14 @@ const submitApplication = async () => {
               </v-tooltip>
             </footer>
           </AppCard>
-          <AppCard v-else class="job-platform__drawer-placeholder" elevation="0">
-            <p class="mb-0 text-medium-emphasis">Select a job card to view its details.</p>
+          <AppCard
+            v-else
+            class="job-platform__drawer-placeholder"
+            elevation="0"
+          >
+            <p class="mb-0 text-medium-emphasis">
+              Select a job card to view its details.
+            </p>
           </AppCard>
         </div>
       </teleport>
@@ -620,7 +637,8 @@ const submitApplication = async () => {
             glow
             color="primary"
             variant="outlined"
-            style="width: 200px" />
+            style="width: 200px"
+          />
         </div>
       </teleport>
     </client-only>
@@ -632,22 +650,12 @@ const submitApplication = async () => {
       class="mb-4"
     />
 
-    <v-alert
-      v-if="jobError"
-      type="error"
-      variant="tonal"
-      class="mb-4"
-    >
+    <v-alert v-if="jobError" type="error" variant="tonal" class="mb-4">
       {{ jobError }}
     </v-alert>
 
     <v-row dense>
-      <v-col
-        v-for="job in filteredJobs"
-        :key="job.id"
-        cols="12"
-        md="6"
-      >
+      <v-col v-for="job in filteredJobs" :key="job.id" cols="12" md="6">
         <AppCard
           :class="[
             'job-card',
@@ -659,7 +667,11 @@ const submitApplication = async () => {
           <div class="job-card__header">
             <div class="job-card__company">
               <div v-if="job.company?.logo" class="job-card__logo">
-                <img :src="job.company.logo" :alt="job.company.name" loading="lazy" />
+                <img
+                  :src="job.company.logo"
+                  :alt="job.company.name"
+                  loading="lazy"
+                />
               </div>
               <div>
                 <p class="job-card__company-name">
@@ -684,10 +696,20 @@ const submitApplication = async () => {
             <v-chip size="small" variant="flat" color="primary">
               Experience · {{ job.experience ?? 'Any level' }}
             </v-chip>
-            <v-chip v-if="job.salaryRange" size="small" variant="flat" color="primary">
+            <v-chip
+              v-if="job.salaryRange"
+              size="small"
+              variant="flat"
+              color="primary"
+            >
               {{ job.salaryRange }}
             </v-chip>
-            <v-chip v-if="job.contractType" size="small" variant="flat" color="primary">
+            <v-chip
+              v-if="job.contractType"
+              size="small"
+              variant="flat"
+              color="primary"
+            >
               {{ job.contractType }}
             </v-chip>
           </div>
@@ -703,9 +725,12 @@ const submitApplication = async () => {
             >
               {{ skill }}
             </v-chip>
-            <span v-if="job.requiredSkills.length > 4" class="job-card__skills-more">
-                  +{{ job.requiredSkills.length - 4 }} more
-                </span>
+            <span
+              v-if="job.requiredSkills.length > 4"
+              class="job-card__skills-more"
+            >
+              +{{ job.requiredSkills.length - 4 }} more
+            </span>
           </div>
 
           <div class="job-card__actions">
@@ -756,9 +781,15 @@ const submitApplication = async () => {
             <p class="text-caption text-medium-emphasis mb-1">
               {{ applicationDialog.job?.company?.name || 'Bro World' }}
             </p>
-            <h3 class="text-h5 mb-0">Apply to {{ applicationDialog.job?.title }}</h3>
+            <h3 class="text-h5 mb-0">
+              Apply to {{ applicationDialog.job?.title }}
+            </h3>
           </div>
-          <v-btn icon="mdi-close" variant="text" @click="closeApplicationDialog" />
+          <v-btn
+            icon="mdi-close"
+            variant="text"
+            @click="closeApplicationDialog"
+          />
         </v-card-title>
         <v-divider />
         <v-card-text>
@@ -783,10 +814,7 @@ const submitApplication = async () => {
                 selected-class="text-primary"
                 mandatory
               >
-                <v-chip
-                  value="select"
-                  :disabled="!hasApplicantProfiles"
-                >
+                <v-chip value="select" :disabled="!hasApplicantProfiles">
                   Use existing profile
                 </v-chip>
                 <v-chip value="create">Create new profile</v-chip>
@@ -800,8 +828,8 @@ const submitApplication = async () => {
                 variant="tonal"
                 class="mb-0"
               >
-                No applicant profile found. Switch to "Create new profile" to get
-                started.
+                No applicant profile found. Switch to "Create new profile" to
+                get started.
               </v-alert>
               <v-select
                 v-else
@@ -861,7 +889,11 @@ const submitApplication = async () => {
         </v-card-text>
         <v-divider />
         <v-card-actions class="justify-end">
-          <v-btn variant="text" class="text-none" @click="closeApplicationDialog">
+          <v-btn
+            variant="text"
+            class="text-none"
+            @click="closeApplicationDialog"
+          >
             Cancel
           </v-btn>
           <v-btn
@@ -883,7 +915,11 @@ const submitApplication = async () => {
 <style scoped lang="scss">
 .job-platform__hero {
   padding: 64px 0 32px;
-  background: linear-gradient(135deg, rgba(var(--v-theme-primary), 0.1), transparent);
+  background: linear-gradient(
+    135deg,
+    rgba(var(--v-theme-primary), 0.1),
+    transparent
+  );
 }
 
 .job-platform__hero-card {
@@ -1083,7 +1119,9 @@ const submitApplication = async () => {
 
 .job-card--selectable {
   cursor: pointer;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
 
 .job-card--selectable:hover {

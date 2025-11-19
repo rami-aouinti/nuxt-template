@@ -11,7 +11,9 @@ export function useServerRequestHeaders(
     return undefined
   }
 
-  return normalizeRequestHeaders(useRequestHeaders(names as string[] | undefined))
+  return normalizeRequestHeaders(
+    useRequestHeaders(names as string[] | undefined),
+  )
 }
 
 export function useServerAuthRequestHeaders():

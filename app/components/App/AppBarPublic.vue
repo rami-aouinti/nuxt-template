@@ -49,8 +49,8 @@ const hasAdminAccess = computed(() => {
     .map((role) => role.trim().toUpperCase())
     .filter((role) => role.length > 0)
 
-  return normalizedRoles.some((role) =>
-    role === 'ROLE_ADMIN' || role === 'ROLE_ROOT',
+  return normalizedRoles.some(
+    (role) => role === 'ROLE_ADMIN' || role === 'ROLE_ROOT',
   )
 })
 
@@ -392,7 +392,12 @@ watch(loggedIn, (value) => {
           </v-btn>
         </template>
 
-        <v-list class="dock-navbar__language-list" density="compact" tag="ul" width="150">
+        <v-list
+          class="dock-navbar__language-list"
+          density="compact"
+          tag="ul"
+          width="150"
+        >
           <v-list-item
             v-for="language in languageItems"
             :key="language.code"

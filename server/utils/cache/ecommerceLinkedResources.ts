@@ -11,7 +11,11 @@ const CACHE_SCOPE = 'linked'
 function resolveLinkedResourceTtl(event: H3Event) {
   const config = useRuntimeConfig(event)
   const ttl =
-    Number(config.redis?.ecommerceLinkedResourceTtl ?? config.redis?.ecommerceTtl ?? 0) || 0
+    Number(
+      config.redis?.ecommerceLinkedResourceTtl ??
+        config.redis?.ecommerceTtl ??
+        0,
+    ) || 0
   return Number.isFinite(ttl) && ttl > 0 ? ttl : 0
 }
 

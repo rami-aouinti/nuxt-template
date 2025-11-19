@@ -101,9 +101,7 @@ const rows = computed(() => {
   return entries.flatMap((entry, index) => {
     const record = toRecord(entry)
     const orderIdentifier = getString(record, ['number', 'tokenValue', 'code'])
-    const orderNumber =
-      orderIdentifier ??
-      `order-${index + 1}`
+    const orderNumber = orderIdentifier ?? `order-${index + 1}`
     const customerRecord = toRecord(record?.customer)
     const customer =
       getString(customerRecord, [

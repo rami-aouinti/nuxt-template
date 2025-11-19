@@ -54,10 +54,9 @@ body {
     input,
     textarea
   )
-  /* stylelint-disable-next-line selector-max-specificity */
-  {
-    border-radius: var(--app-rounded, 18px) !important;
-  }
+  /* stylelint-disable-next-line selector-max-specificity */ {
+  border-radius: var(--app-rounded, 18px) !important;
+}
 
 .rounded-0,
 .rounded-sm,

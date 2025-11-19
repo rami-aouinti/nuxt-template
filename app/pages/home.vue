@@ -48,7 +48,7 @@ import {
   formatPublishedAt as formatBlogPublishedAt,
   formatRelativePublishedAt as formatBlogRelativePublishedAt,
 } from '~/utils/formatters'
-import AppUploadField from "~/components/ui/AppUploadField.vue";
+import AppUploadField from '~/components/ui/AppUploadField.vue'
 
 definePageMeta({
   layout: 'default',

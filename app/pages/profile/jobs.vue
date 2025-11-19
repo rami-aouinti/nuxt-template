@@ -111,7 +111,10 @@ watch(
       return
     }
 
-    if (!selectedJobId.value || !items.some((job) => job.id === selectedJobId.value)) {
+    if (
+      !selectedJobId.value ||
+      !items.some((job) => job.id === selectedJobId.value)
+    ) {
       selectedJobId.value = items[0].id
     }
   },
@@ -127,11 +130,17 @@ const selectedJob = computed<ProfileJob | null>(() => {
     return jobs.value[0]
   }
 
-  return jobs.value.find((job) => job.id === selectedJobId.value) ?? jobs.value[0]
+  return (
+    jobs.value.find((job) => job.id === selectedJobId.value) ?? jobs.value[0]
+  )
 })
 
-const selectedJobApplicants = computed(() => selectedJob.value?.applications ?? [])
-const hasSelectedApplicants = computed(() => selectedJobApplicants.value.length > 0)
+const selectedJobApplicants = computed(
+  () => selectedJob.value?.applications ?? [],
+)
+const hasSelectedApplicants = computed(
+  () => selectedJobApplicants.value.length > 0,
+)
 
 const expandedJobIds = ref<string[]>([])
 
@@ -154,8 +163,7 @@ const selectedJobCompanyName = computed(() => {
   }
 
   return (
-    selectedJob.value.company?.name ||
-    t('profile.jobs.labels.unknownCompany')
+    selectedJob.value.company?.name || t('profile.jobs.labels.unknownCompany')
   )
 })
 
@@ -164,7 +172,10 @@ const selectedJobTitle = computed(() => {
     return selectedJob.value.title
   }
 
-  return translate('profile.jobs.drawer.placeholderTitle', 'Select a job to review applicants')
+  return translate(
+    'profile.jobs.drawer.placeholderTitle',
+    'Select a job to review applicants',
+  )
 })
 
 const isLoading = computed(() => pending.value)
@@ -176,7 +187,10 @@ const loadErrorMessage = computed(() => {
     return null
   }
 
-  return extractRequestError(error.value, t('profile.jobs.notifications.loadFailed'))
+  return extractRequestError(
+    error.value,
+    t('profile.jobs.notifications.loadFailed'),
+  )
 })
 
 watch(
@@ -352,7 +366,10 @@ function mapApplications(value: unknown): ProfileJobApplication[] {
         applicant: mapApplicant(record.applicant),
       }
     })
-    .filter((application): application is ProfileJobApplication => application !== null)
+    .filter(
+      (application): application is ProfileJobApplication =>
+        application !== null,
+    )
 }
 
 function mapApplicant(value: unknown): ProfileJobApplicant | null {
@@ -370,9 +387,7 @@ function mapApplicant(value: unknown): ProfileJobApplicant | null {
   }
 
   return {
-    id:
-      id ??
-      ([firstName, lastName].filter(Boolean).join('-') || 'applicant'),
+    id: id ?? ([firstName, lastName].filter(Boolean).join('-') || 'applicant'),
     firstName: firstName ?? null,
     lastName: lastName ?? null,
     contactEmail: ensureString(record.contactEmail),
@@ -514,15 +529,13 @@ function handleRefresh() {
         </div>
 
         <div v-else class="profile-jobs__list">
-          <article
-            v-for="job in jobs"
-            :key="job.id"
-            class="profile-job"
-          >
+          <article v-for="job in jobs" :key="job.id" class="profile-job">
             <header class="profile-job__header">
               <div>
                 <p class="profile-job__eyebrow">
-                  {{ job.company?.name || t('profile.jobs.labels.unknownCompany') }}
+                  {{
+                    job.company?.name || t('profile.jobs.labels.unknownCompany')
+                  }}
                 </p>
                 <h2 class="profile-job__title">
                   {{ job.title }}
@@ -564,7 +577,10 @@ function handleRefresh() {
             </header>
 
             <p class="profile-job__description">
-              {{ job.description || t('profile.jobs.labels.descriptionUnavailable') }}
+              {{
+                job.description ||
+                t('profile.jobs.labels.descriptionUnavailable')
+              }}
             </p>
 
             <div class="profile-job__meta">
@@ -575,32 +591,35 @@ function handleRefresh() {
               <div v-if="job.workType" class="profile-job__meta-item">
                 <v-icon icon="mdi-briefcase" size="18" class="me-1" />
                 <span>
-                    {{ t('profile.jobs.labels.workType') }} · {{ job.workType }}
-                  </span>
+                  {{ t('profile.jobs.labels.workType') }} · {{ job.workType }}
+                </span>
               </div>
               <div v-if="job.contractType" class="profile-job__meta-item">
                 <v-icon icon="mdi-file-document" size="18" class="me-1" />
                 <span>
-                    {{ t('profile.jobs.labels.contractType') }} · {{ job.contractType }}
-                  </span>
+                  {{ t('profile.jobs.labels.contractType') }} ·
+                  {{ job.contractType }}
+                </span>
               </div>
               <div v-if="job.salaryRange" class="profile-job__meta-item">
                 <v-icon icon="mdi-cash-multiple" size="18" class="me-1" />
                 <span>
-                    {{ t('profile.jobs.labels.salaryRange') }} · {{ job.salaryRange }}
-                  </span>
+                  {{ t('profile.jobs.labels.salaryRange') }} ·
+                  {{ job.salaryRange }}
+                </span>
               </div>
               <div v-if="job.experience" class="profile-job__meta-item">
                 <v-icon icon="mdi-school" size="18" class="me-1" />
                 <span>
-                    {{ t('profile.jobs.labels.experience') }} · {{ job.experience }}
-                  </span>
+                  {{ t('profile.jobs.labels.experience') }} ·
+                  {{ job.experience }}
+                </span>
               </div>
               <div v-if="job.benefits" class="profile-job__meta-item">
                 <v-icon icon="mdi-crown" size="18" class="me-1" />
                 <span>
-                    {{ t('profile.jobs.labels.benefits') }} · {{ job.benefits }}
-                  </span>
+                  {{ t('profile.jobs.labels.benefits') }} · {{ job.benefits }}
+                </span>
               </div>
             </div>
 
@@ -630,7 +649,10 @@ function handleRefresh() {
                   </p>
                 </div>
 
-                <div v-if="job.requiredSkills.length" class="profile-job__section">
+                <div
+                  v-if="job.requiredSkills.length"
+                  class="profile-job__section"
+                >
                   <p class="profile-job__section-title">
                     {{ t('profile.jobs.labels.requiredSkills') }}
                   </p>
@@ -666,7 +688,10 @@ function handleRefresh() {
                   </div>
                 </div>
 
-                <div v-if="job.requirements.length" class="profile-job__section">
+                <div
+                  v-if="job.requirements.length"
+                  class="profile-job__section"
+                >
                   <p class="profile-job__section-title">
                     {{ t('profile.jobs.labels.requirements') }}
                   </p>
@@ -697,20 +722,31 @@ function handleRefresh() {
                     :disabled="!job.applications.length"
                     @click="handleApplicantsDrawer(job)"
                   >
-                    {{ translate('profile.jobs.drawer.openButton', 'View applicants') }}
+                    {{
+                      translate(
+                        'profile.jobs.drawer.openButton',
+                        'View applicants',
+                      )
+                    }}
                   </AppButton>
                 </div>
 
                 <footer class="profile-job__footer">
                   <div class="profile-job__timestamps">
-                    <p v-if="formatDate(job.updatedAt)" class="text-caption mb-0">
+                    <p
+                      v-if="formatDate(job.updatedAt)"
+                      class="text-caption mb-0"
+                    >
                       {{
                         t('profile.jobs.labels.updatedAt', {
                           date: formatDate(job.updatedAt),
                         })
                       }}
                     </p>
-                    <p v-else-if="formatDate(job.createdAt)" class="text-caption mb-0">
+                    <p
+                      v-else-if="formatDate(job.createdAt)"
+                      class="text-caption mb-0"
+                    >
                       {{
                         t('profile.jobs.labels.createdAt', {
                           date: formatDate(job.createdAt),

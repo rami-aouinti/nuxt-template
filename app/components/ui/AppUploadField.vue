@@ -1,5 +1,8 @@
 <template>
-  <div class="app-upload-field" :class="{ 'app-upload-field--disabled': disabled }">
+  <div
+    class="app-upload-field"
+    :class="{ 'app-upload-field--disabled': disabled }"
+  >
     <label v-if="label" class="app-upload-field__label">{{ label }}</label>
 
     <div
@@ -50,10 +53,16 @@
           <p class="app-upload-field__placeholder-title">
             {{ hasSelection ? selectionSummary : placeholderText }}
           </p>
-          <p v-if="hint && !hasSelection" class="app-upload-field__placeholder-hint">
+          <p
+            v-if="hint && !hasSelection"
+            class="app-upload-field__placeholder-hint"
+          >
             {{ hint }}
           </p>
-          <p v-else-if="hasSelection && showFileNames" class="app-upload-field__placeholder-hint">
+          <p
+            v-else-if="hasSelection && showFileNames"
+            class="app-upload-field__placeholder-hint"
+          >
             {{ fileNames.join(', ') }}
           </p>
           <div class="app-upload-field__placeholder-actions">
@@ -166,7 +175,9 @@ const previewSource = computed(() => previewUrls.value[0] ?? null)
 const hasPreview = computed(() => Boolean(previewSource.value))
 
 const placeholderText = computed(() => props.placeholder)
-const buttonLabel = computed(() => (hasSelection.value ? props.replaceLabel : props.actionLabel))
+const buttonLabel = computed(() =>
+  hasSelection.value ? props.replaceLabel : props.actionLabel,
+)
 const selectionSummary = computed(() => {
   const count = filesCount.value
   if (!count) {
@@ -263,7 +274,10 @@ function clearSelection() {
   padding: 1.5rem;
   min-height: 220px;
   cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -282,7 +296,9 @@ function clearSelection() {
   padding: 0;
 }
 
-.app-upload-field__drop--has-selection:not(.app-upload-field__drop--has-preview) {
+.app-upload-field__drop--has-selection:not(
+  .app-upload-field__drop--has-preview
+) {
   border-color: rgba(var(--v-theme-primary), 0.6);
   background: rgba(var(--v-theme-primary), 0.06);
 }

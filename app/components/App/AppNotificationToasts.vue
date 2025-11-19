@@ -3,7 +3,9 @@ const notificationStore = useNotificationStore()
 const { notifications } = storeToRefs(notificationStore)
 
 const appNotifications = computed(() =>
-  notifications.value.filter((notification) => notification.source !== 'mercure'),
+  notifications.value.filter(
+    (notification) => notification.source !== 'mercure',
+  ),
 )
 const notificationsShown = computed(() => [...appNotifications.value].reverse())
 

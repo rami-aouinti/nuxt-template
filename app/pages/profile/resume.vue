@@ -37,9 +37,7 @@ const presentLabel = computed(() =>
 )
 
 function formatDateRange(start?: string | null, end?: string | null) {
-  const startText = start
-    ? formatDateValue(start, dateFormatter.value, '')
-    : ''
+  const startText = start ? formatDateValue(start, dateFormatter.value, '') : ''
   const endText = end
     ? formatDateValue(end, dateFormatter.value, '')
     : presentLabel.value
@@ -688,9 +686,8 @@ async function submitLanguageForm() {
       )
       upsertItem(languageItems.value, updated)
     } else {
-      const created = await jobApi.resume.language.create<ResumeLanguage>(
-        payload,
-      )
+      const created =
+        await jobApi.resume.language.create<ResumeLanguage>(payload)
       languageItems.value.unshift(created)
     }
     Notify.success(
@@ -906,10 +903,7 @@ async function deleteSkill(id: string) {
   await jobApi.resume.skill.delete(id)
   skillItems.value = skillItems.value.filter((item) => item.id !== id)
   Notify.success(
-    translate(
-      'profile.resume.notifications.skillDeleted',
-      'Skill deleted.',
-    ),
+    translate('profile.resume.notifications.skillDeleted', 'Skill deleted.'),
   )
 }
 
@@ -917,10 +911,7 @@ async function deleteHobby(id: string) {
   await jobApi.resume.hobby.delete(id)
   hobbyItems.value = hobbyItems.value.filter((item) => item.id !== id)
   Notify.success(
-    translate(
-      'profile.resume.notifications.hobbyDeleted',
-      'Hobby deleted.',
-    ),
+    translate('profile.resume.notifications.hobbyDeleted', 'Hobby deleted.'),
   )
 }
 
@@ -1148,7 +1139,12 @@ await Promise.all([
                       <p class="text-subtitle-1 mb-1">{{ education.name }}</p>
                       <p class="text-body-2 text-medium-emphasis mb-0">
                         {{ education.school }} ·
-                        {{ formatDateRange(education.startedAt, education.endedAt) }}
+                        {{
+                          formatDateRange(
+                            education.startedAt,
+                            education.endedAt,
+                          )
+                        }}
                       </p>
                       <p
                         v-if="education.gradeLevel != null"
@@ -1187,10 +1183,10 @@ await Promise.all([
                   <p class="text-body-2 mb-0">
                     {{
                       education.description ||
-                        translate(
-                          'profile.resume.labels.noDescription',
-                          'No description provided yet.',
-                        )
+                      translate(
+                        'profile.resume.labels.noDescription',
+                        'No description provided yet.',
+                      )
                     }}
                   </p>
                 </div>
@@ -1286,7 +1282,12 @@ await Promise.all([
                       <p class="text-subtitle-1 mb-1">{{ experience.title }}</p>
                       <p class="text-body-2 text-medium-emphasis mb-0">
                         {{ experience.company }} ·
-                        {{ formatDateRange(experience.startedAt, experience.endedAt) }}
+                        {{
+                          formatDateRange(
+                            experience.startedAt,
+                            experience.endedAt,
+                          )
+                        }}
                       </p>
                     </div>
                     <div class="profile-resume__entry-actions">
@@ -1314,10 +1315,10 @@ await Promise.all([
                   <p class="text-body-2 mb-0">
                     {{
                       experience.description ||
-                        translate(
-                          'profile.resume.labels.noDescription',
-                          'No description provided yet.',
-                        )
+                      translate(
+                        'profile.resume.labels.noDescription',
+                        'No description provided yet.',
+                      )
                     }}
                   </p>
                 </div>
@@ -1460,10 +1461,7 @@ await Promise.all([
               <div>
                 <p class="text-h6 mb-1">
                   {{
-                    translate(
-                      'profile.resume.sections.skills.title',
-                      'Skills',
-                    )
+                    translate('profile.resume.sections.skills.title', 'Skills')
                   }}
                 </p>
                 <p class="text-body-2 text-medium-emphasis mb-0">
@@ -1482,10 +1480,7 @@ await Promise.all([
                 @click="openSkillDialog()"
               >
                 {{
-                  translate(
-                    'profile.resume.sections.skills.add',
-                    'Add skill',
-                  )
+                  translate('profile.resume.sections.skills.add', 'Add skill')
                 }}
               </AppButton>
             </div>
@@ -1597,10 +1592,7 @@ await Promise.all([
                 @click="openHobbyDialog()"
               >
                 {{
-                  translate(
-                    'profile.resume.sections.hobbies.add',
-                    'Add hobby',
-                  )
+                  translate('profile.resume.sections.hobbies.add', 'Add hobby')
                 }}
               </AppButton>
             </div>
@@ -1764,10 +1756,10 @@ await Promise.all([
                       <p class="text-body-2 text-medium-emphasis mb-0">
                         {{
                           project.gitLink ||
-                            translate(
-                              'profile.resume.labels.noLink',
-                              'No repository shared',
-                            )
+                          translate(
+                            'profile.resume.labels.noLink',
+                            'No repository shared',
+                          )
                         }}
                       </p>
                     </div>
@@ -1792,10 +1784,10 @@ await Promise.all([
                   <p class="text-body-2 mb-0">
                     {{
                       project.description ||
-                        translate(
-                          'profile.resume.labels.noDescription',
-                          'No description provided yet.',
-                        )
+                      translate(
+                        'profile.resume.labels.noDescription',
+                        'No description provided yet.',
+                      )
                     }}
                   </p>
                 </div>
@@ -1891,7 +1883,12 @@ await Promise.all([
                       <p class="text-subtitle-1 mb-1">{{ reference.title }}</p>
                       <p class="text-body-2 text-medium-emphasis mb-0">
                         {{ reference.company }} ·
-                        {{ formatDateRange(reference.startedAt, reference.endedAt) }}
+                        {{
+                          formatDateRange(
+                            reference.startedAt,
+                            reference.endedAt,
+                          )
+                        }}
                       </p>
                     </div>
                     <div class="profile-resume__entry-actions">
@@ -1907,7 +1904,11 @@ await Promise.all([
                         color="error"
                         size="small"
                         @click="
-                          requestDelete('reference', reference.id, reference.title)
+                          requestDelete(
+                            'reference',
+                            reference.id,
+                            reference.title,
+                          )
                         "
                       />
                     </div>
@@ -1915,10 +1916,10 @@ await Promise.all([
                   <p class="text-body-2 mb-0">
                     {{
                       reference.description ||
-                        translate(
-                          'profile.resume.labels.noDescription',
-                          'No description provided yet.',
-                        )
+                      translate(
+                        'profile.resume.labels.noDescription',
+                        'No description provided yet.',
+                      )
                     }}
                   </p>
                 </div>
@@ -1989,7 +1990,9 @@ await Promise.all([
             />
             <v-text-field
               v-model="educationForm.startedAt"
-              :label="translate('profile.resume.fields.startedAt', 'Start date')"
+              :label="
+                translate('profile.resume.fields.startedAt', 'Start date')
+              "
               type="date"
               variant="outlined"
               class="mb-4"
@@ -2076,7 +2079,9 @@ await Promise.all([
             />
             <v-text-field
               v-model="experienceForm.startedAt"
-              :label="translate('profile.resume.fields.startedAt', 'Start date')"
+              :label="
+                translate('profile.resume.fields.startedAt', 'Start date')
+              "
               type="date"
               variant="outlined"
               class="mb-4"
@@ -2237,11 +2242,7 @@ await Promise.all([
               >
                 {{ t('common.actions.cancel') }}
               </AppButton>
-              <AppButton
-                type="submit"
-                color="primary"
-                :loading="isSavingSkill"
-              >
+              <AppButton type="submit" color="primary" :loading="isSavingSkill">
                 {{
                   skillDialog.mode === 'edit'
                     ? t('common.actions.save')
@@ -2294,11 +2295,7 @@ await Promise.all([
               >
                 {{ t('common.actions.cancel') }}
               </AppButton>
-              <AppButton
-                type="submit"
-                color="primary"
-                :loading="isSavingHobby"
-              >
+              <AppButton type="submit" color="primary" :loading="isSavingHobby">
                 {{
                   hobbyDialog.mode === 'edit'
                     ? t('common.actions.save')
@@ -2316,8 +2313,14 @@ await Promise.all([
         <v-card-title>
           {{
             projectDialog.mode === 'edit'
-              ? translate('profile.resume.dialogs.projects.edit', 'Edit project')
-              : translate('profile.resume.dialogs.projects.create', 'Add project')
+              ? translate(
+                  'profile.resume.dialogs.projects.edit',
+                  'Edit project',
+                )
+              : translate(
+                  'profile.resume.dialogs.projects.create',
+                  'Add project',
+                )
           }}
         </v-card-title>
         <v-card-text>
@@ -2431,7 +2434,9 @@ await Promise.all([
             />
             <v-text-field
               v-model="referenceForm.startedAt"
-              :label="translate('profile.resume.fields.startedAt', 'Start date')"
+              :label="
+                translate('profile.resume.fields.startedAt', 'Start date')
+              "
               type="date"
               variant="outlined"
               class="mb-4"
@@ -2474,12 +2479,7 @@ await Promise.all([
           {{ deleteDialogTitle }}
         </v-card-title>
         <v-card-text>
-          <v-alert
-            v-if="deleteError"
-            type="error"
-            variant="tonal"
-            class="mb-4"
-          >
+          <v-alert v-if="deleteError" type="error" variant="tonal" class="mb-4">
             {{ deleteError }}
           </v-alert>
           <p class="text-body-1 mb-2">
@@ -2493,7 +2493,10 @@ await Promise.all([
           <p class="text-body-2 font-weight-medium mb-4">
             {{
               deleteDialog.label ||
-                translate('profile.resume.dialogs.delete.itemFallback', 'This entry')
+              translate(
+                'profile.resume.dialogs.delete.itemFallback',
+                'This entry',
+              )
             }}
           </p>
           <p class="text-body-2 text-medium-emphasis mb-0">
@@ -2508,11 +2511,7 @@ await Promise.all([
           >
             {{ t('common.actions.cancel') }}
           </AppButton>
-          <AppButton
-            color="error"
-            :loading="isDeleting"
-            @click="confirmDelete"
-          >
+          <AppButton color="error" :loading="isDeleting" @click="confirmDelete">
             {{ t('common.actions.delete') }}
           </AppButton>
         </v-card-actions>
