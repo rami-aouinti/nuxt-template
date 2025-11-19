@@ -99,8 +99,8 @@ type ProfileSettingsPayload = {
   configurationValue: Record<string, unknown>
 }
 
-const PROFILE_SETTINGS_CONFIGURATION_KEY = 'profile.settings'
-const PROFILE_SETTINGS_CONTEXT_KEY = 'profile'
+const PROFILE_SETTINGS_CONFIGURATION_KEY = 'email.notification'
+const PROFILE_SETTINGS_CONTEXT_KEY = 'notification'
 
 type JobRequest = Omit<Job, 'user'> & {
   user?: string | CompanyUser | null
