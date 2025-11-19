@@ -1,4 +1,4 @@
-import type { Configuration } from '~/types/configuration'
+import type { Configuration, ConfigurationPayload } from '~/types/configuration'
 import { configurationRequest } from '~~/server/utils/configurationApi'
 
 interface ProfileSettingsPayload {
@@ -38,7 +38,6 @@ export default defineEventHandler(async (event) => {
     !assertString(configurationKey) ||
     !assertString(contextKey) ||
     !assertString(contextId) ||
-    !assertString(workplaceId) ||
     configurationValue === undefined
   ) {
     throw createError({
@@ -48,18 +47,23 @@ export default defineEventHandler(async (event) => {
     })
   }
 
+  const payload: ConfigurationPayload = {
+    configurationKey,
+    contextKey,
+    contextId,
+    configurationValue,
+  }
+
+  if (assertString(workplaceId)) {
+    payload.workplaceId = workplaceId
+  }
+
   return await configurationRequest<Configuration>(
     event,
     '/platform/configuration',
     {
       method: 'POST',
-      body: {
-        configurationKey,
-        contextKey,
-        contextId,
-        workplaceId,
-        configurationValue,
-      },
+      body: payload,
     },
   )
 })

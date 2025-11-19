@@ -95,7 +95,7 @@ type ProfileSettingsPayload = {
   configurationKey: string
   contextKey: string
   contextId: string
-  workplaceId: string
+  workplaceId?: string
   configurationValue: Record<string, unknown>
 }
 
@@ -805,7 +805,6 @@ const canUpdateSettings = computed(() =>
   Boolean(
     currentSettingsConfiguration.value &&
       resolvedSettingsContextId.value &&
-      resolvedSettingsWorkplaceId.value &&
       resolvedSettingsConfigurationKey.value &&
       resolvedSettingsContextKey.value,
   ),
@@ -888,17 +887,22 @@ function buildSettingsPayload(): ProfileSettingsPayload | null {
   const contextId = resolvedSettingsContextId.value
   const workplaceId = resolvedSettingsWorkplaceId.value
 
-  if (!configurationKey || !contextKey || !contextId || !workplaceId) {
+  if (!configurationKey || !contextKey || !contextId) {
     return null
   }
 
-  return {
+  const payload: ProfileSettingsPayload = {
     configurationKey,
     contextKey,
     contextId,
-    workplaceId,
     configurationValue: { ...settings },
   }
+
+  if (workplaceId) {
+    payload.workplaceId = workplaceId
+  }
+
+  return payload
 }
 
 async function handleSettingToggle(key: ProfileSettingKey, value: boolean) {
