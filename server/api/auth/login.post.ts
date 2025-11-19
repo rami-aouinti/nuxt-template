@@ -2,6 +2,7 @@ import { axios, AxiosError } from '~/utils/axios'
 import type { LoginResponse } from '~/types/auth'
 import { persistProfileState } from '../../utils/cache/profile'
 import { scheduleProfileCacheWarmup } from '../../utils/cache/profile-warmup'
+import { ensureDefaultProfileConfigurations } from '../../utils/profileConfiguration'
 import { toSessionPayload } from './_shared'
 
 export default defineEventHandler(async (event) => {
@@ -27,6 +28,8 @@ export default defineEventHandler(async (event) => {
     await setUserSession(event, toSessionPayload(data))
 
     await persistProfileState(event, data.profile)
+
+    await ensureDefaultProfileConfigurations(event, data.profile)
 
     scheduleProfileCacheWarmup(event)
 
