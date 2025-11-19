@@ -651,14 +651,31 @@ function parseBoolean(value: unknown) {
   return null
 }
 
+function unwrapConfigurationValue(value: unknown): unknown {
+  if (
+    value &&
+    typeof value === 'object' &&
+    '_value' in (value as Record<string, unknown>)
+  ) {
+    const wrappedValue = (value as { _value?: unknown })._value
+    if (wrappedValue !== undefined) {
+      return wrappedValue
+    }
+  }
+
+  return value
+}
+
 function toSettingsRecord(value: unknown): Partial<ProfileSettingsState> {
   if (!value) {
     return {}
   }
 
-  if (typeof value === 'string') {
+  const resolvedValue = unwrapConfigurationValue(value)
+
+  if (typeof resolvedValue === 'string') {
     try {
-      const parsed = JSON.parse(value) as unknown
+      const parsed = JSON.parse(resolvedValue) as unknown
       return toSettingsRecord(parsed)
     } catch (error) {
       console.warn(
@@ -669,11 +686,11 @@ function toSettingsRecord(value: unknown): Partial<ProfileSettingsState> {
     }
   }
 
-  if (Array.isArray(value) || typeof value !== 'object') {
+  if (Array.isArray(resolvedValue) || typeof resolvedValue !== 'object') {
     return {}
   }
 
-  const record = value as Record<string, unknown>
+  const record = resolvedValue as Record<string, unknown>
   const output: Partial<ProfileSettingsState> = {}
 
   for (const key of Object.keys(
@@ -824,6 +841,10 @@ async function loadProfileSettings(force = false) {
 
     let configuration: Configuration | null = null
     for (const item of configurations) {
+      if (item.configurationKey !== PROFILE_SETTINGS_CONFIGURATION_KEY) {
+        continue
+      }
+
       const record = toSettingsRecord(item.configurationValue)
       if (Object.keys(record).length > 0) {
         configuration = item
