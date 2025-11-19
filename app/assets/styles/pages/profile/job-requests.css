@@ -1,0 +1,60 @@
+.profile-job-requests-card {
+  overflow: hidden;
+}
+
+.profile-job-requests__state {
+  text-align: center;
+  padding: 24px 8px;
+}
+
+.profile-job-requests__state-title {
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.profile-job-requests__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-job-request {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profile-job-request__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.profile-job-request__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.profile-job-request__meta {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 12px;
+  row-gap: 4px;
+}
+
+.profile-job-request__meta span::after {
+  content: '•';
+  margin-left: 12px;
+  opacity: 0.6;
+}
+
+.profile-job-request__meta span:last-child::after {
+  display: none;
+}
+
+.profile-job-request__footer {
+  display: flex;
+  justify-content: space-between;
+}

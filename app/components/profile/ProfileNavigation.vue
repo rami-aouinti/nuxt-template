@@ -61,6 +61,13 @@ const baseItems = computed<NavigationItem[]>(() => [
     match: (path) => path.startsWith('/profile/jobs'),
   },
   {
+    value: 'job-requests',
+    to: '/profile/job-requests',
+    label: t('navigation.profileJobRequests'),
+    icon: 'mdi-clipboard-text-clock',
+    match: (path) => path.startsWith('/profile/job-requests'),
+  },
+  {
     value: 'applicants',
     to: '/profile/applicants',
     label: t('navigation.profileApplicants'),
