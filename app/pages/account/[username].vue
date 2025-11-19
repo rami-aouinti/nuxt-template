@@ -71,6 +71,38 @@ const messengerButtonDisabled = computed(
   () => isOpeningConversation.value || !profile.value,
 )
 
+const contactItems = computed(() => {
+  if (!profile.value) {
+    return []
+  }
+
+  return [
+    {
+      label: t('profile.public.labels.email'),
+      value: profile.value.email,
+      icon: 'mdi-email-outline',
+    },
+    {
+      label: t('profile.public.labels.language'),
+      value: profile.value.language,
+      icon: 'mdi-translate',
+    },
+    {
+      label: t('profile.public.labels.locale'),
+      value: profile.value.locale,
+      icon: 'mdi-earth',
+    },
+    {
+      label: t('profile.public.labels.timezone'),
+      value: profile.value.timezone,
+      icon: 'mdi-clock-outline',
+    },
+  ].map((item) => ({
+    ...item,
+    value: item.value || t('profile.public.labels.empty'),
+  }))
+})
+
 const displayName = computed(() => {
   if (!profile.value) {
     return normalizedUsername.value
@@ -162,6 +194,19 @@ const hasContactInfo = computed(() => {
 const showMetadata = computed(
   () => friendsCount.value > 0 || storiesCount.value > 0,
 )
+
+const quickStats = computed(() => [
+  {
+    label: t('profile.public.labels.friends'),
+    value: friendsCount.value,
+    icon: 'mdi-account-multiple-outline',
+  },
+  {
+    label: t('profile.public.labels.stories'),
+    value: storiesCount.value,
+    icon: 'mdi-book-open-page-variant',
+  },
+])
 
 const profilePhoto = computed(() => {
   const value = profile.value?.photo
@@ -279,23 +324,23 @@ const openMessengerConversation = async () => {
         />
 
         <AppCard v-else-if="profile" class="rounded-xl" elevation="2">
-          <v-card-text class="pa-6">
-            <div
-              class="d-flex flex-column flex-md-row align-md-center gap-4 mb-6"
-            >
-              <AppAvatar :src="profilePhoto" :alt="displayName" size="96">
+          <div class="profile-public__hero">
+            <div class="profile-public__hero-overlay" />
+            <div class="profile-public__hero-content">
+              <AppAvatar :src="profilePhoto" :alt="displayName" size="104">
                 <template #fallback>
-                  <v-icon icon="mdi-account-circle" size="96" />
+                  <v-icon icon="mdi-account-circle" size="104" />
                 </template>
               </AppAvatar>
-              <div class="flex-grow-1">
+              <div class="profile-public__hero-text">
                 <h2 class="text-h4 text-h5-sm mb-1">{{ displayName }}</h2>
-                <p class="text-medium-emphasis mb-2">{{ usernameLabel }}</p>
-                <div class="d-flex flex-wrap align-center gap-3">
+                <p class="text-medium-emphasis mb-3">{{ usernameLabel }}</p>
+                <div class="d-flex flex-wrap align-center gap-2">
                   <v-chip
                     :color="accountStatusColor"
                     size="small"
-                    variant="tonal"
+                    variant="elevated"
+                    class="text-body-2"
                   >
                     {{ accountStatusLabel }}
                   </v-chip>
@@ -306,100 +351,131 @@ const openMessengerConversation = async () => {
                     prepend-icon="mdi-message-text-outline"
                     :loading="isOpeningConversation"
                     :disabled="messengerButtonDisabled"
+                    size="small"
                     @click="openMessengerConversation"
                   >
                     {{ t('profile.public.actions.message') }}
                   </AppButton>
                 </div>
               </div>
-            </div>
-
-            <v-divider v-if="hasContactInfo" class="mb-6" />
-
-            <div v-if="hasContactInfo" class="mb-6">
-              <h3 class="text-subtitle-1 font-weight-medium mb-4">
-                {{ t('profile.sections.personalInfo.title') }}
-              </h3>
-              <v-row>
-                <v-col cols="12" md="6">
-                  <p class="text-caption text-medium-emphasis mb-1">
-                    {{ t('profile.public.labels.email') }}
-                  </p>
-                  <p class="text-body-2 mb-0">
-                    {{ profile.email || t('profile.public.labels.empty') }}
-                  </p>
-                </v-col>
-                <v-col cols="12" md="6">
-                  <p class="text-caption text-medium-emphasis mb-1">
-                    {{ t('profile.public.labels.language') }}
-                  </p>
-                  <p class="text-body-2 mb-0">
-                    {{ profile.language || t('profile.public.labels.empty') }}
-                  </p>
-                </v-col>
-                <v-col cols="12" md="6">
-                  <p class="text-caption text-medium-emphasis mb-1">
-                    {{ t('profile.public.labels.locale') }}
-                  </p>
-                  <p class="text-body-2 mb-0">
-                    {{ profile.locale || t('profile.public.labels.empty') }}
-                  </p>
-                </v-col>
-                <v-col cols="12" md="6">
-                  <p class="text-caption text-medium-emphasis mb-1">
-                    {{ t('profile.public.labels.timezone') }}
-                  </p>
-                  <p class="text-body-2 mb-0">
-                    {{ profile.timezone || t('profile.public.labels.empty') }}
-                  </p>
-                </v-col>
-              </v-row>
-            </div>
-
-            <div class="mb-6">
-              <h3 class="text-subtitle-1 font-weight-medium mb-3">
-                {{ t('profile.sections.roles.title') }}
-              </h3>
-              <div v-if="hasRoles" class="d-flex flex-wrap gap-2">
-                <v-chip
-                  v-for="role in roles"
-                  :key="role"
-                  color="primary"
-                  variant="tonal"
-                  size="small"
+              <div class="profile-public__stats" v-if="showMetadata">
+                <div
+                  v-for="stat in quickStats"
+                  :key="stat.label"
+                  class="profile-public__stat-card"
                 >
-                  {{ role }}
-                </v-chip>
+                  <v-icon :icon="stat.icon" size="18" class="mr-2" />
+                  <div>
+                    <p class="text-caption mb-0 text-medium-emphasis">
+                      {{ stat.label }}
+                    </p>
+                    <p class="text-body-1 font-weight-medium mb-0">
+                      {{ stat.value }}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <p v-else class="text-body-2 text-medium-emphasis mb-0">
-                {{ t('profile.sections.roles.empty') }}
-              </p>
             </div>
+          </div>
 
-            <div v-if="showMetadata" class="profile-public__metadata">
-              <v-row>
-                <v-col cols="12" sm="6">
-                  <div class="profile-public__stat">
-                    <span class="text-caption text-medium-emphasis">
-                      {{ t('profile.public.labels.friends') }}
-                    </span>
-                    <span class="text-body-1 font-weight-medium">{{
-                      friendsCount
-                    }}</span>
+          <v-card-text class="pa-6">
+            <v-row class="g-6">
+              <v-col cols="12" md="6">
+                <div class="profile-public__section">
+                  <div class="d-flex align-center justify-space-between mb-4">
+                    <div>
+                      <p class="text-overline mb-1">
+                        {{ t('profile.sections.personalInfo.title') }}
+                      </p>
+                      <h3 class="text-subtitle-1 font-weight-medium mb-0">
+                        {{ t('profile.public.page.title') }}
+                      </h3>
+                    </div>
+                    <v-icon icon="mdi-information-outline" size="22" />
                   </div>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <div class="profile-public__stat">
-                    <span class="text-caption text-medium-emphasis">
-                      {{ t('profile.public.labels.stories') }}
-                    </span>
-                    <span class="text-body-1 font-weight-medium">{{
-                      storiesCount
-                    }}</span>
+
+                  <div v-if="hasContactInfo" class="profile-public__list">
+                    <div
+                      v-for="item in contactItems"
+                      :key="item.label"
+                      class="profile-public__list-item"
+                    >
+                      <div class="profile-public__list-icon">
+                        <v-icon :icon="item.icon" size="18" />
+                      </div>
+                      <div>
+                        <p class="text-caption text-medium-emphasis mb-1">
+                          {{ item.label }}
+                        </p>
+                        <p class="text-body-2 mb-0">{{ item.value }}</p>
+                      </div>
+                    </div>
                   </div>
-                </v-col>
-              </v-row>
-            </div>
+                  <p v-else class="text-body-2 text-medium-emphasis mb-0">
+                    {{ t('profile.public.labels.empty') }}
+                  </p>
+                </div>
+              </v-col>
+
+              <v-col cols="12" md="6">
+                <div class="profile-public__section">
+                  <div class="d-flex align-center justify-space-between mb-4">
+                    <div>
+                      <p class="text-overline mb-1">
+                        {{ t('profile.sections.roles.title') }}
+                      </p>
+                      <h3 class="text-subtitle-1 font-weight-medium mb-0">
+                        {{ t('profile.public.labels.enabled') }}
+                      </h3>
+                    </div>
+                    <v-icon icon="mdi-shield-account-outline" size="22" />
+                  </div>
+
+                  <div v-if="hasRoles" class="d-flex flex-wrap gap-2 mb-1">
+                    <v-chip
+                      v-for="role in roles"
+                      :key="role"
+                      color="primary"
+                      variant="tonal"
+                      size="small"
+                    >
+                      {{ role }}
+                    </v-chip>
+                  </div>
+                  <p v-else class="text-body-2 text-medium-emphasis mb-0">
+                    {{ t('profile.sections.roles.empty') }}
+                  </p>
+                </div>
+
+                <div
+                  v-if="showMetadata"
+                  class="profile-public__metadata mt-4"
+                >
+                  <v-row>
+                    <v-col cols="12" sm="6">
+                      <div class="profile-public__stat">
+                        <span class="text-caption text-medium-emphasis">
+                          {{ t('profile.public.labels.friends') }}
+                        </span>
+                        <span class="text-body-1 font-weight-medium">{{
+                          friendsCount
+                        }}</span>
+                      </div>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <div class="profile-public__stat">
+                        <span class="text-caption text-medium-emphasis">
+                          {{ t('profile.public.labels.stories') }}
+                        </span>
+                        <span class="text-body-1 font-weight-medium">{{
+                          storiesCount
+                        }}</span>
+                      </div>
+                    </v-col>
+                  </v-row>
+                </div>
+              </v-col>
+            </v-row>
           </v-card-text>
         </AppCard>
 

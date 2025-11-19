@@ -9,3 +9,101 @@
   flex-direction: column;
   gap: 4px;
 }
+
+.profile-public__hero {
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+  background: linear-gradient(135deg, #f2f7ff 0%, #eef2ff 50%, #f8fbff 100%);
+  border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+
+.profile-public__hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 20% 20%,
+    rgba(86, 124, 242, 0.12) 0,
+    transparent 25%
+  );
+  pointer-events: none;
+}
+
+.profile-public__hero-content {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  align-items: center;
+  z-index: 1;
+}
+
+.profile-public__hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-public__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-left: auto;
+}
+
+.profile-public__stat-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(33, 53, 71, 0.08);
+  min-width: 180px;
+}
+
+.profile-public__section {
+  padding: 16px;
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fff, rgba(248, 251, 255, 0.8));
+  height: 100%;
+}
+
+.profile-public__list {
+  display: grid;
+  gap: 12px;
+}
+
+.profile-public__list-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(123, 144, 255, 0.05);
+}
+
+.profile-public__list-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 960px) {
+  .profile-public__hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    justify-items: center;
+  }
+
+  .profile-public__stats {
+    width: 100%;
+    justify-items: center;
+  }
+}
