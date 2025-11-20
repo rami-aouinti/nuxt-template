@@ -21,20 +21,29 @@ const taskStatusCollection = crmStore.taskStatuses
 
 await Promise.all([taskCollection.fetch(), taskStatusCollection.fetch()])
 
+const projectId = computed(() => {
+  const value = route.params.id
+  if (Array.isArray(value)) {
+    return value[0] ?? ''
+  }
+  return typeof value === 'string' ? value : ''
+})
+
 const project = ref<CrmProject | null>(null)
 const projectLoading = ref(false)
 const viewMode = ref<'tasks' | 'kanban'>('tasks')
 const selectedTaskId = ref<number | null>(null)
 
-const projectId = computed(() => route.params.id)
-
 async function loadProject() {
   projectLoading.value = true
 
   try {
-    project.value = await $fetch<CrmProject>(withBase(`/projects/${projectId.value}`), {
-      headers: crmHeaders.value,
-    })
+    project.value = await $fetch<CrmProject>(
+      withBase(`/projects/${encodeURIComponent(projectId.value)}`),
+      {
+        headers: crmHeaders.value,
+      },
+    )
   } catch (error) {
     console.error(error)
     Notify.error(translate('crm.notifications.projectError', 'Impossible de charger le projet'))
@@ -51,6 +60,17 @@ watch(
     await loadProject()
   },
 )
+
+const pageTitle = computed(() => {
+  const name = project.value?.name?.trim()
+  const label = name && name.length ? name : projectId.value ? `#${projectId.value}` : null
+  const baseTitle = translate('navigation.crmProject', 'CRM Project')
+  return label ? `${baseTitle} • ${label}` : baseTitle
+})
+
+useHead(() => ({
+  title: pageTitle.value,
+}))
 
 const projectTasks = computed<CrmTask[]>(() => {
   if (!project.value) return []
