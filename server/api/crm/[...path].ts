@@ -1,5 +1,12 @@
 import type { H3Event } from 'h3'
-import { defineEventHandler, getHeader, getRequestURL, proxyRequest } from 'h3'
+import {
+  defineEventHandler,
+  getHeader,
+  getRequestURL,
+  parseCookies,
+  proxyRequest,
+} from 'h3'
+import { useRuntimeConfig } from '#imports'
 
 const CRM_API_BASE_URL = 'https://crm.bro-world.org'
 
@@ -49,11 +56,26 @@ export default defineEventHandler(async (event) => {
   const normalizedPath = path.startsWith('/') ? path.slice(1) : path
   const session = await getUserSession(event)
   const authorization = resolveAuthorization(event, session)
+  const runtimeConfig = useRuntimeConfig(event)
+  const crmBaseUrl =
+    runtimeConfig.public?.crmApiBaseUrl || runtimeConfig.crmApiBaseUrl || CRM_API_BASE_URL
+  const acceptLanguage =
+    getHeader(event, 'accept-language') || parseCookies(event)?.i18n_redirected || undefined
   const url = getRequestURL(event)
   const search = url.search ?? ''
-  const targetUrl = `${CRM_API_BASE_URL}/api/${normalizedPath}${search}`
+  const targetUrl = `${crmBaseUrl.replace(/\/+$/, '')}/api/${normalizedPath}${search}`
+
+  const headers: Record<string, string> = {}
+
+  if (authorization) {
+    headers.Authorization = authorization
+  }
+
+  if (acceptLanguage) {
+    headers['Accept-Language'] = acceptLanguage
+  }
 
   return await proxyRequest(event, targetUrl, {
-    headers: authorization ? { Authorization: authorization } : undefined,
+    headers: Object.keys(headers).length ? headers : undefined,
   })
 })

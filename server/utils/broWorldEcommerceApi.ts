@@ -1,4 +1,4 @@
-import { getHeader, type H3Event } from 'h3'
+import { getHeader, parseCookies, type H3Event } from 'h3'
 import type { FetchOptions } from 'ofetch'
 import { useRuntimeConfig } from '#imports'
 
@@ -100,5 +100,11 @@ export function getEcommerceOrigin(event: H3Event): string {
 }
 
 export function getEcommerceAcceptLanguage(event: H3Event): string | undefined {
-  return getHeader(event, 'accept-language') || undefined
+  const header = getHeader(event, 'accept-language')
+  if (header && header.trim()) {
+    return header
+  }
+
+  const localeCookie = parseCookies(event)?.i18n_redirected
+  return localeCookie?.trim() || undefined
 }
