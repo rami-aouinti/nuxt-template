@@ -1,147 +1,41 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
-import { useServerAuthRequestHeaders } from '~/composables/useServerRequestHeaders'
-import { useCrmStore } from '~/stores/crm'
-import { Notify } from '~/stores/notification'
+import { computed } from 'vue'
+import CrmResourcePage from './components/CrmResourcePage.vue'
+import type { CrmTaskStatus } from '~/types/crm'
+import { buildCrmAdminResourceActionLinks } from '~/utils/crm/admin'
 
 definePageMeta({
   title: 'navigation.crmTaskStatuses',
-  icon: 'mdi-progress-check',
+  icon: 'mdi-progress-clock',
   drawerIndex: 6,
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 
-const requestHeaders = useServerAuthRequestHeaders()
-const crmStore = useCrmStore()
+const { t } = useI18n()
 
-const statusCollection = crmStore.taskStatuses
-await statusCollection.fetch()
+const headers = computed(() => [
+  { title: 'ID', key: 'id', width: 80 },
+  { title: t('common.labels.name'), key: 'name', minWidth: 220 },
+  { title: t('common.labels.createdAt'), key: 'createdAt', width: 180 },
+  { title: t('common.labels.updatedAt'), key: 'updatedAt', width: 180 },
+  { title: '', key: 'actions', sortable: false, width: 140 },
+])
 
-const statuses = computed(() => statusCollection.data?.member ?? [])
-
-const form = reactive({ id: null as number | null, name: '' })
-const loading = ref(false)
-const editing = computed(() => form.id !== null)
-
-function resetForm() {
-  form.id = null
-  form.name = ''
-}
-
-async function handleSubmit() {
-  if (!form.name.trim()) {
-    Notify.error('Le nom est requis')
-    return
-  }
-
-  loading.value = true
-
-  try {
-    const method = editing.value ? 'PUT' : 'POST'
-    const endpoint = editing.value
-      ? `/api/crm/task_statuses/${form.id}`
-      : '/api/crm/task_statuses'
-
-    await $fetch(endpoint, {
-      method,
-      headers: requestHeaders,
-      credentials: 'include',
-      body: { name: form.name },
-    })
-
-    Notify.success(editing.value ? 'Statut mis à jour' : 'Statut créé')
-    resetForm()
-    await statusCollection.refresh()
-  } catch (error) {
-    console.error(error)
-    Notify.error("Impossible d'enregistrer le statut")
-  } finally {
-    loading.value = false
-  }
-}
-
-function handleEdit(item: Record<string, any>) {
-  form.id = item.id
-  form.name = item.name
-}
-
-async function handleDelete(id: number) {
-  loading.value = true
-
-  try {
-    await $fetch(`/api/crm/task_statuses/${id}`, {
-      method: 'DELETE',
-      headers: requestHeaders,
-      credentials: 'include',
-    })
-    Notify.success('Statut supprimé')
-    await statusCollection.refresh()
-  } catch (error) {
-    console.error(error)
-    Notify.error('Suppression impossible')
-  } finally {
-    loading.value = false
-  }
-}
+const mapItem = (item: CrmTaskStatus) => ({
+  id: item.id,
+  name: item.name,
+  createdAt: item.createdAt,
+  updatedAt: item.updatedAt,
+  actions: buildCrmAdminResourceActionLinks(item['@id'] ?? `/task_statuses/${item.id}`),
+})
 </script>
 
 <template>
-  <v-container fluid>
-    <v-row>
-      <v-col cols="12" md="4">
-        <v-card>
-          <v-card-title>
-            {{ editing ? 'Modifier un statut de tâche' : 'Ajouter un statut de tâche' }}
-          </v-card-title>
-          <v-card-text>
-            <v-form @submit.prevent="handleSubmit">
-              <v-text-field v-model="form.name" label="Nom" class="mb-4" />
-              <v-btn type="submit" color="primary" :loading="loading" block>
-                {{ editing ? 'Mettre à jour' : 'Créer' }}
-              </v-btn>
-              <v-btn
-                v-if="editing"
-                class="mt-2"
-                variant="tonal"
-                block
-                @click="resetForm"
-              >
-                Annuler la modification
-              </v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
-      <v-col cols="12" md="8">
-        <v-card>
-          <v-card-title>Statuts de tâche</v-card-title>
-          <v-data-table
-            :items="statuses"
-            :loading="statusCollection.pending.value"
-            :headers="[
-              { title: 'ID', key: 'id', width: 80 },
-              { title: 'Nom', key: 'name' },
-              { title: 'Actions', key: 'actions', sortable: false, width: 160 },
-            ]"
-          >
-            <template #item.actions="{ item }">
-              <v-btn size="small" variant="text" @click="handleEdit(item)">
-                Éditer
-              </v-btn>
-              <v-btn
-                size="small"
-                color="error"
-                variant="text"
-                :loading="loading"
-                @click="handleDelete(item.id)"
-              >
-                Supprimer
-              </v-btn>
-            </template>
-          </v-data-table>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+  <CrmResourcePage
+    :title="t('navigation.crmTaskStatuses')"
+    endpoint="/task_statuses"
+    :headers="headers"
+    :map-item="mapItem"
+    :search-fields="['name']"
+  />
 </template>
