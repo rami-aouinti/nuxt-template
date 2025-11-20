@@ -1,3 +1,4 @@
+import type { FetchError } from 'ofetch'
 import { defineStore } from 'pinia'
 import { ref, type Ref } from 'vue'
 import { useCrmApi } from '~/composables/useCrmApi'
@@ -57,10 +58,18 @@ export const useCrmStore = defineStore('crm', () => {
       try {
         const result = await $fetch<T>(withBase(endpoint), {
           headers: crmHeaders.value,
+          cache: 'no-store',
         })
         data.value = result
         return result
       } catch (err) {
+        const fetchError = err as FetchError<T> | undefined
+
+        if (fetchError?.status === 304 && fetchError.data) {
+          data.value = fetchError.data
+          return fetchError.data
+        }
+
         const wrapped = toError(err)
         error.value = wrapped
         throw wrapped
