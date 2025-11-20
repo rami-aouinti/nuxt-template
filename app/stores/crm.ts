@@ -57,6 +57,7 @@ export const useCrmStore = defineStore('crm', () => {
       try {
         const result = await $fetch<T>(withBase(endpoint), {
           headers: crmHeaders.value,
+          cache: 'no-store',
         })
         data.value = result
         return result
