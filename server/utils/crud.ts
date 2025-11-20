@@ -1,6 +1,7 @@
 import { createError, getRouterParam, type H3Event } from 'h3'
 
 import { broWorldRequest } from './broWorldApi'
+import { broWorldCrmRequest } from './broWorldCrmApi'
 import { broWorldBlogRequest } from './broWorldBlogApi'
 import { broWorldMediaRequest } from './broWorldMediaApi'
 import { broWorldFrontendRequest } from './broWorldFrontendApi'
@@ -88,6 +89,19 @@ export async function requestMediaWithJsonBody<Response, Payload>(
   body: Payload,
 ) {
   return await broWorldMediaRequest<Response>(event, path, {
+    method,
+    body,
+    headers: { 'Content-Type': 'application/json' },
+  })
+}
+
+export async function requestCrmWithJsonBody<Response, Payload>(
+  event: H3Event,
+  path: string,
+  method: 'POST' | 'PUT' | 'PATCH',
+  body: Payload,
+) {
+  return await broWorldCrmRequest<Response>(event, path, {
     method,
     body,
     headers: { 'Content-Type': 'application/json' },

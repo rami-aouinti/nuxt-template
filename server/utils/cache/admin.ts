@@ -14,6 +14,8 @@ export type AdminResource =
   | 'media'
   | 'notification'
   | 'notification_template'
+  | 'crm_project'
+  | 'crm_task'
 
 type CacheType = 'list' | 'count' | 'detail'
 
