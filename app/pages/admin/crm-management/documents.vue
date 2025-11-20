@@ -13,7 +13,6 @@ definePageMeta({
 
 const requestHeaders = useServerAuthRequestHeaders()
 const crmStore = useCrmStore()
-const notify = Notify()
 
 const documentCollection = crmStore.documents
 const clientCollection = crmStore.clients
@@ -59,7 +58,7 @@ function resetForm() {
 
 async function handleSubmit() {
   if (!form.name.trim()) {
-    notify.error('Le nom du document est requis')
+    Notify.error('Le nom du document est requis')
     return
   }
 
@@ -82,12 +81,12 @@ async function handleSubmit() {
       },
     })
 
-    notify.success(editing.value ? 'Document mis à jour' : 'Document créé')
+    Notify.success(editing.value ? 'Document mis à jour' : 'Document créé')
     resetForm()
     await documentCollection.refresh()
   } catch (error) {
     console.error(error)
-    notify.error("Impossible d'enregistrer le document")
+    Notify.error("Impossible d'enregistrer le document")
   } finally {
     loading.value = false
   }
@@ -111,11 +110,11 @@ async function handleDelete(id: number) {
       headers: requestHeaders,
       credentials: 'include',
     })
-    notify.success('Document supprimé')
+    Notify.success('Document supprimé')
     await documentCollection.refresh()
   } catch (error) {
     console.error(error)
-    notify.error('Suppression impossible')
+    Notify.error('Suppression impossible')
   } finally {
     loading.value = false
   }

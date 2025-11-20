@@ -13,7 +13,6 @@ definePageMeta({
 
 const requestHeaders = useServerAuthRequestHeaders()
 const crmStore = useCrmStore()
-const notify = Notify()
 
 const clientCollection = crmStore.clients
 const statusCollection = crmStore.projectStatuses
@@ -66,7 +65,7 @@ function resetForm() {
 
 async function handleSubmit() {
   if (!form.name.trim()) {
-    notify.error('Le nom du projet est requis')
+    Notify.error('Le nom du projet est requis')
     return
   }
 
@@ -90,12 +89,12 @@ async function handleSubmit() {
       },
     })
 
-    notify.success(editing.value ? 'Projet mis à jour' : 'Projet créé')
+    Notify.success(editing.value ? 'Projet mis à jour' : 'Projet créé')
     resetForm()
     await projectCollection.refresh()
   } catch (error) {
     console.error(error)
-    notify.error("Impossible d'enregistrer le projet")
+    Notify.error("Impossible d'enregistrer le projet")
   } finally {
     loading.value = false
   }
@@ -118,11 +117,11 @@ async function handleDelete(id: number) {
       headers: requestHeaders,
       credentials: 'include',
     })
-    notify.success('Projet supprimé')
+    Notify.success('Projet supprimé')
     await projectCollection.refresh()
   } catch (error) {
     console.error(error)
-    notify.error('Suppression impossible')
+    Notify.error('Suppression impossible')
   } finally {
     loading.value = false
   }

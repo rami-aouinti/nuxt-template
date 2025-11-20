@@ -13,7 +13,6 @@ definePageMeta({
 
 const requestHeaders = useServerAuthRequestHeaders()
 const crmStore = useCrmStore()
-const notify = Notify()
 
 const statusCollection = crmStore.projectStatuses
 await statusCollection.fetch()
@@ -31,7 +30,7 @@ function resetForm() {
 
 async function handleSubmit() {
   if (!form.name.trim()) {
-    notify.error('Le nom est requis')
+    Notify.error('Le nom est requis')
     return
   }
 
@@ -50,12 +49,12 @@ async function handleSubmit() {
       body: { name: form.name },
     })
 
-    notify.success(editing.value ? 'Statut mis à jour' : 'Statut créé')
+    Notify.success(editing.value ? 'Statut mis à jour' : 'Statut créé')
     resetForm()
     await statusCollection.refresh()
   } catch (error) {
     console.error(error)
-    notify.error("Impossible d'enregistrer le statut")
+    Notify.error("Impossible d'enregistrer le statut")
   } finally {
     loading.value = false
   }
@@ -75,11 +74,11 @@ async function handleDelete(id: number) {
       headers: requestHeaders,
       credentials: 'include',
     })
-    notify.success('Statut supprimé')
+    Notify.success('Statut supprimé')
     await statusCollection.refresh()
   } catch (error) {
     console.error(error)
-    notify.error('Suppression impossible')
+    Notify.error('Suppression impossible')
   } finally {
     loading.value = false
   }

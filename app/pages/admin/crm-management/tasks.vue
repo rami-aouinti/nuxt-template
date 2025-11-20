@@ -13,7 +13,6 @@ definePageMeta({
 
 const requestHeaders = useServerAuthRequestHeaders()
 const crmStore = useCrmStore()
-const notify = Notify()
 
 const projectCollection = crmStore.projects
 const taskCollection = crmStore.tasks
@@ -68,7 +67,7 @@ function resetForm() {
 
 async function handleSubmit() {
   if (!form.name.trim()) {
-    notify.error('Le nom de la tâche est requis')
+    Notify.error('Le nom de la tâche est requis')
     return
   }
 
@@ -94,12 +93,12 @@ async function handleSubmit() {
       },
     })
 
-    notify.success(editing.value ? 'Tâche mise à jour' : 'Tâche créée')
+    Notify.success(editing.value ? 'Tâche mise à jour' : 'Tâche créée')
     resetForm()
     await taskCollection.refresh()
   } catch (error) {
     console.error(error)
-    notify.error("Impossible d'enregistrer la tâche")
+    Notify.error("Impossible d'enregistrer la tâche")
   } finally {
     loading.value = false
   }
@@ -125,11 +124,11 @@ async function handleDelete(id: number) {
       headers: requestHeaders,
       credentials: 'include',
     })
-    notify.success('Tâche supprimée')
+    Notify.success('Tâche supprimée')
     await taskCollection.refresh()
   } catch (error) {
     console.error(error)
-    notify.error('Suppression impossible')
+    Notify.error('Suppression impossible')
   } finally {
     loading.value = false
   }

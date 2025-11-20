@@ -13,7 +13,6 @@ definePageMeta({
 
 const requestHeaders = useServerAuthRequestHeaders()
 const crmStore = useCrmStore()
-const notify = Notify()
 
 const typeCollection = crmStore.projectTypes
 await typeCollection.fetch()
@@ -31,7 +30,7 @@ function resetForm() {
 
 async function handleSubmit() {
   if (!form.name.trim()) {
-    notify.error('Le nom est requis')
+    Notify.error('Le nom est requis')
     return
   }
 
@@ -50,12 +49,12 @@ async function handleSubmit() {
       body: { name: form.name },
     })
 
-    notify.success(editing.value ? 'Type mis à jour' : 'Type créé')
+    Notify.success(editing.value ? 'Type mis à jour' : 'Type créé')
     resetForm()
     await typeCollection.refresh()
   } catch (error) {
     console.error(error)
-    notify.error("Impossible d'enregistrer le type")
+    Notify.error("Impossible d'enregistrer le type")
   } finally {
     loading.value = false
   }
@@ -75,11 +74,11 @@ async function handleDelete(id: number) {
       headers: requestHeaders,
       credentials: 'include',
     })
-    notify.success('Type supprimé')
+    Notify.success('Type supprimé')
     await typeCollection.refresh()
   } catch (error) {
     console.error(error)
-    notify.error('Suppression impossible')
+    Notify.error('Suppression impossible')
   } finally {
     loading.value = false
   }

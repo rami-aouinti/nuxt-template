@@ -13,7 +13,6 @@ definePageMeta({
 
 const requestHeaders = useServerAuthRequestHeaders()
 const crmStore = useCrmStore()
-const notify = Notify()
 
 const countryCollection = crmStore.countries
 
@@ -32,7 +31,7 @@ function resetForm() {
 
 async function handleSubmit() {
   if (!form.name.trim()) {
-    notify.error('Le nom du pays est requis')
+    Notify.error('Le nom du pays est requis')
     return
   }
 
@@ -51,12 +50,12 @@ async function handleSubmit() {
       body: { name: form.name },
     })
 
-    notify.success(editing.value ? 'Pays mis à jour' : 'Pays ajouté')
+    Notify.success(editing.value ? 'Pays mis à jour' : 'Pays ajouté')
     resetForm()
     await countryCollection.refresh()
   } catch (error) {
     console.error(error)
-    notify.error("Impossible d'enregistrer le pays")
+    Notify.error("Impossible d'enregistrer le pays")
   } finally {
     loading.value = false
   }
@@ -76,11 +75,11 @@ async function handleDelete(id: number) {
       headers: requestHeaders,
       credentials: 'include',
     })
-    notify.success('Pays supprimé')
+    Notify.success('Pays supprimé')
     await countryCollection.refresh()
   } catch (error) {
     console.error(error)
-    notify.error('Suppression impossible')
+    Notify.error('Suppression impossible')
   } finally {
     loading.value = false
   }

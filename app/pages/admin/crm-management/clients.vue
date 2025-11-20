@@ -13,7 +13,6 @@ definePageMeta({
 
 const requestHeaders = useServerAuthRequestHeaders()
 const crmStore = useCrmStore()
-const notify = Notify()
 
 const clientCollection = crmStore.clients
 const contactTypeCollection = crmStore.contactTypes
@@ -59,7 +58,7 @@ function resetForm() {
 
 async function handleSubmit() {
   if (!form.name.trim()) {
-    notify.error('Le nom du client est requis.')
+    Notify.error('Le nom du client est requis.')
     return
   }
 
@@ -96,12 +95,12 @@ async function handleSubmit() {
       })
     }
 
-    notify.success(editing.value ? 'Client mis à jour' : 'Client créé')
+    Notify.success(editing.value ? 'Client mis à jour' : 'Client créé')
     resetForm()
     await Promise.all([clientCollection.refresh(), crmStore.contacts.refresh()])
   } catch (error) {
     console.error(error)
-    notify.error("Impossible d'enregistrer le client")
+    Notify.error("Impossible d'enregistrer le client")
   } finally {
     actionLoading.value = false
   }
@@ -124,11 +123,11 @@ async function handleDelete(id: number) {
       headers: requestHeaders,
       credentials: 'include',
     })
-    notify.success('Client supprimé')
+    Notify.success('Client supprimé')
     await clientCollection.refresh()
   } catch (error) {
     console.error(error)
-    notify.error('Suppression impossible')
+    Notify.error('Suppression impossible')
   } finally {
     actionLoading.value = false
   }
