@@ -152,13 +152,6 @@ function isPrimitive(value: unknown) {
   )
 }
 
-function formatPrimitive(value: string | number | boolean | null) {
-  if (value === null) return 'null'
-  if (typeof value === 'boolean') return value ? 'true' : 'false'
-  if (typeof value === 'number') return value.toString()
-  return value
-}
-
 function buildEntityFields(value: unknown) {
   if (!value || typeof value !== 'object') {
     return []

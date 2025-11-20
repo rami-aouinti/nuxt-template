@@ -80,34 +80,6 @@ const availableRoutes = computed(() =>
   routes.filter((route) => hasRouteAccess(route)),
 )
 
-const toPositiveInteger = (value?: string | string[]) => {
-  const candidate = Array.isArray(value) ? value[0] : value
-  const parsed = Number.parseInt(candidate ?? '', 10)
-
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined
-}
-
-const resolveViewportWidth = () => {
-  if (import.meta.server) {
-    const event = useRequestEvent()
-    if (!event) {
-      return undefined
-    }
-
-    const header =
-      event.node.req.headers['sec-ch-viewport-width'] ??
-      event.node.req.headers['viewport-width']
-
-    return toPositiveInteger(header)
-  }
-
-  if (import.meta.client && typeof window !== 'undefined') {
-    return window.innerWidth
-  }
-
-  return undefined
-}
-
 const ensureInitialDrawerState = () => {
   const shouldExpand = false
 

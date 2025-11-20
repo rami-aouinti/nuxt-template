@@ -3,7 +3,6 @@ import { Notify } from '~/stores/notification'
 import { axios, AxiosError } from '~/utils/axios'
 import type { LoginResponse } from '~/types/auth'
 
-const router = useRouter()
 const { t } = useI18n()
 const { fetch } = useAppUserSession()
 const profileCache = useAuthProfileCache()
