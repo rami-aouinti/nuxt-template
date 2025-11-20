@@ -11,6 +11,7 @@ definePageMeta({
 })
 
 const { t } = useI18n()
+const localePath = useLocalePath()
 const translate = useTranslateWithFallback()
 
 const { headers: crmHeaders, withBase, withResourceBase } = useCrmApi()
@@ -85,7 +86,10 @@ const documentItems = computed(() => documentCollection.data?.member ?? [])
 const projectNavigationItems = computed(() =>
   (projectCollection.data?.member ?? []).map((project) => ({
     value: project.id,
-    to: `/crm/project/${project.id}`,
+    to: localePath({
+      name: 'crm-project-id',
+      params: { id: project.id },
+    }),
     label: project.name,
     icon: project.status ? 'mdi-circle-slice-8' : 'mdi-briefcase-outline',
     status: project.status,
@@ -96,7 +100,10 @@ const projectNavigationItems = computed(() =>
 const clientNavigationItems = computed(() =>
   (clientCollection.data?.member ?? []).map((client) => ({
     value: client.id,
-    to: `/crm/client/${client.id}`,
+    to: localePath({
+      name: 'crm-client-id',
+      params: { id: client.id },
+    }),
     label: client.name,
     icon: 'mdi-account-tie-outline',
     contacts: client.contacts,
