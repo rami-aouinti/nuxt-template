@@ -102,9 +102,7 @@ export interface AddressLogEntry {
   data: unknown
 }
 
-export interface AddressLogEntrySyliusAdminAddressLogEntryShow
-  extends AddressLogEntry {}
+export type AddressLogEntrySyliusAdminAddressLogEntryShow = AddressLogEntry
 
-export interface AddressLogEntryJsonldSyliusAdminAddressLogEntryShow
-  extends JsonLdResource,
-    AddressLogEntrySyliusAdminAddressLogEntryShow {}
+export type AddressLogEntryJsonldSyliusAdminAddressLogEntryShow =
+  JsonLdResource & AddressLogEntrySyliusAdminAddressLogEntryShow

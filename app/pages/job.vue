@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { computed, reactive, ref, watch } from 'vue'
-import type { Applicant, Company, Job } from '~/types/job'
-import { ContractType, LanguageLevel, WorkType } from '~/types/job'
+import type { Applicant, Job } from '~/types/job'
+import { ContractType, WorkType } from '~/types/job'
 import { useJobStore } from '~/stores/job'
 import { Notify } from '~/stores/notification'
 import AppCard from '~/components/ui/AppCard.vue'
@@ -14,41 +14,9 @@ definePageMeta({
   title: 'Job platform',
 })
 
-const JOB_PLATFORM_MEDIA_BASE_URL = 'https://job.bro-world.org'
 const jobApi = useJobPlatformApi()
 const { loggedIn } = useAppUserSession()
 
-const {
-  data: jobCompanies,
-  pending: companiesPending,
-  error: companiesError,
-} = await useFetch<Company[]>('/api/job/companies')
-
-const normalizeMediaUrl = (path?: string | null) => {
-  if (!path) {
-    return null
-  }
-
-  if (/^https?:\/\//i.test(path)) {
-    return path
-  }
-
-  return `${JOB_PLATFORM_MEDIA_BASE_URL}${path}`
-}
-
-const companyShowcase = computed(() => {
-  return (jobCompanies.value ?? []).map((company) => ({
-    ...company,
-    logo: normalizeMediaUrl(company.logo) ?? undefined,
-    medias: company.medias?.map((media) => ({
-      ...media,
-      url: normalizeMediaUrl(media.url) ?? media.url,
-    })),
-  }))
-})
-
-const visibleCompanies = computed(() => companyShowcase.value.slice(0, 6))
-const totalCompanyProfiles = computed(() => companyShowcase.value.length)
 const jobStore = useJobStore()
 const {
   jobs,
@@ -134,24 +102,6 @@ const filteredJobs = computed(() => {
     )
   })
 })
-
-const totalJobs = computed(() => resolvedJobs.value.length)
-const remoteFriendlyJobs = computed(
-  () =>
-    resolvedJobs.value.filter((job) => job.workType === WorkType.REMOTE).length,
-)
-const hiringCompanies = computed(() => {
-  const set = new Set(
-    resolvedJobs.value.map((job) => job.company?.name).filter(Boolean),
-  )
-  return set.size
-})
-
-const heroMetrics = computed(() => [
-  { label: 'Open roles', value: totalJobs.value },
-  { label: 'Remote friendly', value: remoteFriendlyJobs.value },
-  { label: 'Hiring companies', value: hiringCompanies.value },
-])
 
 const skillCloud = computed(() => {
   const counter = new Map<string, number>()

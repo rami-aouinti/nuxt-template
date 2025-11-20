@@ -2,27 +2,16 @@
 import { computed, reactive, ref, watch } from 'vue'
 import { FetchError } from 'ofetch'
 import type { AuthProfile } from '~/types/auth'
-import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 import { Notify } from '~/stores/notification'
-import AppCard from '~/components/ui/AppCard.vue'
+import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 
 definePageMeta({
   title: 'navigation.settings',
 })
 
 const { t } = useI18n()
-const { loggedIn, session } = useAppUserSession()
+const { session } = useAppUserSession()
 const profileCache = useAuthProfileCache()
-
-type SettingsSectionKey = 'profile' | 'security' | 'notifications'
-
-type SettingsSection = {
-  key: SettingsSectionKey
-  icon: string
-  title: string
-  description: string
-  fields?: { label: string; value: string }[]
-}
 
 const profile = computed<AuthProfile | null>(() => {
   const sessionProfile = session.value?.profile
@@ -47,78 +36,6 @@ const currentUser = computed<Record<string, unknown> | null>(() => {
   return null
 })
 
-const profileFields = computed(() => {
-  if (!profile.value && !currentUser.value) {
-    return [] as { label: string; value: string }[]
-  }
-
-  const emptyLabel = t('profile.public.labels.empty')
-
-  const ensureString = (value: unknown) => {
-    if (typeof value === 'string') {
-      const trimmed = value.trim()
-      return trimmed.length > 0 ? trimmed : null
-    }
-    return null
-  }
-
-  const getProfileValue = (key: keyof AuthProfile) =>
-    profile.value ? ensureString(profile.value[key]) : null
-
-  const displayName = (() => {
-    const firstName = getProfileValue('firstName')
-    const lastName = getProfileValue('lastName')
-    const fullName = [firstName, lastName].filter(Boolean).join(' ').trim()
-    if (fullName.length) {
-      return fullName
-    }
-
-    const username = getProfileValue('username')
-    if (username) {
-      return username
-    }
-
-    const login = ensureString(currentUser.value?.login)
-    return login ?? null
-  })()
-
-  const username =
-    getProfileValue('username') ?? ensureString(currentUser.value?.login)
-  const email =
-    getProfileValue('email') ?? ensureString(currentUser.value?.email)
-  const title = getProfileValue('title')
-  const phone = getProfileValue('phone')
-  const address = getProfileValue('address')
-
-  const items: { label: string; value: string }[] = [
-    {
-      label: t('pages.settings.sections.profile.fields.displayName'),
-      value: displayName ?? emptyLabel,
-    },
-    {
-      label: t('pages.settings.sections.profile.fields.username'),
-      value: username ?? emptyLabel,
-    },
-    {
-      label: t('profile.public.labels.email'),
-      value: email ?? emptyLabel,
-    },
-    {
-      label: t('profile.fields.title'),
-      value: title ?? emptyLabel,
-    },
-    {
-      label: t('profile.fields.phone'),
-      value: phone ?? emptyLabel,
-    },
-    {
-      label: t('profile.fields.address'),
-      value: address ?? emptyLabel,
-    },
-  ]
-
-  return items
-})
 
 const profileEmail = computed(() => {
   if (profile.value) {
@@ -271,35 +188,6 @@ watch(
     }
   },
 )
-
-const sections = computed<SettingsSection[]>(() => {
-  const items: SettingsSection[] = [
-    {
-      key: 'security',
-      icon: 'mdi-shield-lock-outline',
-      title: t('pages.settings.sections.security.title'),
-      description: t('pages.settings.sections.security.description'),
-    },
-    {
-      key: 'notifications',
-      icon: 'mdi-bell-ring-outline',
-      title: t('pages.settings.sections.notifications.title'),
-      description: t('pages.settings.sections.notifications.description'),
-    },
-  ]
-
-  if (loggedIn.value) {
-    items.unshift({
-      key: 'profile',
-      icon: 'mdi-account-cog-outline',
-      title: t('pages.settings.sections.profile.title'),
-      description: t('pages.settings.sections.profile.description'),
-      fields: profileFields.value,
-    })
-  }
-
-  return items
-})
 </script>
 
 <template>

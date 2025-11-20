@@ -12,7 +12,6 @@ const props = defineProps<{
   formatRelativePublishedAt: (value: string) => string
 }>()
 
-const { t } = useI18n()
 const localePath = useLocalePath()
 const { getAuthorName, getAuthorProfileLink, getAuthorAvatar } = useBlogAuthor()
 
