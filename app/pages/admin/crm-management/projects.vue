@@ -33,6 +33,7 @@ const statuses = computed(() => statusCollection.data.value?.member ?? [])
 const types = computed(() => typeCollection.data.value?.member ?? [])
 
 const form = reactive({
+  id: null as number | null,
   name: '',
   clientIri: '',
   statusIri: '',
@@ -40,6 +41,7 @@ const form = reactive({
 })
 
 const loading = ref(false)
+const editing = computed(() => form.id !== null)
 
 const iriFrom = (item: Record<string, any> | string | number | null, path: string) => {
   if (!item) return ''
@@ -55,6 +57,7 @@ const statusValue = (item: Record<string, any>) => iriFrom(item, '/api/project_s
 const typeValue = (item: Record<string, any>) => iriFrom(item, '/api/project_types')
 
 function resetForm() {
+  form.id = null
   form.name = ''
   form.clientIri = ''
   form.statusIri = ''
@@ -70,8 +73,13 @@ async function handleSubmit() {
   loading.value = true
 
   try {
-    await $fetch('/api/crm/projects', {
-      method: 'POST',
+    const method = editing.value ? 'PUT' : 'POST'
+    const endpoint = editing.value
+      ? `/api/crm/projects/${form.id}`
+      : '/api/crm/projects'
+
+    await $fetch(endpoint, {
+      method,
       headers: requestHeaders,
       credentials: 'include',
       body: {
@@ -82,7 +90,7 @@ async function handleSubmit() {
       },
     })
 
-    notify.success('Projet créé')
+    notify.success(editing.value ? 'Projet mis à jour' : 'Projet créé')
     resetForm()
     await projectCollection.refresh()
   } catch (error) {
@@ -91,6 +99,14 @@ async function handleSubmit() {
   } finally {
     loading.value = false
   }
+}
+
+function handleEdit(item: Record<string, any>) {
+  form.id = item.id
+  form.name = item.name
+  form.clientIri = clientValue(item.client)
+  form.statusIri = statusValue(item.status)
+  form.typeIri = typeValue(item.type)
 }
 
 async function handleDelete(id: number) {
@@ -118,7 +134,9 @@ async function handleDelete(id: number) {
     <v-row>
       <v-col cols="12" md="5">
         <v-card>
-          <v-card-title>Créer un projet</v-card-title>
+          <v-card-title>
+            {{ editing ? 'Modifier un projet' : 'Créer un projet' }}
+          </v-card-title>
           <v-card-text>
             <v-form @submit.prevent="handleSubmit">
               <v-text-field v-model="form.name" label="Nom" class="mb-3" />
@@ -150,7 +168,16 @@ async function handleDelete(id: number) {
                 clearable
               />
               <v-btn type="submit" color="primary" :loading="loading" block>
-                Créer
+                {{ editing ? 'Mettre à jour' : 'Créer' }}
+              </v-btn>
+              <v-btn
+                v-if="editing"
+                class="mt-2"
+                variant="tonal"
+                block
+                @click="resetForm"
+              >
+                Annuler la modification
               </v-btn>
             </v-form>
           </v-card-text>
@@ -169,10 +196,13 @@ async function handleDelete(id: number) {
               { title: 'Client', key: 'client.name' },
               { title: 'Statut', key: 'status.name' },
               { title: 'Type', key: 'type.name' },
-              { title: 'Actions', key: 'actions', sortable: false, width: 120 },
+              { title: 'Actions', key: 'actions', sortable: false, width: 180 },
             ]"
           >
             <template #item.actions="{ item }">
+              <v-btn size="small" variant="text" @click="handleEdit(item.raw)">
+                Éditer
+              </v-btn>
               <v-btn
                 size="small"
                 color="error"

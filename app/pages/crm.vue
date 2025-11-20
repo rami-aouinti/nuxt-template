@@ -187,7 +187,7 @@ async function handleCreateProject() {
   projectActionLoading.value = true
 
   try {
-    await $fetch('/api/v1/crm/projects', {
+    await $fetch('/api/crm/projects', {
       method: 'POST',
       headers: requestHeaders,
       credentials: 'include',
@@ -219,7 +219,7 @@ async function handleCreateTask() {
   taskActionLoading.value = true
 
   try {
-    await $fetch('/api/v1/crm/tasks', {
+    await $fetch('/api/crm/tasks', {
       method: 'POST',
       headers: requestHeaders,
       credentials: 'include',

@@ -30,6 +30,7 @@ const projects = computed(() => projectCollection.data.value?.member ?? [])
 const statuses = computed(() => statusCollection.data.value?.member ?? [])
 
 const form = reactive({
+  id: null as number | null,
   name: '',
   projectIri: '',
   assigneeId: '',
@@ -40,6 +41,7 @@ const form = reactive({
 })
 
 const loading = ref(false)
+const editing = computed(() => form.id !== null)
 
 const iriFrom = (item: Record<string, any> | string | number | null, path: string) => {
   if (!item) return ''
@@ -54,6 +56,7 @@ const projectValue = (item: Record<string, any>) => iriFrom(item, '/api/projects
 const statusValue = (item: Record<string, any>) => iriFrom(item, '/api/task_statuses')
 
 function resetForm() {
+  form.id = null
   form.name = ''
   form.projectIri = ''
   form.assigneeId = ''
@@ -72,8 +75,11 @@ async function handleSubmit() {
   loading.value = true
 
   try {
-    await $fetch('/api/crm/tasks', {
-      method: 'POST',
+    const method = editing.value ? 'PUT' : 'POST'
+    const endpoint = editing.value ? `/api/crm/tasks/${form.id}` : '/api/crm/tasks'
+
+    await $fetch(endpoint, {
+      method,
       headers: requestHeaders,
       credentials: 'include',
       body: {
@@ -88,7 +94,7 @@ async function handleSubmit() {
       },
     })
 
-    notify.success('Tâche créée')
+    notify.success(editing.value ? 'Tâche mise à jour' : 'Tâche créée')
     resetForm()
     await taskCollection.refresh()
   } catch (error) {
@@ -97,6 +103,17 @@ async function handleSubmit() {
   } finally {
     loading.value = false
   }
+}
+
+function handleEdit(item: Record<string, any>) {
+  form.id = item.id
+  form.name = item.name
+  form.projectIri = projectValue(item.project)
+  form.assigneeId = item.assignee?.id?.toString() ?? ''
+  form.deadline = item.deadline ?? ''
+  form.statusIri = statusValue(item.status)
+  form.timeEstimated = item.timeEstimated ?? 0
+  form.timeSpent = item.timeSpent ?? 0
 }
 
 async function handleDelete(id: number) {
@@ -124,7 +141,9 @@ async function handleDelete(id: number) {
     <v-row>
       <v-col cols="12" md="5">
         <v-card>
-          <v-card-title>Créer une tâche</v-card-title>
+          <v-card-title>
+            {{ editing ? 'Modifier une tâche' : 'Créer une tâche' }}
+          </v-card-title>
           <v-card-text>
             <v-form @submit.prevent="handleSubmit">
               <v-text-field v-model="form.name" label="Nom" class="mb-3" />
@@ -170,7 +189,16 @@ async function handleDelete(id: number) {
                 class="mb-4"
               />
               <v-btn type="submit" color="primary" :loading="loading" block>
-                Créer
+                {{ editing ? 'Mettre à jour' : 'Créer' }}
+              </v-btn>
+              <v-btn
+                v-if="editing"
+                class="mt-2"
+                variant="tonal"
+                block
+                @click="resetForm"
+              >
+                Annuler la modification
               </v-btn>
             </v-form>
           </v-card-text>
@@ -189,10 +217,13 @@ async function handleDelete(id: number) {
               { title: 'Projet', key: 'project.name' },
               { title: 'Statut', key: 'status.name' },
               { title: 'Assigné', key: 'assignee.name' },
-              { title: 'Actions', key: 'actions', sortable: false, width: 120 },
+              { title: 'Actions', key: 'actions', sortable: false, width: 180 },
             ]"
           >
             <template #item.actions="{ item }">
+              <v-btn size="small" variant="text" @click="handleEdit(item.raw)">
+                Éditer
+              </v-btn>
               <v-btn
                 size="small"
                 color="error"

@@ -29,8 +29,14 @@ const documents = computed(() => documentCollection.data.value?.member ?? [])
 const clients = computed(() => clientCollection.data.value?.member ?? [])
 const projects = computed(() => projectCollection.data.value?.member ?? [])
 
-const form = reactive({ name: '', clientIri: '', projectIri: '' })
+const form = reactive({
+  id: null as number | null,
+  name: '',
+  clientIri: '',
+  projectIris: [] as string[],
+})
 const loading = ref(false)
+const editing = computed(() => form.id !== null)
 
 const iriFrom = (item: Record<string, any> | string | number | null, path: string) => {
   if (!item) return ''
@@ -45,9 +51,10 @@ const clientValue = (item: Record<string, any>) => iriFrom(item, '/api/clients')
 const projectValue = (item: Record<string, any>) => iriFrom(item, '/api/projects')
 
 function resetForm() {
+  form.id = null
   form.name = ''
   form.clientIri = ''
-  form.projectIri = ''
+  form.projectIris = []
 }
 
 async function handleSubmit() {
@@ -59,18 +66,23 @@ async function handleSubmit() {
   loading.value = true
 
   try {
-    await $fetch('/api/crm/documents', {
-      method: 'POST',
+    const method = editing.value ? 'PUT' : 'POST'
+    const endpoint = editing.value
+      ? `/api/crm/documents/${form.id}`
+      : '/api/crm/documents'
+
+    await $fetch(endpoint, {
+      method,
       headers: requestHeaders,
       credentials: 'include',
       body: {
         name: form.name,
         client: form.clientIri || undefined,
-        projects: form.projectIri ? [form.projectIri] : undefined,
+        projects: form.projectIris.length ? form.projectIris : undefined,
       },
     })
 
-    notify.success('Document créé')
+    notify.success(editing.value ? 'Document mis à jour' : 'Document créé')
     resetForm()
     await documentCollection.refresh()
   } catch (error) {
@@ -79,6 +91,15 @@ async function handleSubmit() {
   } finally {
     loading.value = false
   }
+}
+
+function handleEdit(item: Record<string, any>) {
+  form.id = item.id
+  form.name = item.name
+  form.clientIri = clientValue(item.client)
+  form.projectIris = (item.projects || []).map((project: Record<string, any>) =>
+    projectValue(project),
+  )
 }
 
 async function handleDelete(id: number) {
@@ -106,7 +127,9 @@ async function handleDelete(id: number) {
     <v-row>
       <v-col cols="12" md="5">
         <v-card>
-          <v-card-title>Créer un document</v-card-title>
+          <v-card-title>
+            {{ editing ? 'Modifier un document' : 'Créer un document' }}
+          </v-card-title>
           <v-card-text>
             <v-form @submit.prevent="handleSubmit">
               <v-text-field v-model="form.name" label="Nom" class="mb-3" />
@@ -120,16 +143,27 @@ async function handleDelete(id: number) {
                 clearable
               />
               <v-select
-                v-model="form.projectIri"
+                v-model="form.projectIris"
                 :items="projects"
                 item-title="name"
                 :item-value="projectValue"
-                label="Projet lié"
+                label="Projets liés"
                 class="mb-4"
                 clearable
+                multiple
+                chips
               />
               <v-btn type="submit" color="primary" :loading="loading" block>
-                Créer
+                {{ editing ? 'Mettre à jour' : 'Créer' }}
+              </v-btn>
+              <v-btn
+                v-if="editing"
+                class="mt-2"
+                variant="tonal"
+                block
+                @click="resetForm"
+              >
+                Annuler la modification
               </v-btn>
             </v-form>
           </v-card-text>
@@ -147,7 +181,7 @@ async function handleDelete(id: number) {
               { title: 'Nom', key: 'name' },
               { title: 'Client', key: 'client.name' },
               { title: 'Projets liés', key: 'projects', sortable: false },
-              { title: 'Actions', key: 'actions', sortable: false, width: 120 },
+              { title: 'Actions', key: 'actions', sortable: false, width: 180 },
             ]"
           >
             <template #item.projects="{ item }">
@@ -156,6 +190,9 @@ async function handleDelete(id: number) {
               </v-chip>
             </template>
             <template #item.actions="{ item }">
+              <v-btn size="small" variant="text" @click="handleEdit(item.raw)">
+                Éditer
+              </v-btn>
               <v-btn
                 size="small"
                 color="error"
