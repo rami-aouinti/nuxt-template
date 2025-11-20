@@ -9,6 +9,12 @@ import type { UserGroup } from '~/types/userGroup'
 import type { Workplace } from '~/types/workplace'
 import type { Count } from '~/types/count'
 import type { Media } from '~/types/media'
+import type {
+  CrmProject,
+  CrmProjectCollection,
+  CrmTask,
+  CrmTaskCollection,
+} from '~/types/crm'
 
 type ApiVersion = 'v1' | 'v2'
 
@@ -126,6 +132,14 @@ export const useAdminStore = defineStore('admin', () => {
   const roles = createCache<Role[]>('/api/v1/role')
   const plugins = createCache<AdminPlugin[]>('/api/v1/plugin')
   const media = createCache<Media[]>('/api/media/v1/media')
+  const crmProjects = createCache<CrmProjectCollection, CrmProject[]>(
+    '/api/v1/crm/projects',
+    { transform: (collection) => collection.member ?? [] },
+  )
+  const crmTasks = createCache<CrmTaskCollection, CrmTask[]>(
+    '/api/v1/crm/tasks',
+    { transform: (collection) => collection.member ?? [] },
+  )
   const apiKeysByVersion: Record<ApiVersion, CacheEntry<ApiKey[]>> = {
     v1: createCache<ApiKey[]>('/api/v1/api_key'),
     v2: createCache<ApiKey[]>('/api/v2/api_key'),
@@ -155,6 +169,14 @@ export const useAdminStore = defineStore('admin', () => {
   const mediaCount = createCache<Count, number>('/api/media/v1/media/count', {
     transform: parseCount,
   })
+  const crmProjectCount = createCache<Count, number>(
+    '/api/v1/crm/projects/count',
+    { transform: parseCount },
+  )
+  const crmTaskCount = createCache<Count, number>(
+    '/api/v1/crm/tasks/count',
+    { transform: parseCount },
+  )
 
   const fetchAllCounts = (options?: FetchOptions) =>
     Promise.all([
@@ -165,6 +187,8 @@ export const useAdminStore = defineStore('admin', () => {
       apiKeyCount.fetch(options),
       pluginCount.fetch(options),
       mediaCount.fetch(options),
+      crmProjectCount.fetch(options),
+      crmTaskCount.fetch(options),
     ])
 
   const refreshAllCounts = () =>
@@ -176,6 +200,8 @@ export const useAdminStore = defineStore('admin', () => {
       apiKeyCount.refresh(),
       pluginCount.refresh(),
       mediaCount.refresh(),
+      crmProjectCount.refresh(),
+      crmTaskCount.refresh(),
     ])
 
   function fetchApiKeys(version: ApiVersion, options?: FetchOptions) {
@@ -193,6 +219,8 @@ export const useAdminStore = defineStore('admin', () => {
     roles.clear()
     plugins.clear()
     media.clear()
+    crmProjects.clear()
+    crmTasks.clear()
     userCount.clear()
     userGroupCount.clear()
     workplaceCount.clear()
@@ -200,6 +228,8 @@ export const useAdminStore = defineStore('admin', () => {
     apiKeyCount.clear()
     pluginCount.clear()
     mediaCount.clear()
+    crmProjectCount.clear()
+    crmTaskCount.clear()
     for (const version of Object.keys(apiKeysByVersion) as ApiVersion[]) {
       apiKeysByVersion[version].clear()
     }
@@ -241,6 +271,18 @@ export const useAdminStore = defineStore('admin', () => {
     mediaError: media.error,
     fetchMedia: media.fetch,
     refreshMedia: media.refresh,
+
+    crmProjects: crmProjects.data,
+    crmProjectsPending: crmProjects.pending,
+    crmProjectsError: crmProjects.error,
+    fetchCrmProjects: crmProjects.fetch,
+    refreshCrmProjects: crmProjects.refresh,
+
+    crmTasks: crmTasks.data,
+    crmTasksPending: crmTasks.pending,
+    crmTasksError: crmTasks.error,
+    fetchCrmTasks: crmTasks.fetch,
+    refreshCrmTasks: crmTasks.refresh,
 
     apiKeysByVersion,
     fetchApiKeys,
@@ -287,6 +329,18 @@ export const useAdminStore = defineStore('admin', () => {
     mediaCountError: mediaCount.error,
     fetchMediaCount: mediaCount.fetch,
     refreshMediaCount: mediaCount.refresh,
+
+    crmProjectCount: crmProjectCount.data,
+    crmProjectCountPending: crmProjectCount.pending,
+    crmProjectCountError: crmProjectCount.error,
+    fetchCrmProjectCount: crmProjectCount.fetch,
+    refreshCrmProjectCount: crmProjectCount.refresh,
+
+    crmTaskCount: crmTaskCount.data,
+    crmTaskCountPending: crmTaskCount.pending,
+    crmTaskCountError: crmTaskCount.error,
+    fetchCrmTaskCount: crmTaskCount.fetch,
+    refreshCrmTaskCount: crmTaskCount.refresh,
 
     fetchAllCounts,
     refreshAllCounts,

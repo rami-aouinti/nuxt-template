@@ -116,6 +116,16 @@ export interface CrmTask extends CrmResource {
   status?: CrmTaskStatus
 }
 
+export type CrmTaskPayload = {
+  name?: string
+  project?: string | CrmProjectPreview
+  deadline?: string
+  assignee?: string | CrmUserPreview
+  timeEstimated?: number
+  timeSpent?: number
+  status?: string | CrmTaskStatus
+}
+
 export interface CrmTaskStatus extends CrmResource {
   id: number
   name: string
@@ -146,6 +156,15 @@ export interface CrmProject extends CrmProjectPreview {
   documents: CrmDocument[]
   status?: CrmProjectStatus
   type?: CrmProjectType
+}
+
+export type CrmProjectPayload = {
+  name?: string
+  client?: string | CrmClientPreview
+  status?: string | CrmProjectStatus
+  type?: string | CrmProjectType
+  tasks?: string[] | CrmTask[]
+  documents?: string[] | CrmDocument[]
 }
 
 export interface CrmGroup extends CrmResource {
