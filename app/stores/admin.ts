@@ -173,10 +173,9 @@ export const useAdminStore = defineStore('admin', () => {
     '/api/v1/crm/projects/count',
     { transform: parseCount },
   )
-  const crmTaskCount = createCache<Count, number>(
-    '/api/v1/crm/tasks/count',
-    { transform: parseCount },
-  )
+  const crmTaskCount = createCache<Count, number>('/api/v1/crm/tasks/count', {
+    transform: parseCount,
+  })
 
   const fetchAllCounts = (options?: FetchOptions) =>
     Promise.all([

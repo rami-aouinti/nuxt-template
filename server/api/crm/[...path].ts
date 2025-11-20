@@ -58,9 +58,13 @@ export default defineEventHandler(async (event) => {
   const authorization = resolveAuthorization(event, session)
   const runtimeConfig = useRuntimeConfig(event)
   const crmBaseUrl =
-    runtimeConfig.public?.crmApiBaseUrl || runtimeConfig.crmApiBaseUrl || CRM_API_BASE_URL
+    runtimeConfig.public?.crmApiBaseUrl ||
+    runtimeConfig.crmApiBaseUrl ||
+    CRM_API_BASE_URL
   const acceptLanguage =
-    getHeader(event, 'accept-language') || parseCookies(event)?.i18n_redirected || undefined
+    getHeader(event, 'accept-language') ||
+    parseCookies(event)?.i18n_redirected ||
+    undefined
   const url = getRequestURL(event)
   const search = url.search ?? ''
   const targetUrl = `${crmBaseUrl.replace(/\/+$/, '')}/api/${normalizedPath}${search}`

@@ -26,7 +26,9 @@ const mapItem = (item: CrmAddress) => ({
   city: item.city,
   country: item.country?.name,
   createdAt: item.createdAt,
-  actions: buildCrmAdminResourceActionLinks(item['@id'] ?? `/addresses/${item.id}`),
+  actions: buildCrmAdminResourceActionLinks(
+    item['@id'] ?? `/addresses/${item.id}`,
+  ),
 })
 </script>
 

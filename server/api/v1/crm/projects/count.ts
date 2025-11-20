@@ -9,7 +9,9 @@ export default defineEventHandler(async (event) => {
       event,
       '/api/projects',
     )
-    const count = Number(collection.totalItems ?? collection.member?.length ?? 0)
+    const count = Number(
+      collection.totalItems ?? collection.member?.length ?? 0,
+    )
 
     return { count: String(count) }
   })

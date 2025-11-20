@@ -26,7 +26,9 @@ const mapItem = (item: CrmTaskStatus) => ({
   name: item.name,
   createdAt: item.createdAt,
   updatedAt: item.updatedAt,
-  actions: buildCrmAdminResourceActionLinks(item['@id'] ?? `/task_statuses/${item.id}`),
+  actions: buildCrmAdminResourceActionLinks(
+    item['@id'] ?? `/task_statuses/${item.id}`,
+  ),
 })
 </script>
 

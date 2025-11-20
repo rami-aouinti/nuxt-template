@@ -11,9 +11,7 @@ function normalizePath(value?: string | null) {
 }
 
 function resolvePrefixedPath(prefix: string, path: string) {
-  const normalizedPrefix = prefix.endsWith('/')
-    ? prefix.slice(0, -1)
-    : prefix
+  const normalizedPrefix = prefix.endsWith('/') ? prefix.slice(0, -1) : prefix
   const normalizedPath = path.startsWith('/') ? path.slice(1) : path
   return `${normalizedPrefix}/${normalizedPath}`
 }

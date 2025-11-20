@@ -26,7 +26,9 @@ const mapItem = (item: CrmGroup) => ({
   name: item.name,
   createdAt: item.createdAt,
   updatedAt: item.updatedAt,
-  actions: buildCrmAdminResourceActionLinks(item['@id'] ?? `/groups/${item.id}`),
+  actions: buildCrmAdminResourceActionLinks(
+    item['@id'] ?? `/groups/${item.id}`,
+  ),
 })
 </script>
 

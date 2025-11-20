@@ -178,7 +178,9 @@ function buildEntityRelations(value: unknown): EntityRelationGroup[] {
     .filter(([, v]) => Array.isArray(v) || (v && typeof v === 'object'))
     .map(([key, v]) => ({
       key,
-      items: Array.isArray(v) ? v.map((item) => ({ value: item })) : [{ value: v }],
+      items: Array.isArray(v)
+        ? v.map((item) => ({ value: item }))
+        : [{ value: v }],
     }))
 }
 
@@ -313,10 +315,15 @@ function formatError(error: unknown) {
       </template>
     </v-tooltip>
 
-    <AppModal v-model="dialog" :title="entityTitle || t('common.labels.entity')">
+    <AppModal
+      v-model="dialog"
+      :title="entityTitle || t('common.labels.entity')"
+    >
       <template #default>
         <div class="admin-crm-actions__body">
-          <div v-if="actionError" class="admin-crm-actions__error">{{ actionError }}</div>
+          <div v-if="actionError" class="admin-crm-actions__error">
+            {{ actionError }}
+          </div>
 
           <div v-if="deleteSuccess" class="admin-crm-actions__success">
             {{ t('common.actions.delete') }} OK
@@ -342,7 +349,9 @@ function formatError(error: unknown) {
                     class="admin-crm-actions__details-item"
                   >
                     <div class="admin-crm-actions__details-field">
-                      <div class="admin-crm-actions__details-label">{{ field.key }}</div>
+                      <div class="admin-crm-actions__details-label">
+                        {{ field.key }}
+                      </div>
                       <div class="admin-crm-actions__details-value">
                         {{ field.value ?? t('common.labels.none') }}
                       </div>
@@ -356,7 +365,7 @@ function formatError(error: unknown) {
                   <h3 class="admin-crm-actions__section-title">
                     {{ t('common.labels.relations') }}
                   </h3>
-                  <p class="admin-crm-actions__helper" v-if="actionEndpoint">
+                  <p v-if="actionEndpoint" class="admin-crm-actions__helper">
                     {{ t('common.labels.endpoint') }}: {{ actionEndpoint }}
                   </p>
                 </div>
@@ -367,13 +376,19 @@ function formatError(error: unknown) {
                     class="admin-crm-actions__relation-group"
                   >
                     <div class="admin-crm-actions__relation-header">
-                      <div class="admin-crm-actions__relation-key">{{ relation.key }}</div>
+                      <div class="admin-crm-actions__relation-key">
+                        {{ relation.key }}
+                      </div>
                       <v-btn
                         variant="tonal"
                         size="x-small"
                         color="primary"
                         prepend-icon="mdi-arrow-top-right"
-                        @click="loadRelation(relation.items[0]?.value?.['@id'] || null)"
+                        @click="
+                          loadRelation(
+                            relation.items[0]?.value?.['@id'] || null,
+                          )
+                        "
                       >
                         {{ t('common.actions.view') }}
                       </v-btn>
@@ -392,14 +407,20 @@ function formatError(error: unknown) {
                       </div>
                     </div>
                   </div>
-                  <div v-if="entityRelations.length === 0" class="text-medium-emphasis">
+                  <div
+                    v-if="entityRelations.length === 0"
+                    class="text-medium-emphasis"
+                  >
                     {{ t('common.labels.none') }}
                   </div>
                 </div>
               </section>
             </div>
 
-            <section v-if="activeAction === 'edit'" class="admin-crm-actions__form">
+            <section
+              v-if="activeAction === 'edit'"
+              class="admin-crm-actions__form"
+            >
               <h3 class="admin-crm-actions__section-title">
                 {{ t('common.actions.edit') }}
               </h3>
@@ -412,7 +433,10 @@ function formatError(error: unknown) {
               />
             </section>
 
-            <section v-if="activeAction === 'delete'" class="admin-crm-actions__delete">
+            <section
+              v-if="activeAction === 'delete'"
+              class="admin-crm-actions__delete"
+            >
               <h3 class="admin-crm-actions__section-title">
                 {{ t('common.actions.delete') }}?
               </h3>
@@ -421,7 +445,10 @@ function formatError(error: unknown) {
               </p>
             </section>
 
-            <section v-if="responsePreview && activeAction === 'show'" class="mt-4">
+            <section
+              v-if="responsePreview && activeAction === 'show'"
+              class="mt-4"
+            >
               <AdminEntityTreePreview
                 :value="responsePreview"
                 :title="t('common.labels.preview')"
@@ -492,7 +519,11 @@ function formatError(error: unknown) {
       </template>
       <template #actions>
         <div class="admin-crm-actions__modal-actions">
-          <v-btn variant="tonal" color="primary" @click="relationDialog = false">
+          <v-btn
+            variant="tonal"
+            color="primary"
+            @click="relationDialog = false"
+          >
             {{ t('common.actions.close') }}
           </v-btn>
         </div>

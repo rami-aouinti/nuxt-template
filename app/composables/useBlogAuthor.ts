@@ -62,9 +62,7 @@ export function useBlogAuthor() {
       }
 
       if (currentUsername.value && username) {
-        return (
-          currentUsername.value.toLowerCase() === username.toLowerCase()
-        )
+        return currentUsername.value.toLowerCase() === username.toLowerCase()
       }
 
       return false

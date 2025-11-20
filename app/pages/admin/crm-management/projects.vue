@@ -28,7 +28,9 @@ const mapItem = (item: CrmProject) => ({
   client: item.client?.name,
   status: item.status?.name,
   createdAt: item.createdAt,
-  actions: buildCrmAdminResourceActionLinks(item['@id'] ?? `/projects/${item.id}`),
+  actions: buildCrmAdminResourceActionLinks(
+    item['@id'] ?? `/projects/${item.id}`,
+  ),
 })
 </script>
 

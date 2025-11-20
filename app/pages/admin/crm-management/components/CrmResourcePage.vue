@@ -21,15 +21,10 @@ const props = defineProps<Props>()
 
 const slots = useSlots()
 
-const {
-  search,
-  filteredRows,
-  pending,
-  errorMessage,
-  refresh,
-} = await useCrmAdminResource(props.endpoint, props.mapItem, {
-  searchFields: props.searchFields,
-})
+const { search, filteredRows, pending, errorMessage, refresh } =
+  await useCrmAdminResource(props.endpoint, props.mapItem, {
+    searchFields: props.searchFields,
+  })
 
 const tableHeaders = computed(() => props.headers)
 </script>

@@ -38,5 +38,12 @@ export function useCrmApi() {
     return `${baseUrl.value}${normalizedPath}`
   }
 
-  return { baseUrl, proxyBaseUrl, authHeaders, headers, withBase, withResourceBase }
+  return {
+    baseUrl,
+    proxyBaseUrl,
+    authHeaders,
+    headers,
+    withBase,
+    withResourceBase,
+  }
 }

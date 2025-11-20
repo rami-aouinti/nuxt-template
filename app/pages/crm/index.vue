@@ -171,25 +171,28 @@ async function handleCreateClient() {
 
   clientActionLoading.value = true
 
-    try {
-      const createdClient = await $fetch<Record<string, any>>(withBase('/clients'), {
+  try {
+    const createdClient = await $fetch<Record<string, any>>(
+      withBase('/clients'),
+      {
         method: 'POST',
         headers: crmHeaders.value,
         body: {
           name: clientForm.name,
           description: clientForm.description || undefined,
         },
-      })
+      },
+    )
 
-      const clientIri = iriFrom(createdClient, withResourceBase('/api/clients'))
+    const clientIri = iriFrom(createdClient, withResourceBase('/api/clients'))
 
-      if (clientForm.contactValue.trim()) {
-        await $fetch(withBase('/contacts'), {
-          method: 'POST',
-          headers: crmHeaders.value,
-          body: {
-            value: clientForm.contactValue,
-            contactType: clientForm.contactTypeIri || undefined,
+    if (clientForm.contactValue.trim()) {
+      await $fetch(withBase('/contacts'), {
+        method: 'POST',
+        headers: crmHeaders.value,
+        body: {
+          value: clientForm.contactValue,
+          contactType: clientForm.contactTypeIri || undefined,
           client: clientIri,
         },
       })
@@ -218,21 +221,24 @@ async function handleCreateProject() {
 
   projectActionLoading.value = true
 
-    try {
-      await $fetch(withBase('/projects'), {
-        method: 'POST',
-        headers: crmHeaders.value,
-        body: {
-          name: projectForm.name,
-          client: projectForm.clientIri || undefined,
-          status: projectForm.statusIri || undefined,
-          type: projectForm.typeIri || undefined,
-        },
-      })
+  try {
+    await $fetch(withBase('/projects'), {
+      method: 'POST',
+      headers: crmHeaders.value,
+      body: {
+        name: projectForm.name,
+        client: projectForm.clientIri || undefined,
+        status: projectForm.statusIri || undefined,
+        type: projectForm.typeIri || undefined,
+      },
+    })
 
     Notify.success(t('crm.notifications.projectCreated'))
     resetProjectForm()
-    await Promise.all([projectCollection.refresh(), documentCollection.refresh()])
+    await Promise.all([
+      projectCollection.refresh(),
+      documentCollection.refresh(),
+    ])
   } catch (error) {
     console.error(error)
     Notify.error(t('crm.notifications.projectError'))
@@ -249,26 +255,28 @@ async function handleCreateTask() {
 
   taskActionLoading.value = true
 
-    try {
-      await $fetch(withBase('/tasks'), {
-        method: 'POST',
-        headers: crmHeaders.value,
-        body: {
-          name: taskForm.name,
-          project: taskForm.projectIri || undefined,
-          assignee: taskForm.assigneeId
-            ? withResourceBase(`/api/users/${taskForm.assigneeId}`)
+  try {
+    await $fetch(withBase('/tasks'), {
+      method: 'POST',
+      headers: crmHeaders.value,
+      body: {
+        name: taskForm.name,
+        project: taskForm.projectIri || undefined,
+        assignee: taskForm.assigneeId
+          ? withResourceBase(`/api/users/${taskForm.assigneeId}`)
+          : undefined,
+        deadline: taskForm.deadline || undefined,
+        timeEstimated:
+          typeof taskForm.timeEstimated === 'number'
+            ? taskForm.timeEstimated
             : undefined,
-          deadline: taskForm.deadline || undefined,
-          timeEstimated:
-            typeof taskForm.timeEstimated === 'number'
-              ? taskForm.timeEstimated
-              : undefined,
-          timeSpent:
-            typeof taskForm.timeSpent === 'number' ? taskForm.timeSpent : undefined,
-          status: taskForm.statusIri || undefined,
-        },
-      })
+        timeSpent:
+          typeof taskForm.timeSpent === 'number'
+            ? taskForm.timeSpent
+            : undefined,
+        status: taskForm.statusIri || undefined,
+      },
+    })
 
     Notify.success(t('crm.notifications.taskCreated'))
     resetTaskForm()
@@ -289,16 +297,18 @@ async function handleCreateDocument() {
 
   documentActionLoading.value = true
 
-    try {
-      await $fetch(withBase('/documents'), {
-        method: 'POST',
-        headers: crmHeaders.value,
-        body: {
-          name: documentForm.name,
-          client: documentForm.clientIri || undefined,
-          projects: documentForm.projectIri ? [documentForm.projectIri] : undefined,
-        },
-      })
+  try {
+    await $fetch(withBase('/documents'), {
+      method: 'POST',
+      headers: crmHeaders.value,
+      body: {
+        name: documentForm.name,
+        client: documentForm.clientIri || undefined,
+        projects: documentForm.projectIri
+          ? [documentForm.projectIri]
+          : undefined,
+      },
+    })
 
     Notify.success(t('crm.notifications.documentCreated'))
     resetDocumentForm()
@@ -362,8 +372,14 @@ const documentHeaders = computed(() => [
           "
         >
           <template #item="{ item }">
-            <NuxtLink class="text-decoration-none" :to="item.to" style="color: inherit">
-              <div class="stat-card d-flex align-center justify-space-between mb-3 w-100 px-3">
+            <NuxtLink
+              class="text-decoration-none"
+              :to="item.to"
+              style="color: inherit"
+            >
+              <div
+                class="stat-card d-flex align-center justify-space-between mb-3 w-100 px-3"
+              >
                 <div class="d-flex align-center gap-3">
                   <v-icon
                     v-if="item.icon"
@@ -373,12 +389,20 @@ const documentHeaders = computed(() => [
                   />
                   <div class="d-flex flex-column">
                     <span class="font-weight-medium">{{ item.label }}</span>
-                    <span v-if="item.client" class="text-body-2 text-medium-emphasis">
+                    <span
+                      v-if="item.client"
+                      class="text-body-2 text-medium-emphasis"
+                    >
                       {{ item.client.name }}
                     </span>
                   </div>
                 </div>
-                <v-chip v-if="item.status" color="primary" size="x-small" variant="tonal">
+                <v-chip
+                  v-if="item.status"
+                  color="primary"
+                  size="x-small"
+                  variant="tonal"
+                >
                   {{ item.status.name }}
                 </v-chip>
               </div>
@@ -402,8 +426,14 @@ const documentHeaders = computed(() => [
           "
         >
           <template #item="{ item }">
-            <NuxtLink class="text-decoration-none" :to="item.to" style="color: inherit">
-              <div class="stat-card d-flex align-center justify-space-between mb-3 w-100 px-3">
+            <NuxtLink
+              class="text-decoration-none"
+              :to="item.to"
+              style="color: inherit"
+            >
+              <div
+                class="stat-card d-flex align-center justify-space-between mb-3 w-100 px-3"
+              >
                 <div class="d-flex align-center gap-3">
                   <v-icon v-if="item.icon" :icon="item.icon" size="22" />
                   <div class="d-flex flex-column">
@@ -426,306 +456,361 @@ const documentHeaders = computed(() => [
     </client-only>
 
     <v-container fluid>
-    <v-row class="mb-8">
-      <v-col cols="12">
-        <v-card class="pa-6" variant="tonal">
-          <div class="text-h5 font-weight-bold mb-2">
-            {{ translate('crm.pageTitle', 'Espace CRM') }}
-          </div>
-          <div class="text-body-2 text-medium-emphasis">
-            {{
-              translate(
-                'crm.pageDescription',
-                'Gérez vos clients, projets, tâches et documents depuis une seule page.',
-              )
-            }}
-          </div>
-        </v-card>
-      </v-col>
-    </v-row>
+      <v-row class="mb-8">
+        <v-col cols="12">
+          <v-card class="pa-6" variant="tonal">
+            <div class="text-h5 font-weight-bold mb-2">
+              {{ translate('crm.pageTitle', 'Espace CRM') }}
+            </div>
+            <div class="text-body-2 text-medium-emphasis">
+              {{
+                translate(
+                  'crm.pageDescription',
+                  'Gérez vos clients, projets, tâches et documents depuis une seule page.',
+                )
+              }}
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
 
-    <v-row class="mb-6">
-      <v-col cols="12" md="6" lg="4">
-        <v-card class="h-100">
-          <v-card-title>{{ translate('crm.forms.client.title', 'Ajouter un client') }}</v-card-title>
-          <v-card-text>
-            <v-form @submit.prevent="handleCreateClient">
-              <v-text-field
-                v-model="clientForm.name"
-                :label="translate('crm.forms.client.nameLabel', 'Nom du client')"
-                density="comfortable"
-                class="mb-3"
-              />
-              <v-textarea
-                v-model="clientForm.description"
-                :label="translate('crm.forms.client.descriptionLabel', 'Description')"
-                rows="2"
-                auto-grow
-                density="comfortable"
-                class="mb-3"
-              />
-              <v-select
-                v-model="clientForm.contactTypeIri"
-                :items="contactTypeItems"
-                item-title="name"
-                :item-value="contactTypeValue"
-                :label="translate('crm.forms.client.contactTypeLabel', 'Type de contact')"
-                density="comfortable"
-                class="mb-3"
-                clearable
-              />
-              <v-text-field
-                v-model="clientForm.contactValue"
-                :label="translate('crm.forms.client.contactValueLabel', 'Contact (optionnel)')"
-                density="comfortable"
-                class="mb-4"
-              />
-              <v-btn
-                type="submit"
-                color="primary"
-                :loading="clientActionLoading"
-                block
-              >
-                {{ translate('crm.forms.client.submit', 'Créer le client') }}
-              </v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-col>
+      <v-row class="mb-6">
+        <v-col cols="12" md="6" lg="4">
+          <v-card class="h-100">
+            <v-card-title>{{
+              translate('crm.forms.client.title', 'Ajouter un client')
+            }}</v-card-title>
+            <v-card-text>
+              <v-form @submit.prevent="handleCreateClient">
+                <v-text-field
+                  v-model="clientForm.name"
+                  :label="
+                    translate('crm.forms.client.nameLabel', 'Nom du client')
+                  "
+                  density="comfortable"
+                  class="mb-3"
+                />
+                <v-textarea
+                  v-model="clientForm.description"
+                  :label="
+                    translate(
+                      'crm.forms.client.descriptionLabel',
+                      'Description',
+                    )
+                  "
+                  rows="2"
+                  auto-grow
+                  density="comfortable"
+                  class="mb-3"
+                />
+                <v-select
+                  v-model="clientForm.contactTypeIri"
+                  :items="contactTypeItems"
+                  item-title="name"
+                  :item-value="contactTypeValue"
+                  :label="
+                    translate(
+                      'crm.forms.client.contactTypeLabel',
+                      'Type de contact',
+                    )
+                  "
+                  density="comfortable"
+                  class="mb-3"
+                  clearable
+                />
+                <v-text-field
+                  v-model="clientForm.contactValue"
+                  :label="
+                    translate(
+                      'crm.forms.client.contactValueLabel',
+                      'Contact (optionnel)',
+                    )
+                  "
+                  density="comfortable"
+                  class="mb-4"
+                />
+                <v-btn
+                  type="submit"
+                  color="primary"
+                  :loading="clientActionLoading"
+                  block
+                >
+                  {{ translate('crm.forms.client.submit', 'Créer le client') }}
+                </v-btn>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-col>
 
-      <v-col cols="12" md="6" lg="4">
-        <v-card class="h-100">
-          <v-card-title>{{ translate('crm.forms.project.title', 'Créer un projet') }}</v-card-title>
-          <v-card-text>
-            <v-form @submit.prevent="handleCreateProject">
-              <v-text-field
-                v-model="projectForm.name"
-                :label="translate('crm.forms.project.nameLabel', 'Nom du projet')"
+        <v-col cols="12" md="6" lg="4">
+          <v-card class="h-100">
+            <v-card-title>{{
+              translate('crm.forms.project.title', 'Créer un projet')
+            }}</v-card-title>
+            <v-card-text>
+              <v-form @submit.prevent="handleCreateProject">
+                <v-text-field
+                  v-model="projectForm.name"
+                  :label="
+                    translate('crm.forms.project.nameLabel', 'Nom du projet')
+                  "
+                  density="comfortable"
+                  class="mb-3"
+                />
+                <v-select
+                  v-model="projectForm.clientIri"
+                  :items="clientItems"
+                  item-title="name"
+                  :item-value="clientValue"
+                  :label="translate('crm.forms.project.clientLabel', 'Client')"
+                  density="comfortable"
+                  class="mb-3"
+                  clearable
+                />
+                <v-select
+                  v-model="projectForm.statusIri"
+                  :items="projectStatusItems"
+                  item-title="name"
+                  :item-value="projectStatusValue"
+                  :label="translate('crm.forms.project.statusLabel', 'Statut')"
+                  density="comfortable"
+                  class="mb-3"
+                  clearable
+                />
+                <v-select
+                  v-model="projectForm.typeIri"
+                  :items="projectTypeItems"
+                  item-title="name"
+                  :item-value="projectTypeValue"
+                  :label="translate('crm.forms.project.typeLabel', 'Type')"
+                  density="comfortable"
+                  class="mb-4"
+                  clearable
+                />
+                <v-btn
+                  type="submit"
+                  color="primary"
+                  :loading="projectActionLoading"
+                  block
+                >
+                  {{ translate('crm.forms.project.submit', 'Créer le projet') }}
+                </v-btn>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-col>
+
+        <v-col cols="12" lg="4">
+          <v-card class="h-100">
+            <v-card-title>{{
+              translate('crm.forms.document.title', 'Ajouter un document')
+            }}</v-card-title>
+            <v-card-text>
+              <v-form @submit.prevent="handleCreateDocument">
+                <v-text-field
+                  v-model="documentForm.name"
+                  :label="
+                    translate('crm.forms.document.nameLabel', 'Nom du document')
+                  "
+                  density="comfortable"
+                  class="mb-3"
+                />
+                <v-select
+                  v-model="documentForm.clientIri"
+                  :items="clientItems"
+                  item-title="name"
+                  :item-value="clientValue"
+                  :label="translate('crm.forms.document.clientLabel', 'Client')"
+                  density="comfortable"
+                  class="mb-3"
+                  clearable
+                />
+                <v-select
+                  v-model="documentForm.projectIri"
+                  :items="projectItems"
+                  item-title="name"
+                  :item-value="projectValue"
+                  :label="
+                    translate('crm.forms.document.projectLabel', 'Projet lié')
+                  "
+                  density="comfortable"
+                  class="mb-4"
+                  clearable
+                />
+                <v-btn
+                  type="submit"
+                  color="primary"
+                  :loading="documentActionLoading"
+                  block
+                >
+                  {{
+                    translate(
+                      'crm.forms.document.submit',
+                      'Enregistrer le document',
+                    )
+                  }}
+                </v-btn>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+
+      <v-row class="mb-8">
+        <v-col cols="12" md="6">
+          <v-card class="h-100">
+            <v-card-title>{{
+              translate('crm.forms.task.title', 'Créer une tâche')
+            }}</v-card-title>
+            <v-card-text>
+              <v-form @submit.prevent="handleCreateTask">
+                <v-text-field
+                  v-model="taskForm.name"
+                  :label="
+                    translate('crm.forms.task.nameLabel', 'Nom de la tâche')
+                  "
+                  density="comfortable"
+                  class="mb-3"
+                />
+                <v-select
+                  v-model="taskForm.projectIri"
+                  :items="projectItems"
+                  item-title="name"
+                  :item-value="projectValue"
+                  :label="translate('crm.forms.task.projectLabel', 'Projet')"
+                  density="comfortable"
+                  class="mb-3"
+                  clearable
+                />
+                <v-text-field
+                  v-model="taskForm.assigneeId"
+                  :label="
+                    translate(
+                      'crm.forms.task.assigneeLabel',
+                      'Assigné (ID utilisateur)',
+                    )
+                  "
+                  type="number"
+                  density="comfortable"
+                  class="mb-3"
+                />
+                <v-text-field
+                  v-model="taskForm.deadline"
+                  :label="
+                    translate('crm.forms.task.deadlineLabel', 'Deadline (ISO)')
+                  "
+                  density="comfortable"
+                  class="mb-3"
+                />
+                <v-select
+                  v-model="taskForm.statusIri"
+                  :items="taskStatusItems"
+                  item-title="name"
+                  :item-value="taskStatusValue"
+                  :label="translate('crm.forms.task.statusLabel', 'Statut')"
+                  density="comfortable"
+                  class="mb-3"
+                  clearable
+                />
+                <v-text-field
+                  v-model.number="taskForm.timeEstimated"
+                  :label="
+                    translate(
+                      'crm.forms.task.estimatedLabel',
+                      'Temps estimé (minutes)',
+                    )
+                  "
+                  type="number"
+                  density="comfortable"
+                  class="mb-3"
+                />
+                <v-text-field
+                  v-model.number="taskForm.timeSpent"
+                  :label="
+                    translate(
+                      'crm.forms.task.spentLabel',
+                      'Temps passé (minutes)',
+                    )
+                  "
+                  type="number"
+                  density="comfortable"
+                  class="mb-4"
+                />
+                <v-btn
+                  type="submit"
+                  color="primary"
+                  :loading="taskActionLoading"
+                  block
+                >
+                  {{ translate('crm.forms.task.submit', 'Créer la tâche') }}
+                </v-btn>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-col>
+
+        <v-col cols="12" md="6">
+          <v-card class="h-100">
+            <v-card-title>
+              {{ translate('crm.tables.tasks.title', 'Vos tâches CRM') }}
+            </v-card-title>
+            <v-card-text>
+              <v-data-table
+                :headers="taskHeaders"
+                :items="taskItems"
+                :loading="taskCollection.pending.value"
                 density="comfortable"
-                class="mb-3"
               />
-              <v-select
-                v-model="projectForm.clientIri"
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="12" md="6">
+          <v-card class="h-100">
+            <v-card-title>
+              {{ translate('crm.tables.clients.title', 'Clients & Projets') }}
+            </v-card-title>
+            <v-card-text>
+              <v-data-table
+                :headers="clientHeaders"
                 :items="clientItems"
-                item-title="name"
-                :item-value="clientValue"
-                :label="translate('crm.forms.project.clientLabel', 'Client')"
+                :loading="clientCollection.pending.value"
                 density="comfortable"
-                class="mb-3"
-                clearable
-              />
-              <v-select
-                v-model="projectForm.statusIri"
-                :items="projectStatusItems"
-                item-title="name"
-                :item-value="projectStatusValue"
-                :label="translate('crm.forms.project.statusLabel', 'Statut')"
-                density="comfortable"
-                class="mb-3"
-                clearable
-              />
-              <v-select
-                v-model="projectForm.typeIri"
-                :items="projectTypeItems"
-                item-title="name"
-                :item-value="projectTypeValue"
-                :label="translate('crm.forms.project.typeLabel', 'Type')"
-                density="comfortable"
-                class="mb-4"
-                clearable
-              />
-              <v-btn
-                type="submit"
-                color="primary"
-                :loading="projectActionLoading"
-                block
               >
-                {{ translate('crm.forms.project.submit', 'Créer le projet') }}
-              </v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-col>
+                <template #item.contacts="{ item }">
+                  <v-chip color="secondary" variant="tonal">
+                    {{ item?.contacts?.length ?? 0 }}
+                  </v-chip>
+                </template>
+              </v-data-table>
+            </v-card-text>
+          </v-card>
+        </v-col>
 
-      <v-col cols="12" lg="4">
-        <v-card class="h-100">
-          <v-card-title>{{ translate('crm.forms.document.title', 'Ajouter un document') }}</v-card-title>
-          <v-card-text>
-            <v-form @submit.prevent="handleCreateDocument">
-              <v-text-field
-                v-model="documentForm.name"
-                :label="translate('crm.forms.document.nameLabel', 'Nom du document')"
+        <v-col cols="12" md="6">
+          <v-card class="h-100">
+            <v-card-title>
+              {{ translate('crm.tables.documents.title', 'Documents') }}
+            </v-card-title>
+            <v-card-text>
+              <v-data-table
+                :headers="documentHeaders"
+                :items="documentItems"
+                :loading="documentCollection.pending.value"
                 density="comfortable"
-                class="mb-3"
-              />
-              <v-select
-                v-model="documentForm.clientIri"
-                :items="clientItems"
-                item-title="name"
-                :item-value="clientValue"
-                :label="translate('crm.forms.document.clientLabel', 'Client')"
-                density="comfortable"
-                class="mb-3"
-                clearable
-              />
-              <v-select
-                v-model="documentForm.projectIri"
-                :items="projectItems"
-                item-title="name"
-                :item-value="projectValue"
-                :label="translate('crm.forms.document.projectLabel', 'Projet lié')"
-                density="comfortable"
-                class="mb-4"
-                clearable
-              />
-              <v-btn
-                type="submit"
-                color="primary"
-                :loading="documentActionLoading"
-                block
               >
-                {{ translate('crm.forms.document.submit', 'Enregistrer le document') }}
-              </v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-
-    <v-row class="mb-8">
-      <v-col cols="12" md="6">
-        <v-card class="h-100">
-          <v-card-title>{{ translate('crm.forms.task.title', 'Créer une tâche') }}</v-card-title>
-          <v-card-text>
-            <v-form @submit.prevent="handleCreateTask">
-              <v-text-field
-                v-model="taskForm.name"
-                :label="translate('crm.forms.task.nameLabel', 'Nom de la tâche')"
-                density="comfortable"
-                class="mb-3"
-              />
-              <v-select
-                v-model="taskForm.projectIri"
-                :items="projectItems"
-                item-title="name"
-                :item-value="projectValue"
-                :label="translate('crm.forms.task.projectLabel', 'Projet')"
-                density="comfortable"
-                class="mb-3"
-                clearable
-              />
-              <v-text-field
-                v-model="taskForm.assigneeId"
-                :label="translate('crm.forms.task.assigneeLabel', 'Assigné (ID utilisateur)')"
-                type="number"
-                density="comfortable"
-                class="mb-3"
-              />
-              <v-text-field
-                v-model="taskForm.deadline"
-                :label="translate('crm.forms.task.deadlineLabel', 'Deadline (ISO)')"
-                density="comfortable"
-                class="mb-3"
-              />
-              <v-select
-                v-model="taskForm.statusIri"
-                :items="taskStatusItems"
-                item-title="name"
-                :item-value="taskStatusValue"
-                :label="translate('crm.forms.task.statusLabel', 'Statut')"
-                density="comfortable"
-                class="mb-3"
-                clearable
-              />
-              <v-text-field
-                v-model.number="taskForm.timeEstimated"
-                :label="translate('crm.forms.task.estimatedLabel', 'Temps estimé (minutes)')"
-                type="number"
-                density="comfortable"
-                class="mb-3"
-              />
-              <v-text-field
-                v-model.number="taskForm.timeSpent"
-                :label="translate('crm.forms.task.spentLabel', 'Temps passé (minutes)')"
-                type="number"
-                density="comfortable"
-                class="mb-4"
-              />
-              <v-btn
-                type="submit"
-                color="primary"
-                :loading="taskActionLoading"
-                block
-              >
-                {{ translate('crm.forms.task.submit', 'Créer la tâche') }}
-              </v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
-      <v-col cols="12" md="6">
-        <v-card class="h-100">
-          <v-card-title>
-            {{ translate('crm.tables.tasks.title', 'Vos tâches CRM') }}
-          </v-card-title>
-          <v-card-text>
-            <v-data-table
-              :headers="taskHeaders"
-              :items="taskItems"
-              :loading="taskCollection.pending.value"
-              density="comfortable"
-            />
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-
-    <v-row>
-      <v-col cols="12" md="6">
-        <v-card class="h-100">
-          <v-card-title>
-            {{ translate('crm.tables.clients.title', 'Clients & Projets') }}
-          </v-card-title>
-          <v-card-text>
-            <v-data-table
-              :headers="clientHeaders"
-              :items="clientItems"
-              :loading="clientCollection.pending.value"
-              density="comfortable"
-            >
-              <template #item.contacts="{ item }">
-                <v-chip color="secondary" variant="tonal">
-                  {{ item?.contacts?.length ?? 0 }}
-                </v-chip>
-              </template>
-            </v-data-table>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
-      <v-col cols="12" md="6">
-        <v-card class="h-100">
-          <v-card-title>
-            {{ translate('crm.tables.documents.title', 'Documents') }}
-          </v-card-title>
-          <v-card-text>
-            <v-data-table
-              :headers="documentHeaders"
-              :items="documentItems"
-              :loading="documentCollection.pending.value"
-              density="comfortable"
-            >
-              <template #item.projects="{ item }">
-                <v-chip color="primary" variant="tonal">
-                  {{ item?.client?.projects?.length ?? 0 }}
-                </v-chip>
-              </template>
-            </v-data-table>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+                <template #item.projects="{ item }">
+                  <v-chip color="primary" variant="tonal">
+                    {{ item?.client?.projects?.length ?? 0 }}
+                  </v-chip>
+                </template>
+              </v-data-table>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>

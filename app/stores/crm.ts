@@ -46,7 +46,9 @@ function toError(error: unknown) {
 export const useCrmStore = defineStore('crm', () => {
   const { headers: crmHeaders, withBase } = useCrmApi()
 
-  function createCollectionFetcher<T>(endpoint: string): FetchableCollection<T> {
+  function createCollectionFetcher<T>(
+    endpoint: string,
+  ): FetchableCollection<T> {
     const data = ref<T | null>(null)
     const pending = ref(false)
     const error = ref<Error | null>(null)

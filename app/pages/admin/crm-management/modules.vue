@@ -26,7 +26,9 @@ const mapItem = (item: CrmModule) => ({
   name: item.name,
   createdAt: item.createdAt,
   updatedAt: item.updatedAt,
-  actions: buildCrmAdminResourceActionLinks(item['@id'] ?? `/modules/${item.id}`),
+  actions: buildCrmAdminResourceActionLinks(
+    item['@id'] ?? `/modules/${item.id}`,
+  ),
 })
 </script>
 

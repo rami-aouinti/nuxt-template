@@ -26,7 +26,9 @@ const mapItem = (item: CrmLanguage) => ({
   name: item.name,
   code: item.code,
   createdAt: item.createdAt,
-  actions: buildCrmAdminResourceActionLinks(item['@id'] ?? `/languages/${item.id}`),
+  actions: buildCrmAdminResourceActionLinks(
+    item['@id'] ?? `/languages/${item.id}`,
+  ),
 })
 </script>
 

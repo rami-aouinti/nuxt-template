@@ -358,7 +358,7 @@ const openMessengerConversation = async () => {
                   </AppButton>
                 </div>
               </div>
-              <div class="profile-public__stats" v-if="showMetadata">
+              <div v-if="showMetadata" class="profile-public__stats">
                 <div
                   v-for="stat in quickStats"
                   :key="stat.label"
@@ -447,10 +447,7 @@ const openMessengerConversation = async () => {
                   </p>
                 </div>
 
-                <div
-                  v-if="showMetadata"
-                  class="profile-public__metadata mt-4"
-                >
+                <div v-if="showMetadata" class="profile-public__metadata mt-4">
                   <v-row>
                     <v-col cols="12" sm="6">
                       <div class="profile-public__stat">
