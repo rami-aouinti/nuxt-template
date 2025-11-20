@@ -11,7 +11,6 @@ definePageMeta({
 
 const requestHeaders = useServerAuthRequestHeaders()
 const crmStore = useCrmStore()
-const notify = Notify()
 
 const clientCollection = crmStore.clients
 const contactTypeCollection = crmStore.contactTypes
@@ -131,7 +130,7 @@ function resetDocumentForm() {
 
 async function handleCreateClient() {
   if (!clientForm.name.trim()) {
-    notify.error('Le nom du client est requis.')
+    Notify.error('Le nom du client est requis.')
     return
   }
 
@@ -163,7 +162,7 @@ async function handleCreateClient() {
       })
     }
 
-    notify.success('Client ajouté avec succès')
+    Notify.success('Client ajouté avec succès')
     resetClientForm()
     await Promise.all([
       clientCollection.refresh(),
@@ -172,7 +171,7 @@ async function handleCreateClient() {
     ])
   } catch (error) {
     console.error(error)
-    notify.error('Impossible de créer le client CRM')
+    Notify.error('Impossible de créer le client CRM')
   } finally {
     clientActionLoading.value = false
   }
@@ -180,7 +179,7 @@ async function handleCreateClient() {
 
 async function handleCreateProject() {
   if (!projectForm.name.trim()) {
-    notify.error('Le nom du projet est requis.')
+    Notify.error('Le nom du projet est requis.')
     return
   }
 
@@ -199,12 +198,12 @@ async function handleCreateProject() {
       },
     })
 
-    notify.success('Projet créé avec succès')
+    Notify.success('Projet créé avec succès')
     resetProjectForm()
     await Promise.all([projectCollection.refresh(), documentCollection.refresh()])
   } catch (error) {
     console.error(error)
-    notify.error("Impossible de créer le projet CRM")
+    Notify.error("Impossible de créer le projet CRM")
   } finally {
     projectActionLoading.value = false
   }
@@ -212,7 +211,7 @@ async function handleCreateProject() {
 
 async function handleCreateTask() {
   if (!taskForm.name.trim()) {
-    notify.error('Le nom de la tâche est requis.')
+    Notify.error('Le nom de la tâche est requis.')
     return
   }
 
@@ -240,12 +239,12 @@ async function handleCreateTask() {
       },
     })
 
-    notify.success('Tâche créée avec succès')
+    Notify.success('Tâche créée avec succès')
     resetTaskForm()
     await taskCollection.refresh()
   } catch (error) {
     console.error(error)
-    notify.error('Impossible de créer la tâche CRM')
+    Notify.error('Impossible de créer la tâche CRM')
   } finally {
     taskActionLoading.value = false
   }
@@ -253,7 +252,7 @@ async function handleCreateTask() {
 
 async function handleCreateDocument() {
   if (!documentForm.name.trim()) {
-    notify.error('Le nom du document est requis.')
+    Notify.error('Le nom du document est requis.')
     return
   }
 
@@ -271,12 +270,12 @@ async function handleCreateDocument() {
       },
     })
 
-    notify.success('Document ajouté avec succès')
+    Notify.success('Document ajouté avec succès')
     resetDocumentForm()
     await documentCollection.refresh()
   } catch (error) {
     console.error(error)
-    notify.error('Impossible de créer le document CRM')
+    Notify.error('Impossible de créer le document CRM')
   } finally {
     documentActionLoading.value = false
   }

@@ -16,7 +16,6 @@ definePageMeta({
 const requestHeaders = useServerAuthRequestHeaders()
 const adminStore = useAdminStore()
 const crmStore = useCrmStore()
-const notify = Notify()
 
 const {
   crmProjects,
@@ -137,7 +136,7 @@ function resetDocumentForm() {
 
 async function handleCreateClient() {
   if (!clientForm.name.trim()) {
-    notify.error('Le nom du client est requis.')
+    Notify.error('Le nom du client est requis.')
     return
   }
 
@@ -169,7 +168,7 @@ async function handleCreateClient() {
       })
     }
 
-    notify.success('Client ajouté avec succès')
+    Notify.success('Client ajouté avec succès')
     resetClientForm()
     await Promise.all([
       clientCollection.refresh(),
@@ -178,7 +177,7 @@ async function handleCreateClient() {
     ])
   } catch (error) {
     console.error(error)
-    notify.error('Impossible de créer le client CRM')
+    Notify.error('Impossible de créer le client CRM')
   } finally {
     projectActionLoading.value = false
   }
@@ -186,7 +185,7 @@ async function handleCreateClient() {
 
 async function handleCreateProject() {
   if (!projectForm.name.trim()) {
-    notify.error('Le nom du projet est requis.')
+    Notify.error('Le nom du projet est requis.')
     return
   }
 
@@ -205,7 +204,7 @@ async function handleCreateProject() {
       },
     })
 
-    notify.success('Projet créé avec succès')
+    Notify.success('Projet créé avec succès')
     resetProjectForm()
     await Promise.all([
       adminStore.refreshCrmProjects(),
@@ -215,7 +214,7 @@ async function handleCreateProject() {
     ])
   } catch (error) {
     console.error(error)
-    notify.error("Impossible de créer le projet CRM")
+    Notify.error("Impossible de créer le projet CRM")
   } finally {
     projectActionLoading.value = false
   }
@@ -231,14 +230,14 @@ async function handleDeleteProject(id: number) {
       credentials: 'include',
     })
 
-    notify.success('Projet supprimé')
+    Notify.success('Projet supprimé')
     await Promise.all([
       adminStore.refreshCrmProjects(),
       adminStore.refreshCrmProjectCount(),
     ])
   } catch (error) {
     console.error(error)
-    notify.error("Suppression du projet impossible")
+    Notify.error("Suppression du projet impossible")
   } finally {
     projectActionLoading.value = false
   }
@@ -246,7 +245,7 @@ async function handleDeleteProject(id: number) {
 
 async function handleCreateTask() {
   if (!taskForm.name.trim()) {
-    notify.error('Le nom de la tâche est requis.')
+    Notify.error('Le nom de la tâche est requis.')
     return
   }
 
@@ -274,7 +273,7 @@ async function handleCreateTask() {
       },
     })
 
-    notify.success('Tâche créée avec succès')
+    Notify.success('Tâche créée avec succès')
     resetTaskForm()
     await Promise.all([
       adminStore.refreshCrmTasks(),
@@ -283,7 +282,7 @@ async function handleCreateTask() {
     ])
   } catch (error) {
     console.error(error)
-    notify.error('Impossible de créer la tâche CRM')
+    Notify.error('Impossible de créer la tâche CRM')
   } finally {
     taskActionLoading.value = false
   }
@@ -291,7 +290,7 @@ async function handleCreateTask() {
 
 async function handleCreateDocument() {
   if (!documentForm.name.trim()) {
-    notify.error('Le nom du document est requis.')
+    Notify.error('Le nom du document est requis.')
     return
   }
 
@@ -309,12 +308,12 @@ async function handleCreateDocument() {
       },
     })
 
-    notify.success('Document ajouté avec succès')
+    Notify.success('Document ajouté avec succès')
     resetDocumentForm()
     await documentCollection.refresh()
   } catch (error) {
     console.error(error)
-    notify.error('Impossible de créer le document CRM')
+    Notify.error('Impossible de créer le document CRM')
   } finally {
     projectActionLoading.value = false
   }
@@ -330,14 +329,14 @@ async function handleDeleteTask(id: number) {
       credentials: 'include',
     })
 
-    notify.success('Tâche supprimée')
+    Notify.success('Tâche supprimée')
     await Promise.all([
       adminStore.refreshCrmTasks(),
       adminStore.refreshCrmTaskCount(),
     ])
   } catch (error) {
     console.error(error)
-    notify.error('Suppression de la tâche impossible')
+    Notify.error('Suppression de la tâche impossible')
   } finally {
     taskActionLoading.value = false
   }

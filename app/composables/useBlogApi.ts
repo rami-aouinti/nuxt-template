@@ -470,7 +470,7 @@ export const useBlogApi = () => {
     const body = buildCommentRequestBody(payload)
 
     return await $fetch<BlogComment>(
-      `${PRIVATE_COMMENTS_ENDPOINT}/${commentId}/comment`,
+      `${PRIVATE_COMMENTS_ENDPOINT}/${commentId}/reply`,
       {
         method: 'POST',
         body,
