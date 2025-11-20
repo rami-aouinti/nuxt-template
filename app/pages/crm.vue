@@ -141,7 +141,7 @@ async function handleCreateClient() {
   clientActionLoading.value = true
 
   try {
-    const createdClient = await $fetch<Record<string, any>>('/api/crm/clients', {
+    const createdClient = await $fetch<Record<string, any>>('/api/clients', {
       method: 'POST',
       headers: requestHeaders,
       credentials: 'include',
@@ -154,7 +154,7 @@ async function handleCreateClient() {
     const clientIri = iriFrom(createdClient, '/api/clients')
 
     if (clientForm.contactValue.trim()) {
-      await $fetch('/api/crm/contacts', {
+      await $fetch('/api/contacts', {
         method: 'POST',
         headers: requestHeaders,
         credentials: 'include',
@@ -190,7 +190,7 @@ async function handleCreateProject() {
   projectActionLoading.value = true
 
   try {
-    await $fetch('/api/crm/projects', {
+    await $fetch('/api/projects', {
       method: 'POST',
       headers: requestHeaders,
       credentials: 'include',
@@ -222,7 +222,7 @@ async function handleCreateTask() {
   taskActionLoading.value = true
 
   try {
-    await $fetch('/api/crm/tasks', {
+    await $fetch('/api/tasks', {
       method: 'POST',
       headers: requestHeaders,
       credentials: 'include',
@@ -263,7 +263,7 @@ async function handleCreateDocument() {
   documentActionLoading.value = true
 
   try {
-    await $fetch('/api/crm/documents', {
+    await $fetch('/api/documents', {
       method: 'POST',
       headers: requestHeaders,
       credentials: 'include',

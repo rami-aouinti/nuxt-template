@@ -67,8 +67,8 @@ async function handleSubmit() {
   try {
     const method = editing.value ? 'PUT' : 'POST'
     const endpoint = editing.value
-      ? `/api/crm/clients/${form.id}`
-      : '/api/crm/clients'
+      ? `/api/clients/${form.id}`
+      : '/api/clients'
 
     const createdClient = await $fetch<Record<string, any>>(endpoint, {
       method,
@@ -83,7 +83,7 @@ async function handleSubmit() {
     const clientIri = clientValue(createdClient)
 
     if (form.contactValue.trim()) {
-      await $fetch('/api/crm/contacts', {
+      await $fetch('/api/contacts', {
         method: 'POST',
         headers: requestHeaders,
         credentials: 'include',
@@ -118,7 +118,7 @@ async function handleDelete(id: number) {
   actionLoading.value = true
 
   try {
-    await $fetch(`/api/crm/clients/${id}`, {
+    await $fetch(`/api/clients/${id}`, {
       method: 'DELETE',
       headers: requestHeaders,
       credentials: 'include',

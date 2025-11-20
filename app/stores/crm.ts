@@ -88,29 +88,27 @@ export const useCrmStore = defineStore('crm', () => {
   }
 
   const addresses = createCollectionFetcher<CrmAddressCollection>(
-    '/api/crm/addresses',
+    '/api/addresses',
   )
   const countries = createCollectionFetcher<CrmCountryCollection>(
-    '/api/crm/countries',
+    '/api/countries',
   )
-  const clients = createCollectionFetcher<CrmClientCollection>(
-    '/api/crm/clients',
-  )
+  const clients = createCollectionFetcher<CrmClientCollection>('/api/clients')
   const contacts = createCollectionFetcher<CrmContactCollection>(
-    '/api/crm/contacts',
+    '/api/contacts',
   )
   const contactTypes = createCollectionFetcher<CrmContactTypeCollection>(
-    '/api/crm/contact_types',
+    '/api/contact_types',
   )
   const documents = createCollectionFetcher<CrmDocumentCollection>(
-    '/api/crm/documents',
+    '/api/documents',
   )
-  const files = createCollectionFetcher<CrmFileCollection>('/api/crm/files')
-  const groups = createCollectionFetcher<CrmGroupCollection>('/api/crm/groups')
+  const files = createCollectionFetcher<CrmFileCollection>('/api/files')
+  const groups = createCollectionFetcher<CrmGroupCollection>('/api/groups')
   const histories = createCollectionFetcher<CrmHistoryCollection>(
-    '/api/crm/histories',
+    '/api/histories',
   )
-  const labels = createCollectionFetcher<CrmLabelCollection>('/api/crm/labels')
+  const labels = createCollectionFetcher<CrmLabelCollection>('/api/labels')
   const languages = createCollectionFetcher<CrmLanguageCollection>(
     '/api/crm/languages',
   )
@@ -118,15 +116,17 @@ export const useCrmStore = defineStore('crm', () => {
   const projects = createCollectionFetcher<CrmProjectCollection>(
     '/api/crm/projects',
   )
+  const modules = createCollectionFetcher<CrmModuleCollection>('/api/modules')
+  const projects = createCollectionFetcher<CrmProjectCollection>('/api/projects')
   const projectStatuses = createCollectionFetcher<CrmProjectStatusCollection>(
-    '/api/crm/project_statuses',
+    '/api/project_statuses',
   )
   const projectTypes = createCollectionFetcher<CrmProjectTypeCollection>(
-    '/api/crm/project_types',
+    '/api/project_types',
   )
-  const tasks = createCollectionFetcher<CrmTaskCollection>('/api/crm/tasks')
+  const tasks = createCollectionFetcher<CrmTaskCollection>('/api/tasks')
   const taskStatuses = createCollectionFetcher<CrmTaskStatusCollection>(
-    '/api/crm/task_statuses',
+    '/api/task_statuses',
   )
 
   return {

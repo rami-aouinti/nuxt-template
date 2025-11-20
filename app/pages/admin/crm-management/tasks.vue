@@ -121,7 +121,7 @@ async function handleDelete(id: number) {
   loading.value = true
 
   try {
-    await $fetch(`/api/crm/tasks/${id}`, {
+    await $fetch(`/api/tasks/${id}`, {
       method: 'DELETE',
       headers: requestHeaders,
       credentials: 'include',

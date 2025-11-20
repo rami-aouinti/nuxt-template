@@ -67,8 +67,8 @@ async function handleSubmit() {
   try {
     const method = editing.value ? 'PUT' : 'POST'
     const endpoint = editing.value
-      ? `/api/crm/documents/${form.id}`
-      : '/api/crm/documents'
+      ? `/api/documents/${form.id}`
+      : '/api/documents'
 
     await $fetch(endpoint, {
       method,
@@ -105,7 +105,7 @@ async function handleDelete(id: number) {
   loading.value = true
 
   try {
-    await $fetch(`/api/crm/documents/${id}`, {
+    await $fetch(`/api/documents/${id}`, {
       method: 'DELETE',
       headers: requestHeaders,
       credentials: 'include',
