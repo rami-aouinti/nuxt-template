@@ -82,6 +82,28 @@ const projectItems = computed(() => projectCollection.data?.member ?? [])
 const taskItems = computed(() => taskCollection.data?.member ?? [])
 const documentItems = computed(() => documentCollection.data?.member ?? [])
 
+const projectNavigationItems = computed(() =>
+  (projectCollection.data?.member ?? []).map((project) => ({
+    value: project.id,
+    to: `/crm/project/${project.id}`,
+    label: project.name,
+    icon: project.status ? 'mdi-circle-slice-8' : 'mdi-briefcase-outline',
+    status: project.status,
+    client: project.client,
+  })),
+)
+
+const clientNavigationItems = computed(() =>
+  (clientCollection.data?.member ?? []).map((client) => ({
+    value: client.id,
+    to: `/crm/client/${client.id}`,
+    label: client.name,
+    icon: 'mdi-account-tie-outline',
+    contacts: client.contacts,
+    projects: client.projects,
+  })),
+)
+
 const iriFrom = (item: Record<string, any> | string | number, path: string) => {
   if (!item) return ''
   if (typeof item === 'string') return item
@@ -318,7 +340,85 @@ const documentHeaders = computed(() => [
 </script>
 
 <template>
-  <v-container fluid>
+  <div class="crm-page">
+    <client-only>
+      <teleport to="#app-drawer">
+        <AppNavigationList
+          class="pb-6"
+          :items="projectNavigationItems"
+          :title="translate('crm.drawer.projectsTitle', 'Projets CRM')"
+          :description="
+            translate(
+              'crm.drawer.projectsSubtitle',
+              'Retrouvez vos derniers projets et leur statut en un clic.',
+            )
+          "
+        >
+          <template #item="{ item }">
+            <NuxtLink class="text-decoration-none" :to="item.to" style="color: inherit">
+              <div class="stat-card d-flex align-center justify-space-between mb-3 w-100 px-3">
+                <div class="d-flex align-center gap-3">
+                  <v-icon
+                    v-if="item.icon"
+                    :icon="item.icon"
+                    :color="item.status ? 'primary' : undefined"
+                    size="22"
+                  />
+                  <div class="d-flex flex-column">
+                    <span class="font-weight-medium">{{ item.label }}</span>
+                    <span v-if="item.client" class="text-body-2 text-medium-emphasis">
+                      {{ item.client.name }}
+                    </span>
+                  </div>
+                </div>
+                <v-chip v-if="item.status" color="primary" size="x-small" variant="tonal">
+                  {{ item.status.name }}
+                </v-chip>
+              </div>
+            </NuxtLink>
+          </template>
+        </AppNavigationList>
+      </teleport>
+    </client-only>
+
+    <client-only>
+      <teleport to="#app-drawer-right">
+        <AppNavigationList
+          class="pb-6"
+          :items="clientNavigationItems"
+          :title="translate('crm.drawer.clientsTitle', 'Clients actifs')"
+          :description="
+            translate(
+              'crm.drawer.clientsSubtitle',
+              'Naviguez parmi vos clients et accédez à leurs fiches.',
+            )
+          "
+        >
+          <template #item="{ item }">
+            <NuxtLink class="text-decoration-none" :to="item.to" style="color: inherit">
+              <div class="stat-card d-flex align-center justify-space-between mb-3 w-100 px-3">
+                <div class="d-flex align-center gap-3">
+                  <v-icon v-if="item.icon" :icon="item.icon" size="22" />
+                  <div class="d-flex flex-column">
+                    <span class="font-weight-medium">{{ item.label }}</span>
+                    <span class="text-body-2 text-medium-emphasis">
+                      {{ item.contacts?.length ?? 0 }}
+                      {{ translate('crm.drawer.contactsLabel', 'contacts') }}
+                    </span>
+                  </div>
+                </div>
+                <v-chip color="secondary" size="x-small" variant="tonal">
+                  {{ item.projects?.length ?? 0 }}
+                  {{ translate('crm.drawer.projectsCountLabel', 'projets') }}
+                </v-chip>
+              </div>
+            </NuxtLink>
+          </template>
+        </AppNavigationList>
+      </teleport>
+    </client-only>
+
+    <v-container fluid>
     <v-row class="mb-8">
       <v-col cols="12">
         <v-card class="pa-6" variant="tonal">
@@ -619,5 +719,6 @@ const documentHeaders = computed(() => [
         </v-card>
       </v-col>
     </v-row>
-  </v-container>
+    </v-container>
+  </div>
 </template>
