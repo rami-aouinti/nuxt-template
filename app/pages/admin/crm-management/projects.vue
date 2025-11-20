@@ -5,7 +5,7 @@ import { useCrmStore } from '~/stores/crm'
 import { Notify } from '~/stores/notification'
 
 definePageMeta({
-  title: 'CRM - Projets',
+  title: 'navigation.crmProjects',
   icon: 'mdi-briefcase-outline',
   drawerIndex: 6,
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],

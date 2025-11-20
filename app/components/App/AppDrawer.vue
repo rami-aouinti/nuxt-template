@@ -7,7 +7,7 @@ const routes = router.getRoutes().filter((r) => r.path.lastIndexOf('/') === 0)
 const drawerState = useState('drawer', () => false)
 const appBarReady = useState('appBarReady', () => false)
 
-const { mobile, lgAndUp, width } = useDisplay()
+const { mobile } = useDisplay()
 const { t } = useI18n()
 const drawer = computed({
   get() {
@@ -109,7 +109,6 @@ const resolveViewportWidth = () => {
 }
 
 const ensureInitialDrawerState = () => {
-  const viewportWidth = resolveViewportWidth()
   const shouldExpand = false
 
   if (drawerState.value !== shouldExpand) {
@@ -181,6 +180,29 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
         <span class="brand-title--italic">{{ brandTitleParts.after }}</span>
       </NuxtLink>
     </template>
+    <v-card class="drawer-nav mt-5" variant="text">
+      <v-list nav density="comfortable">
+        <AppDrawerItem
+          v-for="route in availableRoutes"
+          :key="drawerRouteKey(route)"
+          :item="route"
+        />
+      </v-list>
+    </v-card>
+    <v-spacer />
+    <template #append>
+      <v-list-item class="drawer-footer px-0 d-flex flex-column justify-center">
+        <div class="text-caption pt-6 pt-md-0 text-center text-no-wrap">
+          {{ footerCopyright }}
+          <a
+            href="https://github.com/rami-aouinti"
+            class="font-weight-bold text-primary"
+            target="_blank"
+            >{{ footerBrand }}</a
+          >
+        </div>
+      </v-list-item>
+    </template>
   </v-navigation-drawer>
 </template>
 
@@ -188,6 +210,12 @@ const footerBrand = computed(() => t('app.footer.craftedBy'))
 .v-navigation-drawer.app-navigation-drawer {
   background-color: transparent !important;
   box-shadow: none;
+}
+.drawer-nav {
+  background: transparent;
+  margin: 20px;
+  padding: 0 8px;
+  border-radius: var(--app-rounded, 18px) !important;
 }
 .brand-title--italic {
   font-style: italic;

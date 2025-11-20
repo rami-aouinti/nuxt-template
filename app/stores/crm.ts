@@ -114,9 +114,7 @@ export const useCrmStore = defineStore('crm', () => {
   const languages = createCollectionFetcher<CrmLanguageCollection>(
     '/api/crm/languages',
   )
-  const modules = createCollectionFetcher<CrmModuleCollection>(
-    '/api/crm/modules',
-  )
+  const modules = createCollectionFetcher<CrmModuleCollection>('/api/crm/modules')
   const projects = createCollectionFetcher<CrmProjectCollection>(
     '/api/crm/projects',
   )

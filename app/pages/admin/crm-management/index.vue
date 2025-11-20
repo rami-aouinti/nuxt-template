@@ -1,63 +1,91 @@
 <script setup lang="ts">
-const links = [
+import { computed } from 'vue'
+import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
+
+const translate = useTranslateWithFallback()
+
+const linkDefinitions = [
   {
-    title: 'Clients',
+    key: 'clients',
     to: '/admin/crm-management/clients',
     icon: 'mdi-account-tie',
-    description: 'Gérer les clients, contacts et projets liés.',
+    fallbackTitle: 'Clients',
+    fallbackDescription: 'Gérer les clients, contacts et projets liés.',
   },
   {
-    title: 'Projets',
+    key: 'projects',
     to: '/admin/crm-management/projects',
     icon: 'mdi-briefcase-outline',
-    description: 'Créer et suivre les projets CRM avec statuts et types.',
+    fallbackTitle: 'Projets',
+    fallbackDescription: 'Créer et suivre les projets CRM avec statuts et types.',
   },
   {
-    title: 'Tâches',
+    key: 'tasks',
     to: '/admin/crm-management/tasks',
     icon: 'mdi-format-list-checkbox',
-    description: 'Assigner les tâches, deadlines et statuts.',
+    fallbackTitle: 'Tâches',
+    fallbackDescription: 'Assigner les tâches, deadlines et statuts.',
   },
   {
-    title: 'Documents',
+    key: 'documents',
     to: '/admin/crm-management/documents',
     icon: 'mdi-file-document-outline',
-    description: 'Lister et créer des documents liés aux clients et projets.',
+    fallbackTitle: 'Documents',
+    fallbackDescription: 'Lister et créer des documents liés aux clients et projets.',
   },
   {
-    title: 'Pays',
+    key: 'countries',
     to: '/admin/crm-management/countries',
     icon: 'mdi-earth',
-    description: 'Référentiel des pays utilisés dans les adresses.',
+    fallbackTitle: 'Pays',
+    fallbackDescription: 'Référentiel des pays utilisés dans les adresses.',
   },
   {
-    title: 'Types de contact',
+    key: 'contactTypes',
     to: '/admin/crm-management/contact-types',
     icon: 'mdi-card-account-phone',
-    description: 'Configurer les types de contact disponibles.',
+    fallbackTitle: 'Types de contact',
+    fallbackDescription: 'Configurer les types de contact disponibles.',
   },
   {
-    title: 'Statuts de projet',
+    key: 'projectStatuses',
     to: '/admin/crm-management/project-statuses',
     icon: 'mdi-check-decagram-outline',
-    description: 'Gérer les statuts applicables aux projets.',
+    fallbackTitle: 'Statuts de projet',
+    fallbackDescription: 'Gérer les statuts applicables aux projets.',
   },
   {
-    title: 'Types de projet',
+    key: 'projectTypes',
     to: '/admin/crm-management/project-types',
     icon: 'mdi-shape',
-    description: 'Référentiel des types de projets.',
+    fallbackTitle: 'Types de projet',
+    fallbackDescription: 'Référentiel des types de projets.',
   },
   {
-    title: 'Statuts de tâche',
+    key: 'taskStatuses',
     to: '/admin/crm-management/task-statuses',
     icon: 'mdi-progress-check',
-    description: 'Paramétrer les statuts de tâche utilisés.',
+    fallbackTitle: 'Statuts de tâche',
+    fallbackDescription: 'Paramétrer les statuts de tâche utilisés.',
   },
 ]
 
+const links = computed(() =>
+  linkDefinitions.map((item) => ({
+    ...item,
+    title: translate(
+      `admin.crm.links.${item.key}.title`,
+      item.fallbackTitle,
+    ),
+    description: translate(
+      `admin.crm.links.${item.key}.description`,
+      item.fallbackDescription,
+    ),
+  })),
+)
+
 definePageMeta({
-  title: 'CRM Management',
+  title: 'navigation.crmManagement',
   icon: 'mdi-briefcase-outline',
   drawerIndex: 6,
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
@@ -69,10 +97,16 @@ definePageMeta({
     <v-row>
       <v-col cols="12" class="mb-4">
         <v-card variant="tonal" class="pa-6">
-          <div class="text-h5 font-weight-bold mb-2">Espace CRM (Admin)</div>
+          <div class="text-h5 font-weight-bold mb-2">
+            {{ translate('admin.crm.title', 'Espace CRM (Admin)') }}
+          </div>
           <div class="text-body-2 text-medium-emphasis">
-            Accédez aux différentes ressources CRM pour créer, éditer et supprimer
-            les entrées (clients, projets, tâches, référentiels).
+            {{
+              translate(
+                'admin.crm.description',
+                'Accédez aux différentes ressources CRM pour créer, éditer et supprimer les entrées (clients, projets, tâches, référentiels).',
+              )
+            }}
           </div>
         </v-card>
       </v-col>
@@ -89,7 +123,9 @@ definePageMeta({
             {{ item.description }}
           </v-card-text>
           <v-card-actions>
-            <v-btn :to="item.to" color="primary" variant="flat">Ouvrir</v-btn>
+            <v-btn :to="item.to" color="primary" variant="flat">
+              {{ translate('admin.crm.open', 'Ouvrir') }}
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
