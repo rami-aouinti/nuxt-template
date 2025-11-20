@@ -14,6 +14,7 @@ definePageMeta({
 const route = useRoute()
 const translate = useTranslateWithFallback()
 const { headers: crmHeaders, withBase } = useCrmApi()
+const { locale } = useI18n()
 const crmStore = useCrmStore()
 
 const taskCollection = crmStore.tasks
@@ -55,7 +56,7 @@ async function loadProject() {
 await loadProject()
 
 watch(
-  () => projectId.value,
+  () => [projectId.value, locale.value],
   async () => {
     await loadProject()
   },

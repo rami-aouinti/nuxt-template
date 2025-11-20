@@ -94,27 +94,39 @@ const {
   pending: productPending,
   error: productError,
   refresh: refreshProduct,
-} = await useAsyncData('ecommerce-product-detail', fetchProduct, {
-  watch: [() => slug.value, () => locale.value],
-})
+} = await useAsyncData(
+  () => `ecommerce-product-detail-${slug.value}-${locale.value}`,
+  fetchProduct,
+  {
+    watch: [() => slug.value, () => locale.value],
+  },
+)
 
 const {
   data: channelsResponse,
   pending: channelsPending,
   error: channelsError,
   refresh: refreshChannels,
-} = await useAsyncData('ecommerce-product-channels', fetchChannels, {
-  watch: [() => locale.value],
-})
+} = await useAsyncData(
+  () => `ecommerce-product-channels-${locale.value}`,
+  fetchChannels,
+  {
+    watch: [() => locale.value],
+  },
+)
 
 const {
   data: latestProductsResponse,
   pending: latestProductsPending,
   error: latestProductsError,
   refresh: refreshLatestProducts,
-} = await useAsyncData('ecommerce-product-latest', fetchLatestProducts, {
-  watch: [() => locale.value],
-})
+} = await useAsyncData(
+  () => `ecommerce-product-latest-${locale.value}`,
+  fetchLatestProducts,
+  {
+    watch: [() => locale.value],
+  },
+)
 
 const product = computed(() => productResponse.value ?? null)
 const channels = computed(() =>

@@ -106,11 +106,15 @@ const {
   pending: isOrderLoading,
   error: orderError,
   refresh: refreshOrder,
-} = await useAsyncData('ecommerce-checkout-shipping-order', fetchOrder, {
-  watch: [orderToken, locale],
-  server: false,
-  default: () => null,
-})
+} = await useAsyncData(
+  () => `ecommerce-checkout-shipping-order-${orderToken.value}-${locale.value}`,
+  fetchOrder,
+  {
+    watch: [orderToken, locale],
+    server: false,
+    default: () => null,
+  },
+)
 
 const currencyCode = computed(() => orderData.value?.currencyCode ?? 'USD')
 

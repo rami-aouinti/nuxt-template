@@ -280,9 +280,13 @@ const {
   pending: orderPending,
   error: orderError,
   refresh: refreshOrder,
-} = await useAsyncData('ecommerce-payment-order', fetchOrder, {
-  watch: [() => tokenValue.value, () => locale.value],
-})
+} = await useAsyncData(
+  () => `ecommerce-payment-order-${tokenValue.value}-${locale.value}`,
+  fetchOrder,
+  {
+    watch: [() => tokenValue.value, () => locale.value],
+  },
+)
 
 watch(
   () => orderData.value,
@@ -399,7 +403,8 @@ const {
   error: paymentConfigurationError,
   refresh: refreshPaymentConfiguration,
 } = await useAsyncData(
-  'ecommerce-payment-configuration',
+  () =>
+    `ecommerce-payment-configuration-${tokenValue.value}-${activePaymentId.value}-${locale.value}`,
   fetchPaymentConfiguration,
   {
     watch: [
