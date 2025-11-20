@@ -3078,6 +3078,14 @@
   "crm": {
     "pageTitle": "CRM workspace",
     "pageDescription": "Manage your clients, projects, tasks and documents from a single view.",
+    "drawer": {
+      "projectsTitle": "مشاريع إدارة علاقات العملاء",
+      "projectsSubtitle": "اعثر على أحدث مشاريعك وحالتها بنظرة سريعة.",
+      "clientsTitle": "العملاء النشطون",
+      "clientsSubtitle": "تصفح عملاءك وادخل إلى ملفاتهم.",
+      "contactsLabel": "جهات الاتصال",
+      "projectsCountLabel": "المشاريع"
+    },
     "forms": {
       "client": {
         "title": "Add a client",

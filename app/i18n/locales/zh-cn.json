@@ -3074,6 +3074,14 @@
   "crm": {
     "pageTitle": "CRM workspace",
     "pageDescription": "Manage your clients, projects, tasks and documents from a single view.",
+    "drawer": {
+      "projectsTitle": "CRM 项目",
+      "projectsSubtitle": "一眼查看最新项目及其状态。",
+      "clientsTitle": "活跃客户",
+      "clientsSubtitle": "浏览客户并查看他们的档案。",
+      "contactsLabel": "联系人",
+      "projectsCountLabel": "项目"
+    },
     "forms": {
       "client": {
         "title": "Add a client",
