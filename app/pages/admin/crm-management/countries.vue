@@ -5,7 +5,7 @@ import { useCrmStore } from '~/stores/crm'
 import { Notify } from '~/stores/notification'
 
 definePageMeta({
-  title: 'CRM - Pays',
+  title: 'navigation.crmCountries',
   icon: 'mdi-earth',
   drawerIndex: 6,
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
