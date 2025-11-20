@@ -75,7 +75,9 @@ async function handleSubmit() {
 
   try {
     const method = editing.value ? 'PUT' : 'POST'
-    const endpoint = editing.value ? `/api/tasks/${form.id}` : '/api/tasks'
+    const endpoint = editing.value
+      ? `/api/crm/tasks/${form.id}`
+      : '/api/crm/tasks'
 
     await $fetch(endpoint, {
       method,
