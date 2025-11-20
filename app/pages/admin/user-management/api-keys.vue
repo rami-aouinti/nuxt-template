@@ -504,11 +504,11 @@ watch(deleteDialog, (value) => {
                 :title="
                   t('userManagement.apiKeys.actions.viewTooltip', {
                     description:
-                      item.raw?.description ??
+                      item?.description ??
                       t('userManagement.apiKeys.labels.keyFallback'),
                   })
                 "
-                @click="openView(tab, item.raw)"
+                @click="openView(tab, item)"
               >
                 <v-icon icon="mdi-eye-outline" />
               </AppButton>
@@ -519,11 +519,11 @@ watch(deleteDialog, (value) => {
                 :title="
                   t('userManagement.apiKeys.actions.editTooltip', {
                     description:
-                      item.raw?.description ??
+                      item?.description ??
                       t('userManagement.apiKeys.labels.keyFallback'),
                   })
                 "
-                @click="openEdit(tab, item.raw)"
+                @click="openEdit(tab, item)"
               >
                 <v-icon icon="mdi-pencil-outline" />
               </AppButton>
@@ -534,11 +534,11 @@ watch(deleteDialog, (value) => {
                 :title="
                   t('userManagement.apiKeys.actions.deleteTooltip', {
                     description:
-                      item.raw?.description ??
+                      item?.description ??
                       t('userManagement.apiKeys.labels.keyFallback'),
                   })
                 "
-                @click="openDelete(tab, item.raw)"
+                @click="openDelete(tab, item)"
               >
                 <v-icon icon="mdi-delete-outline" />
               </AppButton>

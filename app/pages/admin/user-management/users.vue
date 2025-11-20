@@ -572,7 +572,7 @@ watch(attachDialog, (value) => {
                 :title="
                   t('userManagement.users.actions.viewTooltip', {
                     username:
-                      item.raw?.username ??
+                      item?.username ??
                       t('userManagement.users.labels.userFallback'),
                   })
                 "
@@ -587,7 +587,7 @@ watch(attachDialog, (value) => {
                 :title="
                   t('userManagement.users.actions.editTooltip', {
                     username:
-                      item.raw?.username ??
+                      item?.username ??
                       t('userManagement.users.labels.userFallback'),
                   })
                 "
@@ -602,7 +602,7 @@ watch(attachDialog, (value) => {
                 :title="
                   t('userManagement.users.actions.deleteTooltip', {
                     username:
-                      item.raw?.username ??
+                      item?.username ??
                       t('userManagement.users.labels.userFallback'),
                   })
                 "

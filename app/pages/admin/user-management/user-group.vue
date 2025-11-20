@@ -508,11 +508,11 @@ watch(attachUserDialog, (value) => {
                 :title="
                   t('userManagement.groups.actions.viewTooltip', {
                     name:
-                      item.raw?.name ??
+                      item?.name ??
                       t('userManagement.groups.labels.groupFallback'),
                   })
                 "
-                @click="openView(item.raw)"
+                @click="openView(item)"
               >
                 <v-icon icon="mdi-eye-outline" />
               </AppButton>
@@ -523,11 +523,11 @@ watch(attachUserDialog, (value) => {
                 :title="
                   t('userManagement.groups.actions.editTooltip', {
                     name:
-                      item.raw?.name ??
+                      item?.name ??
                       t('userManagement.groups.labels.groupFallback'),
                   })
                 "
-                @click="openEdit(item.raw)"
+                @click="openEdit(item)"
               >
                 <v-icon icon="mdi-pencil-outline" />
               </AppButton>
@@ -538,11 +538,11 @@ watch(attachUserDialog, (value) => {
                 :title="
                   t('userManagement.groups.actions.deleteTooltip', {
                     name:
-                      item.raw?.name ??
+                      item?.name ??
                       t('userManagement.groups.labels.groupFallback'),
                   })
                 "
-                @click="openDelete(item.raw)"
+                @click="openDelete(item)"
               >
                 <v-icon icon="mdi-delete-outline" />
               </AppButton>

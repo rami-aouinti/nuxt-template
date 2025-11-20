@@ -67,20 +67,20 @@ const projectActionLoading = ref(false)
 const taskActionLoading = ref(false)
 const documentActionLoading = ref(false)
 
-const clientItems = computed(() => clientCollection.data.value?.member ?? [])
+const clientItems = computed(() => clientCollection.data?.member ?? [])
 const contactTypeItems = computed(
-  () => contactTypeCollection.data.value?.member ?? [],
+  () => contactTypeCollection.data?.member ?? [],
 )
 const projectStatusItems = computed(
-  () => projectStatusCollection.data.value?.member ?? [],
+  () => projectStatusCollection.data?.member ?? [],
 )
 const projectTypeItems = computed(
-  () => projectTypeCollection.data.value?.member ?? [],
+  () => projectTypeCollection.data?.member ?? [],
 )
-const taskStatusItems = computed(() => taskStatusCollection.data.value?.member ?? [])
-const projectItems = computed(() => projectCollection.data.value?.member ?? [])
-const taskItems = computed(() => taskCollection.data.value?.member ?? [])
-const documentItems = computed(() => documentCollection.data.value?.member ?? [])
+const taskStatusItems = computed(() => taskStatusCollection.data?.member ?? [])
+const projectItems = computed(() => projectCollection.data?.member ?? [])
+const taskItems = computed(() => taskCollection.data?.member ?? [])
+const documentItems = computed(() => documentCollection.data?.member ?? [])
 
 const iriFrom = (item: Record<string, any> | string | number, path: string) => {
   if (!item) return ''
@@ -587,14 +587,9 @@ const documentHeaders = computed(() => [
               :loading="clientCollection.pending.value"
               density="comfortable"
             >
-              <template #item.projects="{ item }">
-                <v-chip color="primary" variant="tonal">
-                  {{ item.raw.projects?.length ?? 0 }}
-                </v-chip>
-              </template>
               <template #item.contacts="{ item }">
                 <v-chip color="secondary" variant="tonal">
-                  {{ item.raw.contacts?.length ?? 0 }}
+                  {{ item?.contacts?.length ?? 0 }}
                 </v-chip>
               </template>
             </v-data-table>
@@ -616,7 +611,7 @@ const documentHeaders = computed(() => [
             >
               <template #item.projects="{ item }">
                 <v-chip color="primary" variant="tonal">
-                  {{ item.raw.projects?.length ?? 0 }}
+                  {{ item?.client?.projects?.length ?? 0 }}
                 </v-chip>
               </template>
             </v-data-table>

@@ -371,7 +371,7 @@ watch(deleteDialog, (value) => {
                     color="primary"
                     :title="
                       t('userManagement.workplaces.actions.viewTooltip', {
-                        name: getWorkplaceLabel(item.raw),
+                        name: getWorkplaceLabel(item),
                       })
                     "
                     @click="openView(item)"
@@ -384,7 +384,7 @@ watch(deleteDialog, (value) => {
                     color="warning"
                     :title="
                       t('userManagement.workplaces.actions.editTooltip', {
-                        name: getWorkplaceLabel(item.raw),
+                        name: getWorkplaceLabel(item),
                       })
                     "
                     @click="openEdit(item)"

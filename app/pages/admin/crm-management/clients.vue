@@ -19,9 +19,9 @@ const contactTypeCollection = crmStore.contactTypes
 
 await Promise.all([clientCollection.fetch(), contactTypeCollection.fetch()])
 
-const clientItems = computed(() => clientCollection.data.value?.member ?? [])
+const clientItems = computed(() => clientCollection.data?.member ?? [])
 const contactTypeItems = computed(
-  () => contactTypeCollection.data.value?.member ?? [],
+  () => contactTypeCollection.data?.member ?? [],
 )
 
 const form = reactive({
@@ -202,11 +202,11 @@ async function handleDelete(id: number) {
           >
             <template #item.contacts="{ item }">
               <v-chip color="primary" variant="tonal">
-                {{ item.raw.contacts?.length ?? 0 }}
+                {{ item.contacts?.length ?? 0 }}
               </v-chip>
             </template>
             <template #item.actions="{ item }">
-              <v-btn size="small" variant="text" @click="handleEdit(item.raw)">
+              <v-btn size="small" variant="text" @click="handleEdit(item)">
                 Éditer
               </v-btn>
               <v-btn
@@ -214,7 +214,7 @@ async function handleDelete(id: number) {
                 color="error"
                 variant="text"
                 :loading="actionLoading"
-                @click="handleDelete(item.raw.id)"
+                @click="handleDelete(item.id)"
               >
                 Supprimer
               </v-btn>

@@ -18,7 +18,7 @@ const countryCollection = crmStore.countries
 
 await countryCollection.fetch()
 
-const countries = computed(() => countryCollection.data.value?.member ?? [])
+const countries = computed(() => countryCollection.data?.member ?? [])
 
 const form = reactive({ id: null as number | null, name: '' })
 const loading = ref(false)
@@ -127,7 +127,7 @@ async function handleDelete(id: number) {
             ]"
           >
             <template #item.actions="{ item }">
-              <v-btn size="small" variant="text" @click="handleEdit(item.raw)">
+              <v-btn size="small" variant="text" @click="handleEdit(item)">
                 Éditer
               </v-btn>
               <v-btn
@@ -135,7 +135,7 @@ async function handleDelete(id: number) {
                 color="error"
                 variant="text"
                 :loading="loading"
-                @click="handleDelete(item.raw.id)"
+                @click="handleDelete(item.id)"
               >
                 Supprimer
               </v-btn>

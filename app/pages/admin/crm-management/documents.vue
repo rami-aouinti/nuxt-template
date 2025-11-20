@@ -24,9 +24,9 @@ await Promise.all([
   projectCollection.fetch(),
 ])
 
-const documents = computed(() => documentCollection.data.value?.member ?? [])
-const clients = computed(() => clientCollection.data.value?.member ?? [])
-const projects = computed(() => projectCollection.data.value?.member ?? [])
+const documents = computed(() => documentCollection.data?.member ?? [])
+const clients = computed(() => clientCollection.data?.member ?? [])
+const projects = computed(() => projectCollection.data?.member ?? [])
 
 const form = reactive({
   id: null as number | null,
@@ -185,11 +185,11 @@ async function handleDelete(id: number) {
           >
             <template #item.projects="{ item }">
               <v-chip color="secondary" variant="tonal">
-                {{ item.raw.projects?.length ?? 0 }}
+                {{ item.projects?.length ?? 0 }}
               </v-chip>
             </template>
             <template #item.actions="{ item }">
-              <v-btn size="small" variant="text" @click="handleEdit(item.raw)">
+              <v-btn size="small" variant="text" @click="handleEdit(item)">
                 Éditer
               </v-btn>
               <v-btn
@@ -197,7 +197,7 @@ async function handleDelete(id: number) {
                 color="error"
                 variant="text"
                 :loading="loading"
-                @click="handleDelete(item.raw.id)"
+                @click="handleDelete(item.id)"
               >
                 Supprimer
               </v-btn>

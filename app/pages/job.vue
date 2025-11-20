@@ -842,9 +842,9 @@ const submitApplication = async () => {
               >
                 <template #item="{ item, props }">
                   <v-list-item v-bind="props">
-                    <v-list-item-title>{{ item.raw.title }}</v-list-item-title>
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
                     <v-list-item-subtitle>
-                      {{ item.raw.subtitle }}
+                      {{ item.subtitle }}
                     </v-list-item-subtitle>
                   </v-list-item>
                 </template>
