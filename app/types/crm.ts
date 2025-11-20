@@ -43,6 +43,8 @@ export interface CrmClient extends CrmClientPreview {
   description: string
   labels: CrmLabel[]
   contacts: CrmContactPreview[]
+  projects?: CrmProjectPreview[]
+  documents?: CrmDocument[]
 }
 
 export interface CrmAddress extends CrmResource {
@@ -106,6 +108,7 @@ export interface CrmTask extends CrmResource {
   id: number
   name: string
   project: CrmProjectPreview
+  description?: string
   deadline: string
   assignee: CrmUserPreview
   timeEstimated: number
@@ -154,6 +157,7 @@ export interface CrmProject extends CrmProjectPreview {
   client: CrmClientPreview
   tasks: CrmTask[]
   documents: CrmDocument[]
+  description?: string
   status?: CrmProjectStatus
   type?: CrmProjectType
 }
