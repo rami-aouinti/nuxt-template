@@ -1,39 +1,25 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
 import { computed, reactive, ref } from 'vue'
 import { useServerAuthRequestHeaders } from '~/composables/useServerRequestHeaders'
-import { useAdminStore } from '~/stores/admin'
 import { useCrmStore } from '~/stores/crm'
 import { Notify } from '~/stores/notification'
 
 definePageMeta({
-  title: 'CRM Management',
-  icon: 'mdi-briefcase-outline',
-  drawerIndex: 6,
-  roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
+  title: 'CRM',
+  middleware: 'auth',
 })
 
 const requestHeaders = useServerAuthRequestHeaders()
-const adminStore = useAdminStore()
 const crmStore = useCrmStore()
 const notify = Notify()
-
-const {
-  crmProjects,
-  crmProjectsPending,
-  crmProjectsError,
-  crmTasks,
-  crmTasksPending,
-  crmTasksError,
-  crmProjectCount,
-  crmTaskCount,
-} = storeToRefs(adminStore)
 
 const clientCollection = crmStore.clients
 const contactTypeCollection = crmStore.contactTypes
 const projectStatusCollection = crmStore.projectStatuses
 const projectTypeCollection = crmStore.projectTypes
 const taskStatusCollection = crmStore.taskStatuses
+const projectCollection = crmStore.projects
+const taskCollection = crmStore.tasks
 const documentCollection = crmStore.documents
 
 await Promise.all([
@@ -42,15 +28,17 @@ await Promise.all([
   projectStatusCollection.fetch(),
   projectTypeCollection.fetch(),
   taskStatusCollection.fetch(),
+  projectCollection.fetch(),
+  taskCollection.fetch(),
   documentCollection.fetch(),
 ])
 
-await Promise.all([
-  adminStore.fetchCrmProjects(),
-  adminStore.fetchCrmTasks(),
-  adminStore.fetchCrmProjectCount(),
-  adminStore.fetchCrmTaskCount(),
-])
+const clientForm = reactive({
+  name: '',
+  description: '',
+  contactValue: '',
+  contactTypeIri: '',
+})
 
 const projectForm = reactive({
   name: '',
@@ -58,6 +46,7 @@ const projectForm = reactive({
   statusIri: '',
   typeIri: '',
 })
+
 const taskForm = reactive({
   name: '',
   projectIri: '',
@@ -67,43 +56,55 @@ const taskForm = reactive({
   timeSpent: 0,
   statusIri: '',
 })
-const clientForm = reactive({
-  name: '',
-  description: '',
-  contactValue: '',
-  contactTypeIri: '',
-})
+
 const documentForm = reactive({ name: '', clientIri: '', projectIri: '' })
 
+const clientActionLoading = ref(false)
 const projectActionLoading = ref(false)
 const taskActionLoading = ref(false)
+const documentActionLoading = ref(false)
 
-const projectCountDisplay = computed(() => crmProjectCount.value ?? 0)
-const taskCountDisplay = computed(() => crmTaskCount.value ?? 0)
-
-const projectItems = computed(() => crmProjects.value ?? [])
-const taskItems = computed(() => crmTasks.value ?? [])
 const clientItems = computed(() => clientCollection.data.value?.member ?? [])
-const documentItems = computed(() => documentCollection.data.value?.member ?? [])
-const projectStatusOptions = computed(
+const contactTypeItems = computed(
+  () => contactTypeCollection.data.value?.member ?? [],
+)
+const projectStatusItems = computed(
   () => projectStatusCollection.data.value?.member ?? [],
 )
-const projectTypeOptions = computed(() => projectTypeCollection.data.value?.member ?? [])
-const taskStatusOptions = computed(() => taskStatusCollection.data.value?.member ?? [])
-const contactTypeOptions = computed(() => contactTypeCollection.data.value?.member ?? [])
-const projectOptions = computed(() => projectItems.value)
-const clientValue = (item: Record<string, any>) =>
-  item?.['@id'] || (item?.id ? `/api/clients/${item.id}` : '')
-const projectValue = (item: Record<string, any>) =>
-  item?.['@id'] || (item?.id ? `/api/projects/${item.id}` : '')
+const projectTypeItems = computed(
+  () => projectTypeCollection.data.value?.member ?? [],
+)
+const taskStatusItems = computed(() => taskStatusCollection.data.value?.member ?? [])
+const projectItems = computed(() => projectCollection.data.value?.member ?? [])
+const taskItems = computed(() => taskCollection.data.value?.member ?? [])
+const documentItems = computed(() => documentCollection.data.value?.member ?? [])
+
+const iriFrom = (item: Record<string, any> | string | number, path: string) => {
+  if (!item) return ''
+  if (typeof item === 'string') return item
+  if (typeof item === 'number') return `${path}/${item}`
+  if (item['@id']) return item['@id']
+  if (item.id) return `${path}/${item.id}`
+  return ''
+}
+
+const clientValue = (item: Record<string, any>) => iriFrom(item, '/api/clients')
+const projectValue = (item: Record<string, any>) => iriFrom(item, '/api/projects')
 const projectStatusValue = (item: Record<string, any>) =>
-  item?.['@id'] || (item?.id ? `/api/project_statuses/${item.id}` : '')
+  iriFrom(item, '/api/project_statuses')
 const projectTypeValue = (item: Record<string, any>) =>
-  item?.['@id'] || (item?.id ? `/api/project_types/${item.id}` : '')
+  iriFrom(item, '/api/project_types')
 const taskStatusValue = (item: Record<string, any>) =>
-  item?.['@id'] || (item?.id ? `/api/task_statuses/${item.id}` : '')
+  iriFrom(item, '/api/task_statuses')
 const contactTypeValue = (item: Record<string, any>) =>
-  item?.['@id'] || (item?.id ? `/api/contact_types/${item.id}` : '')
+  iriFrom(item, '/api/contact_types')
+
+function resetClientForm() {
+  clientForm.name = ''
+  clientForm.description = ''
+  clientForm.contactValue = ''
+  clientForm.contactTypeIri = ''
+}
 
 function resetProjectForm() {
   projectForm.name = ''
@@ -122,13 +123,6 @@ function resetTaskForm() {
   taskForm.statusIri = ''
 }
 
-function resetClientForm() {
-  clientForm.name = ''
-  clientForm.description = ''
-  clientForm.contactValue = ''
-  clientForm.contactTypeIri = ''
-}
-
 function resetDocumentForm() {
   documentForm.name = ''
   documentForm.clientIri = ''
@@ -141,7 +135,7 @@ async function handleCreateClient() {
     return
   }
 
-  projectActionLoading.value = true
+  clientActionLoading.value = true
 
   try {
     const createdClient = await $fetch<Record<string, any>>('/api/crm/clients', {
@@ -154,7 +148,7 @@ async function handleCreateClient() {
       },
     })
 
-    const clientIri = createdClient['@id'] || '/api/clients/' + createdClient.id
+    const clientIri = iriFrom(createdClient, '/api/clients')
 
     if (clientForm.contactValue.trim()) {
       await $fetch('/api/crm/contacts', {
@@ -174,13 +168,13 @@ async function handleCreateClient() {
     await Promise.all([
       clientCollection.refresh(),
       crmStore.contacts.refresh(),
-      adminStore.refreshCrmProjects(),
+      projectCollection.refresh(),
     ])
   } catch (error) {
     console.error(error)
     notify.error('Impossible de créer le client CRM')
   } finally {
-    projectActionLoading.value = false
+    clientActionLoading.value = false
   }
 }
 
@@ -207,38 +201,10 @@ async function handleCreateProject() {
 
     notify.success('Projet créé avec succès')
     resetProjectForm()
-    await Promise.all([
-      adminStore.refreshCrmProjects(),
-      adminStore.refreshCrmProjectCount(),
-      projectStatusCollection.refresh(),
-      projectTypeCollection.refresh(),
-    ])
+    await Promise.all([projectCollection.refresh(), documentCollection.refresh()])
   } catch (error) {
     console.error(error)
     notify.error("Impossible de créer le projet CRM")
-  } finally {
-    projectActionLoading.value = false
-  }
-}
-
-async function handleDeleteProject(id: number) {
-  projectActionLoading.value = true
-
-  try {
-    await $fetch(`/api/v1/crm/projects/${id}`, {
-      method: 'DELETE',
-      headers: requestHeaders,
-      credentials: 'include',
-    })
-
-    notify.success('Projet supprimé')
-    await Promise.all([
-      adminStore.refreshCrmProjects(),
-      adminStore.refreshCrmProjectCount(),
-    ])
-  } catch (error) {
-    console.error(error)
-    notify.error("Suppression du projet impossible")
   } finally {
     projectActionLoading.value = false
   }
@@ -276,11 +242,7 @@ async function handleCreateTask() {
 
     notify.success('Tâche créée avec succès')
     resetTaskForm()
-    await Promise.all([
-      adminStore.refreshCrmTasks(),
-      adminStore.refreshCrmTaskCount(),
-      taskStatusCollection.refresh(),
-    ])
+    await taskCollection.refresh()
   } catch (error) {
     console.error(error)
     notify.error('Impossible de créer la tâche CRM')
@@ -295,7 +257,7 @@ async function handleCreateDocument() {
     return
   }
 
-  projectActionLoading.value = true
+  documentActionLoading.value = true
 
   try {
     await $fetch('/api/crm/documents', {
@@ -316,69 +278,28 @@ async function handleCreateDocument() {
     console.error(error)
     notify.error('Impossible de créer le document CRM')
   } finally {
-    projectActionLoading.value = false
-  }
-}
-
-async function handleDeleteTask(id: number) {
-  taskActionLoading.value = true
-
-  try {
-    await $fetch(`/api/v1/crm/tasks/${id}`, {
-      method: 'DELETE',
-      headers: requestHeaders,
-      credentials: 'include',
-    })
-
-    notify.success('Tâche supprimée')
-    await Promise.all([
-      adminStore.refreshCrmTasks(),
-      adminStore.refreshCrmTaskCount(),
-    ])
-  } catch (error) {
-    console.error(error)
-    notify.error('Suppression de la tâche impossible')
-  } finally {
-    taskActionLoading.value = false
+    documentActionLoading.value = false
   }
 }
 </script>
 
 <template>
   <v-container fluid>
-    <v-row class="mb-6">
-      <v-col cols="12" md="6">
-        <v-card>
-          <v-card-title class="d-flex align-center justify-space-between">
-            <div class="text-subtitle-1 font-weight-bold">Projets CRM</div>
-            <div class="text-h5">{{ projectCountDisplay }}</div>
-          </v-card-title>
-          <v-card-text>
-            <div class="text-body-2 text-medium-emphasis">
-              Suivi des projets synchronisés avec le CRM Bro World.
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="12" md="6">
-        <v-card>
-          <v-card-title class="d-flex align-center justify-space-between">
-            <div class="text-subtitle-1 font-weight-bold">Tâches CRM</div>
-            <div class="text-h5">{{ taskCountDisplay }}</div>
-          </v-card-title>
-          <v-card-text>
-            <div class="text-body-2 text-medium-emphasis">
-              Tâches liées aux projets côté CRM avec mise en cache Redis.
-            </div>
-          </v-card-text>
+    <v-row class="mb-8">
+      <v-col cols="12">
+        <v-card class="pa-6" variant="tonal">
+          <div class="text-h5 font-weight-bold mb-2">Espace CRM</div>
+          <div class="text-body-2 text-medium-emphasis">
+            Gérez vos clients, projets, tâches et documents depuis une seule page.
+          </div>
         </v-card>
       </v-col>
     </v-row>
 
     <v-row class="mb-6">
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="6" lg="4">
         <v-card class="h-100">
-          <v-card-title>Clients et contacts</v-card-title>
+          <v-card-title>Ajouter un client</v-card-title>
           <v-card-text>
             <v-form @submit.prevent="handleCreateClient">
               <v-text-field
@@ -397,7 +318,7 @@ async function handleDeleteTask(id: number) {
               />
               <v-select
                 v-model="clientForm.contactTypeIri"
-                :items="contactTypeOptions"
+                :items="contactTypeItems"
                 item-title="name"
                 :item-value="contactTypeValue"
                 label="Type de contact"
@@ -414,36 +335,73 @@ async function handleDeleteTask(id: number) {
               <v-btn
                 type="submit"
                 color="primary"
-                :loading="projectActionLoading"
+                :loading="clientActionLoading"
                 block
               >
-                Ajouter le client
+                Créer le client
               </v-btn>
             </v-form>
-
-            <v-data-table
-              :items="clientItems"
-              :loading="clientCollection.pending.value"
-              class="mt-4"
-              :headers="[
-                { title: 'ID', key: 'id', width: 80 },
-                { title: 'Nom', key: 'name' },
-                { title: 'Contacts', key: 'contacts', sortable: false },
-              ]"
-            >
-              <template #item.contacts="{ item }">
-                <v-chip color="primary" variant="tonal">
-                  {{ item.raw.contacts?.length ?? 0 }}
-                </v-chip>
-              </template>
-            </v-data-table>
           </v-card-text>
         </v-card>
       </v-col>
 
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="6" lg="4">
         <v-card class="h-100">
-          <v-card-title>Documents</v-card-title>
+          <v-card-title>Créer un projet</v-card-title>
+          <v-card-text>
+            <v-form @submit.prevent="handleCreateProject">
+              <v-text-field
+                v-model="projectForm.name"
+                label="Nom du projet"
+                density="comfortable"
+                class="mb-3"
+              />
+              <v-select
+                v-model="projectForm.clientIri"
+                :items="clientItems"
+                item-title="name"
+                :item-value="clientValue"
+                label="Client"
+                density="comfortable"
+                class="mb-3"
+                clearable
+              />
+              <v-select
+                v-model="projectForm.statusIri"
+                :items="projectStatusItems"
+                item-title="name"
+                :item-value="projectStatusValue"
+                label="Statut"
+                density="comfortable"
+                class="mb-3"
+                clearable
+              />
+              <v-select
+                v-model="projectForm.typeIri"
+                :items="projectTypeItems"
+                item-title="name"
+                :item-value="projectTypeValue"
+                label="Type"
+                density="comfortable"
+                class="mb-4"
+                clearable
+              />
+              <v-btn
+                type="submit"
+                color="primary"
+                :loading="projectActionLoading"
+                block
+              >
+                Créer le projet
+              </v-btn>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12" lg="4">
+        <v-card class="h-100">
+          <v-card-title>Ajouter un document</v-card-title>
           <v-card-text>
             <v-form @submit.prevent="handleCreateDocument">
               <v-text-field
@@ -464,7 +422,7 @@ async function handleDeleteTask(id: number) {
               />
               <v-select
                 v-model="documentForm.projectIri"
-                :items="projectOptions"
+                :items="projectItems"
                 item-title="name"
                 :item-value="projectValue"
                 label="Projet lié"
@@ -475,139 +433,32 @@ async function handleDeleteTask(id: number) {
               <v-btn
                 type="submit"
                 color="primary"
-                :loading="projectActionLoading"
+                :loading="documentActionLoading"
                 block
               >
-                Ajouter le document
+                Enregistrer le document
               </v-btn>
             </v-form>
-
-            <v-data-table
-              :items="documentItems"
-              :loading="documentCollection.pending.value"
-              class="mt-4"
-              :headers="[
-                { title: 'ID', key: 'id', width: 80 },
-                { title: 'Nom', key: 'name' },
-                { title: 'Client', key: 'client.name' },
-                { title: 'Projets', key: 'projects', sortable: false },
-              ]"
-            >
-              <template #item.projects="{ item }">
-                <v-chip color="secondary" variant="tonal">
-                  {{ item.raw.projects?.length ?? 0 }}
-                </v-chip>
-              </template>
-            </v-data-table>
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
 
-    <v-row>
+    <v-row class="mb-8">
       <v-col cols="12" md="6">
         <v-card class="h-100">
-          <v-card-title>Créer / gérer des projets</v-card-title>
-          <v-card-text>
-            <v-form @submit.prevent="handleCreateProject">
-              <v-text-field
-                v-model="projectForm.name"
-                label="Nom"
-                density="comfortable"
-                class="mb-3"
-              />
-              <v-select
-                v-model="projectForm.clientIri"
-                :items="clientItems"
-                item-title="name"
-                :item-value="clientValue"
-                label="Client"
-                density="comfortable"
-                class="mb-3"
-                clearable
-              />
-              <v-select
-                v-model="projectForm.statusIri"
-                :items="projectStatusOptions"
-                item-title="name"
-                :item-value="projectStatusValue"
-                label="Statut"
-                density="comfortable"
-                class="mb-3"
-                clearable
-              />
-              <v-select
-                v-model="projectForm.typeIri"
-                :items="projectTypeOptions"
-                item-title="name"
-                :item-value="projectTypeValue"
-                label="Type"
-                density="comfortable"
-                class="mb-4"
-                clearable
-              />
-              <v-btn
-                type="submit"
-                color="primary"
-                :loading="projectActionLoading"
-                block
-              >
-                Ajouter le projet
-              </v-btn>
-            </v-form>
-
-            <v-alert
-              v-if="crmProjectsError"
-              type="error"
-              variant="tonal"
-              class="mt-4"
-            >
-              Échec du chargement des projets.
-            </v-alert>
-
-            <v-data-table
-              :items="projectItems"
-              :loading="crmProjectsPending"
-              class="mt-4"
-              :headers="[
-                { title: 'ID', key: 'id', width: 80 },
-                { title: 'Nom', key: 'name' },
-                { title: 'Client', key: 'client.name' },
-                { title: 'Statut', key: 'status.name' },
-                { title: 'Type', key: 'type.name' },
-                { title: 'Actions', key: 'actions', sortable: false, width: 120 },
-              ]"
-            >
-              <template #item.actions="{ item }">
-                <v-btn
-                  color="error"
-                  variant="text"
-                  size="small"
-                  :loading="projectActionLoading"
-                  @click="handleDeleteProject(item.raw.id)"
-                >
-                  Supprimer
-                </v-btn>
-              </template>
-            </v-data-table>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
-      <v-col cols="12" md="6">
-        <v-card class="h-100">
-          <v-card-title>Créer / gérer des tâches</v-card-title>
+          <v-card-title>Créer une tâche</v-card-title>
           <v-card-text>
             <v-form @submit.prevent="handleCreateTask">
               <v-text-field
                 v-model="taskForm.name"
-                label="Nom"
+                label="Nom de la tâche"
                 density="comfortable"
                 class="mb-3"
               />
               <v-select
                 v-model="taskForm.projectIri"
-                :items="projectOptions"
+                :items="projectItems"
                 item-title="name"
                 :item-value="projectValue"
                 label="Projet"
@@ -617,7 +468,7 @@ async function handleDeleteTask(id: number) {
               />
               <v-text-field
                 v-model="taskForm.assigneeId"
-                label="Assigné (User ID)"
+                label="Assigné (ID utilisateur)"
                 type="number"
                 density="comfortable"
                 class="mb-3"
@@ -630,7 +481,7 @@ async function handleDeleteTask(id: number) {
               />
               <v-select
                 v-model="taskForm.statusIri"
-                :items="taskStatusOptions"
+                :items="taskStatusItems"
                 item-title="name"
                 :item-value="taskStatusValue"
                 label="Statut"
@@ -640,14 +491,14 @@ async function handleDeleteTask(id: number) {
               />
               <v-text-field
                 v-model.number="taskForm.timeEstimated"
-                label="Temps estimé"
+                label="Temps estimé (minutes)"
                 type="number"
                 density="comfortable"
                 class="mb-3"
               />
               <v-text-field
                 v-model.number="taskForm.timeSpent"
-                label="Temps passé"
+                label="Temps passé (minutes)"
                 type="number"
                 density="comfortable"
                 class="mb-4"
@@ -658,42 +509,84 @@ async function handleDeleteTask(id: number) {
                 :loading="taskActionLoading"
                 block
               >
-                Ajouter la tâche
+                Créer la tâche
               </v-btn>
             </v-form>
+          </v-card-text>
+        </v-card>
+      </v-col>
 
-            <v-alert
-              v-if="crmTasksError"
-              type="error"
-              variant="tonal"
-              class="mt-4"
-            >
-              Échec du chargement des tâches.
-            </v-alert>
-
+      <v-col cols="12" md="6">
+        <v-card class="h-100">
+          <v-card-title>Vos tâches CRM</v-card-title>
+          <v-card-text>
             <v-data-table
-              :items="taskItems"
-              :loading="crmTasksPending"
-              class="mt-4"
               :headers="[
                 { title: 'ID', key: 'id', width: 80 },
                 { title: 'Nom', key: 'name' },
                 { title: 'Projet', key: 'project.name' },
                 { title: 'Assigné', key: 'assignee.name' },
                 { title: 'Statut', key: 'status.name' },
-                { title: 'Actions', key: 'actions', sortable: false, width: 120 },
               ]"
+              :items="taskItems"
+              :loading="taskCollection.pending.value"
+              density="comfortable"
+            />
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="12" md="6">
+        <v-card class="h-100">
+          <v-card-title>Clients & Projets</v-card-title>
+          <v-card-text>
+            <v-data-table
+              :headers="[
+                { title: 'ID', key: 'id', width: 80 },
+                { title: 'Nom', key: 'name' },
+                { title: 'Projets', key: 'projects', sortable: false },
+                { title: 'Contacts', key: 'contacts', sortable: false },
+              ]"
+              :items="clientItems"
+              :loading="clientCollection.pending.value"
+              density="comfortable"
             >
-              <template #item.actions="{ item }">
-                <v-btn
-                  color="error"
-                  variant="text"
-                  size="small"
-                  :loading="taskActionLoading"
-                  @click="handleDeleteTask(item.raw.id)"
-                >
-                  Supprimer
-                </v-btn>
+              <template #item.projects="{ item }">
+                <v-chip color="primary" variant="tonal">
+                  {{ item.raw.projects?.length ?? 0 }}
+                </v-chip>
+              </template>
+              <template #item.contacts="{ item }">
+                <v-chip color="secondary" variant="tonal">
+                  {{ item.raw.contacts?.length ?? 0 }}
+                </v-chip>
+              </template>
+            </v-data-table>
+          </v-card-text>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12" md="6">
+        <v-card class="h-100">
+          <v-card-title>Documents</v-card-title>
+          <v-card-text>
+            <v-data-table
+              :headers="[
+                { title: 'ID', key: 'id', width: 80 },
+                { title: 'Nom', key: 'name' },
+                { title: 'Client', key: 'client.name' },
+                { title: 'Projets', key: 'projects', sortable: false },
+              ]"
+              :items="documentItems"
+              :loading="documentCollection.pending.value"
+              density="comfortable"
+            >
+              <template #item.projects="{ item }">
+                <v-chip color="primary" variant="tonal">
+                  {{ item.raw.projects?.length ?? 0 }}
+                </v-chip>
               </template>
             </v-data-table>
           </v-card-text>
