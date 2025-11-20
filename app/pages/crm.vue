@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
-import { useServerAuthRequestHeaders } from '~/composables/useServerRequestHeaders'
 import { useCrmStore } from '~/stores/crm'
 import { Notify } from '~/stores/notification'
+import { useCrmApi } from '~/composables/useCrmApi'
 
 definePageMeta({
   title: 'navigation.crm',
@@ -13,7 +13,7 @@ definePageMeta({
 const { t } = useI18n()
 const translate = useTranslateWithFallback()
 
-const requestHeaders = useServerAuthRequestHeaders()
+const { headers: crmHeaders, withBase } = useCrmApi()
 const crmStore = useCrmStore()
 
 const clientCollection = crmStore.clients
@@ -91,16 +91,18 @@ const iriFrom = (item: Record<string, any> | string | number, path: string) => {
   return ''
 }
 
-const clientValue = (item: Record<string, any>) => iriFrom(item, '/api/clients')
-const projectValue = (item: Record<string, any>) => iriFrom(item, '/api/projects')
+const clientValue = (item: Record<string, any>) =>
+  iriFrom(item, withBase('/api/clients'))
+const projectValue = (item: Record<string, any>) =>
+  iriFrom(item, withBase('/api/projects'))
 const projectStatusValue = (item: Record<string, any>) =>
-  iriFrom(item, '/api/project_statuses')
+  iriFrom(item, withBase('/api/project_statuses'))
 const projectTypeValue = (item: Record<string, any>) =>
-  iriFrom(item, '/api/project_types')
+  iriFrom(item, withBase('/api/project_types'))
 const taskStatusValue = (item: Record<string, any>) =>
-  iriFrom(item, '/api/task_statuses')
+  iriFrom(item, withBase('/api/task_statuses'))
 const contactTypeValue = (item: Record<string, any>) =>
-  iriFrom(item, '/api/contact_types')
+  iriFrom(item, withBase('/api/contact_types'))
 
 function resetClientForm() {
   clientForm.name = ''
@@ -141,9 +143,9 @@ async function handleCreateClient() {
   clientActionLoading.value = true
 
   try {
-    const createdClient = await $fetch<Record<string, any>>('/api/clients', {
+    const createdClient = await $fetch<Record<string, any>>(withBase('/api/clients'), {
       method: 'POST',
-      headers: requestHeaders,
+      headers: crmHeaders.value,
       credentials: 'include',
       body: {
         name: clientForm.name,
@@ -151,12 +153,12 @@ async function handleCreateClient() {
       },
     })
 
-    const clientIri = iriFrom(createdClient, '/api/clients')
+    const clientIri = iriFrom(createdClient, withBase('/api/clients'))
 
     if (clientForm.contactValue.trim()) {
-      await $fetch('/api/contacts', {
+      await $fetch(withBase('/api/contacts'), {
         method: 'POST',
-        headers: requestHeaders,
+        headers: crmHeaders.value,
         credentials: 'include',
         body: {
           value: clientForm.contactValue,
@@ -190,9 +192,9 @@ async function handleCreateProject() {
   projectActionLoading.value = true
 
   try {
-    await $fetch('/api/projects', {
+    await $fetch(withBase('/api/projects'), {
       method: 'POST',
-      headers: requestHeaders,
+      headers: crmHeaders.value,
       credentials: 'include',
       body: {
         name: projectForm.name,
@@ -222,15 +224,15 @@ async function handleCreateTask() {
   taskActionLoading.value = true
 
   try {
-    await $fetch('/api/tasks', {
+    await $fetch(withBase('/api/tasks'), {
       method: 'POST',
-      headers: requestHeaders,
+      headers: crmHeaders.value,
       credentials: 'include',
       body: {
         name: taskForm.name,
         project: taskForm.projectIri || undefined,
         assignee: taskForm.assigneeId
-          ? `/api/users/${taskForm.assigneeId}`
+          ? withBase(`/api/users/${taskForm.assigneeId}`)
           : undefined,
         deadline: taskForm.deadline || undefined,
         timeEstimated:
@@ -263,9 +265,9 @@ async function handleCreateDocument() {
   documentActionLoading.value = true
 
   try {
-    await $fetch('/api/documents', {
+    await $fetch(withBase('/api/documents'), {
       method: 'POST',
-      headers: requestHeaders,
+      headers: crmHeaders.value,
       credentials: 'include',
       body: {
         name: documentForm.name,
