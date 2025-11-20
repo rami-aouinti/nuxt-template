@@ -301,7 +301,17 @@
     "crmContactTypes": "CRM - Types de contact",
     "crmProjectStatuses": "CRM - Statuts de projet",
     "crmProjectTypes": "CRM - Types de projet",
-    "crmTaskStatuses": "CRM - Statuts de tâche"
+    "crmTaskStatuses": "CRM - Statuts de tâche",
+    "crmFiles": "CRM - Fichiers",
+    "crmGroups": "CRM - Groupes",
+    "crmLabels": "CRM - Étiquettes",
+    "crmModules": "CRM - Modules",
+    "crmContacts": "CRM - Contacts",
+    "crmAddresses": "CRM - Adresses",
+    "crmHistories": "CRM - Historique",
+    "crmLanguages": "CRM - Langues",
+    "crmClient": "CRM - Client",
+    "crmProject": "CRM - Projet"
   },
   "messenger": {
     "title": "Messagerie",

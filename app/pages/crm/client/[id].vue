@@ -21,6 +21,14 @@ const documentCollection = crmStore.documents
 
 await Promise.all([projectCollection.fetch(), documentCollection.fetch()])
 
+const clientId = computed(() => {
+  const value = route.params.id
+  if (Array.isArray(value)) {
+    return value[0] ?? ''
+  }
+  return typeof value === 'string' ? value : ''
+})
+
 const client = ref<CrmClient | null>(null)
 const loading = ref(false)
 
@@ -28,9 +36,12 @@ async function loadClient() {
   loading.value = true
 
   try {
-    client.value = await $fetch<CrmClient>(withBase(`/clients/${route.params.id}`), {
-      headers: crmHeaders.value,
-    })
+    client.value = await $fetch<CrmClient>(
+      withBase(`/clients/${encodeURIComponent(clientId.value)}`),
+      {
+        headers: crmHeaders.value,
+      },
+    )
   } catch (error) {
     console.error(error)
     Notify.error(translate('crm.notifications.clientError', 'Impossible de charger le client'))
@@ -42,11 +53,22 @@ async function loadClient() {
 await loadClient()
 
 watch(
-  () => route.params.id,
+  () => clientId.value,
   async () => {
     await loadClient()
   },
 )
+
+const pageTitle = computed(() => {
+  const name = client.value?.name?.trim()
+  const label = name && name.length ? name : clientId.value ? `#${clientId.value}` : null
+  const baseTitle = translate('navigation.crmClient', 'CRM Client')
+  return label ? `${baseTitle} • ${label}` : baseTitle
+})
+
+useHead(() => ({
+  title: pageTitle.value,
+}))
 
 const clientProjects = computed(() => {
   if (!client.value) return []

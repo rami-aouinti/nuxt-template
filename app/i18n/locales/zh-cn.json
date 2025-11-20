@@ -300,7 +300,17 @@
     "crmContactTypes": "CRM - Contact types",
     "crmProjectStatuses": "CRM - Project statuses",
     "crmProjectTypes": "CRM - Project types",
-    "crmTaskStatuses": "CRM - Task statuses"
+    "crmTaskStatuses": "CRM - Task statuses",
+    "crmFiles": "CRM - Files",
+    "crmGroups": "CRM - Groups",
+    "crmLabels": "CRM - Labels",
+    "crmModules": "CRM - Modules",
+    "crmContacts": "CRM - Contacts",
+    "crmAddresses": "CRM - Addresses",
+    "crmHistories": "CRM - Histories",
+    "crmLanguages": "CRM - Languages",
+    "crmClient": "CRM - Client",
+    "crmProject": "CRM - Project"
   },
   "messenger": {
     "title": "消息",
