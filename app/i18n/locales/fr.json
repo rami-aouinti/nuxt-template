@@ -3116,6 +3116,14 @@
   "crm": {
     "pageTitle": "Espace CRM",
     "pageDescription": "Gérez vos clients, projets, tâches et documents depuis une seule page.",
+    "drawer": {
+      "projectsTitle": "Projets CRM",
+      "projectsSubtitle": "Retrouvez vos derniers projets et leur statut en un clic.",
+      "clientsTitle": "Clients actifs",
+      "clientsSubtitle": "Naviguez parmi vos clients et accédez à leurs fiches.",
+      "contactsLabel": "contacts",
+      "projectsCountLabel": "projets"
+    },
     "forms": {
       "client": {
         "title": "Ajouter un client",

@@ -3074,6 +3074,14 @@
   "crm": {
     "pageTitle": "CRM workspace",
     "pageDescription": "Manage your clients, projects, tasks and documents from a single view.",
+    "drawer": {
+      "projectsTitle": "Proyectos CRM",
+      "projectsSubtitle": "Encuentra tus últimos proyectos y su estado de un vistazo.",
+      "clientsTitle": "Clientes activos",
+      "clientsSubtitle": "Navega entre tus clientes y accede a sus fichas.",
+      "contactsLabel": "contactos",
+      "projectsCountLabel": "proyectos"
+    },
     "forms": {
       "client": {
         "title": "Add a client",
