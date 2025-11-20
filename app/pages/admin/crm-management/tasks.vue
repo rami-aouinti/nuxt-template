@@ -1,0 +1,211 @@
+<script setup lang="ts">
+import { computed, reactive, ref } from 'vue'
+import { useServerAuthRequestHeaders } from '~/composables/useServerRequestHeaders'
+import { useCrmStore } from '~/stores/crm'
+import { Notify } from '~/stores/notification'
+
+definePageMeta({
+  title: 'CRM - Tâches',
+  icon: 'mdi-format-list-checkbox',
+  drawerIndex: 6,
+  roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
+})
+
+const requestHeaders = useServerAuthRequestHeaders()
+const crmStore = useCrmStore()
+const notify = Notify()
+
+const projectCollection = crmStore.projects
+const taskCollection = crmStore.tasks
+const statusCollection = crmStore.taskStatuses
+
+await Promise.all([
+  projectCollection.fetch(),
+  taskCollection.fetch(),
+  statusCollection.fetch(),
+])
+
+const tasks = computed(() => taskCollection.data.value?.member ?? [])
+const projects = computed(() => projectCollection.data.value?.member ?? [])
+const statuses = computed(() => statusCollection.data.value?.member ?? [])
+
+const form = reactive({
+  name: '',
+  projectIri: '',
+  assigneeId: '',
+  deadline: '',
+  timeEstimated: 0,
+  timeSpent: 0,
+  statusIri: '',
+})
+
+const loading = ref(false)
+
+const iriFrom = (item: Record<string, any> | string | number | null, path: string) => {
+  if (!item) return ''
+  if (typeof item === 'string') return item
+  if (typeof item === 'number') return `${path}/${item}`
+  if (item['@id']) return item['@id']
+  if (item.id) return `${path}/${item.id}`
+  return ''
+}
+
+const projectValue = (item: Record<string, any>) => iriFrom(item, '/api/projects')
+const statusValue = (item: Record<string, any>) => iriFrom(item, '/api/task_statuses')
+
+function resetForm() {
+  form.name = ''
+  form.projectIri = ''
+  form.assigneeId = ''
+  form.deadline = ''
+  form.timeEstimated = 0
+  form.timeSpent = 0
+  form.statusIri = ''
+}
+
+async function handleSubmit() {
+  if (!form.name.trim()) {
+    notify.error('Le nom de la tâche est requis')
+    return
+  }
+
+  loading.value = true
+
+  try {
+    await $fetch('/api/crm/tasks', {
+      method: 'POST',
+      headers: requestHeaders,
+      credentials: 'include',
+      body: {
+        name: form.name,
+        project: form.projectIri || undefined,
+        assignee: form.assigneeId ? `/api/users/${form.assigneeId}` : undefined,
+        deadline: form.deadline || undefined,
+        timeEstimated:
+          typeof form.timeEstimated === 'number' ? form.timeEstimated : undefined,
+        timeSpent: typeof form.timeSpent === 'number' ? form.timeSpent : undefined,
+        status: form.statusIri || undefined,
+      },
+    })
+
+    notify.success('Tâche créée')
+    resetForm()
+    await taskCollection.refresh()
+  } catch (error) {
+    console.error(error)
+    notify.error("Impossible d'enregistrer la tâche")
+  } finally {
+    loading.value = false
+  }
+}
+
+async function handleDelete(id: number) {
+  loading.value = true
+
+  try {
+    await $fetch(`/api/crm/tasks/${id}`, {
+      method: 'DELETE',
+      headers: requestHeaders,
+      credentials: 'include',
+    })
+    notify.success('Tâche supprimée')
+    await taskCollection.refresh()
+  } catch (error) {
+    console.error(error)
+    notify.error('Suppression impossible')
+  } finally {
+    loading.value = false
+  }
+}
+</script>
+
+<template>
+  <v-container fluid>
+    <v-row>
+      <v-col cols="12" md="5">
+        <v-card>
+          <v-card-title>Créer une tâche</v-card-title>
+          <v-card-text>
+            <v-form @submit.prevent="handleSubmit">
+              <v-text-field v-model="form.name" label="Nom" class="mb-3" />
+              <v-select
+                v-model="form.projectIri"
+                :items="projects"
+                item-title="name"
+                :item-value="projectValue"
+                label="Projet"
+                class="mb-3"
+                clearable
+              />
+              <v-text-field
+                v-model="form.assigneeId"
+                type="number"
+                label="Assigné (ID utilisateur)"
+                class="mb-3"
+              />
+              <v-text-field
+                v-model="form.deadline"
+                label="Deadline (ISO)"
+                class="mb-3"
+              />
+              <v-select
+                v-model="form.statusIri"
+                :items="statuses"
+                item-title="name"
+                :item-value="statusValue"
+                label="Statut"
+                class="mb-3"
+                clearable
+              />
+              <v-text-field
+                v-model.number="form.timeEstimated"
+                type="number"
+                label="Temps estimé (min)"
+                class="mb-3"
+              />
+              <v-text-field
+                v-model.number="form.timeSpent"
+                type="number"
+                label="Temps passé (min)"
+                class="mb-4"
+              />
+              <v-btn type="submit" color="primary" :loading="loading" block>
+                Créer
+              </v-btn>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12" md="7">
+        <v-card>
+          <v-card-title>Tâches</v-card-title>
+          <v-data-table
+            :items="tasks"
+            :loading="taskCollection.pending.value"
+            :headers="[
+              { title: 'ID', key: 'id', width: 80 },
+              { title: 'Nom', key: 'name' },
+              { title: 'Projet', key: 'project.name' },
+              { title: 'Statut', key: 'status.name' },
+              { title: 'Assigné', key: 'assignee.name' },
+              { title: 'Actions', key: 'actions', sortable: false, width: 120 },
+            ]"
+          >
+            <template #item.actions="{ item }">
+              <v-btn
+                size="small"
+                color="error"
+                variant="text"
+                :loading="loading"
+                @click="handleDelete(item.raw.id)"
+              >
+                Supprimer
+              </v-btn>
+            </template>
+          </v-data-table>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
