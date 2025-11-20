@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
 import { useServerAuthRequestHeaders } from '~/composables/useServerRequestHeaders'
 import { useCrmStore } from '~/stores/crm'
 import { Notify } from '~/stores/notification'
 
 definePageMeta({
-  title: 'CRM',
+  title: 'navigation.crm',
   middleware: 'auth',
 })
+
+const { t } = useI18n()
+const translate = useTranslateWithFallback()
 
 const requestHeaders = useServerAuthRequestHeaders()
 const crmStore = useCrmStore()
@@ -130,14 +134,14 @@ function resetDocumentForm() {
 
 async function handleCreateClient() {
   if (!clientForm.name.trim()) {
-    Notify.error('Le nom du client est requis.')
+    Notify.error(t('crm.errors.clientNameRequired'))
     return
   }
 
   clientActionLoading.value = true
 
   try {
-    const createdClient = await $fetch<Record<string, any>>('/api/crm/clients', {
+    const createdClient = await $fetch<Record<string, any>>('/api/clients', {
       method: 'POST',
       headers: requestHeaders,
       credentials: 'include',
@@ -150,7 +154,7 @@ async function handleCreateClient() {
     const clientIri = iriFrom(createdClient, '/api/clients')
 
     if (clientForm.contactValue.trim()) {
-      await $fetch('/api/crm/contacts', {
+      await $fetch('/api/contacts', {
         method: 'POST',
         headers: requestHeaders,
         credentials: 'include',
@@ -162,7 +166,7 @@ async function handleCreateClient() {
       })
     }
 
-    Notify.success('Client ajouté avec succès')
+    Notify.success(t('crm.notifications.clientCreated'))
     resetClientForm()
     await Promise.all([
       clientCollection.refresh(),
@@ -171,7 +175,7 @@ async function handleCreateClient() {
     ])
   } catch (error) {
     console.error(error)
-    Notify.error('Impossible de créer le client CRM')
+    Notify.error(t('crm.notifications.clientError'))
   } finally {
     clientActionLoading.value = false
   }
@@ -179,14 +183,14 @@ async function handleCreateClient() {
 
 async function handleCreateProject() {
   if (!projectForm.name.trim()) {
-    Notify.error('Le nom du projet est requis.')
+    Notify.error(t('crm.errors.projectNameRequired'))
     return
   }
 
   projectActionLoading.value = true
 
   try {
-    await $fetch('/api/crm/projects', {
+    await $fetch('/api/projects', {
       method: 'POST',
       headers: requestHeaders,
       credentials: 'include',
@@ -198,12 +202,12 @@ async function handleCreateProject() {
       },
     })
 
-    Notify.success('Projet créé avec succès')
+    Notify.success(t('crm.notifications.projectCreated'))
     resetProjectForm()
     await Promise.all([projectCollection.refresh(), documentCollection.refresh()])
   } catch (error) {
     console.error(error)
-    Notify.error("Impossible de créer le projet CRM")
+    Notify.error(t('crm.notifications.projectError'))
   } finally {
     projectActionLoading.value = false
   }
@@ -211,14 +215,14 @@ async function handleCreateProject() {
 
 async function handleCreateTask() {
   if (!taskForm.name.trim()) {
-    Notify.error('Le nom de la tâche est requis.')
+    Notify.error(t('crm.errors.taskNameRequired'))
     return
   }
 
   taskActionLoading.value = true
 
   try {
-    await $fetch('/api/crm/tasks', {
+    await $fetch('/api/tasks', {
       method: 'POST',
       headers: requestHeaders,
       credentials: 'include',
@@ -239,12 +243,12 @@ async function handleCreateTask() {
       },
     })
 
-    Notify.success('Tâche créée avec succès')
+    Notify.success(t('crm.notifications.taskCreated'))
     resetTaskForm()
     await taskCollection.refresh()
   } catch (error) {
     console.error(error)
-    Notify.error('Impossible de créer la tâche CRM')
+    Notify.error(t('crm.notifications.taskError'))
   } finally {
     taskActionLoading.value = false
   }
@@ -252,14 +256,14 @@ async function handleCreateTask() {
 
 async function handleCreateDocument() {
   if (!documentForm.name.trim()) {
-    Notify.error('Le nom du document est requis.')
+    Notify.error(t('crm.errors.documentNameRequired'))
     return
   }
 
   documentActionLoading.value = true
 
   try {
-    await $fetch('/api/crm/documents', {
+    await $fetch('/api/documents', {
       method: 'POST',
       headers: requestHeaders,
       credentials: 'include',
@@ -270,16 +274,50 @@ async function handleCreateDocument() {
       },
     })
 
-    Notify.success('Document ajouté avec succès')
+    Notify.success(t('crm.notifications.documentCreated'))
     resetDocumentForm()
     await documentCollection.refresh()
   } catch (error) {
     console.error(error)
-    Notify.error('Impossible de créer le document CRM')
+    Notify.error(t('crm.notifications.documentError'))
   } finally {
     documentActionLoading.value = false
   }
 }
+
+const taskHeaders = computed(() => [
+  { title: t('crm.tables.tasks.headers.id'), key: 'id', width: 80 },
+  { title: t('crm.tables.tasks.headers.name'), key: 'name' },
+  { title: t('crm.tables.tasks.headers.project'), key: 'project.name' },
+  { title: t('crm.tables.tasks.headers.assignee'), key: 'assignee.name' },
+  { title: t('crm.tables.tasks.headers.status'), key: 'status.name' },
+])
+
+const clientHeaders = computed(() => [
+  { title: t('crm.tables.clients.headers.id'), key: 'id', width: 80 },
+  { title: t('crm.tables.clients.headers.name'), key: 'name' },
+  {
+    title: t('crm.tables.clients.headers.projects'),
+    key: 'projects',
+    sortable: false,
+  },
+  {
+    title: t('crm.tables.clients.headers.contacts'),
+    key: 'contacts',
+    sortable: false,
+  },
+])
+
+const documentHeaders = computed(() => [
+  { title: t('crm.tables.documents.headers.id'), key: 'id', width: 80 },
+  { title: t('crm.tables.documents.headers.name'), key: 'name' },
+  { title: t('crm.tables.documents.headers.client'), key: 'client.name' },
+  {
+    title: t('crm.tables.documents.headers.projects'),
+    key: 'projects',
+    sortable: false,
+  },
+])
 </script>
 
 <template>
@@ -287,9 +325,16 @@ async function handleCreateDocument() {
     <v-row class="mb-8">
       <v-col cols="12">
         <v-card class="pa-6" variant="tonal">
-          <div class="text-h5 font-weight-bold mb-2">Espace CRM</div>
+          <div class="text-h5 font-weight-bold mb-2">
+            {{ translate('crm.pageTitle', 'Espace CRM') }}
+          </div>
           <div class="text-body-2 text-medium-emphasis">
-            Gérez vos clients, projets, tâches et documents depuis une seule page.
+            {{
+              translate(
+                'crm.pageDescription',
+                'Gérez vos clients, projets, tâches et documents depuis une seule page.',
+              )
+            }}
           </div>
         </v-card>
       </v-col>
@@ -298,18 +343,18 @@ async function handleCreateDocument() {
     <v-row class="mb-6">
       <v-col cols="12" md="6" lg="4">
         <v-card class="h-100">
-          <v-card-title>Ajouter un client</v-card-title>
+          <v-card-title>{{ translate('crm.forms.client.title', 'Ajouter un client') }}</v-card-title>
           <v-card-text>
             <v-form @submit.prevent="handleCreateClient">
               <v-text-field
                 v-model="clientForm.name"
-                label="Nom du client"
+                :label="translate('crm.forms.client.nameLabel', 'Nom du client')"
                 density="comfortable"
                 class="mb-3"
               />
               <v-textarea
                 v-model="clientForm.description"
-                label="Description"
+                :label="translate('crm.forms.client.descriptionLabel', 'Description')"
                 rows="2"
                 auto-grow
                 density="comfortable"
@@ -320,14 +365,14 @@ async function handleCreateDocument() {
                 :items="contactTypeItems"
                 item-title="name"
                 :item-value="contactTypeValue"
-                label="Type de contact"
+                :label="translate('crm.forms.client.contactTypeLabel', 'Type de contact')"
                 density="comfortable"
                 class="mb-3"
                 clearable
               />
               <v-text-field
                 v-model="clientForm.contactValue"
-                label="Contact (optionnel)"
+                :label="translate('crm.forms.client.contactValueLabel', 'Contact (optionnel)')"
                 density="comfortable"
                 class="mb-4"
               />
@@ -337,7 +382,7 @@ async function handleCreateDocument() {
                 :loading="clientActionLoading"
                 block
               >
-                Créer le client
+                {{ translate('crm.forms.client.submit', 'Créer le client') }}
               </v-btn>
             </v-form>
           </v-card-text>
@@ -346,12 +391,12 @@ async function handleCreateDocument() {
 
       <v-col cols="12" md="6" lg="4">
         <v-card class="h-100">
-          <v-card-title>Créer un projet</v-card-title>
+          <v-card-title>{{ translate('crm.forms.project.title', 'Créer un projet') }}</v-card-title>
           <v-card-text>
             <v-form @submit.prevent="handleCreateProject">
               <v-text-field
                 v-model="projectForm.name"
-                label="Nom du projet"
+                :label="translate('crm.forms.project.nameLabel', 'Nom du projet')"
                 density="comfortable"
                 class="mb-3"
               />
@@ -360,7 +405,7 @@ async function handleCreateDocument() {
                 :items="clientItems"
                 item-title="name"
                 :item-value="clientValue"
-                label="Client"
+                :label="translate('crm.forms.project.clientLabel', 'Client')"
                 density="comfortable"
                 class="mb-3"
                 clearable
@@ -370,7 +415,7 @@ async function handleCreateDocument() {
                 :items="projectStatusItems"
                 item-title="name"
                 :item-value="projectStatusValue"
-                label="Statut"
+                :label="translate('crm.forms.project.statusLabel', 'Statut')"
                 density="comfortable"
                 class="mb-3"
                 clearable
@@ -380,7 +425,7 @@ async function handleCreateDocument() {
                 :items="projectTypeItems"
                 item-title="name"
                 :item-value="projectTypeValue"
-                label="Type"
+                :label="translate('crm.forms.project.typeLabel', 'Type')"
                 density="comfortable"
                 class="mb-4"
                 clearable
@@ -391,7 +436,7 @@ async function handleCreateDocument() {
                 :loading="projectActionLoading"
                 block
               >
-                Créer le projet
+                {{ translate('crm.forms.project.submit', 'Créer le projet') }}
               </v-btn>
             </v-form>
           </v-card-text>
@@ -400,12 +445,12 @@ async function handleCreateDocument() {
 
       <v-col cols="12" lg="4">
         <v-card class="h-100">
-          <v-card-title>Ajouter un document</v-card-title>
+          <v-card-title>{{ translate('crm.forms.document.title', 'Ajouter un document') }}</v-card-title>
           <v-card-text>
             <v-form @submit.prevent="handleCreateDocument">
               <v-text-field
                 v-model="documentForm.name"
-                label="Nom du document"
+                :label="translate('crm.forms.document.nameLabel', 'Nom du document')"
                 density="comfortable"
                 class="mb-3"
               />
@@ -414,7 +459,7 @@ async function handleCreateDocument() {
                 :items="clientItems"
                 item-title="name"
                 :item-value="clientValue"
-                label="Client"
+                :label="translate('crm.forms.document.clientLabel', 'Client')"
                 density="comfortable"
                 class="mb-3"
                 clearable
@@ -424,7 +469,7 @@ async function handleCreateDocument() {
                 :items="projectItems"
                 item-title="name"
                 :item-value="projectValue"
-                label="Projet lié"
+                :label="translate('crm.forms.document.projectLabel', 'Projet lié')"
                 density="comfortable"
                 class="mb-4"
                 clearable
@@ -435,7 +480,7 @@ async function handleCreateDocument() {
                 :loading="documentActionLoading"
                 block
               >
-                Enregistrer le document
+                {{ translate('crm.forms.document.submit', 'Enregistrer le document') }}
               </v-btn>
             </v-form>
           </v-card-text>
@@ -446,12 +491,12 @@ async function handleCreateDocument() {
     <v-row class="mb-8">
       <v-col cols="12" md="6">
         <v-card class="h-100">
-          <v-card-title>Créer une tâche</v-card-title>
+          <v-card-title>{{ translate('crm.forms.task.title', 'Créer une tâche') }}</v-card-title>
           <v-card-text>
             <v-form @submit.prevent="handleCreateTask">
               <v-text-field
                 v-model="taskForm.name"
-                label="Nom de la tâche"
+                :label="translate('crm.forms.task.nameLabel', 'Nom de la tâche')"
                 density="comfortable"
                 class="mb-3"
               />
@@ -460,21 +505,21 @@ async function handleCreateDocument() {
                 :items="projectItems"
                 item-title="name"
                 :item-value="projectValue"
-                label="Projet"
+                :label="translate('crm.forms.task.projectLabel', 'Projet')"
                 density="comfortable"
                 class="mb-3"
                 clearable
               />
               <v-text-field
                 v-model="taskForm.assigneeId"
-                label="Assigné (ID utilisateur)"
+                :label="translate('crm.forms.task.assigneeLabel', 'Assigné (ID utilisateur)')"
                 type="number"
                 density="comfortable"
                 class="mb-3"
               />
               <v-text-field
                 v-model="taskForm.deadline"
-                label="Deadline (ISO)"
+                :label="translate('crm.forms.task.deadlineLabel', 'Deadline (ISO)')"
                 density="comfortable"
                 class="mb-3"
               />
@@ -483,21 +528,21 @@ async function handleCreateDocument() {
                 :items="taskStatusItems"
                 item-title="name"
                 :item-value="taskStatusValue"
-                label="Statut"
+                :label="translate('crm.forms.task.statusLabel', 'Statut')"
                 density="comfortable"
                 class="mb-3"
                 clearable
               />
               <v-text-field
                 v-model.number="taskForm.timeEstimated"
-                label="Temps estimé (minutes)"
+                :label="translate('crm.forms.task.estimatedLabel', 'Temps estimé (minutes)')"
                 type="number"
                 density="comfortable"
                 class="mb-3"
               />
               <v-text-field
                 v-model.number="taskForm.timeSpent"
-                label="Temps passé (minutes)"
+                :label="translate('crm.forms.task.spentLabel', 'Temps passé (minutes)')"
                 type="number"
                 density="comfortable"
                 class="mb-4"
@@ -508,7 +553,7 @@ async function handleCreateDocument() {
                 :loading="taskActionLoading"
                 block
               >
-                Créer la tâche
+                {{ translate('crm.forms.task.submit', 'Créer la tâche') }}
               </v-btn>
             </v-form>
           </v-card-text>
@@ -517,16 +562,12 @@ async function handleCreateDocument() {
 
       <v-col cols="12" md="6">
         <v-card class="h-100">
-          <v-card-title>Vos tâches CRM</v-card-title>
+          <v-card-title>
+            {{ translate('crm.tables.tasks.title', 'Vos tâches CRM') }}
+          </v-card-title>
           <v-card-text>
             <v-data-table
-              :headers="[
-                { title: 'ID', key: 'id', width: 80 },
-                { title: 'Nom', key: 'name' },
-                { title: 'Projet', key: 'project.name' },
-                { title: 'Assigné', key: 'assignee.name' },
-                { title: 'Statut', key: 'status.name' },
-              ]"
+              :headers="taskHeaders"
               :items="taskItems"
               :loading="taskCollection.pending.value"
               density="comfortable"
@@ -539,15 +580,12 @@ async function handleCreateDocument() {
     <v-row>
       <v-col cols="12" md="6">
         <v-card class="h-100">
-          <v-card-title>Clients & Projets</v-card-title>
+          <v-card-title>
+            {{ translate('crm.tables.clients.title', 'Clients & Projets') }}
+          </v-card-title>
           <v-card-text>
             <v-data-table
-              :headers="[
-                { title: 'ID', key: 'id', width: 80 },
-                { title: 'Nom', key: 'name' },
-                { title: 'Projets', key: 'projects', sortable: false },
-                { title: 'Contacts', key: 'contacts', sortable: false },
-              ]"
+              :headers="clientHeaders"
               :items="clientItems"
               :loading="clientCollection.pending.value"
               density="comfortable"
@@ -569,15 +607,12 @@ async function handleCreateDocument() {
 
       <v-col cols="12" md="6">
         <v-card class="h-100">
-          <v-card-title>Documents</v-card-title>
+          <v-card-title>
+            {{ translate('crm.tables.documents.title', 'Documents') }}
+          </v-card-title>
           <v-card-text>
             <v-data-table
-              :headers="[
-                { title: 'ID', key: 'id', width: 80 },
-                { title: 'Nom', key: 'name' },
-                { title: 'Client', key: 'client.name' },
-                { title: 'Projets', key: 'projects', sortable: false },
-              ]"
+              :headers="documentHeaders"
               :items="documentItems"
               :loading="documentCollection.pending.value"
               density="comfortable"

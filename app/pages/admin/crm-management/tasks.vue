@@ -5,7 +5,7 @@ import { useCrmStore } from '~/stores/crm'
 import { Notify } from '~/stores/notification'
 
 definePageMeta({
-  title: 'CRM - Tâches',
+  title: 'navigation.crmTasks',
   icon: 'mdi-format-list-checkbox',
   drawerIndex: 6,
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
@@ -75,7 +75,7 @@ async function handleSubmit() {
 
   try {
     const method = editing.value ? 'PUT' : 'POST'
-    const endpoint = editing.value ? `/api/crm/tasks/${form.id}` : '/api/crm/tasks'
+    const endpoint = editing.value ? `/api/tasks/${form.id}` : '/api/tasks'
 
     await $fetch(endpoint, {
       method,
@@ -119,7 +119,7 @@ async function handleDelete(id: number) {
   loading.value = true
 
   try {
-    await $fetch(`/api/crm/tasks/${id}`, {
+    await $fetch(`/api/tasks/${id}`, {
       method: 'DELETE',
       headers: requestHeaders,
       credentials: 'include',
