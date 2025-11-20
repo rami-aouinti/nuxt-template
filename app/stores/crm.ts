@@ -57,7 +57,6 @@ export const useCrmStore = defineStore('crm', () => {
       try {
         const result = await $fetch<T>(withBase(endpoint), {
           headers: crmHeaders.value,
-          credentials: 'include',
         })
         data.value = result
         return result
@@ -87,43 +86,27 @@ export const useCrmStore = defineStore('crm', () => {
     }
   }
 
-  const addresses = createCollectionFetcher<CrmAddressCollection>(
-    '/api/addresses',
-  )
-  const countries = createCollectionFetcher<CrmCountryCollection>(
-    '/api/countries',
-  )
-  const clients = createCollectionFetcher<CrmClientCollection>('/api/clients')
-  const contacts = createCollectionFetcher<CrmContactCollection>(
-    '/api/contacts',
-  )
-  const contactTypes = createCollectionFetcher<CrmContactTypeCollection>(
-    '/api/contact_types',
-  )
-  const documents = createCollectionFetcher<CrmDocumentCollection>(
-    '/api/documents',
-  )
-  const files = createCollectionFetcher<CrmFileCollection>('/api/files')
-  const groups = createCollectionFetcher<CrmGroupCollection>('/api/groups')
-  const histories = createCollectionFetcher<CrmHistoryCollection>(
-    '/api/histories',
-  )
-  const labels = createCollectionFetcher<CrmLabelCollection>('/api/labels')
-  const languages = createCollectionFetcher<CrmLanguageCollection>(
-    '/api/crm/languages',
-  )
-  const modules = createCollectionFetcher<CrmModuleCollection>('/api/modules')
-  const projects = createCollectionFetcher<CrmProjectCollection>('/api/projects')
-  const projectStatuses = createCollectionFetcher<CrmProjectStatusCollection>(
-    '/api/project_statuses',
-  )
-  const projectTypes = createCollectionFetcher<CrmProjectTypeCollection>(
-    '/api/project_types',
-  )
-  const tasks = createCollectionFetcher<CrmTaskCollection>('/api/tasks')
-  const taskStatuses = createCollectionFetcher<CrmTaskStatusCollection>(
-    '/api/task_statuses',
-  )
+  const addresses = createCollectionFetcher<CrmAddressCollection>('/addresses')
+  const countries = createCollectionFetcher<CrmCountryCollection>('/countries')
+  const clients = createCollectionFetcher<CrmClientCollection>('/clients')
+  const contacts = createCollectionFetcher<CrmContactCollection>('/contacts')
+  const contactTypes =
+    createCollectionFetcher<CrmContactTypeCollection>('/contact_types')
+  const documents = createCollectionFetcher<CrmDocumentCollection>('/documents')
+  const files = createCollectionFetcher<CrmFileCollection>('/files')
+  const groups = createCollectionFetcher<CrmGroupCollection>('/groups')
+  const histories = createCollectionFetcher<CrmHistoryCollection>('/histories')
+  const labels = createCollectionFetcher<CrmLabelCollection>('/labels')
+  const languages = createCollectionFetcher<CrmLanguageCollection>('/languages')
+  const modules = createCollectionFetcher<CrmModuleCollection>('/modules')
+  const projects = createCollectionFetcher<CrmProjectCollection>('/projects')
+  const projectStatuses =
+    createCollectionFetcher<CrmProjectStatusCollection>('/project_statuses')
+  const projectTypes =
+    createCollectionFetcher<CrmProjectTypeCollection>('/project_types')
+  const tasks = createCollectionFetcher<CrmTaskCollection>('/tasks')
+  const taskStatuses =
+    createCollectionFetcher<CrmTaskStatusCollection>('/task_statuses')
 
   return {
     addresses,

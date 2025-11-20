@@ -11,7 +11,7 @@ definePageMeta({
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 
-const { headers: crmHeaders, withBase } = useCrmApi()
+const { headers: crmHeaders, withBase, withResourceBase } = useCrmApi()
 const crmStore = useCrmStore()
 
 const clientCollection = crmStore.clients
@@ -45,9 +45,9 @@ const iriFrom = (item: Record<string, any> | string | number | null, path: strin
 }
 
 const contactTypeValue = (item: Record<string, any>) =>
-  iriFrom(item, withBase('/api/contact_types'))
+  iriFrom(item, withResourceBase('/api/contact_types'))
 const clientValue = (item: Record<string, any>) =>
-  iriFrom(item, withBase('/api/clients'))
+  iriFrom(item, withResourceBase('/api/clients'))
 
 function resetForm() {
   form.id = null
@@ -68,13 +68,12 @@ async function handleSubmit() {
   try {
     const method = editing.value ? 'PUT' : 'POST'
     const endpoint = editing.value
-      ? withBase(`/api/clients/${form.id}`)
-      : withBase('/api/clients')
+      ? withBase(`/clients/${form.id}`)
+      : withBase('/clients')
 
     const createdClient = await $fetch<Record<string, any>>(endpoint, {
       method,
       headers: crmHeaders.value,
-      credentials: 'include',
       body: {
         name: form.name,
         description: form.description || undefined,
@@ -84,10 +83,9 @@ async function handleSubmit() {
     const clientIri = clientValue(createdClient)
 
     if (form.contactValue.trim()) {
-      await $fetch(withBase('/api/contacts'), {
+      await $fetch(withBase('/contacts'), {
         method: 'POST',
         headers: crmHeaders.value,
-        credentials: 'include',
         body: {
           value: form.contactValue,
           contactType: form.contactTypeIri || undefined,
@@ -119,10 +117,9 @@ async function handleDelete(id: number) {
   actionLoading.value = true
 
   try {
-    await $fetch(withBase(`/api/clients/${id}`), {
+    await $fetch(withBase(`/clients/${id}`), {
       method: 'DELETE',
       headers: crmHeaders.value,
-      credentials: 'include',
     })
     Notify.success('Client supprimé')
     await clientCollection.refresh()

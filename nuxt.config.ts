@@ -142,6 +142,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       crmApiBaseUrl: 'https://crm.bro-world.org',
+      crmApiProxyBaseUrl: '/api/crm',
     },
   },
   i18n: {

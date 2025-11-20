@@ -11,7 +11,7 @@ definePageMeta({
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 
-const { headers: crmHeaders, withBase } = useCrmApi()
+const { headers: crmHeaders, withBase, withResourceBase } = useCrmApi()
 const crmStore = useCrmStore()
 
 const documentCollection = crmStore.documents
@@ -47,9 +47,9 @@ const iriFrom = (item: Record<string, any> | string | number | null, path: strin
 }
 
 const clientValue = (item: Record<string, any>) =>
-  iriFrom(item, withBase('/api/clients'))
+  iriFrom(item, withResourceBase('/api/clients'))
 const projectValue = (item: Record<string, any>) =>
-  iriFrom(item, withBase('/api/projects'))
+  iriFrom(item, withResourceBase('/api/projects'))
 
 function resetForm() {
   form.id = null
@@ -69,13 +69,12 @@ async function handleSubmit() {
   try {
     const method = editing.value ? 'PUT' : 'POST'
     const endpoint = editing.value
-      ? withBase(`/api/documents/${form.id}`)
-      : withBase('/api/documents')
+      ? withBase(`/documents/${form.id}`)
+      : withBase('/documents')
 
     await $fetch(endpoint, {
       method,
       headers: crmHeaders.value,
-      credentials: 'include',
       body: {
         name: form.name,
         client: form.clientIri || undefined,
@@ -107,10 +106,9 @@ async function handleDelete(id: number) {
   loading.value = true
 
   try {
-    await $fetch(withBase(`/api/documents/${id}`), {
+    await $fetch(withBase(`/documents/${id}`), {
       method: 'DELETE',
       headers: crmHeaders.value,
-      credentials: 'include',
     })
     Notify.success('Document supprimé')
     await documentCollection.refresh()
