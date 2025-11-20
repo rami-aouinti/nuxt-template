@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, type Ref } from 'vue'
-import { useServerAuthRequestHeaders } from '~/composables/useServerRequestHeaders'
+import { useCrmApi } from '~/composables/useCrmApi'
 import type {
   CrmAddressCollection,
   CrmClientCollection,
@@ -43,7 +43,7 @@ function toError(error: unknown) {
 }
 
 export const useCrmStore = defineStore('crm', () => {
-  const requestHeaders = useServerAuthRequestHeaders()
+  const { headers: crmHeaders, withBase } = useCrmApi()
 
   function createCollectionFetcher<T>(endpoint: string): FetchableCollection<T> {
     const data = ref<T | null>(null)
@@ -55,8 +55,8 @@ export const useCrmStore = defineStore('crm', () => {
       error.value = null
 
       try {
-        const result = await $fetch<T>(endpoint, {
-          headers: requestHeaders,
+        const result = await $fetch<T>(withBase(endpoint), {
+          headers: crmHeaders.value,
           credentials: 'include',
         })
         data.value = result

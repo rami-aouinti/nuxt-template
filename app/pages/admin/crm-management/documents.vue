@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
-import { useServerAuthRequestHeaders } from '~/composables/useServerRequestHeaders'
 import { useCrmStore } from '~/stores/crm'
 import { Notify } from '~/stores/notification'
+import { useCrmApi } from '~/composables/useCrmApi'
 
 definePageMeta({
   title: 'navigation.crmDocuments',
@@ -11,7 +11,7 @@ definePageMeta({
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 
-const requestHeaders = useServerAuthRequestHeaders()
+const { headers: crmHeaders, withBase } = useCrmApi()
 const crmStore = useCrmStore()
 
 const documentCollection = crmStore.documents
@@ -46,8 +46,10 @@ const iriFrom = (item: Record<string, any> | string | number | null, path: strin
   return ''
 }
 
-const clientValue = (item: Record<string, any>) => iriFrom(item, '/api/clients')
-const projectValue = (item: Record<string, any>) => iriFrom(item, '/api/projects')
+const clientValue = (item: Record<string, any>) =>
+  iriFrom(item, withBase('/api/clients'))
+const projectValue = (item: Record<string, any>) =>
+  iriFrom(item, withBase('/api/projects'))
 
 function resetForm() {
   form.id = null
@@ -67,12 +69,12 @@ async function handleSubmit() {
   try {
     const method = editing.value ? 'PUT' : 'POST'
     const endpoint = editing.value
-      ? `/api/documents/${form.id}`
-      : '/api/documents'
+      ? withBase(`/api/documents/${form.id}`)
+      : withBase('/api/documents')
 
     await $fetch(endpoint, {
       method,
-      headers: requestHeaders,
+      headers: crmHeaders.value,
       credentials: 'include',
       body: {
         name: form.name,
@@ -105,9 +107,9 @@ async function handleDelete(id: number) {
   loading.value = true
 
   try {
-    await $fetch(`/api/documents/${id}`, {
+    await $fetch(withBase(`/api/documents/${id}`), {
       method: 'DELETE',
-      headers: requestHeaders,
+      headers: crmHeaders.value,
       credentials: 'include',
     })
     Notify.success('Document supprimé')
