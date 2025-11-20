@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
-import { useServerAuthRequestHeaders } from '~/composables/useServerRequestHeaders'
 import { useCrmStore } from '~/stores/crm'
 import { Notify } from '~/stores/notification'
+import { useCrmApi } from '~/composables/useCrmApi'
 
 definePageMeta({
   title: 'navigation.crm',
@@ -13,7 +13,7 @@ definePageMeta({
 const { t } = useI18n()
 const translate = useTranslateWithFallback()
 
-const requestHeaders = useServerAuthRequestHeaders()
+const { headers: crmHeaders, withBase, withResourceBase } = useCrmApi()
 const crmStore = useCrmStore()
 
 const clientCollection = crmStore.clients
@@ -91,16 +91,18 @@ const iriFrom = (item: Record<string, any> | string | number, path: string) => {
   return ''
 }
 
-const clientValue = (item: Record<string, any>) => iriFrom(item, '/api/clients')
-const projectValue = (item: Record<string, any>) => iriFrom(item, '/api/projects')
+const clientValue = (item: Record<string, any>) =>
+  iriFrom(item, withResourceBase('/api/clients'))
+const projectValue = (item: Record<string, any>) =>
+  iriFrom(item, withResourceBase('/api/projects'))
 const projectStatusValue = (item: Record<string, any>) =>
-  iriFrom(item, '/api/project_statuses')
+  iriFrom(item, withResourceBase('/api/project_statuses'))
 const projectTypeValue = (item: Record<string, any>) =>
-  iriFrom(item, '/api/project_types')
+  iriFrom(item, withResourceBase('/api/project_types'))
 const taskStatusValue = (item: Record<string, any>) =>
-  iriFrom(item, '/api/task_statuses')
+  iriFrom(item, withResourceBase('/api/task_statuses'))
 const contactTypeValue = (item: Record<string, any>) =>
-  iriFrom(item, '/api/contact_types')
+  iriFrom(item, withResourceBase('/api/contact_types'))
 
 function resetClientForm() {
   clientForm.name = ''
@@ -140,27 +142,25 @@ async function handleCreateClient() {
 
   clientActionLoading.value = true
 
-  try {
-    const createdClient = await $fetch<Record<string, any>>('/api/clients', {
-      method: 'POST',
-      headers: requestHeaders,
-      credentials: 'include',
-      body: {
-        name: clientForm.name,
-        description: clientForm.description || undefined,
-      },
-    })
-
-    const clientIri = iriFrom(createdClient, '/api/clients')
-
-    if (clientForm.contactValue.trim()) {
-      await $fetch('/api/contacts', {
+    try {
+      const createdClient = await $fetch<Record<string, any>>(withBase('/clients'), {
         method: 'POST',
-        headers: requestHeaders,
-        credentials: 'include',
+        headers: crmHeaders.value,
         body: {
-          value: clientForm.contactValue,
-          contactType: clientForm.contactTypeIri || undefined,
+          name: clientForm.name,
+          description: clientForm.description || undefined,
+        },
+      })
+
+      const clientIri = iriFrom(createdClient, withResourceBase('/api/clients'))
+
+      if (clientForm.contactValue.trim()) {
+        await $fetch(withBase('/contacts'), {
+          method: 'POST',
+          headers: crmHeaders.value,
+          body: {
+            value: clientForm.contactValue,
+            contactType: clientForm.contactTypeIri || undefined,
           client: clientIri,
         },
       })
@@ -189,18 +189,17 @@ async function handleCreateProject() {
 
   projectActionLoading.value = true
 
-  try {
-    await $fetch('/api/projects', {
-      method: 'POST',
-      headers: requestHeaders,
-      credentials: 'include',
-      body: {
-        name: projectForm.name,
-        client: projectForm.clientIri || undefined,
-        status: projectForm.statusIri || undefined,
-        type: projectForm.typeIri || undefined,
-      },
-    })
+    try {
+      await $fetch(withBase('/projects'), {
+        method: 'POST',
+        headers: crmHeaders.value,
+        body: {
+          name: projectForm.name,
+          client: projectForm.clientIri || undefined,
+          status: projectForm.statusIri || undefined,
+          type: projectForm.typeIri || undefined,
+        },
+      })
 
     Notify.success(t('crm.notifications.projectCreated'))
     resetProjectForm()
@@ -221,27 +220,26 @@ async function handleCreateTask() {
 
   taskActionLoading.value = true
 
-  try {
-    await $fetch('/api/tasks', {
-      method: 'POST',
-      headers: requestHeaders,
-      credentials: 'include',
-      body: {
-        name: taskForm.name,
-        project: taskForm.projectIri || undefined,
-        assignee: taskForm.assigneeId
-          ? `/api/users/${taskForm.assigneeId}`
-          : undefined,
-        deadline: taskForm.deadline || undefined,
-        timeEstimated:
-          typeof taskForm.timeEstimated === 'number'
-            ? taskForm.timeEstimated
+    try {
+      await $fetch(withBase('/tasks'), {
+        method: 'POST',
+        headers: crmHeaders.value,
+        body: {
+          name: taskForm.name,
+          project: taskForm.projectIri || undefined,
+          assignee: taskForm.assigneeId
+            ? withResourceBase(`/api/users/${taskForm.assigneeId}`)
             : undefined,
-        timeSpent:
-          typeof taskForm.timeSpent === 'number' ? taskForm.timeSpent : undefined,
-        status: taskForm.statusIri || undefined,
-      },
-    })
+          deadline: taskForm.deadline || undefined,
+          timeEstimated:
+            typeof taskForm.timeEstimated === 'number'
+              ? taskForm.timeEstimated
+              : undefined,
+          timeSpent:
+            typeof taskForm.timeSpent === 'number' ? taskForm.timeSpent : undefined,
+          status: taskForm.statusIri || undefined,
+        },
+      })
 
     Notify.success(t('crm.notifications.taskCreated'))
     resetTaskForm()
@@ -262,17 +260,16 @@ async function handleCreateDocument() {
 
   documentActionLoading.value = true
 
-  try {
-    await $fetch('/api/documents', {
-      method: 'POST',
-      headers: requestHeaders,
-      credentials: 'include',
-      body: {
-        name: documentForm.name,
-        client: documentForm.clientIri || undefined,
-        projects: documentForm.projectIri ? [documentForm.projectIri] : undefined,
-      },
-    })
+    try {
+      await $fetch(withBase('/documents'), {
+        method: 'POST',
+        headers: crmHeaders.value,
+        body: {
+          name: documentForm.name,
+          client: documentForm.clientIri || undefined,
+          projects: documentForm.projectIri ? [documentForm.projectIri] : undefined,
+        },
+      })
 
     Notify.success(t('crm.notifications.documentCreated'))
     resetDocumentForm()

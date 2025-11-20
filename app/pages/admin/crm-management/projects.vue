@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
-import { useServerAuthRequestHeaders } from '~/composables/useServerRequestHeaders'
 import { useCrmStore } from '~/stores/crm'
 import { Notify } from '~/stores/notification'
+import { useCrmApi } from '~/composables/useCrmApi'
 
 definePageMeta({
   title: 'navigation.crmProjects',
@@ -11,7 +11,7 @@ definePageMeta({
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 
-const requestHeaders = useServerAuthRequestHeaders()
+const { headers: crmHeaders, withBase, withResourceBase } = useCrmApi()
 const crmStore = useCrmStore()
 
 const clientCollection = crmStore.clients
@@ -51,9 +51,12 @@ const iriFrom = (item: Record<string, any> | string | number | null, path: strin
   return ''
 }
 
-const clientValue = (item: Record<string, any>) => iriFrom(item, '/api/clients')
-const statusValue = (item: Record<string, any>) => iriFrom(item, '/api/project_statuses')
-const typeValue = (item: Record<string, any>) => iriFrom(item, '/api/project_types')
+const clientValue = (item: Record<string, any>) =>
+  iriFrom(item, withResourceBase('/api/clients'))
+const statusValue = (item: Record<string, any>) =>
+  iriFrom(item, withResourceBase('/api/project_statuses'))
+const typeValue = (item: Record<string, any>) =>
+  iriFrom(item, withResourceBase('/api/project_types'))
 
 function resetForm() {
   form.id = null
@@ -74,13 +77,12 @@ async function handleSubmit() {
   try {
     const method = editing.value ? 'PUT' : 'POST'
     const endpoint = editing.value
-      ? `/api/projects/${form.id}`
-      : '/api/projects'
+      ? withBase(`/projects/${form.id}`)
+      : withBase('/projects')
 
     await $fetch(endpoint, {
       method,
-      headers: requestHeaders,
-      credentials: 'include',
+      headers: crmHeaders.value,
       body: {
         name: form.name,
         client: form.clientIri || undefined,
@@ -112,10 +114,9 @@ async function handleDelete(id: number) {
   loading.value = true
 
   try {
-    await $fetch(`/api/projects/${id}`, {
+    await $fetch(withBase(`/projects/${id}`), {
       method: 'DELETE',
-      headers: requestHeaders,
-      credentials: 'include',
+      headers: crmHeaders.value,
     })
     Notify.success('Projet supprimé')
     await projectCollection.refresh()
