@@ -5,7 +5,7 @@ import { useCrmStore } from '~/stores/crm'
 import { Notify } from '~/stores/notification'
 
 definePageMeta({
-  title: 'CRM - Statuts de projet',
+  title: 'navigation.crmProjectStatuses',
   icon: 'mdi-check-decagram-outline',
   drawerIndex: 6,
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
@@ -39,8 +39,8 @@ async function handleSubmit() {
   try {
     const method = editing.value ? 'PUT' : 'POST'
     const endpoint = editing.value
-      ? `/api/project_statuses/${form.id}`
-      : '/api/project_statuses'
+      ? `/api/crm/project_statuses/${form.id}`
+      : '/api/crm/project_statuses'
 
     await $fetch(endpoint, {
       method,
@@ -69,7 +69,7 @@ async function handleDelete(id: number) {
   loading.value = true
 
   try {
-    await $fetch(`/api/project_statuses/${id}`, {
+    await $fetch(`/api/crm/project_statuses/${id}`, {
       method: 'DELETE',
       headers: requestHeaders,
       credentials: 'include',

@@ -1,4 +1,5 @@
-import { defineEventHandler, getRequestURL, proxyRequest } from 'h3'
+import type { H3Event } from 'h3'
+import { defineEventHandler, getHeader, getRequestURL, proxyRequest } from 'h3'
 
 const CRM_API_BASE_URL = 'https://crm.bro-world.org'
 
@@ -19,6 +20,20 @@ function resolveToken(session: unknown) {
   return typeof value === 'string' && value.trim().length > 0 ? value : null
 }
 
+function resolveAuthorization(event: H3Event, session: unknown) {
+  const token = resolveToken(session)
+  if (token) {
+    return `Bearer ${token}`
+  }
+
+  const headerAuth = getHeader(event, 'authorization')
+  if (headerAuth && headerAuth.trim().length > 0) {
+    return headerAuth
+  }
+
+  return null
+}
+
 export default defineEventHandler(async (event) => {
   const rawPath = event.context.params?.path
   const path = joinPath(rawPath)
@@ -33,12 +48,12 @@ export default defineEventHandler(async (event) => {
 
   const normalizedPath = path.startsWith('/') ? path.slice(1) : path
   const session = await getUserSession(event)
-  const token = resolveToken(session)
+  const authorization = resolveAuthorization(event, session)
   const url = getRequestURL(event)
   const search = url.search ?? ''
   const targetUrl = `${CRM_API_BASE_URL}/api/${normalizedPath}${search}`
 
   return await proxyRequest(event, targetUrl, {
-    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+    headers: authorization ? { Authorization: authorization } : undefined,
   })
 })

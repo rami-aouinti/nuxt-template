@@ -290,7 +290,18 @@
     "mediaManagement": "Gestion des médias",
     "media": "Médiathèque",
     "notificationManagement": "Gestion des notifications",
-    "ecommerceManagement": "Gestion du e-commerce"
+    "ecommerceManagement": "Gestion du e-commerce",
+    "crm": "CRM",
+    "crmManagement": "Gestion CRM",
+    "crmClients": "CRM - Clients",
+    "crmProjects": "CRM - Projets",
+    "crmTasks": "CRM - Tâches",
+    "crmDocuments": "CRM - Documents",
+    "crmCountries": "CRM - Pays",
+    "crmContactTypes": "CRM - Types de contact",
+    "crmProjectStatuses": "CRM - Statuts de projet",
+    "crmProjectTypes": "CRM - Types de projet",
+    "crmTaskStatuses": "CRM - Statuts de tâche"
   },
   "messenger": {
     "title": "Messagerie",
@@ -2940,6 +2951,49 @@
           "membersRequired": "At least one member identifier is required."
         }
       }
+    },
+    "crm": {
+      "title": "Espace CRM (Admin)",
+      "description": "Accédez aux différentes ressources CRM pour créer, éditer et supprimer les entrées (clients, projets, tâches, référentiels).",
+      "open": "Ouvrir",
+      "links": {
+        "clients": {
+          "title": "Clients",
+          "description": "Gérer les clients, contacts et projets liés."
+        },
+        "projects": {
+          "title": "Projets",
+          "description": "Créer et suivre les projets CRM avec statuts et types."
+        },
+        "tasks": {
+          "title": "Tâches",
+          "description": "Assigner les tâches, deadlines et statuts."
+        },
+        "documents": {
+          "title": "Documents",
+          "description": "Lister et créer des documents liés aux clients et projets."
+        },
+        "countries": {
+          "title": "Pays",
+          "description": "Référentiel des pays utilisés dans les adresses."
+        },
+        "contactTypes": {
+          "title": "Types de contact",
+          "description": "Configurer les types de contact disponibles."
+        },
+        "projectStatuses": {
+          "title": "Statuts de projet",
+          "description": "Gérer les statuts applicables aux projets."
+        },
+        "projectTypes": {
+          "title": "Types de projet",
+          "description": "Référentiel des types de projets."
+        },
+        "taskStatuses": {
+          "title": "Statuts de tâche",
+          "description": "Paramétrer les statuts de tâche utilisés."
+        }
+      }
     }
   },
   "layouts": {
@@ -3048,5 +3102,91 @@
     },
     "enabled": "Activé",
     "disabled": "Désactivé"
+  },
+  "crm": {
+    "pageTitle": "Espace CRM",
+    "pageDescription": "Gérez vos clients, projets, tâches et documents depuis une seule page.",
+    "forms": {
+      "client": {
+        "title": "Ajouter un client",
+        "nameLabel": "Nom du client",
+        "descriptionLabel": "Description",
+        "contactTypeLabel": "Type de contact",
+        "contactValueLabel": "Contact (optionnel)",
+        "submit": "Créer le client"
+      },
+      "project": {
+        "title": "Créer un projet",
+        "nameLabel": "Nom du projet",
+        "clientLabel": "Client",
+        "statusLabel": "Statut",
+        "typeLabel": "Type",
+        "submit": "Créer le projet"
+      },
+      "document": {
+        "title": "Ajouter un document",
+        "nameLabel": "Nom du document",
+        "clientLabel": "Client",
+        "projectLabel": "Projet lié",
+        "submit": "Enregistrer le document"
+      },
+      "task": {
+        "title": "Créer une tâche",
+        "nameLabel": "Nom de la tâche",
+        "projectLabel": "Projet",
+        "assigneeLabel": "Assigné (ID utilisateur)",
+        "deadlineLabel": "Deadline (ISO)",
+        "statusLabel": "Statut",
+        "estimatedLabel": "Temps estimé (minutes)",
+        "spentLabel": "Temps passé (minutes)",
+        "submit": "Créer la tâche"
+      }
+    },
+    "tables": {
+      "tasks": {
+        "title": "Vos tâches CRM",
+        "headers": {
+          "id": "ID",
+          "name": "Nom",
+          "project": "Projet",
+          "assignee": "Assigné",
+          "status": "Statut"
+        }
+      },
+      "clients": {
+        "title": "Clients & Projets",
+        "headers": {
+          "id": "ID",
+          "name": "Nom",
+          "projects": "Projets",
+          "contacts": "Contacts"
+        }
+      },
+      "documents": {
+        "title": "Documents",
+        "headers": {
+          "id": "ID",
+          "name": "Nom",
+          "client": "Client",
+          "projects": "Projets"
+        }
+      }
+    },
+    "notifications": {
+      "clientCreated": "Client ajouté avec succès",
+      "clientError": "Impossible de créer le client CRM",
+      "projectCreated": "Projet créé avec succès",
+      "projectError": "Impossible de créer le projet CRM",
+      "taskCreated": "Tâche créée avec succès",
+      "taskError": "Impossible de créer la tâche CRM",
+      "documentCreated": "Document ajouté avec succès",
+      "documentError": "Impossible de créer le document CRM"
+    },
+    "errors": {
+      "clientNameRequired": "Le nom du client est requis.",
+      "projectNameRequired": "Le nom du projet est requis.",
+      "taskNameRequired": "Le nom de la tâche est requis.",
+      "documentNameRequired": "Le nom du document est requis."
+    }
   }
 }
