@@ -65,9 +65,14 @@ export const useCrmStore = defineStore('crm', () => {
       } catch (err) {
         const fetchError = err as FetchError<T> | undefined
 
-        if (fetchError?.status === 304 && fetchError.data) {
-          data.value = fetchError.data
-          return fetchError.data
+        if (fetchError?.status === 304) {
+          const responseData =
+            fetchError.data ?? (fetchError as any).response?._data ?? null
+
+          if (responseData) {
+            data.value = responseData
+            return responseData
+          }
         }
 
         const wrapped = toError(err)
