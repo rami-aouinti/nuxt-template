@@ -2,9 +2,10 @@ import { aliases } from 'vuetify/iconsets/mdi'
 import { defineNuxtConfig } from 'nuxt/config'
 import { createHash } from 'node:crypto'
 import { fileURLToPath } from 'node:url'
+import { resolve } from 'node:path'
 
 const projectRoot = fileURLToPath(new URL('./', import.meta.url))
-const localeDirectory = 'app/i18n/locales'
+const localeDirectory = resolve(projectRoot, 'app/i18n/locales')
 
 const DEFAULT_MERCURE_URL = 'http://bro-world.org:3000/.well-known/mercure'
 const DEFAULT_MERCURE_PUBLIC_URL =
