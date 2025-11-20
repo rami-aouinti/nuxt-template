@@ -86,9 +86,13 @@ const {
   pending: orderPending,
   error: orderError,
   refresh: refreshOrder,
-} = await useAsyncData('ecommerce-order', fetchOrder, {
-  watch: [() => tokenValue.value, () => locale.value],
-})
+} = await useAsyncData(
+  () => `ecommerce-order-${tokenValue.value}-${locale.value}`,
+  fetchOrder,
+  {
+    watch: [() => tokenValue.value, () => locale.value],
+  },
+)
 
 const order = computed(() => orderResponse.value ?? null)
 
@@ -112,9 +116,13 @@ const {
   pending: orderItemsPending,
   error: orderItemsError,
   refresh: refreshOrderItems,
-} = await useAsyncData('ecommerce-order-items', fetchOrderItems, {
-  watch: [() => tokenValue.value, () => locale.value],
-})
+} = await useAsyncData(
+  () => `ecommerce-order-items-${tokenValue.value}-${locale.value}`,
+  fetchOrderItems,
+  {
+    watch: [() => tokenValue.value, () => locale.value],
+  },
+)
 
 type OrderAddress = AddressJsonldSyliusShopOrderAccountShow | null
 

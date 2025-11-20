@@ -126,36 +126,52 @@ const {
   pending: taxonPending,
   error: taxonError,
   refresh: refreshTaxon,
-} = await useAsyncData('ecommerce-category-taxon', fetchTaxon, {
-  watch: [() => slugParam.value, () => locale.value],
-})
+} = await useAsyncData(
+  () => `ecommerce-category-taxon-${slugParam.value}-${locale.value}`,
+  fetchTaxon,
+  {
+    watch: [() => slugParam.value, () => locale.value],
+  },
+)
 
 const {
   data: productsResponse,
   pending: productsPending,
   error: productsError,
   refresh: refreshProducts,
-} = await useAsyncData('ecommerce-category-products', fetchProducts, {
-  watch: [() => slugParam.value, () => locale.value],
-})
+} = await useAsyncData(
+  () => `ecommerce-category-products-${slugParam.value}-${locale.value}`,
+  fetchProducts,
+  {
+    watch: [() => slugParam.value, () => locale.value],
+  },
+)
 
 const {
   data: channelsResponse,
   pending: channelsPending,
   error: channelsError,
   refresh: refreshChannels,
-} = await useAsyncData('ecommerce-category-channels', fetchChannels, {
-  watch: [() => locale.value],
-})
+} = await useAsyncData(
+  () => `ecommerce-category-channels-${locale.value}`,
+  fetchChannels,
+  {
+    watch: [() => locale.value],
+  },
+)
 
 const {
   data: parentTaxonData,
   pending: parentPending,
   error: parentError,
   refresh: refreshParent,
-} = await useAsyncData('ecommerce-category-parent', fetchParentTaxon, {
-  watch: [() => taxonData.value, () => locale.value],
-})
+} = await useAsyncData(
+  () => `ecommerce-category-parent-${slugParam.value}-${locale.value}`,
+  fetchParentTaxon,
+  {
+    watch: [() => taxonData.value, () => locale.value],
+  },
+)
 
 const taxon = computed(() => taxonData.value ?? null)
 const parentTaxon = computed(() => parentTaxonData.value ?? null)

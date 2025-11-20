@@ -7,6 +7,7 @@ export function useCrmApi() {
   const config = useRuntimeConfig()
   const { session } = useAppUserSession()
   const requestHeaders = useServerAuthRequestHeaders()
+  const { locale } = useI18n()
 
   const baseUrl = computed(() =>
     normalizeBaseUrl(config.public.crmApiBaseUrl, 'https://crm.bro-world.org'),
@@ -24,6 +25,7 @@ export function useCrmApi() {
   const headers = computed(() => ({
     ...(requestHeaders ?? {}),
     ...authHeaders.value,
+    'Accept-Language': locale.value,
   }))
 
   const withBase = (path: string) => {
