@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
-import { useServerAuthRequestHeaders } from '~/composables/useServerRequestHeaders'
 import { useCrmStore } from '~/stores/crm'
 import { Notify } from '~/stores/notification'
+import { useCrmApi } from '~/composables/useCrmApi'
 
 definePageMeta({
   title: 'navigation.crmClients',
@@ -11,7 +11,7 @@ definePageMeta({
   roles: ['ROLE_ADMIN', 'ROLE_ROOT'],
 })
 
-const requestHeaders = useServerAuthRequestHeaders()
+const { headers: crmHeaders, withBase } = useCrmApi()
 const crmStore = useCrmStore()
 
 const clientCollection = crmStore.clients
@@ -45,8 +45,9 @@ const iriFrom = (item: Record<string, any> | string | number | null, path: strin
 }
 
 const contactTypeValue = (item: Record<string, any>) =>
-  iriFrom(item, '/api/contact_types')
-const clientValue = (item: Record<string, any>) => iriFrom(item, '/api/clients')
+  iriFrom(item, withBase('/api/contact_types'))
+const clientValue = (item: Record<string, any>) =>
+  iriFrom(item, withBase('/api/clients'))
 
 function resetForm() {
   form.id = null
@@ -67,12 +68,12 @@ async function handleSubmit() {
   try {
     const method = editing.value ? 'PUT' : 'POST'
     const endpoint = editing.value
-      ? `/api/clients/${form.id}`
-      : '/api/clients'
+      ? withBase(`/api/clients/${form.id}`)
+      : withBase('/api/clients')
 
     const createdClient = await $fetch<Record<string, any>>(endpoint, {
       method,
-      headers: requestHeaders,
+      headers: crmHeaders.value,
       credentials: 'include',
       body: {
         name: form.name,
@@ -83,9 +84,9 @@ async function handleSubmit() {
     const clientIri = clientValue(createdClient)
 
     if (form.contactValue.trim()) {
-      await $fetch('/api/contacts', {
+      await $fetch(withBase('/api/contacts'), {
         method: 'POST',
-        headers: requestHeaders,
+        headers: crmHeaders.value,
         credentials: 'include',
         body: {
           value: form.contactValue,
@@ -118,9 +119,9 @@ async function handleDelete(id: number) {
   actionLoading.value = true
 
   try {
-    await $fetch(`/api/clients/${id}`, {
+    await $fetch(withBase(`/api/clients/${id}`), {
       method: 'DELETE',
-      headers: requestHeaders,
+      headers: crmHeaders.value,
       credentials: 'include',
     })
     Notify.success('Client supprimé')
