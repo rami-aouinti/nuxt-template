@@ -24,7 +24,7 @@ const props = defineProps<Props>()
 const slots = useSlots()
 const requestFetch = useRequestFetch()
 const { t } = useI18n()
-const { withBase } = useCrmApi()
+const { withBase, jsonLdHeaders } = useCrmApi()
 const createError = ref<string | null>(null)
 const creating = ref(false)
 
@@ -71,6 +71,7 @@ async function handleCreate(payload: { name: string; type: string | null }) {
   try {
     await requestFetch(withBase(props.endpoint), {
       method: 'POST',
+      headers: jsonLdHeaders.value,
       body: { name: trimmedName },
     })
 

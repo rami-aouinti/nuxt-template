@@ -28,6 +28,12 @@ export function useCrmApi() {
     'Accept-Language': locale.value,
   }))
 
+  const jsonLdHeaders = computed(() => ({
+    ...headers.value,
+    Accept: 'application/ld+json',
+    'Content-Type': 'application/ld+json',
+  }))
+
   const withBase = (path: string) => {
     const normalizedPath = path.startsWith('/') ? path : `/${path}`
     return `${proxyBaseUrl.value}${normalizedPath}`
@@ -43,6 +49,7 @@ export function useCrmApi() {
     proxyBaseUrl,
     authHeaders,
     headers,
+    jsonLdHeaders,
     withBase,
     withResourceBase,
   }
