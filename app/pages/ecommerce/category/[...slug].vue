@@ -528,6 +528,21 @@ useHead(() => ({
 <template>
   <div class="ecommerce-category-page">
     <v-container fluid class="pa-0">
+      <client-only>
+        <teleport to="#app-bar">
+          <div class="d-flex align-center justify-end gap-2">
+            <AppButton
+              variant="text"
+              color="primary"
+              :loading="isLoading"
+              :aria-label="t('pages.ecommerceCategory.actions.refresh')"
+              @click="refreshAll"
+            >
+              <v-icon icon="mdi-refresh" />
+            </AppButton>
+          </div>
+        </teleport>
+      </client-only>
       <section class="category-hero">
         <nav class="category-breadcrumbs" aria-label="Breadcrumb">
           <template

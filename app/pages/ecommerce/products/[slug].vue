@@ -923,6 +923,13 @@ const latestProductsWithRoutes = computed(() =>
 
 const anyPending = computed(() => productPending.value || channelsPending.value)
 
+const isRefreshing = computed(
+  () =>
+    productPending.value ||
+    channelsPending.value ||
+    latestProductsPending.value,
+)
+
 const anyError = computed(() =>
   Boolean(productError.value || channelsError.value),
 )
@@ -930,6 +937,14 @@ const anyError = computed(() =>
 const latestProductsErrorState = computed(() =>
   Boolean(latestProductsError.value),
 )
+
+const refreshAll = async () => {
+  await Promise.all([
+    refreshProduct(),
+    refreshChannels(),
+    refreshLatestProducts(),
+  ])
+}
 
 useHead(() => {
   const name = productName.value
@@ -1010,6 +1025,21 @@ const handleAddToCart = async () => {
 
 <template>
   <v-container fluid class="product-page pa-0">
+    <client-only>
+      <teleport to="#app-bar">
+        <div class="d-flex align-center justify-end gap-2">
+          <AppButton
+            variant="text"
+            color="primary"
+            :loading="isRefreshing"
+            :aria-label="t('pages.ecommerce.actions.refresh')"
+            @click="refreshAll"
+          >
+            <v-icon icon="mdi-refresh" />
+          </AppButton>
+        </div>
+      </teleport>
+    </client-only>
     <client-only>
       <teleport to="#app-drawer">
         <div class="product-drawer">
