@@ -2,6 +2,7 @@
 import { computed, ref, useSlots } from 'vue'
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
 import AdminCrmResourceActions from '~/components/Admin/AdminCrmResourceActions.vue'
+import type { AdminCreateField } from '~/components/Admin/AdminDataTable.vue'
 import { useCrmAdminResource } from '~/composables/useCrmAdminResource'
 import { useCrmApi } from '~/composables/useCrmApi'
 import { Notify } from '~/stores/notification'
@@ -17,6 +18,7 @@ type Props = {
   mapItem: MapItemFn
   searchFields?: string[]
   itemsPerPageOptions?: (number | { title: string; value: number })[]
+  createFields?: AdminCreateField[]
 }
 
 const props = defineProps<Props>()
@@ -58,10 +60,33 @@ function extractRequestError(error: unknown, fallback: string): string {
   return fallback
 }
 
-async function handleCreate(payload: { name: string; type: string | null }) {
-  const trimmedName = payload.name.trim()
+type CreatePayload = Record<string, string | null | undefined> & {
+  type?: string | null
+}
 
-  if (!trimmedName || creating.value) {
+async function handleCreate(payload: CreatePayload) {
+  if (creating.value) {
+    return
+  }
+
+  const normalizedPayload = Object.entries(payload).reduce<
+    Record<string, string>
+  >((acc, [key, value]) => {
+    if (key === 'type') {
+      return acc
+    }
+
+    if (typeof value === 'string') {
+      const normalized = value.trim()
+      if (normalized.length > 0) {
+        acc[key] = normalized
+      }
+    }
+
+    return acc
+  }, {})
+
+  if (!normalizedPayload.name) {
     return
   }
 
@@ -72,7 +97,7 @@ async function handleCreate(payload: { name: string; type: string | null }) {
     await requestFetch(withBase(props.endpoint), {
       method: 'POST',
       headers: jsonLdHeaders.value,
-      body: { name: trimmedName },
+      body: normalizedPayload,
     })
 
     Notify.success(t('common.feedback.createSuccess'))
@@ -100,6 +125,7 @@ async function handleCreate(payload: { name: string; type: string | null }) {
     :error="combinedError"
     :items-per-page-options="itemsPerPageOptions"
     :create-enabled="!creating"
+    :create-fields="props.createFields"
     @refresh="refresh"
     @create="handleCreate"
   >
