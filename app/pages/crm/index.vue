@@ -57,6 +57,14 @@ const clientNavigationItems = computed(() =>
   })),
 )
 
+const limitedProjectNavigationItems = computed(() =>
+  projectNavigationItems.value.slice(0, 5),
+)
+
+const limitedClientNavigationItems = computed(() =>
+  clientNavigationItems.value.slice(0, 5),
+)
+
 const stats = computed(() => [
   {
     label: translate('crm.dashboard.clients', 'Clients'),
@@ -85,7 +93,7 @@ const stats = computed(() => [
       <teleport to="#app-drawer">
         <AppNavigationList
           class="pb-6"
-          :items="projectNavigationItems"
+          :items="limitedProjectNavigationItems"
           :title="translate('crm.drawer.projectsTitle', 'Projets')"
           :description="
             translate(
@@ -109,6 +117,25 @@ const stats = computed(() => [
             </NuxtLink>
           </template>
         </AppNavigationList>
+        <div class="d-flex flex-column gap-2 px-2">
+          <v-btn
+            block
+            color="primary"
+            variant="flat"
+            :to="localePath({ name: 'crm-project-new' })"
+          >
+            <v-icon icon="mdi-plus" start />
+            {{ translate('crm.drawer.newProject', 'Nouveau projet') }}
+          </v-btn>
+          <v-btn
+            block
+            variant="text"
+            color="secondary"
+            :to="localePath({ name: 'crm-project' })"
+          >
+            {{ translate('crm.drawer.showAllProjects', 'Voir tous les projets') }}
+          </v-btn>
+        </div>
       </teleport>
     </client-only>
 
@@ -116,7 +143,7 @@ const stats = computed(() => [
       <teleport to="#app-drawer-right">
         <AppNavigationList
           class="pb-6"
-          :items="clientNavigationItems"
+          :items="limitedClientNavigationItems"
           :title="translate('crm.drawer.clientsTitle', 'Clients actifs')"
           :description="
             translate(
@@ -145,6 +172,25 @@ const stats = computed(() => [
             </NuxtLink>
           </template>
         </AppNavigationList>
+        <div class="d-flex flex-column gap-2 px-2">
+          <v-btn
+            block
+            color="primary"
+            variant="flat"
+            :to="localePath({ name: 'crm-client-new' })"
+          >
+            <v-icon icon="mdi-plus" start />
+            {{ translate('crm.drawer.newClient', 'Nouveau client') }}
+          </v-btn>
+          <v-btn
+            block
+            variant="text"
+            color="secondary"
+            :to="localePath({ name: 'crm-client' })"
+          >
+            {{ translate('crm.drawer.showAllClients', 'Voir tous les clients') }}
+          </v-btn>
+        </div>
       </teleport>
     </client-only>
 
