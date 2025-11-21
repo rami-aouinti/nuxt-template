@@ -1967,6 +1967,7 @@
           "exploreCollection": "Explorar colección",
           "refresh": "Actualizar catálogo",
           "retry": "Reintentar",
+          "goToCheckout": "Ir al pago",
           "viewAllProducts": "Ver todos los productos"
         },
         "fallbacks": {
@@ -2035,6 +2036,120 @@
           "loading": "Cargando métodos de pago…",
           "empty": "No hay métodos de pago disponibles para este pedido.",
           "defaultMethodName": "Método de pago"
+        }
+      },
+      "ecommerceCheckout": {
+        "address": {
+          "meta": {
+            "title": "Pago · Dirección"
+          },
+          "headline": {
+            "step": "Paso {step} de 4",
+            "title": "¿A dónde enviamos tu pedido?",
+            "subtitle": "Ingresa los datos de facturación y confirmaremos el envío en el siguiente paso."
+          },
+          "steps": {
+            "address": "Dirección",
+            "shipping": "Envío",
+            "payment": "Pago",
+            "complete": "Finalizar"
+          },
+          "form": {
+            "validation": {
+              "required": "Este campo es obligatorio",
+              "email": "Ingresa un correo válido"
+            },
+            "contact": {
+              "title": "Información de contacto",
+              "email": "Correo electrónico"
+            },
+            "billing": {
+              "title": "Dirección de facturación",
+              "description": "Usa la dirección asociada a tu método de pago preferido.",
+              "firstName": "Nombre",
+              "lastName": "Apellidos",
+              "company": "Empresa (opcional)",
+              "street": "Dirección",
+              "city": "Ciudad",
+              "postcode": "Código postal",
+              "country": "País",
+              "province": "Estado / Provincia",
+              "phoneNumber": "Teléfono"
+            },
+            "shipping": {
+              "title": "Dirección de envío",
+              "useDifferent": "¿Usar una dirección distinta para el envío?",
+              "description": "Actualiza los datos de envío si difieren de tu facturación.",
+              "firstName": "Nombre",
+              "lastName": "Apellidos",
+              "company": "Empresa (opcional)",
+              "street": "Dirección",
+              "city": "Ciudad",
+              "postcode": "Código postal",
+              "country": "País",
+              "province": "Estado / Provincia",
+              "phoneNumber": "Teléfono"
+            }
+          },
+          "actions": {
+            "back": "Volver a la tienda",
+            "goToShipping": "Ir al envío",
+            "next": "Guardar y continuar"
+          },
+          "status": {
+            "success": "Las direcciones se guardaron correctamente.",
+            "error": "No pudimos guardar tus direcciones. Inténtalo de nuevo."
+          },
+          "summary": {
+            "title": "Resumen del pedido",
+            "orderError": "No pudimos cargar los totales. Los montos mostrados pueden ser provisionales.",
+            "itemsTotal": "Subtotal de artículos",
+            "discount": "Descuentos",
+            "shipping": "Envío estimado",
+            "taxes": "Impuestos",
+            "total": "Total del pedido",
+            "itemsLabel": "{count} artículos",
+            "confirmationTitle": "Direcciones guardadas",
+            "billingSaved": "Dirección de facturación guardada",
+            "shippingSaved": "Dirección de envío guardada"
+          }
+        },
+        "shipping": {
+          "meta": {
+            "title": "Pago · Envío"
+          },
+          "headline": {
+            "step": "Paso {step} de 4",
+            "title": "Elige tu método de envío",
+            "subtitle": "Selecciona cómo quieres que entreguemos tu pedido."
+          },
+          "notifications": {
+            "success": "Método de envío actualizado correctamente.",
+            "error": "No pudimos actualizar el método de envío. Inténtalo nuevamente.",
+            "missingOrder": "No encontramos el token de pedido. Proporciona uno para continuar."
+          },
+          "sections": {
+            "title": "Opciones de envío",
+            "subtitle": "Revisa las opciones de entrega disponibles para cada envío.",
+            "changeAddress": "Cambiar dirección",
+            "orderError": "No pudimos cargar los detalles del pedido. Los costos de envío pueden no estar actualizados.",
+            "empty": "Aún no hay envíos disponibles para este pedido.",
+            "noMethods": "No hay métodos de envío disponibles para este envío.",
+            "loadError": "No pudimos cargar los métodos de envío. Inténtalo de nuevo.",
+            "retry": "Reintentar"
+          },
+          "shipmentTitle": "Envío #{index}",
+          "shipmentHint": "Selecciona una opción de entrega para este envío.",
+          "actions": {
+            "back": "Volver a la dirección",
+            "next": "Continuar al pago"
+          },
+          "labels": {
+            "unavailable": "—"
+          },
+          "fallbacks": {
+            "methodLabel": "Método de envío"
+          }
         }
       },
       "settings": {
@@ -3030,6 +3145,125 @@
         "backPrompt": "¿Recordaste tu contraseña?",
         "backCta": "Volver al inicio de sesión"
       }
+    },
+    "ecommerce": {
+      "actions": {
+        "goToCheckout": "Ir al pago"
+      }
+    },
+    "ecommerceCheckout": {
+      "address": {
+        "meta": {
+          "title": "Finalizar compra · Dirección"
+        },
+        "headline": {
+          "step": "Paso {step} de 4",
+          "title": "¿A dónde enviamos tu pedido?",
+          "subtitle": "Introduce los datos de facturación y confirmaremos el envío en el siguiente paso."
+        },
+        "steps": {
+          "address": "Dirección",
+          "shipping": "Envío",
+          "payment": "Pago",
+          "complete": "Completo"
+        },
+        "form": {
+          "validation": {
+            "required": "Este campo es obligatorio",
+            "email": "Introduce un correo electrónico válido"
+          },
+          "contact": {
+            "title": "Información de contacto",
+            "email": "Correo electrónico"
+          },
+          "billing": {
+            "title": "Dirección de facturación",
+            "description": "Usa la dirección asociada a tu método de pago preferido.",
+            "firstName": "Nombre",
+            "lastName": "Apellidos",
+            "company": "Empresa (opcional)",
+            "street": "Dirección",
+            "city": "Ciudad",
+            "postcode": "Código postal",
+            "country": "País",
+            "province": "Estado / Provincia",
+            "phoneNumber": "Teléfono"
+          },
+          "shipping": {
+            "title": "Dirección de envío",
+            "useDifferent": "¿Usar una dirección distinta para el envío?",
+            "description": "Actualiza los datos de envío si son diferentes a tu información de facturación.",
+            "firstName": "Nombre",
+            "lastName": "Apellidos",
+            "company": "Empresa (opcional)",
+            "street": "Dirección",
+            "city": "Ciudad",
+            "postcode": "Código postal",
+            "country": "País",
+            "province": "Estado / Provincia",
+            "phoneNumber": "Teléfono"
+          }
+        },
+        "actions": {
+          "back": "Volver a la tienda",
+          "goToShipping": "Ir al envío",
+          "next": "Guardar y continuar"
+        },
+        "status": {
+          "success": "Tus direcciones se guardaron correctamente.",
+          "error": "No pudimos guardar tus direcciones. Inténtalo de nuevo."
+        },
+        "summary": {
+          "title": "Resumen del pedido",
+          "orderError": "No pudimos cargar los totales del pedido. Los importes mostrados pueden ser estimaciones.",
+          "itemsTotal": "Total de artículos",
+          "discount": "Descuentos",
+          "shipping": "Envío estimado",
+          "taxes": "Impuestos",
+          "total": "Total del pedido",
+          "itemsLabel": "{count} artículos",
+          "confirmationTitle": "Direcciones guardadas",
+          "billingSaved": "Dirección de facturación guardada",
+          "shippingSaved": "Dirección de envío guardada"
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "Finalizar compra · Envío"
+        },
+        "headline": {
+          "step": "Paso {step} de 4",
+          "title": "Elige tu método de envío",
+          "subtitle": "Selecciona cómo deseas que entreguemos tu pedido."
+        },
+        "notifications": {
+          "success": "El método de envío se actualizó correctamente.",
+          "error": "No pudimos actualizar el método de envío. Inténtalo de nuevo.",
+          "missingOrder": "No encontramos el token del pedido. Indícalo para continuar."
+        },
+        "sections": {
+          "title": "Opciones de envío",
+          "subtitle": "Revisa las opciones de entrega disponibles para cada envío.",
+          "changeAddress": "Cambiar dirección",
+          "orderError": "No pudimos cargar los detalles del pedido. Los costos de envío pueden estar desactualizados.",
+          "empty": "Todavía no hay envíos disponibles para este pedido.",
+          "noMethods": "No hay métodos de envío disponibles para este envío.",
+          "loadError": "No pudimos cargar los métodos de envío. Inténtalo de nuevo.",
+          "retry": "Reintentar"
+        },
+        "shipmentTitle": "Envío #{index}",
+        "shipmentHint": "Selecciona una opción de entrega para este envío.",
+        "actions": {
+          "back": "Volver a la dirección",
+          "next": "Continuar al pago"
+        },
+        "labels": {
+          "unavailable": "—"
+        },
+        "fallbacks": {
+          "methodLabel": "Método de envío"
+        }
+      }
     }
   },
   "common": {
@@ -3146,6 +3380,13 @@
           "client": "Client",
           "projects": "Projects"
         }
+      }
+    },
+    "project": {
+      "tasks": {
+        "total": "Tareas",
+        "title": "Tareas del proyecto",
+        "noDescription": "Sin descripción para esta tarea"
       }
     },
     "notifications": {

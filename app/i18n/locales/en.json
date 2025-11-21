@@ -2119,6 +2119,7 @@
         "exploreCollection": "Explore collection",
         "refresh": "Refresh catalogue",
         "retry": "Try again",
+        "goToCheckout": "Go to checkout",
         "viewAllProducts": "Browse all products"
       },
       "fallbacks": {
@@ -2229,6 +2230,120 @@
         "loading": "Loading payment methods…",
         "empty": "No payment methods are available for this order.",
         "defaultMethodName": "Payment method"
+      }
+    },
+    "ecommerceCheckout": {
+      "address": {
+        "meta": {
+          "title": "Checkout · Address"
+        },
+        "headline": {
+          "step": "Step {step} of 4",
+          "title": "Where should we send your order?",
+          "subtitle": "Enter the billing details and we'll confirm shipping on the next step."
+        },
+        "steps": {
+          "address": "Address",
+          "shipping": "Shipping",
+          "payment": "Payment",
+          "complete": "Complete"
+        },
+        "form": {
+          "validation": {
+            "required": "This field is required",
+            "email": "Enter a valid email address"
+          },
+          "contact": {
+            "title": "Contact information",
+            "email": "Email address"
+          },
+          "billing": {
+            "title": "Billing address",
+            "description": "Use the address linked to your preferred payment method.",
+            "firstName": "First name",
+            "lastName": "Last name",
+            "company": "Company (optional)",
+            "street": "Street address",
+            "city": "City",
+            "postcode": "Postcode",
+            "country": "Country",
+            "province": "State / Province",
+            "phoneNumber": "Phone number"
+          },
+          "shipping": {
+            "title": "Shipping address",
+            "useDifferent": "Use different address for shipping?",
+            "description": "Update the shipping details if they differ from your billing information.",
+            "firstName": "First name",
+            "lastName": "Last name",
+            "company": "Company (optional)",
+            "street": "Street address",
+            "city": "City",
+            "postcode": "Postcode",
+            "country": "Country",
+            "province": "State / Province",
+            "phoneNumber": "Phone number"
+          }
+        },
+        "actions": {
+          "back": "Back to store",
+          "goToShipping": "Go to shipping",
+          "next": "Save and continue"
+        },
+        "status": {
+          "success": "Your addresses have been saved successfully.",
+          "error": "We could not save your addresses. Please try again."
+        },
+        "summary": {
+          "title": "Order summary",
+          "orderError": "We could not load the order totals. Amounts shown below may be placeholders.",
+          "itemsTotal": "Items total",
+          "discount": "Discounts",
+          "shipping": "Estimated shipping",
+          "taxes": "Taxes",
+          "total": "Order total",
+          "itemsLabel": "{count} items",
+          "confirmationTitle": "Addresses saved",
+          "billingSaved": "Billing address saved",
+          "shippingSaved": "Shipping address saved"
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "Checkout · Shipping"
+        },
+        "headline": {
+          "step": "Step {step} of 4",
+          "title": "Choose your shipping method",
+          "subtitle": "Select how you'd like us to deliver your order."
+        },
+        "notifications": {
+          "success": "Shipping method updated successfully.",
+          "error": "We couldn't update the shipping method. Please try again.",
+          "missingOrder": "We couldn't find an order token. Provide an order token to continue."
+        },
+        "sections": {
+          "title": "Shipping options",
+          "subtitle": "Review the available delivery options for each shipment.",
+          "changeAddress": "Change address",
+          "orderError": "We couldn't load the order details. Shipping costs may be outdated.",
+          "empty": "No shipments are available for this order yet.",
+          "noMethods": "No shipping methods are available for this shipment.",
+          "loadError": "We couldn't load shipping methods. Please try again.",
+          "retry": "Retry"
+        },
+        "shipmentTitle": "Shipment #{index}",
+        "shipmentHint": "Select a delivery option for this shipment.",
+        "actions": {
+          "back": "Back to address",
+          "next": "Continue to payment"
+        },
+        "labels": {
+          "unavailable": "—"
+        },
+        "fallbacks": {
+          "methodLabel": "Shipping method"
+        }
       }
     },
     "settings": {
@@ -3240,6 +3355,13 @@
           "client": "Client",
           "projects": "Projects"
         }
+      }
+    },
+    "project": {
+      "tasks": {
+        "total": "Tasks",
+        "title": "Project tasks",
+        "noDescription": "No description for this task"
       }
     },
     "notifications": {

@@ -3030,6 +3030,125 @@
         "backPrompt": "Ti sei ricordato la password?",
         "backCta": "Torna all'accesso"
       }
+    },
+    "ecommerce": {
+      "actions": {
+        "goToCheckout": "Vai al checkout"
+      }
+    },
+    "ecommerceCheckout": {
+      "address": {
+        "meta": {
+          "title": "Checkout · Indirizzo"
+        },
+        "headline": {
+          "step": "Passo {step} di 4",
+          "title": "Dove dobbiamo spedire il tuo ordine?",
+          "subtitle": "Inserisci i dati di fatturazione e confermeremo la spedizione nel passaggio successivo."
+        },
+        "steps": {
+          "address": "Indirizzo",
+          "shipping": "Spedizione",
+          "payment": "Pagamento",
+          "complete": "Completo"
+        },
+        "form": {
+          "validation": {
+            "required": "Questo campo è obbligatorio",
+            "email": "Inserisci un indirizzo email valido"
+          },
+          "contact": {
+            "title": "Informazioni di contatto",
+            "email": "Indirizzo email"
+          },
+          "billing": {
+            "title": "Indirizzo di fatturazione",
+            "description": "Usa l'indirizzo associato al tuo metodo di pagamento preferito.",
+            "firstName": "Nome",
+            "lastName": "Cognome",
+            "company": "Azienda (opzionale)",
+            "street": "Indirizzo",
+            "city": "Città",
+            "postcode": "CAP",
+            "country": "Paese",
+            "province": "Stato / Provincia",
+            "phoneNumber": "Telefono"
+          },
+          "shipping": {
+            "title": "Indirizzo di spedizione",
+            "useDifferent": "Usare un indirizzo di spedizione diverso?",
+            "description": "Aggiorna i dati di spedizione se sono diversi da quelli di fatturazione.",
+            "firstName": "Nome",
+            "lastName": "Cognome",
+            "company": "Azienda (opzionale)",
+            "street": "Indirizzo",
+            "city": "Città",
+            "postcode": "CAP",
+            "country": "Paese",
+            "province": "Stato / Provincia",
+            "phoneNumber": "Telefono"
+          }
+        },
+        "actions": {
+          "back": "Torna al negozio",
+          "goToShipping": "Vai alla spedizione",
+          "next": "Salva e continua"
+        },
+        "status": {
+          "success": "Gli indirizzi sono stati salvati correttamente.",
+          "error": "Non è stato possibile salvare gli indirizzi. Riprova."
+        },
+        "summary": {
+          "title": "Riepilogo ordine",
+          "orderError": "Impossibile caricare i totali dell'ordine. Gli importi mostrati potrebbero essere indicativi.",
+          "itemsTotal": "Totale articoli",
+          "discount": "Sconti",
+          "shipping": "Spedizione stimata",
+          "taxes": "Tasse",
+          "total": "Totale ordine",
+          "itemsLabel": "{count} articoli",
+          "confirmationTitle": "Indirizzi salvati",
+          "billingSaved": "Indirizzo di fatturazione salvato",
+          "shippingSaved": "Indirizzo di spedizione salvato"
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "Checkout · Spedizione"
+        },
+        "headline": {
+          "step": "Passo {step} di 4",
+          "title": "Scegli il metodo di spedizione",
+          "subtitle": "Seleziona come desideri ricevere il tuo ordine."
+        },
+        "notifications": {
+          "success": "Metodo di spedizione aggiornato con successo.",
+          "error": "Impossibile aggiornare il metodo di spedizione. Riprova.",
+          "missingOrder": "Token dell'ordine non trovato. Fornisci un token per continuare."
+        },
+        "sections": {
+          "title": "Opzioni di spedizione",
+          "subtitle": "Verifica le opzioni di consegna disponibili per ogni spedizione.",
+          "changeAddress": "Modifica indirizzo",
+          "orderError": "Impossibile caricare i dettagli dell'ordine. I costi di spedizione potrebbero non essere aggiornati.",
+          "empty": "Non ci sono ancora spedizioni disponibili per questo ordine.",
+          "noMethods": "Nessun metodo di spedizione disponibile per questa spedizione.",
+          "loadError": "Impossibile caricare i metodi di spedizione. Riprova.",
+          "retry": "Riprova"
+        },
+        "shipmentTitle": "Spedizione n.{index}",
+        "shipmentHint": "Seleziona un'opzione di consegna per questa spedizione.",
+        "actions": {
+          "back": "Torna all'indirizzo",
+          "next": "Continua al pagamento"
+        },
+        "labels": {
+          "unavailable": "—"
+        },
+        "fallbacks": {
+          "methodLabel": "Metodo di spedizione"
+        }
+      }
     }
   },
   "common": {
@@ -3163,6 +3282,13 @@
       "projectNameRequired": "Project name is required.",
       "taskNameRequired": "Task name is required.",
       "documentNameRequired": "Document name is required."
+    },
+    "project": {
+      "tasks": {
+        "total": "Attività",
+        "title": "Attività del progetto",
+        "noDescription": "Nessuna descrizione per questa attività"
+      }
     }
   }
 }

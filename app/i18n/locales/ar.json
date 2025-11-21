@@ -3034,6 +3034,125 @@
         "backPrompt": "تذكرت كلمة المرور؟",
         "backCta": "العودة إلى تسجيل الدخول"
       }
+    },
+    "ecommerce": {
+      "actions": {
+        "goToCheckout": "الانتقال إلى الدفع"
+      }
+    },
+    "ecommerceCheckout": {
+      "address": {
+        "meta": {
+          "title": "إتمام الشراء · العنوان"
+        },
+        "headline": {
+          "step": "الخطوة {step} من 4",
+          "title": "إلى أين نرسل طلبك؟",
+          "subtitle": "أدخل تفاصيل الفوترة وسنؤكد الشحن في الخطوة التالية."
+        },
+        "steps": {
+          "address": "العنوان",
+          "shipping": "الشحن",
+          "payment": "الدفع",
+          "complete": "اكتمل"
+        },
+        "form": {
+          "validation": {
+            "required": "هذه الخانة مطلوبة",
+            "email": "يرجى إدخال بريد إلكتروني صالح"
+          },
+          "contact": {
+            "title": "معلومات الاتصال",
+            "email": "عنوان البريد الإلكتروني"
+          },
+          "billing": {
+            "title": "عنوان الفوترة",
+            "description": "استخدم العنوان المرتبط بطريقة الدفع المفضلة لديك.",
+            "firstName": "الاسم الأول",
+            "lastName": "اسم العائلة",
+            "company": "الشركة (اختياري)",
+            "street": "عنوان الشارع",
+            "city": "المدينة",
+            "postcode": "الرمز البريدي",
+            "country": "الدولة",
+            "province": "الولاية / المقاطعة",
+            "phoneNumber": "رقم الهاتف"
+          },
+          "shipping": {
+            "title": "عنوان الشحن",
+            "useDifferent": "استخدام عنوان مختلف للشحن؟",
+            "description": "قم بتحديث تفاصيل الشحن إذا كانت مختلفة عن معلومات الفوترة.",
+            "firstName": "الاسم الأول",
+            "lastName": "اسم العائلة",
+            "company": "الشركة (اختياري)",
+            "street": "عنوان الشارع",
+            "city": "المدينة",
+            "postcode": "الرمز البريدي",
+            "country": "الدولة",
+            "province": "الولاية / المقاطعة",
+            "phoneNumber": "رقم الهاتف"
+          }
+        },
+        "actions": {
+          "back": "العودة إلى المتجر",
+          "goToShipping": "الانتقال إلى الشحن",
+          "next": "حفظ ومتابعة"
+        },
+        "status": {
+          "success": "تم حفظ العناوين بنجاح.",
+          "error": "تعذر حفظ العناوين. يرجى المحاولة مرة أخرى."
+        },
+        "summary": {
+          "title": "ملخص الطلب",
+          "orderError": "تعذر علينا تحميل إجماليات الطلب. قد تكون المبالغ أدناه تقديرية.",
+          "itemsTotal": "إجمالي العناصر",
+          "discount": "الخصومات",
+          "shipping": "تكلفة الشحن المقدرة",
+          "taxes": "الضرائب",
+          "total": "إجمالي الطلب",
+          "itemsLabel": "{count} عناصر",
+          "confirmationTitle": "تم حفظ العناوين",
+          "billingSaved": "تم حفظ عنوان الفوترة",
+          "shippingSaved": "تم حفظ عنوان الشحن"
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "إتمام الشراء · الشحن"
+        },
+        "headline": {
+          "step": "الخطوة {step} من 4",
+          "title": "اختر طريقة الشحن",
+          "subtitle": "حدد الطريقة التي تريد أن نوصل بها طلبك."
+        },
+        "notifications": {
+          "success": "تم تحديث طريقة الشحن بنجاح.",
+          "error": "تعذر تحديث طريقة الشحن. يرجى المحاولة مرة أخرى.",
+          "missingOrder": "تعذر العثور على رمز الطلب. يرجى توفيره للمتابعة."
+        },
+        "sections": {
+          "title": "خيارات الشحن",
+          "subtitle": "اطلع على خيارات التوصيل المتاحة لكل شحنة.",
+          "changeAddress": "تغيير العنوان",
+          "orderError": "تعذر تحميل تفاصيل الطلب. قد تكون تكاليف الشحن غير محدثة.",
+          "empty": "لا توجد شحنات متاحة لهذا الطلب بعد.",
+          "noMethods": "لا تتوفر طرق شحن لهذه الشحنة.",
+          "loadError": "تعذر تحميل طرق الشحن. يرجى المحاولة مرة أخرى.",
+          "retry": "إعادة المحاولة"
+        },
+        "shipmentTitle": "الشحنة رقم {index}",
+        "shipmentHint": "اختر خيار التوصيل لهذه الشحنة.",
+        "actions": {
+          "back": "العودة إلى العنوان",
+          "next": "المتابعة إلى الدفع"
+        },
+        "labels": {
+          "unavailable": "—"
+        },
+        "fallbacks": {
+          "methodLabel": "طريقة الشحن"
+        }
+      }
     }
   },
   "common": {
@@ -3167,6 +3286,13 @@
       "projectNameRequired": "Project name is required.",
       "taskNameRequired": "Task name is required.",
       "documentNameRequired": "Document name is required."
+    },
+    "project": {
+      "tasks": {
+        "total": "المهام",
+        "title": "مهام المشروع",
+        "noDescription": "لا يوجد وصف لهذه المهمة"
+      }
     }
   }
 }
