@@ -5,6 +5,11 @@ import AdminEntityTreePreview from '~/components/Admin/AdminEntityTreePreview.vu
 import AppModal from '~/components/App/AppModal.vue'
 import type { AdminEntityPreviewNode } from '~/types/adminEntityPreview'
 import { getEcommerceOrigin } from '~/utils/ecommerce/origin'
+import {
+  createDateFormatter,
+  formatDateValue,
+  formatRelativePublishedAt,
+} from '~/utils/formatters'
 
 const props = withDefaults(
   defineProps<{
@@ -31,6 +36,17 @@ const ECOMMERCE_HOST = (() => {
   }
 })()
 const LOCAL_HOSTNAMES = new Set(['localhost', '127.0.0.1', '0.0.0.0', '::1'])
+const HIDDEN_FIELD_KEYS = new Set([
+  '@context',
+  '@id',
+  '@type',
+  'id',
+  'createdAt',
+  'updatedAt',
+])
+
+const dateFormatter = createDateFormatter(locale, { dateStyle: 'medium' })
+const dateTimeFormatter = createDateFormatter(locale)
 
 const normalizedLinks = computed(() => ({
   show: normalizeUrl(props.showUrl),
@@ -437,7 +453,7 @@ function extractEntityFields(entity: Record<string, unknown>): EntityField[] {
 }
 
 function isScalarField(key: string, value: unknown): boolean {
-  if (key.startsWith('@')) {
+  if (HIDDEN_FIELD_KEYS.has(key) || key.startsWith('@')) {
     return false
   }
   return (
@@ -536,7 +552,7 @@ function extractEntityRelations(
   const relations: EntityRelationGroup[] = []
 
   Object.entries(entity).forEach(([key, value]) => {
-    if (value === null || key.startsWith('@')) {
+    if (value === null || key.startsWith('@') || HIDDEN_FIELD_KEYS.has(key)) {
       return
     }
 
@@ -838,15 +854,15 @@ function formatTemporalDisplayValue(
   }
 
   if (type === 'date') {
-    return date.toLocaleDateString(locale.value || undefined, {
-      dateStyle: 'medium',
-    })
+    return formatDateValue(date, dateFormatter.value, '')
   }
 
-  return date.toLocaleString(locale.value || undefined, {
-    dateStyle: 'medium',
-    timeStyle: 'short',
-  })
+  const relativeDisplay = formatRelativePublishedAt(value, locale.value)
+  if (relativeDisplay) {
+    return relativeDisplay
+  }
+
+  return formatDateValue(date, dateTimeFormatter.value, '')
 }
 
 async function inspectRelation(item: EntityRelationItem) {
@@ -957,10 +973,6 @@ async function inspectRelation(item: EntityRelationItem) {
           v-else-if="activeAction === 'edit'"
           class="admin-ecommerce-actions__form"
         >
-          <p class="text-body-2 text-medium-emphasis mb-4">
-            {{ t('admin.ecommerce.entityManager.forms.subtitle') }}
-          </p>
-
           <v-alert
             v-if="!hasEditableFields && !actionLoading"
             type="info"
