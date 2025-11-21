@@ -3365,9 +3365,52 @@
     },
     "project": {
       "tasks": {
+        "add": "Aggiungi attività",
         "total": "Attività",
         "title": "Attività del progetto",
-        "noDescription": "Nessuna descrizione per questa attività"
+        "noDescription": "Nessuna descrizione per questa attività",
+        "detail": "Dettaglio attività",
+        "error": "Impossibile caricare i dettagli dell'attività.",
+        "overview": "Panoramica dell'attività",
+        "description": "Descrizione",
+        "noDeadline": "Nessuna scadenza",
+        "created": "Creazione attività",
+        "loading": "Caricamento attività..."
+      },
+      "kanban": {
+        "title": "Kanban del progetto",
+        "backlog": "Backlog",
+        "updated": "Stato dell'attività aggiornato con successo",
+        "updateError": "Impossibile modificare lo stato dell'attività.",
+        "empty": "Trascina un'attività qui"
+      },
+      "drawerRight": {
+        "title": "Dettagli attività",
+        "assignee": "Assegnata a",
+        "unassigned": "Non assegnata",
+        "noDescription": "Nessuna descrizione fornita",
+        "deadline": "Scadenza",
+        "estimate": "Stimata",
+        "spent": "Trascorsa",
+        "placeholder": "Nessuna attività selezionata."
+      },
+      "createTask": {
+        "title": "Nuova attività",
+        "subtitle": "Aggiungi rapidamente un'attività al backlog o a uno stato esistente",
+        "name": "Nome dell'attività",
+        "description": "Descrizione (opzionale)",
+        "status": "Stato (opzionale)",
+        "submit": "Crea attività",
+        "nameRequired": "Il nome dell'attività è obbligatorio.",
+        "success": "Attività aggiunta al progetto",
+        "error": "Impossibile creare l'attività. Riprova."
+      },
+      "detail": {
+        "project": "Progetto",
+        "back": "Torna al progetto",
+        "meta": "Informazioni chiave",
+        "timeline": "Cronologia",
+        "lastUpdate": "Ultimo aggiornamento"
       }
     }
   }

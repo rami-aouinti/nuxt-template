@@ -3506,9 +3506,52 @@
     },
     "project": {
       "tasks": {
+        "add": "Ajouter une tâche",
         "total": "Tâches",
         "title": "Tâches du projet",
-        "noDescription": "Pas de description pour cette tâche"
+        "noDescription": "Pas de description pour cette tâche",
+        "detail": "Détail de la tâche",
+        "error": "Impossible de charger les détails de la tâche.",
+        "overview": "Aperçu de la tâche",
+        "description": "Description",
+        "noDeadline": "Aucune date",
+        "created": "Création de la tâche",
+        "loading": "Chargement de la tâche..."
+      },
+      "kanban": {
+        "title": "Kanban du projet",
+        "backlog": "Backlog",
+        "updated": "Statut mis à jour avec succès",
+        "updateError": "Impossible de modifier le statut de la tâche.",
+        "empty": "Glissez une tâche ici"
+      },
+      "drawerRight": {
+        "title": "Détails de la tâche",
+        "assignee": "Assigné à",
+        "unassigned": "Non assigné",
+        "noDescription": "Aucune description fournie",
+        "deadline": "Deadline",
+        "estimate": "Estimée",
+        "spent": "Passé",
+        "placeholder": "Aucune tâche sélectionnée."
+      },
+      "createTask": {
+        "title": "Nouvelle tâche",
+        "subtitle": "Ajoutez rapidement une tâche dans le backlog ou un statut existant",
+        "name": "Nom de la tâche",
+        "description": "Description (optionnelle)",
+        "status": "Statut (optionnel)",
+        "submit": "Créer la tâche",
+        "nameRequired": "Le nom de la tâche est obligatoire.",
+        "success": "Tâche ajoutée au projet",
+        "error": "Impossible de créer la tâche. Merci de réessayer."
+      },
+      "detail": {
+        "project": "Projet",
+        "back": "Retour au projet",
+        "meta": "Informations clés",
+        "timeline": "Chronologie",
+        "lastUpdate": "Dernière mise à jour"
       }
     },
     "notifications": {
