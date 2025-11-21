@@ -3411,6 +3411,20 @@
         "total": "Tasks",
         "title": "Project tasks",
         "noDescription": "No description for this task"
+      },
+      "kanban": {
+        "title": "Project kanban",
+        "backlog": "Backlog"
+      },
+      "drawerRight": {
+        "title": "Task details",
+        "assignee": "Assigned to",
+        "unassigned": "Unassigned",
+        "noDescription": "No description provided",
+        "deadline": "Deadline",
+        "estimate": "Estimated",
+        "spent": "Spent",
+        "placeholder": "No task selected yet."
       }
     },
     "notifications": {
