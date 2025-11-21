@@ -83,7 +83,7 @@ const activeAction = ref<ActionType | null>(null)
 const actionLoading = ref(false)
 const actionError = ref<string | null>(null)
 const responsePreview = ref<unknown>(null)
-const editPayload = ref('')
+const editForm = ref<Record<string, unknown>>({})
 const deleteSuccess = ref(false)
 const updateSuccess = ref(false)
 const relationDialogEndpoint = ref<string | null>(null)
@@ -94,6 +94,8 @@ const entityTitle = ref('')
 
 const entityFields = ref<EntityField[]>([])
 const entityRelations = ref<EntityRelationGroup[]>([])
+const fieldTypes = ref<Record<string, 'string' | 'number' | 'boolean'>>({})
+const relationSelections = ref<Record<string, string | string[]>>({})
 
 const relationHelperText = computed(() =>
   relationDialogEndpoint.value
@@ -130,12 +132,14 @@ function resetDialog() {
   actionLoading.value = false
   actionError.value = null
   responsePreview.value = null
-  editPayload.value = ''
   deleteSuccess.value = false
   updateSuccess.value = false
   entityFields.value = []
   entityRelations.value = []
   entityTitle.value = ''
+  fieldTypes.value = {}
+  relationSelections.value = {}
+  editForm.value = {}
 }
 
 function resetRelationDialog() {
@@ -201,13 +205,13 @@ async function loadAction() {
       method: 'GET',
     })
     responsePreview.value = data
-    editPayload.value = JSON.stringify(data, null, 2)
     entityFields.value = buildEntityFields(data)
     entityRelations.value = buildEntityRelations(data)
     entityTitle.value =
       typeof data === 'object' && data && 'name' in (data as any)
         ? String((data as any).name)
         : ''
+    hydrateEditForm()
   } catch (error) {
     actionError.value = formatError(error)
   } finally {
@@ -235,23 +239,15 @@ async function handleDelete() {
 async function handleUpdate() {
   if (!actionEndpoint.value) return
 
-  let parsed: unknown
-
-  try {
-    parsed = editPayload.value ? JSON.parse(editPayload.value) : {}
-  } catch (error) {
-    actionError.value = formatError(error)
-    return
-  }
-
   actionLoading.value = true
   actionError.value = null
 
   try {
+    const payload = buildUpdatePayload()
     const data = await requestFetch(actionEndpoint.value, {
       method: 'PUT',
       headers: jsonLdHeaders.value,
-      body: parsed,
+      body: payload,
     })
     responsePreview.value = data
     updateSuccess.value = true
@@ -285,6 +281,130 @@ function formatError(error: unknown) {
   if (error instanceof Error) return error.message
   if (typeof error === 'string') return error
   return t('common.unexpectedError')
+}
+
+function hydrateEditForm() {
+  const normalizedFields: Record<string, unknown> = {}
+  const normalizedTypes: Record<string, 'string' | 'number' | 'boolean'> = {}
+
+  entityFields.value.forEach(({ key, value }) => {
+    if (typeof value === 'number') {
+      normalizedTypes[key] = 'number'
+    } else if (typeof value === 'boolean') {
+      normalizedTypes[key] = 'boolean'
+    } else {
+      normalizedTypes[key] = 'string'
+    }
+
+    normalizedFields[key] = value ?? ''
+  })
+
+  fieldTypes.value = normalizedTypes
+  editForm.value = normalizedFields
+
+  const relationPayload: Record<string, string | string[]> = {}
+
+  entityRelations.value.forEach((group) => {
+    const values = group.items.map((item) => normalizeRelationValue(item.value))
+    const filtered = values.filter((value): value is string => Boolean(value))
+
+    relationPayload[group.key] = group.items.length > 1
+      ? filtered
+      : filtered[0] ?? ''
+  })
+
+  relationSelections.value = relationPayload
+}
+
+function normalizeRelationValue(value: unknown) {
+  if (typeof value === 'string') return value
+  if (value && typeof value === 'object' && '@id' in (value as any)) {
+    const id = (value as { ['@id']?: string })['@id']
+    if (typeof id === 'string') {
+      return id
+    }
+  }
+
+  if (value && typeof value === 'object' && 'id' in (value as any)) {
+    const maybeId = (value as { id?: string | number }).id
+    if (typeof maybeId === 'number' || typeof maybeId === 'string') {
+      return String(maybeId)
+    }
+  }
+
+  return null
+}
+
+const relationSelectOptions = computed(() => {
+  return entityRelations.value.map((group) => ({
+    key: group.key,
+    multiple: group.items.length > 1,
+    options: group.items.map((item) => {
+      const value = normalizeRelationValue(item.value)
+      return {
+        title: resolveRelationLabel(item.value),
+        value: value || resolveRelationLabel(item.value),
+      }
+    }),
+  }))
+})
+
+function resolveRelationLabel(value: unknown) {
+  if (value && typeof value === 'object') {
+    const objectValue = value as Record<string, unknown>
+    if (typeof objectValue.name === 'string') return objectValue.name
+    if (typeof objectValue.title === 'string') return objectValue.title
+    if (typeof objectValue.value === 'string') return objectValue.value
+    if (typeof objectValue.id === 'string' || typeof objectValue.id === 'number') {
+      return `#${objectValue.id}`
+    }
+  }
+  if (typeof value === 'string') return value
+  return t('common.labels.entity')
+}
+
+function buildUpdatePayload() {
+  const payload: Record<string, unknown> = {}
+
+  Object.entries(editForm.value).forEach(([key, value]) => {
+    const type = fieldTypes.value[key]
+
+    if (type === 'number') {
+      const parsed = typeof value === 'number' ? value : Number(value)
+      if (!Number.isNaN(parsed)) {
+        payload[key] = parsed
+      }
+      return
+    }
+
+    if (type === 'boolean') {
+      payload[key] = Boolean(value)
+      return
+    }
+
+    if (typeof value === 'string') {
+      const normalized = value.trim()
+      if (normalized.length > 0) {
+        payload[key] = normalized
+      }
+    }
+  })
+
+  Object.entries(relationSelections.value).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      const filtered = value
+        .map((entry) => (typeof entry === 'string' ? entry.trim() : ''))
+        .filter((entry) => entry.length > 0)
+      payload[key] = filtered
+      return
+    }
+
+    if (typeof value === 'string' && value.trim().length > 0) {
+      payload[key] = value.trim()
+    }
+  })
+
+  return payload
 }
 </script>
 
@@ -420,13 +540,56 @@ function formatError(error: unknown) {
               <h3 class="admin-crm-actions__section-title">
                 {{ t('common.actions.edit') }}
               </h3>
-              <v-textarea
-                v-model="editPayload"
-                rows="8"
-                auto-grow
-                :label="t('common.labels.payload')"
-                variant="outlined"
-              />
+              <v-row class="mb-2" dense>
+                <v-col
+                  v-for="field in entityFields"
+                  :key="field.key"
+                  cols="12"
+                  md="6"
+                >
+                  <v-switch
+                    v-if="fieldTypes[field.key] === 'boolean'"
+                    v-model="editForm[field.key]"
+                    color="primary"
+                    inset
+                    :label="field.key"
+                  />
+                  <v-text-field
+                    v-else
+                    v-model="editForm[field.key]"
+                    :label="field.key"
+                    :type="fieldTypes[field.key] === 'number' ? 'number' : 'text'"
+                    variant="outlined"
+                    density="comfortable"
+                    hide-details="auto"
+                  />
+                </v-col>
+              </v-row>
+
+              <div v-if="relationSelectOptions.length" class="mt-2">
+                <h4 class="admin-crm-actions__section-title">
+                  {{ t('common.labels.relations') }}
+                </h4>
+                <v-row dense>
+                  <v-col
+                    v-for="relation in relationSelectOptions"
+                    :key="relation.key"
+                    cols="12"
+                    md="6"
+                  >
+                    <v-select
+                      v-model="relationSelections[relation.key]"
+                      :items="relation.options"
+                      :multiple="relation.multiple"
+                      :label="relation.key"
+                      chips
+                      clearable
+                      variant="outlined"
+                      density="comfortable"
+                    />
+                  </v-col>
+                </v-row>
+              </div>
             </section>
 
             <section
