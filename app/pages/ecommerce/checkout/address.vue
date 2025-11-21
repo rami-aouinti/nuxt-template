@@ -5,6 +5,7 @@ import type { VForm } from 'vuetify/components'
 import AppButton from '~/components/ui/AppButton.vue'
 import AppCard from '~/components/ui/AppCard.vue'
 import { useEcommerceCartStore } from '~/stores/ecommerceCart'
+import { extractCollectionItems } from '~/utils/collections'
 import type { AddressAttributes, AddressJsonld } from '~/types/address'
 import type { CountryInterfaceJsonld } from '~/types/country'
 import type { OrderJsonLd } from '~/types/order'
@@ -109,7 +110,9 @@ const {
   },
 )
 
-const countries = computed(() => countriesData.value['hydra:member'] ?? [])
+const countries = computed(() =>
+  extractCollectionItems<CountryInterfaceJsonld>(countriesData.value),
+)
 const rules = {
   required: (value: string) =>
     Boolean(value?.toString().trim()) ||

@@ -6,6 +6,7 @@ import ProfilePageShell from '~/components/profile/ProfilePageShell.vue'
 import AppCard from '~/components/ui/AppCard.vue'
 import AppButton from '~/components/ui/AppButton.vue'
 import { Notify } from '~/stores/notification'
+import { extractCollectionItems } from '~/utils/collections'
 import { createDateFormatter, formatDateValue } from '~/utils/formatters'
 import type { OrderJsonLdSyliusShopOrderAccountShow } from '~/types/order'
 import { useServerAuthRequestHeaders } from '~/composables/useServerRequestHeaders'
@@ -86,16 +87,11 @@ const detailsState = reactive<OrderDetailsState>({
 
 const paymentLoading = reactive<Record<string, boolean>>({})
 
-const orders = computed<EcommerceOrderListItem[]>(() => {
-  const members = ordersResponse.value?.['hydra:member']
-  if (!Array.isArray(members)) {
-    return []
-  }
-
-  return members
+const orders = computed<EcommerceOrderListItem[]>(() =>
+  extractCollectionItems<Record<string, unknown>>(ordersResponse.value)
     .map((record, index) => mapOrderRecord(record, index))
-    .filter((item): item is EcommerceOrderListItem => item !== null)
-})
+    .filter((item): item is EcommerceOrderListItem => item !== null),
+)
 
 const totalOrders = computed(() => {
   const total = ensureNumber(ordersResponse.value?.['hydra:totalItems'])

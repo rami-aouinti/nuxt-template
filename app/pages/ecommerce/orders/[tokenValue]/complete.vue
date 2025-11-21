@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import AppButton from '~/components/ui/AppButton.vue'
 import AppCard from '~/components/ui/AppCard.vue'
+import { extractCollectionItems } from '~/utils/collections'
 import type {
   OrderJsonLdSyliusShopOrderAccountShow,
   OrderItemJsonLdSyliusShopOrderItemShow,
@@ -48,34 +49,6 @@ const getString = (
   }
 
   return null
-}
-
-const extractCollectionItems = <T,>(
-  input: HydraCollection<T> | null | undefined,
-): T[] => {
-  if (!input) {
-    return []
-  }
-
-  if (Array.isArray((input as HydraCollection<T>)['hydra:member'])) {
-    return ((input as HydraCollection<T>)['hydra:member'] as T[]).filter(
-      (item) => Boolean(item),
-    )
-  }
-
-  if (Array.isArray(input.member)) {
-    return input.member.filter((item) => Boolean(item))
-  }
-
-  if (Array.isArray(input.items)) {
-    return input.items.filter((item) => Boolean(item))
-  }
-
-  if (Array.isArray(input.data)) {
-    return input.data.filter((item) => Boolean(item))
-  }
-
-  return []
 }
 
 const normalizeAmount = (value: unknown): number | null => {

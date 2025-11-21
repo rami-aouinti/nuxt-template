@@ -25,3 +25,8 @@ export const normalizeCollection = <T>(input: unknown): T[] => {
 
   return []
 }
+
+export const extractCollectionItems = <T>(input: unknown): T[] =>
+  normalizeCollection<T | null | undefined>(input).filter(
+    (item): item is T => Boolean(item),
+  )
