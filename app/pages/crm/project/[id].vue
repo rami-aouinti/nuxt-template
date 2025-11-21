@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import AppCard from '~/components/App/AppCard.vue'
 import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
 import { useCrmStore } from '~/stores/crm'
 import { Notify } from '~/stores/notification'
@@ -31,13 +32,10 @@ const projectId = computed(() => {
 })
 
 const project = ref<CrmProject | null>(null)
-const projectLoading = ref(false)
 const viewMode = ref<'tasks' | 'kanban'>('tasks')
 const selectedTaskId = ref<number | null>(null)
 
 async function loadProject() {
-  projectLoading.value = true
-
   try {
     project.value = await $fetch<CrmProject>(
       withBase(`/projects/${encodeURIComponent(projectId.value)}`),
@@ -53,8 +51,6 @@ async function loadProject() {
         'Impossible de charger le projet',
       ),
     )
-  } finally {
-    projectLoading.value = false
   }
 }
 
@@ -107,27 +103,6 @@ const selectedTask = computed(
     projectTasks.value.find((task) => task.id === selectedTaskId.value) ?? null,
 )
 
-const navigationItems = computed(() => [
-  {
-    value: 'tasks',
-    label: translate('crm.project.nav.tasks', 'Liste des tâches'),
-    icon: 'mdi-format-list-checks',
-  },
-  {
-    value: 'kanban',
-    label: translate('crm.project.nav.kanban', 'Kanban'),
-    icon: 'mdi-view-kanban',
-  },
-])
-
-const taskNavigationItems = computed(() =>
-  projectTasks.value.map((task) => ({
-    value: task.id,
-    label: task.name,
-    status: task.status,
-  })),
-)
-
 const kanbanColumns = computed(() => {
   const statuses = taskStatusCollection.data?.member ?? []
   const tasks = projectTasks.value
@@ -159,85 +134,6 @@ function selectTask(taskId: number) {
 
 <template>
   <div class="crm-project-shell">
-    <client-only>
-      <teleport to="#app-drawer">
-        <AppNavigationList
-          class="pb-6"
-          :items="navigationItems"
-          :title="translate('crm.project.drawer.title', 'Navigation projet')"
-          :description="
-            translate(
-              'crm.project.drawer.subtitle',
-              'Consultez vos tâches ou passez en vue Kanban.',
-            )
-          "
-        >
-          <template #item="{ item }">
-            <button
-              type="button"
-              class="stat-card d-flex align-center justify-space-between mb-3 w-100 px-3"
-              :class="{ 'bg-primary text-on-primary': viewMode === item.value }"
-              @click="viewMode = item.value"
-            >
-              <div class="d-flex align-center gap-3">
-                <v-icon v-if="item.icon" :icon="item.icon" size="22" />
-                <span class="font-weight-medium">{{ item.label }}</span>
-              </div>
-              <v-chip
-                v-if="item.value === 'tasks'"
-                color="primary"
-                size="x-small"
-                variant="tonal"
-              >
-                {{ projectTasks.length }}
-              </v-chip>
-            </button>
-          </template>
-        </AppNavigationList>
-
-        <AppNavigationList
-          v-if="projectTasks.length"
-          :items="taskNavigationItems"
-          :title="translate('crm.project.drawer.tasksTitle', 'Tâches')"
-          :description="
-            translate(
-              'crm.project.drawer.tasksSubtitle',
-              'Sélectionnez une tâche pour la détailler.',
-            )
-          "
-        >
-          <template #item="{ item }">
-            <button
-              type="button"
-              class="stat-card d-flex align-center justify-space-between mb-3 w-100 px-3"
-              :class="{
-                'bg-primary text-on-primary': selectedTaskId === item.value,
-              }"
-              @click="selectTask(item.value)"
-            >
-              <div class="d-flex flex-column text-start">
-                <span class="font-weight-medium">{{ item.label }}</span>
-                <span class="text-body-2 text-medium-emphasis">
-                  {{
-                    translate('crm.project.drawer.taskLabel', 'Tâche du projet')
-                  }}
-                </span>
-              </div>
-              <v-chip
-                v-if="item.status"
-                color="secondary"
-                size="x-small"
-                variant="tonal"
-                class="text-capitalize"
-              >
-                {{ item.status?.name }}
-              </v-chip>
-            </button>
-          </template>
-        </AppNavigationList>
-      </teleport>
-    </client-only>
-
     <client-only>
       <teleport to="#app-drawer-right">
         <AppCard class="pa-5" elevation="2">
@@ -321,75 +217,37 @@ function selectTask(taskId: number) {
       </teleport>
     </client-only>
 
-    <v-container fluid class="crm-project-page">
-      <v-row class="mb-6">
-        <v-col cols="12">
-          <v-card class="pa-6" :loading="projectLoading" variant="tonal">
-            <div
-              class="d-flex flex-wrap justify-space-between align-start gap-4"
-            >
-              <div class="d-flex flex-column gap-2">
-                <div class="text-h5 font-weight-bold">
-                  {{
-                    project?.name ||
-                    translate('crm.project.header.placeholder', 'Projet CRM')
-                  }}
-                </div>
-                <div class="text-body-2 text-medium-emphasis">
-                  {{
-                    project?.description ||
-                    translate(
-                      'crm.project.header.description',
-                      'Suivez les tâches et le statut du projet en temps réel.',
-                    )
-                  }}
-                </div>
-                <div class="d-flex flex-wrap gap-2">
-                  <v-chip
-                    v-if="project?.client"
-                    color="primary"
-                    variant="tonal"
-                    size="small"
-                  >
-                    {{ project.client.name }}
-                  </v-chip>
-                  <v-chip
-                    v-if="project?.status"
-                    color="secondary"
-                    variant="tonal"
-                    size="small"
-                  >
-                    {{ project.status.name }}
-                  </v-chip>
-                  <v-chip
-                    v-if="project?.type"
-                    color="secondary"
-                    variant="text"
-                    size="small"
-                  >
-                    {{ project.type.name }}
-                  </v-chip>
-                </div>
-              </div>
-              <div class="d-flex flex-column gap-2 align-end">
-                <v-chip color="primary" variant="tonal" size="small">
-                  {{ translate('crm.project.header.tasksCount', 'Tâches') }}:
-                  {{ projectTasks.length }}
-                </v-chip>
-                <v-chip color="secondary" variant="tonal" size="small">
-                  {{
-                    translate('crm.project.header.documentsCount', 'Documents')
-                  }}: {{ project?.documents?.length ?? 0 }}
-                </v-chip>
-              </div>
-            </div>
-          </v-card>
-        </v-col>
-      </v-row>
+    <v-container fluid class="crm-project-page py-8">
+      <div class="d-flex align-center justify-space-between mb-6 flex-wrap gap-3">
+        <div class="text-h5 font-weight-bold">
+          {{ pageTitle }}
+        </div>
+        <div class="d-flex align-center gap-2">
+          <v-chip
+            color="primary"
+            variant="tonal"
+            size="small"
+            class="text-capitalize"
+          >
+            {{ translate('crm.project.tasks.total', 'Tâches') }}:
+            {{ projectTasks.length }}
+          </v-chip>
+          <v-btn-toggle
+            v-model="viewMode"
+            color="primary"
+            divided
+            density="comfortable"
+            class="elevation-1"
+          >
+            <v-btn value="tasks" icon="mdi-format-list-checks" />
+            <v-btn value="kanban" icon="mdi-view-kanban" />
+          </v-btn-toggle>
+        </div>
+      </div>
 
       <v-row>
         <v-col v-if="viewMode === 'tasks'" cols="12">
-          <v-card class="pa-4" elevation="1">
+          <AppCard class="pa-4" elevation="2" hover>
             <div class="d-flex align-center justify-space-between mb-4">
               <div class="text-subtitle-1 font-weight-semibold">
                 {{ translate('crm.project.tasks.title', 'Tâches du projet') }}
@@ -435,7 +293,7 @@ function selectTask(taskId: number) {
                 </template>
               </v-list-item>
             </v-list>
-          </v-card>
+          </AppCard>
         </v-col>
 
         <v-col v-else cols="12">
@@ -451,7 +309,7 @@ function selectTask(taskId: number) {
                 md="3"
                 class="d-flex"
               >
-                <AppCard class="pa-4 w-100" elevation="1">
+                <AppCard class="pa-4 w-100" elevation="2" hover>
                   <div class="d-flex align-center justify-space-between mb-3">
                     <span class="text-subtitle-2 font-weight-semibold">{{
                       column.name
@@ -497,16 +355,5 @@ function selectTask(taskId: number) {
 <style scoped>
 .crm-project-page {
   padding-inline: 24px;
-}
-
-.stat-card {
-  cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.stat-card:hover {
-  background-color: rgba(0, 0, 0, 0.04);
 }
 </style>
