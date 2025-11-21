@@ -1325,6 +1325,7 @@
     "registerAction": "Create account"
   },
   "common": {
+    "dashboard": "Dashboard",
     "unexpectedError": "An unexpected error occurred.",
     "actions": {
       "cancel": "Cancel",
@@ -3311,6 +3312,12 @@
       "clientsSubtitle": "Browse your clients and open their records.",
       "contactsLabel": "contacts",
       "projectsCountLabel": "projects"
+    },
+    "dashboard": {
+      "clients": "Clients",
+      "contacts": "Contacts",
+      "tasks": "Tasks",
+      "quickLook": "Keep track of your key metrics at a glance."
     },
     "forms": {
       "client": {
