@@ -130,7 +130,7 @@ export const useEcommerceCartStore = defineStore('ecommerce-cart', () => {
       body.localeCode = options.localeCode
     }
 
-    const result = await $fetch<OrderJsonLd>('/api/ecommerce/v2/shop/orders', {
+    const result = await $fetch<OrderJsonLd>('/api/v2/shop/orders', {
       ...fetchOptions.value,
       method: 'POST',
       body,
@@ -148,7 +148,7 @@ export const useEcommerceCartStore = defineStore('ecommerce-cart', () => {
 
   const fetchOrder = async (tokenValue: string) => {
     const result = await $fetch<OrderJsonLd>(
-      `/api/ecommerce/v2/shop/orders/${encodeURIComponent(tokenValue)}`,
+      `/api/v2/shop/orders/${encodeURIComponent(tokenValue)}`,
       fetchOptions.value,
     )
 
@@ -206,14 +206,11 @@ export const useEcommerceCartStore = defineStore('ecommerce-cart', () => {
 
       const payload = buildAddItemPayload(options)
 
-      await $fetch(
-        `/api/ecommerce/v2/shop/orders/${encodeURIComponent(tokenValue)}/items`,
-        {
-          ...fetchOptions.value,
-          method: 'POST',
-          body: payload,
-        },
-      )
+      await $fetch(`/api/v2/shop/orders/${encodeURIComponent(tokenValue)}/items`, {
+        ...fetchOptions.value,
+        method: 'POST',
+        body: payload,
+      })
 
       const updated = await fetchOrder(tokenValue)
       return updated

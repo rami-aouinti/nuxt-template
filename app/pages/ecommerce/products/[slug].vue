@@ -60,7 +60,7 @@ type HydraCollection<T> = {
 
 const fetchProduct = () =>
   $fetch<ProductJsonldSyliusShopProductShow>(
-    `/api/ecommerce/v2/shop/products-by-slug/${encodeURIComponent(slug.value)}`,
+    `/api/v2/shop/products-by-slug/${encodeURIComponent(slug.value)}`,
     {
       headers: {
         'Accept-Language': locale.value,
@@ -70,7 +70,7 @@ const fetchProduct = () =>
 
 const fetchChannels = () =>
   $fetch<HydraCollection<ChannelJsonLdSyliusShopChannelIndex>>(
-    '/api/ecommerce/v2/shop/channels',
+    '/api/v2/shop/channels',
     {
       headers: {
         'Accept-Language': locale.value,
@@ -80,7 +80,7 @@ const fetchChannels = () =>
 
 const fetchLatestProducts = () =>
   $fetch<HydraCollection<ProductJsonldSyliusShopProductIndex>>(
-    '/api/ecommerce/v2/shop/products',
+    '/api/v2/shop/products',
     {
       query: {
         itemsPerPage: 6,
