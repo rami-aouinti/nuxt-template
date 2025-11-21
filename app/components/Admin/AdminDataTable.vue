@@ -765,7 +765,7 @@ function submitCreate(event: Event) {
       :subtitle="createDescription || t('common.labels.resource')"
       icon="mdi-plus"
     >
-      <v-form @submit.prevent="submitCreate">
+      <v-form id="admin-create-form" @submit.prevent="submitCreate">
         <v-select
           v-model="createType"
           :items="availableCreateTypes"
@@ -782,21 +782,21 @@ function submitCreate(event: Event) {
           variant="outlined"
           autocomplete="off"
         />
-
-        <template #actions>
-          <v-btn variant="text" color="secondary" @click="closeCreateDialog">
-            {{ t('common.actions.cancel') }}
-          </v-btn>
-          <v-btn
-            type="submit"
-            color="primary"
-            variant="flat"
-            :disabled="createName.trim().length === 0"
-          >
-            {{ t('common.labels.create') }}
-          </v-btn>
-        </template>
       </v-form>
+      <template #actions>
+        <v-btn variant="text" color="secondary" @click="closeCreateDialog">
+          {{ t('common.actions.cancel') }}
+        </v-btn>
+        <v-btn
+          type="submit"
+          color="primary"
+          variant="flat"
+          :form="'admin-create-form'"
+          :disabled="createName.trim().length === 0"
+        >
+          {{ t('common.actions.save') }}
+        </v-btn>
+      </template>
     </AppModal>
   </v-card>
 </template>
