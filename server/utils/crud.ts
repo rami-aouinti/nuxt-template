@@ -104,6 +104,8 @@ export async function requestCrmWithJsonBody<Response, Payload>(
   return await broWorldCrmRequest<Response>(event, path, {
     method,
     body,
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/ld+json',
+    },
   })
 }
