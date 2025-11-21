@@ -5,6 +5,16 @@ const drawerState = useState('drawerRight', () => false)
 const appBarReady = useState('appBarReady', () => false)
 
 const { mobile, lgAndUp, width } = useDisplay()
+const { locale } = useI18n()
+
+const rtlLocales = ['ar'] as const
+const isRtlLocale = computed(() =>
+  rtlLocales.some((code) => locale.value?.toLowerCase().startsWith(code)),
+)
+const drawerLocation = computed(() => (isRtlLocale.value ? 'left' : 'right'))
+const drawerPlacementClass = computed(() =>
+  isRtlLocale.value ? 'app-navigation-drawer--left' : 'app-navigation-drawer--right',
+)
 const drawer = computed({
   get() {
     return drawerState.value || !mobile.value
@@ -64,10 +74,13 @@ ensureInitialDrawerState()
     class="app-navigation-drawer"
     :expand-on-hover="rail"
     :rail="rail"
-    location="right"
+    :location="drawerLocation"
     width="320"
     floating
-    :class="{ 'app-drawer--hydrating': !appBarReady }"
+    :class="[
+      { 'app-drawer--hydrating': !appBarReady },
+      drawerPlacementClass,
+    ]"
     elevation="0"
   >
     <v-card class="drawer-nav mt-5" variant="text">
@@ -102,26 +115,61 @@ ensureInitialDrawerState()
     pointer-events: none;
   }
   &.v-navigation-drawer--rail {
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-    &.v-navigation-drawer--is-hovering {
-      border-top-right-radius: 15px;
-      border-bottom-right-radius: 15px;
-      box-shadow:
-        0px 1px 2px 0px rgb(0 0 0 / 30%),
-        0px 1px 3px 1px rgb(0 0 0 / 15%);
+    &.app-navigation-drawer--right {
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px;
+      &.v-navigation-drawer--is-hovering {
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+        box-shadow:
+          0px 1px 2px 0px rgb(0 0 0 / 30%),
+          0px 1px 3px 1px rgb(0 0 0 / 15%);
+      }
+      &:not(.v-navigation-drawer--is-hovering) {
+        .drawer-footer {
+          transform: translateX(-160px);
+        }
+        .drawer-header-icon {
+          transform: scale(0.83);
+        }
+        .v-list-group {
+          --list-indent-size: 0px;
+          --prepend-width: 0px;
+        }
+      }
     }
-    &:not(.v-navigation-drawer--is-hovering) {
-      .drawer-footer {
-        transform: translateX(-160px);
+    &.app-navigation-drawer--left {
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+      &.v-navigation-drawer--is-hovering {
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+        box-shadow:
+          0px 1px 2px 0px rgb(0 0 0 / 30%),
+          0px 1px 3px 1px rgb(0 0 0 / 15%);
       }
-      .drawer-header-icon {
-        transform: scale(0.83);
+      &:not(.v-navigation-drawer--is-hovering) {
+        .drawer-footer {
+          transform: translateX(160px);
+        }
+        .drawer-header-icon {
+          transform: scale(0.83);
+        }
+        .v-list-group {
+          --list-indent-size: 0px;
+          --prepend-width: 0px;
+        }
       }
-      .v-list-group {
-        --list-indent-size: 0px;
-        --prepend-width: 0px;
-      }
+    }
+  }
+  &.app-navigation-drawer--right {
+    .drawer-header-icon {
+      margin-right: -10px;
+    }
+  }
+  &.app-navigation-drawer--left {
+    .drawer-header-icon {
+      margin-left: -10px;
     }
   }
   .v-navigation-drawer__content {
@@ -150,7 +198,6 @@ ensureInitialDrawerState()
     transition:
       transform 0.2s ease,
       opacity 0.2s ease;
-    margin-right: -10px;
   }
   .v-list-group {
     --prepend-width: 10px;
