@@ -26,10 +26,11 @@ const { getAuthorName, getAuthorProfileLink, getAuthorAvatar } = useBlogAuthor()
 const authorName = computed(() => getAuthorName(props.user))
 const authorLink = computed(() => getAuthorProfileLink(props.user))
 const authorAvatar = computed(() => getAuthorAvatar(props.user))
+const resolvedTag = computed(() => props.tag || 'div')
 </script>
 
 <template>
-  <component :is="tag" class="blog-post-author d-flex align-center">
+  <component :is="resolvedTag" class="blog-post-author d-flex align-center">
     <component
       :is="authorLink ? 'NuxtLink' : 'div'"
       v-if="showAvatar"
