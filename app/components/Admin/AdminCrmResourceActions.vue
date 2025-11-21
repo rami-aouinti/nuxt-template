@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import AdminEntityTreePreview from '~/components/Admin/AdminEntityTreePreview.vue'
 import AppModal from '~/components/App/AppModal.vue'
+import { useCrmApi } from '~/composables/useCrmApi'
 
 type ActionType = 'show' | 'edit' | 'delete'
 
@@ -36,6 +37,7 @@ const props = withDefaults(
 
 const requestFetch = useRequestFetch()
 const { t } = useI18n()
+const { jsonLdHeaders } = useCrmApi()
 
 const normalizedLinks = computed(() => ({
   show: normalizeUrl(props.showUrl),
@@ -248,6 +250,7 @@ async function handleUpdate() {
   try {
     const data = await requestFetch(actionEndpoint.value, {
       method: 'PUT',
+      headers: jsonLdHeaders.value,
       body: parsed,
     })
     responsePreview.value = data
