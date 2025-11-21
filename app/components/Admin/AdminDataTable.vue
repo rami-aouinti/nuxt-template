@@ -689,8 +689,8 @@ function submitCreate(event: Event) {
       @update:items-per-page="handleItemsPerPageUpdate"
       @update:page="handleTablePageUpdate"
     >
-      <template #loading="{ isActive }">
-        <tbody v-if="isActive" class="admin-data-table__skeleton-body">
+      <template #loading="slotProps">
+        <tbody v-if="slotProps?.isActive" class="admin-data-table__skeleton-body">
           <tr
             v-for="rowIndex in skeletonRowCount"
             :key="`skeleton-row-${rowIndex}`"
