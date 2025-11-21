@@ -548,6 +548,21 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
 <template>
   <v-container fluid class="ecommerce-page pa-0">
     <client-only>
+      <teleport to="#app-bar">
+        <div class="d-flex align-center justify-end gap-2">
+          <AppButton
+            variant="text"
+            color="primary"
+            :loading="anyPending"
+            :aria-label="t('pages.ecommerce.actions.refresh')"
+            @click="refreshAll"
+          >
+            <v-icon icon="mdi-refresh" />
+          </AppButton>
+        </div>
+      </teleport>
+    </client-only>
+    <client-only>
       <teleport to="#app-drawer">
         <div class="ecommerce-drawer">
           <div class="animated-badge mb-2">
