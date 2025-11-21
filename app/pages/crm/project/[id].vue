@@ -88,9 +88,17 @@ useHead(() => ({
 const projectTasks = computed<CrmTask[]>(() => {
   if (!project.value) return []
 
-  return (taskCollection.data?.member ?? []).filter(
+  const storeTasks = (taskCollection.data?.member ?? []).filter(
     (task) => task.project?.id === project.value?.id,
   )
+
+  const projectEmbeddedTasks = project.value.tasks ?? []
+
+  const merged = new Map<number, CrmTask>()
+  projectEmbeddedTasks.forEach((task) => merged.set(task.id, task))
+  storeTasks.forEach((task) => merged.set(task.id, task))
+
+  return Array.from(merged.values())
 })
 
 watch(
@@ -478,11 +486,45 @@ async function createTask() {
                       @dragstart="onTaskDragStart(task.id)"
                       @click="navigateToTask(task.id)"
                     >
-                      <div class="d-flex align-center justify-space-between">
-                        <span class="font-weight-medium">{{ task.name }}</span>
+                      <div class="d-flex align-center justify-space-between mb-2">
+                        <span class="font-weight-medium">
+                          {{
+                            task.name ||
+                            translate(
+                              'crm.project.tasks.noName',
+                              'Tâche sans nom',
+                            )
+                          }}
+                        </span>
                         <v-icon icon="mdi-drag-horizontal-variant" size="18" />
                       </div>
-                      <div class="text-body-2 text-medium-emphasis mt-1">
+                      <div class="d-flex gap-2 flex-wrap mb-2">
+                        <v-chip
+                          v-if="task.assignee"
+                          size="x-small"
+                          color="primary"
+                          variant="tonal"
+                        >
+                          {{ task.assignee.name }}
+                        </v-chip>
+                        <v-chip
+                          v-if="task.deadline"
+                          size="x-small"
+                          color="secondary"
+                          variant="tonal"
+                        >
+                          {{ task.deadline?.slice(0, 10) }}
+                        </v-chip>
+                        <v-chip
+                          v-if="task.timeEstimated"
+                          size="x-small"
+                          color="secondary"
+                          variant="tonal"
+                        >
+                          {{ task.timeEstimated }}m
+                        </v-chip>
+                      </div>
+                      <div class="text-body-2 text-medium-emphasis">
                         {{
                           task.description ||
                           translate(
