@@ -1,4 +1,4 @@
-import type { H3Event } from 'h3'
+import { getHeader, type H3Event } from 'h3'
 import { FetchError, type FetchOptions } from 'ofetch'
 
 const BASE_URL = 'https://bro-world.org/api/v1'
@@ -83,11 +83,14 @@ export function createBroWorldRequest(
       typeof config.resolveToken === 'function'
         ? config.resolveToken(session as SessionInput, path)
         : extractToken(session as SessionInput, 'token')
+    const authorizationHeader = getHeader(event, 'authorization')?.trim()
     const { headers: providedHeaders, ...restOptions } = requestOptions
 
     const headers = normalizeHeaders(providedHeaders)
     if (resolvedToken) {
       headers.Authorization = `Bearer ${resolvedToken}`
+    } else if (authorizationHeader) {
+      headers.Authorization = authorizationHeader
     }
 
     try {
