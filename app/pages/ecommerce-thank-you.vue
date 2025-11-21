@@ -5,6 +5,7 @@ import AppButton from '~/components/ui/AppButton.vue'
 import AppCard from '~/components/ui/AppCard.vue'
 import { useEcommerceCartStore } from '~/stores/ecommerceCart'
 import type { OrderJsonLd } from '~/types/order'
+import { extractCollectionItems } from '~/utils/collections'
 import { createDateFormatter, formatDateValue } from '~/utils/formatters'
 
 definePageMeta({
@@ -84,40 +85,6 @@ const normalizeAmount = (value: unknown): number | null => {
   }
 
   return null
-}
-
-function extractCollectionItems<T>(input: unknown): T[] {
-  if (!input) {
-    return []
-  }
-
-  if (Array.isArray(input)) {
-    return input.filter((item): item is T => Boolean(item))
-  }
-
-  if (isRecord(input)) {
-    const hydraMember = input['hydra:member']
-    if (Array.isArray(hydraMember)) {
-      return hydraMember.filter((item): item is T => Boolean(item))
-    }
-
-    const member = input.member
-    if (Array.isArray(member)) {
-      return member.filter((item): item is T => Boolean(item))
-    }
-
-    const items = input.items
-    if (Array.isArray(items)) {
-      return items.filter((item): item is T => Boolean(item))
-    }
-
-    const data = input.data
-    if (Array.isArray(data)) {
-      return data.filter((item): item is T => Boolean(item))
-    }
-  }
-
-  return []
 }
 
 const tokenValue = computed(() => {

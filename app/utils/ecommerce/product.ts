@@ -5,6 +5,7 @@ import type {
   ProductVariantInterface,
 } from '~/types/product'
 import type { TaxonJsonLdSyliusShopTaxonIndex } from '~/types/tax'
+import { extractCollectionItems as baseExtractCollectionItems } from '~/utils/collections'
 import { getEcommerceOrigin } from '~/utils/ecommerce/origin'
 
 export type UnknownRecord = Record<string, unknown>
@@ -71,39 +72,8 @@ const extractPricingFromRecord = (
   }
 }
 
-export function extractCollectionItems<T>(input: unknown): T[] {
-  if (!input) {
-    return []
-  }
-
-  if (Array.isArray(input)) {
-    return input.filter((item): item is T => Boolean(item))
-  }
-
-  if (isRecord(input)) {
-    const hydraMember = input['hydra:member']
-    if (Array.isArray(hydraMember)) {
-      return hydraMember.filter((item): item is T => Boolean(item))
-    }
-
-    const member = input.member
-    if (Array.isArray(member)) {
-      return member.filter((item): item is T => Boolean(item))
-    }
-
-    const items = input.items
-    if (Array.isArray(items)) {
-      return items.filter((item): item is T => Boolean(item))
-    }
-
-    const data = input.data
-    if (Array.isArray(data)) {
-      return data.filter((item): item is T => Boolean(item))
-    }
-  }
-
-  return []
-}
+export const extractCollectionItems = <T,>(input: unknown): T[] =>
+  baseExtractCollectionItems<T>(input)
 
 export const resolveTranslation = (
   value: unknown,
