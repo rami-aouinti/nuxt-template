@@ -44,6 +44,7 @@ const createTaskForm = reactive({
   statusId: null as number | null,
 })
 const draggingTaskId = ref<number | null>(null)
+const activeColumnId = ref<number | 'backlog' | null>(null)
 
 async function loadProject() {
   try {
@@ -162,6 +163,7 @@ async function updateTaskStatus(task: CrmTask, statusId: number | 'backlog' | nu
   const nextStatusId = statusId === 'backlog' ? null : statusId
   if (task.status?.id === nextStatusId) {
     draggingTaskId.value = null
+    activeColumnId.value = null
     return
   }
 
@@ -197,16 +199,53 @@ async function updateTaskStatus(task: CrmTask, statusId: number | 'backlog' | nu
     )
   } finally {
     draggingTaskId.value = null
+    activeColumnId.value = null
   }
 }
 
-function onTaskDragStart(taskId: number) {
+function onTaskDragStart(event: DragEvent, taskId: number) {
   draggingTaskId.value = taskId
+  activeColumnId.value = null
+
+  if (event.dataTransfer) {
+    event.dataTransfer.effectAllowed = 'move'
+    event.dataTransfer.dropEffect = 'move'
+    event.dataTransfer.setData('text/plain', String(taskId))
+  }
 }
 
-async function onTaskDrop(targetStatus: number | 'backlog') {
-  const task = projectTasks.value.find((item) => item.id === draggingTaskId.value)
-  if (!task) return
+function onTaskDragEnd() {
+  draggingTaskId.value = null
+  activeColumnId.value = null
+}
+
+function onColumnDragEnter(status: number | 'backlog') {
+  if (draggingTaskId.value !== null) {
+    activeColumnId.value = status
+  }
+}
+
+function onColumnDragLeave(status: number | 'backlog') {
+  if (activeColumnId.value === status) {
+    activeColumnId.value = null
+  }
+}
+
+async function onTaskDrop(event: DragEvent, targetStatus: number | 'backlog') {
+  const draggedTaskId = (() => {
+    if (draggingTaskId.value !== null) return draggingTaskId.value
+    const transferId = event.dataTransfer?.getData('text/plain') ?? ''
+    const parsed = Number.parseInt(transferId, 10)
+    return Number.isFinite(parsed) ? parsed : null
+  })()
+
+  const task = projectTasks.value.find((item) => item.id === draggedTaskId)
+  activeColumnId.value = null
+
+  if (!task) {
+    draggingTaskId.value = null
+    return
+  }
 
   await updateTaskStatus(task, targetStatus)
 }
@@ -470,20 +509,25 @@ async function createTask() {
                   <div
                     class="d-flex flex-column gap-3 kanban-column"
                     :class="{
-                      'kanban-column--active': draggingTaskId !== null,
+                      'kanban-column--active': activeColumnId === column.id,
+                      'kanban-column--dragging': draggingTaskId !== null,
                     }"
+                    @dragenter.prevent="onColumnDragEnter(column.id as number | 'backlog')"
                     @dragover.prevent
-                    @drop.prevent="onTaskDrop(column.id as number | 'backlog')"
+                    @dragleave="onColumnDragLeave(column.id as number | 'backlog')"
+                    @drop.prevent="onTaskDrop($event, column.id as number | 'backlog')"
                   >
                     <v-card
                       v-for="task in column.tasks"
                       :key="task.id"
-                      class="pa-3"
+                      class="pa-3 kanban-card"
                       elevation="0"
                       color="surface"
                       variant="tonal"
                       draggable
-                      @dragstart="onTaskDragStart(task.id)"
+                      :data-task-id="task.id"
+                      @dragstart="onTaskDragStart($event, task.id)"
+                      @dragend="onTaskDragEnd"
                       @click="navigateToTask(task.id)"
                     >
                       <div class="d-flex align-center justify-space-between mb-2">
@@ -627,6 +671,19 @@ async function createTask() {
 .kanban-column--active {
   background: linear-gradient(145deg, rgba(94, 135, 255, 0.08), rgba(94, 255, 201, 0.05));
   border-color: rgba(94, 135, 255, 0.4);
+}
+
+.kanban-column--dragging {
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.kanban-card {
+  cursor: grab;
+}
+
+.kanban-card:active {
+  cursor: grabbing;
 }
 
 .border-dash {
