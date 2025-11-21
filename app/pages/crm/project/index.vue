@@ -9,7 +9,7 @@ definePageMeta({
   middleware: 'auth',
 })
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const translate = useTranslateWithFallback()
 
@@ -29,6 +29,24 @@ const clientsById = computed(() =>
     {},
   ),
 )
+
+const formatDate = (value?: string) => {
+  if (!value) {
+    return translate('common.unknown', 'N/A')
+  }
+
+  const parsedDate = new Date(value)
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return translate('common.unknown', 'N/A')
+  }
+
+  return new Intl.DateTimeFormat(locale.value || 'en', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  }).format(parsedDate)
+}
 </script>
 
 <template>
@@ -89,7 +107,7 @@ const clientsById = computed(() =>
                 </v-chip>
                 <span class="text-caption text-medium-emphasis">
                   {{ translate('crm.projects.updated', 'Mis à jour') }}
-                  {{ $dayjs(project.updatedAt).format('DD MMM YYYY') }}
+                  {{ formatDate(project.updatedAt) }}
                 </span>
               </v-list-item-subtitle>
 
