@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, toRefs, useAttrs, useSlots, watch } from 'vue'
+import AppButton from '~/components/ui/AppButton.vue'
 import type { DataTableHeader } from 'vuetify'
 
 type ItemsPerPageOption = number | { title: string; value: number }
