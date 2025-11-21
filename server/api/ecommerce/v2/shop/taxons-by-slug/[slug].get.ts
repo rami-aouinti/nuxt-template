@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
 
   return await broWorldEcommerceRequest(
     event,
-    `/shop/taxons-by-slug/${encodeURIComponent(slug)}`,
+    `/shop/taxons/by-slug/${encodeURIComponent(slug)}`,
     {
       headers,
     },
