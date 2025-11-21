@@ -121,12 +121,14 @@ export interface CrmTask extends CrmResource {
 
 export type CrmTaskPayload = {
   name?: string
+  description?: string
   project?: string | CrmProjectPreview
   deadline?: string
   assignee?: string | CrmUserPreview
   timeEstimated?: number
   timeSpent?: number
-  status?: string | CrmTaskStatus
+  status?: string | CrmTaskStatus | null
+  isActive?: boolean
 }
 
 export interface CrmTaskStatus extends CrmResource {

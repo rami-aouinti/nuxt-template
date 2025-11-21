@@ -171,18 +171,33 @@ async function updateTaskStatus(task: CrmTask, statusId: number | 'backlog' | nu
     const statusResource =
       nextStatusId != null ? statusIndex.value[nextStatusId] : undefined
 
+    const payload: CrmTaskPayload & {
+      description?: string
+      isActive?: boolean
+    } = {
+      name: task.name,
+      description: task.description,
+      project: task.project?.['@id'] ?? `/projects/${task.project.id}`,
+      deadline: task.deadline,
+      assignee:
+        task.assignee?.['@id'] ??
+        (task.assignee ? `/users/${task.assignee.id}` : undefined),
+      timeEstimated: task.timeEstimated,
+      timeSpent: task.timeSpent,
+      status:
+        nextStatusId != null
+          ? statusResource?.['@id'] ?? `/task_statuses/${nextStatusId}`
+          : null,
+      isActive: task.isActive,
+    }
+
     await $fetch(withBase(`/tasks/${task.id}`), {
-      method: 'PATCH',
+      method: 'PUT',
       headers: {
         ...crmHeaders.value,
-        'Content-Type': 'application/merge-patch+json',
+        'Content-Type': 'application/json',
       },
-      body: {
-        status:
-          nextStatusId != null
-            ? statusResource?.['@id'] ?? `/task_statuses/${nextStatusId}`
-            : null,
-      },
+      body: payload,
     })
 
     await taskCollection.refresh()
