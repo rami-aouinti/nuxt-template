@@ -2193,7 +2193,9 @@
           "details": "Details",
           "attributes": "Attributes",
           "reviews": "Reviews",
-          "latest": "Latest products"
+          "latest": "Latest products",
+          "variants": "Variants & pricing",
+          "api": "API references"
         },
         "labels": {
           "option": "{name}"
@@ -2214,6 +2216,16 @@
           "option": "Option",
           "optionValue": "Value"
         },
+        "variants": {
+          "count": "{count} variants",
+          "code": "Code: {code}",
+          "inStock": "In stock",
+          "outOfStock": "Out of stock",
+          "options": "Options: {value}",
+          "noOptions": "No variant options",
+          "empty": "No variants are available for this product.",
+          "defaultName": "Variant #{index}"
+        },
         "boolean": {
           "true": "Yes",
           "false": "No"
@@ -2227,6 +2239,10 @@
           "imagePath": "Image asset",
           "slug": "Slug",
           "code": "Product code"
+        },
+        "notifications": {
+          "addedToCart": "Item added to your cart. Redirecting to checkout…",
+          "failedToAdd": "We couldn't add this product to your cart. Please try again."
         }
       }
     },
