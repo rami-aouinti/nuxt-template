@@ -8,6 +8,7 @@ import {
   getString,
   normalizeAmount,
   resolveProductImagePaths,
+  resolveProductImagePath,
   resolveProductPricing,
   resolveProductTranslation,
   resolveTranslation,
@@ -316,6 +317,13 @@ const resolveProductPricingDisplay = (
     originalText,
   }
 }
+
+const resolveProductImageUrl = (
+  product:
+    | ProductJsonldSyliusShopProductIndex
+    | ProductJsonldSyliusShopProductShow
+    | null,
+) => buildProductImageUrl(resolveProductImagePath(product))
 
 const productName = computed(() =>
   product.value
