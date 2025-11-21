@@ -351,6 +351,58 @@ const refreshAll = () => {
 
 <template>
   <v-container fluid class="products-page pa-0">
+    <client-only>
+      <teleport to="#app-drawer">
+        <div class="products-drawer">
+          <div class="animated-badge mb-2">
+            <span class="animated-badge__pulse" />
+            {{ t('pages.ecommerce.productsList.title') }}
+          </div>
+          <p class="text-body-2 text-medium-emphasis mb-4">
+            {{ t('pages.ecommerce.productsList.subtitle') }}
+          </p>
+          <div class="d-flex align-center gap-3 flex-wrap">
+            <v-chip color="primary" variant="tonal" size="large">
+              {{ t('pages.ecommerce.drawer.metrics.products', { count: products.length }) }}
+            </v-chip>
+            <v-chip color="secondary" variant="tonal" size="large">
+              {{
+                t('pages.ecommerce.drawer.metrics.categories', {
+                  count: pageCount,
+                })
+              }}
+            </v-chip>
+          </div>
+        </div>
+      </teleport>
+    </client-only>
+    <client-only>
+      <teleport to="#app-drawer-right">
+        <div class="products-drawer__right">
+          <div class="animated-badge mb-2">
+            <span class="animated-badge__pulse" />
+            {{ t('pages.ecommerce.productsList.filters.title') }}
+          </div>
+          <p class="text-body-2 text-medium-emphasis mb-4">
+            {{ t('pages.ecommerce.productsList.filters.subtitle') }}
+          </p>
+          <div class="d-flex flex-column gap-2">
+            <div class="d-flex align-center justify-space-between">
+              <span class="text-body-2 text-medium-emphasis">
+                {{ t('pages.ecommerce.productsList.filters.search') }}
+              </span>
+              <strong class="text-body-2">{{ search || t('pages.ecommerce.fallbacks.noQuery') }}</strong>
+            </div>
+            <div class="d-flex align-center justify-space-between">
+              <span class="text-body-2 text-medium-emphasis">
+                {{ t('pages.ecommerce.productsList.sort.label') }}
+              </span>
+              <strong class="text-body-2">{{ selectedSort.label }}</strong>
+            </div>
+          </div>
+        </div>
+      </teleport>
+    </client-only>
     <section class="products-hero">
       <div class="products-hero__content">
         <p class="products-hero__eyebrow text-overline text-uppercase">
@@ -496,11 +548,7 @@ const refreshAll = () => {
 
 <style scoped>
 .products-page {
-  background: linear-gradient(
-    145deg,
-    rgba(var(--v-theme-surface), 1) 0%,
-    rgba(var(--v-theme-surface-variant), 0.6) 100%
-  );
+  background: transparent;
   min-height: 100vh;
 }
 
@@ -508,6 +556,12 @@ const refreshAll = () => {
   position: relative;
   padding: clamp(48px, 12vw, 120px) 24px 32px;
   color: rgba(var(--v-theme-on-surface), 0.94);
+}
+
+.products-drawer,
+.products-drawer__right {
+  display: flex;
+  flex-direction: column;
 }
 
 .products-hero__content {
@@ -546,7 +600,7 @@ const refreshAll = () => {
 }
 
 .products-grid {
-  background: rgba(var(--v-theme-background), 0.72);
+  background: transparent;
 }
 
 .product-card {
