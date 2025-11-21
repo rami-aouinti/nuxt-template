@@ -364,6 +364,18 @@ const availableCreateTypes = computed(() => {
   return [t('common.labels.resource')]
 })
 
+const excludedCreateKeys = new Set([
+  'id',
+  'createdat',
+  'updatedat',
+  'created_at',
+  'updated_at',
+])
+
+function shouldExcludeFromCreate(key: string) {
+  return excludedCreateKeys.has(key.toLowerCase())
+}
+
 const headerCreateFields = computed<AdminCreateField[]>(() =>
   headers.value
     .map((header, index) => {
@@ -374,7 +386,7 @@ const headerCreateFields = computed<AdminCreateField[]>(() =>
             ? (header as Record<string, unknown>).key
             : null
 
-      if (!headerKey || headerKey === 'actions') {
+      if (!headerKey || headerKey === 'actions' || shouldExcludeFromCreate(headerKey)) {
         return null
       }
 
