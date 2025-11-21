@@ -364,6 +364,36 @@ const availableCreateTypes = computed(() => {
   return [t('common.labels.resource')]
 })
 
+const headerCreateFields = computed<AdminCreateField[]>(() =>
+  headers.value
+    .map((header, index) => {
+      const headerKey =
+        typeof (header as Record<string, unknown>).value === 'string'
+          ? (header as Record<string, unknown>).value
+          : typeof (header as Record<string, unknown>).key === 'string'
+            ? (header as Record<string, unknown>).key
+            : null
+
+      if (!headerKey || headerKey === 'actions') {
+        return null
+      }
+
+      const rawTitle = (header as Record<string, unknown>).title
+
+      const label =
+        typeof rawTitle === 'string' && rawTitle.trim().length > 0
+          ? rawTitle
+          : formatCreateFieldLabel(headerKey, index)
+
+      return {
+        key: headerKey,
+        label,
+        required: true,
+      }
+    })
+    .filter((field): field is AdminCreateField => field !== null),
+)
+
 const resolvedCreateFields = computed<AdminCreateField[]>(() => {
   const fields = Array.isArray(props.createFields)
     ? props.createFields.filter(
@@ -376,6 +406,10 @@ const resolvedCreateFields = computed<AdminCreateField[]>(() => {
     return fields
   }
 
+  if (headerCreateFields.value.length > 0) {
+    return headerCreateFields.value
+  }
+
   return [
     {
       key: 'name',
@@ -385,6 +419,17 @@ const resolvedCreateFields = computed<AdminCreateField[]>(() => {
     },
   ]
 })
+
+function formatCreateFieldLabel(key: string, index: number): string {
+  const labelFromKey = key
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/[_-]+/g, ' ')
+    .trim()
+
+  const normalized = labelFromKey.length > 0 ? labelFromKey : `Field ${index + 1}`
+
+  return normalized.replace(/^./, (char) => char.toUpperCase())
+}
 
 watch(
   resolvedCreateFields,
