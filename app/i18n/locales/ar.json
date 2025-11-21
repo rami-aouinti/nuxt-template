@@ -118,6 +118,65 @@
         "failedToLoad": "تعذر تحميل بيانات المتجر حالياً. يرجى المحاولة لاحقاً."
       },
       "product": {
+        "status": {
+          "error": "هذا المنتج غير متوفر حاليًا"
+        },
+        "actions": {
+          "addToCart": "أضف إلى السلة",
+          "backToShop": "العودة إلى المتجر",
+          "addReview": "إضافة مراجعة"
+        },
+        "sections": {
+          "details": "التفاصيل",
+          "attributes": "الخصائص",
+          "reviews": "المراجعات",
+          "latest": "أحدث المنتجات",
+          "variants": "Variants & pricing",
+          "api": "API references"
+        },
+        "labels": {
+          "option": "{name}"
+        },
+        "quantity": {
+          "label": "الكمية",
+          "ariaDecrease": "تقليل الكمية",
+          "ariaIncrease": "زيادة الكمية"
+        },
+        "reviews": {
+          "count": "{count} مراجعات"
+        },
+        "variants": {
+          "count": "{count} variants",
+          "code": "Code: {code}",
+          "inStock": "In stock",
+          "outOfStock": "Out of stock",
+          "options": "Options: {value}",
+          "noOptions": "No variant options",
+          "empty": "No variants are available for this product.",
+          "defaultName": "Variant #{index}"
+        },
+        "empty": {
+          "attributes": "لا توجد خصائص إضافية لهذا المنتج بعد.",
+          "reviews": "لا توجد مراجعات منشورة لهذا المنتج حتى الآن."
+        },
+        "fallbacks": {
+          "option": "خيار",
+          "optionValue": "قيمة"
+        },
+        "boolean": {
+          "true": "نعم",
+          "false": "لا"
+        },
+        "meta": {
+          "brand": "Seālius"
+        },
+        "api": {
+          "productPath": "Product endpoint",
+          "defaultVariantPath": "Default variant",
+          "imagePath": "Image asset",
+          "slug": "Slug",
+          "code": "Product code"
+        },
         "notifications": {
           "addedToCart": "تمت إضافة المنتج إلى سلة التسوق. سيتم توجيهك إلى الدفع…",
           "failedToAdd": "تعذر إضافة هذا المنتج إلى سلتك. يرجى المحاولة مرة أخرى."
