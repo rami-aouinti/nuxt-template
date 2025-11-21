@@ -16,7 +16,7 @@ definePageMeta({
 const route = useRoute()
 const router = useRouter()
 const translate = useTranslateWithFallback()
-const { headers: crmHeaders, withBase } = useCrmApi()
+const { headers: crmHeaders, jsonLdHeaders, withBase } = useCrmApi()
 const { locale } = useI18n()
 const crmStore = useCrmStore()
 
@@ -193,10 +193,7 @@ async function updateTaskStatus(task: CrmTask, statusId: number | 'backlog' | nu
 
     await $fetch(withBase(`/tasks/${task.id}`), {
       method: 'PUT',
-      headers: {
-        ...crmHeaders.value,
-        'Content-Type': 'application/json',
-      },
+      headers: jsonLdHeaders.value,
       body: payload,
     })
 
@@ -299,10 +296,7 @@ async function createTask() {
   try {
     await $fetch(withBase('/tasks'), {
       method: 'POST',
-      headers: {
-        ...crmHeaders.value,
-        'Content-Type': 'application/json',
-      },
+      headers: jsonLdHeaders.value,
       body: payload,
     })
 

@@ -25,6 +25,7 @@ export function useCrmApi() {
   const headers = computed(() => ({
     ...(requestHeaders ?? {}),
     ...authHeaders.value,
+    Accept: 'application/ld+json',
     'Accept-Language': locale.value,
   }))
 
