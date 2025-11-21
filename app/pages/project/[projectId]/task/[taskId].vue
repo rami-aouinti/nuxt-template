@@ -115,6 +115,79 @@ function goBackToProject() {
 
 <template>
   <div class="task-detail-shell py-8">
+    <client-only>
+      <teleport to="#app-drawer">
+        <AppCard class="pa-4" elevation="2">
+          <div class="d-flex align-center justify-space-between mb-3">
+            <div class="text-subtitle-1 font-weight-semibold">
+              {{ translate('crm.project.tasks.overview', 'Aperçu de la tâche') }}
+            </div>
+            <v-chip color="primary" size="small" variant="tonal" class="text-capitalize">
+              {{ statusLabel }}
+            </v-chip>
+          </div>
+
+          <div class="d-flex flex-column gap-3">
+            <div class="d-flex gap-3 align-center">
+              <v-avatar size="46" color="primary" variant="tonal">
+                <v-icon icon="mdi-check-decagram" />
+              </v-avatar>
+              <div>
+                <div class="text-subtitle-2 font-weight-semibold">{{ task?.name }}</div>
+                <div class="text-body-2 text-medium-emphasis">
+                  {{ translate('crm.project.detail.project', 'Projet') }}:
+                  {{ task?.project?.name ?? `#${projectId}` }}
+                </div>
+              </div>
+            </div>
+
+            <v-divider class="my-2" />
+
+            <div class="d-flex flex-column gap-2">
+              <div class="text-body-2 text-medium-emphasis">
+                {{ translate('crm.project.tasks.description', 'Description') }}
+              </div>
+              <div class="text-body-1">
+                {{
+                  task?.description ||
+                  translate(
+                    'crm.project.drawerRight.noDescription',
+                    'Aucune description fournie',
+                  )
+                }}
+              </div>
+            </div>
+          </div>
+        </AppCard>
+      </teleport>
+
+      <teleport to="#app-drawer-right">
+        <AppCard class="pa-4 h-100" elevation="2">
+          <div class="text-subtitle-1 font-weight-semibold mb-4">
+            {{ translate('crm.project.detail.meta', 'Informations clés') }}
+          </div>
+
+          <div class="d-flex flex-column gap-3">
+            <div
+              v-for="item in metaItems"
+              :key="item.label"
+              class="d-flex align-center justify-space-between py-2 px-3 rounded-lg meta-row"
+            >
+              <div class="d-flex align-center gap-3">
+                <v-avatar size="34" color="surface" variant="flat">
+                  <v-icon :icon="item.icon" />
+                </v-avatar>
+                <div>
+                  <div class="text-body-2 text-medium-emphasis">{{ item.label }}</div>
+                  <div class="text-subtitle-2 font-weight-semibold">{{ item.value }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </AppCard>
+      </teleport>
+    </client-only>
+
     <v-container class="py-0" fluid>
       <div class="d-flex align-center justify-space-between flex-wrap gap-3 mb-6">
         <div>
@@ -158,79 +231,6 @@ function goBackToProject() {
           </v-chip>
         </div>
       </div>
-
-      <v-row dense>
-        <v-col cols="12" md="7">
-          <AppCard class="pa-4" elevation="2">
-            <div class="d-flex align-center justify-space-between mb-3">
-              <div class="text-subtitle-1 font-weight-semibold">
-                {{ translate('crm.project.tasks.overview', 'Aperçu de la tâche') }}
-              </div>
-              <v-chip color="primary" size="small" variant="tonal" class="text-capitalize">
-                {{ statusLabel }}
-              </v-chip>
-            </div>
-
-            <div class="d-flex flex-column gap-3">
-              <div class="d-flex gap-3 align-center">
-                <v-avatar size="46" color="primary" variant="tonal">
-                  <v-icon icon="mdi-check-decagram" />
-                </v-avatar>
-                <div>
-                  <div class="text-subtitle-2 font-weight-semibold">{{ task?.name }}</div>
-                  <div class="text-body-2 text-medium-emphasis">
-                    {{ translate('crm.project.detail.project', 'Projet') }}:
-                    {{ task?.project?.name ?? `#${projectId}` }}
-                  </div>
-                </div>
-              </div>
-
-              <v-divider class="my-2" />
-
-              <div class="d-flex flex-column gap-2">
-                <div class="text-body-2 text-medium-emphasis">
-                  {{ translate('crm.project.tasks.description', 'Description') }}
-                </div>
-                <div class="text-body-1">
-                  {{
-                    task?.description ||
-                    translate(
-                      'crm.project.drawerRight.noDescription',
-                      'Aucune description fournie',
-                    )
-                  }}
-                </div>
-              </div>
-            </div>
-          </AppCard>
-        </v-col>
-
-        <v-col cols="12" md="5">
-          <AppCard class="pa-4 h-100" elevation="2">
-            <div class="text-subtitle-1 font-weight-semibold mb-4">
-              {{ translate('crm.project.detail.meta', 'Informations clés') }}
-            </div>
-
-            <div class="d-flex flex-column gap-3">
-              <div
-                v-for="item in metaItems"
-                :key="item.label"
-                class="d-flex align-center justify-space-between py-2 px-3 rounded-lg meta-row"
-              >
-                <div class="d-flex align-center gap-3">
-                  <v-avatar size="34" color="surface" variant="flat">
-                    <v-icon :icon="item.icon" />
-                  </v-avatar>
-                  <div>
-                    <div class="text-body-2 text-medium-emphasis">{{ item.label }}</div>
-                    <div class="text-subtitle-2 font-weight-semibold">{{ item.value }}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </AppCard>
-        </v-col>
-      </v-row>
 
       <v-row dense class="mt-4">
         <v-col cols="12">
