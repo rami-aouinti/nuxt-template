@@ -33,6 +33,8 @@ const projectId = computed(() => {
   return typeof value === 'string' ? value : ''
 })
 
+type KanbanColumnId = number | 'backlog' | 'done'
+
 const project = ref<CrmProject | null>(null)
 const viewMode = ref<'tasks' | 'kanban'>('tasks')
 const createDialog = ref(false)
@@ -44,7 +46,7 @@ const createTaskForm = reactive({
   deadline: '',
 })
 const draggingTaskId = ref<number | null>(null)
-const activeColumnId = ref<number | 'backlog' | 'done' | null>(null)
+const activeColumnId = ref<KanbanColumnId | null>(null)
 
 async function loadProject() {
   try {
@@ -131,22 +133,39 @@ const doneTasks = computed(() =>
   projectTasks.value.filter((task) => isDoneStatus(task.status)),
 )
 
-const kanbanColumns = computed(() => {
-  const statuses = (taskStatusCollection.data?.member ?? []).filter(
-    (status) => !isDoneStatus(status),
-  )
-  const tasks = projectTasks.value.filter(
-    (task) => task.status && !isDoneStatus(task.status),
-  )
+const kanbanColumns = computed<{ id: KanbanColumnId; name: string; tasks: CrmTask[] }[]>(
+  () => {
+    const statuses = (taskStatusCollection.data?.member ?? []).filter(
+      (status) => !isDoneStatus(status),
+    )
+    const tasks = projectTasks.value.filter(
+      (task) => task.status && !isDoneStatus(task.status),
+    )
 
-  const grouped = statuses.map((status) => ({
-    id: status.id,
-    name: status.name,
-    tasks: tasks.filter((task) => task.status?.id === status.id),
-  }))
+    const grouped = statuses.map((status) => ({
+      id: status.id as KanbanColumnId,
+      name: status.name,
+      tasks: tasks.filter((task) => task.status?.id === status.id),
+    }))
 
-  return grouped
-})
+    return [
+      {
+        id: 'backlog' as const,
+        name: translate('crm.project.kanban.backlog', 'Backlog'),
+        tasks: backlogTasks.value,
+      },
+      ...grouped,
+      {
+        id: 'done' as const,
+        name: translate('crm.project.kanban.done', 'Done'),
+        tasks: doneTasks.value,
+      },
+    ]
+  },
+)
+
+const projectDocuments = computed(() => project.value?.documents ?? [])
+const projectClient = computed(() => project.value?.client ?? null)
 
 const statusIndex = computed(() =>
   (taskStatusCollection.data?.member ?? []).reduce<Record<number, CrmTaskStatus>>(
@@ -381,7 +400,7 @@ async function createTask() {
   <div class="crm-project-shell">
     <client-only>
       <teleport to="#app-bar">
-        <div class="d-flex align-center gap-2 flex-wrap justify-end">
+        <div class="d-flex align-center gap-3 flex-wrap justify-end">
           <v-btn
             color="primary"
             variant="elevated"
@@ -404,198 +423,110 @@ async function createTask() {
         </div>
       </teleport>
 
-      <teleport v-if="viewMode === 'kanban'" to="#app-drawer">
-        <AppCard class="pa-4" elevation="2">
+      <teleport to="#app-drawer">
+        <AppCard v-if="projectClient" class="pa-4" elevation="2">
           <div class="d-flex align-center justify-space-between mb-3">
             <span class="text-subtitle-2 font-weight-semibold">
-              {{ translate('crm.project.kanban.backlog', 'Backlog') }}
+              {{
+                translate(
+                  'crm.project.drawer.clientTitle',
+                  'Informations client',
+                )
+              }}
             </span>
-            <v-chip color="primary" size="x-small" variant="tonal">
-              {{ backlogTasks.length }}
+            <v-chip
+              :color="projectClient.isActive ? 'primary' : 'error'"
+              size="x-small"
+              variant="tonal"
+              class="text-uppercase"
+            >
+              {{
+                projectClient.isActive
+                  ? translate('crm.project.drawer.clientActive', 'Actif')
+                  : translate('crm.project.drawer.clientInactive', 'Inactif')
+              }}
             </v-chip>
           </div>
 
-          <div
-            class="d-flex flex-column gap-3 kanban-column"
-            :class="{
-              'kanban-column--active': activeColumnId === 'backlog',
-              'kanban-column--dragging': draggingTaskId !== null,
-            }"
-            @dragenter.prevent="onColumnDragEnter('backlog')"
-            @dragover.prevent
-            @dragleave="onColumnDragLeave('backlog')"
-            @drop.prevent="onTaskDrop($event, 'backlog')"
-          >
-            <v-card
-              v-for="task in backlogTasks"
-              :key="task.id"
-              class="pa-3 kanban-card"
-              elevation="0"
-              color="surface"
-              variant="tonal"
-              draggable
-              :data-task-id="task.id"
-              @dragstart="onTaskDragStart($event, task.id)"
-              @dragend="onTaskDragEnd"
-            >
-              <div class="d-flex align-center justify-space-between mb-2">
-                <NuxtLink
-                  :to="`/project/${projectId}/task/${task.id}`"
-                  class="font-weight-medium kanban-card__link"
-                  @click.stop
-                >
-                  {{
-                    task.name ||
-                    translate('crm.project.tasks.noName', 'Tâche sans nom')
-                  }}
-                </NuxtLink>
-                <v-icon icon="mdi-drag-horizontal-variant" size="18" />
-              </div>
-              <div class="d-flex gap-2 flex-wrap mb-2">
-                <v-chip
-                  v-if="task.assignee"
-                  size="x-small"
-                  color="primary"
-                  variant="tonal"
-                >
-                  {{ task.assignee.name }}
-                </v-chip>
-                <v-chip
-                  v-if="task.deadline"
-                  size="x-small"
-                  color="secondary"
-                  variant="tonal"
-                >
-                  {{ task.deadline?.slice(0, 10) }}
-                </v-chip>
-                <v-chip
-                  v-if="task.timeEstimated"
-                  size="x-small"
-                  color="secondary"
-                  variant="tonal"
-                >
-                  {{ task.timeEstimated }}m
-                </v-chip>
-              </div>
-              <div class="text-body-2 text-medium-emphasis">
-                {{
-                  task.description ||
-                  translate(
-                    'crm.project.tasks.noDescription',
-                    'Pas de description pour cette tâche',
-                  )
-                }}
-              </div>
-            </v-card>
-
-            <div
-              v-if="!backlogTasks.length"
-              class="text-body-2 text-medium-emphasis text-center py-6 border-dash"
-            >
-              {{ translate('crm.project.kanban.empty', 'Glissez une tâche ici') }}
+          <div class="d-flex flex-column gap-3">
+            <div class="d-flex flex-column">
+              <span class="text-body-2 text-medium-emphasis">
+                {{ translate('crm.project.drawer.clientName', 'Nom') }}
+              </span>
+              <span class="font-weight-medium">{{ projectClient.name }}</span>
+            </div>
+            <div v-if="project?.status" class="d-flex flex-column">
+              <span class="text-body-2 text-medium-emphasis">
+                {{ translate('crm.project.drawer.projectStatus', 'Statut du projet') }}
+              </span>
+              <v-chip color="secondary" size="x-small" variant="tonal" class="text-capitalize">
+                {{ project.status.name }}
+              </v-chip>
+            </div>
+            <div v-if="project?.type" class="d-flex flex-column">
+              <span class="text-body-2 text-medium-emphasis">
+                {{ translate('crm.project.drawer.projectType', 'Type de projet') }}
+              </span>
+              <span class="font-weight-medium">{{ project.type.name }}</span>
+            </div>
+            <div class="d-flex flex-column">
+              <span class="text-body-2 text-medium-emphasis">
+                {{ translate('crm.project.drawer.createdAt', 'Créé le') }}
+              </span>
+              <span class="font-weight-medium">{{ projectClient.createdAt?.slice(0, 10) }}</span>
+            </div>
+            <div class="d-flex flex-column">
+              <span class="text-body-2 text-medium-emphasis">
+                {{ translate('crm.project.drawer.updatedAt', 'Mis à jour le') }}
+              </span>
+              <span class="font-weight-medium">{{ projectClient.updatedAt?.slice(0, 10) }}</span>
             </div>
           </div>
         </AppCard>
       </teleport>
 
-      <teleport v-if="viewMode === 'kanban'" to="#app-drawer-right">
+      <teleport to="#app-drawer-right">
         <AppCard class="pa-4" elevation="2">
           <div class="d-flex align-center justify-space-between mb-3">
             <span class="text-subtitle-2 font-weight-semibold">
-              {{ translate('crm.project.kanban.done', 'Done') }}
+              {{ translate('crm.project.drawerRight.documents', 'Documents') }}
             </span>
             <v-chip color="primary" size="x-small" variant="tonal">
-              {{ doneTasks.length }}
+              {{ projectDocuments.length }}
             </v-chip>
           </div>
 
+          <div v-if="projectDocuments.length" class="d-flex flex-column gap-2">
+            <v-list density="compact" nav>
+              <v-list-item
+                v-for="document in projectDocuments"
+                :key="document.id"
+                :title="document.name"
+                :subtitle="
+                  translate('crm.project.drawerRight.files', 'Fichiers') +
+                  ': ' +
+                  (document.files?.length ?? 0)
+                "
+                rounded
+              >
+                <template #prepend>
+                  <v-avatar color="primary" size="28" variant="tonal">
+                    <v-icon icon="mdi-file-document-outline" size="18" />
+                  </v-avatar>
+                </template>
+              </v-list-item>
+            </v-list>
+          </div>
           <div
-            class="d-flex flex-column gap-3 kanban-column"
-            :class="{
-              'kanban-column--active': activeColumnId === 'done',
-              'kanban-column--dragging': draggingTaskId !== null,
-            }"
-            @dragenter.prevent="onColumnDragEnter('done')"
-            @dragover.prevent
-            @dragleave="onColumnDragLeave('done')"
-            @drop.prevent="onTaskDrop($event, 'done')"
+            v-else
+            class="text-body-2 text-medium-emphasis text-center py-4 border-dash"
           >
-            <v-card
-              v-for="task in doneTasks"
-              :key="task.id"
-              class="pa-3 kanban-card"
-              elevation="0"
-              color="surface"
-              variant="tonal"
-              draggable
-              :data-task-id="task.id"
-              @dragstart="onTaskDragStart($event, task.id)"
-              @dragend="onTaskDragEnd"
-            >
-              <div class="d-flex align-center justify-space-between mb-2">
-                <NuxtLink
-                  :to="`/project/${projectId}/task/${task.id}`"
-                  class="font-weight-medium kanban-card__link"
-                  @click.stop
-                >
-                  {{
-                    task.name ||
-                    translate('crm.project.tasks.noName', 'Tâche sans nom')
-                  }}
-                </NuxtLink>
-                <v-chip
-                  v-if="task.status"
-                  color="primary"
-                  size="x-small"
-                  variant="tonal"
-                  class="text-capitalize"
-                >
-                  {{ task.status.name }}
-                </v-chip>
-              </div>
-              <div class="d-flex gap-2 flex-wrap mb-2">
-                <v-chip
-                  v-if="task.assignee"
-                  size="x-small"
-                  color="primary"
-                  variant="tonal"
-                >
-                  {{ task.assignee.name }}
-                </v-chip>
-                <v-chip
-                  v-if="task.deadline"
-                  size="x-small"
-                  color="secondary"
-                  variant="tonal"
-                >
-                  {{ task.deadline?.slice(0, 10) }}
-                </v-chip>
-                <v-chip
-                  v-if="task.timeEstimated"
-                  size="x-small"
-                  color="secondary"
-                  variant="tonal"
-                >
-                  {{ task.timeEstimated }}m
-                </v-chip>
-              </div>
-              <div class="text-body-2 text-medium-emphasis">
-                {{
-                  task.description ||
-                  translate(
-                    'crm.project.tasks.noDescription',
-                    'Pas de description pour cette tâche',
-                  )
-                }}
-              </div>
-            </v-card>
-
-            <div
-              v-if="!doneTasks.length"
-              class="text-body-2 text-medium-emphasis text-center py-6 border-dash"
-            >
-              {{ translate('crm.project.kanban.empty', 'Glissez une tâche ici') }}
-            </div>
+            {{
+              translate(
+                'crm.project.drawerRight.noDocuments',
+                'Aucun document disponible.',
+              )
+            }}
           </div>
         </AppCard>
       </teleport>
@@ -677,43 +608,43 @@ async function createTask() {
                   </div>
                   <div
                     class="d-flex flex-column gap-3 kanban-column"
-                :class="{
-                  'kanban-column--active': activeColumnId === column.id,
-                  'kanban-column--dragging': draggingTaskId !== null,
-                }"
-                @dragenter.prevent="onColumnDragEnter(column.id as number)"
-                @dragover.prevent
-                @dragleave="onColumnDragLeave(column.id as number)"
-                @drop.prevent="onTaskDrop($event, column.id as number)"
-              >
-                <v-card
-                  v-for="task in column.tasks"
-                  :key="task.id"
-                  class="pa-3 kanban-card"
-                  elevation="0"
-                  color="surface"
-                  variant="tonal"
-                  draggable
-                  :data-task-id="task.id"
-                  @dragstart="onTaskDragStart($event, task.id)"
-                  @dragend="onTaskDragEnd"
-                >
-                  <div class="d-flex align-center justify-space-between mb-2">
-                    <NuxtLink
-                      :to="`/project/${projectId}/task/${task.id}`"
-                      class="font-weight-medium kanban-card__link"
-                      @click.stop
+                    :class="{
+                      'kanban-column--active': activeColumnId === column.id,
+                      'kanban-column--dragging': draggingTaskId !== null,
+                    }"
+                    @dragenter.prevent="onColumnDragEnter(column.id)"
+                    @dragover.prevent
+                    @dragleave="onColumnDragLeave(column.id)"
+                    @drop.prevent="onTaskDrop($event, column.id)"
+                  >
+                    <v-card
+                      v-for="task in column.tasks"
+                      :key="task.id"
+                      class="pa-3 kanban-card"
+                      elevation="0"
+                      color="surface"
+                      variant="tonal"
+                      draggable
+                      :data-task-id="task.id"
+                      @dragstart="onTaskDragStart($event, task.id)"
+                      @dragend="onTaskDragEnd"
                     >
-                      {{
-                        task.name ||
-                        translate(
-                          'crm.project.tasks.noName',
-                          'Tâche sans nom',
-                        )
-                      }}
-                    </NuxtLink>
-                    <v-icon icon="mdi-drag-horizontal-variant" size="18" />
-                  </div>
+                      <div class="d-flex align-center justify-space-between mb-2">
+                        <NuxtLink
+                          :to="`/project/${projectId}/task/${task.id}`"
+                          class="font-weight-medium kanban-card__link"
+                          @click.stop
+                        >
+                          {{
+                            task.name ||
+                            translate(
+                              'crm.project.tasks.noName',
+                              'Tâche sans nom',
+                            )
+                          }}
+                        </NuxtLink>
+                        <v-icon icon="mdi-drag-horizontal-variant" size="18" />
+                      </div>
                       <div class="d-flex gap-2 flex-wrap mb-2">
                         <v-chip
                           v-if="task.assignee"
