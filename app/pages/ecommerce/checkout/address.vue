@@ -109,8 +109,7 @@ const {
   },
 )
 
-const countries = computed(() => countriesData.value ?? [])
-
+const countries = computed(() => countriesData.value['hydra:member'] ?? [])
 const rules = {
   required: (value: string) =>
     Boolean(value?.toString().trim()) ||

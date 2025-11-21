@@ -252,7 +252,7 @@ type ShippingMethodOption = {
 }
 
 const shipments = computed<ShipmentRecord[]>(() => {
-  const orderRecord = toRecord(orderData.value)
+  const orderRecord = toRecord(orderData.value['hydra:member'])
   if (!orderRecord) {
     return []
   }
@@ -302,7 +302,7 @@ const resolveShippingMethodLabel = (
     return record.name
   }
 
-  const localeCode = typeof locale.value === 'string' ? locale.value : null
+  const localeCode = locale.value
   const translationsSource = record.translations ?? record.translation ?? null
 
   if (localeCode && translationsSource) {
@@ -355,7 +355,7 @@ const resolveShippingMethodDescription = (
     return record.description
   }
 
-  const localeCode = typeof locale.value === 'string' ? locale.value : null
+  const localeCode = locale.value
   const translationsSource = record.translations ?? record.translation ?? null
 
   if (localeCode && translationsSource) {
