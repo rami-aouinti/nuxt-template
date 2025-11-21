@@ -240,7 +240,7 @@ function selectTask(taskId: number) {
             class="elevation-1"
           >
             <v-btn value="tasks" icon="mdi-format-list-checks" />
-            <v-btn value="kanban" icon="mdi-view-kanban" />
+            <v-btn value="kanban" icon="mdi-view-column" />
           </v-btn-toggle>
         </div>
       </div>
