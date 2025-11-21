@@ -405,7 +405,7 @@ async function createTask() {
             color="primary"
             variant="elevated"
             prepend-icon="mdi-plus-circle"
-            class="text-capitalize"
+            class="text-capitalize mx-3"
             @click="createDialog = true"
           >
             {{ translate('crm.project.tasks.add', 'Ajouter une tâche') }}
@@ -417,15 +417,14 @@ async function createTask() {
             density="comfortable"
             class="elevation-1"
           >
-            <v-btn value="tasks" icon="mdi-format-list-checks" />
+            <v-btn class="mx-3" value="tasks" icon="mdi-format-list-checks" />
             <v-btn value="kanban" icon="mdi-view-column" />
           </v-btn-toggle>
         </div>
       </teleport>
 
       <teleport to="#app-drawer">
-        <AppCard v-if="projectClient" class="pa-4" elevation="2">
-          <div class="d-flex align-center justify-space-between mb-3">
+        <div class="d-flex align-center justify-space-between mb-3">
             <span class="text-subtitle-2 font-weight-semibold">
               {{
                 translate(
@@ -434,101 +433,98 @@ async function createTask() {
                 )
               }}
             </span>
-            <v-chip
-              :color="projectClient.isActive ? 'primary' : 'error'"
-              size="x-small"
-              variant="tonal"
-              class="text-uppercase"
-            >
-              {{
-                projectClient.isActive
-                  ? translate('crm.project.drawer.clientActive', 'Actif')
-                  : translate('crm.project.drawer.clientInactive', 'Inactif')
-              }}
-            </v-chip>
-          </div>
+          <v-chip
+            :color="projectClient.isActive ? 'primary' : 'error'"
+            size="x-small"
+            variant="tonal"
+            class="text-uppercase"
+          >
+            {{
+              projectClient.isActive
+                ? translate('crm.project.drawer.clientActive', 'Actif')
+                : translate('crm.project.drawer.clientInactive', 'Inactif')
+            }}
+          </v-chip>
+        </div>
 
-          <div class="d-flex flex-column gap-3">
-            <div class="d-flex flex-column">
+        <div class="d-flex flex-column gap-3">
+          <div class="d-flex flex-column">
               <span class="text-body-2 text-medium-emphasis">
                 {{ translate('crm.project.drawer.clientName', 'Nom') }}
               </span>
-              <span class="font-weight-medium">{{ projectClient.name }}</span>
-            </div>
-            <div v-if="project?.status" class="d-flex flex-column">
+            <span class="font-weight-medium">{{ projectClient.name }}</span>
+          </div>
+          <div v-if="project?.status" class="d-flex flex-column">
               <span class="text-body-2 text-medium-emphasis">
                 {{ translate('crm.project.drawer.projectStatus', 'Statut du projet') }}
               </span>
-              <v-chip color="secondary" size="x-small" variant="tonal" class="text-capitalize">
-                {{ project.status.name }}
-              </v-chip>
-            </div>
-            <div v-if="project?.type" class="d-flex flex-column">
+            <v-chip color="secondary" size="x-small" variant="tonal" class="text-capitalize">
+              {{ project.status.name }}
+            </v-chip>
+          </div>
+          <div v-if="project?.type" class="d-flex flex-column">
               <span class="text-body-2 text-medium-emphasis">
                 {{ translate('crm.project.drawer.projectType', 'Type de projet') }}
               </span>
-              <span class="font-weight-medium">{{ project.type.name }}</span>
-            </div>
-            <div class="d-flex flex-column">
+            <span class="font-weight-medium">{{ project.type.name }}</span>
+          </div>
+          <div class="d-flex flex-column">
               <span class="text-body-2 text-medium-emphasis">
                 {{ translate('crm.project.drawer.createdAt', 'Créé le') }}
               </span>
-              <span class="font-weight-medium">{{ projectClient.createdAt?.slice(0, 10) }}</span>
-            </div>
-            <div class="d-flex flex-column">
+            <span class="font-weight-medium">{{ projectClient.createdAt?.slice(0, 10) }}</span>
+          </div>
+          <div class="d-flex flex-column">
               <span class="text-body-2 text-medium-emphasis">
                 {{ translate('crm.project.drawer.updatedAt', 'Mis à jour le') }}
               </span>
-              <span class="font-weight-medium">{{ projectClient.updatedAt?.slice(0, 10) }}</span>
-            </div>
+            <span class="font-weight-medium">{{ projectClient.updatedAt?.slice(0, 10) }}</span>
           </div>
-        </AppCard>
+        </div>
       </teleport>
 
       <teleport to="#app-drawer-right">
-        <AppCard class="pa-4" elevation="2">
-          <div class="d-flex align-center justify-space-between mb-3">
+        <div class="d-flex align-center justify-space-between mb-3">
             <span class="text-subtitle-2 font-weight-semibold">
               {{ translate('crm.project.drawerRight.documents', 'Documents') }}
             </span>
-            <v-chip color="primary" size="x-small" variant="tonal">
-              {{ projectDocuments.length }}
-            </v-chip>
-          </div>
+          <v-chip color="primary" size="x-small" variant="tonal">
+            {{ projectDocuments.length }}
+          </v-chip>
+        </div>
 
-          <div v-if="projectDocuments.length" class="d-flex flex-column gap-2">
-            <v-list density="compact" nav>
-              <v-list-item
-                v-for="document in projectDocuments"
-                :key="document.id"
-                :title="document.name"
-                :subtitle="
+        <div v-if="projectDocuments.length" class="d-flex flex-column gap-2">
+          <v-list density="compact" nav>
+            <v-list-item
+              v-for="document in projectDocuments"
+              :key="document.id"
+              :title="document.name"
+              :subtitle="
                   translate('crm.project.drawerRight.files', 'Fichiers') +
                   ': ' +
                   (document.files?.length ?? 0)
                 "
-                rounded
-              >
-                <template #prepend>
-                  <v-avatar color="primary" size="28" variant="tonal">
-                    <v-icon icon="mdi-file-document-outline" size="18" />
-                  </v-avatar>
-                </template>
-              </v-list-item>
-            </v-list>
-          </div>
-          <div
-            v-else
-            class="text-body-2 text-medium-emphasis text-center py-4 border-dash"
-          >
-            {{
-              translate(
-                'crm.project.drawerRight.noDocuments',
-                'Aucun document disponible.',
-              )
-            }}
-          </div>
-        </AppCard>
+              rounded
+            >
+              <template #prepend>
+                <v-avatar color="primary" size="28" variant="tonal">
+                  <v-icon icon="mdi-file-document-outline" size="18" />
+                </v-avatar>
+              </template>
+            </v-list-item>
+          </v-list>
+        </div>
+        <div
+          v-else
+          class="text-body-2 text-medium-emphasis text-center py-4 border-dash"
+        >
+          {{
+            translate(
+              'crm.project.drawerRight.noDocuments',
+              'Aucun document disponible.',
+            )
+          }}
+        </div>
       </teleport>
     </client-only>
 
