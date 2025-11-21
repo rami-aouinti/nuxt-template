@@ -3365,9 +3365,52 @@
     },
     "project": {
       "tasks": {
+        "add": "Aufgabe hinzufügen",
         "total": "Aufgaben",
         "title": "Projektaufgaben",
-        "noDescription": "Keine Beschreibung für diese Aufgabe"
+        "noDescription": "Keine Beschreibung für diese Aufgabe",
+        "detail": "Aufgabendetail",
+        "error": "Aufgabendetails konnten nicht geladen werden.",
+        "overview": "Aufgabenübersicht",
+        "description": "Beschreibung",
+        "noDeadline": "Kein Fälligkeitsdatum",
+        "created": "Aufgabenerstellung",
+        "loading": "Aufgabe wird geladen..."
+      },
+      "kanban": {
+        "title": "Projekt-Kanban",
+        "backlog": "Backlog",
+        "updated": "Aufgabenstatus erfolgreich aktualisiert",
+        "updateError": "Aufgabenstatus konnte nicht geändert werden.",
+        "empty": "Ziehe eine Aufgabe hierher"
+      },
+      "drawerRight": {
+        "title": "Aufgabendetails",
+        "assignee": "Zugewiesen an",
+        "unassigned": "Nicht zugewiesen",
+        "noDescription": "Keine Beschreibung angegeben",
+        "deadline": "Frist",
+        "estimate": "Geschätzt",
+        "spent": "Aufgewendet",
+        "placeholder": "Noch keine Aufgabe ausgewählt."
+      },
+      "createTask": {
+        "title": "Neue Aufgabe",
+        "subtitle": "Füge schnell eine Aufgabe zum Backlog oder zu einem bestehenden Status hinzu",
+        "name": "Name der Aufgabe",
+        "description": "Beschreibung (optional)",
+        "status": "Status (optional)",
+        "submit": "Aufgabe erstellen",
+        "nameRequired": "Der Aufgabenname ist erforderlich.",
+        "success": "Aufgabe zum Projekt hinzugefügt",
+        "error": "Aufgabe konnte nicht erstellt werden. Bitte versuche es erneut."
+      },
+      "detail": {
+        "project": "Projekt",
+        "back": "Zurück zum Projekt",
+        "meta": "Schlüsselinfos",
+        "timeline": "Zeitachse",
+        "lastUpdate": "Letzte Aktualisierung"
       }
     }
   }

@@ -3367,9 +3367,52 @@
     },
     "project": {
       "tasks": {
+        "add": "Add task",
         "total": "Задачи",
         "title": "Задачи проекта",
-        "noDescription": "Описание для этой задачи отсутствует"
+        "noDescription": "Описание для этой задачи отсутствует",
+        "detail": "Task detail",
+        "error": "Unable to load task details.",
+        "overview": "Task overview",
+        "description": "Description",
+        "noDeadline": "No deadline",
+        "created": "Task creation",
+        "loading": "Loading task..."
+      },
+      "kanban": {
+        "title": "Project kanban",
+        "backlog": "Backlog",
+        "updated": "Task status updated successfully",
+        "updateError": "Unable to change task status.",
+        "empty": "Drag a task here"
+      },
+      "drawerRight": {
+        "title": "Task details",
+        "assignee": "Assigned to",
+        "unassigned": "Unassigned",
+        "noDescription": "No description provided",
+        "deadline": "Deadline",
+        "estimate": "Estimated",
+        "spent": "Spent",
+        "placeholder": "No task selected yet."
+      },
+      "createTask": {
+        "title": "New task",
+        "subtitle": "Quickly add a task to the backlog or an existing status",
+        "name": "Task name",
+        "description": "Description (optional)",
+        "status": "Status (optional)",
+        "submit": "Create task",
+        "nameRequired": "Task name is required.",
+        "success": "Task added to the project",
+        "error": "Unable to create the task. Please try again."
+      },
+      "detail": {
+        "project": "Project",
+        "back": "Back to project",
+        "meta": "Key information",
+        "timeline": "Timeline",
+        "lastUpdate": "Last update"
       }
     }
   }

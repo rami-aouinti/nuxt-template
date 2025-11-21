@@ -3464,9 +3464,52 @@
     },
     "project": {
       "tasks": {
+        "add": "Añadir tarea",
         "total": "Tareas",
         "title": "Tareas del proyecto",
-        "noDescription": "Sin descripción para esta tarea"
+        "noDescription": "Sin descripción para esta tarea",
+        "detail": "Detalle de la tarea",
+        "error": "No se pudieron cargar los detalles de la tarea.",
+        "overview": "Resumen de la tarea",
+        "description": "Descripción",
+        "noDeadline": "Sin fecha límite",
+        "created": "Creación de la tarea",
+        "loading": "Cargando la tarea..."
+      },
+      "kanban": {
+        "title": "Kanban del proyecto",
+        "backlog": "Backlog",
+        "updated": "Estado de la tarea actualizado correctamente",
+        "updateError": "No se pudo cambiar el estado de la tarea.",
+        "empty": "Arrastra una tarea aquí"
+      },
+      "drawerRight": {
+        "title": "Detalles de la tarea",
+        "assignee": "Asignado a",
+        "unassigned": "Sin asignar",
+        "noDescription": "No se proporcionó descripción",
+        "deadline": "Fecha límite",
+        "estimate": "Estimado",
+        "spent": "Dedicado",
+        "placeholder": "Ninguna tarea seleccionada todavía."
+      },
+      "createTask": {
+        "title": "Nueva tarea",
+        "subtitle": "Añade rápidamente una tarea al backlog o a un estado existente",
+        "name": "Nombre de la tarea",
+        "description": "Descripción (opcional)",
+        "status": "Estado (opcional)",
+        "submit": "Crear tarea",
+        "nameRequired": "El nombre de la tarea es obligatorio.",
+        "success": "Tarea añadida al proyecto",
+        "error": "No se pudo crear la tarea. Por favor, inténtalo de nuevo."
+      },
+      "detail": {
+        "project": "Proyecto",
+        "back": "Volver al proyecto",
+        "meta": "Información clave",
+        "timeline": "Cronología",
+        "lastUpdate": "Última actualización"
       }
     },
     "notifications": {
