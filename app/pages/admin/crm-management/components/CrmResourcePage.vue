@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { computed, useSlots } from 'vue'
+import { computed, ref, useSlots } from 'vue'
 import AdminDataTable from '~/components/Admin/AdminDataTable.vue'
 import AdminCrmResourceActions from '~/components/Admin/AdminCrmResourceActions.vue'
 import { useCrmAdminResource } from '~/composables/useCrmAdminResource'
+import { useCrmApi } from '~/composables/useCrmApi'
+import { Notify } from '~/stores/notification'
 import type { DataTableHeader } from 'vuetify'
 
 type MapItemFn = (item: any, index: number) => Record<string, any>
@@ -20,6 +22,11 @@ type Props = {
 const props = defineProps<Props>()
 
 const slots = useSlots()
+const requestFetch = useRequestFetch()
+const { t } = useI18n()
+const { withBase } = useCrmApi()
+const createError = ref<string | null>(null)
+const creating = ref(false)
 
 const { search, filteredRows, pending, errorMessage, refresh } =
   await useCrmAdminResource(props.endpoint, props.mapItem, {
@@ -27,6 +34,58 @@ const { search, filteredRows, pending, errorMessage, refresh } =
   })
 
 const tableHeaders = computed(() => props.headers)
+const combinedError = computed(() => createError.value || errorMessage.value)
+
+function extractRequestError(error: unknown, fallback: string): string {
+  if (typeof error === 'string') {
+    return error
+  }
+
+  if (error instanceof Error) {
+    return error.message || fallback
+  }
+
+  if (error && typeof error === 'object') {
+    const maybeMessage =
+      (error as { data?: { message?: string }; message?: string }).data
+        ?.message || (error as { message?: string }).message
+
+    if (maybeMessage) {
+      return maybeMessage
+    }
+  }
+
+  return fallback
+}
+
+async function handleCreate(payload: { name: string; type: string | null }) {
+  const trimmedName = payload.name.trim()
+
+  if (!trimmedName || creating.value) {
+    return
+  }
+
+  creating.value = true
+  createError.value = null
+
+  try {
+    await requestFetch(withBase(props.endpoint), {
+      method: 'POST',
+      body: { name: trimmedName },
+    })
+
+    Notify.success(t('common.feedback.createSuccess'))
+    await refresh()
+  } catch (error) {
+    createError.value = extractRequestError(
+      error,
+      t('common.unexpectedError'),
+    )
+    Notify.error(createError.value)
+  } finally {
+    creating.value = false
+  }
+}
 </script>
 
 <template>
@@ -36,10 +95,12 @@ const tableHeaders = computed(() => props.headers)
     :subtitle="subtitle"
     :headers="tableHeaders"
     :items="filteredRows"
-    :loading="pending"
-    :error="errorMessage"
+    :loading="pending || creating"
+    :error="combinedError"
     :items-per-page-options="itemsPerPageOptions"
+    :create-enabled="!creating"
     @refresh="refresh"
+    @create="handleCreate"
   >
     <template v-for="(_, slotName) in slots" #[slotName]="slotProps">
       <slot :name="slotName" v-bind="slotProps" />
