@@ -373,7 +373,8 @@
     "crmHistories": "CRM - Histories",
     "crmLanguages": "CRM - Languages",
     "crmClient": "CRM - Client",
-    "crmProject": "CRM - Project"
+    "crmProject": "CRM - Project",
+    "crmTask": "CRM - Task"
   },
   "messenger": {
     "title": "Messenger",

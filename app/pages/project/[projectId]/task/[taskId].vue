@@ -150,7 +150,7 @@ function goBackToProject() {
             :key="badge.label"
             color="secondary"
             variant="tonal"
-            prepend-icon="badge.icon"
+            :prepend-icon="badge.icon"
             class="text-capitalize"
           >
             <span class="font-weight-semibold mr-1">{{ badge.value }}</span>
