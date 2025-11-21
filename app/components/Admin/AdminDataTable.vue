@@ -22,6 +22,9 @@ const props = withDefaults(
     dense?: boolean
     itemsPerPageOptions?: ItemsPerPageOption[]
     exportable?: boolean
+    createEnabled?: boolean
+    createTypes?: string[]
+    createDescription?: string
   }>(),
   {
     title: '',
@@ -36,12 +39,16 @@ const props = withDefaults(
     dense: false,
     itemsPerPageOptions: undefined,
     exportable: true,
+    createEnabled: true,
+    createTypes: undefined,
+    createDescription: undefined,
   },
 )
 
 const emit = defineEmits<{
   (event: 'update:search', value: string): void
   (event: 'refresh'): void
+  (event: 'create', payload: { name: string; type: string | null }): void
 }>()
 
 const slots = useSlots()
@@ -147,6 +154,9 @@ const itemsPerPageSelectOptions = computed<NormalizedItemsPerPageOption[]>(() =>
 
 const page = ref(1)
 const itemsPerPage = ref<number>(10)
+const createDialog = ref(false)
+const createName = ref('')
+const createType = ref('')
 
 watch(
   itemsPerPageSelectOptions,
@@ -324,6 +334,34 @@ const toolbarStyle = computed(() => ({
   '--admin-table-color': `var(--v-theme-${props.color})`,
 }))
 
+const availableCreateTypes = computed(() => {
+  const rawTypes = Array.isArray(props.createTypes)
+    ? props.createTypes.filter(
+        (value): value is string => typeof value === 'string' && value.trim().length > 0,
+      )
+    : []
+
+  if (rawTypes.length > 0) {
+    return rawTypes
+  }
+
+  if (typeof props.title === 'string' && props.title.trim().length > 0) {
+    return [props.title]
+  }
+
+  return [t('common.labels.resource')]
+})
+
+watch(
+  availableCreateTypes,
+  (types) => {
+    if (!types.includes(createType.value)) {
+      createType.value = types[0] ?? ''
+    }
+  },
+  { immediate: true },
+)
+
 const hasToolbarContent = computed(
   () =>
     Boolean(props.title) ||
@@ -495,6 +533,32 @@ function refresh() {
     emit('refresh')
   }
 }
+
+function openCreateDialog() {
+  createDialog.value = true
+}
+
+function closeCreateDialog() {
+  createDialog.value = false
+  createName.value = ''
+  createType.value = availableCreateTypes.value[0] ?? ''
+}
+
+function submitCreate(event: Event) {
+  event.preventDefault()
+
+  if (!props.createEnabled) {
+    return
+  }
+
+  const payload = {
+    name: createName.value.trim(),
+    type: createType.value || availableCreateTypes.value[0] || null,
+  }
+
+  emit('create', payload)
+  closeCreateDialog()
+}
 </script>
 
 <template>
@@ -521,6 +585,16 @@ function refresh() {
         </h2>
       </div>
       <div class="admin-data-table__toolbar-actions">
+        <AppButton
+          v-if="createEnabled"
+          class="admin-data-table__create"
+          :color="color"
+          prepend-icon="mdi-plus"
+          variant="flat"
+          @click="openCreateDialog"
+        >
+          {{ t('common.labels.create') }}
+        </AppButton>
         <slot name="header-actions" />
         <v-menu v-if="exportable" location="bottom end">
           <template #activator="{ props: menuProps }">
@@ -682,6 +756,47 @@ function refresh() {
     <div v-if="$slots.footer" class="admin-data-table__footer">
       <slot name="footer" />
     </div>
+
+    <AppModal
+      v-if="createEnabled"
+      v-model="createDialog"
+      :title="t('common.labels.create')"
+      :subtitle="createDescription || t('common.labels.resource')"
+      icon="mdi-plus"
+    >
+      <v-form @submit.prevent="submitCreate">
+        <v-select
+          v-model="createType"
+          :items="availableCreateTypes"
+          :label="t('common.labels.type')"
+          prepend-inner-icon="mdi-shape"
+          variant="outlined"
+          class="mb-4"
+          required
+        />
+        <v-text-field
+          v-model="createName"
+          :label="t('common.labels.name')"
+          prepend-inner-icon="mdi-form-textbox"
+          variant="outlined"
+          autocomplete="off"
+        />
+
+        <template #actions>
+          <v-btn variant="text" color="secondary" @click="closeCreateDialog">
+            {{ t('common.actions.cancel') }}
+          </v-btn>
+          <v-btn
+            type="submit"
+            color="primary"
+            variant="flat"
+            :disabled="createName.trim().length === 0"
+          >
+            {{ t('common.labels.create') }}
+          </v-btn>
+        </template>
+      </v-form>
+    </AppModal>
   </v-card>
 </template>
 
