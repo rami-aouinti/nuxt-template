@@ -10,6 +10,7 @@ import {
   resolveProductImagePaths,
   resolveProductImagePath,
   resolveProductPricing,
+  resolveProductVariants,
   resolveProductTranslation,
   resolveTranslation,
   toRecord,
@@ -19,6 +20,7 @@ import type {
   ProductJsonldSyliusShopProductIndex,
   ProductJsonldSyliusShopProductShow,
 } from '~/types/product'
+import { resolveVariantPricings } from '~/utils/ecommerce/product'
 import type { ChannelJsonLdSyliusShopChannelIndex } from '~/types/channel'
 import { useEcommerceCartStore } from '~/stores/ecommerceCart'
 import { Notify } from '~/stores/notification'
@@ -344,6 +346,227 @@ const productPricingDisplay = computed(() =>
 )
 
 const canAddToCart = computed(() => Boolean(product.value))
+
+const extractVariantPricing = (
+  variant: unknown,
+): { price: number | null; originalPrice: number | null } | null => {
+  const pricings = resolveVariantPricings(variant)
+
+  if (pricings.length) {
+    const primaryPricing = pricings.find(
+      (pricing) => normalizeAmount(pricing.price) != null,
+    )
+    const pricing = primaryPricing || pricings[0]
+
+    return {
+      price: normalizeAmount(pricing.price),
+      originalPrice: normalizeAmount(pricing.originalPrice),
+    }
+  }
+
+  const record = toRecord(variant)
+  const price = normalizeAmount(record?.price)
+  const originalPrice = normalizeAmount(record?.originalPrice)
+  const lowestPriceBeforeDiscount = normalizeAmount(
+    record?.lowestPriceBeforeDiscount,
+  )
+  const effectivePrice = price ?? lowestPriceBeforeDiscount ?? originalPrice
+
+  if (effectivePrice == null && originalPrice == null) {
+    return null
+  }
+
+  return {
+    price: effectivePrice,
+    originalPrice,
+  }
+}
+
+const resolveVariantPricingDisplay = (
+  variant: unknown,
+): { priceText: string; originalText: string | null } | null => {
+  const pricing = extractVariantPricing(variant)
+  if (!pricing) {
+    return null
+  }
+
+  const formatter = priceFormatter.value
+  const currency = currencyCode.value
+  const priceText = formatPriceWithCurrency(pricing.price, formatter, currency)
+  const originalText =
+    pricing.originalPrice != null && pricing.originalPrice > pricing.price
+      ? formatPriceWithCurrency(pricing.originalPrice, formatter, currency)
+      : null
+
+  if (!priceText) {
+    return null
+  }
+
+  return { priceText, originalText }
+}
+
+const resolveVariantName = (
+  variant: unknown,
+  index: number,
+): string => {
+  const record = toRecord(variant)
+  const translation = resolveTranslation(record?.translations, locale.value)
+  const name = getString(record, 'name') || getString(translation, 'name')
+
+  if (name) {
+    return name
+  }
+
+  const descriptor = getString(record, 'descriptor')
+  if (descriptor) {
+    return descriptor
+  }
+
+  const code = getString(record, 'code')
+  if (code) {
+    return code
+  }
+
+  return t('pages.ecommerce.product.variants.defaultName', {
+    index: index + 1,
+  })
+}
+
+const resolveVariantOptions = (variant: unknown): string[] => {
+  const record = toRecord(variant)
+  if (!record) {
+    return []
+  }
+
+  const candidates: unknown[] = []
+
+  if (Array.isArray(record.optionValue)) {
+    candidates.push(...record.optionValue)
+  }
+
+  if (Array.isArray(record.optionValuesCollection)) {
+    candidates.push(...record.optionValuesCollection)
+  }
+
+  if (Array.isArray(record.optionValues)) {
+    candidates.push(...record.optionValues)
+  }
+
+  return candidates
+    .map((candidate) => {
+      const valueRecord = toRecord(candidate)
+      if (!valueRecord) {
+        if (typeof candidate === 'string') {
+          return candidate
+        }
+
+        return null
+      }
+
+      const translation = resolveTranslation(valueRecord.translations, locale.value)
+      return (
+        getString(valueRecord, 'value') ||
+        getString(valueRecord, 'descriptor') ||
+        getString(translation, 'value') ||
+        getString(valueRecord, 'code')
+      )
+    })
+    .filter((value): value is string => Boolean(value))
+}
+
+const variantSummaries = computed(() => {
+  const item = product.value
+  if (!item) {
+    return []
+  }
+
+  const variants = resolveProductVariants(item)
+
+  return variants.map((variant, index) => {
+    const record = toRecord(variant)
+    const identifier =
+      getString(record, '@id') ||
+      getString(record, 'id') ||
+      getString(record, 'code') ||
+      `${index}`
+
+    return {
+      identifier,
+      name: resolveVariantName(variant, index),
+      code: getString(record, 'code') || null,
+      pricing: resolveVariantPricingDisplay(variant),
+      inStock: record?.inStock ?? null,
+      options: resolveVariantOptions(variant),
+      apiPath:
+        getString(record, '@id') || getString(record, 'productVariant') || null,
+    }
+  })
+})
+
+const productApiReferences = computed(() => {
+  const record = toRecord(product.value)
+  if (!record) {
+    return []
+  }
+
+  const references: { label: string; value: string }[] = []
+  const productPath = getString(record, '@id') || getString(record, 'id')
+  const defaultVariantPath =
+    getString(toRecord(record.defaultVariant), '@id') ||
+    getString(record, 'defaultVariant')
+  const imagePath = (() => {
+    const images = record.images
+    if (Array.isArray(images) && images.length > 0) {
+      const imageRecord = toRecord(images[0])
+      return (
+        getString(imageRecord, '@id') ||
+        getString(imageRecord, 'path') ||
+        getString(imageRecord, 'id')
+      )
+    }
+
+    return null
+  })()
+
+  if (productPath) {
+    references.push({
+      label: t('pages.ecommerce.product.api.productPath'),
+      value: productPath,
+    })
+  }
+
+  if (defaultVariantPath) {
+    references.push({
+      label: t('pages.ecommerce.product.api.defaultVariantPath'),
+      value: defaultVariantPath,
+    })
+  }
+
+  if (imagePath) {
+    references.push({
+      label: t('pages.ecommerce.product.api.imagePath'),
+      value: imagePath,
+    })
+  }
+
+  const slugValue = resolveProductSlug(record)
+  if (slugValue) {
+    references.push({
+      label: t('pages.ecommerce.product.api.slug'),
+      value: slugValue,
+    })
+  }
+
+  const code = getString(record, 'code')
+  if (code) {
+    references.push({
+      label: t('pages.ecommerce.product.api.code'),
+      value: code,
+    })
+  }
+
+  return references
+})
 
 const productImages = computed(() =>
   product.value
@@ -830,7 +1053,7 @@ const handleAddToCart = async () => {
           </p>
           <v-slide-group direction="vertical" show-arrows class="product-drawer__slider">
             <v-slide-group-item
-              v-for="{ product: latestProduct, route } in latestProductsWithRoutes"
+              v-for="{ product: latestProduct, route: latestProductRoute } in latestProductsWithRoutes"
               :key="resolveProductIdentifier(latestProduct)"
               v-slot="{ toggle }"
             >
@@ -838,7 +1061,7 @@ const handleAddToCart = async () => {
                 class="product-drawer__card mb-3"
                 elevation="1"
                 hover
-                @click="() => (route ? router.push(route) : toggle())"
+                @click="() => (latestProductRoute ? router.push(latestProductRoute) : toggle())"
               >
                 <div class="d-flex align-center gap-3">
                   <v-img
@@ -1106,6 +1329,124 @@ const handleAddToCart = async () => {
             <p class="text-body-2 text-medium-emphasis mb-0">
               {{ productDescription }}
             </p>
+          </div>
+
+          <div class="product-variants">
+            <div class="product-variants__header">
+              <div>
+                <h2 class="text-h6 font-weight-semibold mb-1">
+                  {{ t('pages.ecommerce.product.sections.variants') }}
+                </h2>
+                <p class="text-body-2 text-medium-emphasis mb-0">
+                  {{
+                    t('pages.ecommerce.product.variants.count', {
+                      count: variantSummaries.length,
+                    })
+                  }}
+                </p>
+              </div>
+              <v-chip color="primary" variant="tonal">
+                {{ t('pages.ecommerce.product.sections.api') }}
+              </v-chip>
+            </div>
+
+            <div
+              v-if="variantSummaries.length"
+              class="product-variant-grid"
+            >
+              <AppCard
+                v-for="variant in variantSummaries"
+                :key="variant.identifier"
+                class="product-variant-card"
+                elevation="2"
+              >
+                <div class="d-flex align-center justify-space-between mb-2">
+                  <div class="d-flex flex-column">
+                    <span class="text-subtitle-1 font-weight-semibold">
+                      {{ variant.name }}
+                    </span>
+                    <span
+                      v-if="variant.code"
+                      class="text-caption text-medium-emphasis"
+                    >
+                      {{
+                        t('pages.ecommerce.product.variants.code', {
+                          code: variant.code,
+                        })
+                      }}
+                    </span>
+                  </div>
+                  <v-chip
+                    :color="variant.inStock ? 'success' : 'error'"
+                    variant="tonal"
+                    size="small"
+                  >
+                    {{
+                      variant.inStock
+                        ? t('pages.ecommerce.product.variants.inStock')
+                        : t('pages.ecommerce.product.variants.outOfStock')
+                    }}
+                  </v-chip>
+                </div>
+
+                <div v-if="variant.pricing" class="product-variant-card__price">
+                  <span class="product-price__current">
+                    {{ variant.pricing.priceText }}
+                  </span>
+                  <span
+                    v-if="variant.pricing.originalText"
+                    class="product-price__original"
+                  >
+                    {{ variant.pricing.originalText }}
+                  </span>
+                </div>
+
+                <p class="text-body-2 text-medium-emphasis mb-2">
+                  {{
+                    t('pages.ecommerce.product.variants.options', {
+                      value: variant.options.length
+                        ? variant.options.join(', ')
+                        : t('pages.ecommerce.product.variants.noOptions'),
+                    })
+                  }}
+                </p>
+
+                <div
+                  v-if="variant.apiPath"
+                  class="d-flex align-center gap-2 text-caption text-medium-emphasis"
+                >
+                  <v-icon icon="mdi-link-variant" size="16" />
+                  <span class="text-truncate">{{ variant.apiPath }}</span>
+                </div>
+              </AppCard>
+            </div>
+            <p
+              v-else
+              class="text-body-2 text-medium-emphasis product-variants__empty"
+            >
+              {{ t('pages.ecommerce.product.variants.empty') }}
+            </p>
+          </div>
+
+          <div v-if="productApiReferences.length" class="product-api">
+            <h2 class="text-h6 font-weight-semibold mb-3">
+              {{ t('pages.ecommerce.product.sections.api') }}
+            </h2>
+            <div class="product-api__list">
+              <div
+                v-for="reference in productApiReferences"
+                :key="reference.label"
+                class="product-api__item"
+              >
+                <span class="text-body-2 font-weight-medium">
+                  {{ reference.label }}
+                </span>
+                <div class="d-flex align-center gap-2 text-caption">
+                  <v-icon icon="mdi-earth" size="16" />
+                  <span class="text-truncate">{{ reference.value }}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1429,6 +1770,63 @@ const handleAddToCart = async () => {
   border-radius: var(--app-rounded, 18px);
   background: rgba(var(--v-theme-surface), 0.9);
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+}
+
+.product-variants {
+  margin-top: 16px;
+}
+
+.product-variants__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.product-variant-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.product-variant-card {
+  height: 100%;
+  padding: 16px;
+}
+
+.product-variant-card__price {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  margin: 8px 0;
+}
+
+.product-variants__empty {
+  margin: 8px 0;
+}
+
+.product-api {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: var(--app-rounded, 18px);
+  background: rgba(var(--v-theme-surface), 0.9);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+}
+
+.product-api__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.product-api__item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  border: 1px solid rgba(var(--v-theme-outline-variant), 0.6);
+  border-radius: var(--app-rounded, 12px);
 }
 
 .product-card {

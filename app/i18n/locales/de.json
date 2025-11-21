@@ -118,6 +118,65 @@
         "failedToLoad": "Die Shop-Daten konnten nicht geladen werden. Bitte versuche es später erneut."
       },
       "product": {
+        "status": {
+          "error": "Dieses Produkt ist derzeit nicht verfügbar"
+        },
+        "actions": {
+          "addToCart": "In den Warenkorb",
+          "backToShop": "Zurück zum Shop",
+          "addReview": "Bewertung schreiben"
+        },
+        "sections": {
+          "details": "Details",
+          "attributes": "Attribute",
+          "reviews": "Bewertungen",
+          "latest": "Neueste Produkte",
+          "variants": "Variants & pricing",
+          "api": "API references"
+        },
+        "labels": {
+          "option": "{name}"
+        },
+        "quantity": {
+          "label": "Menge",
+          "ariaDecrease": "Menge verringern",
+          "ariaIncrease": "Menge erhöhen"
+        },
+        "reviews": {
+          "count": "{count} Bewertungen"
+        },
+        "variants": {
+          "count": "{count} variants",
+          "code": "Code: {code}",
+          "inStock": "In stock",
+          "outOfStock": "Out of stock",
+          "options": "Options: {value}",
+          "noOptions": "No variant options",
+          "empty": "No variants are available for this product.",
+          "defaultName": "Variant #{index}"
+        },
+        "empty": {
+          "attributes": "Dieses Produkt hat noch keine weiteren Attribute.",
+          "reviews": "Für dieses Produkt wurden noch keine Bewertungen veröffentlicht."
+        },
+        "fallbacks": {
+          "option": "Option",
+          "optionValue": "Wert"
+        },
+        "boolean": {
+          "true": "Ja",
+          "false": "Nein"
+        },
+        "meta": {
+          "brand": "Seālius"
+        },
+        "api": {
+          "productPath": "Product endpoint",
+          "defaultVariantPath": "Default variant",
+          "imagePath": "Image asset",
+          "slug": "Slug",
+          "code": "Product code"
+        },
         "notifications": {
           "addedToCart": "Artikel wurde in den Warenkorb gelegt. Weiterleitung zur Kasse…",
           "failedToAdd": "Dieses Produkt konnte nicht in den Warenkorb gelegt werden. Bitte versuche es erneut."

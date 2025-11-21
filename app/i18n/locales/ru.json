@@ -118,6 +118,65 @@
         "failedToLoad": "Не удалось загрузить данные магазина. Попробуйте позже."
       },
       "product": {
+        "status": {
+          "error": "Этот товар сейчас недоступен"
+        },
+        "actions": {
+          "addToCart": "Добавить в корзину",
+          "backToShop": "Вернуться в магазин",
+          "addReview": "Оставить отзыв"
+        },
+        "sections": {
+          "details": "Детали",
+          "attributes": "Характеристики",
+          "reviews": "Отзывы",
+          "latest": "Новые товары",
+          "variants": "Variants & pricing",
+          "api": "API references"
+        },
+        "labels": {
+          "option": "{name}"
+        },
+        "quantity": {
+          "label": "Количество",
+          "ariaDecrease": "Уменьшить количество",
+          "ariaIncrease": "Увеличить количество"
+        },
+        "reviews": {
+          "count": "{count} отзывов"
+        },
+        "variants": {
+          "count": "{count} variants",
+          "code": "Code: {code}",
+          "inStock": "In stock",
+          "outOfStock": "Out of stock",
+          "options": "Options: {value}",
+          "noOptions": "No variant options",
+          "empty": "No variants are available for this product.",
+          "defaultName": "Variant #{index}"
+        },
+        "empty": {
+          "attributes": "Для этого товара пока нет дополнительных характеристик.",
+          "reviews": "Отзывов для этого товара ещё нет."
+        },
+        "fallbacks": {
+          "option": "Опция",
+          "optionValue": "Значение"
+        },
+        "boolean": {
+          "true": "Да",
+          "false": "Нет"
+        },
+        "meta": {
+          "brand": "Seālius"
+        },
+        "api": {
+          "productPath": "Product endpoint",
+          "defaultVariantPath": "Default variant",
+          "imagePath": "Image asset",
+          "slug": "Slug",
+          "code": "Product code"
+        },
         "notifications": {
           "addedToCart": "Товар добавлен в корзину. Переходим к оформлению…",
           "failedToAdd": "Не удалось добавить этот товар в корзину. Попробуйте ещё раз."

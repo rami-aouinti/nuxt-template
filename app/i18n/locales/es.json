@@ -118,6 +118,65 @@
         "failedToLoad": "No pudimos cargar la tienda. Inténtalo de nuevo más tarde."
       },
       "product": {
+        "status": {
+          "error": "Este producto no está disponible en este momento"
+        },
+        "actions": {
+          "addToCart": "Añadir al carrito",
+          "backToShop": "Volver a la tienda",
+          "addReview": "Agregar reseña"
+        },
+        "sections": {
+          "details": "Detalles",
+          "attributes": "Atributos",
+          "reviews": "Reseñas",
+          "latest": "Últimos productos",
+          "variants": "Variants & pricing",
+          "api": "API references"
+        },
+        "labels": {
+          "option": "{name}"
+        },
+        "quantity": {
+          "label": "Cantidad",
+          "ariaDecrease": "Disminuir cantidad",
+          "ariaIncrease": "Aumentar cantidad"
+        },
+        "reviews": {
+          "count": "{count} reseñas"
+        },
+        "variants": {
+          "count": "{count} variants",
+          "code": "Code: {code}",
+          "inStock": "In stock",
+          "outOfStock": "Out of stock",
+          "options": "Options: {value}",
+          "noOptions": "No variant options",
+          "empty": "No variants are available for this product.",
+          "defaultName": "Variant #{index}"
+        },
+        "empty": {
+          "attributes": "Este producto aún no tiene atributos adicionales.",
+          "reviews": "Todavía no hay reseñas para este producto."
+        },
+        "fallbacks": {
+          "option": "Opción",
+          "optionValue": "Valor"
+        },
+        "boolean": {
+          "true": "Sí",
+          "false": "No"
+        },
+        "meta": {
+          "brand": "Seālius"
+        },
+        "api": {
+          "productPath": "Product endpoint",
+          "defaultVariantPath": "Default variant",
+          "imagePath": "Image asset",
+          "slug": "Slug",
+          "code": "Product code"
+        },
         "notifications": {
           "addedToCart": "Producto añadido a tu carrito. Redirigiendo a la compra…",
           "failedToAdd": "No pudimos añadir este producto a tu carrito. Inténtalo de nuevo."

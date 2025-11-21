@@ -118,6 +118,65 @@
         "failedToLoad": "Impossible de charger la boutique pour le moment. Veuillez réessayer plus tard."
       },
       "product": {
+        "status": {
+          "error": "Ce produit est actuellement indisponible"
+        },
+        "actions": {
+          "addToCart": "Ajouter au panier",
+          "backToShop": "Retour à la boutique",
+          "addReview": "Ajouter un avis"
+        },
+        "sections": {
+          "details": "Détails",
+          "attributes": "Attributs",
+          "reviews": "Avis",
+          "latest": "Derniers produits",
+          "variants": "Variants & pricing",
+          "api": "API references"
+        },
+        "labels": {
+          "option": "{name}"
+        },
+        "quantity": {
+          "label": "Quantité",
+          "ariaDecrease": "Diminuer la quantité",
+          "ariaIncrease": "Augmenter la quantité"
+        },
+        "reviews": {
+          "count": "{count} avis"
+        },
+        "variants": {
+          "count": "{count} variants",
+          "code": "Code: {code}",
+          "inStock": "In stock",
+          "outOfStock": "Out of stock",
+          "options": "Options: {value}",
+          "noOptions": "No variant options",
+          "empty": "No variants are available for this product.",
+          "defaultName": "Variant #{index}"
+        },
+        "empty": {
+          "attributes": "Ce produit ne contient pas encore d'autres attributs.",
+          "reviews": "Aucun avis n'a encore été publié pour ce produit."
+        },
+        "fallbacks": {
+          "option": "Option",
+          "optionValue": "Valeur"
+        },
+        "boolean": {
+          "true": "Oui",
+          "false": "Non"
+        },
+        "meta": {
+          "brand": "Seālius"
+        },
+        "api": {
+          "productPath": "Product endpoint",
+          "defaultVariantPath": "Default variant",
+          "imagePath": "Image asset",
+          "slug": "Slug",
+          "code": "Product code"
+        },
         "notifications": {
           "addedToCart": "Article ajouté à votre panier. Redirection vers le paiement…",
           "failedToAdd": "Impossible d'ajouter ce produit à votre panier. Veuillez réessayer."
