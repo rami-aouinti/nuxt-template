@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import AppCard from '~/components/App/AppCard.vue'
 import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback'
 import { useCrmStore } from '~/stores/crm'
 import { Notify } from '~/stores/notification'
 import { useCrmApi } from '~/composables/useCrmApi'
-import type { CrmProject, CrmTask } from '~/types/crm'
+import type { CrmProject, CrmTask, CrmTaskPayload, CrmTaskStatus } from '~/types/crm'
 
 definePageMeta({
   title: 'navigation.crmProject',
@@ -13,6 +14,7 @@ definePageMeta({
 })
 
 const route = useRoute()
+const router = useRouter()
 const translate = useTranslateWithFallback()
 const { headers: crmHeaders, withBase } = useCrmApi()
 const { locale } = useI18n()
@@ -34,6 +36,14 @@ const projectId = computed(() => {
 const project = ref<CrmProject | null>(null)
 const viewMode = ref<'tasks' | 'kanban'>('tasks')
 const selectedTaskId = ref<number | null>(null)
+const createDialog = ref(false)
+const createLoading = ref(false)
+const createTaskForm = reactive({
+  name: '',
+  description: '',
+  statusId: null as number | null,
+})
+const draggingTaskId = ref<number | null>(null)
 
 async function loadProject() {
   try {
@@ -78,9 +88,17 @@ useHead(() => ({
 const projectTasks = computed<CrmTask[]>(() => {
   if (!project.value) return []
 
-  return (taskCollection.data?.member ?? []).filter(
+  const storeTasks = (taskCollection.data?.member ?? []).filter(
     (task) => task.project?.id === project.value?.id,
   )
+
+  const projectEmbeddedTasks = project.value.tasks ?? []
+
+  const merged = new Map<number, CrmTask>()
+  projectEmbeddedTasks.forEach((task) => merged.set(task.id, task))
+  storeTasks.forEach((task) => merged.set(task.id, task))
+
+  return Array.from(merged.values())
 })
 
 watch(
@@ -107,28 +125,150 @@ const kanbanColumns = computed(() => {
   const statuses = taskStatusCollection.data?.member ?? []
   const tasks = projectTasks.value
 
-  const grouped = statuses.map((status) => ({
-    id: status.id,
-    name: status.name,
-    tasks: tasks.filter((task) => task.status?.id === status.id),
-  }))
-
   const backlog = tasks.filter((task) => !task.status)
 
-  if (backlog.length) {
-    grouped.unshift({
+  const grouped = [
+    {
       id: 'backlog',
-      name: translate('crm.project.kanban.backlog', 'À classer'),
+      name: translate('crm.project.kanban.backlog', 'Backlog'),
       tasks: backlog,
-    })
-  }
+    },
+    ...statuses.map((status) => ({
+      id: status.id,
+      name: status.name,
+      tasks: tasks.filter((task) => task.status?.id === status.id),
+    })),
+  ]
 
   return grouped
 })
 
-function selectTask(taskId: number) {
+const statusIndex = computed(() =>
+  (taskStatusCollection.data?.member ?? []).reduce<Record<number, CrmTaskStatus>>(
+    (acc, status) => {
+      acc[status.id] = status
+      return acc
+    },
+    {},
+  ),
+)
+
+function navigateToTask(taskId: number) {
   selectedTaskId.value = taskId
-  viewMode.value = 'tasks'
+  router.push(`/project/${projectId.value}/task/${taskId}`)
+}
+
+async function updateTaskStatus(task: CrmTask, statusId: number | 'backlog' | null) {
+  const nextStatusId = statusId === 'backlog' ? null : statusId
+  if (task.status?.id === nextStatusId) {
+    draggingTaskId.value = null
+    return
+  }
+
+  try {
+    const statusResource =
+      nextStatusId != null ? statusIndex.value[nextStatusId] : undefined
+
+    await $fetch(withBase(`/tasks/${task.id}`), {
+      method: 'PATCH',
+      headers: {
+        ...crmHeaders.value,
+        'Content-Type': 'application/merge-patch+json',
+      },
+      body: {
+        status:
+          nextStatusId != null
+            ? statusResource?.['@id'] ?? `/task_statuses/${nextStatusId}`
+            : null,
+      },
+    })
+
+    await taskCollection.refresh()
+    Notify.success(
+      translate('crm.project.kanban.updated', 'Statut mis à jour avec succès'),
+    )
+  } catch (error) {
+    console.error(error)
+    Notify.error(
+      translate(
+        'crm.project.kanban.updateError',
+        'Impossible de modifier le statut de la tâche.',
+      ),
+    )
+  } finally {
+    draggingTaskId.value = null
+  }
+}
+
+function onTaskDragStart(taskId: number) {
+  draggingTaskId.value = taskId
+}
+
+async function onTaskDrop(targetStatus: number | 'backlog') {
+  const task = projectTasks.value.find((item) => item.id === draggingTaskId.value)
+  if (!task) return
+
+  await updateTaskStatus(task, targetStatus)
+}
+
+function resetCreateForm() {
+  createTaskForm.name = ''
+  createTaskForm.description = ''
+  createTaskForm.statusId = null
+}
+
+async function createTask() {
+  if (!project.value || !createTaskForm.name.trim()) {
+    Notify.error(
+      translate(
+        'crm.project.createTask.nameRequired',
+        'Le nom de la tâche est obligatoire.',
+      ),
+    )
+    return
+  }
+
+  createLoading.value = true
+
+  const payload: CrmTaskPayload & { description?: string } = {
+    name: createTaskForm.name.trim(),
+    project: project.value['@id'] ?? `/projects/${project.value.id}`,
+    description: createTaskForm.description.trim() || undefined,
+  }
+
+  if (createTaskForm.statusId) {
+    payload.status =
+      statusIndex.value[createTaskForm.statusId]?.['@id'] ??
+      `/task_statuses/${createTaskForm.statusId}`
+  }
+
+  try {
+    await $fetch(withBase('/tasks'), {
+      method: 'POST',
+      headers: {
+        ...crmHeaders.value,
+        'Content-Type': 'application/json',
+      },
+      body: payload,
+    })
+
+    await taskCollection.refresh()
+    resetCreateForm()
+    createDialog.value = false
+    Notify.success(
+      translate('crm.project.createTask.success', 'Tâche ajoutée au projet'),
+    )
+  } catch (error) {
+    console.error(error)
+    Notify.error(
+      translate(
+        'crm.project.createTask.error',
+        'Impossible de créer la tâche. Merci de réessayer.',
+      ),
+    )
+  } finally {
+    createLoading.value = false
+  }
 }
 </script>
 
@@ -222,7 +362,16 @@ function selectTask(taskId: number) {
         <div class="text-h5 font-weight-bold">
           {{ pageTitle }}
         </div>
-        <div class="d-flex align-center gap-2">
+        <div class="d-flex align-center gap-2 flex-wrap justify-end">
+          <v-btn
+            color="primary"
+            variant="elevated"
+            prepend-icon="mdi-plus-circle"
+            class="text-capitalize"
+            @click="createDialog = true"
+          >
+            {{ translate('crm.project.tasks.add', 'Ajouter une tâche') }}
+          </v-btn>
           <v-chip
             color="primary"
             variant="tonal"
@@ -258,17 +407,17 @@ function selectTask(taskId: number) {
             </div>
 
             <v-list lines="two" nav>
-              <v-list-item
-                v-for="task in projectTasks"
-                :key="task.id"
-                :value="task.id"
-                rounded
-                class="mb-2"
-                @click="selectTask(task.id)"
-              >
-                <template #title>
-                  <div class="d-flex align-center justify-space-between w-100">
-                    <span class="font-weight-medium">{{ task.name }}</span>
+            <v-list-item
+              v-for="task in projectTasks"
+              :key="task.id"
+              :value="task.id"
+              rounded
+              class="mb-2"
+              @click="navigateToTask(task.id)"
+            >
+              <template #title>
+                <div class="d-flex align-center justify-space-between w-100">
+                  <span class="font-weight-medium">{{ task.name }}</span>
                     <v-chip
                       v-if="task.status"
                       color="secondary"
@@ -318,20 +467,64 @@ function selectTask(taskId: number) {
                       {{ column.tasks.length }}
                     </v-chip>
                   </div>
-                  <div class="d-flex flex-column gap-3">
+                  <div
+                    class="d-flex flex-column gap-3 kanban-column"
+                    :class="{
+                      'kanban-column--active': draggingTaskId !== null,
+                    }"
+                    @dragover.prevent
+                    @drop.prevent="onTaskDrop(column.id as number | 'backlog')"
+                  >
                     <v-card
                       v-for="task in column.tasks"
                       :key="task.id"
                       class="pa-3"
                       elevation="0"
+                      color="surface"
                       variant="tonal"
-                      @click="selectTask(task.id)"
+                      draggable
+                      @dragstart="onTaskDragStart(task.id)"
+                      @click="navigateToTask(task.id)"
                     >
-                      <div class="d-flex align-center justify-space-between">
-                        <span class="font-weight-medium">{{ task.name }}</span>
+                      <div class="d-flex align-center justify-space-between mb-2">
+                        <span class="font-weight-medium">
+                          {{
+                            task.name ||
+                            translate(
+                              'crm.project.tasks.noName',
+                              'Tâche sans nom',
+                            )
+                          }}
+                        </span>
                         <v-icon icon="mdi-drag-horizontal-variant" size="18" />
                       </div>
-                      <div class="text-body-2 text-medium-emphasis mt-1">
+                      <div class="d-flex gap-2 flex-wrap mb-2">
+                        <v-chip
+                          v-if="task.assignee"
+                          size="x-small"
+                          color="primary"
+                          variant="tonal"
+                        >
+                          {{ task.assignee.name }}
+                        </v-chip>
+                        <v-chip
+                          v-if="task.deadline"
+                          size="x-small"
+                          color="secondary"
+                          variant="tonal"
+                        >
+                          {{ task.deadline?.slice(0, 10) }}
+                        </v-chip>
+                        <v-chip
+                          v-if="task.timeEstimated"
+                          size="x-small"
+                          color="secondary"
+                          variant="tonal"
+                        >
+                          {{ task.timeEstimated }}m
+                        </v-chip>
+                      </div>
+                      <div class="text-body-2 text-medium-emphasis">
                         {{
                           task.description ||
                           translate(
@@ -341,6 +534,13 @@ function selectTask(taskId: number) {
                         }}
                       </div>
                     </v-card>
+
+                    <div
+                      v-if="!column.tasks.length"
+                      class="text-body-2 text-medium-emphasis text-center py-6 border-dash"
+                    >
+                      {{ translate('crm.project.kanban.empty', 'Glissez une tâche ici') }}
+                    </div>
                   </div>
                 </AppCard>
               </v-col>
@@ -349,11 +549,88 @@ function selectTask(taskId: number) {
         </v-col>
       </v-row>
     </v-container>
+
+    <v-dialog v-model="createDialog" max-width="520">
+      <AppCard class="pa-4" elevation="3">
+        <div class="d-flex align-center justify-space-between mb-4">
+          <div>
+            <div class="text-subtitle-1 font-weight-semibold">
+              {{ translate('crm.project.createTask.title', 'Nouvelle tâche') }}
+            </div>
+            <div class="text-body-2 text-medium-emphasis">
+              {{ translate('crm.project.createTask.subtitle', 'Ajoutez rapidement une tâche dans le backlog ou un statut existant') }}
+            </div>
+          </div>
+          <v-btn icon="mdi-close" variant="text" @click="createDialog = false" />
+        </div>
+
+        <v-form class="d-flex flex-column gap-4" @submit.prevent="createTask">
+          <v-text-field
+            v-model="createTaskForm.name"
+            :label="translate('crm.project.createTask.name', 'Nom de la tâche')"
+            variant="outlined"
+            density="comfortable"
+            required
+          />
+
+          <v-textarea
+            v-model="createTaskForm.description"
+            :label="translate('crm.project.createTask.description', 'Description (optionnelle)')"
+            rows="3"
+            variant="outlined"
+            auto-grow
+          />
+
+          <v-select
+            v-model="createTaskForm.statusId"
+            :items="taskStatusCollection.data?.member ?? []"
+            :item-title="(item) => item.name"
+            :item-value="(item) => item.id"
+            clearable
+            :label="translate('crm.project.createTask.status', 'Statut (optionnel)')"
+            variant="outlined"
+            density="comfortable"
+          />
+
+          <div class="d-flex gap-2 justify-end">
+            <v-btn variant="text" color="secondary" @click="createDialog = false">
+              {{ translate('common.actions.cancel', 'Annuler') }}
+            </v-btn>
+            <v-btn
+              color="primary"
+              variant="elevated"
+              :loading="createLoading"
+              type="submit"
+            >
+              {{ translate('crm.project.createTask.submit', 'Créer la tâche') }}
+            </v-btn>
+          </div>
+        </v-form>
+      </AppCard>
+    </v-dialog>
   </div>
 </template>
 
 <style scoped>
 .crm-project-page {
   padding-inline: 24px;
+}
+
+.kanban-column {
+  min-height: 280px;
+  border: 1px dashed rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 12px;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.kanban-column--active {
+  background: linear-gradient(145deg, rgba(94, 135, 255, 0.08), rgba(94, 255, 201, 0.05));
+  border-color: rgba(94, 135, 255, 0.4);
+}
+
+.border-dash {
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
 }
 </style>
