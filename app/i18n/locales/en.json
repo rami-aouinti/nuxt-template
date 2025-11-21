@@ -112,6 +112,7 @@
         "unknownProduct": "Product",
         "priceUnavailable": "Price unavailable",
         "noProducts": "No products are available right now.",
+        "summary": "No summary available.",
         "categoryFallback": "Collection"
       },
       "errors": {
@@ -2148,6 +2149,7 @@
         "unknownProduct": "Product",
         "priceUnavailable": "Price unavailable",
         "noProducts": "No products are available right now.",
+        "summary": "No summary available.",
         "categoryFallback": "Collection"
       },
       "errors": {
