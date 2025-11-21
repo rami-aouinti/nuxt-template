@@ -3,6 +3,11 @@ import { computed, ref, watch } from 'vue'
 import AdminEntityTreePreview from '~/components/Admin/AdminEntityTreePreview.vue'
 import AppModal from '~/components/App/AppModal.vue'
 import { useCrmApi } from '~/composables/useCrmApi'
+import {
+  createDateFormatter,
+  formatDateValue,
+  formatRelativePublishedAt,
+} from '~/utils/formatters'
 
 type ActionType = 'show' | 'edit' | 'delete'
 
@@ -18,7 +23,14 @@ type ActionButton = ActionMetadata & {
   disabled: boolean
 }
 
-type EntityField = { key: string; value: unknown }
+type EntityField = {
+  key: string
+  label: string
+  type: 'string' | 'number' | 'boolean'
+  value: unknown
+  displayType: 'text' | 'number' | 'boolean' | 'date' | 'datetime'
+  endpoint?: string | null
+}
 type EntityRelation = { value: unknown }
 type EntityRelationGroup = { key: string; items: EntityRelation[] }
 
@@ -36,8 +48,20 @@ const props = withDefaults(
 )
 
 const requestFetch = useRequestFetch()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const { jsonLdHeaders } = useCrmApi()
+
+const HIDDEN_FIELD_KEYS = new Set([
+  '@context',
+  '@id',
+  '@type',
+  'id',
+  'createdAt',
+  'updatedAt',
+])
+
+const dateFormatter = createDateFormatter(locale, { dateStyle: 'medium' })
+const dateTimeFormatter = createDateFormatter(locale)
 
 const normalizedLinks = computed(() => ({
   show: normalizeUrl(props.showUrl),
@@ -164,8 +188,24 @@ function buildEntityFields(value: unknown) {
   }
 
   return Object.entries(value as Record<string, unknown>)
-    .filter(([, v]) => isPrimitive(v) || typeof v === 'string')
-    .map(([key, v]) => ({ key, value: v }))
+    .filter(([key, v]) =>
+      Boolean(
+        !HIDDEN_FIELD_KEYS.has(key) &&
+          !key.startsWith('@') &&
+          (isPrimitive(v) || typeof v === 'string'),
+      ),
+    )
+    .map(([key, v]) => {
+      const type = resolveFieldType(v)
+      return {
+        key,
+        label: formatFieldLabel(key),
+        type,
+        value: v,
+        displayType: resolveFieldDisplayType(v),
+        endpoint: typeof v === 'string' ? normalizeEndpoint(v) : null,
+      }
+    })
 }
 
 function buildEntityRelations(value: unknown): EntityRelationGroup[] {
@@ -174,13 +214,84 @@ function buildEntityRelations(value: unknown): EntityRelationGroup[] {
   }
 
   return Object.entries(value as Record<string, unknown>)
-    .filter(([, v]) => Array.isArray(v) || (v && typeof v === 'object'))
+    .filter(([key, v]) =>
+      Boolean(
+        !HIDDEN_FIELD_KEYS.has(key) &&
+          !key.startsWith('@') &&
+          (Array.isArray(v) || (v && typeof v === 'object')),
+      ),
+    )
     .map(([key, v]) => ({
       key,
       items: Array.isArray(v)
         ? v.map((item) => ({ value: item }))
         : [{ value: v }],
     }))
+}
+
+function resolveFieldType(value: unknown): 'string' | 'number' | 'boolean' {
+  if (typeof value === 'number') {
+    return 'number'
+  }
+  if (typeof value === 'boolean') {
+    return 'boolean'
+  }
+  return 'string'
+}
+
+function resolveFieldDisplayType(
+  value: unknown,
+): EntityField['displayType'] {
+  if (typeof value === 'boolean') {
+    return 'boolean'
+  }
+  if (typeof value === 'number' || isNumericString(String(value))) {
+    return 'number'
+  }
+  if (typeof value === 'string') {
+    const temporalType = detectTemporalType(value)
+    if (temporalType) {
+      return temporalType
+    }
+  }
+  return 'text'
+}
+
+function detectTemporalType(value: string): Extract<EntityField['displayType'], 'date' | 'datetime'> | null {
+  const trimmed = value.trim()
+  if (trimmed.length < 8 || !/[tT:/-]/.test(trimmed)) {
+    return null
+  }
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+    return 'date'
+  }
+
+  if (
+    /^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(:\d{2})?(\.\d+)?(Z|[+-]\d{2}:?\d{2})?$/i.test(
+      trimmed,
+    )
+  ) {
+    return 'datetime'
+  }
+
+  const parsed = Date.parse(trimmed)
+  if (Number.isNaN(parsed)) {
+    return null
+  }
+
+  if (/[T ]\d{2}:\d{2}/.test(trimmed)) {
+    return 'datetime'
+  }
+
+  return 'date'
+}
+
+function isNumericString(value: string): boolean {
+  if (!value.trim()) {
+    return false
+  }
+  return !Number.isNaN(Number(value))
 }
 
 async function openAction(action: ActionType) {
@@ -287,16 +398,21 @@ function hydrateEditForm() {
   const normalizedFields: Record<string, unknown> = {}
   const normalizedTypes: Record<string, 'string' | 'number' | 'boolean'> = {}
 
-  entityFields.value.forEach(({ key, value }) => {
-    if (typeof value === 'number') {
-      normalizedTypes[key] = 'number'
-    } else if (typeof value === 'boolean') {
-      normalizedTypes[key] = 'boolean'
-    } else {
-      normalizedTypes[key] = 'string'
+  entityFields.value.forEach(({ key, value, type }) => {
+    normalizedTypes[key] = type
+
+    if (type === 'number') {
+      normalizedFields[key] =
+        typeof value === 'number' ? value : Number(value ?? '') || null
+      return
     }
 
-    normalizedFields[key] = value ?? ''
+    if (type === 'boolean') {
+      normalizedFields[key] = Boolean(value)
+      return
+    }
+
+    normalizedFields[key] = typeof value === 'string' ? value : value ?? ''
   })
 
   fieldTypes.value = normalizedTypes
@@ -363,6 +479,13 @@ function resolveRelationLabel(value: unknown) {
   return t('common.labels.entity')
 }
 
+function formatFieldLabel(key: string): string {
+  return key
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/[_-]+/g, ' ')
+    .replace(/^./, (char) => char.toUpperCase())
+}
+
 function buildUpdatePayload() {
   const payload: Record<string, unknown> = {}
 
@@ -405,6 +528,55 @@ function buildUpdatePayload() {
   })
 
   return payload
+}
+
+function normalizeEndpoint(value: string): string | null {
+  const trimmed = value.trim()
+  if (!trimmed) {
+    return null
+  }
+
+  try {
+    const url = new URL(trimmed)
+    return url.href
+  } catch {
+    return trimmed.startsWith('/') ? trimmed : null
+  }
+}
+
+function formatDisplayValue(field: EntityField): string {
+  const { value } = field
+  if (value === null || value === undefined || value === '') {
+    return '—'
+  }
+
+  if (field.displayType === 'boolean' && typeof value === 'boolean') {
+    return value ? t('common.enabled') : t('common.disabled')
+  }
+
+  if (field.displayType === 'number') {
+    const numeric = typeof value === 'number' ? value : Number(value)
+    if (Number.isFinite(numeric)) {
+      return new Intl.NumberFormat(locale.value || undefined, {
+        maximumFractionDigits: 4,
+      }).format(numeric)
+    }
+  }
+
+  if (field.displayType === 'date' || field.displayType === 'datetime') {
+    const dateString = typeof value === 'string' ? value : String(value)
+    const formatted = formatDateValue(
+      dateString,
+      field.displayType === 'date'
+        ? dateFormatter.value
+        : dateTimeFormatter.value,
+      '',
+    )
+    const relative = formatRelativePublishedAt(dateString, locale.value)
+    return relative || formatted || dateString
+  }
+
+  return String(value)
 }
 </script>
 
@@ -453,7 +625,7 @@ function buildUpdatePayload() {
           </div>
 
           <template v-else>
-            <div class="admin-crm-actions__details">
+            <div v-if="activeAction !== 'edit'" class="admin-crm-actions__details">
               <section class="admin-crm-actions__summary">
                 <h3 class="admin-crm-actions__section-title">
                   {{ t('common.labels.details') }}
@@ -466,12 +638,53 @@ function buildUpdatePayload() {
                   >
                     <div class="admin-crm-actions__details-field">
                       <div class="admin-crm-actions__details-label">
-                        {{ field.key }}
+                        {{ field.label }}
                       </div>
                       <div class="admin-crm-actions__details-value">
-                        {{ field.value ?? t('common.labels.none') }}
+                        <template v-if="field.displayType === 'boolean'">
+                          <v-chip
+                            size="small"
+                            :color="field.value ? 'success' : 'grey-darken-1'"
+                            variant="flat"
+                            class="text-uppercase"
+                          >
+                            <v-icon
+                              start
+                              :icon="
+                                field.value
+                                  ? 'mdi-check-circle'
+                                  : 'mdi-close-circle'
+                              "
+                            />
+                            {{ formatDisplayValue(field) }}
+                          </v-chip>
+                        </template>
+                        <template v-else-if="field.endpoint">
+                          <div class="admin-crm-actions__details-link">
+                            <v-btn
+                              :href="field.endpoint"
+                              target="_blank"
+                              rel="noopener"
+                              size="x-small"
+                              color="primary"
+                              variant="tonal"
+                              append-icon="mdi-open-in-new"
+                            >
+                              {{ t('common.labels.endpoint') }}
+                            </v-btn>
+                            <span class="admin-crm-actions__details-endpoint">
+                              {{ field.endpoint }}
+                            </span>
+                          </div>
+                        </template>
+                        <template v-else>
+                          {{ formatDisplayValue(field) }}
+                        </template>
                       </div>
                     </div>
+                  </div>
+                  <div v-if="entityFields.length === 0" class="text-medium-emphasis">
+                    {{ t('common.labels.none') }}
                   </div>
                 </div>
               </section>
@@ -493,9 +706,10 @@ function buildUpdatePayload() {
                   >
                     <div class="admin-crm-actions__relation-header">
                       <div class="admin-crm-actions__relation-key">
-                        {{ relation.key }}
+                        {{ formatFieldLabel(relation.key) }}
                       </div>
                       <v-btn
+                        v-if="relation.items[0]?.value?.['@id']"
                         variant="tonal"
                         size="x-small"
                         color="primary"
@@ -552,12 +766,12 @@ function buildUpdatePayload() {
                     v-model="editForm[field.key]"
                     color="primary"
                     inset
-                    :label="field.key"
+                    :label="field.label"
                   />
                   <v-text-field
                     v-else
                     v-model="editForm[field.key]"
-                    :label="field.key"
+                    :label="field.label"
                     :type="fieldTypes[field.key] === 'number' ? 'number' : 'text'"
                     variant="outlined"
                     density="comfortable"
@@ -581,7 +795,7 @@ function buildUpdatePayload() {
                       v-model="relationSelections[relation.key]"
                       :items="relation.options"
                       :multiple="relation.multiple"
-                      :label="relation.key"
+                      :label="formatFieldLabel(relation.key)"
                       chips
                       clearable
                       variant="outlined"
