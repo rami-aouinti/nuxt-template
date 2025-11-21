@@ -3,6 +3,15 @@ import { computed, ref, toRefs, useAttrs, useSlots, watch } from 'vue'
 import AppButton from '~/components/ui/AppButton.vue'
 import type { DataTableHeader } from 'vuetify'
 
+export type AdminCreateField = {
+  key: string
+  label?: string
+  icon?: string
+  required?: boolean
+}
+
+type CreateEventPayload = Record<string, string | null> & { type: string | null }
+
 type ItemsPerPageOption = number | { title: string; value: number }
 
 defineOptions({ inheritAttrs: false })
@@ -26,6 +35,7 @@ const props = withDefaults(
     createEnabled?: boolean
     createTypes?: string[]
     createDescription?: string
+    createFields?: AdminCreateField[]
   }>(),
   {
     title: '',
@@ -43,13 +53,14 @@ const props = withDefaults(
     createEnabled: true,
     createTypes: undefined,
     createDescription: undefined,
+    createFields: undefined,
   },
 )
 
 const emit = defineEmits<{
   (event: 'update:search', value: string): void
   (event: 'refresh'): void
-  (event: 'create', payload: { name: string; type: string | null }): void
+  (event: 'create', payload: CreateEventPayload): void
 }>()
 
 const slots = useSlots()
@@ -156,8 +167,8 @@ const itemsPerPageSelectOptions = computed<NormalizedItemsPerPageOption[]>(() =>
 const page = ref(1)
 const itemsPerPage = ref<number>(10)
 const createDialog = ref(false)
-const createName = ref('')
 const createType = ref('')
+const createForm = reactive<Record<string, string>>({})
 
 watch(
   itemsPerPageSelectOptions,
@@ -353,6 +364,60 @@ const availableCreateTypes = computed(() => {
   return [t('common.labels.resource')]
 })
 
+const resolvedCreateFields = computed<AdminCreateField[]>(() => {
+  const fields = Array.isArray(props.createFields)
+    ? props.createFields.filter(
+        (field): field is AdminCreateField =>
+          Boolean(field?.key) && typeof field.key === 'string',
+      )
+    : []
+
+  if (fields.length > 0) {
+    return fields
+  }
+
+  return [
+    {
+      key: 'name',
+      label: t('common.labels.name'),
+      icon: 'mdi-form-textbox',
+      required: true,
+    },
+  ]
+})
+
+watch(
+  resolvedCreateFields,
+  (fields) => {
+    const seenKeys = new Set<string>()
+
+    fields.forEach((field) => {
+      seenKeys.add(field.key)
+      if (!(field.key in createForm)) {
+        createForm[field.key] = ''
+      }
+    })
+
+    Object.keys(createForm).forEach((key) => {
+      if (!seenKeys.has(key)) {
+        createForm[key] = ''
+      }
+    })
+  },
+  { immediate: true },
+)
+
+const createFormValid = computed(() =>
+  resolvedCreateFields.value.every((field) => {
+    if (!field.required) {
+      return true
+    }
+
+    const value = createForm[field.key]
+    return typeof value === 'string' && value.trim().length > 0
+  }),
+)
+
 watch(
   availableCreateTypes,
   (types) => {
@@ -536,28 +601,50 @@ function refresh() {
 }
 
 function openCreateDialog() {
+  resetCreateForm()
   createDialog.value = true
 }
 
 function closeCreateDialog() {
   createDialog.value = false
-  createName.value = ''
+  resetCreateForm()
+}
+
+function resetCreateForm() {
+  resolvedCreateFields.value.forEach((field) => {
+    createForm[field.key] = ''
+  })
+
   createType.value = availableCreateTypes.value[0] ?? ''
 }
 
 function submitCreate(event: Event) {
   event.preventDefault()
 
-  if (!props.createEnabled) {
+  if (!props.createEnabled || !createFormValid.value) {
     return
   }
 
-  const payload = {
-    name: createName.value.trim(),
-    type: createType.value || availableCreateTypes.value[0] || null,
-  }
+  const payload = resolvedCreateFields.value.reduce<Record<string, string>>(
+    (acc, field) => {
+      const value = createForm[field.key]
+      if (typeof value === 'string') {
+        const normalized = value.trim()
+        if (normalized.length > 0) {
+          acc[field.key] = normalized
+        }
+      }
 
-  emit('create', payload)
+      return acc
+    },
+    {},
+  )
+
+  emit('create', {
+    ...payload,
+    type: createType.value || availableCreateTypes.value[0] || null,
+  })
+
   closeCreateDialog()
 }
 </script>
@@ -776,10 +863,14 @@ function submitCreate(event: Event) {
           required
         />
         <v-text-field
-          v-model="createName"
-          :label="t('common.labels.name')"
-          prepend-inner-icon="mdi-form-textbox"
+          v-for="field in resolvedCreateFields"
+          :key="field.key"
+          v-model="createForm[field.key]"
+          :label="field.label || t('common.labels.name')"
+          :prepend-inner-icon="field.icon || 'mdi-form-textbox'"
+          :required="field.required"
           variant="outlined"
+          class="mb-3"
           autocomplete="off"
         />
       </v-form>
@@ -792,7 +883,7 @@ function submitCreate(event: Event) {
           color="primary"
           variant="flat"
           :form="'admin-create-form'"
-          :disabled="createName.trim().length === 0"
+          :disabled="!createFormValid"
         >
           {{ t('common.actions.save') }}
         </v-btn>
