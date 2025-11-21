@@ -370,7 +370,8 @@
     "crmHistories": "CRM - Historique",
     "crmLanguages": "CRM - Langues",
     "crmClient": "CRM - Client",
-    "crmProject": "CRM - Projet"
+    "crmProject": "CRM - Projet",
+    "crmTask": "CRM - Tâche"
   },
   "messenger": {
     "title": "Messagerie",
