@@ -42,6 +42,7 @@ const createTaskForm = reactive({
   name: '',
   description: '',
   statusId: null as number | null,
+  deadline: '',
 })
 const draggingTaskId = ref<number | null>(null)
 const activeColumnId = ref<number | 'backlog' | null>(null)
@@ -266,6 +267,7 @@ function resetCreateForm() {
   createTaskForm.name = ''
   createTaskForm.description = ''
   createTaskForm.statusId = null
+  createTaskForm.deadline = ''
 }
 
 async function createTask() {
@@ -279,12 +281,36 @@ async function createTask() {
     return
   }
 
+  if (!createTaskForm.deadline.trim()) {
+    Notify.error(
+      translate(
+        'crm.project.createTask.deadlineRequired',
+        'Deadline is required.',
+      ),
+    )
+    return
+  }
+
   createLoading.value = true
+
+  const deadline = new Date(createTaskForm.deadline)
+
+  if (Number.isNaN(deadline.getTime())) {
+    createLoading.value = false
+    Notify.error(
+      translate(
+        'crm.project.createTask.deadlineInvalid',
+        'Deadline must be a valid date.',
+      ),
+    )
+    return
+  }
 
   const payload: CrmTaskPayload & { description?: string } = {
     name: createTaskForm.name.trim(),
     project: project.value['@id'] ?? `/projects/${project.value.id}`,
     description: createTaskForm.description.trim() || undefined,
+    deadline: deadline.toISOString(),
   }
 
   if (createTaskForm.statusId) {
@@ -632,6 +658,15 @@ async function createTask() {
             rows="3"
             variant="outlined"
             auto-grow
+          />
+
+          <v-text-field
+            v-model="createTaskForm.deadline"
+            type="date"
+            :label="translate('crm.project.drawerRight.deadline', 'Deadline')"
+            variant="outlined"
+            density="comfortable"
+            required
           />
 
           <v-select
