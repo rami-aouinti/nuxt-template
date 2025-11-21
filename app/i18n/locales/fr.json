@@ -1998,6 +1998,7 @@
           "exploreCollection": "Explorer la collection",
           "refresh": "Actualiser le catalogue",
           "retry": "Réessayer",
+          "goToCheckout": "Aller au paiement",
           "viewAllProducts": "Voir tous les produits"
         },
         "fallbacks": {
@@ -2066,6 +2067,120 @@
           "loading": "Chargement des modes de paiement…",
           "empty": "Aucun mode de paiement n'est disponible pour cette commande.",
           "defaultMethodName": "Mode de paiement"
+        }
+      },
+      "ecommerceCheckout": {
+        "address": {
+          "meta": {
+            "title": "Paiement · Adresse"
+          },
+          "headline": {
+            "step": "Étape {step} sur 4",
+            "title": "Où devons-nous envoyer votre commande ?",
+            "subtitle": "Renseignez vos informations de facturation, nous confirmerons l'expédition ensuite."
+          },
+          "steps": {
+            "address": "Adresse",
+            "shipping": "Livraison",
+            "payment": "Paiement",
+            "complete": "Terminé"
+          },
+          "form": {
+            "validation": {
+              "required": "Ce champ est obligatoire",
+              "email": "Veuillez saisir une adresse e-mail valide"
+            },
+            "contact": {
+              "title": "Informations de contact",
+              "email": "Adresse e-mail"
+            },
+            "billing": {
+              "title": "Adresse de facturation",
+              "description": "Utilisez l'adresse associée à votre moyen de paiement préféré.",
+              "firstName": "Prénom",
+              "lastName": "Nom",
+              "company": "Entreprise (facultatif)",
+              "street": "Adresse",
+              "city": "Ville",
+              "postcode": "Code postal",
+              "country": "Pays",
+              "province": "État / Province",
+              "phoneNumber": "Téléphone"
+            },
+            "shipping": {
+              "title": "Adresse de livraison",
+              "useDifferent": "Utiliser une adresse différente pour la livraison ?",
+              "description": "Modifiez les informations de livraison si elles diffèrent de votre facturation.",
+              "firstName": "Prénom",
+              "lastName": "Nom",
+              "company": "Entreprise (facultatif)",
+              "street": "Adresse",
+              "city": "Ville",
+              "postcode": "Code postal",
+              "country": "Pays",
+              "province": "État / Province",
+              "phoneNumber": "Téléphone"
+            }
+          },
+          "actions": {
+            "back": "Retour à la boutique",
+            "goToShipping": "Aller à la livraison",
+            "next": "Enregistrer et continuer"
+          },
+          "status": {
+            "success": "Vos adresses ont été enregistrées avec succès.",
+            "error": "Impossible d'enregistrer vos adresses. Veuillez réessayer."
+          },
+          "summary": {
+            "title": "Récapitulatif de commande",
+            "orderError": "Impossible de charger les totaux de la commande. Les montants affichés peuvent être indicatifs.",
+            "itemsTotal": "Total des articles",
+            "discount": "Réductions",
+            "shipping": "Livraison estimée",
+            "taxes": "Taxes",
+            "total": "Total de la commande",
+            "itemsLabel": "{count} articles",
+            "confirmationTitle": "Adresses enregistrées",
+            "billingSaved": "Adresse de facturation enregistrée",
+            "shippingSaved": "Adresse de livraison enregistrée"
+          }
+        },
+        "shipping": {
+          "meta": {
+            "title": "Commande · Livraison"
+          },
+          "headline": {
+            "step": "Étape {step} sur 4",
+            "title": "Choisissez votre mode de livraison",
+            "subtitle": "Sélectionnez comment nous devons vous livrer votre commande."
+          },
+          "notifications": {
+            "success": "Le mode de livraison a été mis à jour avec succès.",
+            "error": "Nous n'avons pas pu mettre à jour le mode de livraison. Veuillez réessayer.",
+            "missingOrder": "Impossible de trouver le jeton de commande. Fournissez un jeton pour continuer."
+          },
+          "sections": {
+            "title": "Options de livraison",
+            "subtitle": "Consultez les options de livraison disponibles pour chaque expédition.",
+            "changeAddress": "Modifier l'adresse",
+            "orderError": "Impossible de charger les détails de la commande. Les coûts de livraison peuvent être obsolètes.",
+            "empty": "Aucune expédition n'est disponible pour cette commande pour le moment.",
+            "noMethods": "Aucune méthode d'expédition n'est disponible pour cette expédition.",
+            "loadError": "Impossible de charger les méthodes de livraison. Veuillez réessayer.",
+            "retry": "Réessayer"
+          },
+          "shipmentTitle": "Expédition #{index}",
+          "shipmentHint": "Sélectionnez une option de livraison pour cette expédition.",
+          "actions": {
+            "back": "Retour à l'adresse",
+            "next": "Continuer vers le paiement"
+          },
+          "labels": {
+            "unavailable": "—"
+          },
+          "fallbacks": {
+            "methodLabel": "Méthode d'expédition"
+          }
         }
       },
       "settings": {
@@ -3072,6 +3187,125 @@
         "backPrompt": "Se souvenir de votre mot de passe ?",
         "backCta": "Retour à la connexion"
       }
+    },
+    "ecommerce": {
+      "actions": {
+        "goToCheckout": "Aller au paiement"
+      }
+    },
+    "ecommerceCheckout": {
+      "address": {
+        "meta": {
+          "title": "Paiement · Adresse"
+        },
+        "headline": {
+          "step": "Étape {step} sur 4",
+          "title": "Où devons-nous envoyer votre commande ?",
+          "subtitle": "Renseignez vos informations de facturation, nous confirmerons l'expédition ensuite."
+        },
+        "steps": {
+          "address": "Adresse",
+          "shipping": "Livraison",
+          "payment": "Paiement",
+          "complete": "Terminé"
+        },
+        "form": {
+          "validation": {
+            "required": "Ce champ est obligatoire",
+            "email": "Veuillez saisir une adresse e-mail valide"
+          },
+          "contact": {
+            "title": "Informations de contact",
+            "email": "Adresse e-mail"
+          },
+          "billing": {
+            "title": "Adresse de facturation",
+            "description": "Utilisez l'adresse associée à votre moyen de paiement préféré.",
+            "firstName": "Prénom",
+            "lastName": "Nom",
+            "company": "Entreprise (facultatif)",
+            "street": "Adresse",
+            "city": "Ville",
+            "postcode": "Code postal",
+            "country": "Pays",
+            "province": "État / Province",
+            "phoneNumber": "Téléphone"
+          },
+          "shipping": {
+            "title": "Adresse de livraison",
+            "useDifferent": "Utiliser une adresse différente pour la livraison ?",
+            "description": "Modifiez les informations de livraison si elles diffèrent de votre facturation.",
+            "firstName": "Prénom",
+            "lastName": "Nom",
+            "company": "Entreprise (facultatif)",
+            "street": "Adresse",
+            "city": "Ville",
+            "postcode": "Code postal",
+            "country": "Pays",
+            "province": "État / Province",
+            "phoneNumber": "Téléphone"
+          }
+        },
+        "actions": {
+          "back": "Retour à la boutique",
+          "goToShipping": "Aller à la livraison",
+          "next": "Enregistrer et continuer"
+        },
+        "status": {
+          "success": "Vos adresses ont été enregistrées avec succès.",
+          "error": "Impossible d'enregistrer vos adresses. Veuillez réessayer."
+        },
+        "summary": {
+          "title": "Récapitulatif de commande",
+          "orderError": "Impossible de charger les totaux de la commande. Les montants affichés peuvent être indicatifs.",
+          "itemsTotal": "Total des articles",
+          "discount": "Réductions",
+          "shipping": "Livraison estimée",
+          "taxes": "Taxes",
+          "total": "Total de la commande",
+          "itemsLabel": "{count} articles",
+          "confirmationTitle": "Adresses enregistrées",
+          "billingSaved": "Adresse de facturation enregistrée",
+          "shippingSaved": "Adresse de livraison enregistrée"
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "Commande · Livraison"
+        },
+        "headline": {
+          "step": "Étape {step} sur 4",
+          "title": "Choisissez votre mode de livraison",
+          "subtitle": "Sélectionnez comment nous devons vous livrer votre commande."
+        },
+        "notifications": {
+          "success": "Le mode de livraison a été mis à jour avec succès.",
+          "error": "Nous n'avons pas pu mettre à jour le mode de livraison. Veuillez réessayer.",
+          "missingOrder": "Impossible de trouver le jeton de commande. Fournissez un jeton pour continuer."
+        },
+        "sections": {
+          "title": "Options de livraison",
+          "subtitle": "Consultez les options de livraison disponibles pour chaque expédition.",
+          "changeAddress": "Modifier l'adresse",
+          "orderError": "Impossible de charger les détails de la commande. Les frais de livraison peuvent ne pas être à jour.",
+          "empty": "Aucune expédition n'est encore disponible pour cette commande.",
+          "noMethods": "Aucun mode de livraison n'est disponible pour cette expédition.",
+          "loadError": "Impossible de charger les modes de livraison. Veuillez réessayer.",
+          "retry": "Réessayer"
+        },
+        "shipmentTitle": "Expédition n°{index}",
+        "shipmentHint": "Choisissez une option de livraison pour cette expédition.",
+        "actions": {
+          "back": "Retour à l'adresse",
+          "next": "Continuer vers le paiement"
+        },
+        "labels": {
+          "unavailable": "—"
+        },
+        "fallbacks": {
+          "methodLabel": "Mode de livraison"
+        }
+      }
     }
   },
   "common": {
@@ -3188,6 +3422,13 @@
           "client": "Client",
           "projects": "Projets"
         }
+      }
+    },
+    "project": {
+      "tasks": {
+        "total": "Tâches",
+        "title": "Tâches du projet",
+        "noDescription": "Pas de description pour cette tâche"
       }
     },
     "notifications": {

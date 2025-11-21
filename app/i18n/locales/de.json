@@ -3030,6 +3030,125 @@
         "backPrompt": "Passwort wieder eingefallen?",
         "backCta": "Zur Anmeldung"
       }
+    },
+    "ecommerce": {
+      "actions": {
+        "goToCheckout": "Zur Kasse gehen"
+      }
+    },
+    "ecommerceCheckout": {
+      "address": {
+        "meta": {
+          "title": "Checkout · Adresse"
+        },
+        "headline": {
+          "step": "Schritt {step} von 4",
+          "title": "Wohin sollen wir Ihre Bestellung senden?",
+          "subtitle": "Geben Sie die Rechnungsadresse ein, den Versand bestätigen wir im nächsten Schritt."
+        },
+        "steps": {
+          "address": "Adresse",
+          "shipping": "Versand",
+          "payment": "Zahlung",
+          "complete": "Fertig"
+        },
+        "form": {
+          "validation": {
+            "required": "Dieses Feld ist erforderlich",
+            "email": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+          },
+          "contact": {
+            "title": "Kontaktinformationen",
+            "email": "E-Mail-Adresse"
+          },
+          "billing": {
+            "title": "Rechnungsadresse",
+            "description": "Verwenden Sie die Adresse, die mit Ihrer bevorzugten Zahlungsmethode verknüpft ist.",
+            "firstName": "Vorname",
+            "lastName": "Nachname",
+            "company": "Unternehmen (optional)",
+            "street": "Straße und Hausnummer",
+            "city": "Stadt",
+            "postcode": "Postleitzahl",
+            "country": "Land",
+            "province": "Bundesland / Provinz",
+            "phoneNumber": "Telefonnummer"
+          },
+          "shipping": {
+            "title": "Lieferadresse",
+            "useDifferent": "Andere Lieferadresse verwenden?",
+            "description": "Aktualisieren Sie die Lieferdaten, falls sie sich von der Rechnungsadresse unterscheiden.",
+            "firstName": "Vorname",
+            "lastName": "Nachname",
+            "company": "Unternehmen (optional)",
+            "street": "Straße und Hausnummer",
+            "city": "Stadt",
+            "postcode": "Postleitzahl",
+            "country": "Land",
+            "province": "Bundesland / Provinz",
+            "phoneNumber": "Telefonnummer"
+          }
+        },
+        "actions": {
+          "back": "Zurück zum Shop",
+          "goToShipping": "Zum Versand wechseln",
+          "next": "Speichern und fortfahren"
+        },
+        "status": {
+          "success": "Ihre Adressen wurden erfolgreich gespeichert.",
+          "error": "Ihre Adressen konnten nicht gespeichert werden. Bitte versuchen Sie es erneut."
+        },
+        "summary": {
+          "title": "Bestellübersicht",
+          "orderError": "Die Bestellsummen konnten nicht geladen werden. Die angezeigten Beträge sind Platzhalter.",
+          "itemsTotal": "Zwischensumme Artikel",
+          "discount": "Rabatte",
+          "shipping": "Geschätzter Versand",
+          "taxes": "Steuern",
+          "total": "Gesamtsumme",
+          "itemsLabel": "{count} Artikel",
+          "confirmationTitle": "Adressen gespeichert",
+          "billingSaved": "Rechnungsadresse gespeichert",
+          "shippingSaved": "Lieferadresse gespeichert"
+        }
+      },
+      "shipping": {
+        "meta": {
+          "title": "Checkout · Versand"
+        },
+        "headline": {
+          "step": "Schritt {step} von 4",
+          "title": "Wählen Sie Ihre Versandart",
+          "subtitle": "Wählen Sie aus, wie wir Ihre Bestellung liefern sollen."
+        },
+        "notifications": {
+          "success": "Versandart wurde erfolgreich aktualisiert.",
+          "error": "Die Versandart konnte nicht aktualisiert werden. Bitte erneut versuchen.",
+          "missingOrder": "Kein Bestell-Token gefunden. Bitte geben Sie ein Token an, um fortzufahren."
+        },
+        "sections": {
+          "title": "Versandoptionen",
+          "subtitle": "Prüfen Sie die verfügbaren Lieferoptionen für jede Sendung.",
+          "changeAddress": "Adresse ändern",
+          "orderError": "Bestelldetails konnten nicht geladen werden. Versandkosten sind eventuell veraltet.",
+          "empty": "Für diese Bestellung sind noch keine Sendungen verfügbar.",
+          "noMethods": "Für diese Sendung sind keine Versandarten verfügbar.",
+          "loadError": "Versandarten konnten nicht geladen werden. Bitte erneut versuchen.",
+          "retry": "Erneut versuchen"
+        },
+        "shipmentTitle": "Sendung #{index}",
+        "shipmentHint": "Wählen Sie eine Lieferoption für diese Sendung.",
+        "actions": {
+          "back": "Zur Adresse zurück",
+          "next": "Weiter zur Zahlung"
+        },
+        "labels": {
+          "unavailable": "—"
+        },
+        "fallbacks": {
+          "methodLabel": "Versandart"
+        }
+      }
     }
   },
   "common": {
@@ -3163,6 +3282,13 @@
       "projectNameRequired": "Project name is required.",
       "taskNameRequired": "Task name is required.",
       "documentNameRequired": "Document name is required."
+    },
+    "project": {
+      "tasks": {
+        "total": "Aufgaben",
+        "title": "Projektaufgaben",
+        "noDescription": "Keine Beschreibung für diese Aufgabe"
+      }
     }
   }
 }
