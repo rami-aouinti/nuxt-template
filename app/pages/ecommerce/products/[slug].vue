@@ -779,6 +779,82 @@ const handleAddToCart = async () => {
 
 <template>
   <v-container fluid class="product-page pa-0">
+    <client-only>
+      <teleport to="#app-drawer">
+        <div class="product-drawer">
+          <div class="animated-badge mb-2">
+            <span class="animated-badge__pulse" />
+            {{ productName || t('pages.ecommerce.fallbacks.unknownProduct') }}
+          </div>
+          <p class="text-body-2 text-medium-emphasis mb-4">
+            {{ resolveProductSummary(product || {}) || t('pages.ecommerce.fallbacks.summary') }}
+          </p>
+          <div class="d-flex align-center gap-2 mb-4">
+            <v-chip color="primary" variant="tonal">
+              {{ productPricingDisplay?.priceText || t('pages.ecommerce.fallbacks.priceUnavailable') }}
+            </v-chip>
+            <v-chip color="secondary" variant="tonal">
+              {{ t('pages.ecommerce.product.reviews.count', { count: productReviewCount }) }}
+            </v-chip>
+          </div>
+          <AppButton
+            block
+            color="primary"
+            variant="flat"
+            size="large"
+            :loading="isAddingToCart"
+            @click="handleAddToCart"
+          >
+            {{ t('pages.ecommerce.product.actions.addToCart') }}
+          </AppButton>
+        </div>
+      </teleport>
+    </client-only>
+    <client-only>
+      <teleport to="#app-drawer-right">
+        <div class="product-drawer__right">
+          <div class="animated-badge mb-2">
+            <span class="animated-badge__pulse" />
+            {{ t('pages.ecommerce.sections.latestProducts.title') }}
+          </div>
+          <p class="text-body-2 text-medium-emphasis mb-4">
+            {{ t('pages.ecommerce.sections.latestProducts.subtitle') }}
+          </p>
+          <v-slide-group direction="vertical" show-arrows class="product-drawer__slider">
+            <v-slide-group-item
+              v-for="{ product: latestProduct, route } in latestProductsWithRoutes"
+              :key="resolveProductIdentifier(latestProduct)"
+              v-slot="{ toggle }"
+            >
+              <AppCard
+                class="product-drawer__card mb-3"
+                elevation="1"
+                hover
+                @click="() => (route ? router.push(route) : toggle())"
+              >
+                <div class="d-flex align-center gap-3">
+                  <v-img
+                    :src="resolveProductImageUrl(latestProduct) || FALLBACK_PRODUCT_IMAGE"
+                    width="64"
+                    height="64"
+                    cover
+                    class="rounded"
+                  />
+                  <div class="d-flex flex-column">
+                    <h3 class="text-body-1 mb-1 font-weight-semibold">
+                      {{ resolveProductName(latestProduct) }}
+                    </h3>
+                    <p class="text-caption text-medium-emphasis mb-0">
+                      {{ resolveProductSummary(latestProduct) || t('pages.ecommerce.fallbacks.summary') }}
+                    </p>
+                  </div>
+                </div>
+              </AppCard>
+            </v-slide-group-item>
+          </v-slide-group>
+        </div>
+      </teleport>
+    </client-only>
     <section class="product-section">
       <div class="product-breadcrumbs">
         <NuxtLink
@@ -1172,11 +1248,7 @@ const handleAddToCart = async () => {
 
 <style scoped>
 .product-page {
-  background: linear-gradient(
-    160deg,
-    rgba(72, 61, 139, 0.12),
-    rgba(30, 144, 255, 0.08)
-  );
+  background: transparent;
   padding: 32px 0 80px;
 }
 
@@ -1329,11 +1401,25 @@ const handleAddToCart = async () => {
   margin-top: 24px;
 }
 
+.product-drawer,
+.product-drawer__right {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-drawer__slider {
+  max-height: 520px;
+}
+
+.product-drawer__card {
+  cursor: pointer;
+}
+
 .product-description {
   margin-top: 16px;
   padding: 16px;
   border-radius: var(--app-rounded, 18px);
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(var(--v-theme-surface), 0.9);
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
 }
 

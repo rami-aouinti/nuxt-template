@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import AppCard from '~/components/ui/AppCard.vue'
 import AppButton from '~/components/ui/AppButton.vue'
+import AppNavigationList from '~/components/AppNavigationList.vue'
 import { truncateText } from '~/utils/formatters'
 import type { ProductJsonldSyliusShopProductIndex } from '~/types/product'
 import type { TaxonJsonLdSyliusShopTaxonIndex } from '~/types/tax'
@@ -549,38 +550,99 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
     <client-only>
       <teleport to="#app-drawer">
         <div class="ecommerce-drawer">
-          <h2 class="text-h4 font-weight-bold mb-2">
+          <div class="animated-badge mb-2">
+            <span class="animated-badge__pulse" />
             {{ t('pages.ecommerce.drawer.title') }}
-          </h2>
-          <p class="text-body-1 text-medium-emphasis mb-4">
+          </div>
+          <p class="text-body-2 text-medium-emphasis mb-4">
             {{ t('pages.ecommerce.drawer.subtitle') }}
           </p>
-          <div class="d-flex align-center gap-2 flex-wrap">
-            <v-chip color="primary" variant="tonal" class="mr-2" size="large">
-              {{
-                t('pages.ecommerce.drawer.metrics.products', {
-                  count: filteredProducts.length,
-                })
-              }}
-            </v-chip>
-            <v-chip color="secondary" variant="tonal" size="large">
+          <AppNavigationList
+            :items="categories.map((category) => ({
+              value: category.code ?? 'all',
+              label: category.label,
+              to:
+                category.code && category.code !== 'all'
+                  ? localePath({
+                      name: 'ecommerce-category-slug',
+                      params: { slug: category.code },
+                    })
+                  : productsListRoute,
+              icon:
+                activeCategory === category.code || (!category.code && !activeCategory)
+                  ? 'mdi-star-four-points'
+                  : 'mdi-shape',
+            }))"
+            class="mb-4"
+          >
+            <template #description>
               {{
                 t('pages.ecommerce.drawer.metrics.categories', {
                   count: Math.max(categories.length - 1, 0),
                 })
               }}
-            </v-chip>
-          </div>
+            </template>
+          </AppNavigationList>
           <AppButton
-            class="mt-4"
+            block
             color="primary"
-            variant="tonal"
+            variant="flat"
             size="large"
             :loading="anyPending"
             @click="refreshAll"
           >
             {{ t('pages.ecommerce.actions.refresh') }}
           </AppButton>
+        </div>
+      </teleport>
+    </client-only>
+    <client-only>
+      <teleport to="#app-drawer-right">
+        <div class="ecommerce-drawer__right">
+          <div class="animated-badge mb-2">
+            <span class="animated-badge__pulse" />
+            {{ t('pages.ecommerce.sections.latestProducts.title') }}
+          </div>
+          <p class="text-body-2 text-medium-emphasis mb-4">
+            {{ t('pages.ecommerce.sections.latestProducts.subtitle') }}
+          </p>
+          <v-slide-group
+            v-model="activeCategory"
+            direction="vertical"
+            show-arrows
+            class="ecommerce-latest__slider"
+          >
+            <v-slide-group-item
+              v-for="{ product, route } in latestProductsWithRoutes"
+              :key="resolveProductIdentifier(product)"
+              v-slot="{ toggle }"
+            >
+              <AppCard
+                class="ecommerce-latest__card mb-3"
+                elevation="1"
+                hover
+                @click="() => (route ? router.push(route) : toggle())"
+              >
+                <div class="d-flex align-center gap-3">
+                  <v-img
+                    :src="resolveProductImageUrl(product) || FALLBACK_PRODUCT_IMAGE"
+                    width="64"
+                    height="64"
+                    cover
+                    class="rounded"
+                  />
+                  <div class="d-flex flex-column">
+                    <h3 class="text-body-1 mb-1 font-weight-semibold">
+                      {{ resolveProductName(product) }}
+                    </h3>
+                    <p class="text-caption text-medium-emphasis mb-0">
+                      {{ resolveProductSummary(product) || t('pages.ecommerce.fallbacks.summary') }}
+                    </p>
+                  </div>
+                </div>
+              </AppCard>
+            </v-slide-group-item>
+          </v-slide-group>
         </div>
       </teleport>
     </client-only>
@@ -903,16 +965,25 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
 
 <style scoped>
 .ecommerce-page {
-  background: linear-gradient(
-    180deg,
-    rgba(248, 248, 255, 0.9),
-    rgba(238, 241, 255, 0.9)
-  );
+  background: transparent;
 }
 
 .ecommerce-drawer {
   display: flex;
   flex-direction: column;
+}
+
+.ecommerce-drawer__right {
+  display: flex;
+  flex-direction: column;
+}
+
+.ecommerce-latest__slider {
+  max-height: 460px;
+}
+
+.ecommerce-latest__card {
+  cursor: pointer;
 }
 
 .ecommerce-hero {
@@ -1033,8 +1104,8 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
   flex-direction: column;
   gap: 16px;
   padding: 16px;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(6px);
+  background: rgba(var(--v-theme-surface), 0.9);
+  backdrop-filter: blur(4px);
 }
 
 .ecommerce-product-card__link {

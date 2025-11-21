@@ -673,17 +673,13 @@ useHead(() => ({
 
 <style scoped lang="scss">
 .ecommerce-category-page {
-  background-color: rgb(var(--v-theme-surface));
+  background-color: transparent;
   min-height: 100vh;
 }
 
 .category-hero {
   padding: clamp(32px, 8vw, 72px) clamp(16px, 6vw, 72px);
-  background: linear-gradient(
-    135deg,
-    rgba(38, 93, 214, 0.12),
-    rgba(133, 193, 233, 0.08)
-  );
+  background: transparent;
 }
 
 .category-breadcrumbs {

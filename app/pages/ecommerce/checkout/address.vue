@@ -848,28 +848,14 @@ const submit = async () => {
 .checkout-address-page {
   position: relative;
   min-height: 100%;
-  background: linear-gradient(
-    120deg,
-    rgba(111, 66, 193, 0.1),
-    rgba(59, 130, 246, 0.12)
-  );
+  background: transparent;
   padding-block: 3rem;
 }
 
 .checkout-address-page__background {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(
-      circle at top right,
-      rgba(59, 130, 246, 0.2),
-      transparent 45%
-    ),
-    radial-gradient(
-      circle at bottom left,
-      rgba(236, 72, 153, 0.18),
-      transparent 45%
-    );
+  background: transparent;
   pointer-events: none;
 }
 
