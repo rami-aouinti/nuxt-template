@@ -155,14 +155,14 @@ const typeLabel = (itemType?: AdminListItem['type']) => {
             Accédez rapidement aux autres cartes d'administration et à leurs endpoints dédiés.
           </p>
           <v-list density="compact">
-            <v-list-item
-              v-for="category in otherCategories"
-              :key="category.key"
-              :title="category.title"
-              :subtitle="category.description"
-              :to="{ name: 'education-administration-category', params: { category: category.key } }"
-              :prepend-icon="category.icon"
-            >
+          <v-list-item
+            v-for="category in otherCategories"
+            :key="category.key"
+            :title="category.title"
+            :subtitle="category.description"
+            :to="localePath({ name: `education-administration-${category.key}` })"
+            :prepend-icon="category.icon"
+          >
               <template #append>
                 <v-chip color="primary" variant="tonal" size="x-small" label>
                   {{ category.items.length }}

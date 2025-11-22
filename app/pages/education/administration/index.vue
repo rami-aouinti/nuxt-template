@@ -16,6 +16,7 @@ definePageMeta({
 })
 
 const { t } = useI18n()
+const localePath = useLocalePath()
 const { navLinks } = useEducationNavigation()
 const { categories } = useEducationAdministrationData()
 
@@ -54,6 +55,8 @@ const typeLabel = (itemType?: AdminListItem['type']) => {
   if (itemType === 'api') return 'API'
   return 'Page'
 }
+
+const categoryRoute = (key: string) => localePath({ name: `education-administration-${key}` })
 </script>
 
 <template>
@@ -154,7 +157,7 @@ const typeLabel = (itemType?: AdminListItem['type']) => {
                   size="small"
                   variant="text"
                   color="primary"
-                  :to="{ name: 'education-administration-category', params: { category: category.key } }"
+                  :to="categoryRoute(category.key)"
                   prepend-icon="mdi-eye-arrow-right"
                 >
                   Voir la page

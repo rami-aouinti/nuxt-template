@@ -2178,12 +2178,33 @@
         }
       },
       "actions": {
-        "visit": "Visit endpoint"
+        "visit": "Visit endpoint",
+        "back": "Back",
+        "backToOverview": "Back to overview"
       },
       "myCourses": {
         "badge": "My learning space",
         "title": "Review and manage your courses",
         "subtitle": "Follow every enrollment, check completion progress, and download your certificates.",
+        "pages": {
+          "catalogue": "Enrolled course catalog",
+          "progress": "Progress dashboard",
+          "certificates": "Certificates",
+          "notifications": "Notifications",
+          "assignments": "Assignments",
+          "feedback": "Feedback and surveys",
+          "exams": "Quizzes and exams",
+          "documents": "Manuals and resources",
+          "calendar": "Agenda",
+          "groups": "Groups",
+          "forums": "Forums",
+          "messages": "Direct messages",
+          "profile": "Profile and preferences",
+          "selfEnroll": "Self-enrollment",
+          "export": "Export my history",
+          "settings": "Accessibility and security",
+          "empty": "No endpoint found"
+        },
         "endpoints": {
           "catalog": "Enrolled courses",
           "catalogDescription": "See every course you are taking at education.bro-world.org/my-courses.",
@@ -2254,27 +2275,47 @@
           "learners": "Learners",
           "learnersDescription": "Monitor enrollments, cohorts, and learner status."
         },
-        "governance": {
-          "title": "Governance endpoints",
-          "description": "Compliance, analytics, and integrations for administrators.",
-          "compliance": "Compliance",
-          "complianceDescription": "Audit logs, access controls, and certifications.",
-          "analytics": "Analytics",
-          "analyticsDescription": "Adoption reporting and engagement dashboards.",
-          "integrations": "Integrations",
-          "integrationsDescription": "Connect LMS data with external systems."
-        },
-        "accessUrls": {
-          "title": "Access URLs",
-          "subtitle": "Latest access endpoints configured in the education platform.",
-          "countSuffix": "entries",
-          "error": "Could not load access URLs from the API.",
-          "noDescription": "No description provided.",
-          "active": "Active",
-          "inactive": "Inactive",
-          "empty": "No access URLs were returned."
-        }
+      "governance": {
+        "title": "Governance endpoints",
+        "description": "Compliance, analytics, and integrations for administrators.",
+        "compliance": "Compliance",
+        "complianceDescription": "Audit logs, access controls, and certifications.",
+        "analytics": "Analytics",
+        "analyticsDescription": "Adoption reporting and engagement dashboards.",
+        "integrations": "Integrations",
+        "integrationsDescription": "Connect LMS data with external systems."
       },
+      "categories": {
+        "users": { "title": "User management board" },
+        "courses": { "title": "Course operations board" },
+        "sessions": { "title": "Sessions and paths board" },
+        "platform": { "title": "Platform configuration board" },
+        "skills": { "title": "Skills and catalog board" },
+        "system": { "title": "System tools board" },
+        "security": { "title": "Security controls board" },
+        "chamilo": { "title": "Chamilo connectors board" },
+        "health": { "title": "Platform health board" }
+      },
+      "table": {
+        "endpoint": "Endpoint",
+        "type": "Type",
+        "description": "Description",
+        "links": "links",
+        "form": "Form",
+        "page": "Page",
+        "empty": "No endpoints available for this section."
+      },
+      "accessUrls": {
+        "title": "Access URLs",
+        "subtitle": "Latest access endpoints configured in the education platform.",
+        "countSuffix": "entries",
+        "error": "Could not load access URLs from the API.",
+        "noDescription": "No description provided.",
+        "active": "Active",
+        "inactive": "Inactive",
+        "empty": "No access URLs were returned."
+      }
+    },
       "notifications": {
         "featuredError": "Unable to load featured courses right now.",
         "noFeatured": "No featured courses are available yet."

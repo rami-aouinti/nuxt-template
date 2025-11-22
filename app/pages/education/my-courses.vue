@@ -95,26 +95,16 @@ const learningTools = computed(() => endpointGroups.value.find((group) => group.
                 {{ t('pages.education.myCourses.subtitle') }}
               </p>
             </div>
-            <div class="d-flex align-center gap-2">
-              <v-btn
-                variant="tonal"
-                color="primary"
-                prepend-icon="mdi-database-arrow-right"
-                :to="localePath('education-my-courses-endpoints')"
-              >
-                Tous les endpoints
-              </v-btn>
-              <v-btn
-                variant="text"
-                color="primary"
-                prepend-icon="mdi-open-in-new"
-                :href="baseUrl"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Ouvrir la plateforme
-              </v-btn>
-            </div>
+            <v-btn
+              variant="text"
+              color="primary"
+              prepend-icon="mdi-open-in-new"
+              :href="baseUrl"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Ouvrir la plateforme
+            </v-btn>
           </div>
           <p class="text-body-1 text-medium-emphasis mt-4 mb-0">
             Explorez vos cours inscrits et les raccourcis liés. Retrouvez l'intégralité des endpoints dans la page dédiée.
@@ -126,12 +116,10 @@ const learningTools = computed(() => endpointGroups.value.find((group) => group.
               :title="endpoint.title"
               :subtitle="endpoint.description"
               :prepend-icon="endpoint.icon"
-              :href="endpoint.href"
-              target="_blank"
-              rel="noreferrer"
+              :to="localePath({ name: `education-my-courses-${endpoint.slug}` })"
             >
               <template #append>
-                <v-icon icon="mdi-open-in-new" size="18" />
+                <v-icon icon="mdi-arrow-right" size="18" />
               </template>
             </v-list-item>
           </v-list>
