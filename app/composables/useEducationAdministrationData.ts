@@ -8,6 +8,9 @@ export type AdminListItem = {
   icon?: string
   type?: 'page' | 'api' | 'form'
   description?: string
+  apiPath?: string
+  columns?: { key: string; label?: string; i18nKey?: string }[]
+  mockData?: Record<string, unknown>[]
 }
 
 export type AdminCategory = {
@@ -40,6 +43,37 @@ export const useEducationAdministrationData = () => {
           icon: 'mdi-format-list-bulleted',
           type: 'page',
           description: 'Browse, search, and filter all existing user profiles.',
+          apiPath: 'users',
+          columns: [
+            { key: 'id', i18nKey: 'pages.education.administration.users.columns.id' },
+            { key: 'username', i18nKey: 'pages.education.administration.users.columns.username' },
+            { key: 'email', i18nKey: 'pages.education.administration.users.columns.email' },
+            { key: 'status', i18nKey: 'pages.education.administration.users.columns.status' },
+            { key: 'role', i18nKey: 'pages.education.administration.users.columns.role' },
+          ],
+          mockData: [
+            {
+              id: 101,
+              username: 'aurore.dupont',
+              email: 'aurore.dupont@example.com',
+              status: 'Active',
+              role: 'Trainer',
+            },
+            {
+              id: 102,
+              username: 'ines.kassab',
+              email: 'ines.kassab@example.com',
+              status: 'Pending',
+              role: 'Learner',
+            },
+            {
+              id: 103,
+              username: 'ahmed.nabil',
+              email: 'ahmed.nabil@example.com',
+              status: 'Suspended',
+              role: 'Manager',
+            },
+          ],
         },
         {
           label: 'Add a user',
@@ -619,7 +653,7 @@ export const useEducationAdministrationData = () => {
         },
       ],
     },
-  ];
+  ])
 
   const categories = computed<AdminCategory[]>(() =>
     definitions.map((category) => ({

@@ -2305,6 +2305,21 @@
         "page": "Page",
         "empty": "No endpoints available for this section."
       },
+      "data": {
+        "title": "Latest data",
+        "subtitle": "Pulled directly from the selected administration endpoint.",
+        "fallback": "Live data could not be loaded; showing cached or sample records instead.",
+        "empty": "No records found for this endpoint yet."
+      },
+      "users": {
+        "columns": {
+          "id": "ID",
+          "username": "Username",
+          "email": "Email",
+          "status": "Status",
+          "role": "Role"
+        }
+      },
       "accessUrls": {
         "title": "Access URLs",
         "subtitle": "Latest access endpoints configured in the education platform.",

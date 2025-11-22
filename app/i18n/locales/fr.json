@@ -3417,6 +3417,21 @@
           "page": "Page",
           "empty": "Aucun endpoint disponible pour cette section."
         },
+        "data": {
+          "title": "Dernières données",
+          "subtitle": "Récupérées directement depuis le point d'administration sélectionné.",
+          "fallback": "Impossible de charger les données en direct ; affichage de données en cache ou d'exemple.",
+          "empty": "Aucun enregistrement trouvé pour le moment."
+        },
+        "users": {
+          "columns": {
+            "id": "ID",
+            "username": "Nom d'utilisateur",
+            "email": "Email",
+            "status": "Statut",
+            "role": "Rôle"
+          }
+        },
         "accessUrls": {
           "title": "Access URLs",
           "subtitle": "Latest access endpoints configured in the education platform.",
