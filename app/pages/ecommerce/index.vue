@@ -518,7 +518,7 @@ const refreshAll = async () => {
 const resolveProductPricingDisplay = (
   product: ProductJsonldSyliusShopProductIndex,
 ) => {
-  const pricing = resolveProductPricing(product)
+  const pricing = item?.defaultVariantData
   if (!pricing || pricing.price == null) {
     return null
   }

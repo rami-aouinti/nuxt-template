@@ -60,7 +60,7 @@ type HydraCollection<T> = {
 
 const fetchProduct = () =>
   $fetch<ProductJsonldSyliusShopProductShow>(
-    `/api/v2/shop/products-by-slug/${encodeURIComponent(slug.value)}`,
+    `/api/ecommerce/v2/shop/products-by-slug/${encodeURIComponent(slug.value)}`,
     {
       headers: {
         'Accept-Language': locale.value,
@@ -70,7 +70,7 @@ const fetchProduct = () =>
 
 const fetchChannels = () =>
   $fetch<HydraCollection<ChannelJsonLdSyliusShopChannelIndex>>(
-    '/api/v2/shop/channels',
+    '/api/ecommerce/v2/shop/channels',
     {
       headers: {
         'Accept-Language': locale.value,
@@ -80,7 +80,7 @@ const fetchChannels = () =>
 
 const fetchLatestProducts = () =>
   $fetch<HydraCollection<ProductJsonldSyliusShopProductIndex>>(
-    '/api/v2/shop/products',
+    '/api/ecommerce/v2/shop/products',
     {
       query: {
         itemsPerPage: 6,
@@ -297,7 +297,7 @@ const resolveProductPricingDisplay = (
     | ProductJsonldSyliusShopProductIndex
     | ProductJsonldSyliusShopProductShow,
 ) => {
-  const pricing = resolveProductPricing(item)
+  const pricing = item?.defaultVariantData
   if (!pricing) {
     return null
   }
@@ -1596,7 +1596,7 @@ const handleAddToCart = async () => {
                   v-if="resolveProductPricingDisplay(latestProduct)"
                   class="product-related-card__price"
                 >
-                  {{ resolveProductPricingDisplay(latestProduct)?.priceText }}
+                  {{ resolveProductPricingDisplay(latestProduct)?.price }}
                 </div>
               </div>
             </AppCard>
