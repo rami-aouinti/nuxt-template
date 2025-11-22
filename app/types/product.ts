@@ -71,6 +71,11 @@ export interface ProductImageInterfaceJsonLd extends ProductImageInterface {
   '@type'?: string
 }
 
+export interface ProductImageVariantLink {
+  imageId: number
+  variantId: number
+}
+
 export interface ProductVariantTranslationSummary {
   id?: number
   name: string | null
@@ -106,6 +111,11 @@ export interface ProductChannel {
   updatedAt: string | null
   enabled: boolean
   id: number
+}
+
+export interface ProductChannelAssignment {
+  productId: number
+  channelId: number
 }
 
 export interface ProductVariantChannelPricingPromotion {

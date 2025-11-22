@@ -5,8 +5,8 @@ export interface ModelPaymentRequest {
   hash?: string | null
   state?: string
   action?: string
-  payload?: Record<string, unknown>
-  responseData?: Array<string | null>
+  payload?: Record<string, unknown> | Array<unknown> | string | null
+  responseData?: Record<string, unknown> | Array<unknown> | null
   payment?: string
   method?: string
   createdAt?: string
@@ -19,7 +19,7 @@ export interface ModelPaymentInterface {
   state: string
   currencyCode: string
   amount: number
-  details?: Array<string | null>
+  details?: Record<string, unknown> | Array<unknown> | null
   paymentRequests?: ModelPaymentRequest[]
   createdAt?: string
   updatedAt?: string | null

@@ -116,6 +116,11 @@ export interface PromotionCouponGeneratePayload {
   usageLimit?: number | null
 }
 
+export interface PromotionOrderAssignment {
+  orderId: number
+  promotionId: number
+}
+
 export interface PromotionCouponInterface {
   usageLimit: number | null
   used: number
