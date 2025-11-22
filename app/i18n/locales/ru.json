@@ -3210,6 +3210,45 @@
           "methodLabel": "Способ доставки"
         }
       }
+    },
+    "education": {
+      "notifications": {
+        "featuredError": "Unable to load featured courses right now.",
+        "noFeatured": "No featured courses are available yet."
+      },
+      "myCourses": {
+        "latest": {
+          "title": "Latest course data",
+          "subtitle": "Pulled directly from the education API endpoints.",
+          "error": "We could not load your enrollments; showing whatever is publicly available.",
+          "noDescription": "No course description provided yet.",
+          "language": "Language:",
+          "visibility": "Visibility:",
+          "private": "Private",
+          "public": "Public",
+          "empty": "No courses are available yet."
+        }
+      },
+      "explore": {
+        "notifications": {
+          "trendingError": "Trending courses could not be loaded.",
+          "noTrending": "No trending courses were returned.",
+          "categoryError": "Categories could not be loaded right now.",
+          "noCategories": "No categories available."
+        }
+      },
+      "administration": {
+        "accessUrls": {
+          "title": "Access URLs",
+          "subtitle": "Latest access endpoints configured in the education platform.",
+          "countSuffix": "entries",
+          "error": "Could not load access URLs from the API.",
+          "noDescription": "No description provided.",
+          "active": "Active",
+          "inactive": "Inactive",
+          "empty": "No access URLs were returned."
+        }
+      }
     }
   },
   "common": {
