@@ -78,12 +78,24 @@ function isCachedTokenValid(cache: TokenCache) {
 }
 
 function resolveToken(session: unknown) {
-  if (!session || typeof session !== 'object' || !('token' in session)) {
+  if (!session || typeof session !== 'object') {
     return null
   }
 
-  const value = (session as { token?: unknown }).token
-  return typeof value === 'string' && value.trim().length > 0 ? value : null
+  const { educationToken, token } = session as {
+    educationToken?: unknown
+    token?: unknown
+  }
+
+  if (typeof educationToken === 'string' && educationToken.trim().length > 0) {
+    return educationToken
+  }
+
+  if (typeof token === 'string' && token.trim().length > 0) {
+    return token
+  }
+
+  return null
 }
 
 async function resolveServiceAuthorization(

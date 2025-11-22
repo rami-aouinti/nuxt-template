@@ -4,6 +4,7 @@ import { persistProfileState } from '../../utils/cache/profile'
 import { scheduleProfileCacheWarmup } from '../../utils/cache/profile-warmup'
 import { ensureDefaultProfileConfigurations } from '../../utils/profileConfiguration'
 import { toSessionPayload } from './_shared'
+import { useRuntimeConfig } from '#imports'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<{ username?: string; password?: string }>(event)
@@ -25,7 +26,36 @@ export default defineEventHandler(async (event) => {
       },
     )
 
-    await setUserSession(event, toSessionPayload(data))
+    const runtimeConfig = useRuntimeConfig(event)
+    const educationBaseUrl =
+      runtimeConfig.public?.educationApiBaseUrl ||
+      runtimeConfig.educationApiBaseUrl ||
+      'https://education.bro-world.org'
+
+    let educationToken: string | undefined
+
+    try {
+      const { token } = await $fetch<{ token: string }>(
+        `${educationBaseUrl.replace(/\/+$/, '')}/api/authentication_token`,
+        {
+          method: 'POST',
+          headers: {
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: {
+            username: body.username,
+            password: body.password,
+          },
+        },
+      )
+
+      educationToken = token
+    } catch (error) {
+      console.error('Failed to fetch education token after login', error)
+    }
+
+    await setUserSession(event, toSessionPayload(data, { educationToken }))
 
     await persistProfileState(event, data.profile)
 
