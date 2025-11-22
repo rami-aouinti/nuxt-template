@@ -11,6 +11,23 @@ import { cacheGet, cacheSet } from '../../utils/cache'
 
 const EDUCATION_API_BASE_URL = 'https://education.bro-world.org'
 const EDUCATION_CACHE_PREFIX = 'education-api'
+const TOKEN_EXPIRY_BUFFER_MS = 30_000
+
+type EducationAuthConfig = {
+  token?: string
+  username?: string
+  password?: string
+}
+
+type TokenCache = {
+  token: string | null
+  expiresAt: number | null
+}
+
+const serviceTokenCache: TokenCache = {
+  token: null,
+  expiresAt: null,
+}
 
 function createCacheKey(
   path: string,
@@ -31,6 +48,35 @@ function joinPath(segments?: string | string[]) {
   return Array.isArray(segments) ? segments.filter(Boolean).join('/') : segments
 }
 
+function parseJwtExpiry(token: string) {
+  try {
+    const [, payload] = token.split('.')
+    if (!payload) {
+      return null
+    }
+
+    const decoded = JSON.parse(Buffer.from(payload, 'base64').toString('utf8'))
+    const exp = decoded?.exp
+
+    return typeof exp === 'number' ? exp * 1000 : null
+  } catch (error) {
+    console.error('Failed to parse education token expiry', error)
+    return null
+  }
+}
+
+function isCachedTokenValid(cache: TokenCache) {
+  if (!cache.token) {
+    return false
+  }
+
+  if (!cache.expiresAt) {
+    return true
+  }
+
+  return cache.expiresAt - TOKEN_EXPIRY_BUFFER_MS > Date.now()
+}
+
 function resolveToken(session: unknown) {
   if (!session || typeof session !== 'object' || !('token' in session)) {
     return null
@@ -40,7 +86,60 @@ function resolveToken(session: unknown) {
   return typeof value === 'string' && value.trim().length > 0 ? value : null
 }
 
-function resolveAuthorization(event: H3Event, session: unknown) {
+async function resolveServiceAuthorization(
+  runtimeConfig: { educationApiAuth?: EducationAuthConfig },
+  educationBaseUrl: string,
+) {
+  const authConfig = runtimeConfig.educationApiAuth || {}
+  const envToken = authConfig.token?.trim()
+
+  if (envToken) {
+    return `Bearer ${envToken}`
+  }
+
+  if (isCachedTokenValid(serviceTokenCache)) {
+    return `Bearer ${serviceTokenCache.token}`
+  }
+
+  const username = authConfig.username?.trim()
+  const password = authConfig.password?.trim()
+
+  if (!username || !password) {
+    return null
+  }
+
+  const { token } = await $fetch<{ token: string }>(
+    `${educationBaseUrl.replace(/\/+$/, '')}/api/authentication_token`,
+    {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: { username, password },
+    },
+  )
+
+  serviceTokenCache.token = token
+  serviceTokenCache.expiresAt = parseJwtExpiry(token)
+
+  return token ? `Bearer ${token}` : null
+}
+
+async function resolveAuthorization(
+  event: H3Event,
+  session: unknown,
+  runtimeConfig: { educationApiAuth?: EducationAuthConfig },
+  educationBaseUrl: string,
+) {
+  const serviceAuthorization = await resolveServiceAuthorization(
+    runtimeConfig,
+    educationBaseUrl,
+  )
+  if (serviceAuthorization) {
+    return serviceAuthorization
+  }
+
   const token = resolveToken(session)
   if (token) {
     return `Bearer ${token}`
@@ -78,7 +177,12 @@ export default defineEventHandler(async (event) => {
     runtimeConfig.public?.educationApiBaseUrl ||
     runtimeConfig.educationApiBaseUrl ||
     EDUCATION_API_BASE_URL
-  const authorization = resolveAuthorization(event, session)
+  const authorization = await resolveAuthorization(
+    event,
+    session,
+    runtimeConfig,
+    educationBaseUrl,
+  )
   const acceptLanguage =
     getHeader(event, 'accept-language') ||
     parseCookies(event)?.i18n_redirected ||
