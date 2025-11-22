@@ -518,7 +518,7 @@ const refreshAll = async () => {
 const resolveProductPricingDisplay = (
   product: ProductJsonldSyliusShopProductIndex,
 ) => {
-  const pricing = item?.defaultVariantData
+  const pricing = product?.defaultVariantData
   if (!pricing || pricing.price == null) {
     return null
   }
@@ -814,7 +814,7 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
                 <div class="ecommerce-product-card__pricing">
                   <template v-if="resolveProductPricingDisplay(product)">
                     <span class="ecommerce-product-card__price">
-                      {{ resolveProductPricingDisplay(product)?.priceText }}
+                      {{ resolveProductPricingDisplay(product)?.price }}
                     </span>
                     <span
                       v-if="resolveProductPricingDisplay(product)?.originalText"

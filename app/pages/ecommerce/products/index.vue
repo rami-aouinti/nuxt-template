@@ -213,7 +213,7 @@ const priceFormatter = computed(() => {
 const resolveProductPricingDisplay = (
   product: ProductJsonldSyliusShopProductIndex,
 ) => {
-  const pricing = resolveProductPricing(product)
+  const pricing = product?.defaultVariantData
   if (!pricing) {
     return null
   }
