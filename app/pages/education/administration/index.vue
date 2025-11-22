@@ -57,6 +57,13 @@ const typeLabel = (itemType?: AdminListItem['type']) => {
 }
 
 const categoryRoute = (key: string) => localePath({ name: `education-administration-${key}` })
+const endpointRoute = (categoryKey: string, endpointSlug?: string) =>
+  endpointSlug
+    ? localePath({
+        name: 'education-administration-category-endpoint',
+        params: { category: categoryKey, endpoint: endpointSlug },
+      })
+    : ''
 </script>
 
 <template>
@@ -170,9 +177,7 @@ const categoryRoute = (key: string) => localePath({ name: `education-administrat
                 v-for="item in category.items"
                 :key="item.label"
                 :title="item.label"
-                :href="item.href"
-                target="_blank"
-                rel="noreferrer"
+                :to="endpointRoute(category.key, item.slug)"
               >
                 <template #prepend>
                   <v-avatar color="transparent" size="32">
@@ -180,15 +185,27 @@ const categoryRoute = (key: string) => localePath({ name: `education-administrat
                   </v-avatar>
                 </template>
                 <template #append>
-                  <v-chip
-                    color="primary"
-                    variant="tonal"
-                    size="x-small"
-                    class="text-uppercase font-weight-medium"
-                    label
-                  >
-                    {{ typeLabel(item.type) }}
-                  </v-chip>
+                  <div class="d-flex align-center gap-2">
+                    <v-chip
+                      color="primary"
+                      variant="tonal"
+                      size="x-small"
+                      class="text-uppercase font-weight-medium"
+                      label
+                    >
+                      {{ typeLabel(item.type) }}
+                    </v-chip>
+                    <v-btn
+                      :href="item.href"
+                      target="_blank"
+                      rel="noreferrer"
+                      size="x-small"
+                      variant="text"
+                      color="primary"
+                      icon="mdi-open-in-new"
+                      :aria-label="`Open ${item.label}`"
+                    />
+                  </div>
                 </template>
               </v-list-item>
             </v-list>

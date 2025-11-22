@@ -4,6 +4,7 @@ import { EDUCATION_BASE_URL } from '~/composables/useEducationNavigation'
 export type AdminListItem = {
   label: string
   href: string
+  slug?: string
   icon?: string
   type?: 'page' | 'api' | 'form'
   description?: string
@@ -19,7 +20,13 @@ export type AdminCategory = {
 }
 
 export const useEducationAdministrationData = () => {
-  const categories = computed<AdminCategory[]>(() => [
+  const slugify = (label: string) =>
+    label
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '')
+
+  const definitions: AdminCategory[] = [
     {
       key: 'users',
       title: 'User management',
@@ -614,8 +621,21 @@ export const useEducationAdministrationData = () => {
     },
   ])
 
+  const categories = computed<AdminCategory[]>(() =>
+    definitions.map((category) => ({
+      ...category,
+      items: category.items.map((item) => ({
+        ...item,
+        slug: item.slug || slugify(item.label),
+      })),
+    })),
+  )
+
   const findCategory = (key: string) =>
     categories.value.find((category) => category.key === key)
 
-  return { categories, findCategory }
+  const findEndpoint = (categoryKey: string, endpointSlug: string) =>
+    findCategory(categoryKey)?.items.find((item) => item.slug === endpointSlug)
+
+  return { categories, findCategory, findEndpoint }
 }

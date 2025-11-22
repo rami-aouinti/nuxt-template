@@ -7,6 +7,7 @@ import { useEducationAdministrationData } from '~/composables/useEducationAdmini
 const props = defineProps<{ categoryKey: string }>()
 
 const { t } = useI18n()
+const localePath = useLocalePath()
 const { findCategory } = useEducationAdministrationData()
 
 const category = computed<AdminCategory | undefined>(() => findCategory(props.categoryKey))
@@ -66,16 +67,27 @@ const rows = computed(() =>
                 <v-icon :icon="item.raw.icon || category?.icon" :color="category?.color || 'primary'" />
               </v-avatar>
               <div class="d-flex flex-column">
-                <span class="font-weight-medium">{{ item.raw.label }}</span>
-                <a
-                  class="text-caption text-primary"
+                <NuxtLink
+                  class="font-weight-medium text-decoration-none"
+                  :to="localePath({
+                    name: 'education-administration-category-endpoint',
+                    params: { category: category?.key, endpoint: item.raw.slug },
+                  })"
+                >
+                  {{ item.raw.label }}
+                </NuxtLink>
+                <v-btn
                   :href="item.raw.href"
                   target="_blank"
                   rel="noreferrer"
+                  size="x-small"
+                  variant="text"
+                  color="primary"
+                  class="px-0 justify-start"
                 >
                   {{ t('pages.education.actions.visit') }}
                   <v-icon icon="mdi-open-in-new" size="14" class="ms-1" />
-                </a>
+                </v-btn>
               </div>
             </div>
           </template>
