@@ -160,6 +160,17 @@ export const useEducationAdministrationData = () => {
           icon: 'mdi-format-list-bulleted',
           type: 'page',
           description: 'View all courses with quick filters.',
+          apiPath: 'courses',
+          columns: [
+            { key: 'id', label: 'ID' },
+            { key: 'title', label: 'Title' },
+            { key: 'code', label: 'Code' },
+            { key: 'status', label: 'Status' },
+          ],
+          mockData: [
+            { id: 501, title: 'Leadership Essentials', code: 'LEAD-101', status: 'Published' },
+            { id: 502, title: 'Data Literacy', code: 'DATA-200', status: 'Draft' },
+          ],
         },
         {
           label: 'Add a course',
@@ -188,6 +199,16 @@ export const useEducationAdministrationData = () => {
           icon: 'mdi-shape-outline',
           type: 'page',
           description: 'Maintain taxonomy and navigation groupings.',
+          apiPath: 'course_categories',
+          columns: [
+            { key: 'id', label: 'ID' },
+            { key: 'name', label: 'Name' },
+            { key: 'code', label: 'Code' },
+          ],
+          mockData: [
+            { id: 11, name: 'Compliance', code: 'COMP' },
+            { id: 12, name: 'Onboarding', code: 'ONB' },
+          ],
         },
         {
           label: 'Add a user to course',
@@ -232,6 +253,17 @@ export const useEducationAdministrationData = () => {
           icon: 'mdi-calendar-text-outline',
           type: 'page',
           description: 'All scheduled and archived sessions.',
+          apiPath: 'sessions',
+          columns: [
+            { key: 'id', label: 'ID' },
+            { key: 'title', label: 'Title' },
+            { key: 'visibility', label: 'Visibility' },
+            { key: 'status', label: 'Status' },
+          ],
+          mockData: [
+            { id: 301, title: 'Cybersecurity Basics - April', visibility: 'public', status: 'Open' },
+            { id: 302, title: 'Product Launch Enablement', visibility: 'private', status: 'Draft' },
+          ],
         },
         {
           label: 'Add a training session',
@@ -318,6 +350,18 @@ export const useEducationAdministrationData = () => {
           icon: 'mdi-translate',
           type: 'page',
           description: 'Manage enabled locales and defaults.',
+          apiPath: 'languages',
+          columns: [
+            { key: 'id', label: 'ID' },
+            { key: 'name', label: 'Name' },
+            { key: 'locale', label: 'Locale' },
+            { key: 'isActive', label: 'Active' },
+          ],
+          mockData: [
+            { id: 1, name: 'English', locale: 'en', isActive: true },
+            { id: 2, name: 'Français', locale: 'fr', isActive: true },
+            { id: 3, name: 'Español', locale: 'es', isActive: false },
+          ],
         },
         {
           label: 'Portal',
@@ -388,6 +432,17 @@ export const useEducationAdministrationData = () => {
           icon: 'mdi-calendar-multiselect',
           type: 'page',
           description: 'Platform timeline and scheduled actions.',
+          apiPath: 'c_calendar_events',
+          columns: [
+            { key: 'id', label: 'ID' },
+            { key: 'title', label: 'Title' },
+            { key: 'startDate', label: 'Start' },
+            { key: 'endDate', label: 'End' },
+          ],
+          mockData: [
+            { id: 41, title: 'Maintenance window', startDate: '2024-08-01', endDate: '2024-08-01' },
+            { id: 42, title: 'Webinar: New features', startDate: '2024-08-15', endDate: '2024-08-15' },
+          ],
         },
         {
           label: 'Configure multiple access URLs',
@@ -395,6 +450,16 @@ export const useEducationAdministrationData = () => {
           icon: 'mdi-link-variant',
           type: 'page',
           description: 'Multi-tenant routing and vanity URLs.',
+          apiPath: 'access_urls',
+          columns: [
+            { key: 'id', label: 'ID' },
+            { key: 'url', label: 'URL' },
+            { key: 'title', label: 'Title' },
+          ],
+          mockData: [
+            { id: 91, url: 'https://academy.bro-world.org', title: 'Main portal' },
+            { id: 92, url: 'https://partners.bro-world.org', title: 'Partner portal' },
+          ],
         },
         {
           label: 'Multiple portal creation',
@@ -432,6 +497,16 @@ export const useEducationAdministrationData = () => {
           icon: 'mdi-format-list-bulleted-type',
           type: 'page',
           description: 'Skill directories and frameworks.',
+          apiPath: 'skills',
+          columns: [
+            { key: 'id', label: 'ID' },
+            { key: 'name', label: 'Name' },
+            { key: 'level', label: 'Level' },
+          ],
+          mockData: [
+            { id: 701, name: 'Project management', level: 'Advanced' },
+            { id: 702, name: 'Customer success', level: 'Intermediate' },
+          ],
         },
         {
           label: 'Skills import',
@@ -653,7 +728,7 @@ export const useEducationAdministrationData = () => {
         },
       ],
     },
-  ];
+  ]
 
   const categories = computed<AdminCategory[]>(() =>
     definitions.map((category) => ({
