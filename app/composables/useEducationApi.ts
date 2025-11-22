@@ -1,5 +1,7 @@
 import { computed } from 'vue'
 import type { FetchOptions } from 'ofetch'
+import { camelizeKeys } from '~/utils/casing'
+import type { Camelize } from '~/utils/casing'
 
 const normalizeBaseUrl = (value: string | undefined, fallback: string) =>
   (value || fallback).replace(/\/+$/, '')
@@ -8,7 +10,7 @@ type RequestOptions = FetchOptions<'json'>
 
 type RequestBody = NonNullable<RequestOptions['body']> | FormData
 
-type RequestFn = <T>(path: string, options?: RequestOptions) => Promise<T>
+type RequestFn = <T>(path: string, options?: RequestOptions) => Promise<Camelize<T>>
 
 const encode = (value: string | number) => encodeURIComponent(String(value))
 
@@ -56,16 +58,18 @@ export function useEducationApi() {
     return `${baseUrl.value}${normalizedPath}`
   }
 
-  const request: RequestFn = async (path, options = {}) => {
+  const request: RequestFn = async <T>(path: string, options: RequestOptions = {}) => {
     const mergedHeaders = {
       ...headers.value,
       ...(options.headers as Record<string, string> | undefined),
     }
 
-    return await $fetch(withBase(path), {
+    const response = await $fetch<T>(withBase(path), {
       ...options,
       headers: mergedHeaders,
     })
+
+    return camelizeKeys(response)
   }
 
   const educationApi = {

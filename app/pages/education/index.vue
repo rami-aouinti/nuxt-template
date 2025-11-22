@@ -2,7 +2,12 @@
 import { computed } from 'vue'
 import AppNavigationList from '~/components/AppNavigationList.vue'
 import AppCard from '~/components/ui/AppCard.vue'
+import { useEducationApi } from '~/composables/useEducationApi'
 import { useEducationNavigation } from '~/composables/useEducationNavigation'
+import type { ApiPlatformCollection } from '~/utils/apiPlatform'
+import { extractCollectionItems } from '~/utils/apiPlatform'
+import type { Camelize } from '~/utils/casing'
+import type { Course } from '~/types/education'
 
 definePageMeta({
   layout: 'default',
@@ -11,29 +16,26 @@ definePageMeta({
   drawerIndex: 4,
 })
 
+type EducationCourse = Camelize<Course>
+
 const { t } = useI18n()
+const educationApi = useEducationApi()
 const { navLinks, platformRoutes, baseUrl } = useEducationNavigation()
 
-const featuredPaths = computed(() => [
-  {
-    icon: 'mdi-home-search-outline',
-    title: t('pages.education.sections.gettingStarted.title'),
-    description: t('pages.education.sections.gettingStarted.description'),
-    href: `${baseUrl}/`,
+const {
+  data: featuredCourses,
+  pending: coursesPending,
+  error: coursesError,
+} = await useAsyncData<EducationCourse[]>(
+  'education-public-courses',
+  async () => {
+    const collection = await educationApi.courses.publicList<
+      ApiPlatformCollection<EducationCourse>
+    >()
+    return extractCollectionItems(collection).slice(0, 3)
   },
-  {
-    icon: 'mdi-format-list-checks',
-    title: t('pages.education.sections.progress.title'),
-    description: t('pages.education.sections.progress.description'),
-    href: `${baseUrl}/my-courses/progress`,
-  },
-  {
-    icon: 'mdi-flask-outline',
-    title: t('pages.education.sections.labs.title'),
-    description: t('pages.education.sections.labs.description'),
-    href: `${baseUrl}/labs`,
-  },
-])
+  { default: () => [] },
+)
 
 const discoveryRoutes = computed(() => [
   {
@@ -55,6 +57,12 @@ const discoveryRoutes = computed(() => [
     href: `${baseUrl}/community`,
   },
 ])
+
+const featuredState = computed(() => ({
+  isLoading: coursesPending.value,
+  hasError: Boolean(coursesError.value),
+  hasCourses: featuredCourses.value.length > 0,
+}))
 </script>
 
 <template>
@@ -146,22 +154,48 @@ const discoveryRoutes = computed(() => [
           <h2 class="text-h5 font-weight-semibold mb-4">
             {{ t('pages.education.sections.featuredTitle') }}
           </h2>
-          <v-row>
-            <v-col v-for="item in featuredPaths" :key="item.title" cols="12" sm="6">
+          <v-alert
+            v-if="featuredState.hasError"
+            type="error"
+            variant="tonal"
+            density="compact"
+            class="mb-4"
+          >
+            {{ t('pages.education.notifications.featuredError') }}
+          </v-alert>
+
+          <v-row v-if="featuredState.isLoading" class="gy-4">
+            <v-col v-for="index in 3" :key="index" cols="12" sm="6">
+              <v-skeleton-loader
+                type="heading, subtitle, paragraph"
+                class="pa-4 rounded"
+                color="transparent"
+              />
+            </v-col>
+          </v-row>
+
+          <v-row v-else-if="featuredState.hasCourses" class="gy-4">
+            <v-col v-for="course in featuredCourses" :key="course.code" cols="12" sm="6">
               <v-card variant="tonal" class="pa-4 h-100">
                 <div class="d-flex align-center mb-3">
                   <v-avatar color="primary" variant="tonal" size="40" class="mr-3">
-                    <v-icon :icon="item.icon" color="primary" />
+                    <v-icon icon="mdi-school-outline" color="primary" />
                   </v-avatar>
-                  <h3 class="text-subtitle-1 font-weight-semibold mb-0">
-                    {{ item.title }}
-                  </h3>
+                  <div>
+                    <h3 class="text-subtitle-1 font-weight-semibold mb-0">
+                      {{ course.title || course.code }}
+                    </h3>
+                    <p class="text-caption text-medium-emphasis mb-0">
+                      {{ course.courseLanguage?.toUpperCase() || 'N/A' }} •
+                      {{ course.visibility === 0 ? 'Private' : 'Public' }}
+                    </p>
+                  </div>
                 </div>
                 <p class="text-body-2 text-medium-emphasis mb-4">
-                  {{ item.description }}
+                  {{ course.description || t('pages.education.sections.gettingStarted.description') }}
                 </p>
                 <v-btn
-                  :href="item.href"
+                  :href="`${baseUrl}/courses/${course.code}`"
                   target="_blank"
                   rel="noreferrer"
                   variant="text"
@@ -173,6 +207,10 @@ const discoveryRoutes = computed(() => [
               </v-card>
             </v-col>
           </v-row>
+
+          <div v-else class="text-body-2 text-medium-emphasis">
+            {{ t('pages.education.notifications.noFeatured') }}
+          </div>
         </AppCard>
       </v-col>
 

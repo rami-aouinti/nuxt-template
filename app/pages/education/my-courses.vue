@@ -2,7 +2,12 @@
 import { computed } from 'vue'
 import AppNavigationList from '~/components/AppNavigationList.vue'
 import AppCard from '~/components/ui/AppCard.vue'
+import { useEducationApi } from '~/composables/useEducationApi'
 import { useEducationNavigation } from '~/composables/useEducationNavigation'
+import type { ApiPlatformCollection } from '~/utils/apiPlatform'
+import { extractCollectionItems } from '~/utils/apiPlatform'
+import type { Camelize } from '~/utils/casing'
+import type { Course } from '~/types/education'
 
 definePageMeta({
   layout: 'default',
@@ -12,7 +17,47 @@ definePageMeta({
 })
 
 const { t } = useI18n()
+const educationApi = useEducationApi()
 const { navLinks, baseUrl } = useEducationNavigation()
+
+type EducationCourse = Camelize<Course>
+
+const {
+  data: myCourses,
+  pending: myCoursesPending,
+  error: myCoursesError,
+} = await useAsyncData<EducationCourse[]>(
+  'education-my-courses',
+  async () => {
+    try {
+      const collection = await educationApi.courses.list<
+        ApiPlatformCollection<EducationCourse>
+      >()
+      const items = extractCollectionItems(collection)
+
+      if (items.length) {
+        return items
+      }
+    }
+    catch (error) {
+      console.warn('Unable to load enrolled courses, using public catalog instead', error)
+    }
+
+    const fallback = await educationApi.courses.publicList<
+      ApiPlatformCollection<EducationCourse>
+    >()
+    return extractCollectionItems(fallback)
+  },
+  { default: () => [] },
+)
+
+const myCoursesState = computed(() => ({
+  isLoading: myCoursesPending.value,
+  hasError: Boolean(myCoursesError.value),
+  hasCourses: myCourses.value.length > 0,
+}))
+
+const recentCourses = computed(() => myCourses.value.slice(0, 4))
 
 const courseEndpoints = computed(() => [
   {
@@ -98,6 +143,74 @@ const learningTools = computed(() => [
               </template>
             </v-list-item>
           </v-list>
+        </AppCard>
+      </v-col>
+
+      <v-col cols="12" md="8">
+        <AppCard class="pa-6" elevation="2">
+          <div class="d-flex align-center justify-space-between mb-4">
+            <div>
+              <h2 class="text-h6 font-weight-semibold mb-1">
+                {{ t('pages.education.myCourses.latest.title') }}
+              </h2>
+              <p class="text-body-2 text-medium-emphasis mb-0">
+                {{ t('pages.education.myCourses.latest.subtitle') }}
+              </p>
+            </div>
+            <v-btn
+              variant="text"
+              color="primary"
+              :href="courseEndpoints[0]?.href"
+              target="_blank"
+              rel="noreferrer"
+              prepend-icon="mdi-open-in-new"
+            >
+              {{ t('pages.education.actions.visit') }}
+            </v-btn>
+          </div>
+
+          <v-alert
+            v-if="myCoursesState.hasError"
+            type="warning"
+            variant="tonal"
+            density="compact"
+            class="mb-4"
+          >
+            {{ t('pages.education.myCourses.latest.error') }}
+          </v-alert>
+
+          <v-list v-if="myCoursesState.isLoading" density="comfortable">
+            <v-list-item v-for="index in 3" :key="index">
+              <v-skeleton-loader type="list-item-two-line" />
+            </v-list-item>
+          </v-list>
+
+          <v-list v-else-if="myCoursesState.hasCourses" lines="three" density="comfortable">
+            <v-list-item
+              v-for="course in recentCourses"
+              :key="course.code"
+              :title="course.title || course.code"
+              :subtitle="course.description || t('pages.education.myCourses.latest.noDescription')"
+              :href="`${baseUrl}/courses/${course.code}`"
+              target="_blank"
+              rel="noreferrer"
+              prepend-icon="mdi-book-open-outline"
+            >
+              <template #append>
+                <div class="text-caption text-medium-emphasis text-right">
+                  <div>{{ t('pages.education.myCourses.latest.language') }} {{ course.courseLanguage }}</div>
+                  <div>
+                    {{ t('pages.education.myCourses.latest.visibility') }}
+                    {{ course.visibility === 0 ? t('pages.education.myCourses.latest.private') : t('pages.education.myCourses.latest.public') }}
+                  </div>
+                </div>
+              </template>
+            </v-list-item>
+          </v-list>
+
+          <div v-else class="text-body-2 text-medium-emphasis">
+            {{ t('pages.education.myCourses.latest.empty') }}
+          </div>
         </AppCard>
       </v-col>
 

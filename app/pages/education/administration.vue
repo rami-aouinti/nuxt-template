@@ -2,7 +2,12 @@
 import { computed } from 'vue'
 import AppNavigationList from '~/components/AppNavigationList.vue'
 import AppCard from '~/components/ui/AppCard.vue'
+import { useEducationApi } from '~/composables/useEducationApi'
 import { useEducationNavigation } from '~/composables/useEducationNavigation'
+import type { ApiPlatformCollection } from '~/utils/apiPlatform'
+import { extractCollectionItems } from '~/utils/apiPlatform'
+import type { Camelize } from '~/utils/casing'
+import type { AccessUrl } from '~/types/education'
 
 definePageMeta({
   layout: 'default',
@@ -12,7 +17,31 @@ definePageMeta({
 })
 
 const { t } = useI18n()
+const educationApi = useEducationApi()
 const { navLinks, baseUrl } = useEducationNavigation()
+
+type EducationAccessUrl = Camelize<AccessUrl>
+
+const {
+  data: accessUrls,
+  pending: accessUrlsPending,
+  error: accessUrlsError,
+} = await useAsyncData<EducationAccessUrl[]>(
+  'education-admin-access-urls',
+  async () => {
+    const collection = await educationApi.accessUrls.list<
+      ApiPlatformCollection<EducationAccessUrl>
+    >()
+    return extractCollectionItems(collection).slice(0, 4)
+  },
+  { default: () => [] },
+)
+
+const accessUrlState = computed(() => ({
+  isLoading: accessUrlsPending.value,
+  hasError: Boolean(accessUrlsError.value),
+  hasEntries: accessUrls.value.length > 0,
+}))
 
 const adminRoutes = computed(() => [
   {
@@ -131,6 +160,64 @@ const governance = computed(() => [
               </template>
             </v-list-item>
           </v-list>
+        </AppCard>
+      </v-col>
+
+      <v-col cols="12">
+        <AppCard class="pa-5" elevation="2">
+          <div class="d-flex align-center justify-space-between mb-4">
+            <div>
+              <h2 class="text-subtitle-1 font-weight-semibold mb-1">
+                {{ t('pages.education.administration.accessUrls.title') }}
+              </h2>
+              <p class="text-body-2 text-medium-emphasis mb-0">
+                {{ t('pages.education.administration.accessUrls.subtitle') }}
+              </p>
+            </div>
+            <v-chip color="primary" variant="tonal" label>
+              {{ accessUrls.length }} {{ t('pages.education.administration.accessUrls.countSuffix') }}
+            </v-chip>
+          </div>
+
+          <v-alert
+            v-if="accessUrlState.hasError"
+            type="warning"
+            variant="tonal"
+            density="compact"
+            class="mb-4"
+          >
+            {{ t('pages.education.administration.accessUrls.error') }}
+          </v-alert>
+
+          <v-list v-if="accessUrlState.isLoading" density="comfortable">
+            <v-list-item v-for="index in 4" :key="index">
+              <v-skeleton-loader type="list-item-three-line" />
+            </v-list-item>
+          </v-list>
+
+          <v-list v-else-if="accessUrlState.hasEntries" lines="three" density="comfortable">
+            <v-list-item
+              v-for="url in accessUrls"
+              :key="url.id"
+              :title="url.url"
+              :subtitle="url.description || t('pages.education.administration.accessUrls.noDescription')"
+              prepend-icon="mdi-domain"
+            >
+              <template #append>
+                <v-chip
+                  :color="url.active ? 'success' : 'grey'"
+                  :variant="url.active ? 'elevated' : 'tonal'"
+                  size="small"
+                >
+                  {{ url.active ? t('pages.education.administration.accessUrls.active') : t('pages.education.administration.accessUrls.inactive') }}
+                </v-chip>
+              </template>
+            </v-list-item>
+          </v-list>
+
+          <div v-else class="text-body-2 text-medium-emphasis">
+            {{ t('pages.education.administration.accessUrls.empty') }}
+          </div>
         </AppCard>
       </v-col>
     </v-row>
