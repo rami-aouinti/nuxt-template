@@ -283,8 +283,11 @@ export default defineNuxtConfig({
       workspaceTtl: toPositiveInteger(process.env.REDIS_WORKSPACE_TTL, 6000),
       workplaceTtl: toPositiveInteger(process.env.REDIS_WORKPLACE_TTL, 6000),
       ecommerceTtl: toPositiveInteger(process.env.REDIS_ECOMMERCE_TTL, 6000),
+      educationTtl: toPositiveInteger(process.env.REDIS_EDUCATION_TTL, 600),
       jobTtl: toPositiveInteger(process.env.REDIS_JOB_TTL, 300),
     },
+    educationApiBaseUrl:
+      process.env.NUXT_EDUCATION_API_BASE_URL || 'https://education.bro-world.org',
     profileCookie: {
       name: process.env.PROFILE_COOKIE_NAME || 'bro_profile',
       maxAge: toPositiveInteger(
@@ -295,6 +298,12 @@ export default defineNuxtConfig({
     public: {
       crmApiBaseUrl: 'https://crm.bro-world.org',
       crmApiProxyBaseUrl: '/api/crm',
+      educationApiBaseUrl:
+        process.env.NUXT_PUBLIC_EDUCATION_API_BASE_URL ||
+        'https://education.bro-world.org',
+      educationApiProxyBaseUrl:
+        process.env.NUXT_PUBLIC_EDUCATION_API_PROXY_BASE_URL ||
+        '/api/education',
       mercure: {
         hubUrl: mercurePublicUrl,
       },
