@@ -65,6 +65,11 @@ export interface ChannelPriceHistoryConfigAttributes {
   taxonsExcludedFromShowingLowestPrice?: TaxonNoId[]
 }
 
+export interface ChannelPriceHistoryConfigExcludedTaxon {
+  channelId: number
+  taxonId: number
+}
+
 export interface ChannelPriceHistoryConfig
   extends ChannelPriceHistoryConfigAttributes {
   id?: number
@@ -290,6 +295,11 @@ export type ChannelPricingJsonLdSyliusAdminProductVariantShow =
 export interface ChannelPricingPromotionSummary {
   id?: number
   code: string
+}
+
+export interface ChannelPricingCatalogPromotion {
+  channelPricingId: number
+  catalogPromotionId: number
 }
 
 export interface ChannelPricingInterface
