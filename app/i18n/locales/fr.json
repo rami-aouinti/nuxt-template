@@ -3290,12 +3290,33 @@
         }
       },
       "actions": {
-        "visit": "Visiter l'endpoint"
+        "visit": "Visiter l'endpoint",
+        "back": "Retour",
+        "backToOverview": "Retour à l’aperçu"
       },
       "myCourses": {
         "badge": "Mon espace d'apprentissage",
         "title": "Suivre et gérer mes cours",
         "subtitle": "Retrouvez toutes vos inscriptions, vos progrès et vos certificats.",
+        "pages": {
+          "catalogue": "Catalogue des cours inscrits",
+          "progress": "Tableau de progression",
+          "certificates": "Certificats",
+          "notifications": "Notifications",
+          "assignments": "Devoirs",
+          "feedback": "Feedback et enquêtes",
+          "exams": "Quiz et examens",
+          "documents": "Manuels et ressources",
+          "calendar": "Agenda",
+          "groups": "Groupes",
+          "forums": "Forums",
+          "messages": "Messages directs",
+          "profile": "Profil et préférences",
+          "selfEnroll": "Inscription libre",
+          "export": "Exporter mon historique",
+          "settings": "Accessibilité et sécurité",
+          "empty": "Aucun endpoint trouvé"
+        },
         "endpoints": {
           "catalog": "Cours inscrits",
           "catalogDescription": "Consultez tous les cours suivis sur education.bro-world.org/my-courses.",
@@ -3375,6 +3396,26 @@
           "analyticsDescription": "Rapports d'adoption et tableaux de bord d'engagement.",
           "integrations": "Intégrations",
           "integrationsDescription": "Connecter le LMS avec vos autres systèmes."
+        },
+        "categories": {
+          "users": { "title": "Tableau de gestion des utilisateurs" },
+          "courses": { "title": "Tableau des cours" },
+          "sessions": { "title": "Tableau des sessions" },
+          "platform": { "title": "Tableau de la plateforme" },
+          "skills": { "title": "Tableau des compétences" },
+          "system": { "title": "Tableau système" },
+          "security": { "title": "Tableau sécurité" },
+          "chamilo": { "title": "Tableau Chamilo" },
+          "health": { "title": "Tableau santé" }
+        },
+        "table": {
+          "endpoint": "Endpoint",
+          "type": "Type",
+          "description": "Description",
+          "links": "liens",
+          "form": "Formulaire",
+          "page": "Page",
+          "empty": "Aucun endpoint disponible pour cette section."
         },
         "accessUrls": {
           "title": "Access URLs",
