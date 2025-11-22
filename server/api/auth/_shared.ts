@@ -17,7 +17,10 @@ const getErrorMessage = (error: AxiosError<{ message?: string }>) =>
   error.response?.statusText ||
   AUTHENTICATION_FAILED
 
-export const toSessionPayload = (data: LoginResponse) => ({
+export const toSessionPayload = (
+  data: LoginResponse,
+  options?: { educationToken?: string },
+) => ({
   user: {
     login: data.profile.username,
     avatar_url:
@@ -25,6 +28,7 @@ export const toSessionPayload = (data: LoginResponse) => ({
       DEFAULT_AVATAR_URL,
   },
   token: data.token,
+  educationToken: options?.educationToken,
   ecommerceAdminToken: data.ecommerceAdminToken || undefined,
   ecommerceShopToken: data.ecommerceShopToken || undefined,
   profile: {
