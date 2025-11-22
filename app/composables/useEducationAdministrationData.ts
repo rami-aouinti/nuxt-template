@@ -653,7 +653,7 @@ export const useEducationAdministrationData = () => {
         },
       ],
     },
-  ])
+  ];
 
   const categories = computed<AdminCategory[]>(() =>
     definitions.map((category) => ({
