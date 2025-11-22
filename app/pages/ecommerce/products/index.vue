@@ -397,7 +397,7 @@ const refreshAll = () => {
               <span class="text-body-2 text-medium-emphasis">
                 {{ t('pages.ecommerce.productsList.sort.label') }}
               </span>
-              <strong class="text-body-2">{{ selectedSort.label }}</strong>
+              <strong class="text-body-2">{{ selectedSort?.label }}</strong>
             </div>
           </div>
         </div>
