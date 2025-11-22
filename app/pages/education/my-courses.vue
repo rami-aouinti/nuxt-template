@@ -4,6 +4,7 @@ import AppNavigationList from '~/components/AppNavigationList.vue'
 import AppCard from '~/components/ui/AppCard.vue'
 import { useEducationApi } from '~/composables/useEducationApi'
 import { useEducationNavigation } from '~/composables/useEducationNavigation'
+import { useEducationMyCoursesEndpoints } from '~/composables/useEducationMyCoursesEndpoints'
 import type { ApiPlatformCollection } from '~/utils/apiPlatform'
 import { extractCollectionItems } from '~/utils/apiPlatform'
 import type { Camelize } from '~/utils/casing'
@@ -17,8 +18,10 @@ definePageMeta({
 })
 
 const { t } = useI18n()
+const localePath = useLocalePath()
 const educationApi = useEducationApi()
 const { navLinks, baseUrl } = useEducationNavigation()
+const { groups: endpointGroups, primaryShortcuts } = useEducationMyCoursesEndpoints()
 
 type EducationCourse = Camelize<Course>
 
@@ -59,47 +62,9 @@ const myCoursesState = computed(() => ({
 
 const recentCourses = computed(() => myCourses.value.slice(0, 4))
 
-const courseEndpoints = computed(() => [
-  {
-    icon: 'mdi-format-list-bulleted',
-    title: t('pages.education.myCourses.endpoints.catalog'),
-    description: t('pages.education.myCourses.endpoints.catalogDescription'),
-    href: `${baseUrl}/my-courses`,
-  },
-  {
-    icon: 'mdi-progress-check',
-    title: t('pages.education.myCourses.endpoints.progress'),
-    description: t('pages.education.myCourses.endpoints.progressDescription'),
-    href: `${baseUrl}/my-courses/progress`,
-  },
-  {
-    icon: 'mdi-certificate-outline',
-    title: t('pages.education.myCourses.endpoints.certificates'),
-    description: t('pages.education.myCourses.endpoints.certificatesDescription'),
-    href: `${baseUrl}/certificates`,
-  },
-])
+const courseEndpoints = computed(() => primaryShortcuts.value)
 
-const learningTools = computed(() => [
-  {
-    icon: 'mdi-calendar-check-outline',
-    title: t('pages.education.myCourses.tools.agenda'),
-    description: t('pages.education.myCourses.tools.agendaDescription'),
-    href: `${baseUrl}/calendar`,
-  },
-  {
-    icon: 'mdi-clipboard-text-outline',
-    title: t('pages.education.myCourses.tools.assignments'),
-    description: t('pages.education.myCourses.tools.assignmentsDescription'),
-    href: `${baseUrl}/my-courses/assignments`,
-  },
-  {
-    icon: 'mdi-comment-quote-outline',
-    title: t('pages.education.myCourses.tools.feedback'),
-    description: t('pages.education.myCourses.tools.feedbackDescription'),
-    href: `${baseUrl}/feedback`,
-  },
-])
+const learningTools = computed(() => endpointGroups.value.find((group) => group.key === 'collaboration')?.items || [])
 </script>
 
 <template>
@@ -121,11 +86,38 @@ const learningTools = computed(() => [
             <span class="animated-badge__pulse" />
             {{ t('pages.education.myCourses.badge') }}
           </div>
-          <h1 class="text-h4 font-weight-bold mb-2">
-            {{ t('pages.education.myCourses.title') }}
-          </h1>
-          <p class="text-body-1 text-medium-emphasis mb-4">
-            {{ t('pages.education.myCourses.subtitle') }}
+          <div class="d-flex align-center justify-space-between gap-4 flex-wrap">
+            <div>
+              <h1 class="text-h4 font-weight-bold mb-2">
+                {{ t('pages.education.myCourses.title') }}
+              </h1>
+              <p class="text-body-1 text-medium-emphasis mb-0">
+                {{ t('pages.education.myCourses.subtitle') }}
+              </p>
+            </div>
+            <div class="d-flex align-center gap-2">
+              <v-btn
+                variant="tonal"
+                color="primary"
+                prepend-icon="mdi-database-arrow-right"
+                :to="localePath('education-my-courses-endpoints')"
+              >
+                Tous les endpoints
+              </v-btn>
+              <v-btn
+                variant="text"
+                color="primary"
+                prepend-icon="mdi-open-in-new"
+                :href="baseUrl"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Ouvrir la plateforme
+              </v-btn>
+            </div>
+          </div>
+          <p class="text-body-1 text-medium-emphasis mt-4 mb-0">
+            Explorez vos cours inscrits et les raccourcis liés. Retrouvez l'intégralité des endpoints dans la page dédiée.
           </p>
           <v-list lines="three" density="comfortable">
             <v-list-item
