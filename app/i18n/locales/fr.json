@@ -337,6 +337,10 @@
     "openLanguageMenu": "Ouvrir le menu des langues ({language})",
     "language": "Changer de langue",
     "workspace": "Espace de travail",
+    "education": "Éducation",
+    "educationMyCourses": "Éducation - Mes cours",
+    "educationExploreCourses": "Éducation - Explorer les cours",
+    "educationAdministration": "Éducation - Administration",
     "settings": "Paramètres",
     "help": "Aide",
     "about": "À propos",
@@ -3226,6 +3230,137 @@
     }
   },
   "pages": {
+    "education": {
+      "navigation": {
+        "title": "Navigation éducation",
+        "description": "Passez rapidement de l'accueil aux cours et aux outils d'administration.",
+        "home": "Accueil éducation",
+        "myCourses": "Mes cours",
+        "exploreCourses": "Explorer les cours",
+        "administration": "Administration",
+        "quickAccess": {
+          "title": "Raccourcis d'apprentissage",
+          "description": "Destinations fréquentes sur education.bro-world.org"
+        }
+      },
+      "hero": {
+        "badge": "education.bro-world.org",
+        "title": "Un espace dédié à chaque parcours d'apprentissage",
+        "subtitle": "Consultez vos cours, découvrez de nouveaux modules et gérez la plateforme sans quitter l'écosystème Bro World.",
+        "cta": "Ouvrir le portail éducation",
+        "secondaryCta": "Découvrir les cours"
+      },
+      "sections": {
+        "featuredTitle": "Parcours mis en avant",
+        "gettingStarted": {
+          "title": "Commencer par l'accueil",
+          "description": "Accédez directement au tableau de bord personnalisé du portail éducation."
+        },
+        "progress": {
+          "title": "Suivre votre progression",
+          "description": "Consultez vos complétions, séries et historiques d'évaluations."
+        },
+        "labs": {
+          "title": "Pratiquer dans les labs",
+          "description": "Contenus pratiques pour valider vos compétences avant certification."
+        }
+      },
+      "routes": {
+        "title": "Points d'entrée de la plateforme",
+        "platformHome": "Accueil du portail",
+        "library": "Bibliothèque de cours",
+        "recommendations": "Recommandés pour vous",
+        "certificates": "Certificats",
+        "instructors": "Instructeurs",
+        "analytics": "Analytique"
+      },
+      "discovery": {
+        "title": "Découvrir plus",
+        "collections": {
+          "title": "Collections",
+          "description": "Playlists thématiques et objectifs alignés."
+        },
+        "paths": {
+          "title": "Parcours",
+          "description": "Enchaînez les cours pour guider les apprenants jusqu'à la certification."
+        },
+        "community": {
+          "title": "Communauté",
+          "description": "Échanges avec instructeurs, modérateurs et étudiants."
+        }
+      },
+      "actions": {
+        "visit": "Visiter l'endpoint"
+      },
+      "myCourses": {
+        "badge": "Mon espace d'apprentissage",
+        "title": "Suivre et gérer mes cours",
+        "subtitle": "Retrouvez toutes vos inscriptions, vos progrès et vos certificats.",
+        "endpoints": {
+          "catalog": "Cours inscrits",
+          "catalogDescription": "Consultez tous les cours suivis sur education.bro-world.org/my-courses.",
+          "progress": "Suivi de progression",
+          "progressDescription": "Scores, séries et pourcentages de complétion.",
+          "certificates": "Certificats",
+          "certificatesDescription": "Téléchargez ou vérifiez vos attestations."
+        },
+        "tools": {
+          "title": "Outils d'organisation",
+          "description": "Endpoints pratiques pour rester à jour.",
+          "agenda": "Agenda",
+          "agendaDescription": "Vos sessions live et échéances à venir.",
+          "assignments": "Devoirs",
+          "assignmentsDescription": "Voir les remises et tâches ouvertes par cours.",
+          "feedback": "Retours",
+          "feedbackDescription": "Partager vos feedbacks et voir les réponses des formateurs."
+        }
+      },
+      "explore": {
+        "badge": "Explorer le catalogue",
+        "title": "Découvrir de nouveaux cours",
+        "subtitle": "Recherchez, filtrez et mettez en avant les formations adaptées à vos objectifs.",
+        "catalog": {
+          "search": "Rechercher des cours",
+          "searchDescription": "Parcourir l'intégralité du catalogue.",
+          "trending": "Tendances",
+          "trendingDescription": "Ce qui attire les apprenants cette semaine.",
+          "new": "Nouveautés",
+          "newDescription": "Dernières additions du portail éducation."
+        },
+        "discovery": {
+          "title": "Sujets à explorer",
+          "compliance": "Conformité",
+          "ai": "Intelligence artificielle",
+          "design": "Design",
+          "finance": "Finance"
+        }
+      },
+      "administration": {
+        "badge": "Administration",
+        "title": "Piloter la plateforme éducation",
+        "subtitle": "Supervisez cours, instructeurs et analytics via les endpoints d'administration.",
+        "routes": {
+          "dashboard": "Tableau de bord admin",
+          "dashboardDescription": "Vue d'ensemble et métriques clés.",
+          "instructors": "Instructeurs",
+          "instructorsDescription": "Gérer l'équipe pédagogique et les arrivées.",
+          "courses": "Gestion des cours",
+          "coursesDescription": "Publier, mettre à jour et archiver les fiches du catalogue.",
+          "learners": "Apprenants",
+          "learnersDescription": "Suivre inscriptions, cohortes et statut des élèves."
+        },
+        "governance": {
+          "title": "Gouvernance",
+          "description": "Endpoints de conformité, d'analytique et d'intégration.",
+          "compliance": "Conformité",
+          "complianceDescription": "Journaux d'audit, contrôles d'accès et certifications.",
+          "analytics": "Analytique",
+          "analyticsDescription": "Rapports d'adoption et tableaux de bord d'engagement.",
+          "integrations": "Intégrations",
+          "integrationsDescription": "Connecter le LMS avec vos autres systèmes."
+        }
+      }
+    },
     "auth": {
       "login": {
         "metaTitle": "Connexion",
