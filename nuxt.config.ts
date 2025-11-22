@@ -288,6 +288,11 @@ export default defineNuxtConfig({
     },
     educationApiBaseUrl:
       process.env.NUXT_EDUCATION_API_BASE_URL || 'https://education.bro-world.org',
+    educationApiAuth: {
+      token: process.env.NUXT_EDUCATION_API_TOKEN || '',
+      username: process.env.NUXT_EDUCATION_API_USERNAME || '',
+      password: process.env.NUXT_EDUCATION_API_PASSWORD || '',
+    },
     profileCookie: {
       name: process.env.PROFILE_COOKIE_NAME || 'bro_profile',
       maxAge: toPositiveInteger(
