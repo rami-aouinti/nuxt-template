@@ -140,9 +140,8 @@ export default defineNuxtConfig({
         axios: resolve(projectRoot, './app/lib/axios.ts'),
         '@uppy': resolve(projectRoot, './app/lib/uppy'),
       },
-    },
-    build: {
-      sourcemap: false,
+      build: {
+        sourcemap: false,
       cssCodeSplit: false,
     },
   },

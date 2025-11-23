@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useHead } from '#imports'
-import LegacyView from '~/education/views/social/SocialWall.vue'
+import LegacyView from '~~/education/views/social/SocialWall.vue'
 
 definePageMeta({
   layout: 'default',

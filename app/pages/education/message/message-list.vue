@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useHead } from '#imports'
-import LegacyView from '~/education/views/message/MessageList.vue'
+import LegacyView from '~~/education/views/message/MessageList.vue'
 
 definePageMeta({
   layout: 'default',
