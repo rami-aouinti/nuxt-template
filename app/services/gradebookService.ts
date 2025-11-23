@@ -1,7 +1,7 @@
 // @ts-nocheck
-import axios from "axios"
+import axios from 'axios'
 
-const API_BASE = "/gradebook"
+const API_BASE = '/gradebook'
 
 export default {
   /**
@@ -18,7 +18,7 @@ export default {
       const response = await axios.get(`${API_BASE}/categories`, { params })
       return response.data
     } catch (error) {
-      console.error("Error fetching gradebook categories:", error)
+      console.error('Error fetching gradebook categories:', error)
       throw error
     }
   },

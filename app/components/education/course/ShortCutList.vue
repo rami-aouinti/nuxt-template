@@ -22,7 +22,7 @@
         :class="iconClasses"
         :title="shortcut.title"
         aria-hidden="true"
-      ></i>
+      />
     </BaseAppLink>
 
     <BaseAppLink
@@ -36,10 +36,11 @@
   </div>
 </template>
 
-<script setup>
-import { computed } from "vue"
-import { storeToRefs } from "pinia"
-import { useCidReqStore } from "../legacy/store/cidReq.js"
+<script setup lang="ts">
+import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useCidReqStore } from '~/stores/cidReq.js'
+import BaseAppLink from '~/components/education/basecomponents/BaseAppLink.vue'
 
 const cidReqStore = useCidReqStore()
 const { course, session } = storeToRefs(cidReqStore)
@@ -58,24 +59,24 @@ const props = defineProps({
  * - Otherwise, append current course/session context.
  */
 const resolvedUrl = computed(() => {
-  const base = props.shortcut.urlOverride || props.shortcut.url || "#"
+  const base = props.shortcut.urlOverride || props.shortcut.url || '#'
   // If it's absolute or relative, normalize with URL helper and keep it relative.
   try {
     const u = new URL(base, window.location.origin)
 
     // If URL already has cid (and possibly sid/gid), leave it as-is.
-    const hasCid = u.searchParams.has("cid")
-    const hasSid = u.searchParams.has("sid")
+    const hasCid = u.searchParams.has('cid')
+    const hasSid = u.searchParams.has('sid')
 
     if (!hasCid && course.value?.id) {
-      u.searchParams.set("cid", course.value.id)
+      u.searchParams.set('cid', course.value.id)
     }
     if (!hasSid) {
-      u.searchParams.set("sid", session.value?.id || 0)
+      u.searchParams.set('sid', session.value?.id || 0)
     }
 
     // Keep it relative (like backend responses)
-    return u.pathname + (u.search ? `?${u.searchParams.toString()}` : "")
+    return u.pathname + (u.search ? `?${u.searchParams.toString()}` : '')
   } catch {
     // Fallback
     return base
@@ -92,11 +93,14 @@ const resolvedUrl = computed(() => {
  */
 const iconName = computed(() => {
   if (props.shortcut?.icon) return props.shortcut.icon
-  if ((props.shortcut?.type || "").toLowerCase() === "blog") return "mdi-notebook-outline"
-  return "mdi-file-link"
+  if ((props.shortcut?.type || '').toLowerCase() === 'blog')
+    return 'mdi-notebook-outline'
+  return 'mdi-file-link'
 })
 
-const isBlog = computed(() => (props.shortcut?.type || "").toLowerCase() === "blog")
+const isBlog = computed(
+  () => (props.shortcut?.type || '').toLowerCase() === 'blog',
+)
 
 // Tailwind/utility classes for the icon element
 const iconClasses = computed(() => {
@@ -106,7 +110,7 @@ const iconClasses = computed(() => {
   // Visual style:
   // - Blogs: stronger (no disabled look)
   // - Others: neutral
-  const tone = isBlog.value ? "text-primary" : "text-gray-600"
+  const tone = isBlog.value ? 'text-primary' : 'text-gray-600'
   return [mdiGlyph, tone]
 })
 </script>

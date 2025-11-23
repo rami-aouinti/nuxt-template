@@ -10,14 +10,13 @@
   </div>
 
   <div v-if="modelValue">
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
-<script setup>
-import BaseButton from "./BaseButton.vue"
-import { computed } from "vue"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import BaseButton from './BaseButton.vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -26,15 +25,15 @@ const props = defineProps({
   },
 })
 
-defineEmits(["update:modelValue"])
+defineEmits(['update:modelValue'])
 
 const { t } = useI18n()
 
 const showAdvancedSettingsLabel = computed(() => {
   if (props.modelValue) {
-    return t("Hide advanced settings")
+    return t('Hide advanced settings')
   }
 
-  return t("Show advanced settings")
+  return t('Show advanced settings')
 })
 </script>

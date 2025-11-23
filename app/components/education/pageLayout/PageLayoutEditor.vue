@@ -1,16 +1,13 @@
 <template>
   <div class="flex flex-col space-y-6 w-full">
-    <div
-      v-if="layoutColumns.length"
-      class="flex gap-4 w-full"
-    >
+    <div v-if="layoutColumns.length" class="flex gap-4 w-full">
       <div
         v-for="column in layoutColumns"
         :key="column.id"
         class="flex-1 border border-gray-300 rounded p-4 bg-gray-50 min-h-[200px]"
       >
         <h3 class="text-center font-semibold mb-4">
-          {{ t("Column") }} {{ column.id }}
+          {{ t('Column') }} {{ column.id }}
         </h3>
 
         <draggable
@@ -25,21 +22,15 @@
               class="p-2 bg-white border rounded shadow cursor-move flex justify-between items-center"
             >
               <span>{{ element.name }}</span>
-              <BaseIcon
-                icon="drag"
-                v-if="!readonly"
-              />
+              <BaseIcon v-if="!readonly" icon="drag" />
             </div>
           </template>
         </draggable>
       </div>
     </div>
-    <div
-      v-if="!readonly"
-      class="w-full bg-white p-4 rounded shadow"
-    >
+    <div v-if="!readonly" class="w-full bg-white p-4 rounded shadow">
       <h2 class="text-lg font-semibold mb-2">
-        {{ t("Blocks Palette") }}
+        {{ t('Blocks Palette') }}
       </h2>
       <div class="flex flex-wrap gap-3">
         <div
@@ -48,21 +39,18 @@
           class="cursor-pointer bg-gray-100 p-3 rounded shadow hover:bg-gray-200 flex items-center gap-2"
           @click="addBlockToFirstColumn(block)"
         >
-          <BaseIcon
-            :icon="block.icon"
-            class="text-primary"
-          />
+          <BaseIcon :icon="block.icon" class="text-primary" />
           <span>{{ block.name }}</span>
         </div>
       </div>
     </div>
   </div>
 </template>
-<script setup>
-import { ref, watch } from "vue"
-import { useI18n } from "vue-i18n"
-import draggable from "vuedraggable"
-import BaseIcon from "../basecomponents/BaseIcon.vue"
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+
+import draggable from 'vuedraggable'
+import BaseIcon from '../basecomponents/BaseIcon.vue'
 
 const props = defineProps({
   modelValue: Object,
@@ -70,7 +58,7 @@ const props = defineProps({
   readonly: Boolean,
 })
 
-const emit = defineEmits(["update:modelValue"])
+const emit = defineEmits(['update:modelValue'])
 
 const { t } = useI18n()
 
@@ -79,9 +67,9 @@ const pageId = ref(null)
 const pageTitle = ref(null)
 
 const blocksPalette = [
-  { id: "text", name: "Text Block", icon: "text" },
-  { id: "image", name: "Image Block", icon: "image" },
-  { id: "button", name: "Button Block", icon: "button" },
+  { id: 'text', name: 'Text Block', icon: 'text' },
+  { id: 'image', name: 'Image Block', icon: 'image' },
+  { id: 'button', name: 'Button Block', icon: 'button' },
 ]
 
 watch(
@@ -91,7 +79,7 @@ watch(
       pageId.value = newVal.page.id ?? null
       pageTitle.value = newVal.page.title ?? null
       layoutColumns.value = JSON.parse(
-        JSON.stringify(newVal.page.layout.columns)
+        JSON.stringify(newVal.page.layout.columns),
       )
     } else {
       pageId.value = null
@@ -100,7 +88,7 @@ watch(
     }
     emitLayout()
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 function addBlockToFirstColumn(block) {
@@ -113,7 +101,7 @@ function addBlockToFirstColumn(block) {
 }
 
 function emitLayout() {
-  emit("update:modelValue", {
+  emit('update:modelValue', {
     page: {
       id: pageId.value ?? null,
       title: pageTitle.value ?? null,

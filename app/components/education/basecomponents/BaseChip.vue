@@ -16,9 +16,9 @@
   </Chip>
 </template>
 
-<script setup>
-import Chip from "primevue/chip"
-import BaseIcon from "./BaseIcon.vue"
+<script setup lang="ts">
+import Chip from 'primevue/chip'
+import BaseIcon from './BaseIcon.vue'
 
 defineProps({
   value: {
@@ -41,5 +41,5 @@ defineProps({
   },
 })
 
-defineEmits(["remove"])
+defineEmits(['remove'])
 </script>

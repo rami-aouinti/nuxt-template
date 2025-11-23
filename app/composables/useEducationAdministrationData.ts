@@ -33,7 +33,8 @@ export const useEducationAdministrationData = () => {
     {
       key: 'users',
       title: 'User management',
-      description: 'Manage and monitor every user profile, session, and access point.',
+      description:
+        'Manage and monitor every user profile, session, and access point.',
       icon: 'mdi-account-cog-outline',
       color: 'primary',
       items: [
@@ -45,11 +46,26 @@ export const useEducationAdministrationData = () => {
           description: 'Browse, search, and filter all existing user profiles.',
           apiPath: 'users',
           columns: [
-            { key: 'id', i18nKey: 'pages.education.administration.users.columns.id' },
-            { key: 'username', i18nKey: 'pages.education.administration.users.columns.username' },
-            { key: 'email', i18nKey: 'pages.education.administration.users.columns.email' },
-            { key: 'status', i18nKey: 'pages.education.administration.users.columns.status' },
-            { key: 'role', i18nKey: 'pages.education.administration.users.columns.role' },
+            {
+              key: 'id',
+              i18nKey: 'pages.education.administration.users.columns.id',
+            },
+            {
+              key: 'username',
+              i18nKey: 'pages.education.administration.users.columns.username',
+            },
+            {
+              key: 'email',
+              i18nKey: 'pages.education.administration.users.columns.email',
+            },
+            {
+              key: 'status',
+              i18nKey: 'pages.education.administration.users.columns.status',
+            },
+            {
+              key: 'role',
+              i18nKey: 'pages.education.administration.users.columns.role',
+            },
           ],
           mockData: [
             {
@@ -108,7 +124,8 @@ export const useEducationAdministrationData = () => {
           href: `${EDUCATION_BASE_URL}/admin/users/active-sessions`,
           icon: 'mdi-lan-connect',
           type: 'page',
-          description: 'Inspect concurrent logins and terminate stale sessions.',
+          description:
+            'Inspect concurrent logins and terminate stale sessions.',
         },
         {
           label: 'Anonymous users',
@@ -143,7 +160,8 @@ export const useEducationAdministrationData = () => {
     {
       key: 'courses',
       title: 'Course management',
-      description: 'Create, organize, and maintain courses with all related assets.',
+      description:
+        'Create, organize, and maintain courses with all related assets.',
       icon: 'mdi-book-cog-outline',
       color: 'secondary',
       items: [
@@ -168,8 +186,18 @@ export const useEducationAdministrationData = () => {
             { key: 'status', label: 'Status' },
           ],
           mockData: [
-            { id: 501, title: 'Leadership Essentials', code: 'LEAD-101', status: 'Published' },
-            { id: 502, title: 'Data Literacy', code: 'DATA-200', status: 'Draft' },
+            {
+              id: 501,
+              title: 'Leadership Essentials',
+              code: 'LEAD-101',
+              status: 'Published',
+            },
+            {
+              id: 502,
+              title: 'Data Literacy',
+              code: 'DATA-200',
+              status: 'Draft',
+            },
           ],
         },
         {
@@ -243,7 +271,8 @@ export const useEducationAdministrationData = () => {
     {
       key: 'sessions',
       title: 'Sessions management',
-      description: 'Package courses into training sessions and track their outcomes.',
+      description:
+        'Package courses into training sessions and track their outcomes.',
       icon: 'mdi-calendar-clock-outline',
       color: 'teal',
       items: [
@@ -261,8 +290,18 @@ export const useEducationAdministrationData = () => {
             { key: 'status', label: 'Status' },
           ],
           mockData: [
-            { id: 301, title: 'Cybersecurity Basics - April', visibility: 'public', status: 'Open' },
-            { id: 302, title: 'Product Launch Enablement', visibility: 'private', status: 'Draft' },
+            {
+              id: 301,
+              title: 'Cybersecurity Basics - April',
+              visibility: 'public',
+              status: 'Open',
+            },
+            {
+              id: 302,
+              title: 'Product Launch Enablement',
+              visibility: 'private',
+              status: 'Draft',
+            },
           ],
         },
         {
@@ -333,7 +372,8 @@ export const useEducationAdministrationData = () => {
     {
       key: 'platform',
       title: 'Platform management',
-      description: 'Configure core education settings, portals, and integrations.',
+      description:
+        'Configure core education settings, portals, and integrations.',
       icon: 'mdi-cog-outline',
       color: 'deep-purple',
       items: [
@@ -440,8 +480,18 @@ export const useEducationAdministrationData = () => {
             { key: 'endDate', label: 'End' },
           ],
           mockData: [
-            { id: 41, title: 'Maintenance window', startDate: '2024-08-01', endDate: '2024-08-01' },
-            { id: 42, title: 'Webinar: New features', startDate: '2024-08-15', endDate: '2024-08-15' },
+            {
+              id: 41,
+              title: 'Maintenance window',
+              startDate: '2024-08-01',
+              endDate: '2024-08-01',
+            },
+            {
+              id: 42,
+              title: 'Webinar: New features',
+              startDate: '2024-08-15',
+              endDate: '2024-08-15',
+            },
           ],
         },
         {
@@ -457,8 +507,16 @@ export const useEducationAdministrationData = () => {
             { key: 'title', label: 'Title' },
           ],
           mockData: [
-            { id: 91, url: 'https://academy.bro-world.org', title: 'Main portal' },
-            { id: 92, url: 'https://partners.bro-world.org', title: 'Partner portal' },
+            {
+              id: 91,
+              url: 'https://academy.bro-world.org',
+              title: 'Main portal',
+            },
+            {
+              id: 92,
+              url: 'https://partners.bro-world.org',
+              title: 'Partner portal',
+            },
           ],
         },
         {
@@ -599,7 +657,8 @@ export const useEducationAdministrationData = () => {
     {
       key: 'security',
       title: 'Security',
-      description: 'Audit alerts, exports, and connection attempts in real time.',
+      description:
+        'Audit alerts, exports, and connection attempts in real time.',
       icon: 'mdi-shield-key-outline',
       color: 'error',
       items: [
@@ -629,7 +688,8 @@ export const useEducationAdministrationData = () => {
     {
       key: 'chamilo',
       title: 'Chamilo.org',
-      description: 'Learn about Chamilo through guides, forums, and official news.',
+      description:
+        'Learn about Chamilo through guides, forums, and official news.',
       icon: 'mdi-school-outline',
       color: 'green',
       items: [

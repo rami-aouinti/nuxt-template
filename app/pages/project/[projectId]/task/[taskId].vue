@@ -41,8 +41,10 @@ useHead(() => ({
   title: pageTitle.value,
 }))
 
-const statusLabel = computed(() =>
-  task.value?.status?.name ?? translate('crm.project.kanban.backlog', 'Backlog'),
+const statusLabel = computed(
+  () =>
+    task.value?.status?.name ??
+    translate('crm.project.kanban.backlog', 'Backlog'),
 )
 
 const metaItems = computed(() => [
@@ -61,7 +63,9 @@ const metaItems = computed(() => [
   {
     icon: 'mdi-calendar-clock',
     label: translate('crm.project.drawerRight.deadline', 'Deadline'),
-    value: task.value?.deadline || translate('crm.project.tasks.noDeadline', 'Aucune date'),
+    value:
+      task.value?.deadline ||
+      translate('crm.project.tasks.noDeadline', 'Aucune date'),
   },
 ])
 
@@ -88,9 +92,12 @@ async function fetchTask() {
   errorMessage.value = null
 
   try {
-    task.value = await $fetch<CrmTask>(withBase(`/tasks/${encodeURIComponent(taskId.value)}`), {
-      headers: crmHeaders.value,
-    })
+    task.value = await $fetch<CrmTask>(
+      withBase(`/tasks/${encodeURIComponent(taskId.value)}`),
+      {
+        headers: crmHeaders.value,
+      },
+    )
   } catch (error) {
     console.error(error)
     errorMessage.value = translate(
@@ -120,9 +127,16 @@ function goBackToProject() {
         <AppCard class="pa-4" elevation="2">
           <div class="d-flex align-center justify-space-between mb-3">
             <div class="text-subtitle-1 font-weight-semibold">
-              {{ translate('crm.project.tasks.overview', 'Aperçu de la tâche') }}
+              {{
+                translate('crm.project.tasks.overview', 'Aperçu de la tâche')
+              }}
             </div>
-            <v-chip color="primary" size="small" variant="tonal" class="text-capitalize">
+            <v-chip
+              color="primary"
+              size="small"
+              variant="tonal"
+              class="text-capitalize"
+            >
               {{ statusLabel }}
             </v-chip>
           </div>
@@ -133,7 +147,9 @@ function goBackToProject() {
                 <v-icon icon="mdi-check-decagram" />
               </v-avatar>
               <div>
-                <div class="text-subtitle-2 font-weight-semibold">{{ task?.name }}</div>
+                <div class="text-subtitle-2 font-weight-semibold">
+                  {{ task?.name }}
+                </div>
                 <div class="text-body-2 text-medium-emphasis">
                   {{ translate('crm.project.detail.project', 'Projet') }}:
                   {{ task?.project?.name ?? `#${projectId}` }}
@@ -178,8 +194,12 @@ function goBackToProject() {
                   <v-icon :icon="item.icon" />
                 </v-avatar>
                 <div>
-                  <div class="text-body-2 text-medium-emphasis">{{ item.label }}</div>
-                  <div class="text-subtitle-2 font-weight-semibold">{{ item.value }}</div>
+                  <div class="text-body-2 text-medium-emphasis">
+                    {{ item.label }}
+                  </div>
+                  <div class="text-subtitle-2 font-weight-semibold">
+                    {{ item.value }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -189,9 +209,13 @@ function goBackToProject() {
     </client-only>
 
     <v-container class="py-0" fluid>
-      <div class="d-flex align-center justify-space-between flex-wrap gap-3 mb-6">
+      <div
+        class="d-flex align-center justify-space-between flex-wrap gap-3 mb-6"
+      >
         <div>
-          <div class="text-body-2 text-medium-emphasis d-flex align-center gap-2">
+          <div
+            class="text-body-2 text-medium-emphasis d-flex align-center gap-2"
+          >
             <v-btn
               variant="text"
               color="primary"
@@ -201,11 +225,18 @@ function goBackToProject() {
             >
               {{ translate('crm.project.detail.back', 'Retour au projet') }}
             </v-btn>
-            <v-chip color="primary" size="x-small" variant="flat" class="text-capitalize">
+            <v-chip
+              color="primary"
+              size="x-small"
+              variant="flat"
+              class="text-capitalize"
+            >
               {{ statusLabel }}
             </v-chip>
           </div>
-          <h1 class="text-h5 font-weight-bold mt-2 mb-1">{{ task?.name || pageTitle }}</h1>
+          <h1 class="text-h5 font-weight-bold mt-2 mb-1">
+            {{ task?.name || pageTitle }}
+          </h1>
           <p class="text-body-2 text-medium-emphasis">
             {{
               task?.description ||
@@ -227,7 +258,9 @@ function goBackToProject() {
             class="text-capitalize"
           >
             <span class="font-weight-semibold mr-1">{{ badge.value }}</span>
-            <span class="text-body-2 text-medium-emphasis">{{ badge.label }}</span>
+            <span class="text-body-2 text-medium-emphasis">{{
+              badge.label
+            }}</span>
           </v-chip>
         </div>
       </div>
@@ -249,34 +282,54 @@ function goBackToProject() {
               <v-timeline-item
                 dot-color="primary"
                 size="small"
-                :title="translate('crm.project.tasks.created', 'Création de la tâche')"
+                :title="
+                  translate('crm.project.tasks.created', 'Création de la tâche')
+                "
                 :subtitle="task?.createdAt || '—'"
               />
               <v-timeline-item
                 dot-color="secondary"
                 size="small"
-                :title="translate('crm.project.detail.lastUpdate', 'Dernière mise à jour')"
+                :title="
+                  translate(
+                    'crm.project.detail.lastUpdate',
+                    'Dernière mise à jour',
+                  )
+                "
                 :subtitle="task?.updatedAt || '—'"
               />
               <v-timeline-item
                 dot-color="info"
                 size="small"
-                :title="translate('crm.project.drawerRight.deadline', 'Deadline')"
-                :subtitle="task?.deadline || translate('crm.project.tasks.noDeadline', 'Aucune date')"
+                :title="
+                  translate('crm.project.drawerRight.deadline', 'Deadline')
+                "
+                :subtitle="
+                  task?.deadline ||
+                  translate('crm.project.tasks.noDeadline', 'Aucune date')
+                "
               />
             </v-timeline>
           </AppCard>
         </v-col>
       </v-row>
 
-      <div v-if="loading" class="loading-state d-flex align-center justify-center mt-6">
+      <div
+        v-if="loading"
+        class="loading-state d-flex align-center justify-center mt-6"
+      >
         <v-progress-circular indeterminate color="primary" size="32" />
         <span class="ml-3 text-body-2 text-medium-emphasis">
-          {{ translate('crm.project.tasks.loading', 'Chargement de la tâche...') }}
+          {{
+            translate('crm.project.tasks.loading', 'Chargement de la tâche...')
+          }}
         </span>
       </div>
 
-      <div v-if="errorMessage" class="error-state d-flex align-center gap-3 mt-4">
+      <div
+        v-if="errorMessage"
+        class="error-state d-flex align-center gap-3 mt-4"
+      >
         <v-icon icon="mdi-alert-circle" color="error" />
         <span class="text-body-2">{{ errorMessage }}</span>
       </div>

@@ -1,37 +1,36 @@
-<script setup>
-import { reactive, unref } from "vue"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import { reactive, unref } from 'vue'
 
-import BaseTextArea from "../basecomponents/BaseTextArea.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import BaseDialog from "../basecomponents/BaseDialog.vue"
-import BaseInputText from "../basecomponents/BaseInputText.vue"
+import BaseTextArea from '../basecomponents/BaseTextArea.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import BaseDialog from '../basecomponents/BaseDialog.vue'
+import BaseInputText from '../basecomponents/BaseInputText.vue'
 
-import { createProfile, updateProfile } from "../legacy/services/skillProfileService.js"
+import { createProfile, updateProfile } from '~/services/skillProfileService.js'
 
 const { t } = useI18n()
 
 const profile = reactive({
-  title: "",
-  description: "",
+  title: '',
+  description: '',
 })
 
-const isVisible = defineModel("visible", {
+const isVisible = defineModel('visible', {
   required: true,
   type: Boolean,
 })
 
-const skills = defineModel("skills", {
+const skills = defineModel('skills', {
   type: Array,
   required: false,
 })
 
-const emit = defineEmits(["saved"])
+const emit = defineEmits(['saved'])
 
 async function saveProfile() {
-  if (profile["@id"]) {
+  if (profile['@id']) {
     await updateProfile({
-      iri: profile["@id"],
+      iri: profile['@id'],
       title: profile.title,
       description: profile.description,
     })
@@ -39,30 +38,24 @@ async function saveProfile() {
     await createProfile({
       title: profile.title,
       description: profile.description,
-      skills: skills.value.map((skill) => ({ skill: skill["@id"] })),
+      skills: skills.value.map((skill) => ({ skill: skill['@id'] })),
     })
   }
 
   isVisible.value = false
 
-  emit("saved", unref(profile))
+  emit('saved', unref(profile))
 }
 </script>
 
 <template>
-  <BaseDialog
-    v-model:is-visible="isVisible"
-    :title="t('Skill profile')"
-  >
+  <BaseDialog v-model:is-visible="isVisible" :title="t('Skill profile')">
     <BaseInputText
       id="name_profile"
       v-model="profile.title"
       :label="t('Title')"
     />
-    <BaseTextArea
-      v-model="profile.description"
-      :label="t('Description')"
-    />
+    <BaseTextArea v-model="profile.description" :label="t('Description')" />
 
     <template #footer>
       <BaseButton

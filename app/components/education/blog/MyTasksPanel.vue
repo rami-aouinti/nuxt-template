@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-2">
     <div v-if="!items.length" class="text-sm text-gray-500">
-      {{ t("No tasks") }}
+      {{ t('No tasks') }}
     </div>
     <div
       v-for="it in items"
@@ -19,9 +19,8 @@
   </div>
 </template>
 
-<script setup>
-import { computed } from "vue"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import { computed } from 'vue'
 
 const props = defineProps({
   assignments: { type: Array, default: () => [] },
@@ -32,16 +31,20 @@ const { t } = useI18n()
 
 function statusLabel(s) {
   switch (Number(s)) {
-    case 1: return t("In progress")
-    case 2: return t("Pending validation")
-    case 3: return t("Done")
-    default: return t("Open")
+    case 1:
+      return t('In progress')
+    case 2:
+      return t('Pending validation')
+    case 3:
+      return t('Done')
+    default:
+      return t('Open')
   }
 }
 
 const items = computed(() => {
-  return props.assignments.map(a => {
-    const tRow = props.tasks.find(tk => tk.id === a.taskId)
+  return props.assignments.map((a) => {
+    const tRow = props.tasks.find((tk) => tk.id === a.taskId)
     return {
       id: a.id,
       taskId: a.taskId,

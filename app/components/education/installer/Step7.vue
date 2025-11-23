@@ -23,11 +23,7 @@
         class="mb-3"
       />
 
-      <Message
-        :closable="false"
-        severity="warn"
-        style="margin-bottom: 8px;"
-      >
+      <Message :closable="false" severity="warn" style="margin-bottom: 8px">
         <strong v-t="'Security advice'" />
 
         <i18n-t
@@ -54,16 +50,15 @@
   </div>
 </template>
 
-<script setup>
-import { inject } from "vue"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import { inject } from 'vue'
 
-import Message from "primevue/message"
-import Button from "primevue/button"
-import SectionHeader from "../layout/SectionHeader.vue"
-import BaseAppLink from "../basecomponents/BaseAppLink.vue"
+import Message from 'primevue/message'
+import Button from 'primevue/button'
+import SectionHeader from '../layout/SectionHeader.vue'
+import BaseAppLink from '../basecomponents/BaseAppLink.vue'
 
 const { t } = useI18n()
 
-const installerData = inject("installerData")
+const installerData = inject('installerData')
 </script>

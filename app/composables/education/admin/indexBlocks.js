@@ -1,9 +1,9 @@
-import { onMounted, ref } from "vue"
-import { usePlatformConfig } from "../../store/platformConfig"
-import adminService from "../../services/adminService"
-import { useToast } from "primevue/usetoast"
-import { useSecurityStore } from "../../store/securityStore"
-import { useI18n } from "vue-i18n"
+import { onMounted, ref } from 'vue'
+import { usePlatformConfig } from '../../store/platformConfig'
+import adminService from '../../services/adminService'
+import { useToast } from 'primevue/usetoast'
+import { useSecurityStore } from '../../store/securityStore'
+import { useI18n } from 'vue-i18n'
 
 export function useIndexBlocks() {
   const { t } = useI18n()
@@ -22,17 +22,19 @@ export function useIndexBlocks() {
       return
     }
 
-    if ("false" === platformConfigStore.getSetting("platform.registered")) {
+    if ('false' === platformConfigStore.getSetting('platform.registered')) {
       blockVersionStatusEl.value = null
     } else {
       loadVersion()
     }
 
-    if ("true" === platformConfigStore.getSetting("admin.chamilo_support")) {
+    if ('true' === platformConfigStore.getSetting('admin.chamilo_support')) {
       loadSupport()
     }
 
-    if ("true" === platformConfigStore.getSetting("admin.chamilo_latest_news")) {
+    if (
+      'true' === platformConfigStore.getSetting('admin.chamilo_latest_news')
+    ) {
       loadNews()
     }
   })
@@ -45,26 +47,26 @@ export function useIndexBlocks() {
       loadVersion()
 
       toast.add({
-        severity: "success",
-        detail: t("Version check enabled"),
+        severity: 'success',
+        detail: t('Version check enabled'),
       })
     })
   }
 
   async function loadVersion() {
-    blockVersionStatusEl.value = t("Loading")
+    blockVersionStatusEl.value = t('Loading')
 
     blockVersionStatusEl.value = await adminService.findVersion()
   }
 
   async function loadNews() {
-    blockNewsStatusEl.value = t("Loading")
+    blockNewsStatusEl.value = t('Loading')
 
     blockNewsStatusEl.value = await adminService.findAnnouncements()
   }
 
   async function loadSupport() {
-    blockSupportStatusEl.value = t("Loading")
+    blockSupportStatusEl.value = t('Loading')
 
     blockSupportStatusEl.value = await adminService.findSupport()
   }

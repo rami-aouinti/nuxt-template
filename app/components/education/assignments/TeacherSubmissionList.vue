@@ -1,9 +1,9 @@
 <template>
   <div>
     <BaseTable
-      :is-loading="loading"
       v-model:multi-sort-meta="sortFields"
       v-model:rows="loadParams.itemsPerPage"
+      :is-loading="loading"
       :total-items="totalRecords"
       :values="submissions"
       data-key="@id"
@@ -11,23 +11,14 @@
       @page="onPage"
       @sort="onSort"
     >
-      <Column
-        field="user.fullname"
-        :header="t('Full name')"
-      />
+      <Column field="user.fullname" :header="t('Full name')" />
 
-      <Column
-        field="title"
-        :header="t('Title')"
-      />
+      <Column field="title" :header="t('Title')" />
 
       <Column :header="t('Feedback')">
         <template #body="{ data }">
           <div class="flex justify-center items-center gap-2">
-            <span
-              v-if="data.correctionTitle"
-              class="text-green-600"
-            >
+            <span v-if="data.correctionTitle" class="text-green-600">
               <a
                 v-if="data.correctionDownloadUrl"
                 :href="data.correctionDownloadUrl"
@@ -35,19 +26,16 @@
                 download
                 class="text-green-50 hover:underline"
               >
-                <i class="pi pi-check-circle"></i>
+                <i class="pi pi-check-circle" />
               </a>
-              <i
-                v-else
-                class="pi pi-check-circle"
-              ></i>
+              <i v-else class="pi pi-check-circle" />
             </span>
             <span
               v-if="data.comments && data.comments.length > 0"
               class="flex items-center gap-1 text-gray-600 text-sm cursor-pointer hover:underline"
               @click="openCommentDialog(data)"
             >
-              <i class="pi pi-comment"></i> {{ data.comments.length }}
+              <i class="pi pi-comment" /> {{ data.comments.length }}
             </span>
           </div>
         </template>
@@ -55,30 +43,34 @@
 
       <Column :header="t('Score')">
         <template #body="{ data }">
-          <template v-if="data.qualification !== null && data.publicationParent?.qualification">
+          <template
+            v-if="
+              data.qualification !== null &&
+              data.publicationParent?.qualification
+            "
+          >
             <span
               :class="{
                 'bg-success/10 text-success font-semibold text-sm px-2 py-1 rounded':
                   data.qualification > data.publicationParent.qualification / 2,
                 'bg-danger/10 text-danger font-semibold text-sm px-2 py-1 rounded':
-                  data.qualification <= data.publicationParent.qualification / 2,
+                  data.qualification <=
+                  data.publicationParent.qualification / 2,
               }"
             >
-              {{ data.qualification.toFixed(1) }} / {{ data.publicationParent.qualification.toFixed(1) }}
+              {{ data.qualification.toFixed(1) }} /
+              {{ data.publicationParent.qualification.toFixed(1) }}
             </span>
           </template>
           <template v-else>
             <span class="text-gray-50">
-              {{ t("Not graded yet") }}
+              {{ t('Not graded yet') }}
             </span>
           </template>
         </template>
       </Column>
 
-      <Column
-        field="sentDate"
-        :header="t('Date')"
-      >
+      <Column field="sentDate" :header="t('Date')">
         <template #body="{ data }">
           {{ abbreviatedDatetime(data.sentDate) }}
         </template>
@@ -114,32 +106,32 @@
               size="normal"
               only-icon
               :label="t('Download')"
-              @click="saveCorrection(data)"
               type="primary"
+              @click="saveCorrection(data)"
             />
             <BaseButton
               icon="reply-all"
               size="normal"
               only-icon
               :label="t('Correct and rate')"
-              @click="correctAndRate(data)"
               type="success"
+              @click="correctAndRate(data)"
             />
             <BaseButton
               icon="edit"
               size="normal"
               only-icon
               :label="t('Edit')"
-              @click="editSubmission(data)"
               type=""
+              @click="editSubmission(data)"
             />
             <BaseButton
               icon="folder-move"
               size="normal"
               only-icon
               :label="t('Move')"
-              @click="moveSubmission(data)"
               type="info"
+              @click="moveSubmission(data)"
             />
             <BaseButton
               :icon="
@@ -160,8 +152,8 @@
               size="normal"
               only-icon
               :label="t('Delete')"
-              @click="deleteSubmission(data)"
               type="danger"
+              @click="deleteSubmission(data)"
             />
           </div>
         </template>
@@ -169,8 +161,10 @@
     </BaseTable>
 
     <UppyModalUploader
-      :parentResourceNodeId="getResourceNodeId(selectedSubmission?.resourceNode)"
-      :submissionId="selectedSubmission?.iid || 0"
+      :parent-resource-node-id="
+        getResourceNodeId(selectedSubmission?.resourceNode)
+      "
+      :submission-id="selectedSubmission?.iid || 0"
       :visible="showUploader"
       @close="closeUploader"
       @uploaded="onCorrectionUploaded"
@@ -186,32 +180,35 @@
   <CorrectAndRateModal
     v-model="showCorrectAndRateDialog"
     :item="correctingItem"
-    @commentSent="loadData"
+    @comment-sent="loadData"
   />
 
   <MoveSubmissionModal
     v-model="showMoveDialog"
     :submission="selectedSubmission"
-    :currentAssignmentId="props.assignmentId"
+    :current-assignment-id="props.assignmentId"
     @moved="loadData"
   />
 </template>
 
-<script setup>
-import { nextTick, watch, reactive, ref } from "vue"
-import { useI18n } from "vue-i18n"
-import Column from "primevue/column"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import BaseTable from "../basecomponents/BaseTable.vue"
-import { useFormatDate } from "../legacy/composables/formatDate.js"
-import { useNotification } from "../legacy/composables/notification.js"
-import cStudentPublicationService from "../legacy/services/cstudentpublication.js"
-import UppyModalUploader from "./UppyModalUploader.vue"
-import resourceLinkService from "../legacy/services/resourcelink.js"
-import { RESOURCE_LINK_DRAFT, RESOURCE_LINK_PUBLISHED } from "../legacy/constants/entity/resourcelink.js"
-import EditStudentSubmissionForm from "./EditStudentSubmissionForm.vue"
-import CorrectAndRateModal from "./CorrectAndRateModal.vue"
-import MoveSubmissionModal from "./MoveSubmissionModal.vue"
+<script setup lang="ts">
+import { nextTick, watch, reactive, ref } from 'vue'
+
+import Column from 'primevue/column'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import BaseTable from '../basecomponents/BaseTable.vue'
+import { useFormatDate } from '~/composables/formatDate.js'
+import { useNotification } from '~/composables/notification.js'
+import cStudentPublicationService from '~/services/cstudentpublication.js'
+import UppyModalUploader from './UppyModalUploader.vue'
+import resourceLinkService from '~/services/resourcelink.js'
+import {
+  RESOURCE_LINK_DRAFT,
+  RESOURCE_LINK_PUBLISHED,
+} from '~/constants/entity/resourcelink.js'
+import EditStudentSubmissionForm from './EditStudentSubmissionForm.vue'
+import CorrectAndRateModal from './CorrectAndRateModal.vue'
+import MoveSubmissionModal from './MoveSubmissionModal.vue'
 
 const props = defineProps({
   assignmentId: {
@@ -227,7 +224,7 @@ const notification = useNotification()
 const loading = ref(false)
 const submissions = ref([])
 const totalRecords = ref(0)
-const sortFields = ref([{ field: "sentDate", order: -1 }])
+const sortFields = ref([{ field: 'sentDate', order: -1 }])
 const loadParams = reactive({
   page: 1,
   itemsPerPage: null,
@@ -247,21 +244,22 @@ watch(
     if (!loadParams.itemsPerPage) return
     loadData()
   },
-  { deep: true, immediate: true }
+  { deep: true, immediate: true },
 )
 
 async function loadData() {
   loading.value = true
   try {
-    const response = await cStudentPublicationService.getAssignmentDetailForTeacher({
-      assignmentId: props.assignmentId,
-      page: loadParams.page,
-      itemsPerPage: loadParams.itemsPerPage,
-      order: { sentDate: "desc" },
-    })
+    const response =
+      await cStudentPublicationService.getAssignmentDetailForTeacher({
+        assignmentId: props.assignmentId,
+        page: loadParams.page,
+        itemsPerPage: loadParams.itemsPerPage,
+        order: { sentDate: 'desc' },
+      })
 
-    submissions.value = response["hydra:member"]
-    totalRecords.value = response["hydra:totalItems"]
+    submissions.value = response['hydra:member']
+    totalRecords.value = response['hydra:totalItems']
   } catch (error) {
     notification.showErrorNotification(error)
   } finally {
@@ -276,11 +274,12 @@ function onPage(event) {
 
 function onSort(event) {
   Object.keys(loadParams)
-    .filter((key) => key.startsWith("order["))
+    .filter((key) => key.startsWith('order['))
     .forEach((key) => delete loadParams[key])
 
   event.multiSortMeta.forEach((sortItem) => {
-    loadParams[`order[${sortItem.field}]`] = sortItem.order === 1 ? "asc" : "desc"
+    loadParams[`order[${sortItem.field}]`] =
+      sortItem.order === 1 ? 'asc' : 'desc'
   })
 }
 
@@ -291,10 +290,12 @@ async function onCorrectionUploaded(file) {
     return
   }
 
-  notification.showSuccessNotification(t("Correction uploaded successfully!"))
+  notification.showSuccessNotification(t('Correction uploaded successfully!'))
 
-  const uploadedFileName = file?.name || "Correction uploaded"
-  const idx = submissions.value.findIndex((it) => it.iid === selectedSubmission.value.iid)
+  const uploadedFileName = file?.name || 'Correction uploaded'
+  const idx = submissions.value.findIndex(
+    (it) => it.iid === selectedSubmission.value.iid,
+  )
   if (idx !== -1) {
     submissions.value[idx].correctionTitle = uploadedFileName
   }
@@ -306,12 +307,13 @@ async function onCorrectionUploaded(file) {
 function getResourceNodeId(resourceNode) {
   if (!resourceNode) return 0
 
-  if (typeof resourceNode === "object" && "id" in resourceNode) {
+  if (typeof resourceNode === 'object' && 'id' in resourceNode) {
     return parseInt(resourceNode.id, 10)
   }
 
-  const idString = typeof resourceNode === "string" ? resourceNode : resourceNode["@id"]
-  if (!idString || typeof idString !== "string") return 0
+  const idString =
+    typeof resourceNode === 'string' ? resourceNode : resourceNode['@id']
+  if (!idString || typeof idString !== 'string') return 0
   const m = idString.match(/\/(\d+)$/)
   return m ? parseInt(m[1], 10) : 0
 }
@@ -327,23 +329,23 @@ function closeUploader() {
 
 async function viewSubmission(item) {
   if (!item || !item.firstResourceLink) {
-    notification.showErrorNotification(t("Invalid submission"))
+    notification.showErrorNotification(t('Invalid submission'))
     return
   }
 
   const resourceLink = item.firstResourceLink
 
-  if (!resourceLink["@id"]) {
+  if (!resourceLink['@id']) {
     if (item.resourceLinkListFromEntity?.length) {
       const firstLink = item.resourceLinkListFromEntity[0]
       if (firstLink.id) {
-        resourceLink["@id"] = `/api/resource_links/${firstLink.id}`
+        resourceLink['@id'] = `/api/resource_links/${firstLink.id}`
       } else {
-        notification.showErrorNotification(t("Invalid resource link ID"))
+        notification.showErrorNotification(t('Invalid resource link ID'))
         return
       }
     } else {
-      notification.showErrorNotification(t("No resource link entity found"))
+      notification.showErrorNotification(t('No resource link entity found'))
       return
     }
   }
@@ -353,13 +355,13 @@ async function viewSubmission(item) {
   } else if (RESOURCE_LINK_DRAFT === resourceLink.visibility) {
     resourceLink.visibility = RESOURCE_LINK_PUBLISHED
   } else {
-    notification.showErrorNotification(t("Can not change visibility"))
+    notification.showErrorNotification(t('Can not change visibility'))
     return
   }
 
   try {
     await resourceLinkService.update(resourceLink)
-    notification.showSuccessNotification(t("Visibility updated successfully!"))
+    notification.showSuccessNotification(t('Visibility updated successfully!'))
     await loadData()
   } catch (e) {
     notification.showErrorNotification(e)
@@ -368,14 +370,14 @@ async function viewSubmission(item) {
 
 function saveCorrection(item) {
   if (item?.downloadUrl) {
-    const link = document.createElement("a")
+    const link = document.createElement('a')
     link.href = item.downloadUrl
-    link.download = ""
+    link.download = ''
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
   } else {
-    notification.showErrorNotification(t("No download available"))
+    notification.showErrorNotification(t('No download available'))
   }
 }
 
@@ -385,7 +387,9 @@ function editSubmission(item) {
 }
 
 async function deleteSubmission(item) {
-  const confirmed = window.confirm(t("Are you sure you want to delete this submission?"))
+  const confirmed = window.confirm(
+    t('Are you sure you want to delete this submission?'),
+  )
 
   if (!confirmed) {
     return
@@ -393,7 +397,7 @@ async function deleteSubmission(item) {
 
   try {
     await cStudentPublicationService.deleteAssignmentSubmission(item.iid)
-    notification.showSuccessNotification(t("Submission deleted successfully!"))
+    notification.showSuccessNotification(t('Submission deleted successfully!'))
     await loadData()
   } catch (error) {
     notification.showErrorNotification(error)

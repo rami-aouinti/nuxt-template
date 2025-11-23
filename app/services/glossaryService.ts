@@ -1,13 +1,13 @@
 // @ts-nocheck
-import { ENTRYPOINT } from "../config/entrypoint"
-import axios from "axios"
+import { ENTRYPOINT } from '../config/entrypoint'
+import axios from 'axios'
 
 export default {
   /**
    * @param {Object} params
    */
   getGlossaryTerms: async (params) => {
-    const response = await axios.get(ENTRYPOINT + "glossaries", { params })
+    const response = await axios.get(ENTRYPOINT + 'glossaries', { params })
 
     return response.data
   },
@@ -45,7 +45,9 @@ export default {
    */
   export: async (formData) => {
     const endpoint = `${ENTRYPOINT}glossaries/export`
-    const response = await axios.post(endpoint, formData, { responsetype: "blob" })
+    const response = await axios.post(endpoint, formData, {
+      responsetype: 'blob',
+    })
 
     return response.data
   },
@@ -57,7 +59,7 @@ export default {
     const endpoint = `${ENTRYPOINT}glossaries/import`
     const response = await axios.post(endpoint, formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     })
 

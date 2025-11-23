@@ -1,9 +1,5 @@
 <template>
-  <form
-    action="/api/glossaries/export"
-    method="post"
-    @submit="submitForm"
-  >
+  <form action="/api/glossaries/export" method="post" @submit="submitForm">
     <BaseSelect
       id="format"
       v-model="selectedFormat"
@@ -26,47 +22,34 @@
       />
     </LayoutFormButtons>
 
-    <input
-      name="cid"
-      type="hidden"
-      :value="cid"
-    />
-    <input
-      name="sid"
-      type="hidden"
-      :value="sid"
-    />
-    <input
-      name="format"
-      type="hidden"
-      :value="selectedFormat"
-    />
+    <input name="cid" type="hidden" :value="cid" />
+    <input name="sid" type="hidden" :value="sid" />
+    <input name="format" type="hidden" :value="selectedFormat" />
   </form>
 </template>
 
-<script setup>
-import { useI18n } from "vue-i18n"
-import { ref } from "vue"
-import LayoutFormButtons from "../layout/LayoutFormButtons.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import BaseSelect from "../basecomponents/BaseSelect.vue"
-import { useCidReq } from "../legacy/composables/cidReq.js"
-import { useNotification } from "../legacy/composables/notification.js"
+<script setup lang="ts">
+import { ref } from 'vue'
+import LayoutFormButtons from '../layout/LayoutFormButtons.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import BaseSelect from '../basecomponents/BaseSelect.vue'
+import { useCidReq } from '~/composables/cidReq.js'
+import { useNotification } from '~/composables/notification.js'
 
 const { t } = useI18n()
 const { sid, cid } = useCidReq()
 const notification = useNotification()
 
-const emit = defineEmits(["backPressed"])
+const emit = defineEmits(['backPressed'])
 
 const formats = [
-  { label: "CSV", value: "csv" },
-  { label: "Excel", value: "xls" },
-  { label: "PDF", value: "pdf" },
+  { label: 'CSV', value: 'csv' },
+  { label: 'Excel', value: 'xls' },
+  { label: 'PDF', value: 'pdf' },
 ]
-const selectedFormat = ref("csv")
+const selectedFormat = ref('csv')
 
 const submitForm = () => {
-  notification.showSuccessNotification(t("Glossary exported"))
+  notification.showSuccessNotification(t('Glossary exported'))
 }
 </script>

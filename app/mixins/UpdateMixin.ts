@@ -1,7 +1,7 @@
 // @ts-nocheck
-import NotificationMixin from "./NotificationMixin"
-import { formatDateTime } from "../utils/dates"
-import isEmpty from "lodash/isEmpty"
+import NotificationMixin from './NotificationMixin'
+import { formatDateTime } from '~/utils/dates'
+import isEmpty from 'lodash/isEmpty'
 
 export default {
   mixins: [NotificationMixin],
@@ -28,19 +28,19 @@ export default {
   computed: {
     retrieved() {
       // call from list
-      console.log("update mixin retrieved")
+      console.log('update mixin retrieved')
 
       let id = this.$route.params.id
-      console.log("first")
+      console.log('first')
       console.log(id)
       if (isEmpty(id)) {
-        console.log("second")
+        console.log('second')
         id = this.$route.query.id
         console.log(id)
       }
 
       if (!isEmpty(id)) {
-        let item = this.find(decodeURIComponent(id))
+        const item = this.find(decodeURIComponent(id))
 
         if (isEmpty(item)) {
           //this.retrieve(decodeURIComponent(id));
@@ -52,15 +52,15 @@ export default {
   },
   methods: {
     del() {
-      console.log("mixin del")
+      console.log('mixin del')
       console.log(this.item)
 
       this.deleteItem(this.item).then(() => {
-        console.log("deleteItem resykt")
-        let folderParams = this.$route.query
+        console.log('deleteItem resykt')
+        const folderParams = this.$route.query
 
-        delete folderParams["id"]
-        delete folderParams["getFile"]
+        delete folderParams['id']
+        delete folderParams['getFile']
 
         //this.showMessage(`${this.item['@id']} deleted.`);
         this.$router
@@ -70,7 +70,7 @@ export default {
           })
           .catch(() => {})
       })
-      console.log("end mixin del()")
+      console.log('end mixin del()')
     },
     formatDateTime,
     reset() {
@@ -80,7 +80,7 @@ export default {
       this.createReset()
     },
     onSendForm() {
-      console.log("onSendForm")
+      console.log('onSendForm')
       const updateForm = this.$refs.updateForm
       updateForm.v$.$touch()
       if (!updateForm.v$.$invalid) {
@@ -89,7 +89,7 @@ export default {
       }
     },
     onSendFormData() {
-      console.log("onSendForm")
+      console.log('onSendForm')
       const updateForm = this.$refs.updateForm
       updateForm.v$.$touch()
       if (!updateForm.v$.$invalid) {
@@ -98,19 +98,19 @@ export default {
       }
     },
     resetForm() {
-      console.log("resetForm")
+      console.log('resetForm')
       this.$refs.updateForm.v$.$reset()
       this.item = { ...this.retrieved }
     },
   },
   watch: {
     deleted(deleted) {
-      console.log("deleted")
+      console.log('deleted')
       if (!deleted) {
         return
       }
 
-      let folderParams = this.$route.query
+      const folderParams = this.$route.query
       this.$router
         .push({
           name: `${this.$options.servicePrefix}List`,
@@ -120,18 +120,18 @@ export default {
     },
 
     error(message) {
-      console.log("error")
+      console.log('error')
       message && this.showError(message)
     },
 
     updated(val) {
-      console.log("updated")
+      console.log('updated')
       //this.showMessage(`${val['@id']} updated.`);
       this.$router.go(-1)
     },
 
     retrieved(val) {
-      console.log("retrieved(val)")
+      console.log('retrieved(val)')
       if (!isEmpty(val)) {
         this.item = { ...val }
       }

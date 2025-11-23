@@ -25,10 +25,21 @@ class AxiosStub {
     return url
   }
 
-  private async request<T = any>(method: string, url: string, data?: any, config: AxiosConfig = {}) {
+  private async request<T = any>(
+    method: string,
+    url: string,
+    data?: any,
+    config: AxiosConfig = {},
+  ) {
     const finalUrl = this.buildUrl(url)
-    const headers = { ...(this.defaults.headers || {}), ...(config.headers || {}) }
-    const body = data !== undefined && method !== 'GET' && method !== 'HEAD' ? JSON.stringify(data) : undefined
+    const headers = {
+      ...(this.defaults.headers || {}),
+      ...(config.headers || {}),
+    }
+    const body =
+      data !== undefined && method !== 'GET' && method !== 'HEAD'
+        ? JSON.stringify(data)
+        : undefined
 
     const response = await fetch(finalUrl, {
       ...this.defaults,

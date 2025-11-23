@@ -1,25 +1,25 @@
-<script setup>
-import Uppy from "@uppy/core"
-import { Dashboard } from "@uppy/vue"
-import Webcam from "@uppy/webcam"
-import Audio from "@uppy/audio"
-import XHRUpload from "@uppy/xhr-upload"
-import ImageEditor from "@uppy/image-editor"
+<script setup lang="ts">
+import Uppy from '@uppy/core'
+import { Dashboard } from '@uppy/vue'
+import Webcam from '@uppy/webcam'
+import Audio from '@uppy/audio'
+import XHRUpload from '@uppy/xhr-upload'
+import ImageEditor from '@uppy/image-editor'
 
-import es_ES from "@uppy/locales/lib/es_ES"
-import en_US from "@uppy/locales/lib/en_US"
-import fr_FR from "@uppy/locales/lib/fr_FR"
-import de_DE from "@uppy/locales/lib/de_DE"
-import it_IT from "@uppy/locales/lib/it_IT"
-import pl_PL from "@uppy/locales/lib/pl_PL"
-import pt_PT from "@uppy/locales/lib/pt_PT"
+import es_ES from '@uppy/locales/lib/es_ES'
+import en_US from '@uppy/locales/lib/en_US'
+import fr_FR from '@uppy/locales/lib/fr_FR'
+import de_DE from '@uppy/locales/lib/de_DE'
+import it_IT from '@uppy/locales/lib/it_IT'
+import pl_PL from '@uppy/locales/lib/pl_PL'
+import pt_PT from '@uppy/locales/lib/pt_PT'
 
-import "@uppy/core/dist/style.css"
-import "@uppy/dashboard/dist/style.css"
-import "@uppy/image-editor/dist/style.css"
-import "@uppy/webcam/dist/style.css"
-import "@uppy/audio/dist/style.css"
-import { useLocale } from "../legacy/composables/locale.js"
+import '@uppy/core/dist/style.css'
+import '@uppy/dashboard/dist/style.css'
+import '@uppy/image-editor/dist/style.css'
+import '@uppy/webcam/dist/style.css'
+import '@uppy/audio/dist/style.css'
+import { useLocale } from '~/composables/locale.js'
 
 const { appLocale } = useLocale()
 const supportedLanguages = {
@@ -35,11 +35,11 @@ const supportedLanguages = {
 function getUppyLanguageConfig(appLocale) {
   const defaultLang = en_US
 
-  if (typeof appLocale !== "string") {
+  if (typeof appLocale !== 'string') {
     return defaultLang
   }
 
-  const localePrefix = appLocale.split("_")[0]
+  const localePrefix = appLocale.split('_')[0]
 
   return supportedLanguages[localePrefix] || defaultLang
 }
@@ -62,7 +62,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(["upload", "upload-success", "complete"])
+const emit = defineEmits(['upload', 'upload-success', 'complete'])
 
 const uppy = new Uppy({
   autoProceed: props.autoProceed,
@@ -94,9 +94,13 @@ const uppy = new Uppy({
   })
   .use(Webcam)
   .use(Audio)
-  .on("upload", ({ id, fileIDs }) => emit("upload", { id, fileIDs }))
-  .on("upload-success", (file, { body }) => emit("upload-success", { file, response: body }))
-  .on("complete", ({ successful, failed }) => emit("complete", { successful, failed }))
+  .on('upload', ({ id, fileIDs }) => emit('upload', { id, fileIDs }))
+  .on('upload-success', (file, { body }) =>
+    emit('upload-success', { file, response: body }),
+  )
+  .on('complete', ({ successful, failed }) =>
+    emit('complete', { successful, failed }),
+  )
 </script>
 
 <template>

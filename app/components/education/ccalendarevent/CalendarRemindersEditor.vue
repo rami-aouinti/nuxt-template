@@ -1,10 +1,9 @@
-<script setup>
-import { useI18n } from "vue-i18n"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import Fieldset from "primevue/fieldset"
-import InputNumber from "primevue/inputnumber"
-import Select from "primevue/select"
-import { useCalendarReminders } from "../legacy/composables/calendar/calendarReminders.js"
+<script setup lang="ts">
+import BaseButton from '../basecomponents/BaseButton.vue'
+import Fieldset from 'primevue/fieldset'
+import InputNumber from 'primevue/inputnumber'
+import Select from 'primevue/select'
+import { useCalendarReminders } from '~/composables/calendar/calendarReminders.js'
 
 const { t } = useI18n()
 
@@ -19,7 +18,7 @@ model.value.reminders = model.value.reminders || []
 function addEmptyReminder() {
   model.value.reminders.push({
     count: 0,
-    period: "i",
+    period: 'i',
   })
 }
 </script>
@@ -52,10 +51,7 @@ function addEmptyReminder() {
             option-label="label"
             option-value="value"
           />
-          <div
-            v-t="'Before'"
-            class="p-inputgroup-addon"
-          />
+          <div v-t="'Before'" class="p-inputgroup-addon" />
         </div>
 
         <BaseButton

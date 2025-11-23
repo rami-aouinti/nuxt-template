@@ -21,7 +21,7 @@
           target="_self"
         >
           <BaseIcon icon="download" />
-          {{ t("Download file") }}
+          {{ t('Download file') }}
         </a>
       </div>
 
@@ -42,40 +42,33 @@
       </div>
 
       <div class="flex justify-end gap-2">
-        <Button
-          :label="t('Cancel')"
-          class="p-button-text"
-          @click="cancel"
-        />
-        <Button
-          :label="t('Update')"
-          @click="submit"
-        />
+        <Button :label="t('Cancel')" class="p-button-text" @click="cancel" />
+        <Button :label="t('Update')" @click="submit" />
       </div>
     </div>
   </Dialog>
 </template>
 
-<script setup>
-import { ref, watch } from "vue"
-import { useNotification } from "../legacy/composables/notification.js"
-import cStudentPublicationService from "../legacy/services/cstudentpublication.js"
-import BaseCheckbox from "../basecomponents/BaseCheckbox.vue"
-import { useI18n } from "vue-i18n"
-import Textarea from "primevue/textarea"
-import BaseIcon from "../basecomponents/BaseIcon.vue"
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import { useNotification } from '~/composables/notification.js'
+import cStudentPublicationService from '~/services/cstudentpublication.js'
+import BaseCheckbox from '../basecomponents/BaseCheckbox.vue'
+
+import Textarea from 'primevue/textarea'
+import BaseIcon from '../basecomponents/BaseIcon.vue'
 
 const props = defineProps({
   modelValue: Boolean,
   item: Object,
 })
 
-const emit = defineEmits(["update:modelValue", "updated"])
+const emit = defineEmits(['update:modelValue', 'updated'])
 
 const visible = ref(false)
 const form = ref({
-  title: "",
-  description: "",
+  title: '',
+  description: '',
   sendMail: false,
 })
 
@@ -87,19 +80,19 @@ watch(
   (newVal) => {
     visible.value = newVal
     if (newVal && props.item) {
-      form.value.title = props.item.title || ""
-      form.value.description = props.item.description || ""
+      form.value.title = props.item.title || ''
+      form.value.description = props.item.description || ''
       form.value.sendMail = false
     }
   },
 )
 
 function cancel() {
-  emit("update:modelValue", false)
+  emit('update:modelValue', false)
 }
 
 function onHide() {
-  emit("update:modelValue", false)
+  emit('update:modelValue', false)
 }
 
 async function submit() {
@@ -109,9 +102,9 @@ async function submit() {
       description: form.value.description,
       sendMail: form.value.sendMail,
     })
-    notification.showSuccessNotification(t("Submission updated!"))
-    emit("updated")
-    emit("update:modelValue", false)
+    notification.showSuccessNotification(t('Submission updated!'))
+    emit('updated')
+    emit('update:modelValue', false)
   } catch (error) {
     notification.showErrorNotification(error)
   }

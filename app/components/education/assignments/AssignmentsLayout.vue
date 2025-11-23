@@ -1,13 +1,13 @@
 <template>
-  <router-view></router-view>
+  <router-view />
 </template>
 
-<script setup>
-import { ref } from "vue"
-import { useRoute, useRouter } from "vue-router"
-import { useI18n } from "vue-i18n"
-import { useCidReq } from "../legacy/composables/cidReq.js"
-import { useSecurityStore } from "../legacy/store/securityStore.js"
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+import { useCidReq } from '~/composables/cidReq.js'
+import { useSecurityStore } from '~/stores/securityStore.js'
 
 const route = useRoute()
 const router = useRouter()

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import baseService from "./baseService"
+import baseService from './baseService'
 
 /**
  *
@@ -13,7 +13,7 @@ export async function findUserActivePortals(userIri) {
 }
 
 export async function findAll() {
-  const { items } = await baseService.getCollection("/api/access_urls")
+  const { items } = await baseService.getCollection('/api/access_urls')
 
   return items
 }

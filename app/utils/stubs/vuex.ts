@@ -22,8 +22,11 @@ const sharedStore: StoreShape = {
   subscribe: () => () => {},
 }
 
-export function createStore(options: { state?: any; getters?: GetterMap } = {}) {
-  const baseState = typeof options.state === 'function' ? options.state() : options.state
+export function createStore(
+  options: { state?: any; getters?: GetterMap } = {},
+) {
+  const baseState =
+    typeof options.state === 'function' ? options.state() : options.state
   if (baseState) {
     sharedStore.state = reactive(baseState)
   }
@@ -51,15 +54,28 @@ function buildMapping(map: any, factory: (val: any) => any) {
 }
 
 export function mapActions(map: any) {
-  return buildMapping(map, (val) => (...args: any[]) => sharedStore.dispatch(val, ...args))
+  return buildMapping(
+    map,
+    (val) =>
+      (...args: any[]) =>
+        sharedStore.dispatch(val, ...args),
+  )
 }
 
 export function mapMutations(map: any) {
-  return buildMapping(map, (val) => (...args: any[]) => sharedStore.commit(val, ...args))
+  return buildMapping(
+    map,
+    (val) =>
+      (...args: any[]) =>
+        sharedStore.commit(val, ...args),
+  )
 }
 
 export function mapGetters(map: any) {
-  return buildMapping(map, (val) => () => sharedStore.getters[val]?.(sharedStore.state))
+  return buildMapping(
+    map,
+    (val) => () => sharedStore.getters[val]?.(sharedStore.state),
+  )
 }
 
 export function mapState(map: any) {

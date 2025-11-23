@@ -19,10 +19,10 @@
   />
 </template>
 
-<script setup>
-import { iconValidator, sizeValidator } from "./validators.js"
-import BaseButton from "./BaseButton.vue"
-import { computed } from "vue"
+<script setup lang="ts">
+import { iconValidator, sizeValidator } from './validators.js'
+import BaseButton from './BaseButton.vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -49,7 +49,7 @@ const props = defineProps({
   },
   size: {
     type: String,
-    default: "normal",
+    default: 'normal',
     validator: sizeValidator,
   },
   withoutBorders: {
@@ -58,16 +58,16 @@ const props = defineProps({
   },
 })
 
-defineEmits(["update:modelValue"])
+defineEmits(['update:modelValue'])
 
 const customClass = computed(() => {
   if (props.withoutBorders) {
     if (props.modelValue) {
-      return "!bg-primary/10 text-primary border-none hover:bg-primary/30 hover:text-primary/90 "
+      return '!bg-primary/10 text-primary border-none hover:bg-primary/30 hover:text-primary/90 '
     } else {
-      return "bg-white text-black border-none hover:bg-primary/10 hover:text-primary/90 "
+      return 'bg-white text-black border-none hover:bg-primary/10 hover:text-primary/90 '
     }
   }
-  return ""
+  return ''
 })
 </script>

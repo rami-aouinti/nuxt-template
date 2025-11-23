@@ -1,29 +1,13 @@
 <template>
-  <div
-    v-if="loading"
-    class="space-y-4"
-  >
-    <div
-      v-for="i in 6"
-      :key="i"
-      class="flex flex-row gap-2 items-center"
-    >
-      <Skeleton
-        shape="circle"
-        size="2.5rem"
-      />
+  <div v-if="loading" class="space-y-4">
+    <div v-for="i in 6" :key="i" class="flex flex-row gap-2 items-center">
+      <Skeleton shape="circle" size="2.5rem" />
       <Skeleton width="6rem" />
-      <Skeleton
-        class="ml-auto"
-        size="2.5rem"
-      />
+      <Skeleton class="ml-auto" size="2.5rem" />
     </div>
   </div>
 
-  <div
-    v-else
-    class="space-y-4"
-  >
+  <div v-else class="space-y-4">
     <div
       v-for="(request, i) in friendRequests"
       :key="i"
@@ -74,28 +58,23 @@
 
       {{ request.friend.username }}
 
-      <BaseTag
-        :label="t('Waiting')"
-        class="ml-auto"
-        type="info"
-      />
+      <BaseTag :label="t('Waiting')" class="ml-auto" type="info" />
     </div>
   </div>
 </template>
 
-<script setup>
-import BaseTag from "../basecomponents/BaseTag.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import Skeleton from "primevue/skeleton"
-import BaseUserAvatar from "../basecomponents/BaseUserAvatar.vue"
-import { ref } from "vue"
-import { useSecurityStore } from "../legacy/store/securityStore.js"
-import userRelUserService from "../legacy/services/userreluser.js"
-import { useNotification } from "../legacy/composables/notification.js"
-import axios from "axios"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import BaseTag from '../basecomponents/BaseTag.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import Skeleton from 'primevue/skeleton'
+import BaseUserAvatar from '../basecomponents/BaseUserAvatar.vue'
+import { ref } from 'vue'
+import { useSecurityStore } from '~/stores/securityStore.js'
+import userRelUserService from '~/services/userreluser.js'
+import { useNotification } from '~/composables/notification.js'
+import axios from 'axios'
 
-const emit = defineEmits(["accept-friend"])
+const emit = defineEmits(['accept-friend'])
 
 const { t } = useI18n()
 
@@ -130,8 +109,8 @@ const loadRequests = () => {
       Promise.all([sentRequestsResponse.json(), waitingRequestsRespose.json()]),
     )
     .then(([sentRequestsJson, waitingRequestsJson]) => {
-      friendRequests.value = sentRequestsJson["hydra:member"]
-      waitingRequests.value = waitingRequestsJson["hydra:member"]
+      friendRequests.value = sentRequestsJson['hydra:member']
+      waitingRequests.value = waitingRequestsJson['hydra:member']
     })
     .catch((e) => notification.showErrorNotification(e))
     .finally(() => (loading.value = false))
@@ -139,10 +118,10 @@ const loadRequests = () => {
 
 function acceptFriendRequest(request) {
   axios
-    .put(request["@id"], { relationType: 3 })
+    .put(request['@id'], { relationType: 3 })
     .then(() => {
-      emit("accept-friend", request)
-      notification.showSuccessNotification(t("Friend added successfully"))
+      emit('accept-friend', request)
+      notification.showSuccessNotification(t('Friend added successfully'))
       loadRequests()
     })
     .catch((e) => notification.showErrorNotification(e))
@@ -150,9 +129,9 @@ function acceptFriendRequest(request) {
 
 function rejectFriendRequest(request) {
   axios
-    .delete(request["@id"])
+    .delete(request['@id'])
     .then(() => {
-      notification.showSuccessNotification(t("Friend request rejected"))
+      notification.showSuccessNotification(t('Friend request rejected'))
       loadRequests()
     })
     .catch((e) => notification.showErrorNotification(e))

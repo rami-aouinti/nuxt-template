@@ -13,18 +13,32 @@
         />
 
         <div class="flex flex-col">
-          <div v-if="!post.userReceiver || post.sender['@id'] === post.userReceiver?.['@id']">
-            <BaseAppLink :to="{ name: 'SocialWall', query: { id: post.sender['@id'] } }">
+          <div
+            v-if="
+              !post.userReceiver ||
+              post.sender['@id'] === post.userReceiver?.['@id']
+            "
+          >
+            <BaseAppLink
+              :to="{ name: 'SocialWall', query: { id: post.sender['@id'] } }"
+            >
               {{ post.sender.fullName }}
             </BaseAppLink>
           </div>
 
           <div v-else>
-            <BaseAppLink :to="{ name: 'SocialWall', query: { id: post.sender['@id'] } }">
+            <BaseAppLink
+              :to="{ name: 'SocialWall', query: { id: post.sender['@id'] } }"
+            >
               {{ post.sender.fullName }}
             </BaseAppLink>
             &raquo;
-            <BaseAppLink :to="{ name: 'SocialWall', query: { id: post.userReceiver['@id'] } }">
+            <BaseAppLink
+              :to="{
+                name: 'SocialWall',
+                query: { id: post.userReceiver['@id'] },
+              }"
+            >
               {{ post.userReceiver.fullName }}
             </BaseAppLink>
           </div>
@@ -43,37 +57,34 @@
       </div>
 
       <div class="flex flex-col gap-2">
-        <div
-          v-for="(attachment, index) in computedAttachments"
-          :key="index"
-        >
+        <div v-for="(attachment, index) in computedAttachments" :key="index">
           <img
             v-if="isImageAttachment(attachment)"
             :alt="attachment.filename"
             :src="attachment.path"
           />
 
-          <video
-            v-if="isVideoAttachment(attachment)"
-            controls
-          >
-            <source
-              :src="attachment.path"
-              :type="attachment.mimeType"
-            />
+          <video v-if="isVideoAttachment(attachment)" controls>
+            <source :src="attachment.path" :type="attachment.mimeType" />
           </video>
         </div>
 
         <div v-html="post.content" />
 
-        <hr :class="{ 'text-success': post.type === SOCIAL_TYPE_PROMOTED_MESSAGE }" />
+        <hr
+          :class="{
+            'text-success': post.type === SOCIAL_TYPE_PROMOTED_MESSAGE,
+          }"
+        />
 
         <div
           v-if="comments.length"
-          :class="{ 'text-success': post.type === SOCIAL_TYPE_PROMOTED_MESSAGE }"
+          :class="{
+            'text-success': post.type === SOCIAL_TYPE_PROMOTED_MESSAGE,
+          }"
           class="border-t-0"
         >
-          <div>{{ $t("Comments") }}</div>
+          <div>{{ $t('Comments') }}</div>
           <WallComment
             v-for="(comment, index) in comments"
             :key="index"
@@ -82,26 +93,23 @@
           />
         </div>
 
-        <WallCommentForm
-          :post="post"
-          @comment-posted="onCommentPosted"
-        />
+        <WallCommentForm :post="post" @comment-posted="onCommentPosted" />
       </div>
     </div>
   </BaseCard>
 </template>
 
-<script setup>
-import WallCommentForm from "./SocialWallCommentForm.vue"
-import { computed, onMounted, reactive, ref } from "vue"
-import WallComment from "./SocialWallComment.vue"
-import WallActions from "./Actions.vue"
-import axios from "axios"
-import { ENTRYPOINT } from "../legacy/config/entrypoint.js"
-import BaseCard from "../basecomponents/BaseCard.vue"
-import { SOCIAL_TYPE_PROMOTED_MESSAGE } from "./constants.js"
-import { useFormatDate } from "../legacy/composables/formatDate.js"
-import { useSecurityStore } from "../legacy/store/securityStore.js"
+<script setup lang="ts">
+import WallCommentForm from './SocialWallCommentForm.vue'
+import { computed, onMounted, reactive, ref } from 'vue'
+import WallComment from './SocialWallComment.vue'
+import WallActions from './Actions.vue'
+import axios from 'axios'
+import { ENTRYPOINT } from '~/config/entrypoint.js'
+import BaseCard from '../basecomponents/BaseCard.vue'
+import { SOCIAL_TYPE_PROMOTED_MESSAGE } from './constants.js'
+import { useFormatDate } from '~/composables/formatDate.js'
+import { useSecurityStore } from '~/stores/securityStore.js'
 
 const props = defineProps({
   post: {
@@ -109,16 +117,16 @@ const props = defineProps({
     required: true,
   },
 })
-const emit = defineEmits(["post-deleted"])
+const emit = defineEmits(['post-deleted'])
 
 const { relativeDatetime } = useFormatDate()
 
-let comments = reactive([])
+const comments = reactive([])
 const attachments = ref([])
 const securityStore = useSecurityStore()
 const currentUser = securityStore.user
 
-const isOwner = computed(() => currentUser["@id"] === props.post.sender["@id"])
+const isOwner = computed(() => currentUser['@id'] === props.post.sender['@id'])
 
 onMounted(() => {
   loadComments()
@@ -130,29 +138,31 @@ const computedAttachments = computed(() => {
 
 async function loadAttachments() {
   try {
-    const postIri = props.post["@id"]
+    const postIri = props.post['@id']
 
     const response = await axios.get(`${postIri}/attachments`)
     attachments.value = response.data
   } catch (error) {
-    console.error("There was an error loading the attachments!", error)
+    console.error('There was an error loading the attachments!', error)
   }
 }
 
 async function loadComments() {
-  const { data } = await axios.get(ENTRYPOINT + "social_posts", {
+  const { data } = await axios.get(ENTRYPOINT + 'social_posts', {
     params: {
-      parent: props.post["@id"],
-      "order[sendDate]": "desc",
+      parent: props.post['@id'],
+      'order[sendDate]': 'desc',
       itemsPerPage: 3,
     },
   })
 
-  comments.push(...data["hydra:member"])
+  comments.push(...data['hydra:member'])
 }
 
 function onCommentDeleted(eventComment) {
-  const index = comments.findIndex((comment) => comment["@id"] === eventComment["@id"])
+  const index = comments.findIndex(
+    (comment) => comment['@id'] === eventComment['@id'],
+  )
   if (-1 !== index) {
     comments.splice(index, 1)
   }
@@ -163,21 +173,21 @@ function onCommentPosted(newComment) {
 }
 
 function onPostDeleted(post) {
-  emit("post-deleted", post)
+  emit('post-deleted', post)
 }
 
 const isImageAttachment = (attachment) => {
   if (attachment.filename) {
-    const fileExtension = attachment.filename.split(".").pop().toLowerCase()
-    return ["jpg", "jpeg", "png", "gif"].includes(fileExtension)
+    const fileExtension = attachment.filename.split('.').pop().toLowerCase()
+    return ['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)
   }
 
   return false
 }
 const isVideoAttachment = (attachment) => {
   if (attachment.filename) {
-    const fileExtension = attachment.filename.split(".").pop().toLowerCase()
-    return ["mp4", "webm", "ogg"].includes(fileExtension)
+    const fileExtension = attachment.filename.split('.').pop().toLowerCase()
+    return ['mp4', 'webm', 'ogg'].includes(fileExtension)
   }
 
   return false

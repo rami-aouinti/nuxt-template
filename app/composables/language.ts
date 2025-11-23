@@ -1,6 +1,6 @@
 // @ts-nocheck
 export function useLanguage() {
-  const defaultLanguage = { originalName: "English", isocode: "en" }
+  const defaultLanguage = { originalName: 'English', isocode: 'en' }
 
   /**
    * @type {{originalName: string, isocode: string}[]}

@@ -17,13 +17,10 @@
       >
         <template #emptyfilter>--</template>
         <template #empty>
-          {{ t("No available options") }}
+          {{ t('No available options') }}
         </template>
       </Dropdown>
-      <label
-        :for="id"
-        v-text="label"
-      />
+      <label :for="id" v-text="label" />
     </FloatLabel>
     <Message
       v-if="isInvalid || messageText"
@@ -36,12 +33,11 @@
   </div>
 </template>
 
-<script setup>
-import { useI18n } from "vue-i18n"
-import { computed } from "vue"
-import FloatLabel from "primevue/floatlabel"
-import Dropdown from "primevue/select"
-import Message from "primevue/message"
+<script setup lang="ts">
+import { computed } from 'vue'
+import FloatLabel from 'primevue/floatlabel'
+import Dropdown from 'primevue/select'
+import Message from 'primevue/message'
 
 const { t } = useI18n()
 
@@ -53,7 +49,7 @@ const props = defineProps({
   id: {
     type: String,
     require: true,
-    default: "",
+    default: '',
   },
   name: {
     type: String,
@@ -63,7 +59,7 @@ const props = defineProps({
   label: {
     type: String,
     required: true,
-    default: "",
+    default: '',
   },
   options: {
     type: Array,
@@ -72,12 +68,12 @@ const props = defineProps({
   optionLabel: {
     type: String,
     required: false,
-    default: "label",
+    default: 'label',
   },
   optionValue: {
     type: String,
     required: false,
-    default: "value",
+    default: 'value',
   },
   isInvalid: {
     type: Boolean,
@@ -104,7 +100,7 @@ const props = defineProps({
   placeholder: {
     type: String,
     required: false,
-    default: "",
+    default: '',
   },
   messageText: {
     type: [String, null],
@@ -113,13 +109,13 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(["change"])
+const emit = defineEmits(['change'])
 
 const realOptions = computed(() => {
   if (props.hastEmptyValue) {
     const emptyValue = {
-      [props.optionLabel]: "--",
-      [props.optionValue]: "",
+      [props.optionLabel]: '--',
+      [props.optionValue]: '',
     }
     return [emptyValue, ...props.options]
   }

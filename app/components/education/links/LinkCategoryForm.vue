@@ -29,18 +29,18 @@
   </form>
 </template>
 
-<script setup>
-import { useRoute, useRouter } from "vue-router"
-import { useI18n } from "vue-i18n"
-import { onMounted, reactive, ref } from "vue"
-import linkService from "../legacy/services/linkService.js"
-import BaseInputTextWithVuelidate from "../basecomponents/BaseInputTextWithVuelidate.vue"
-import BaseTextArea from "../basecomponents/BaseTextArea.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import useVuelidate from "@vuelidate/core"
-import { required } from "@vuelidate/validators"
-import { useNotification } from "../legacy/composables/notification.js"
-import { RESOURCE_LINK_PUBLISHED } from "../legacy/constants/entity/resourcelink.js"
+<script setup lang="ts">
+import { useRoute, useRouter } from 'vue-router'
+
+import { onMounted, reactive, ref } from 'vue'
+import linkService from '~/services/linkService.js'
+import BaseInputTextWithVuelidate from '../basecomponents/BaseInputTextWithVuelidate.vue'
+import BaseTextArea from '../basecomponents/BaseTextArea.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import useVuelidate from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
+import { useNotification } from '~/composables/notification.js'
+import { RESOURCE_LINK_PUBLISHED } from '~/constants/entity/resourcelink.js'
 
 const notification = useNotification()
 const route = useRoute()
@@ -54,7 +54,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(["backPressed"])
+const emit = defineEmits(['backPressed'])
 
 const parentResourceNodeId = ref(Number(route.params.node))
 const resourceLinkList = ref(
@@ -68,8 +68,8 @@ const resourceLinkList = ref(
 )
 
 const formData = reactive({
-  title: "",
-  description: "",
+  title: '',
+  description: '',
 })
 const rules = {
   title: { required },
@@ -84,11 +84,11 @@ onMounted(() => {
 const fetchCategory = async () => {
   if (props.categoryId) {
     try {
-      let category = await linkService.getCategory(props.categoryId)
+      const category = await linkService.getCategory(props.categoryId)
       formData.title = category.title
       formData.description = category.description
     } catch (error) {
-      console.error("Error fetching category:", error)
+      console.error('Error fetching category:', error)
     }
   }
 }
@@ -114,14 +114,14 @@ const submitCategoryForm = async () => {
       await linkService.createCategory(postData)
     }
 
-    notification.showSuccessNotification(t("Category saved"))
+    notification.showSuccessNotification(t('Category saved'))
 
     await router.push({
-      name: "LinksList",
+      name: 'LinksList',
       query: route.query,
     })
   } catch (error) {
-    console.error("Error updating link:", error)
+    console.error('Error updating link:', error)
   }
 }
 </script>

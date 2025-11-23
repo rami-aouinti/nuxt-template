@@ -1,13 +1,9 @@
 <template>
-  <CourseCard
-    v-for="course in courses"
-    :key="course.id"
-    :course="course"
-  />
+  <CourseCard v-for="course in courses" :key="course.id" :course="course" />
 </template>
 
-<script setup>
-import CourseCard from "./CourseCard.vue"
+<script setup lang="ts">
+import CourseCard from './CourseCard.vue'
 
 defineProps({
   courses: {

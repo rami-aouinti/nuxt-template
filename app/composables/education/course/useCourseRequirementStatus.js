@@ -1,7 +1,11 @@
-import { ref } from "vue"
-import courseService from "../../services/courseService"
+import { ref } from 'vue'
+import courseService from '../../services/courseService'
 
-export function useCourseRequirementStatus(courseId, sessionId, onLockChange = null) {
+export function useCourseRequirementStatus(
+  courseId,
+  sessionId,
+  onLockChange = null,
+) {
   const isLocked = ref(false)
   const hasRequirements = ref(false)
   const requirementList = ref([])

@@ -1,6 +1,6 @@
-<script setup>
-import ShowLinks from "../resource_links/ShowLinks.vue"
-import { subscriptionVisibility } from "../legacy/constants/entity/ccalendarevent.js"
+<script setup lang="ts">
+import ShowLinks from '../resource_links/ShowLinks.vue'
+import { subscriptionVisibility } from '~/constants/entity/ccalendarevent.js'
 
 defineProps({
   event: {
@@ -12,10 +12,7 @@ defineProps({
 
 <template>
   <div class="invitations-info">
-    <h6
-      v-t="'Subscriptions'"
-      class="invitations-info__title"
-    />
+    <h6 v-t="'Subscriptions'" class="invitations-info__title" />
 
     <div class="invitations-info__item">
       <p v-t="'Allow subscriptions'" />
@@ -28,7 +25,9 @@ defineProps({
         v-text="'All system users'"
       />
       <p
-        v-else-if="subscriptionVisibility.class === event.subscriptionVisibility"
+        v-else-if="
+          subscriptionVisibility.class === event.subscriptionVisibility
+        "
         v-text="'Users inside the class'"
       />
       <p
@@ -37,18 +36,12 @@ defineProps({
       />
     </div>
 
-    <div
-      v-if="event.maxAttendees"
-      class="invitations-info__item"
-    >
+    <div v-if="event.maxAttendees" class="invitations-info__item">
       <p v-t="'Maximum number of subscriptions'" />
       <p v-text="event.maxAttendees" />
     </div>
 
-    <div
-      v-if="event.maxAttendees"
-      class="invitations-info__item"
-    >
+    <div v-if="event.maxAttendees" class="invitations-info__item">
       <p v-t="'Subscriptions count'" />
       <p v-text="event.resourceLinkListFromEntity.length" />
     </div>
@@ -59,10 +52,7 @@ defineProps({
     >
       <p v-t="'Subscribers'" />
       <div>
-        <ShowLinks
-          :item="event"
-          :show-status="false"
-        />
+        <ShowLinks :item="event" :show-status="false" />
       </div>
     </div>
   </div>

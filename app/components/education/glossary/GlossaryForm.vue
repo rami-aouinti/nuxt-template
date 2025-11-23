@@ -30,20 +30,20 @@
   </form>
 </template>
 
-<script setup>
-import { useRoute, useRouter } from "vue-router"
-import { useI18n } from "vue-i18n"
-import { onMounted, reactive, ref } from "vue"
-import { RESOURCE_LINK_PUBLISHED } from "../legacy/constants/entity/resourcelink.js"
-import LayoutFormButtons from "../layout/LayoutFormButtons.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import BaseInputTextWithVuelidate from "../basecomponents/BaseInputTextWithVuelidate.vue"
-import { required } from "@vuelidate/validators"
-import useVuelidate from "@vuelidate/core"
-import BaseTextAreaWithVuelidate from "../basecomponents/BaseTextAreaWithVuelidate.vue"
-import { useNotification } from "../legacy/composables/notification.js"
-import glossaryService from "../legacy/services/glossaryService.js"
-import { useCidReq } from "../legacy/composables/cidReq.js"
+<script setup lang="ts">
+import { useRoute, useRouter } from 'vue-router'
+
+import { onMounted, reactive, ref } from 'vue'
+import { RESOURCE_LINK_PUBLISHED } from '~/constants/entity/resourcelink.js'
+import LayoutFormButtons from '../layout/LayoutFormButtons.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import BaseInputTextWithVuelidate from '../basecomponents/BaseInputTextWithVuelidate.vue'
+import { required } from '@vuelidate/validators'
+import useVuelidate from '@vuelidate/core'
+import BaseTextAreaWithVuelidate from '../basecomponents/BaseTextAreaWithVuelidate.vue'
+import { useNotification } from '~/composables/notification.js'
+import glossaryService from '~/services/glossaryService.js'
+import { useCidReq } from '~/composables/cidReq.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -58,7 +58,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(["backPressed"])
+const emit = defineEmits(['backPressed'])
 
 const parentResourceNodeId = ref(Number(route.params.node))
 
@@ -73,8 +73,8 @@ const resourceLinkList = ref(
 )
 
 const formData = reactive({
-  title: "",
-  description: "",
+  title: '',
+  description: '',
 })
 const rules = {
   title: { required },
@@ -95,8 +95,8 @@ const fetchTerm = async () => {
     formData.title = glossary.title
     formData.description = glossary.description
   } catch (error) {
-    console.error("Error glossary term:", error)
-    notification.showErrorNotification(t("Could not fetch glossary term"))
+    console.error('Error glossary term:', error)
+    notification.showErrorNotification(t('Could not fetch glossary term'))
   }
 }
 
@@ -123,15 +123,15 @@ const submitGlossaryForm = async () => {
       await glossaryService.createGlossaryTerm(postData)
     }
 
-    notification.showSuccessNotification(t("Glossary term saved"))
+    notification.showSuccessNotification(t('Glossary term saved'))
 
     await router.push({
-      name: "GlossaryList",
+      name: 'GlossaryList',
       query: route.query,
     })
   } catch (error) {
-    console.error("Error updating link:", error)
-    notification.showErrorNotification(t("Could not create glossary term"))
+    console.error('Error updating link:', error)
+    notification.showErrorNotification(t('Could not create glossary term'))
   }
 }
 </script>

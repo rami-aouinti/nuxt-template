@@ -7,15 +7,12 @@
           v-model="v$.item.title.$model"
           :class="{ 'p-invalid': v$.item.title.$invalid }"
         />
-        <label
-          v-text="t('Title')"
-          for="item_title"
-        />
+        <label for="item_title" v-text="t('Title')" />
       </div>
       <small
         v-if="v$.item.title.$invalid || v$.item.title.$pending.$response"
-        v-text="v$.item.title.required.$message"
         class="p-error"
+        v-text="v$.item.title.required.$message"
       />
     </div>
 
@@ -34,13 +31,13 @@
   </div>
 </template>
 
-<script setup>
-import InputText from "primevue/inputtext"
-import Button from "primevue/button"
-import useVuelidate from "@vuelidate/core"
-import { required } from "@vuelidate/validators"
-import { useI18n } from "vue-i18n"
-import { computed } from "vue"
+<script setup lang="ts">
+import InputText from 'primevue/inputtext'
+import Button from 'primevue/button'
+import useVuelidate from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
+
+import { computed } from 'vue'
 
 const { t } = useI18n()
 
@@ -51,7 +48,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(["update:modelValue", "submit"])
+const emit = defineEmits(['update:modelValue', 'submit'])
 
 const v$ = useVuelidate(
   {
@@ -70,8 +67,8 @@ const v$ = useVuelidate(
 function btnSaveOnClick() {
   const item = { ...props.modelValue, ...v$.value.item.$model }
 
-  emit("update:modelValue", item)
+  emit('update:modelValue', item)
 
-  emit("submit", item)
+  emit('submit', item)
 }
 </script>

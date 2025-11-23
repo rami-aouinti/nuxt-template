@@ -1,10 +1,11 @@
 // @ts-nocheck
-import "mediaelement/build/mediaelementplayer.min.css"
-import "mediaelement/full"
+import 'mediaelement/build/mediaelementplayer.min.css'
+import 'mediaelement/full'
 
-import iconSprite from "../../css/scss/libs/mediaelementjs/icons.svg"
+import iconSprite from '../../css/scss/libs/mediaelementjs/icons.svg'
 
-const videoSelector = "video:not(.skip, .uppy-Webcam-video, .fancybox-content video), audio:not(.skip)"
+const videoSelector =
+  'video:not(.skip, .uppy-Webcam-video, .fancybox-content video), audio:not(.skip)'
 
 const mejsOptions = {
   iconSprite,
@@ -14,18 +15,17 @@ const mejsOptions = {
    * @param {HTMLVideoElement|HTMLAudioElement|HTMLIFrameElement} node
    */
   success(media, node) {
-    node.classList.add("not-prose")
+    node.classList.add('not-prose')
   },
 }
 
 function newVideosCallback(newVideo) {
-  const attrId = newVideo.getAttribute("id")
+  const attrId = newVideo.getAttribute('id')
 
-  if (attrId && attrId.startsWith("mejs")) {
+  if (attrId && attrId.startsWith('mejs')) {
     return
   }
 
-  // eslint-disable-next-line no-undef
   new MediaElementPlayer(newVideo, mejsOptions)
 }
 
@@ -45,7 +45,7 @@ function addedNodesCallback(newNode) {
 
 function observerCallback(mutationList) {
   for (const { type, addedNodes } of mutationList) {
-    if ("childList" !== type) {
+    if ('childList' !== type) {
       continue
     }
 
@@ -56,7 +56,7 @@ function observerCallback(mutationList) {
 function loader() {
   const observer = new MutationObserver(observerCallback)
 
-  observer.observe(document.querySelector("body"), {
+  observer.observe(document.querySelector('body'), {
     childList: true,
     subtree: true,
   })

@@ -1,6 +1,6 @@
 // @ts-nocheck
-import api from "../config/api"
-import baseService from "./baseService"
+import api from '../config/api'
+import baseService from './baseService'
 
 /**
  * ---------------------------
@@ -15,9 +15,9 @@ import baseService from "./baseService"
  * @returns {Promise<Object|null>}
  */
 async function getPublicPageBySlug(slug) {
-  const { items } = await baseService.getCollection("/api/pages", {
+  const { items } = await baseService.getCollection('/api/pages', {
     slug,
-    "category.title": "public",
+    'category.title': 'public',
   })
 
   if (items.length) {
@@ -34,7 +34,7 @@ async function getPublicPageBySlug(slug) {
  * @returns {Promise<Object>}
  */
 async function postPage(params) {
-  const { data } = await api.post("/api/pages", params)
+  const { data } = await api.post('/api/pages', params)
   return data
 }
 
@@ -72,8 +72,8 @@ async function deletePage(iri) {
  * @returns {Promise<Array>}
  */
 async function getPageLayouts() {
-  const { data } = await api.get("/api/page_layouts")
-  return data["hydra:member"]
+  const { data } = await api.get('/api/page_layouts')
+  return data['hydra:member']
 }
 
 /**
@@ -94,7 +94,7 @@ async function getPageLayout(id) {
  * @returns {Promise<Object>}
  */
 async function createPageLayout(params) {
-  const { data } = await api.post("/api/page_layouts", params)
+  const { data } = await api.post('/api/page_layouts', params)
   return data
 }
 
@@ -127,12 +127,12 @@ async function deletePageLayout(iri) {
  */
 
 async function getPageLayoutTemplates() {
-  const { data } = await api.get("/api/page_layout_templates")
-  return data["hydra:member"]
+  const { data } = await api.get('/api/page_layout_templates')
+  return data['hydra:member']
 }
 
 async function createPageLayoutTemplate(params) {
-  const { data } = await api.post("/api/page_layout_templates", params)
+  const { data } = await api.post('/api/page_layout_templates', params)
   return data
 }
 
@@ -155,7 +155,6 @@ async function getPageLayoutTemplate(id) {
   const { data } = await api.get(`/api/page_layout_templates/${id}`)
   return data
 }
-
 
 export default {
   // Pages

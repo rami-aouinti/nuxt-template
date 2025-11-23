@@ -1,8 +1,8 @@
-<script>
-import SessionCardList from "./SessionCardList.vue"
+<script setup lang="ts">
+import SessionCardList from './SessionCardList.vue'
 
 export default {
-  name: "SessionListWrapper",
+  name: 'SessionListWrapper',
   components: {
     SessionCardList,
   },
@@ -14,10 +14,7 @@ export default {
 </script>
 
 <template>
-  <div
-    v-if="sessions.length"
-    class="grid"
-  >
+  <div v-if="sessions.length" class="grid">
     <SessionCardList :sessions="sessions" />
   </div>
 

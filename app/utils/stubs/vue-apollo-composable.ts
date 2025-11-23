@@ -6,7 +6,15 @@ function createOperation() {
   const error = ref(null)
 
   const execute = async () => ({ result: result.value })
-  return { result, loading, error, onResult: () => {}, onError: () => {}, refetch: execute, mutate: execute }
+  return {
+    result,
+    loading,
+    error,
+    onResult: () => {},
+    onError: () => {},
+    refetch: execute,
+    mutate: execute,
+  }
 }
 
 export const useQuery = createOperation

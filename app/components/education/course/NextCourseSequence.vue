@@ -4,31 +4,24 @@
     class="border border-gray-300 p-4 rounded-md mt-6 bg-white shadow"
   >
     <h3 class="text-lg font-semibold mb-4">
-      {{ t("Dependencies") }}
+      {{ t('Dependencies') }}
     </h3>
 
-    <div
-      v-for="(item, index) in sequenceList"
-      :key="index"
-      class="mb-8"
-    >
+    <div v-for="(item, index) in sequenceList" :key="index" class="mb-8">
       <h4 class="text-base font-medium text-gray-700 mb-4">
         {{ item.name }}
       </h4>
 
       <div class="flex items-center justify-center flex-wrap gap-8 relative">
-        <template
-          v-for="(course, cid, idx) in item.dependents"
-          :key="cid"
-        >
+        <template v-for="(course, cid, idx) in item.dependents" :key="cid">
           <div class="flex flex-col items-center text-center relative">
-            <i class="mdi mdi-book-open-page-variant text-5xl text-blue-600"></i>
+            <i class="mdi mdi-book-open-page-variant text-5xl text-blue-600" />
 
             <p class="mt-2 text-sm font-semibold">
               <span
                 v-if="course.status"
-                @click="goToCourse(course.id)"
                 class="text-green-700 cursor-pointer hover:underline"
+                @click="goToCourse(course.id)"
               >
                 {{ course.name }}
               </span>
@@ -36,7 +29,11 @@
               <span
                 v-else
                 class="text-red-700 cursor-not-allowed opacity-60"
-                :title="t('This course is locked. You must complete the prerequisite(s) first.')"
+                :title="
+                  t(
+                    'This course is locked. You must complete the prerequisite(s) first.',
+                  )
+                "
               >
                 {{ course.name }}
               </span>
@@ -44,28 +41,31 @@
 
             <span
               class="mt-1 text-xs px-2 py-1 rounded font-medium"
-              :class="course.status ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
+              :class="
+                course.status
+                  ? 'bg-green-100 text-green-800'
+                  : 'bg-red-100 text-red-800'
+              "
             >
               <i
-                :class="course.status ? 'mdi mdi-check' : 'mdi mdi-alert-circle'"
+                :class="
+                  course.status ? 'mdi mdi-check' : 'mdi mdi-alert-circle'
+                "
                 class="mr-1"
-              ></i>
-              {{ course.status ? t("Complete") : t("Incomplete") }}
+              />
+              {{ course.status ? t('Complete') : t('Incomplete') }}
             </span>
 
             <div
               v-if="idx < Object.keys(item.dependents).length - 1"
               class="absolute right-[-40px] top-6 w-10 border-t-2 border-gray-300"
-            ></div>
+            />
           </div>
         </template>
       </div>
     </div>
 
-    <div
-      v-if="graphUrl"
-      class="mt-6 text-center"
-    >
+    <div v-if="graphUrl" class="mt-6 text-center">
       <img
         :src="graphUrl"
         alt="Graph Dependency Tree"
@@ -75,12 +75,12 @@
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from "vue"
-import { useI18n } from "vue-i18n"
-import { useCidReqStore } from "../legacy/store/cidReq.js"
-import courseService from "../legacy/services/courseService.js"
-import { storeToRefs } from "pinia"
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+
+import { useCidReqStore } from '~/stores/cidReq.js'
+import courseService from '~/services/courseService.js'
+import { storeToRefs } from 'pinia'
 
 const { t } = useI18n()
 const cidReqStore = useCidReqStore()
@@ -99,7 +99,7 @@ onMounted(async () => {
     sequenceList.value = list || []
     graphUrl.value = graph || null
   } catch (e) {
-    console.warn("No sequence data available", e)
+    console.warn('No sequence data available', e)
   }
 })
 

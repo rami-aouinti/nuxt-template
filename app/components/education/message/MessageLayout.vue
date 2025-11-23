@@ -4,16 +4,16 @@
       <UserProfileCard />
     </div>
     <div class="content flex-grow w-full">
-      <router-view></router-view>
+      <router-view />
     </div>
   </div>
 </template>
-<script setup>
-import UserProfileCard from "../social/UserProfileCard.vue"
-import { onMounted, provide } from "vue"
-import { useSocialInfo } from "../legacy/composables/useSocialInfo.js"
-import { useSecurityStore } from "../legacy/store/securityStore.js"
-import { storeToRefs } from "pinia"
+<script setup lang="ts">
+import UserProfileCard from '../social/UserProfileCard.vue'
+import { onMounted, provide } from 'vue'
+import { useSocialInfo } from '~/composables/useSocialInfo.js'
+import { useSecurityStore } from '~/stores/securityStore.js'
+import { storeToRefs } from 'pinia'
 
 const { isCurrentUser, groupInfo, isGroup, loadUser } = useSocialInfo()
 
@@ -21,10 +21,10 @@ const securityStore = useSecurityStore()
 
 const { user } = storeToRefs(securityStore)
 
-provide("social-user", user)
-provide("is-current-user", isCurrentUser)
-provide("group-info", groupInfo)
-provide("is-group", isGroup)
+provide('social-user', user)
+provide('is-current-user', isCurrentUser)
+provide('group-info', groupInfo)
+provide('is-group', isGroup)
 
 onMounted(loadUser)
 </script>

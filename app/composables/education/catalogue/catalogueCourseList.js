@@ -1,12 +1,12 @@
-import { ref } from "vue"
-import courseService from "../../services/courseService"
+import { ref } from 'vue'
+import courseService from '../../services/courseService'
 
-import { useLanguage } from "../language"
-import { useNotification } from "../notification"
+import { useLanguage } from '../language'
+import { useNotification } from '../notification'
 
-import { FilterMatchMode } from "@primevue/core/api"
+import { FilterMatchMode } from '@primevue/core/api'
 
-import * as trackCourseRanking from "../../services/trackCourseRankingService"
+import * as trackCourseRanking from '../../services/trackCourseRankingService'
 
 export function useCatalogueCourseList() {
   const isLoading = ref(true)
@@ -33,7 +33,8 @@ export function useCatalogueCourseList() {
 
       courses.value = items.map((course) => ({
         ...course,
-        courseLanguage: findLanguageByIsoCode(course.courseLanguage)?.originalName,
+        courseLanguage: findLanguageByIsoCode(course.courseLanguage)
+          ?.originalName,
       }))
     } catch (error) {
       showErrorNotification(error)
@@ -79,7 +80,10 @@ export function useCatalogueCourseList() {
       })
 
       courses.value.forEach((course) => {
-        if (course.trackCourseRanking && course.trackCourseRanking.id === trackCourseRankingId) {
+        if (
+          course.trackCourseRanking &&
+          course.trackCourseRanking.id === trackCourseRankingId
+        ) {
           course.trackCourseRanking.realTotalScore = response.realTotalScore
         }
       })

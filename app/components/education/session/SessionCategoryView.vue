@@ -1,9 +1,9 @@
-<script setup>
-import { computed } from "vue"
-import SessionCategoryListWrapper from "./SessionCategoryListWrapper.vue"
-import SessionListCategoryWrapper from "./SessionListCategoryWrapper.vue"
-import SessionListView from "./SessionListView.vue"
-import { usePlatformConfig } from "../legacy/store/platformConfig.js"
+<script setup lang="ts">
+import { computed } from 'vue'
+import SessionCategoryListWrapper from './SessionCategoryListWrapper.vue'
+import SessionListCategoryWrapper from './SessionListCategoryWrapper.vue'
+import SessionListView from './SessionListView.vue'
+import { usePlatformConfig } from '~/stores/platformConfig.js'
 
 const props = defineProps({
   uncategorizedSessions: Array,
@@ -12,7 +12,11 @@ const props = defineProps({
 })
 
 const platformConfigStore = usePlatformConfig()
-const displayMode = computed(() => platformConfigStore.getSetting("session.user_session_display_mode") ?? "card")
+const displayMode = computed(
+  () =>
+    platformConfigStore.getSetting('session.user_session_display_mode') ??
+    'card',
+)
 </script>
 
 <template>

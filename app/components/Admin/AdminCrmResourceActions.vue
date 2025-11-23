@@ -239,9 +239,7 @@ function resolveFieldType(value: unknown): 'string' | 'number' | 'boolean' {
   return 'string'
 }
 
-function resolveFieldDisplayType(
-  value: unknown,
-): EntityField['displayType'] {
+function resolveFieldDisplayType(value: unknown): EntityField['displayType'] {
   if (typeof value === 'boolean') {
     return 'boolean'
   }
@@ -257,7 +255,9 @@ function resolveFieldDisplayType(
   return 'text'
 }
 
-function detectTemporalType(value: string): Extract<EntityField['displayType'], 'date' | 'datetime'> | null {
+function detectTemporalType(
+  value: string,
+): Extract<EntityField['displayType'], 'date' | 'datetime'> | null {
   const trimmed = value.trim()
   if (trimmed.length < 8 || !/[tT:/-]/.test(trimmed)) {
     return null
@@ -412,7 +412,7 @@ function hydrateEditForm() {
       return
     }
 
-    normalizedFields[key] = typeof value === 'string' ? value : value ?? ''
+    normalizedFields[key] = typeof value === 'string' ? value : (value ?? '')
   })
 
   fieldTypes.value = normalizedTypes
@@ -424,9 +424,8 @@ function hydrateEditForm() {
     const values = group.items.map((item) => normalizeRelationValue(item.value))
     const filtered = values.filter((value): value is string => Boolean(value))
 
-    relationPayload[group.key] = group.items.length > 1
-      ? filtered
-      : filtered[0] ?? ''
+    relationPayload[group.key] =
+      group.items.length > 1 ? filtered : (filtered[0] ?? '')
   })
 
   relationSelections.value = relationPayload
@@ -471,7 +470,10 @@ function resolveRelationLabel(value: unknown) {
     if (typeof objectValue.name === 'string') return objectValue.name
     if (typeof objectValue.title === 'string') return objectValue.title
     if (typeof objectValue.value === 'string') return objectValue.value
-    if (typeof objectValue.id === 'string' || typeof objectValue.id === 'number') {
+    if (
+      typeof objectValue.id === 'string' ||
+      typeof objectValue.id === 'number'
+    ) {
       return `#${objectValue.id}`
     }
   }
@@ -625,7 +627,10 @@ function formatDisplayValue(field: EntityField): string {
           </div>
 
           <template v-else>
-            <div v-if="activeAction !== 'edit'" class="admin-crm-actions__details">
+            <div
+              v-if="activeAction !== 'edit'"
+              class="admin-crm-actions__details"
+            >
               <section class="admin-crm-actions__summary">
                 <h3 class="admin-crm-actions__section-title">
                   {{ t('common.labels.details') }}
@@ -683,7 +688,10 @@ function formatDisplayValue(field: EntityField): string {
                       </div>
                     </div>
                   </div>
-                  <div v-if="entityFields.length === 0" class="text-medium-emphasis">
+                  <div
+                    v-if="entityFields.length === 0"
+                    class="text-medium-emphasis"
+                  >
                     {{ t('common.labels.none') }}
                   </div>
                 </div>
@@ -772,7 +780,9 @@ function formatDisplayValue(field: EntityField): string {
                     v-else
                     v-model="editForm[field.key]"
                     :label="field.label"
-                    :type="fieldTypes[field.key] === 'number' ? 'number' : 'text'"
+                    :type="
+                      fieldTypes[field.key] === 'number' ? 'number' : 'text'
+                    "
                     variant="outlined"
                     density="comfortable"
                     hide-details="auto"

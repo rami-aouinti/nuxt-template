@@ -1,5 +1,5 @@
 // @ts-nocheck
-import baseService from "./baseService"
+import baseService from './baseService'
 
 export default {
   /**
@@ -7,7 +7,7 @@ export default {
    * @returns {Promise<{totalItems, items}>}
    */
   search: async (searchTerm) => {
-    return await baseService.getCollection("/api/usergroups/search", {
+    return await baseService.getCollection('/api/usergroups/search', {
       search: searchTerm,
     })
   },
@@ -17,7 +17,7 @@ export default {
    * @returns {Promise<Object>}
    */
   async createGroup(params) {
-    return await baseService.post("/api/usergroups", params)
+    return await baseService.post('/api/usergroups', params)
   },
 
   /**
@@ -26,14 +26,19 @@ export default {
    * @returns {Promise<Object>}
    */
   async uploadPicture(groupId, params) {
-    return await baseService.postForm(`/social-network/upload-group-picture/${groupId}`, params)
+    return await baseService.postForm(
+      `/social-network/upload-group-picture/${groupId}`,
+      params,
+    )
   },
 
   /**
    * @returns {Promise<Array>}
    */
   async listNewest() {
-    const { items } = await baseService.getCollection("/api/usergroup/list/newest")
+    const { items } = await baseService.getCollection(
+      '/api/usergroup/list/newest',
+    )
 
     return items
   },
@@ -42,7 +47,9 @@ export default {
    * @returns {Promise<Array>}
    */
   async listPopular() {
-    const { items } = await baseService.getCollection("/api/usergroup/list/popular")
+    const { items } = await baseService.getCollection(
+      '/api/usergroup/list/popular',
+    )
 
     return items
   },
@@ -51,7 +58,7 @@ export default {
    * @returns {Promise<Array>}
    */
   async listMine() {
-    const { items } = await baseService.getCollection("/api/usergroup/list/my")
+    const { items } = await baseService.getCollection('/api/usergroup/list/my')
 
     return items
   },

@@ -1,37 +1,26 @@
 <template>
   <span>
-    <q-btn
-      v-b-toggle.collapse-1
-      variant="primary"
-    >
+    <v-btn v-b-toggle.collapse-1 variant="primary">
       <v-icon icon="mdi-magnify" />
 
-      {{ $t("Search") }}
-    </q-btn>
+      {{ $t('Search') }}
+    </v-btn>
     <!--    <b-collapse-->
     <!--      id="collapse-1"-->
     <!--      class="mt-2"-->
     <!--    >-->
-    <q-card>
+    <v-card>
       <p class="card-text">
         <slot name="filter" />
         <br />
-        <q-btn
-          variant="primary"
-          @click="handleFilter"
-        >
-          {{ $t("Filter") }}
-        </q-btn>
-        <q-btn
-          class="ml-2"
-          text
-          variant="secondary"
-          @click="handleReset"
-        >
-          {{ $t("Reset") }}
-        </q-btn>
+        <v-btn variant="primary" @click="handleFilter">
+          {{ $t('Filter') }}
+        </v-btn>
+        <v-btn class="ml-2" text variant="secondary" @click="handleReset">
+          {{ $t('Reset') }}
+        </v-btn>
       </p>
-    </q-card>
+    </v-card>
     <!--    </b-collapse>-->
 
     <!--    <v-expansion-panels v-model="filtersExpanded">-->
@@ -69,9 +58,9 @@
   </span>
 </template>
 
-<script>
+<script setup lang="ts">
 export default {
-  name: "DataFilter",
+  name: 'DataFilter',
   props: {
     handleReset: {
       type: Function,

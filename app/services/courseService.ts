@@ -1,6 +1,6 @@
 // @ts-nocheck
-import api from "../config/api"
-import baseService from "./baseService"
+import api from '../config/api'
+import baseService from './baseService'
 
 export default {
   find: baseService.get,
@@ -17,7 +17,7 @@ export default {
       params.pagination = false
     }
 
-    return await baseService.getCollection("/api/courses", params)
+    return await baseService.getCollection('/api/courses', params)
   },
 
   /**
@@ -25,7 +25,8 @@ export default {
    * @param {object} params
    * @returns {Promise<Object>}
    */
-  findById: async (cid, params) => baseService.get(`/api/courses/${cid}`, params),
+  findById: async (cid, params) =>
+    baseService.get(`/api/courses/${cid}`, params),
 
   /**
    * @param {number} courseId
@@ -33,23 +34,25 @@ export default {
    * @returns {Promise<Object>}
    */
   loadTools: async (courseId, sessionId = 0) => {
-    const { data } = await api.get(`/course/${courseId}/home.json?sid=${sessionId}`)
+    const { data } = await api.get(
+      `/course/${courseId}/home.json?sid=${sessionId}`,
+    )
 
     return data
   },
 
   loadCTools: async (courseId, sessionId = 0) => {
-    const { data } = await api.get("/api/c_tools", {
+    const { data } = await api.get('/api/c_tools', {
       params: {
         cid: courseId,
         sid: sessionId,
         order: {
-          position: "asc",
+          position: 'asc',
         },
       },
     })
 
-    return data["hydra:member"]
+    return data['hydra:member']
   },
 
   /**
@@ -60,10 +63,13 @@ export default {
    * @returns {Promise<Object>}
    */
   updateToolOrder: async (tool, newIndex, courseId, sessionId = 0) => {
-    const { data } = await api.post(`/course/${courseId}/home.json?sid=${sessionId}`, {
-      index: newIndex,
-      toolItem: tool,
-    })
+    const { data } = await api.post(
+      `/course/${courseId}/home.json?sid=${sessionId}`,
+      {
+        index: newIndex,
+        toolItem: tool,
+      },
+    )
 
     return data
   },
@@ -89,7 +95,9 @@ export default {
    * @returns {Promise<Object>}
    */
   checkLegal: async (courseId, sessionId = 0) => {
-    return await baseService.get(`/course/${courseId}/checkLegal.json`, { sid: sessionId })
+    return await baseService.get(`/course/${courseId}/checkLegal.json`, {
+      sid: sessionId,
+    })
   },
 
   /**
@@ -99,7 +107,7 @@ export default {
    */
   createCourse: async (courseData) => {
     const response = await api.post(`/course/create`, courseData)
-    console.log("response create ::", response)
+    console.log('response create ::', response)
 
     return response.data
   },
@@ -139,11 +147,14 @@ export default {
    */
   getAutoLaunchExerciseId: async (courseId, sessionId = 0) => {
     try {
-      const { data } = await api.get(`/course/${courseId}/getAutoLaunchExerciseId`, {
-        params: {
-          sid: sessionId,
+      const { data } = await api.get(
+        `/course/${courseId}/getAutoLaunchExerciseId`,
+        {
+          params: {
+            sid: sessionId,
+          },
         },
-      })
+      )
 
       if (data && data.exerciseId) {
         return data.exerciseId
@@ -151,7 +162,7 @@ export default {
 
       return null
     } catch (error) {
-      console.error("Error fetching auto-launch exercise ID:", error)
+      console.error('Error fetching auto-launch exercise ID:', error)
       return null
     }
   },
@@ -177,7 +188,7 @@ export default {
 
       return null
     } catch (error) {
-      console.error("Error fetching auto-launch LP ID:", error)
+      console.error('Error fetching auto-launch LP ID:', error)
       return null
     }
   },
@@ -187,49 +198,51 @@ export default {
    * @returns {Promise<{items: Array}>}
    */
   listCatalogueCourses: async () => {
-    const response = await api.get("/catalogue/courses-list")
+    const response = await api.get('/catalogue/courses-list')
     return response.data
   },
   loadCourseCatalogue: async () => {
     try {
-      const response = await fetch("/api/public_courses")
-      if (!response.ok) throw new Error("Failed to load catalogue courses")
+      const response = await fetch('/api/public_courses')
+      if (!response.ok) throw new Error('Failed to load catalogue courses')
 
       const data = await response.json()
-      const items = Array.isArray(data) ? data : (data["hydra:member"] ?? data.items ?? [])
+      const items = Array.isArray(data)
+        ? data
+        : (data['hydra:member'] ?? data.items ?? [])
       return items.map((course) => ({
         ...course,
         userVote: null,
         extra_fields: course.extra_fields || {},
       }))
     } catch (e) {
-      console.error("loadCourseCatalogue error:", e)
+      console.error('loadCourseCatalogue error:', e)
       return []
     }
   },
 
   fetchDashboardCourses: async () => {
-    const { data } = await api.get("/admin/sessionadmin/courses")
-    console.log("[courseService] dashboard payload →", data)
+    const { data } = await api.get('/admin/sessionadmin/courses')
+    console.log('[courseService] dashboard payload →', data)
 
     return data
   },
 
   toggleFavorite: async (courseId, userId) => {
     // Check if the vote already exists
-    const { data } = await api.get("/api/user_rel_course_votes", {
-      params: { "user.id": userId, "course.id": courseId },
+    const { data } = await api.get('/api/user_rel_course_votes', {
+      params: { 'user.id': userId, 'course.id': courseId },
     })
 
-    if (data["hydra:totalItems"] > 0) {
+    if (data['hydra:totalItems'] > 0) {
       // Already favorite → remove
-      await api.delete(data["hydra:member"][0]["@id"])
+      await api.delete(data['hydra:member'][0]['@id'])
 
       return false
     }
 
     // Not favorite → create
-    await api.post("/api/user_rel_course_votes", {
+    await api.post('/api/user_rel_course_votes', {
       user: `/api/users/${userId}`,
       course: `/api/courses/${courseId}`,
       vote: 1,
@@ -240,15 +253,15 @@ export default {
   },
 
   listFavoriteCourses: async (userId) => {
-    const { data } = await api.get("/api/user_rel_course_votes", {
-      params: { "user.id": userId, vote: 1, pagination: false },
+    const { data } = await api.get('/api/user_rel_course_votes', {
+      params: { 'user.id': userId, vote: 1, pagination: false },
     })
 
-    return data["hydra:member"].map((vote) => vote.course)
+    return data['hydra:member'].map((vote) => vote.course)
   },
 
   getCompletedCourses: async (offset = 0, limit = 10) => {
-    const res = await api.get("/admin/sessionadmin/courses/completed", {
+    const res = await api.get('/admin/sessionadmin/courses/completed', {
       params: { offset, limit },
     })
 
@@ -256,13 +269,13 @@ export default {
   },
 
   getIncompleteCourses: async () => {
-    const res = await api.get("/admin/sessionadmin/courses/incomplete")
+    const res = await api.get('/admin/sessionadmin/courses/incomplete')
 
     return res.data
   },
 
   getRestartableCourses: async (offset = 0, limit = 10) => {
-    const { data } = await api.get("/admin/sessionadmin/courses/restartable", {
+    const { data } = await api.get('/admin/sessionadmin/courses/restartable', {
       params: { offset, limit },
     })
 
@@ -270,7 +283,7 @@ export default {
   },
 
   extendSessionByWeek: async (sessionId, userId, courseId) => {
-    const { data } = await api.post("/admin/sessionadmin/courses/extend_week", {
+    const { data } = await api.post('/admin/sessionadmin/courses/extend_week', {
       sessionId,
       userId,
       courseId,
@@ -282,13 +295,13 @@ export default {
   findCourseForSessionAdmin: async (cid) => {
     const response = await fetch(`/admin/sessionadmin/courses/${cid}`)
     if (!response.ok) {
-      throw new Error("Failed to fetch course")
+      throw new Error('Failed to fetch course')
     }
 
     const data = await response.json()
 
-    if (!data || typeof data !== "object" || !data.id) {
-      throw new Error("Failed to load course for session admin")
+    if (!data || typeof data !== 'object' || !data.id) {
+      throw new Error('Failed to load course for session admin')
     }
 
     return data

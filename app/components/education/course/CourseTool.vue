@@ -30,41 +30,31 @@
           isAllowedToEdit &&
           !isSorting &&
           !isCustomizing &&
-          (session?.id ? 'true' === getSetting('session.allow_edit_tool_visibility_in_session') : true)
+          (session?.id
+            ? 'true' ===
+              getSetting('session.allow_edit_tool_visibility_in_session')
+            : true)
         "
         @click="changeVisibility(tool)"
       >
-        <BaseIcon
-          v-if="isVisible"
-          icon="eye-on"
-        />
-        <BaseIcon
-          v-else
-          class="text-gray-50"
-          icon="eye-off"
-        />
+        <BaseIcon v-if="isVisible" icon="eye-on" />
+        <BaseIcon v-else class="text-gray-50" icon="eye-off" />
       </button>
 
-      <a
-        v-if="securityStore.isCurrentTeacher && isCustomizing"
-        href="#"
-      >
-        <BaseIcon
-          icon="edit"
-          size="small"
-        />
+      <a v-if="securityStore.isCurrentTeacher && isCustomizing" href="#">
+        <BaseIcon icon="edit" size="small" />
       </a>
     </div>
   </div>
 </template>
 
-<script setup>
-import { computed, inject } from "vue"
-import BaseIcon from "../basecomponents/BaseIcon.vue"
-import { useSecurityStore } from "../legacy/store/securityStore.js"
-import { usePlatformConfig } from "../legacy/store/platformConfig.js"
-import { storeToRefs } from "pinia"
-import { useCidReqStore } from "../legacy/store/cidReq.js"
+<script setup lang="ts">
+import { computed, inject } from 'vue'
+import BaseIcon from '../basecomponents/BaseIcon.vue'
+import { useSecurityStore } from '~/stores/securityStore.js'
+import { usePlatformConfig } from '~/stores/platformConfig.js'
+import { storeToRefs } from 'pinia'
+import { useCidReqStore } from '~/stores/cidReq.js'
 
 const securityStore = useSecurityStore()
 const platformConfigStore = usePlatformConfig()
@@ -73,8 +63,8 @@ const cidReqStore = useCidReqStore()
 const { session } = storeToRefs(cidReqStore)
 const { getSetting } = storeToRefs(platformConfigStore)
 
-const isSorting = inject("isSorting")
-const isCustomizing = inject("isCustomizing")
+const isSorting = inject('isSorting')
+const isCustomizing = inject('isCustomizing')
 
 const props = defineProps({
   isAllowedToEdit: {
@@ -97,24 +87,26 @@ const props = defineProps({
 
 const cardCustomClass = computed(() => {
   if (!isVisible.value) {
-    return "bg-primary-bgdisabled hover:bg-gray-50/25 border-primary-borderdisabled shadow-none "
+    return 'bg-primary-bgdisabled hover:bg-gray-50/25 border-primary-borderdisabled shadow-none '
   }
   if (isSorting.value) {
-    return "border-2 border-dashed border-primary hover:bg-primary-gradient/10 "
+    return 'border-2 border-dashed border-primary hover:bg-primary-gradient/10 '
   }
-  return "hover:bg-primary-gradient/10 "
+  return 'hover:bg-primary-gradient/10 '
 })
 const iconCustomClass = computed(() => {
   if (!isVisible.value) {
-    return "bg-gradient-to-b from-gray-50 to-gray-25 "
+    return 'bg-gradient-to-b from-gray-50 to-gray-25 '
   }
-  return "bg-primary-bgdisabled "
+  return 'bg-primary-bgdisabled '
 })
 const titleCustomClass = computed(() => {
   if (!isVisible.value) {
-    return "text-gray-90 "
+    return 'text-gray-90 '
   }
-  return ""
+  return ''
 })
-const isVisible = computed(() => props.tool.resourceNode.resourceLinks[0].visibility === 2)
+const isVisible = computed(
+  () => props.tool.resourceNode.resourceLinks[0].visibility === 2,
+)
 </script>

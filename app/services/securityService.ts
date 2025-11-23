@@ -1,5 +1,5 @@
 // @ts-nocheck
-import baseService from "./baseService"
+import baseService from './baseService'
 
 /**
  * @param {string} actionUrl
@@ -10,7 +10,10 @@ import baseService from "./baseService"
  * @param {string|null} [params.totp=null]
  * @returns {Promise<Object>}
  */
-async function doLoginRequest(actionUrl, { login, password, _remember_me, totp = null }) {
+async function doLoginRequest(
+  actionUrl,
+  { login, password, _remember_me, totp = null },
+) {
   const payload = {
     username: login,
     password,
@@ -33,7 +36,12 @@ async function doLoginRequest(actionUrl, { login, password, _remember_me, totp =
  * @returns {Promise<Object>}
  */
 async function login({ login, password, _remember_me, totp = null }) {
-  return await doLoginRequest("/login_json", { login, password, _remember_me, totp })
+  return await doLoginRequest('/login_json', {
+    login,
+    password,
+    _remember_me,
+    totp,
+  })
 }
 
 /**
@@ -45,7 +53,12 @@ async function login({ login, password, _remember_me, totp = null }) {
  * @returns {Promise<Object>}
  */
 async function loginLdap({ login, password, _remember_me, totp = null }) {
-  return await doLoginRequest("/login/ldap/check", { login, password, _remember_me, totp })
+  return await doLoginRequest('/login/ldap/check', {
+    login,
+    password,
+    _remember_me,
+    totp,
+  })
 }
 
 /**
@@ -53,7 +66,7 @@ async function loginLdap({ login, password, _remember_me, totp = null }) {
  * @returns {Promise<Object>}
  */
 async function checkSession() {
-  return await baseService.get("/check-session")
+  return await baseService.get('/check-session')
 }
 
 /**
@@ -71,7 +84,7 @@ async function loginTokenRequest() {
  * @returns {Promise<void>}
  */
 async function loginTokenCheck(portalUrl, token) {
-  portalUrl = portalUrl.endsWith("/") ? portalUrl.slice(0, -1) : portalUrl
+  portalUrl = portalUrl.endsWith('/') ? portalUrl.slice(0, -1) : portalUrl
 
   await baseService.post(
     `${portalUrl}/login/token/check`,

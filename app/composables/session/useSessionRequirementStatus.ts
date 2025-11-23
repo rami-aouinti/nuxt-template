@@ -1,6 +1,6 @@
 // @ts-nocheck
-import api from "../../config/api"
-import { ref } from "vue"
+import api from '../../config/api'
+import { ref } from 'vue'
 
 export function useSessionRequirementStatus(sessionId) {
   const requirementList = ref([])
@@ -17,7 +17,7 @@ export function useSessionRequirementStatus(sessionId) {
 
     if (data.requirements?.length) {
       requirementList.value.push({
-        name: "Session requirements",
+        name: 'Session requirements',
         requirements: data.requirements.map((item) => ({
           name: item.name,
           status: false,
@@ -28,7 +28,7 @@ export function useSessionRequirementStatus(sessionId) {
 
     if (data.dependencies?.length) {
       dependencyList.value.push({
-        name: "Sessions that depend on this session",
+        name: 'Sessions that depend on this session',
         requirements: data.dependencies.map((item) => ({
           name: item.name,
           status: item.unlocked ?? null,
@@ -38,7 +38,8 @@ export function useSessionRequirementStatus(sessionId) {
     }
 
     graphImage.value = data.graph || null
-    allowSubscription.value = requirementList.value.length === 0 || data.unlocked === true
+    allowSubscription.value =
+      requirementList.value.length === 0 || data.unlocked === true
   }
 
   return {

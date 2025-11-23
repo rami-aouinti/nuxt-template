@@ -7,11 +7,7 @@
     </template>
     <div class="flex flex-col items-end">
       <div class="w-full flex justify-between items-center mb-2">
-        <label
-          class="mr-2"
-          for="search-query"
-          >{{ t("Groups") }}</label
-        >
+        <label class="mr-2" for="search-query">{{ t('Groups') }}</label>
         <BaseInputText
           id="search-query"
           v-model="query"
@@ -29,26 +25,16 @@
     </div>
   </BaseCard>
 
-  <BaseCard
-    v-if="groups.length"
-    class="mb-2"
-  >
+  <BaseCard v-if="groups.length" class="mb-2">
     <template #header>
       <div class="px-4 py-2 -mb-2 bg-gray-15">
-        <h2 class="text-h5">{{ t("Groups") }}</h2>
+        <h2 class="text-h5">{{ t('Groups') }}</h2>
       </div>
     </template>
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
-      <div
-        v-for="group in groups"
-        :key="group.id"
-        class="group-card"
-      >
+      <div v-for="group in groups" :key="group.id" class="group-card">
         <div class="group-image flex justify-center">
-          <img
-            :src="group.image"
-            class="rounded w-16 h-16"
-          />
+          <img :src="group.image" class="rounded w-16 h-16" />
         </div>
         <div class="group-info text-center">
           <h3>{{ group.name }}</h3>
@@ -67,39 +53,43 @@
   </BaseCard>
 </template>
 
-<script setup>
-import { computed, ref } from "vue"
-import BaseCard from "../basecomponents/BaseCard.vue"
-import BaseInputText from "../basecomponents/BaseInputText.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import { useI18n } from "vue-i18n"
-import { useNotification } from "../legacy/composables/notification.js"
-import { useSocialInfo } from "../legacy/composables/useSocialInfo.js"
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import BaseCard from '../basecomponents/BaseCard.vue'
+import BaseInputText from '../basecomponents/BaseInputText.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
 
-const query = ref("")
+import { useNotification } from '~/composables/notification.js'
+import { useSocialInfo } from '~/composables/useSocialInfo.js'
+
+const query = ref('')
 const { t } = useI18n()
 const notification = useNotification()
 const { user, loadGroup, groupInfo, isLoading } = useSocialInfo()
 const groups = ref([])
 
 const headerTitle = computed(() => {
-  return query.value ? `${t("Results for")} "${query.value}"` : t("Search groups")
+  return query.value
+    ? `${t('Results for')} "${query.value}"`
+    : t('Search groups')
 })
 
 const handleFormSearch = async () => {
   if (!query.value.trim()) {
-    notification.showWarningNotification("Please enter a search term.")
+    notification.showWarningNotification('Please enter a search term.')
     return
   }
   try {
-    const response = await fetch(`/social-network/search?query=${query.value}&type=group`)
+    const response = await fetch(
+      `/social-network/search?query=${query.value}&type=group`,
+    )
     const data = await response.json()
     if (!response.ok) {
-      throw new Error(data.message || "Server response error")
+      throw new Error(data.message || 'Server response error')
     }
     groups.value = data.results
   } catch (error) {
-    console.error("There has been a problem with your fetch operation:", error)
+    console.error('There has been a problem with your fetch operation:', error)
   }
 }
 </script>

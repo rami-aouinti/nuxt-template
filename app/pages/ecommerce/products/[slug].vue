@@ -405,10 +405,7 @@ const resolveVariantPricingDisplay = (
   return { priceText, originalText }
 }
 
-const resolveVariantName = (
-  variant: unknown,
-  index: number,
-): string => {
+const resolveVariantName = (variant: unknown, index: number): string => {
   const record = toRecord(variant)
   const translation = resolveTranslation(record?.translations, locale.value)
   const name = getString(record, 'name') || getString(translation, 'name')
@@ -463,7 +460,10 @@ const resolveVariantOptions = (variant: unknown): string[] => {
         return null
       }
 
-      const translation = resolveTranslation(valueRecord.translations, locale.value)
+      const translation = resolveTranslation(
+        valueRecord.translations,
+        locale.value,
+      )
       return (
         getString(valueRecord, 'value') ||
         getString(valueRecord, 'descriptor') ||
@@ -1048,14 +1048,24 @@ const handleAddToCart = async () => {
             {{ productName || t('pages.ecommerce.fallbacks.unknownProduct') }}
           </div>
           <p class="text-body-2 text-medium-emphasis mb-4">
-            {{ resolveProductSummary(product || {}) || t('pages.ecommerce.fallbacks.summary') }}
+            {{
+              resolveProductSummary(product || {}) ||
+              t('pages.ecommerce.fallbacks.summary')
+            }}
           </p>
           <div class="d-flex align-center gap-2 mb-4">
             <v-chip color="primary" variant="tonal">
-              {{ productPricingDisplay?.priceText || t('pages.ecommerce.fallbacks.priceUnavailable') }}
+              {{
+                productPricingDisplay?.priceText ||
+                t('pages.ecommerce.fallbacks.priceUnavailable')
+              }}
             </v-chip>
             <v-chip color="secondary" variant="tonal">
-              {{ t('pages.ecommerce.product.reviews.count', { count: productReviewCount }) }}
+              {{
+                t('pages.ecommerce.product.reviews.count', {
+                  count: productReviewCount,
+                })
+              }}
             </v-chip>
           </div>
           <AppButton
@@ -1081,9 +1091,16 @@ const handleAddToCart = async () => {
           <p class="text-body-2 text-medium-emphasis mb-4">
             {{ t('pages.ecommerce.sections.latestProducts.subtitle') }}
           </p>
-          <v-slide-group direction="vertical" show-arrows class="product-drawer__slider">
+          <v-slide-group
+            direction="vertical"
+            show-arrows
+            class="product-drawer__slider"
+          >
             <v-slide-group-item
-              v-for="{ product: latestProduct, route: latestProductRoute } in latestProductsWithRoutes"
+              v-for="{
+                product: latestProduct,
+                route: latestProductRoute,
+              } in latestProductsWithRoutes"
               :key="resolveProductIdentifier(latestProduct)"
               v-slot="{ toggle }"
             >
@@ -1091,11 +1108,19 @@ const handleAddToCart = async () => {
                 class="product-drawer__card mb-3"
                 elevation="1"
                 hover
-                @click="() => (latestProductRoute ? router.push(latestProductRoute) : toggle())"
+                @click="
+                  () =>
+                    latestProductRoute
+                      ? router.push(latestProductRoute)
+                      : toggle()
+                "
               >
                 <div class="d-flex align-center gap-3">
                   <v-img
-                    :src="resolveProductImageUrl(latestProduct) || FALLBACK_PRODUCT_IMAGE"
+                    :src="
+                      resolveProductImageUrl(latestProduct) ||
+                      FALLBACK_PRODUCT_IMAGE
+                    "
                     width="64"
                     height="64"
                     cover
@@ -1106,7 +1131,10 @@ const handleAddToCart = async () => {
                       {{ resolveProductName(latestProduct) }}
                     </h3>
                     <p class="text-caption text-medium-emphasis mb-0">
-                      {{ resolveProductSummary(latestProduct) || t('pages.ecommerce.fallbacks.summary') }}
+                      {{
+                        resolveProductSummary(latestProduct) ||
+                        t('pages.ecommerce.fallbacks.summary')
+                      }}
                     </p>
                   </div>
                 </div>
@@ -1380,10 +1408,7 @@ const handleAddToCart = async () => {
               </v-chip>
             </div>
 
-            <div
-              v-if="variantSummaries.length"
-              class="product-variant-grid"
-            >
+            <div v-if="variantSummaries.length" class="product-variant-grid">
               <AppCard
                 v-for="variant in variantSummaries"
                 :key="variant.identifier"

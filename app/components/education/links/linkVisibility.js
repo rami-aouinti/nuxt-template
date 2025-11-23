@@ -1,4 +1,7 @@
-import { RESOURCE_LINK_DRAFT, RESOURCE_LINK_PUBLISHED } from "../legacy/constants/entity/resourcelink.js"
+import {
+  RESOURCE_LINK_DRAFT,
+  RESOURCE_LINK_PUBLISHED,
+} from '~/constants/entity/resourcelink.js'
 
 /**
  * @param {Boolean} visibility
@@ -16,7 +19,9 @@ export function toggleVisibilityProperty(visibilityProperty) {
   } else if (visibilityProperty === RESOURCE_LINK_PUBLISHED) {
     return RESOURCE_LINK_DRAFT
   } else {
-    console.error(`Toggle visibility is not posible with value "${visibilityProperty}"`)
+    console.error(
+      `Toggle visibility is not posible with value "${visibilityProperty}"`,
+    )
   }
 }
 

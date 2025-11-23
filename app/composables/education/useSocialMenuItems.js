@@ -1,11 +1,11 @@
-import { computed, ref } from "vue"
-import { useI18n } from "vue-i18n"
-import { useMessageRelUserStore } from "../store/messageRelUserStore"
-import { useSecurityStore } from "../store/securityStore"
-import { usePlatformConfig } from "../store/platformConfig"
-import axios from "axios"
-import { useSocialInfo } from "./useSocialInfo"
-import { storeToRefs } from "pinia"
+import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useMessageRelUserStore } from '../store/messageRelUserStore'
+import { useSecurityStore } from '../store/securityStore'
+import { usePlatformConfig } from '../store/platformConfig'
+import axios from 'axios'
+import { useSocialInfo } from './useSocialInfo'
+import { storeToRefs } from 'pinia'
 
 export function useSocialMenuItems() {
   const { t } = useI18n()
@@ -13,18 +13,27 @@ export function useSocialMenuItems() {
   const securityStore = useSecurityStore()
   const platformConfigStore = usePlatformConfig()
   const invitationsCount = ref(0)
-  const groupLink = ref({ name: "UserGroupShow" })
+  const groupLink = ref({ name: 'UserGroupShow' })
 
   const { isCurrentUser } = useSocialInfo()
   const { user } = storeToRefs(securityStore)
 
-  const messagingEnabled = computed(() => platformConfigStore.getSetting("message.allow_message_tool") === "true")
+  const messagingEnabled = computed(
+    () =>
+      platformConfigStore.getSetting('message.allow_message_tool') === 'true',
+  )
 
-  const unreadMessagesCount = computed(() => (messagingEnabled.value ? messageRelUserStore.countUnread : 0))
+  const unreadMessagesCount = computed(() =>
+    messagingEnabled.value ? messageRelUserStore.countUnread : 0,
+  )
 
-  const globalForumsCourse = computed(() => platformConfigStore.getSetting("forum.global_forums_course_id"))
+  const globalForumsCourse = computed(() =>
+    platformConfigStore.getSetting('forum.global_forums_course_id'),
+  )
   const hideSocialGroupBlock = computed(
-    () => platformConfigStore.getSetting("social.hide_social_groups_block") === "true",
+    () =>
+      platformConfigStore.getSetting('social.hide_social_groups_block') ===
+      'true',
   )
 
   const isValidGlobalForumsCourse = computed(() => {
@@ -35,20 +44,24 @@ export function useSocialMenuItems() {
   const fetchInvitationsCount = async (userId) => {
     if (!userId) return
     try {
-      const { data } = await axios.get(`/social-network/invitations/count/${userId}`)
+      const { data } = await axios.get(
+        `/social-network/invitations/count/${userId}`,
+      )
       invitationsCount.value = data.totalInvitationsCount
     } catch (error) {
-      console.error("Error fetching invitations count:", error)
+      console.error('Error fetching invitations count:', error)
     }
   }
 
   const getGroupLink = async () => {
     try {
-      const response = await axios.get("/social-network/get-forum-link")
-      groupLink.value = isValidGlobalForumsCourse.value ? response.data.go_to : { name: "UserGroupList" }
+      const response = await axios.get('/social-network/get-forum-link')
+      groupLink.value = isValidGlobalForumsCourse.value
+        ? response.data.go_to
+        : { name: 'UserGroupList' }
     } catch (error) {
-      console.error("Error fetching forum link:", error)
-      groupLink.value = { name: "UserGroupList" }
+      console.error('Error fetching forum link:', error)
+      groupLink.value = { name: 'UserGroupList' }
     }
   }
 
@@ -61,28 +74,28 @@ export function useSocialMenuItems() {
     const menuItems = []
 
     // Home
-    menuItems.push({ icon: "mdi mdi-home", label: t("Home"), route: "/social" })
+    menuItems.push({ icon: 'mdi mdi-home', label: t('Home'), route: '/social' })
 
     if (messagingEnabled.value) {
       menuItems.push({
-        icon: "mdi mdi-email",
-        label: t("Messages"),
-        route: "/resources/messages",
+        icon: 'mdi mdi-email',
+        label: t('Messages'),
+        route: '/resources/messages',
         badgeCount: unreadMessagesCount.value,
       })
     }
 
     // My friends
     menuItems.push({
-      icon: "mdi mdi-handshake",
-      label: t("My friends"),
-      route: { name: "UserRelUserList" },
+      icon: 'mdi mdi-handshake',
+      label: t('My friends'),
+      route: { name: 'UserRelUserList' },
     })
 
     if (!hideSocialGroupBlock.value) {
       menuItems.push({
-        icon: "mdi mdi-group",
-        label: t("Social groups"),
+        icon: 'mdi mdi-group',
+        label: t('Social groups'),
         route: groupLink.value,
         isLink: isValidGlobalForumsCourse.value,
       })
@@ -90,25 +103,30 @@ export function useSocialMenuItems() {
 
     // My files
     menuItems.push({
-      icon: "mdi mdi-briefcase",
-      label: t("My files"),
-      route: { name: "PersonalFileList", params: { node: securityStore.user.resourceNode.id } },
+      icon: 'mdi mdi-briefcase',
+      label: t('My files'),
+      route: {
+        name: 'PersonalFileList',
+        params: { node: securityStore.user.resourceNode.id },
+      },
     })
 
     // Personal data
     menuItems.push({
-      icon: "mdi mdi-account",
-      label: t("Personal data"),
-      route: "/resources/users/personal_data",
+      icon: 'mdi mdi-account',
+      label: t('Personal data'),
+      route: '/resources/users/personal_data',
     })
 
     if (!isCurrentUser.value) {
-      const othersMenu = [{ icon: "mdi mdi-home", label: t("Home"), route: "/social" }]
+      const othersMenu = [
+        { icon: 'mdi mdi-home', label: t('Home'), route: '/social' },
+      ]
 
       if (messagingEnabled.value) {
         othersMenu.push({
-          icon: "mdi mdi-email",
-          label: t("Send message"),
+          icon: 'mdi mdi-email',
+          label: t('Send message'),
           link: `/main/inc/ajax/user_manager.ajax.php?a=get_user_popup&user_id=${user.value.id}`,
           isExternal: true,
         })

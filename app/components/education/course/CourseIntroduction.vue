@@ -1,14 +1,13 @@
-<script setup>
-import { useI18n } from "vue-i18n"
-import { computed, ref } from "vue"
-import { useRouter } from "vue-router"
-import { storeToRefs } from "pinia"
-import EmptyState from "../EmptyState.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import Skeleton from "primevue/skeleton"
-import { useCidReqStore } from "../legacy/store/cidReq.js"
-import cToolIntroService from "../legacy/services/cToolIntroService.js"
-import courseService from "../legacy/services/courseService.js"
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import EmptyState from '../EmptyState.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import Skeleton from 'primevue/skeleton'
+import { useCidReqStore } from '~/stores/cidReq.js'
+import cToolIntroService from '~/services/cToolIntroService.js'
+import courseService from '~/services/courseService.js'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -34,12 +33,17 @@ defineProps({
   },
 })
 
-courseService.loadHomeIntro(course.value.id, session.value?.id).then((data) => (intro.value = data))
+courseService
+  .loadHomeIntro(course.value.id, session.value?.id)
+  .then((data) => (intro.value = data))
 
 async function updateIntroLinks() {
   if (!intro.value?.introText || !currentSessionId) return
 
-  const updatedIntroText = intro.value.introText.replace(/sid=\d+/g, `sid=${currentSessionId}`)
+  const updatedIntroText = intro.value.introText.replace(
+    /sid=\d+/g,
+    `sid=${currentSessionId}`,
+  )
 
   const payload = {
     introText: updatedIntroText,
@@ -49,32 +53,35 @@ async function updateIntroLinks() {
         sid: currentSessionId,
         cid: course.value.id,
         introText: updatedIntroText,
-        visibility: "published",
+        visibility: 'published',
       },
     ],
     ...(intro.value.iid && { iid: intro.value.iid }),
   }
 
   try {
-    const response = await cToolIntroService.addToolIntro(course.value.id, payload)
+    const response = await cToolIntroService.addToolIntro(
+      course.value.id,
+      payload,
+    )
 
     if (intro.value.iid) {
-      alert(t("Introduction updated successfully!"))
+      alert(t('Introduction updated successfully!'))
     } else {
       intro.value.iid = response.data.iid
-      alert(t("Introduction created successfully!"))
+      alert(t('Introduction created successfully!'))
     }
 
     intro.value.introText = updatedIntroText
   } catch (error) {
-    console.error("Error updating or creating the introduction:", error)
-    alert(t("An error occurred."))
+    console.error('Error updating or creating the introduction:', error)
+    alert(t('An error occurred.'))
   }
 }
 
 const goToIntroCreate = () => {
   router.push({
-    name: "ToolIntroCreate",
+    name: 'ToolIntroCreate',
     params: {
       courseTool: intro.value.c_tool.iid,
     },
@@ -89,7 +96,7 @@ const goToIntroCreate = () => {
 
 const goToIntroUpdate = () => {
   router.push({
-    name: "ToolIntroUpdate",
+    name: 'ToolIntroUpdate',
     params: {
       id: `/api/c_tool_intros/${intro.value.iid}`,
     },
@@ -121,10 +128,7 @@ defineExpose({
 </script>
 
 <template>
-  <div
-    v-if="intro"
-    class="mb-4"
-  >
+  <div v-if="intro" class="mb-4">
     <div v-if="intro.introText">
       <div v-html="intro.introText" />
       <BaseButton
@@ -152,9 +156,5 @@ defineExpose({
       </EmptyState>
     </div>
   </div>
-  <Skeleton
-    v-else
-    class="mb-4"
-    height="21.5rem"
-  />
+  <Skeleton v-else class="mb-4" height="21.5rem" />
 </template>

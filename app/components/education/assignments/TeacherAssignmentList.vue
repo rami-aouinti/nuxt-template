@@ -1,9 +1,9 @@
 <template>
   <BaseTable
     v-model:selected-items="selected"
-    :is-loading="loading"
     v-model:multi-sort-meta="sortFields"
     v-model:rows="loadParams.itemsPerPage"
+    :is-loading="loading"
     :total-items="totalRecords"
     :values="assignments"
     data-key="@id"
@@ -11,144 +11,142 @@
     removable-sort
     @page="onPage"
     @sort="onSort"
+  >
+    <Column selection-mode="multiple" />
+
+    <Column :header="t('Title')" :sortable="true" field="title">
+      <template #body="slotProps">
+        <RouterLink
+          class="text-blue-600 hover:underline"
+          :to="getAssignmentDetailLink(slotProps.data)"
+        >
+          {{ slotProps.data.title }}
+        </RouterLink>
+        <BaseTag
+          v-if="slotProps.data.childFileCount > 0"
+          :label="`${slotProps.data.childFileCount}`"
+          type="success"
+          class="ml-2"
+        />
+      </template>
+    </Column>
+
+    <Column
+      :header="t('Deadline')"
+      :sortable="true"
+      field="assignment.expiresOn"
     >
-  <Column selection-mode="multiple" />
-
-  <Column
-    :header="t('Title')"
-    :sortable="true"
-    field="title"
-  >
-    <template #body="slotProps">
-      <RouterLink
-        class="text-blue-600 hover:underline"
-        :to="getAssignmentDetailLink(slotProps.data)"
-      >
-        {{ slotProps.data.title }}
-      </RouterLink>
-      <BaseTag
-        v-if="slotProps.data.childFileCount > 0"
-        :label="`${slotProps.data.childFileCount}`"
-        type="success"
-        class="ml-2"
-      />
-    </template>
-  </Column>
-
-  <Column
-    :header="t('Deadline')"
-    :sortable="true"
-    field="assignment.expiresOn"
-  >
-    <template #body="slotProps">
+      <template #body="slotProps">
         <span v-if="slotProps.data.assignment?.expiresOn">
           {{ formatStored(slotProps.data.assignment.expiresOn) }}
         </span>
-      <span v-else class="text-gray-400 italic">No deadline</span>
-    </template>
-  </Column>
+        <span v-else class="text-gray-400 italic">No deadline</span>
+      </template>
+    </Column>
 
-  <Column
-    :header="t('End date')"
-    :sortable="true"
-    field="assignment.endsOn"
-  >
-    <template #body="slotProps">
+    <Column :header="t('End date')" :sortable="true" field="assignment.endsOn">
+      <template #body="slotProps">
         <span v-if="slotProps.data.assignment?.endsOn">
           {{ formatStored(slotProps.data.assignment.endsOn) }}
         </span>
-      <span v-else class="text-gray-400 italic">—</span>
-    </template>
-  </Column>
+        <span v-else class="text-gray-400 italic">—</span>
+      </template>
+    </Column>
 
-  <Column :header="t('Number submitted')">
-    <template #body="slotProps">
-      <BaseTag
-        :label="`${slotProps.data.uniqueStudentAttemptsTotal || 0} / ${slotProps.data.studentSubscribedToWork || 0}`"
-        type="success"
-      />
-    </template>
-  </Column>
+    <Column :header="t('Number submitted')">
+      <template #body="slotProps">
+        <BaseTag
+          :label="`${slotProps.data.uniqueStudentAttemptsTotal || 0} / ${slotProps.data.studentSubscribedToWork || 0}`"
+          type="success"
+        />
+      </template>
+    </Column>
 
-  <Column
-    :header="t('Actions')"
-    body-class="space-x-2"
-  >
-    <template #body="slotProps">
-      <div v-if="canEdit(slotProps.data)">
-        <BaseButton
-          :icon="
-              RESOURCE_LINK_PUBLISHED === slotProps.data.firstResourceLink?.visibility
+    <Column :header="t('Actions')" body-class="space-x-2">
+      <template #body="slotProps">
+        <div v-if="canEdit(slotProps.data)">
+          <BaseButton
+            :icon="
+              RESOURCE_LINK_PUBLISHED ===
+              slotProps.data.firstResourceLink?.visibility
                 ? 'eye-on'
-                : RESOURCE_LINK_DRAFT === slotProps.data.firstResourceLink?.visibility
+                : RESOURCE_LINK_DRAFT ===
+                    slotProps.data.firstResourceLink?.visibility
                   ? 'eye-off'
                   : ''
             "
-          :label="t('Visibility')"
-          only-icon
-          size="normal"
-          type="black"
-          @click="onClickVisibility(slotProps.data)"
-        />
-        <BaseButton
-          :label="t('Upload corrections package')"
-          icon="zip-unpack"
-          only-icon
-          size="normal"
-          type="success"
-          :title="t('Each file name must match: YYYY-MM-DD_HH-MM_username_originalTitle.ext')"
-          @click="() => uploadCorrections(slotProps.data)"
-        />
-        <BaseButton
-          :disabled="0 === (slotProps.data.uniqueStudentAttemptsTotal || 0)"
-          :label="t('Download assignments package')"
-          icon="zip-pack"
-          only-icon
-          size="normal"
-          type="primary"
-          @click="() => downloadAssignments(slotProps.data)"
-        />
-        <BaseButton
-          :label="t('Edit')"
-          icon="edit"
-          only-icon
-          size="normal"
-          type="black"
-          @click="onClickEdit(slotProps.data)"
-        />
-      </div>
-    </template>
-  </Column>
+            :label="t('Visibility')"
+            only-icon
+            size="normal"
+            type="black"
+            @click="onClickVisibility(slotProps.data)"
+          />
+          <BaseButton
+            :label="t('Upload corrections package')"
+            icon="zip-unpack"
+            only-icon
+            size="normal"
+            type="success"
+            :title="
+              t(
+                'Each file name must match: YYYY-MM-DD_HH-MM_username_originalTitle.ext',
+              )
+            "
+            @click="() => uploadCorrections(slotProps.data)"
+          />
+          <BaseButton
+            :disabled="0 === (slotProps.data.uniqueStudentAttemptsTotal || 0)"
+            :label="t('Download assignments package')"
+            icon="zip-pack"
+            only-icon
+            size="normal"
+            type="primary"
+            @click="() => downloadAssignments(slotProps.data)"
+          />
+          <BaseButton
+            :label="t('Edit')"
+            icon="edit"
+            only-icon
+            size="normal"
+            type="black"
+            @click="onClickEdit(slotProps.data)"
+          />
+        </div>
+      </template>
+    </Column>
 
-  <template #footer>
-    <BaseButton
-      :disabled="0 === selected.length || loading"
-      :label="t('Delete selected')"
-      icon="delete"
-      type="danger"
-      @click="onClickMultipleDelete()"
-    />
-  </template>
+    <template #footer>
+      <BaseButton
+        :disabled="0 === selected.length || loading"
+        :label="t('Delete selected')"
+        icon="delete"
+        type="danger"
+        @click="onClickMultipleDelete()"
+      />
+    </template>
   </BaseTable>
 </template>
 
-<script setup>
-import Column from "primevue/column"
-import { computed, onMounted, reactive, ref, watch } from "vue"
-import { useI18n } from "vue-i18n"
-import cStudentPublicationService from "../legacy/services/cstudentpublication.js"
-import { useCidReq } from "../legacy/composables/cidReq.js"
-import { useFormatDate } from "../legacy/composables/formatDate.js"
-import BaseTag from "../basecomponents/BaseTag.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import BaseTable from "../basecomponents/BaseTable.vue"
-import { RESOURCE_LINK_DRAFT, RESOURCE_LINK_PUBLISHED } from "../legacy/constants/entity/resourcelink.js"
-import { useNotification } from "../legacy/composables/notification.js"
-import { useConfirm } from "primevue/useconfirm"
-import resourceLinkService from "../legacy/services/resourcelink.js"
-import { useRoute, useRouter } from "vue-router"
-import { checkIsAllowedToEdit } from "../legacy/composables/userPermissions.js"
-import { useSecurityStore } from "../legacy/store/securityStore.js"
+<script setup lang="ts">
+import Column from 'primevue/column'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
+
+import cStudentPublicationService from '~/services/cstudentpublication.js'
+import { useCidReq } from '~/composables/cidReq.js'
+import { useFormatDate } from '~/composables/formatDate.js'
+import BaseTag from '../basecomponents/BaseTag.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import BaseTable from '../basecomponents/BaseTable.vue'
+import {
+  RESOURCE_LINK_DRAFT,
+  RESOURCE_LINK_PUBLISHED,
+} from '~/constants/entity/resourcelink.js'
+import { useNotification } from '~/composables/notification.js'
+import { useConfirm } from 'primevue/useconfirm'
+import resourceLinkService from '~/services/resourcelink.js'
+import { useRoute, useRouter } from 'vue-router'
+import { checkIsAllowedToEdit } from '~/composables/userPermissions.js'
+import { useSecurityStore } from '~/stores/securityStore.js'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -169,7 +167,7 @@ const isCurrentTeacher = computed(() => securityStore.isCurrentTeacher)
 
 const { abbreviatedDatetime } = useFormatDate()
 
-const sortFields = ref([{ field: "sentDate", order: -1 }])
+const sortFields = ref([{ field: 'sentDate', order: -1 }])
 const loadParams = reactive({
   page: 1,
   itemsPerPage: null,
@@ -187,7 +185,7 @@ watch(
     if (!loadParams.itemsPerPage) return
     loadData()
   },
-  { deep: true, immediate: true }
+  { deep: true, immediate: true },
 )
 
 async function loadData() {
@@ -200,13 +198,13 @@ async function loadData() {
         cid,
         sid,
         gid,
-        "publicationParent.iid": false,
+        'publicationParent.iid': false,
       },
     })
     const json = await response.json()
 
-    assignments.value = json["hydra:member"]
-    totalRecords.value = json["hydra:totalItems"]
+    assignments.value = json['hydra:member']
+    totalRecords.value = json['hydra:totalItems']
   } catch (error) {
     notification.showErrorNotification(error)
   } finally {
@@ -221,18 +219,19 @@ const onPage = (event) => {
 
 const onSort = (event) => {
   Object.keys(loadParams)
-    .filter((key) => key.indexOf("order[") >= 0)
+    .filter((key) => key.indexOf('order[') >= 0)
     .forEach((key) => delete loadParams[key])
 
   event.multiSortMeta.forEach((sortItem) => {
-    loadParams[`order[${sortItem.field}]`] = -1 === sortItem.order ? "desc" : "asc"
+    loadParams[`order[${sortItem.field}]`] =
+      -1 === sortItem.order ? 'desc' : 'asc'
   })
 }
 
 function onClickMultipleDelete() {
   confirm.require({
-    header: t("Confirmation"),
-    message: t("Are you sure you want to delete the selected items?"),
+    header: t('Confirmation'),
+    message: t('Are you sure you want to delete the selected items?'),
     accept: async () => {
       loading.value = true
 
@@ -252,18 +251,18 @@ function onClickMultipleDelete() {
 
       loadData()
 
-      notification.showSuccessNotification(t("Assignments deleted"))
+      notification.showSuccessNotification(t('Assignments deleted'))
     },
   })
 }
 
 function getAssignmentDetailLink(assignment) {
-  const assignmentId = parseInt(assignment["@id"].split("/").pop(), 10)
-  const nodeUrl = assignment.resourceNode?.["@id"]
-  const nodeId = nodeUrl ? parseInt(nodeUrl.split("/").pop(), 10) : 0
+  const assignmentId = parseInt(assignment['@id'].split('/').pop(), 10)
+  const nodeUrl = assignment.resourceNode?.['@id']
+  const nodeId = nodeUrl ? parseInt(nodeUrl.split('/').pop(), 10) : 0
 
   return {
-    name: "AssignmentDetail",
+    name: 'AssignmentDetail',
     params: {
       node: nodeId,
       id: assignmentId,
@@ -288,52 +287,58 @@ async function onClickVisibility(assignment) {
 
 function onClickEdit(assignment) {
   router.push({
-    name: "AssignmentsUpdate",
-    params: { id: assignment["@id"] },
+    name: 'AssignmentsUpdate',
+    params: { id: assignment['@id'] },
     query: {
       ...route.query,
-      from: "AssignmentsList",
+      from: 'AssignmentsList',
     },
   })
 }
 
 async function downloadAssignments(assignment) {
-  const assignmentId = parseInt(assignment["@id"].split("/").pop(), 10)
+  const assignmentId = parseInt(assignment['@id'].split('/').pop(), 10)
   try {
-    const blob = await cStudentPublicationService.downloadAssignments(assignmentId)
+    const blob =
+      await cStudentPublicationService.downloadAssignments(assignmentId)
     const url = window.URL.createObjectURL(new Blob([blob]))
-    const link = document.createElement("a")
+    const link = document.createElement('a')
     link.href = url
-    link.setAttribute("download", `assignments_${assignmentId}.zip`)
+    link.setAttribute('download', `assignments_${assignmentId}.zip`)
     document.body.appendChild(link)
     link.click()
     link.remove()
   } catch (error) {
-    notification.showErrorNotification(t("Failed to download package"))
-    console.error("Download error", error)
+    notification.showErrorNotification(t('Failed to download package'))
+    console.error('Download error', error)
   }
 }
 
 async function uploadCorrections(assignment) {
-  const assignmentId = parseInt(assignment["@id"].split("/").pop(), 10)
+  const assignmentId = parseInt(assignment['@id'].split('/').pop(), 10)
 
-  const input = document.createElement("input")
-  input.type = "file"
-  input.accept = ".zip"
+  const input = document.createElement('input')
+  input.type = 'file'
+  input.accept = '.zip'
 
-  input.addEventListener("change", async () => {
+  input.addEventListener('change', async () => {
     const file = input.files[0]
     if (!file) return
 
     try {
-      const result = await cStudentPublicationService.uploadCorrectionsPackage(assignmentId, file)
+      const result = await cStudentPublicationService.uploadCorrectionsPackage(
+        assignmentId,
+        file,
+      )
       const uploaded = result.uploaded ?? 0
       const skipped = result.skipped ?? 0
-      notification.showSuccessNotification(t(`Corrections uploaded: ${uploaded}. Skipped: ${skipped}.`))
+      notification.showSuccessNotification(
+        t(`Corrections uploaded: ${uploaded}. Skipped: ${skipped}.`),
+      )
       await loadData()
     } catch (error) {
-      console.error("Upload corrections error", error)
-      notification.showErrorNotification(t("Failed to upload corrections"))
+      console.error('Upload corrections error', error)
+      notification.showErrorNotification(t('Failed to upload corrections'))
     }
   })
 
@@ -345,7 +350,7 @@ const getSessionId = (item) => {
     return null
   }
 
-  const sessionParts = item.firstResourceLink.session.split("/")
+  const sessionParts = item.firstResourceLink.session.split('/')
   return parseInt(sessionParts[sessionParts.length - 1])
 }
 
@@ -355,11 +360,14 @@ const canEdit = (item) => {
   const isSessionDocument = sessionId && sessionId === sid
   const isBaseCourse = !sessionId
 
-  return (isSessionDocument && isAllowedToEdit.value) || (isBaseCourse && !sid && isCurrentTeacher.value)
+  return (
+    (isSessionDocument && isAllowedToEdit.value) ||
+    (isBaseCourse && !sid && isCurrentTeacher.value)
+  )
 }
 
 function formatStored(val) {
-  if (!val) return "—"
+  if (!val) return '—'
   const s = String(val)
   const m = s.match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/)
   if (m) {

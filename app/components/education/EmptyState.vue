@@ -6,39 +6,33 @@
         aria-hidden="true"
         class="empty-state__icon"
       />
-      <p
-        class="empty-state__summary"
-        v-text="summary"
-      />
-      <p
-        class="empty-state__detail"
-        v-text="detail"
-      />
+      <p class="empty-state__summary" v-text="summary" />
+      <p class="empty-state__detail" v-text="detail" />
       <slot />
     </div>
   </div>
 </template>
 
-<script setup>
-import { chamiloIconToClass } from "./basecomponents/ChamiloIcons.js"
-import { iconValidator } from "./basecomponents/validators.js"
+<script setup lang="ts">
+import { chamiloIconToClass } from './basecomponents/ChamiloIcons.js'
+import { iconValidator } from './basecomponents/validators.js'
 
 defineProps({
   summary: {
     type: String,
-    default: "",
+    default: '',
     required: true,
   },
   detail: {
     type: String,
-    default: "",
+    default: '',
     required: false,
   },
   icon: {
     type: String,
-    default: "",
+    default: '',
     validator: (value) => {
-      if (value === "") {
+      if (value === '') {
         return true
       }
       return iconValidator(value)

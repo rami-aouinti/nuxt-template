@@ -1,24 +1,16 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col
-        cols="12"
-        md="6"
-        sm="6"
-      >
-        <v-text-field
-          v-model="item.title"
-          :label="$t('Name')"
-          type="text"
-        />
+      <v-col cols="12" md="6" sm="6">
+        <v-text-field v-model="item.title" :label="$t('Name')" type="text" />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
-<script>
+<script setup lang="ts">
 export default {
-  name: "CourseCategoryFilter",
+  name: 'CourseCategoryFilter',
   props: {
     values: {
       type: Object,
@@ -28,14 +20,13 @@ export default {
   data() {
     return {}
   },
-  mounted() {},
 
   computed: {
-    // eslint-disable-next-line
     item() {
       return this.initialValues || this.values
     },
   },
+  mounted() {},
   methods: {},
 }
 </script>

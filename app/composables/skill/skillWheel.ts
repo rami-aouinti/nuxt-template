@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { ref, unref, watch } from "vue"
-import * as d3 from "d3"
-import { getSkillTree } from "../../services/skillService"
-import { useNotification } from "../notification"
+import { ref, unref, watch } from 'vue'
+import * as d3 from 'd3'
+import { getSkillTree } from '../../services/skillService'
+import { useNotification } from '../notification'
 
 export function useSkillWheel() {
   const isLoading = ref(true)
@@ -12,7 +12,7 @@ export function useSkillWheel() {
 
   const { showErrorNotification } = useNotification()
 
-  const colorList = ["#deebf7", "#9ecae1", "#3182bd"]
+  const colorList = ['#deebf7', '#9ecae1', '#3182bd']
 
   let root
   let centralCircle
@@ -56,7 +56,7 @@ export function useSkillWheel() {
 
   function render() {
     const data = {
-      name: "root",
+      name: 'root',
       children: unref(skillList).map(transformSkillToWheelItem),
     }
 
@@ -82,58 +82,58 @@ export function useSkillWheel() {
 
     // Create the SVG container.
     const svg = d3
-      .create("svg")
-      .attr("viewBox", [-width / 2, -height / 2, width, width])
-      .style("font", "10px sans-serif")
+      .create('svg')
+      .attr('viewBox', [-width / 2, -height / 2, width, width])
+      .style('font', '10px sans-serif')
 
     // Append the arcs.
     path = svg
-      .append("g")
-      .selectAll("path")
+      .append('g')
+      .selectAll('path')
       .data(root.descendants().slice(1))
-      .join("path")
-      .attr("fill", setFillColor)
-      .attr("fill-opacity", (d) => (arcVisible(d.current) ? 1 : 0))
-      .attr("pointer-events", (d) => (arcVisible(d.current) ? "auto" : "none"))
-      .attr("d", (d) => arc(d.current))
-      .attr("id", (d) => "skill-" + d.data.id)
+      .join('path')
+      .attr('fill', setFillColor)
+      .attr('fill-opacity', (d) => (arcVisible(d.current) ? 1 : 0))
+      .attr('pointer-events', (d) => (arcVisible(d.current) ? 'auto' : 'none'))
+      .attr('d', (d) => arc(d.current))
+      .attr('id', (d) => 'skill-' + d.data.id)
 
     // Make them clickable if they have children.
     path
       .filter((d) => d.children)
-      .style("cursor", "pointer")
-      .on("click", clicked)
+      .style('cursor', 'pointer')
+      .on('click', clicked)
 
-    path.append("title").text(
+    path.append('title').text(
       (d) =>
         `${d
           .ancestors()
           .filter((d) => d.depth > 0)
           .map(setNodeText)
           .reverse()
-          .join("/")}`,
+          .join('/')}`,
     )
 
     const label = svg
-      .append("g")
-      .attr("pointer-events", "none")
-      .attr("text-anchor", "middle")
-      .style("user-select", "none")
-      .selectAll("text")
+      .append('g')
+      .attr('pointer-events', 'none')
+      .attr('text-anchor', 'middle')
+      .style('user-select', 'none')
+      .selectAll('text')
       .data(root.descendants().slice(1))
-      .join("text")
-      .attr("dy", "0.35em")
-      .attr("fill-opacity", (d) => +labelVisible(d.current))
-      .attr("transform", (d) => labelTransform(d.current))
+      .join('text')
+      .attr('dy', '0.35em')
+      .attr('fill-opacity', (d) => +labelVisible(d.current))
+      .attr('transform', (d) => labelTransform(d.current))
       .text(setNodeText)
 
     centralCircle = svg
-      .append("circle")
+      .append('circle')
       .datum(root)
-      .attr("r", radius)
-      .attr("fill", "none")
-      .attr("pointer-events", "all")
-      .on("click", clicked)
+      .attr('r', radius)
+      .attr('fill', 'none')
+      .attr('pointer-events', 'all')
+      .on('click', clicked)
 
     // Handle zoom on click.
     function clicked(event, p) {
@@ -142,8 +142,14 @@ export function useSkillWheel() {
       root.each(
         (d) =>
           (d.target = {
-            x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
-            x1: Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
+            x0:
+              Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) *
+              2 *
+              Math.PI,
+            x1:
+              Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) *
+              2 *
+              Math.PI,
             y0: Math.max(0, d.y0 - p.depth),
             y1: Math.max(0, d.y1 - p.depth),
           }),
@@ -156,25 +162,25 @@ export function useSkillWheel() {
       // the next transition from the desired position.
       path
         .transition(t)
-        .tween("data", (d) => {
+        .tween('data', (d) => {
           const i = d3.interpolate(d.current, d.target)
 
           return (t) => (d.current = i(t))
         })
         .filter(function (d) {
-          return +this.getAttribute("fill-opacity") || arcVisible(d.target)
+          return +this.getAttribute('fill-opacity') || arcVisible(d.target)
         })
-        .attr("fill-opacity", (d) => (arcVisible(d.target) ? 1 : 0))
-        .attr("pointer-events", (d) => (arcVisible(d.target) ? "auto" : "none"))
-        .attrTween("d", (d) => () => arc(d.current))
+        .attr('fill-opacity', (d) => (arcVisible(d.target) ? 1 : 0))
+        .attr('pointer-events', (d) => (arcVisible(d.target) ? 'auto' : 'none'))
+        .attrTween('d', (d) => () => arc(d.current))
 
       label
         .filter(function (d) {
-          return +this.getAttribute("fill-opacity") || labelVisible(d.target)
+          return +this.getAttribute('fill-opacity') || labelVisible(d.target)
         })
         .transition(t)
-        .attr("fill-opacity", (d) => +labelVisible(d.target))
-        .attrTween("transform", (d) => () => labelTransform(d.current))
+        .attr('fill-opacity', (d) => +labelVisible(d.target))
+        .attrTween('transform', (d) => () => labelTransform(d.current))
     }
 
     function arcVisible(d) {
@@ -194,19 +200,19 @@ export function useSkillWheel() {
 
     function setFillColor(d, i) {
       if (d.data.hasGradebook) {
-        return "#F89406"
+        return '#F89406'
       }
 
       if (d.data.isSearched) {
-        return "#B94A48"
+        return '#B94A48'
       }
 
       if (d.data.isAchievedByUser) {
-        return "#A1D99B"
+        return '#A1D99B'
       }
 
       if (!d.data.status) {
-        return "#48616C"
+        return '#48616C'
       }
 
       return colorList[i % colorList.length]
@@ -228,7 +234,7 @@ export function useSkillWheel() {
       return
     }
 
-    centralCircle.datum(root).dispatch("click")
+    centralCircle.datum(root).dispatch('click')
   }
 
   function showSkill(skillId) {
@@ -243,13 +249,13 @@ export function useSkillWheel() {
     }
 
     if (skillNode.children && skillNode.children.length > 0) {
-      centralCircle.datum(skillNode).dispatch("click")
+      centralCircle.datum(skillNode).dispatch('click')
 
       return
     }
 
     if (skillNode.parent) {
-      centralCircle.datum(skillNode.parent).dispatch("click")
+      centralCircle.datum(skillNode.parent).dispatch('click')
 
       return
     }
@@ -271,7 +277,7 @@ export function useSkillWheel() {
 
   watch(skillList, () => {
     if (wheelContainer.value) {
-      wheelContainer.value.innerHTML = ""
+      wheelContainer.value.innerHTML = ''
       wheelContainer.value.appendChild(render())
     }
   })

@@ -1,5 +1,5 @@
-<script setup>
-import { watch } from "vue"
+<script setup lang="ts">
+import { watch } from 'vue'
 
 const props = defineProps({
   visible: {
@@ -12,10 +12,10 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(["close"])
+const emit = defineEmits(['close'])
 
 const handleClickOutside = (event) => {
-  emit("close")
+  emit('close')
 }
 
 watch(
@@ -23,10 +23,10 @@ watch(
   (newVal) => {
     if (newVal) {
       setTimeout(() => {
-        document.addEventListener("click", handleClickOutside)
+        document.addEventListener('click', handleClickOutside)
       }, 0)
     } else {
-      document.removeEventListener("click", handleClickOutside)
+      document.removeEventListener('click', handleClickOutside)
     }
   },
 )

@@ -43,20 +43,24 @@ Object.entries(viewModules).forEach(([path, loader]) => {
   }
 })
 
-export const legacyViewsIndex: LegacyViewEntry[] = unorderedEntries.sort((a, b) => {
-  if (a.category === b.category) {
-    return a.name.localeCompare(b.name)
-  }
+export const legacyViewsIndex: LegacyViewEntry[] = unorderedEntries.sort(
+  (a, b) => {
+    if (a.category === b.category) {
+      return a.name.localeCompare(b.name)
+    }
 
-  return a.category.localeCompare(b.category)
-})
+    return a.category.localeCompare(b.category)
+  },
+)
 
 export type ResolvedLegacyView = {
   component: Component
   entry: LegacyViewEntry
 }
 
-export async function resolveLegacyView(slug?: string): Promise<ResolvedLegacyView | null> {
+export async function resolveLegacyView(
+  slug?: string,
+): Promise<ResolvedLegacyView | null> {
   if (!slug) return null
 
   const normalizedSlug = slug.toLowerCase()

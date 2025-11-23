@@ -103,10 +103,7 @@ async function handleCreate(payload: CreatePayload) {
     Notify.success(t('common.feedback.createSuccess'))
     await refresh()
   } catch (error) {
-    createError.value = extractRequestError(
-      error,
-      t('common.unexpectedError'),
-    )
+    createError.value = extractRequestError(error, t('common.unexpectedError'))
     Notify.error(createError.value)
   } finally {
     creating.value = false

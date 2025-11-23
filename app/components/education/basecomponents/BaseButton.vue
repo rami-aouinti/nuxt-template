@@ -19,16 +19,20 @@
   />
 </template>
 
-<script setup>
-import Button from "primevue/button"
-import { computed } from "vue"
-import { chamiloIconToClass } from "./ChamiloIcons.js"
-import { buttonTypeValidator, iconValidator, sizeValidator } from "./validators.js"
+<script setup lang="ts">
+import Button from 'primevue/button'
+import { computed } from 'vue'
+import { chamiloIconToClass } from './ChamiloIcons.js'
+import {
+  buttonTypeValidator,
+  iconValidator,
+  sizeValidator,
+} from './validators.js'
 
 const props = defineProps({
   label: {
     type: String,
-    default: "",
+    default: '',
   },
   isSubmit: {
     type: Boolean,
@@ -47,7 +51,7 @@ const props = defineProps({
   },
   tooltip: {
     type: String,
-    default: "",
+    default: '',
   },
   onlyIcon: {
     type: Boolean,
@@ -55,7 +59,7 @@ const props = defineProps({
   },
   size: {
     type: String,
-    default: "normal",
+    default: 'normal',
     validator: sizeValidator,
   },
   disabled: {
@@ -69,7 +73,7 @@ const props = defineProps({
   },
   popupIdentifier: {
     type: String,
-    default: "", // This ensures that popupIdentifier is still present
+    default: '', // This ensures that popupIdentifier is still present
   },
   name: {
     type: String || undefined,
@@ -78,10 +82,10 @@ const props = defineProps({
   },
 })
 
-defineEmits(["click"])
+defineEmits(['click'])
 
 const primeSeverityProperty = computed(() => {
-  if (["primary", "secondary", "success", "danger"].includes(props.type)) {
+  if (['primary', 'secondary', 'success', 'danger'].includes(props.type)) {
     return props.type
   }
 
@@ -89,7 +93,7 @@ const primeSeverityProperty = computed(() => {
 })
 
 const primePlainProperty = computed(() => {
-  if ("black" === props.type) {
+  if ('black' === props.type) {
     return true
   }
 
@@ -98,35 +102,35 @@ const primePlainProperty = computed(() => {
 
 const buttonClass = computed(() => {
   if (props.onlyIcon) {
-    return "text-tertiary hover:bg-tertiary-gradient/30"
+    return 'text-tertiary hover:bg-tertiary-gradient/30'
   }
-  let result = ""
+  let result = ''
 
-  let commonDisabled =
-    "disabled:bg-primary-bgdisabled disabled:border disabled:border-primary-borderdisabled disabled:text-fontdisabled disabled:pointer-events-auto disabled:cursor-not-allowed"
+  const commonDisabled =
+    'disabled:bg-primary-bgdisabled disabled:border disabled:border-primary-borderdisabled disabled:text-fontdisabled disabled:pointer-events-auto disabled:cursor-not-allowed'
   switch (props.type) {
-    case "primary":
+    case 'primary':
       result += `bg-white border-primary text-primary-button-text hover:bg-primary hover:text-white ${commonDisabled} `
       break
-    case "primary-alternative":
+    case 'primary-alternative':
       result += `bg-primary text-primary-button-alternative-text hover:bg-primary-gradient ${commonDisabled} `
       break
-    case "secondary":
+    case 'secondary':
       result += `bg-secondary text-secondary-button-text hover:bg-secondary-gradient disabled:bg-secondary-bgdisabled disabled:text-fontdisabled ${commonDisabled}`
       break
-    case "success":
+    case 'success':
       result += `bg-success text-success-button-text hover:bg-success-gradient ${commonDisabled} `
       break
-    case "info":
+    case 'info':
       result += `bg-info text-info-button-text hover:bg-info-gradient ${commonDisabled} `
       break
-    case "warning":
+    case 'warning':
       result += `bg-warning text-warning-button-text hover:bg-warning-gradient ${commonDisabled} `
       break
-    case "danger":
+    case 'danger':
       result += `bg-white border-error text-danger hover:bg-danger-gradient hover:text-white ${commonDisabled}`
       break
-    case "black":
+    case 'black':
       result += `bg-white border-tertiary text-tertiary hover:bg-tertiary hover:text-white ${commonDisabled}`
       break
   }
@@ -139,9 +143,9 @@ const primeOutlinedProperty = computed(() => {
     return undefined
   }
   switch (props.type) {
-    case "primary":
-    case "danger":
-    case "black":
+    case 'primary':
+    case 'danger':
+    case 'black':
       return true
     default:
       return false

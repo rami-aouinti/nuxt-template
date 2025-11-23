@@ -7,15 +7,15 @@
   />
 </template>
 
-<script setup>
-import Avatar from "primevue/avatar"
-import { computed } from "vue"
+<script setup lang="ts">
+import Avatar from 'primevue/avatar'
+import { computed } from 'vue'
 
 const props = defineProps({
   imageUrl: {
     type: String,
     require: true,
-    default: "",
+    default: '',
   },
   // this sets the aria-label which sets the alt property of the image inside Avatar component
   alt: {
@@ -25,25 +25,25 @@ const props = defineProps({
   size: {
     type: String,
     require: false,
-    default: "normal",
-    validator: (value) => ["normal", "large", "xlarge"].includes(value),
+    default: 'normal',
+    validator: (value) => ['normal', 'large', 'xlarge'].includes(value),
   },
   shape: {
     type: String,
     require: false,
-    default: "circle",
-    validator: (value) => ["circle", "square"].includes(value),
+    default: 'circle',
+    validator: (value) => ['circle', 'square'].includes(value),
   },
 })
 
 const imageSize = computed(() => {
   // these numbers are approximate, they were calculated with a size
   // allowing to see the image clearly
-  if (props.size === "xlarge") {
+  if (props.size === 'xlarge') {
     return 112
   }
 
-  if (props.size === "large") {
+  if (props.size === 'large') {
     return 64
   }
 

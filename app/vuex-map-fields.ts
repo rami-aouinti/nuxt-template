@@ -8,14 +8,20 @@ export function getField(state: Record<string, any>, path: string) {
   return resolvePath(state, path)
 }
 
-export function updateField(state: Record<string, any>, { path, value }: { path: string; value: any }) {
+export function updateField(
+  state: Record<string, any>,
+  { path, value }: { path: string; value: any },
+) {
   const keys = path.split('.')
   const lastKey = keys.pop()
   if (!lastKey) return
-  const target = keys.reduce((acc, key) => {
-    if (!(key in acc)) acc[key] = {}
-    return acc[key]
-  }, state as Record<string, any>)
+  const target = keys.reduce(
+    (acc, key) => {
+      if (!(key in acc)) acc[key] = {}
+      return acc[key]
+    },
+    state as Record<string, any>,
+  )
   target[lastKey] = value
 }
 

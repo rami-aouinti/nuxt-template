@@ -1,8 +1,5 @@
 <template>
-  <div
-    :class="id"
-    class="admin-index__block-container"
-  >
+  <div :class="id" class="admin-index__block-container">
     <div class="admin-index__block">
       <div class="flex gap-2 justify-between">
         <h4>
@@ -17,11 +14,7 @@
         v-text="props.description"
       />
 
-      <form
-        v-if="props.searchUrl"
-        :action="props.searchUrl"
-        method="get"
-      >
+      <form v-if="props.searchUrl" :action="props.searchUrl" method="get">
         <BaseInputGroup
           :button-label="t('Search')"
           :input-placeholder="t('Keyword')"
@@ -31,10 +24,7 @@
       </form>
 
       <div class="p-menu p-component p-ripple-disabled">
-        <ul
-          class="p-menu-list p-reset"
-          role="menu"
-        >
+        <ul class="p-menu-list p-reset" role="menu">
           <li
             v-for="(item, index) in visibleItems"
             :key="index"
@@ -49,10 +39,7 @@
                 :url="item.url"
                 class="p-menuitem-link"
               >
-                <span
-                  class="p-menuitem-text"
-                  v-text="item.label"
-                />
+                <span class="p-menuitem-text" v-text="item.label" />
               </BaseAppLink>
             </div>
           </li>
@@ -68,16 +55,16 @@
   </div>
 </template>
 
-<script setup>
-import { computed } from "vue"
-import { useI18n } from "vue-i18n"
-import BaseInputGroup from "../basecomponents/BaseInputGroup.vue"
-import BaseIcon from "../basecomponents/BaseIcon.vue"
-import AdminBlockExtraContent from "./AdminBlockExtraContent.vue"
+<script setup lang="ts">
+import { computed } from 'vue'
+
+import BaseInputGroup from '../basecomponents/BaseInputGroup.vue'
+import BaseIcon from '../basecomponents/BaseIcon.vue'
+import AdminBlockExtraContent from './AdminBlockExtraContent.vue'
 
 const { t } = useI18n()
 
-const modelExtraContent = defineModel("extraContent", {
+const modelExtraContent = defineModel('extraContent', {
   type: Object,
   default: null,
 })
@@ -92,8 +79,8 @@ const props = defineProps({
     required: false,
     default: false,
   },
-  icon: { type: String, required: false, default: () => "admin-settings" },
-  title: { type: String, require: true, default: () => "" },
+  icon: { type: String, required: false, default: () => 'admin-settings' },
+  title: { type: String, require: true, default: () => '' },
   description: { type: String, required: false, default: () => null },
   searchUrl: { type: String, required: false, default: () => null },
   items: { type: Array, required: true, default: () => [] },
@@ -102,7 +89,7 @@ const props = defineProps({
 const visibleItems = computed(() =>
   props.items
     .map((item) => {
-      if (!Object.keys(item).includes("visible")) {
+      if (!Object.keys(item).includes('visible')) {
         item.visible = true
       }
 

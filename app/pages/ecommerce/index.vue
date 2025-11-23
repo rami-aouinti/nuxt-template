@@ -573,21 +573,24 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
             {{ t('pages.ecommerce.drawer.subtitle') }}
           </p>
           <AppNavigationList
-            :items="categories.map((category) => ({
-              value: category.code ?? 'all',
-              label: category.label,
-              to:
-                category.code && category.code !== 'all'
-                  ? localePath({
-                      name: 'ecommerce-category-slug',
-                      params: { slug: category.code },
-                    })
-                  : productsListRoute,
-              icon:
-                activeCategory === category.code || (!category.code && !activeCategory)
-                  ? 'mdi-star-four-points'
-                  : 'mdi-shape',
-            }))"
+            :items="
+              categories.map((category) => ({
+                value: category.code ?? 'all',
+                label: category.label,
+                to:
+                  category.code && category.code !== 'all'
+                    ? localePath({
+                        name: 'ecommerce-category-slug',
+                        params: { slug: category.code },
+                      })
+                    : productsListRoute,
+                icon:
+                  activeCategory === category.code ||
+                  (!category.code && !activeCategory)
+                    ? 'mdi-star-four-points'
+                    : 'mdi-shape',
+              }))
+            "
             class="mb-4"
           >
             <template #description>
@@ -640,7 +643,9 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
               >
                 <div class="d-flex align-center gap-3">
                   <v-img
-                    :src="resolveProductImageUrl(product) || FALLBACK_PRODUCT_IMAGE"
+                    :src="
+                      resolveProductImageUrl(product) || FALLBACK_PRODUCT_IMAGE
+                    "
                     width="64"
                     height="64"
                     cover
@@ -651,7 +656,10 @@ const resolveProductImageUrl = (product: ProductJsonldSyliusShopProductIndex) =>
                       {{ resolveProductName(product) }}
                     </h3>
                     <p class="text-caption text-medium-emphasis mb-0">
-                      {{ resolveProductSummary(product) || t('pages.ecommerce.fallbacks.summary') }}
+                      {{
+                        resolveProductSummary(product) ||
+                        t('pages.ecommerce.fallbacks.summary')
+                      }}
                     </p>
                   </div>
                 </div>

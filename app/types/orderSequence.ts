@@ -18,7 +18,8 @@ export type OrderSequenceSyliusAdminOrderSequenceShow = OrderSequence
 
 export interface OrderSequenceJsonld extends OrderSequence, JsonLdResource {}
 
-export type OrderSequenceJsonldSyliusAdminOrderSequenceIndex = OrderSequenceJsonld
+export type OrderSequenceJsonldSyliusAdminOrderSequenceIndex =
+  OrderSequenceJsonld
 
 export type OrderSequenceJsonldSyliusAdminOrderSequenceShow =
   OrderSequenceJsonldSyliusAdminOrderSequenceIndex

@@ -1,16 +1,11 @@
 <template>
   <div class="field-checkbox">
-    <Checkbox
-      :binary="true"
-      :inputId="id"
-      :name="name"
-      v-model="proxy"
-    />
+    <Checkbox v-model="proxy" :binary="true" :input-id="id" :name="name" />
     <label :for="id" class="ml-2 cursor-pointer">{{ label }}</label>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import Checkbox from 'primevue/checkbox'
 

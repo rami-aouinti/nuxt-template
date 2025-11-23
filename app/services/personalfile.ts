@@ -1,4 +1,4 @@
 // @ts-nocheck
-import makeService from "./api"
+import makeService from './api'
 
-export default makeService("personal_files")
+export default makeService('personal_files')

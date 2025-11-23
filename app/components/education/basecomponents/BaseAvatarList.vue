@@ -1,8 +1,8 @@
-<script setup>
-import BaseUserAvatar from "./BaseUserAvatar.vue"
-import { useI18n } from "vue-i18n"
-import Avatar from "primevue/avatar"
-import { useAvatarList } from "../legacy/composables/useAvatarList.js"
+<script setup lang="ts">
+import BaseUserAvatar from './BaseUserAvatar.vue'
+
+import Avatar from 'primevue/avatar'
+import { useAvatarList } from '~/composables/useAvatarList.js'
 
 const props = defineProps({
   users: {
@@ -27,10 +27,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <ul
-    :class="{ 'avatar-list--several': several }"
-    class="avatar-list"
-  >
+  <ul :class="{ 'avatar-list--several': several }" class="avatar-list">
     <li
       v-for="(user, idx) in userList"
       :key="idx"
@@ -47,10 +44,7 @@ const { t } = useI18n()
       </div>
     </li>
     <li v-if="several">
-      <Avatar
-        :label="plusText"
-        shape="circle"
-      />
+      <Avatar :label="plusText" shape="circle" />
     </li>
   </ul>
 </template>

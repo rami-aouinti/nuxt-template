@@ -10,11 +10,8 @@
   >
     <div class="my-2 flex flex-col gap-4">
       <div class="flex gap-2">
-        <BaseIcon
-          icon="alert"
-          size="big"
-        />
-        <p>{{ t("Are you sure you want to delete this item?") }}</p>
+        <BaseIcon icon="alert" size="big" />
+        <p>{{ t('Are you sure you want to delete this item?') }}</p>
       </div>
       <div class="mx-2">
         <slot>{{ itemToDelete }}</slot>
@@ -23,10 +20,9 @@
   </BaseDialogConfirmCancel>
 </template>
 
-<script setup>
-import BaseIcon from "./BaseIcon.vue"
-import BaseDialogConfirmCancel from "./BaseDialogConfirmCancel.vue"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import BaseIcon from './BaseIcon.vue'
+import BaseDialogConfirmCancel from './BaseDialogConfirmCancel.vue'
 
 const { t } = useI18n()
 
@@ -37,9 +33,13 @@ defineProps({
   },
   itemToDelete: {
     type: String,
-    default: "",
+    default: '',
   },
 })
 
-const emit = defineEmits(["update:isVisible", "confirmClicked", "cancelClicked"])
+const emit = defineEmits([
+  'update:isVisible',
+  'confirmClicked',
+  'cancelClicked',
+])
 </script>

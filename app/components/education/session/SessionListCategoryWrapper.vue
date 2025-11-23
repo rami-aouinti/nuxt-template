@@ -3,18 +3,14 @@
     v-if="sessions.length > 0"
     class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
   >
-    <div
-      v-for="session in sessions"
-      :key="session.id"
-      class="overflow-hidden"
-    >
+    <div v-for="session in sessions" :key="session.id" class="overflow-hidden">
       <SessionCardSimple :session="session" />
     </div>
   </div>
 </template>
 
-<script setup>
-import SessionCardSimple from "./SessionCardSimple.vue"
+<script setup lang="ts">
+import SessionCardSimple from './SessionCardSimple.vue'
 
 defineProps({
   sessions: {

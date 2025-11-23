@@ -1,12 +1,11 @@
 <template>
-  <div
-    v-if="itemList.length > 0"
-    class="app-breadcrumb"
-  >
+  <div v-if="itemList.length > 0" class="app-breadcrumb">
     <Breadcrumb :model="itemList">
       <template #item="{ item, props }">
         <BaseAppLink
-          v-if="(item.route || item.url) && item !== itemList[itemList.length - 1]"
+          v-if="
+            (item.route || item.url) && item !== itemList[itemList.length - 1]
+          "
           :to="item.route"
           :url="item.url"
           v-bind="props.action"
@@ -14,10 +13,7 @@
         >
           {{ stripHtml(item.label) }}
         </BaseAppLink>
-        <span
-          v-else
-          v-text="stripHtml(item.label)"
-        ></span>
+        <span v-else v-text="stripHtml(item.label)" />
       </template>
 
       <template #separator> /</template>
@@ -30,14 +26,14 @@
   </div>
 </template>
 
-<script setup>
-import { computed, ref, watch, watchEffect, onMounted } from "vue"
-import { useRoute, useRouter } from "vue-router"
-import { useI18n } from "vue-i18n"
-import Breadcrumb from "primevue/breadcrumb"
-import { useCidReqStore } from "./legacy/store/cidReq.js"
-import { storeToRefs } from "pinia"
-import { useStore } from "vuex"
+<script setup lang="ts">
+import { computed, ref, watch, watchEffect, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+import Breadcrumb from 'primevue/breadcrumb'
+import { useCidReqStore } from './legacy/store/cidReq.js'
+import { storeToRefs } from 'pinia'
+import { useStore } from 'vuex'
 
 const legacyItems = ref([])
 
@@ -48,18 +44,20 @@ const { t, te } = useI18n()
 
 const { course, session } = storeToRefs(cidReqStore)
 const store = useStore()
-const resourceNode = computed(() => store.getters["resourcenode/getResourceNode"])
+const resourceNode = computed(
+  () => store.getters['resourcenode/getResourceNode'],
+)
 
 const specialRouteNames = [
-  "MyCourses",
-  "MySessions",
-  "MySessionsUpcoming",
-  "MySessionsPast",
-  "Home",
-  "MessageList",
-  "MessageNew",
-  "MessageShow",
-  "MessageCreate",
+  'MyCourses',
+  'MySessions',
+  'MySessionsUpcoming',
+  'MySessionsPast',
+  'Home',
+  'MessageList',
+  'MessageNew',
+  'MessageShow',
+  'MessageCreate',
 ]
 
 const itemList = ref([])
@@ -72,14 +70,18 @@ onMounted(() => {
 })
 
 const formatToolName = (name) => {
-  if (!name) return ""
+  if (!name) return ''
   return name
-    .replace(/([a-z])([A-Z])/g, "$1 $2")
-    .replace(/_/g, " ")
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/_/g, ' ')
     .replace(/\b\w/g, (c) => c.toUpperCase())
 }
 
-const addToolWithResourceBreadcrumb = (toolName, listRouteName, detailRouteName) => {
+const addToolWithResourceBreadcrumb = (
+  toolName,
+  listRouteName,
+  detailRouteName,
+) => {
   itemList.value.push({
     label: t(formatToolName(toolName)),
     route: {
@@ -99,7 +101,9 @@ const addToolWithResourceBreadcrumb = (toolName, listRouteName, detailRouteName)
 
     itemList.value.push({
       label: resourceLabel,
-      route: idParam ? { name: detailRouteName, params: { id: idParam }, query: route.query } : undefined,
+      route: idParam
+        ? { name: detailRouteName, params: { id: idParam }, query: route.query }
+        : undefined,
     })
   }
 
@@ -118,7 +122,8 @@ function addRemainingMatchedBreadcrumbs() {
   route.matched.slice(1).forEach((r) => {
     const label = r.meta?.breadcrumb || formatToolName(r.name)
     const alreadyHasResource =
-      resourceNode.value?.title && itemList.value.some((item) => item.label === resourceNode.value.title)
+      resourceNode.value?.title &&
+      itemList.value.some((item) => item.label === resourceNode.value.title)
 
     if (!alreadyHasResource) {
       itemList.value.push({
@@ -137,24 +142,29 @@ function watchResourceNodeLoader() {
   watch(
     () => route.fullPath,
     async () => {
-      const currentRouteName = route.name || ""
-      const isAssignmentRoute = currentRouteName.startsWith("Assignment")
-      const isAttendanceRoute = currentRouteName.startsWith("Attendance")
-      const isDocumentRoute = currentRouteName.startsWith("Documents")
+      const currentRouteName = route.name || ''
+      const isAssignmentRoute = currentRouteName.startsWith('Assignment')
+      const isAttendanceRoute = currentRouteName.startsWith('Attendance')
+      const isDocumentRoute = currentRouteName.startsWith('Documents')
       const nodeId = route.params.node || route.query.node
 
-      if ((isAssignmentRoute || isAttendanceRoute || isDocumentRoute) && nodeId) {
+      if (
+        (isAssignmentRoute || isAttendanceRoute || isDocumentRoute) &&
+        nodeId
+      ) {
         try {
-          store.commit("resourcenode/setResourceNode", null)
-          const resourceApiId = nodeId.startsWith("/api/") ? nodeId : `/api/resource_nodes/${nodeId}`
+          store.commit('resourcenode/setResourceNode', null)
+          const resourceApiId = nodeId.startsWith('/api/')
+            ? nodeId
+            : `/api/resource_nodes/${nodeId}`
 
-          await store.dispatch("resourcenode/findResourceNode", {
+          await store.dispatch('resourcenode/findResourceNode', {
             id: resourceApiId,
             cid: course.value?.id,
             sid: session.value?.id,
           })
         } catch (e) {
-          console.error("[Breadcrumb WATCH] failed to load resourceNode", e)
+          console.error('[Breadcrumb WATCH] failed to load resourceNode', e)
         }
       }
     },
@@ -165,15 +175,15 @@ function watchResourceNodeLoader() {
 function addDocumentBreadcrumb() {
   const folderTrail = []
   let current = resourceNode.value
-  while (current?.parent && current.parent.title !== "courses") {
+  while (current?.parent && current.parent.title !== 'courses') {
     folderTrail.unshift({ label: current.title, nodeId: current.id })
     current = current.parent
   }
   const first = folderTrail.shift()
   itemList.value.push({
-    label: t("Documents"),
+    label: t('Documents'),
     route: {
-      name: "DocumentsList",
+      name: 'DocumentsList',
       params: first ? { node: first.nodeId } : route.params,
       query: route.query,
     },
@@ -181,19 +191,29 @@ function addDocumentBreadcrumb() {
   folderTrail.forEach((folder) => {
     itemList.value.push({
       label: folder.label,
-      route: { name: "DocumentsList", params: { node: folder.nodeId }, query: route.query },
+      route: {
+        name: 'DocumentsList',
+        params: { node: folder.nodeId },
+        query: route.query,
+      },
     })
   })
 
   const currentMatched = route.matched.find((r) => r.name === route.name)
   const label = currentMatched.meta?.breadcrumb
-  if (label !== "") {
+  if (label !== '') {
     const finalLabel = label || formatToolName(currentMatched.name)
-    const alreadyShown = itemList.value.some((item) => item.label === finalLabel)
+    const alreadyShown = itemList.value.some(
+      (item) => item.label === finalLabel,
+    )
     if (!alreadyShown) {
       itemList.value.push({
         label: t(finalLabel),
-        route: { name: currentMatched.name, params: route.params, query: route.query },
+        route: {
+          name: currentMatched.name,
+          params: route.params,
+          query: route.query,
+        },
       })
     }
   }
@@ -203,10 +223,10 @@ function addDocumentBreadcrumb() {
  * Resolve translated label for /admin/settings/:namespace
  */
 function resolveSettingsSectionLabel(nsRaw) {
-  const ns = String(nsRaw || "").trim()
+  const ns = String(nsRaw || '').trim()
   // Safer because it's already translated server-side.
   try {
-    const current = document.querySelector(".list-group a.bg-gray-25")
+    const current = document.querySelector('.list-group a.bg-gray-25')
     const domText = current?.textContent?.trim()
     if (domText) {
       return domText
@@ -216,31 +236,31 @@ function resolveSettingsSectionLabel(nsRaw) {
   // i18n candidates
   const candidates = [
     `settings_section.${ns}`,
-    `settings_section.${ns.replace(/-/g, "_")}`,
+    `settings_section.${ns.replace(/-/g, '_')}`,
     ns,
-    ns.replace(/[-_]/g, " "),
+    ns.replace(/[-_]/g, ' '),
   ]
   for (const key of candidates) {
-    const has = typeof te === "function" && te(key)
+    const has = typeof te === 'function' && te(key)
     if (has) return t(key)
   }
 
-  return ns.replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+  return ns.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
 }
 
 // Watch route changes to dynamically rebuild the breadcrumb trail
 watchEffect(() => {
-  if ("/" === route.fullPath) return
+  if ('/' === route.fullPath) return
   itemList.value = []
 
   if (buildManualBreadcrumbIfNeeded()) return
 
   // Static route categories
-  if (route.name?.includes("Page")) {
-    itemList.value.push({ label: t("Pages"), to: "/resources/pages" })
+  if (route.name?.includes('Page')) {
+    itemList.value.push({ label: t('Pages'), to: '/resources/pages' })
   }
-  if (route.name?.includes("Message")) {
-    itemList.value.push({ label: t("Messages"), to: "/resources/messages" })
+  if (route.name?.includes('Message')) {
+    itemList.value.push({ label: t('Messages'), to: '/resources/messages' })
   }
 
   // Do not build breadcrumb for top-level routes
@@ -249,65 +269,83 @@ watchEffect(() => {
   // Add course or session link
   if (course.value) {
     itemList.value.push({
-      label: t(session.value ? "My sessions" : "My courses"),
-      route: { name: session.value ? "MySessions" : "MyCourses" },
+      label: t(session.value ? 'My sessions' : 'My courses'),
+      route: { name: session.value ? 'MySessions' : 'MyCourses' },
     })
   }
 
   // Legacy breadcrumb fallback (main/legacy urls)
   if (legacyItems.value.length > 0) {
     const mainUrl = window.location.href
-    const mainPath = mainUrl.indexOf("main/")
+    const mainPath = mainUrl.indexOf('main/')
     legacyItems.value.forEach((item) => {
-      let newUrl = (item.url || "").toString()
-      if (newUrl.indexOf("main/") > 0) newUrl = "/" + newUrl.substring(mainPath)
-      if (newUrl === "/") newUrl = "#"
+      let newUrl = (item.url || '').toString()
+      if (newUrl.indexOf('main/') > 0) newUrl = '/' + newUrl.substring(mainPath)
+      if (newUrl === '/') newUrl = '#'
       itemList.value.push({ label: item.name, url: newUrl || undefined })
     })
     legacyItems.value = []
-  } else if (course.value && route.name !== "CourseHome") {
+  } else if (course.value && route.name !== 'CourseHome') {
     itemList.value.push({
       label: course.value.title,
-      route: { name: "CourseHome", params: { id: course.value.id }, query: route.query },
+      route: {
+        name: 'CourseHome',
+        params: { id: course.value.id },
+        query: route.query,
+      },
     })
   }
 
   // Detect and render tool-specific breadcrumb
   const mainToolName = route.matched?.[0]?.name
-  const currentRouteName = route.name || ""
+  const currentRouteName = route.name || ''
   const nodeId = route.params.node || route.query.node
-  const isAssignmentRoute = currentRouteName.startsWith("Assignment") && resourceNode.value && nodeId
-  const isAttendanceRoute = currentRouteName.startsWith("Attendance") && resourceNode.value && nodeId
+  const isAssignmentRoute =
+    currentRouteName.startsWith('Assignment') && resourceNode.value && nodeId
+  const isAttendanceRoute =
+    currentRouteName.startsWith('Attendance') && resourceNode.value && nodeId
 
   // Documents breadcrumb (based on resourceNode hierarchy)
-  if (mainToolName === "documents" && resourceNode.value) {
+  if (mainToolName === 'documents' && resourceNode.value) {
     addDocumentBreadcrumb()
     return
   }
 
   // Assignments
   if (isAssignmentRoute) {
-    addToolWithResourceBreadcrumb("Assignments", "AssignmentsList", "AssignmentDetail")
+    addToolWithResourceBreadcrumb(
+      'Assignments',
+      'AssignmentsList',
+      'AssignmentDetail',
+    )
     return
   }
 
   // Attendance
   if (isAttendanceRoute) {
-    addToolWithResourceBreadcrumb("Attendance", "AttendanceList", "AttendanceSheetList")
+    addToolWithResourceBreadcrumb(
+      'Attendance',
+      'AttendanceList',
+      'AttendanceSheetList',
+    )
     return
   }
 
   // Generic tool fallback
-  if (mainToolName && !["documents", "assignments", "attendance"].includes(mainToolName)) {
+  if (
+    mainToolName &&
+    !['documents', 'assignments', 'attendance'].includes(mainToolName)
+  ) {
     const matchedRoutes = route.matched
     const toolBase = matchedRoutes[0]
     const currentMatched = matchedRoutes[matchedRoutes.length - 1]
 
     let toolLabel = formatToolName(mainToolName)
-    if (mainToolName === "ccalendarevent") {
+    if (mainToolName === 'ccalendarevent') {
       const cid = Number(route.query?.cid || 0)
       const gid = Number(route.query?.gid || 0)
-      toolLabel = gid > 0 ? "Group agenda" : cid > 0 ? "Agenda" : "Personal agenda"
+      toolLabel =
+        gid > 0 ? 'Group agenda' : cid > 0 ? 'Agenda' : 'Personal agenda'
     }
     itemList.value.push({
       label: t(toolLabel),
@@ -315,13 +353,19 @@ watchEffect(() => {
     })
 
     const label = currentMatched.meta?.breadcrumb
-    if (label !== "") {
+    if (label !== '') {
       const finalLabel = label || formatToolName(currentMatched.name)
-      const alreadyShown = itemList.value.some((item) => item.label === finalLabel)
+      const alreadyShown = itemList.value.some(
+        (item) => item.label === finalLabel,
+      )
       if (!alreadyShown) {
         itemList.value.push({
           label: t(finalLabel),
-          route: { name: currentMatched.name, params: route.params, query: route.query },
+          route: {
+            name: currentMatched.name,
+            params: route.params,
+            query: route.query,
+          },
         })
       }
     }
@@ -346,23 +390,23 @@ function buildManualBreadcrumbIfNeeded() {
   // If server already injected legacy breadcrumbs, use them.
   if (Array.isArray(legacyItems.value) && legacyItems.value.length > 0) {
     const mainUrl = window.location.href
-    const mainPath = mainUrl.indexOf("main/")
+    const mainPath = mainUrl.indexOf('main/')
     legacyItems.value.forEach((item) => {
-      let newUrl = (item.url || "").toString()
-      if (newUrl.indexOf("main/") > 0) newUrl = "/" + newUrl.substring(mainPath)
-      if (newUrl === "/") newUrl = "#"
+      let newUrl = (item.url || '').toString()
+      if (newUrl.indexOf('main/') > 0) newUrl = '/' + newUrl.substring(mainPath)
+      if (newUrl === '/') newUrl = '#'
       itemList.value.push({ label: item.name, url: newUrl || undefined })
     })
     legacyItems.value = []
     return true
   }
 
-  const whitelist = ["admin"]
+  const whitelist = ['admin']
   const overrides = {
-    admin: "AdminIndex",
+    admin: 'AdminIndex',
     gdpr: null,
   }
-  const pathSegments = route.path.split("/").filter(Boolean)
+  const pathSegments = route.path.split('/').filter(Boolean)
   const baseSegment = pathSegments[0]
 
   if (!whitelist.includes(baseSegment)) {
@@ -370,24 +414,29 @@ function buildManualBreadcrumbIfNeeded() {
   }
 
   // /admin/settings/<namespace>
-  const isAdminSettings = pathSegments[1] === "settings"
+  const isAdminSettings = pathSegments[1] === 'settings'
   if (isAdminSettings) {
-    const ns = pathSegments[2] || route.params?.namespace || route.query?.namespace || ""
-    const adminLabel = t("Admin")
+    const ns =
+      pathSegments[2] || route.params?.namespace || route.query?.namespace || ''
+    const adminLabel = t('Admin')
     itemList.value.push({
       label: adminLabel,
-      route: { name: overrides.admin, params: route.params, query: route.query },
+      route: {
+        name: overrides.admin,
+        params: route.params,
+        query: route.query,
+      },
     })
     itemList.value.push({
-      label: t("Settings"),
-      route: { path: "/admin/settings" },
+      label: t('Settings'),
+      route: { path: '/admin/settings' },
     })
     const section = resolveSettingsSectionLabel(ns)
     itemList.value.push({ label: section })
     return true
   }
 
-  const fullPath = "/" + pathSegments.join("/")
+  const fullPath = '/' + pathSegments.join('/')
   const hasMatchedRoute = router.getRoutes().some((r) => r.path === fullPath)
 
   if (hasMatchedRoute) {
@@ -405,7 +454,7 @@ function buildManualBreadcrumbIfNeeded() {
         route: { name: override, params: route.params, query: route.query },
       })
     } else {
-      const partialPath = "/" + pathSegments.slice(0, index + 1).join("/")
+      const partialPath = '/' + pathSegments.slice(0, index + 1).join('/')
       itemList.value.push({
         label,
         route: { path: partialPath },
@@ -417,9 +466,12 @@ function buildManualBreadcrumbIfNeeded() {
 }
 
 function handleBreadcrumbClick(item) {
-  const allowedSegments = ["admin"]
-  const currentSegment = route.path.split("/").filter(Boolean)[0]
-  const itemSegment = router.resolve(item.route).path.split("/").filter(Boolean)[0]
+  const allowedSegments = ['admin']
+  const currentSegment = route.path.split('/').filter(Boolean)[0]
+  const itemSegment = router
+    .resolve(item.route)
+    .path.split('/')
+    .filter(Boolean)[0]
 
   if (itemSegment === currentSegment && allowedSegments.includes(itemSegment)) {
     window.location.href = router.resolve(item.route).href
@@ -427,7 +479,7 @@ function handleBreadcrumbClick(item) {
 }
 
 function stripHtml(value) {
-  if (!value || typeof value !== "string") return ""
-  return value.replace(/<[^>]*>?/gm, "").trim()
+  if (!value || typeof value !== 'string') return ''
+  return value.replace(/<[^>]*>?/gm, '').trim()
 }
 </script>

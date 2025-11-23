@@ -7,10 +7,7 @@
       class="flex align-center"
       data-fancybox="gallery"
     >
-      <ResourceIcon
-        :resource-data="data"
-        class="mr-2"
-      />
+      <ResourceIcon :resource-data="data" class="mr-2" />
       {{ data.title }}
     </BaseAppLink>
     <BaseAppLink
@@ -20,10 +17,7 @@
       download
       class="flex align-center"
     >
-      <ResourceIcon
-        :resource-data="data"
-        class="mr-2"
-      />
+      <ResourceIcon :resource-data="data" class="mr-2" />
       {{ data.title }}
     </BaseAppLink>
   </div>
@@ -36,20 +30,17 @@
       }"
       class="flex align-center"
     >
-      <ResourceIcon
-        :resource-data="data"
-        class="mr-2"
-      />
+      <ResourceIcon :resource-data="data" class="mr-2" />
       <b>{{ data.resourceNode.title }}</b>
     </BaseAppLink>
   </div>
 </template>
 
-<script setup>
-import ResourceIcon from "./ResourceIcon.vue"
-import { computed } from "vue"
-import { useCidReq } from "../legacy/composables/cidReq.js"
-import { useFileUtils } from "../legacy/composables/fileUtils.js"
+<script setup lang="ts">
+import ResourceIcon from './ResourceIcon.vue'
+import { computed } from 'vue'
+import { useCidReq } from '~/composables/cidReq.js'
+import { useFileUtils } from '~/composables/fileUtils.js'
 
 const props = defineProps({
   data: {
@@ -63,20 +54,20 @@ const { isFile: utilsIsFile, isImage, isVideo, isAudio } = useFileUtils()
 
 const dataType = computed(() => {
   if (!utilsIsFile(props.data)) {
-    return ""
+    return ''
   }
 
   if (isImage(props.data)) {
-    return "image"
+    return 'image'
   }
   if (isVideo(props.data)) {
-    return "video"
+    return 'video'
   }
   if (isAudio(props.data)) {
-    return "audio"
+    return 'audio'
   }
 
-  return "iframe"
+  return 'iframe'
 })
 
 const isFile = computed(() => {

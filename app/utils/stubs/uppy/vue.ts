@@ -10,7 +10,8 @@ export const Dashboard = defineComponent({
 export const DashboardModal = defineComponent({
   name: 'UppyDashboardModalStub',
   setup(_, { slots }) {
-    return () => h('div', { class: 'uppy-dashboard-modal-stub' }, slots.default?.())
+    return () =>
+      h('div', { class: 'uppy-dashboard-modal-stub' }, slots.default?.())
   },
 })
 

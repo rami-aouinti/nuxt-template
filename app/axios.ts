@@ -20,13 +20,24 @@ type AxiosResponse<T = any> = {
   request: Response
 }
 
-type AxiosError = Error & { response?: AxiosResponse; config?: AxiosRequestConfig; isAxiosError?: boolean }
+type AxiosError = Error & {
+  response?: AxiosResponse
+  config?: AxiosRequestConfig
+  isAxiosError?: boolean
+}
 
-function buildUrl(url: string, baseURL?: string, params?: Record<string, unknown>) {
+function buildUrl(
+  url: string,
+  baseURL?: string,
+  params?: Record<string, unknown>,
+) {
   const normalizedUrl = baseURL ? new URL(url ?? '', baseURL).toString() : url
   if (!params || !Object.keys(params).length) return normalizedUrl
 
-  const urlObj = new URL(normalizedUrl, normalizedUrl.startsWith('http') ? undefined : 'http://localhost')
+  const urlObj = new URL(
+    normalizedUrl,
+    normalizedUrl.startsWith('http') ? undefined : 'http://localhost',
+  )
   Object.entries(params).forEach(([key, value]) => {
     if (value === undefined || value === null) return
     urlObj.searchParams.append(key, String(value))
@@ -34,8 +45,17 @@ function buildUrl(url: string, baseURL?: string, params?: Record<string, unknown
   return urlObj.toString()
 }
 
-async function axiosRequest<T = any>(config: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-  const { url = '', baseURL, method = 'get', headers = {}, data, params } = config
+async function axiosRequest<T = any>(
+  config: AxiosRequestConfig,
+): Promise<AxiosResponse<T>> {
+  const {
+    url = '',
+    baseURL,
+    method = 'get',
+    headers = {},
+    data,
+    params,
+  } = config
   const target = buildUrl(url, baseURL, params)
 
   const requestHeaders: HeadersInit = { ...headers }
@@ -85,8 +105,15 @@ class AxiosInstance {
   constructor(private defaults: AxiosRequestConfig = {}) {}
 
   request<T = any>(config: AxiosRequestConfig) {
-    const mergedHeaders = { ...(this.defaults.headers || {}), ...(config.headers || {}) }
-    return axiosRequest<T>({ ...this.defaults, ...config, headers: mergedHeaders })
+    const mergedHeaders = {
+      ...(this.defaults.headers || {}),
+      ...(config.headers || {}),
+    }
+    return axiosRequest<T>({
+      ...this.defaults,
+      ...config,
+      headers: mergedHeaders,
+    })
   }
 
   get<T = any>(url: string, config: AxiosRequestConfig = {}) {
@@ -116,7 +143,10 @@ function create(defaults: AxiosRequestConfig = {}) {
   return new AxiosInstance(defaults)
 }
 
-function axios<T = any>(configOrUrl: string | AxiosRequestConfig, config: AxiosRequestConfig = {}) {
+function axios<T = any>(
+  configOrUrl: string | AxiosRequestConfig,
+  config: AxiosRequestConfig = {},
+) {
   if (typeof configOrUrl === 'string') {
     return defaultInstance.request<T>({ ...config, url: configOrUrl })
   }
@@ -130,7 +160,8 @@ axios.post = defaultInstance.post.bind(defaultInstance)
 axios.put = defaultInstance.put.bind(defaultInstance)
 axios.patch = defaultInstance.patch.bind(defaultInstance)
 axios.create = create
-axios.isAxiosError = (error: unknown): error is AxiosError => Boolean((error as AxiosError)?.isAxiosError)
+axios.isAxiosError = (error: unknown): error is AxiosError =>
+  Boolean((error as AxiosError)?.isAxiosError)
 
 export type { AxiosRequestConfig, AxiosResponse, AxiosError }
 export { create }

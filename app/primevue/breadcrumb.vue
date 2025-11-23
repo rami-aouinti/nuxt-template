@@ -9,11 +9,13 @@
 </template>
 
 <script setup>
-import { computed } from "vue"
+import { computed } from 'vue'
 
 const props = defineProps({
   home: { type: Object, default: null },
   model: { type: Array, default: () => [] },
 })
-const items = computed(() => (props.home ? [props.home, ...props.model] : props.model))
+const items = computed(() =>
+  props.home ? [props.home, ...props.model] : props.model,
+)
 </script>

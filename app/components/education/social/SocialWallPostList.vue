@@ -11,16 +11,16 @@
   </div>
 </template>
 
-<script setup>
-import SocialWallPost from "./SocialWallPost.vue"
-import { inject, onMounted, reactive, ref, watch } from "vue"
-import Loading from "../Loading.vue"
-import axios from "axios"
-import { ENTRYPOINT } from "../legacy/config/entrypoint.js"
-import { useRoute } from "vue-router"
-import { SOCIAL_TYPE_PROMOTED_MESSAGE } from "./constants.js"
+<script setup lang="ts">
+import SocialWallPost from './SocialWallPost.vue'
+import { inject, onMounted, reactive, ref, watch } from 'vue'
+import Loading from '../Loading.vue'
+import axios from 'axios'
+import { ENTRYPOINT } from '~/config/entrypoint.js'
+import { useRoute } from 'vue-router'
+import { SOCIAL_TYPE_PROMOTED_MESSAGE } from './constants.js'
 
-const user = inject("social-user")
+const user = inject('social-user')
 
 const postList = reactive([])
 const isLoading = ref(false)
@@ -46,29 +46,29 @@ defineExpose({
 
 async function listPosts() {
   postList.splice(0, postList.length)
-  if (!user.value["@id"]) {
+  if (!user.value['@id']) {
     return
   }
 
   const filterType = route.query.filterType
   isLoading.value = true
   const params = {
-    socialwall_wallOwner: user.value["id"],
-    "order[sendDate]": "desc",
-    "exists[parent]": false,
+    socialwall_wallOwner: user.value['id'],
+    'order[sendDate]': 'desc',
+    'exists[parent]': false,
   }
-  if (filterType === "promoted") {
+  if (filterType === 'promoted') {
     params.type = SOCIAL_TYPE_PROMOTED_MESSAGE
   }
 
-  const { data } = await axios.get(ENTRYPOINT + "social_posts", { params })
-  postList.push(...data["hydra:member"])
+  const { data } = await axios.get(ENTRYPOINT + 'social_posts', { params })
+  postList.push(...data['hydra:member'])
 
   isLoading.value = false
 }
 
 function onPostDeleted(event) {
-  const index = postList.findIndex((post) => post["@id"] === event["@id"])
+  const index = postList.findIndex((post) => post['@id'] === event['@id'])
   if (index >= 0) {
     postList.splice(index, 1)
   }

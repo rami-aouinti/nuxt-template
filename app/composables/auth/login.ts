@@ -1,16 +1,16 @@
 // @ts-nocheck
-import { ref } from "vue"
-import { useRoute, useRouter } from "vue-router"
-import { useSecurityStore } from "../../store/securityStore"
-import { usePlatformConfig } from "../../store/platformConfig"
-import securityService from "../../services/securityService"
-import { useNotification } from "../notification"
-import i18n, { setLocale } from "../../i18n"
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useSecurityStore } from '../../store/securityStore'
+import { usePlatformConfig } from '../../store/platformConfig'
+import securityService from '../../services/securityService'
+import { useNotification } from '../notification'
+import i18n, { setLocale } from '../../i18n'
 
 function isValidHttpUrl(string) {
   try {
     const url = new URL(string)
-    return url.protocol === "http:" || url.protocol === "https:"
+    return url.protocol === 'http:' || url.protocol === 'https:'
   } catch (_) {
     return false
   }
@@ -54,7 +54,7 @@ function normalizeRedirectUrl(rawRedirect) {
     const currentOrigin = window.location.origin
 
     // root-relative path ("/resources/pages/edit?id=...")
-    if (rawRedirect.startsWith("/")) {
+    if (rawRedirect.startsWith('/')) {
       const url = new URL(rawRedirect, currentOrigin)
       return url.pathname + url.search + url.hash
     }
@@ -68,14 +68,14 @@ function normalizeRedirectUrl(rawRedirect) {
 
     // Prevent open redirects: only allow same-origin URLs
     if (url.origin !== currentOrigin) {
-      console.warn("[login] Blocked redirect to different origin:", url.origin)
+      console.warn('[login] Blocked redirect to different origin:', url.origin)
       return null
     }
 
     // Strip origin, keep path + query + hash
     return url.pathname + url.search + url.hash
   } catch (e) {
-    console.warn("[login] Invalid redirect param:", rawRedirect, e)
+    console.warn('[login] Invalid redirect param:', rawRedirect, e)
     return null
   }
 }
@@ -90,7 +90,13 @@ export function useLogin() {
   const isLoading = ref(false)
   const requires2FA = ref(false)
 
-  async function performLogin({ login, password, _remember_me, totp = null, isLoginLdap = false }) {
+  async function performLogin({
+    login,
+    password,
+    _remember_me,
+    totp = null,
+    isLoginLdap = false,
+  }) {
     isLoading.value = true
     requires2FA.value = false
 
@@ -110,7 +116,7 @@ export function useLogin() {
       }
 
       const responseData =
-        isLoginLdap || "ldap" === platformConfigurationStore.forcedLoginMethod
+        isLoginLdap || 'ldap' === platformConfigurationStore.forcedLoginMethod
           ? await securityService.loginLdap(payload)
           : await securityService.login(payload)
 
@@ -182,45 +188,47 @@ export function useLogin() {
       }
 
       // Default platform redirect after login
-      const setting = platformConfigurationStore.getSetting("registration.redirect_after_login")
-      let target = "/"
+      const setting = platformConfigurationStore.getSetting(
+        'registration.redirect_after_login',
+      )
+      let target = '/'
 
-      if (setting && typeof setting === "string") {
+      if (setting && typeof setting === 'string') {
         try {
           const map = JSON.parse(setting)
           const roles = responseData.roles || []
 
           const getProfile = () => {
-            if (roles.includes("ROLE_ADMIN")) return "ADMIN"
-            if (roles.includes("ROLE_SESSION_MANAGER")) return "SESSIONADMIN"
-            if (roles.includes("ROLE_TEACHER")) return "COURSEMANAGER"
-            if (roles.includes("ROLE_STUDENT_BOSS")) return "STUDENT_BOSS"
-            if (roles.includes("ROLE_DRH")) return "DRH"
-            if (roles.includes("ROLE_INVITEE")) return "INVITEE"
-            if (roles.includes("ROLE_STUDENT")) return "STUDENT"
+            if (roles.includes('ROLE_ADMIN')) return 'ADMIN'
+            if (roles.includes('ROLE_SESSION_MANAGER')) return 'SESSIONADMIN'
+            if (roles.includes('ROLE_TEACHER')) return 'COURSEMANAGER'
+            if (roles.includes('ROLE_STUDENT_BOSS')) return 'STUDENT_BOSS'
+            if (roles.includes('ROLE_DRH')) return 'DRH'
+            if (roles.includes('ROLE_INVITEE')) return 'INVITEE'
+            if (roles.includes('ROLE_STUDENT')) return 'STUDENT'
             return null
           }
 
           const profile = getProfile()
-          const value = profile && map[profile] ? map[profile] : ""
+          const value = profile && map[profile] ? map[profile] : ''
 
           switch (value) {
-            case "user_portal.php":
-            case "index.php":
-              target = "/home"
+            case 'user_portal.php':
+            case 'index.php':
+              target = '/home'
               break
-            case "main/auth/courses.php":
-              target = "/courses"
+            case 'main/auth/courses.php':
+              target = '/courses'
               break
-            case "":
+            case '':
             case null:
-              target = "/"
+              target = '/'
               break
             default:
-              target = `/${value.replace(/^\/+/, "")}`
+              target = `/${value.replace(/^\/+/, '')}`
           }
         } catch (e) {
-          console.warn("[redirect_after_login] Malformed JSON:", e)
+          console.warn('[redirect_after_login] Malformed JSON:', e)
         }
       }
 
@@ -228,7 +236,8 @@ export function useLogin() {
 
       return { success: true }
     } catch (error) {
-      const errorMessage = error.response?.data?.error || "An error occurred during login."
+      const errorMessage =
+        error.response?.data?.error || 'An error occurred during login.'
       showErrorNotification(errorMessage)
       return { success: false, error: errorMessage }
     } finally {
@@ -247,7 +256,7 @@ export function useLogin() {
     if (safeRedirect) {
       await router.push(safeRedirect)
     } else {
-      await router.replace({ name: "Home" })
+      await router.replace({ name: 'Home' })
     }
   }
 

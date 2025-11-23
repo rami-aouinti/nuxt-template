@@ -1,9 +1,9 @@
-<script setup>
-import Dialog from "primevue/dialog"
-import { iconValidator } from "./validators.js"
-import BaseIcon from "./BaseIcon.vue"
+<script setup lang="ts">
+import Dialog from 'primevue/dialog'
+import { iconValidator } from './validators.js'
+import BaseIcon from './BaseIcon.vue'
 
-const isVisible = defineModel("isVisible", {
+const isVisible = defineModel('isVisible', {
   required: true,
   type: Boolean,
 })
@@ -15,9 +15,9 @@ defineProps({
   },
   headerIcon: {
     type: String,
-    default: "",
+    default: '',
     validator: (value) => {
-      if (value === "") {
+      if (value === '') {
         return true
       }
       return iconValidator(value)
@@ -27,24 +27,16 @@ defineProps({
 </script>
 
 <template>
-  <Dialog
-    v-model:visible="isVisible"
-    :modal="true"
-    class="p-fluid"
-  >
+  <Dialog v-model:visible="isVisible" :modal="true" class="p-fluid">
     <template #header>
       <div class="text-left">
-        <BaseIcon
-          v-if="headerIcon"
-          :icon="headerIcon"
-          class="mr-2"
-        />
+        <BaseIcon v-if="headerIcon" :icon="headerIcon" class="mr-2" />
         <span class="font-semibold">{{ title }}</span>
       </div>
     </template>
-    <slot></slot>
+    <slot />
     <template #footer>
-      <slot name="footer"></slot>
+      <slot name="footer" />
     </template>
   </Dialog>
 </template>

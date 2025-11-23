@@ -19,8 +19,10 @@ export type UserOauthSyliusAdminUserOauthIndex = UserOauth
 
 export type UserOauthSyliusAdminUserOauthShow = UserOauth
 
-export type UserOauthSyliusAdminUserOauthCreate =
-  Omit<UserOauth, 'id' | 'user'> & { user?: string | null }
+export type UserOauthSyliusAdminUserOauthCreate = Omit<
+  UserOauth,
+  'id' | 'user'
+> & { user?: string | null }
 
 export type UserOauthSyliusAdminUserOauthUpdate =
   Partial<UserOauthSyliusAdminUserOauthCreate>

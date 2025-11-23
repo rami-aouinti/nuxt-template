@@ -9,9 +9,9 @@
   <!-- this class should use tailwind in the future  -->
 </template>
 
-<script setup>
-import Menu from "primevue/menu"
-import { ref } from "vue"
+<script setup lang="ts">
+import Menu from 'primevue/menu'
+import { ref } from 'vue'
 
 defineProps({
   id: {

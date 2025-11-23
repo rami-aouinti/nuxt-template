@@ -14,8 +14,8 @@
       id="repeat"
       v-model="formData.repeatDate"
       :label="t('Repeat date')"
-      @change="toggleRepeatOptions"
       name="repeat"
+      @change="toggleRepeatOptions"
     />
 
     <div v-if="formData.repeatDate">
@@ -30,10 +30,10 @@
       <!-- Number of Days for Every X Days -->
       <div v-if="formData.repeatType === 'every-x-days'">
         <BaseInputNumber
+          id="xdays_number"
           v-model="formData.repeatDays"
           :label="t('Number of days')"
           :min="1"
-          id="xdays_number"
         />
       </div>
 
@@ -80,39 +80,39 @@
     </LayoutFormButtons>
   </form>
 </template>
-<script setup>
-import { onMounted, reactive, ref } from "vue"
-import { useI18n } from "vue-i18n"
-import { useRoute } from "vue-router"
-import attendanceService from "../legacy/services/attendanceService.js"
-import BaseCalendar from "../basecomponents/BaseCalendar.vue"
-import BaseCheckbox from "../basecomponents/BaseCheckbox.vue"
-import BaseSelect from "../basecomponents/BaseSelect.vue"
-import LayoutFormButtons from "../layout/LayoutFormButtons.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import BaseInputNumber from "../basecomponents/BaseInputNumber.vue"
+<script setup lang="ts">
+import { onMounted, reactive, ref } from 'vue'
+
+import { useRoute } from 'vue-router'
+import attendanceService from '~/services/attendanceService.js'
+import BaseCalendar from '../basecomponents/BaseCalendar.vue'
+import BaseCheckbox from '../basecomponents/BaseCheckbox.vue'
+import BaseSelect from '../basecomponents/BaseSelect.vue'
+import LayoutFormButtons from '../layout/LayoutFormButtons.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import BaseInputNumber from '../basecomponents/BaseInputNumber.vue'
 
 const { t } = useI18n()
-const emit = defineEmits(["back-pressed"])
+const emit = defineEmits(['back-pressed'])
 const route = useRoute()
 const parentResourceNodeId = ref(Number(route.params.node))
 
 const formData = reactive({
-  startDate: "",
+  startDate: '',
   repeatDate: false,
-  repeatType: "",
-  repeatEndDate: "",
+  repeatType: '',
+  repeatEndDate: '',
   repeatDays: 0,
-  group: "",
+  group: '',
   duration: 60,
 })
 
 const repeatTypeOptions = [
-  { label: t("Daily"), value: "daily" },
-  { label: t("Weekly"), value: "weekly" },
-  { label: t("Bi-weekly"), value: "bi-weekly" },
-  { label: t("Every x days"), value: "every-x-days" },
-  { label: t("Monthly, by date"), value: "monthly-by-date" },
+  { label: t('Daily'), value: 'daily' },
+  { label: t('Weekly'), value: 'weekly' },
+  { label: t('Bi-weekly'), value: 'bi-weekly' },
+  { label: t('Every x days'), value: 'every-x-days' },
+  { label: t('Monthly, by date'), value: 'monthly-by-date' },
 ]
 
 const groupOptions = ref([])
@@ -133,17 +133,17 @@ const normalizeToLocalDateTime = (value) => {
   // Case 1: Date instance -> build local "YYYY-MM-DDTHH:mm:ss"
   if (value instanceof Date) {
     const year = value.getFullYear()
-    const month = String(value.getMonth() + 1).padStart(2, "0")
-    const day = String(value.getDate()).padStart(2, "0")
-    const hours = String(value.getHours()).padStart(2, "0")
-    const minutes = String(value.getMinutes()).padStart(2, "0")
-    const seconds = String(value.getSeconds()).padStart(2, "0")
+    const month = String(value.getMonth() + 1).padStart(2, '0')
+    const day = String(value.getDate()).padStart(2, '0')
+    const hours = String(value.getHours()).padStart(2, '0')
+    const minutes = String(value.getMinutes()).padStart(2, '0')
+    const seconds = String(value.getSeconds()).padStart(2, '0')
 
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`
   }
 
   // Case 2: string -> strip timezone/offset, keep local time
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     // Examples:
     // - "2025-11-20T13:00"
     // - "2025-11-20T13:00:00"
@@ -171,26 +171,29 @@ const normalizeToLocalDateTime = (value) => {
 
 const toggleRepeatOptions = () => {
   if (!formData.repeatDate) {
-    formData.repeatType = ""
-    formData.repeatEndDate = ""
+    formData.repeatType = ''
+    formData.repeatEndDate = ''
     formData.repeatDays = 0
   }
 }
 
 const submitForm = async (event) => {
   // Prevent default form submit behavior
-  if (event && typeof event.preventDefault === "function") {
+  if (event && typeof event.preventDefault === 'function') {
     event.preventDefault()
   }
 
   // Basic required fields checks
   if (!formData.startDate) {
-    console.error("[Attendance] Start date is required.")
+    console.error('[Attendance] Start date is required.')
     return
   }
 
-  if (formData.repeatDate && (!formData.repeatType || !formData.repeatEndDate)) {
-    console.error("[Attendance] Repeat settings are incomplete.")
+  if (
+    formData.repeatDate &&
+    (!formData.repeatType || !formData.repeatEndDate)
+  ) {
+    console.error('[Attendance] Repeat settings are incomplete.')
     return
   }
 
@@ -205,24 +208,27 @@ const submitForm = async (event) => {
     repeatDate: formData.repeatDate,
     repeatType: formData.repeatType || null,
     repeatEndDate: normalizedRepeatEndDate,
-    repeatDays: formData.repeatType === "every-x-days" ? formData.repeatDays : null,
+    repeatDays:
+      formData.repeatType === 'every-x-days' ? formData.repeatDays : null,
     group: formData.group ? parseInt(formData.group, 10) : null,
     duration: formData.duration,
   }
 
   try {
     await attendanceService.addAttendanceCalendar(route.params.id, payload)
-    emit("back-pressed")
+    emit('back-pressed')
   } catch (error) {
-    console.error("Error adding attendance calendar entry:", error)
+    console.error('Error adding attendance calendar entry:', error)
   }
 }
 
 const loadGroups = async () => {
   try {
-    groupOptions.value = await attendanceService.fetchGroups(parentResourceNodeId.value)
+    groupOptions.value = await attendanceService.fetchGroups(
+      parentResourceNodeId.value,
+    )
   } catch (error) {
-    console.error("Error loading groups:", error)
+    console.error('Error loading groups:', error)
   }
 }
 

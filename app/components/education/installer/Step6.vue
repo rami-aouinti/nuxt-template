@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-show="!loading"
-    class="install-step"
-  >
+  <div v-show="!loading" class="install-step">
     <SectionHeader
       :title="t('Step 6 - Last check before install')"
       class="RequirementHeading"
@@ -14,15 +11,9 @@
     />
 
     <div>
-      <h3
-        v-t="'Administrator'"
-        class="mb-4"
-      />
+      <h3 v-t="'Administrator'" class="mb-4" />
 
-      <div
-        v-if="'new' === installerData.installType"
-        class="formgroup-inline"
-      >
+      <div v-if="'new' === installerData.installType" class="formgroup-inline">
         <div
           v-t="'Administrator login'"
           class="field text-body-2 font-semibold"
@@ -47,8 +38,10 @@
           <Button
             icon="mdi mdi-eye"
             class="p-button-text ml-2"
+            :aria-label="
+              showAdminPass ? t('Hide password') : t('Show password')
+            "
             @click="toggleAdminPass"
-            :aria-label="showAdminPass ? t('Hide password') : t('Show password')"
           />
         </div>
         <div
@@ -106,10 +99,7 @@
       </div>
 
       <div class="formgroup-inline">
-        <div
-          v-t="'Your portal name'"
-          class="field text-body-2 font-semibold"
-        />
+        <div v-t="'Your portal name'" class="field text-body-2 font-semibold" />
         <div
           class="field text-body-2"
           v-text="installerData.stepData.campusForm"
@@ -117,10 +107,7 @@
       </div>
 
       <div class="formgroup-inline">
-        <div
-          v-t="'Main language'"
-          class="field text-body-2 font-semibold"
-        />
+        <div v-t="'Main language'" class="field text-body-2 font-semibold" />
         <div
           class="field text-body-2"
           v-text="installerData.stepData.languageForm"
@@ -176,10 +163,7 @@
       </div>
 
       <div class="formgroup-inline">
-        <div
-          v-t="'Database Host'"
-          class="field text-body-2 font-semibold"
-        />
+        <div v-t="'Database Host'" class="field text-body-2 font-semibold" />
         <div
           class="field text-body-2"
           v-text="installerData.stepData.dbHostForm"
@@ -187,10 +171,7 @@
       </div>
 
       <div class="formgroup-inline">
-        <div
-          v-t="'Port'"
-          class="field text-body-2 font-semibold"
-        />
+        <div v-t="'Port'" class="field text-body-2 font-semibold" />
         <div
           class="field text-body-2"
           v-text="installerData.stepData.dbPortForm"
@@ -198,10 +179,7 @@
       </div>
 
       <div class="formgroup-inline">
-        <div
-          v-t="'Database user'"
-          class="field text-body-2 font-semibold"
-        />
+        <div v-t="'Database user'" class="field text-body-2 font-semibold" />
         <div
           class="field text-body-2"
           v-text="installerData.stepData.dbUsernameForm"
@@ -220,14 +198,8 @@
       </div>
 
       <div class="formgroup-inline">
-        <div
-          v-t="'Database name'"
-          class="field text-body-2 font-semibold"
-        />
-        <div
-          class="field text-body-2"
-          v-text="sanitizedDbName"
-        />
+        <div v-t="'Database name'" class="field text-body-2 font-semibold" />
+        <div class="field text-body-2" v-text="sanitizedDbName" />
       </div>
 
       <Message
@@ -237,7 +209,7 @@
       >
         {{
           t(
-            "The install script will erase all tables of the selected database. We heavily recommend you do a full backup of them before confirming this last install step.",
+            'The install script will erase all tables of the selected database. We heavily recommend you do a full backup of them before confirming this last install step.',
           )
         }}
       </Message>
@@ -261,15 +233,15 @@
           name="is_executable"
           type="hidden"
         />
-        <input
-          name="step6"
-          type="hidden"
-          value="1"
-        />
+        <input name="step6" type="hidden" value="1" />
       </div>
       <Button
         id="button_step6"
-        :label="installerData.isUpdateAvailable ? t('Update Chamilo') : t('Install Chamilo')"
+        :label="
+          installerData.isUpdateAvailable
+            ? t('Update Chamilo')
+            : t('Install Chamilo')
+        "
         :loading="loading"
         class="p-button-success"
         icon="mdi mdi-progress-download"
@@ -280,10 +252,7 @@
     </div>
   </div>
 
-  <div
-    v-show="loading"
-    class="install-step"
-  >
+  <div v-show="loading" class="install-step">
     <h2
       v-if="'update' !== installerData.installType"
       v-t="'Step 7 - Installation process execution'"
@@ -295,25 +264,16 @@
       class="RequirementHeading mb-8"
     />
 
-    <Message
-      id="pleasewait"
-      :closable="false"
-      severity="success"
-    >
-      <p
-        v-t="'Please wait, this could take a while...'"
-        class="mb-3"
-      />
+    <Message id="pleasewait" :closable="false" severity="success">
+      <p v-t="'Please wait, this could take a while...'" class="mb-3" />
     </Message>
 
     <div v-if="'update' === installerData.installType">
-      <ProgressBar
-        :value="progressPercentage"
-        style="height: 22px"
+      <ProgressBar :value="progressPercentage" style="height: 22px"
         >{{ progressPercentage }}%</ProgressBar
       >
       <p class="current-migration">
-        <strong>{{ t("Verifying migration:") }}</strong> {{ currentMigration }}
+        <strong>{{ t('Verifying migration:') }}</strong> {{ currentMigration }}
       </p>
     </div>
   </div>
@@ -325,10 +285,7 @@
     :show-header="false"
   >
     <div class="p-d-flex p-ai-center p-jc-center">
-      <h3
-        v-t="'Migration completed successfully!'"
-        class="mb-4"
-      />
+      <h3 v-t="'Migration completed successfully!'" class="mb-4" />
     </div>
     <div class="formgroup-inline">
       <div class="field">
@@ -349,20 +306,15 @@
     :show-header="false"
   >
     <div class="p-d-flex p-ai-center p-jc-center">
-      <h3
-        v-t="'Migration failed!'"
-        class="mb-4 text-error"
-      />
+      <h3 v-t="'Migration failed!'" class="mb-4 text-error" />
     </div>
     <div class="p-d-flex p-ai-center p-jc-center">
       <p class="text-error">{{ errorMessage }}</p>
     </div>
-    <div
-      v-if="currentMigration"
-      class="p-d-flex p-ai-center p-jc-center mt-4"
-    >
+    <div v-if="currentMigration" class="p-d-flex p-ai-center p-jc-center mt-4">
       <p class="text-body-2">
-        {{ t("The last migration executed successfully was:") }} <br /><strong>{{ currentMigration }}</strong>
+        {{ t('The last migration executed successfully was:') }}
+        <br /><strong>{{ currentMigration }}</strong>
       </p>
     </div>
     <div class="formgroup-inline">
@@ -378,42 +330,44 @@
   </Dialog>
 </template>
 
-<script setup>
-import { inject, ref, computed } from "vue"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import { inject, ref, computed } from 'vue'
 
-import Message from "primevue/message"
-import Button from "primevue/button"
-import ProgressBar from "primevue/progressbar"
-import Dialog from "primevue/dialog"
-import SectionHeader from "../layout/SectionHeader.vue"
+import Message from 'primevue/message'
+import Button from 'primevue/button'
+import ProgressBar from 'primevue/progressbar'
+import Dialog from 'primevue/dialog'
+import SectionHeader from '../layout/SectionHeader.vue'
 
 const { t } = useI18n()
 
-const installerData = inject("installerData")
+const installerData = inject('installerData')
 
 // Compute the sanitized database name as it will be created on the server.
 const sanitizedDbName = computed(() => {
-  const raw = installerData.value?.stepData?.dbNameForm || ""
+  const raw = installerData.value?.stepData?.dbNameForm || ''
 
   // For updates we trust the existing database name as-is.
-  if (installerData.value.installType === "update" || installerData.value.isUpdateAvailable) {
+  if (
+    installerData.value.installType === 'update' ||
+    installerData.value.isUpdateAvailable
+  ) {
     return raw
   }
 
   // Same rule as backend: only letters, digits and underscore are kept.
-  return raw.replace(/[^a-zA-Z0-9_]/g, "")
+  return raw.replace(/[^a-zA-Z0-9_]/g, '')
 })
 
 const loading = ref(false)
 const isButtonDisabled = ref(installerData.value.isUpdateAvailable)
-const isExecutable = ref("")
+const isExecutable = ref('')
 
 const progressPercentage = ref(0)
-const currentMigration = ref("")
+const currentMigration = ref('')
 const successDialogVisible = ref(false)
 const errorDialogVisible = ref(false)
-const errorMessage = ref("")
+const errorMessage = ref('')
 
 const showAdminPass = ref(false)
 const toggleAdminPass = () => {
@@ -424,14 +378,14 @@ function btnStep6OnClick() {
   loading.value = true
   isButtonDisabled.value = true
 
-  const updatePath = installerData.value.updatePath || ""
+  const updatePath = installerData.value.updatePath || ''
 
-  if (installerData.value.installType === "update") {
+  if (installerData.value.installType === 'update') {
     startMigration(updatePath)
     setTimeout(pollMigrationStatus, 5000)
   } else {
-    isExecutable.value = "step6"
-    document.getElementById("install_form").submit()
+    isExecutable.value = 'step6'
+    document.getElementById('install_form').submit()
   }
 }
 
@@ -443,13 +397,13 @@ function startMigration(updatePath) {
       isButtonDisabled.value = false
       errorDialogVisible.value = true
       errorMessage.value = `
-        ${t("Please check the following error:")} ${xhr.status} - ${xhr.statusText}.
+        ${t('Please check the following error:')} ${xhr.status} - ${xhr.statusText}.
       `
     }
   }
 
   const url = `/main/install/migrate.php?updatePath=${encodeURIComponent(updatePath)}`
-  xhr.open("POST", url, true)
+  xhr.open('POST', url, true)
   xhr.send()
 }
 
@@ -473,20 +427,20 @@ function pollMigrationStatus() {
         loading.value = false
         isButtonDisabled.value = false
         errorDialogVisible.value = true
-        errorMessage.value = `${t("Please check the following error:")} ${xhr.status} - ${xhr.statusText}`
+        errorMessage.value = `${t('Please check the following error:')} ${xhr.status} - ${xhr.statusText}`
       }
     }
 
-    xhr.open("GET", "/main/install/get_migration_status.php", true)
+    xhr.open('GET', '/main/install/get_migration_status.php', true)
     xhr.send()
   }, 2000)
 }
 
 function btnFinishOnClick() {
-  window.location = "../../"
+  window.location = '../../'
 }
 
 function btnSupportOnClick() {
-  alert(t("Please contact support with the error details."))
+  alert(t('Please contact support with the error details.'))
 }
 </script>

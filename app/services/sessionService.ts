@@ -1,6 +1,6 @@
 // @ts-nocheck
-import api from "../config/api"
-import baseService from "./baseService"
+import api from '../config/api'
+import baseService from './baseService'
 
 /**
  * @param {string} userIri
@@ -9,18 +9,27 @@ import baseService from "./baseService"
  * @returns {Promise<{totalItems: number, items: Object[], nextPageParams: ({page: number, itemsPerPage: number}|null)}>}
  */
 async function findUserSubscriptions(userIri, listType, params = {}) {
-  return baseService.getCollection(`${userIri}/session_subscriptions/${listType}`, params)
+  return baseService.getCollection(
+    `${userIri}/session_subscriptions/${listType}`,
+    params,
+  )
 }
 
 async function createWithCoursesAndUsers(payload) {
-  return await baseService.post("/api/advanced/create-session-with-courses-and-users", payload)
+  return await baseService.post(
+    '/api/advanced/create-session-with-courses-and-users',
+    payload,
+  )
 }
 
 async function sendCourseNotification(sessionId, studentId) {
   const payload = new FormData()
-  payload.append("studentId", studentId)
+  payload.append('studentId', studentId)
 
-  return await api.post(`/sessions/${sessionId}/send-course-notification`, payload)
+  return await api.post(
+    `/sessions/${sessionId}/send-course-notification`,
+    payload,
+  )
 }
 
 export default {
@@ -31,10 +40,10 @@ export default {
    */
   async find(iri, useBasic = false) {
     const endpoint = iri
-    const groups = useBasic ? ["session:basic"] : ["session:read"]
+    const groups = useBasic ? ['session:basic'] : ['session:read']
     const { data } = await api.get(endpoint, {
       params: {
-        "groups[]": groups,
+        'groups[]': groups,
       },
     })
 

@@ -1,6 +1,6 @@
-<script setup>
-import CourseCard from "../course/CourseCard.vue"
-import { useSessionCard } from "../legacy/composables/my_course_list/myCourseListSessions.js"
+<script setup lang="ts">
+import CourseCard from '../course/CourseCard.vue'
+import { useSessionCard } from '~/composables/my_course_list/myCourseListSessions.js'
 
 const props = defineProps({
   session: {
@@ -20,7 +20,7 @@ function extractIdFromIri(iri) {
 function normalizeCourse(course) {
   return {
     ...course,
-    id: course.id || course._id || extractIdFromIri(course["@id"]),
+    id: course.id || course._id || extractIdFromIri(course['@id']),
   }
 }
 </script>

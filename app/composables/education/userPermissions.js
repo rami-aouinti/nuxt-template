@@ -1,8 +1,8 @@
-import { storeToRefs } from "pinia"
-import { useCidReqStore } from "../store/cidReq"
-import api from "../config/api"
-import { computed, ref, unref } from "vue"
-import { useSecurityStore } from "../store/securityStore"
+import { storeToRefs } from 'pinia'
+import { useCidReqStore } from '../store/cidReq'
+import api from '../config/api'
+import { computed, ref, unref } from 'vue'
+import { useSecurityStore } from '../store/securityStore'
 
 /**
  * @param {boolean} tutor
@@ -21,7 +21,7 @@ export async function checkIsAllowedToEdit(
   const { course, session } = storeToRefs(cidReqStore)
 
   try {
-    const { data } = await api.get("/permissions/is_allowed_to_edit", {
+    const { data } = await api.get('/permissions/is_allowed_to_edit', {
       params: {
         tutor,
         coach,
@@ -44,7 +44,10 @@ export function useUserSessionSubscription(session = null, course = null) {
   const isGeneralCoach = ref(false)
   const isCurrentCourseCoach = ref(false)
   const isCourseCoach = ref(false)
-  const isCoach = computed(() => isGeneralCoach.value || isCurrentCourseCoach.value || isCourseCoach.value)
+  const isCoach = computed(
+    () =>
+      isGeneralCoach.value || isCurrentCourseCoach.value || isCourseCoach.value,
+  )
 
   const cidReqStore = useCidReqStore()
   const securityStore = useSecurityStore()
@@ -54,15 +57,15 @@ export function useUserSessionSubscription(session = null, course = null) {
 
   if (session) {
     isGeneralCoach.value = session.generalCoachesSubscriptions.some(
-      (sessionRelUser) => sessionRelUser.user === securityStore.user["@id"],
+      (sessionRelUser) => sessionRelUser.user === securityStore.user['@id'],
     )
 
     for (const sessionRelCourseRelUser of session.courseCoachesSubscriptions) {
-      if (securityStore.user["@id"] === sessionRelCourseRelUser.user) {
+      if (securityStore.user['@id'] === sessionRelCourseRelUser.user) {
         isCourseCoach.value = true
 
         if (course) {
-          if (course["@id"] === sessionRelCourseRelUser.course) {
+          if (course['@id'] === sessionRelCourseRelUser.course) {
             isCurrentCourseCoach.value = true
 
             break

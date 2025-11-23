@@ -1,5 +1,5 @@
 <template>
-  <div class="text-grey-8 q-gutter-xs">
+  <div class="text-grey-8 v-gutter-xs">
     <button
       v-if="enableFeedback"
       :loading="isLoading.like"
@@ -7,7 +7,7 @@
       class="gt-xs dense flat"
       @click="onLikeComment"
     >
-      <i class="mdi mdi-heart-plus mdi-24px"></i>
+      <i class="mdi mdi-heart-plus mdi-24px" />
       {{ socialPost.countFeedbackLikes }}
     </button>
     <button
@@ -17,7 +17,7 @@
       class="gt-xs dense flat"
       @click="onDisikeComment"
     >
-      <i class="mdi mdi-heart-remove mdi-24px"></i>
+      <i class="mdi mdi-heart-remove mdi-24px" />
       {{ socialPost.countFeedbackDislikes }}
     </button>
     <button
@@ -27,18 +27,18 @@
       class="gt-xs dense flat"
       @click="onDeleteComment"
     >
-      <i class="mdi mdi-delete mdi-24px"></i>
+      <i class="mdi mdi-delete mdi-24px" />
     </button>
   </div>
 </template>
 
-<script>
-import { reactive } from "vue"
-import { usePlatformConfig } from "../legacy/store/platformConfig.js"
-import socialService from "../legacy/services/socialService.js"
+<script setup lang="ts">
+import { reactive } from 'vue'
+import { usePlatformConfig } from '~/stores/platformConfig.js'
+import socialService from '~/services/socialService.js'
 
 export default {
-  name: "WallActions",
+  name: 'WallActions',
   props: {
     isOwner: {
       type: Boolean,
@@ -49,7 +49,7 @@ export default {
       required: true,
     },
   },
-  emits: ["post-deleted"],
+  emits: ['post-deleted'],
   setup(props, { emit }) {
     const platformConfigStore = usePlatformConfig()
 
@@ -63,7 +63,7 @@ export default {
       isLoading.like = true
 
       socialService
-        .sendPostLike(props.socialPost["@id"])
+        .sendPostLike(props.socialPost['@id'])
         .then((like) => {
           props.socialPost.countFeedbackLikes = like.countFeedbackLikes
           props.socialPost.countFeedbackDislikes = like.countFeedbackDislikes
@@ -75,7 +75,7 @@ export default {
       isLoading.dislike = true
 
       socialService
-        .sendPostDislike(props.socialPost["@id"])
+        .sendPostDislike(props.socialPost['@id'])
         .then((like) => {
           props.socialPost.countFeedbackLikes = like.countFeedbackLikes
           props.socialPost.countFeedbackDislikes = like.countFeedbackDislikes
@@ -87,13 +87,16 @@ export default {
       isLoading.delete = true
 
       socialService
-        .delete(props.socialPost["@id"])
-        .then(() => emit("post-deleted", props.socialPost))
+        .delete(props.socialPost['@id'])
+        .then(() => emit('post-deleted', props.socialPost))
         .finally(() => (isLoading.delete = false))
     }
 
-    const enableFeedback = "true" === platformConfigStore.getSetting("social.social_enable_messages_feedback")
-    const disableDislike = "true" === platformConfigStore.getSetting("social.disable_dislike_option")
+    const enableFeedback =
+      'true' ===
+      platformConfigStore.getSetting('social.social_enable_messages_feedback')
+    const disableDislike =
+      'true' === platformConfigStore.getSetting('social.disable_dislike_option')
 
     return {
       enableFeedback,

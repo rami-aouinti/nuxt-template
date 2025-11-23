@@ -1,9 +1,6 @@
 <template>
   <div class="filemanager-container">
-    <div
-      v-if="isAuthenticated"
-      class="q-card"
-    >
+    <div v-if="isAuthenticated" class="v-card">
       <div class="p-4 flex flex-row gap-1 mb-2">
         <div class="flex flex-row gap-2">
           <Button
@@ -40,10 +37,7 @@
         </div>
       </div>
       <div class="breadcrumbs">
-        <span
-          v-for="(folder, index) in previousFolders"
-          :key="index"
-        >
+        <span v-for="(folder, index) in previousFolders" :key="index">
           <span>{{ folder.title }}</span> /
         </span>
         <span>{{ currentFolderTitle }}</span>
@@ -91,8 +85,10 @@
           <template #body="slotProps">
             {{
               slotProps.data.resourceNode.firstResourceFile
-                ? prettyBytes(slotProps.data.resourceNode.firstResourceFile.size)
-                : ""
+                ? prettyBytes(
+                    slotProps.data.resourceNode.firstResourceFile.size,
+                  )
+                : ''
             }}
           </template>
         </Column>
@@ -154,19 +150,13 @@
               />
             </template>
             <template v-else>
-              <span
-                :class="['mdi', getIcon(file)]"
-                class="mdi-icon"
-              ></span>
+              <span :class="['mdi', getIcon(file)]" class="mdi-icon" />
             </template>
           </div>
           <div class="thumbnail-title">{{ file.resourceNode.title }}</div>
         </div>
       </div>
-      <div
-        v-if="totalPages > 1"
-        class="flex justify-center mt-4 space-x-4"
-      >
+      <div v-if="totalPages > 1" class="flex justify-center mt-4 space-x-4">
         <button
           :disabled="filters.page === 1"
           class="btn btn--plain px-4 py-2 rounded-md hover:bg-blue-600 disabled:bg-gray-300"
@@ -174,7 +164,9 @@
         >
           Previous
         </button>
-        <span class="text-gray-700 font-semibold">Page {{ filters.page }} of {{ totalPages }}</span>
+        <span class="text-gray-700 font-semibold"
+          >Page {{ filters.page }} of {{ totalPages }}</span
+        >
         <button
           :disabled="filters.page === totalPages"
           class="btn btn--plain px-4 py-2 rounded-md hover:bg-blue-600 disabled:bg-gray-300"
@@ -190,11 +182,11 @@
       >
         <ul>
           <li @click="selectFile(contextMenuFile)">
-            <span class="mdi mdi-file-check-outline"></span>
+            <span class="mdi mdi-file-check-outline" />
             Select
           </li>
           <li @click="confirmDeleteItem(contextMenuFile)">
-            <span class="mdi mdi-delete-outline"></span>
+            <span class="mdi mdi-delete-outline" />
             Delete
           </li>
         </ul>
@@ -209,7 +201,7 @@
       class="p-fluid"
     >
       <div class="p-field">
-        <label for="title">{{ $t("Name") }}</label>
+        <label for="title">{{ $t('Name') }}</label>
         <InputText
           id="title"
           v-model.trim="item.title"
@@ -218,11 +210,9 @@
           autofocus
           required
         />
-        <small
-          v-if="submitted && !item.title"
-          class="p-error"
-          >{{ $t("Title is required") }}</small
-        >
+        <small v-if="submitted && !item.title" class="p-error">{{
+          $t('Title is required')
+        }}</small>
       </div>
       <template #footer>
         <Button
@@ -247,10 +237,7 @@
       header="Confirm"
     >
       <div class="confirmation-content">
-        <i
-          class="pi pi-exclamation-triangle p-mr-3"
-          style="font-size: 2rem"
-        ></i>
+        <i class="pi pi-exclamation-triangle p-mr-3" style="font-size: 2rem" />
         <span
           >Are you sure you want to delete <b>{{ itemToDelete?.title }}</b
           >?</span
@@ -279,11 +266,10 @@
       header="Confirm"
     >
       <div class="confirmation-content">
-        <i
-          class="pi pi-exclamation-triangle p-mr-3"
-          style="font-size: 2rem"
-        ></i>
-        <span>{{ $t("Are you sure you want to delete the selected items?") }}</span>
+        <i class="pi pi-exclamation-triangle p-mr-3" style="font-size: 2rem" />
+        <span>{{
+          $t('Are you sure you want to delete the selected items?')
+        }}</span>
       </div>
       <template #footer>
         <Button
@@ -309,15 +295,17 @@
     >
       <div v-if="Object.keys(selectedItem).length > 0">
         <p><strong>Title:</strong> {{ selectedItem.title }}</p>
-        <p><strong>Modified:</strong> {{ relativeDatetime(selectedItem.resourceNode.updatedAt) }}</p>
-        <p><strong>Size:</strong> {{ prettyBytes(selectedItem.resourceNode.firstResourceFile.size) }}</p>
+        <p>
+          <strong>Modified:</strong>
+          {{ relativeDatetime(selectedItem.resourceNode.updatedAt) }}
+        </p>
+        <p>
+          <strong>Size:</strong>
+          {{ prettyBytes(selectedItem.resourceNode.firstResourceFile.size) }}
+        </p>
         <p>
           <strong>URL:</strong>
-          <a
-            :href="selectedItem.contentUrl"
-            target="_blank"
-            >Open File</a
-          >
+          <a :href="selectedItem.contentUrl" target="_blank">Open File</a>
         </p>
       </div>
       <template #footer>
@@ -331,13 +319,13 @@
   </div>
 </template>
 
-<script setup>
-import { useFileManager } from "../legacy/composables/useFileManager.js"
-import { useI18n } from "vue-i18n"
-import { useFormatDate } from "../legacy/composables/formatDate.js"
-import BaseContextMenu from "../basecomponents/BaseContextMenu.vue"
-import prettyBytes from "pretty-bytes"
-import BaseTable from "../basecomponents/BaseTable.vue"
+<script setup lang="ts">
+import { useFileManager } from '~/composables/useFileManager.js'
+
+import { useFormatDate } from '~/composables/formatDate.js'
+import BaseContextMenu from '../basecomponents/BaseContextMenu.vue'
+import prettyBytes from 'pretty-bytes'
+import BaseTable from '../basecomponents/BaseTable.vue'
 
 const { t } = useI18n()
 const { relativeDatetime } = useFormatDate()
@@ -388,7 +376,12 @@ const {
   nextPage,
   previousPage,
   totalPages,
-} = useFileManager("documents", "/api/documents", "CourseDocumentsUploadFile", true)
+} = useFileManager(
+  'documents',
+  '/api/documents',
+  'CourseDocumentsUploadFile',
+  true,
+)
 
 onMountedCallback()
 </script>

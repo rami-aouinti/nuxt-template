@@ -42,7 +42,10 @@ const iriForLabel = (label: CrmLabel | number) => {
 async function submit() {
   if (!form.name.trim()) {
     Notify.error(
-      translate('crm.client.create.missing', 'Veuillez renseigner un nom de client.'),
+      translate(
+        'crm.client.create.missing',
+        'Veuillez renseigner un nom de client.',
+      ),
     )
     return
   }
@@ -66,7 +69,9 @@ async function submit() {
       translate('crm.client.create.success', 'Client créé avec succès.'),
     )
 
-    router.push(localePath({ name: 'crm-client-id', params: { id: created.id } }))
+    router.push(
+      localePath({ name: 'crm-client-id', params: { id: created.id } }),
+    )
   } catch (error) {
     console.error(error)
     Notify.error(
@@ -83,7 +88,9 @@ async function submit() {
     <v-row class="mb-6">
       <v-col cols="12">
         <AppCard class="pa-6" elevation="3" hover>
-          <div class="d-flex align-center justify-space-between flex-wrap gap-4">
+          <div
+            class="d-flex align-center justify-space-between flex-wrap gap-4"
+          >
             <div>
               <div class="text-h5 font-weight-bold mb-2">
                 {{ translate('crm.client.create.title', 'Nouveau client') }}
@@ -113,7 +120,9 @@ async function submit() {
             <v-text-field
               v-model="form.name"
               :label="translate('crm.client.name', 'Nom du client')"
-              :placeholder="translate('crm.client.namePlaceholder', 'Entreprise ABC')"
+              :placeholder="
+                translate('crm.client.namePlaceholder', 'Entreprise ABC')
+              "
               prepend-inner-icon="mdi-domain"
               class="mb-4"
               required
@@ -122,7 +131,12 @@ async function submit() {
             <v-textarea
               v-model="form.description"
               :label="translate('crm.client.description', 'Description')"
-              :placeholder="translate('crm.client.descriptionPlaceholder', 'Notes internes, périmètre, contacts clés...')"
+              :placeholder="
+                translate(
+                  'crm.client.descriptionPlaceholder',
+                  'Notes internes, périmètre, contacts clés...',
+                )
+              "
               auto-grow
               prepend-inner-icon="mdi-text-long"
               class="mb-4"
@@ -138,7 +152,12 @@ async function submit() {
               clearable
               :label="translate('crm.client.labels', 'Labels associés')"
               prepend-inner-icon="mdi-label-outline"
-              :hint="translate('crm.client.labelsHint', 'Sélectionnez les labels et équipes liés à ce client.')"
+              :hint="
+                translate(
+                  'crm.client.labelsHint',
+                  'Sélectionnez les labels et équipes liés à ce client.',
+                )
+              "
               persistent-hint
               class="mb-6"
             />

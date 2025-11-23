@@ -77,7 +77,8 @@ export const useEducationMyCoursesEndpoints = () => {
           slug: 'feedback-et-enquetes',
           icon: 'mdi-comment-quote-outline',
           title: 'Feedback et enquêtes',
-          description: 'Questionnaires, sondages et évaluations de satisfaction.',
+          description:
+            'Questionnaires, sondages et évaluations de satisfaction.',
           href: `${EDUCATION_BASE_URL}/feedback`,
           type: 'page',
         },
@@ -102,7 +103,8 @@ export const useEducationMyCoursesEndpoints = () => {
     {
       key: 'collaboration',
       title: 'Collaboration',
-      description: 'Outils pour travailler en groupe, échanger avec les formateurs et participer aux forums.',
+      description:
+        'Outils pour travailler en groupe, échanger avec les formateurs et participer aux forums.',
       items: [
         {
           slug: 'agenda',
@@ -141,13 +143,15 @@ export const useEducationMyCoursesEndpoints = () => {
     {
       key: 'selfservice',
       title: 'Self-service et administration',
-      description: 'Tout ce qu’il faut pour gérer vos inscriptions, préférences et ressources personnelles.',
+      description:
+        'Tout ce qu’il faut pour gérer vos inscriptions, préférences et ressources personnelles.',
       items: [
         {
           slug: 'profil-et-preferences',
           icon: 'mdi-account-cog-outline',
           title: 'Profil et préférences',
-          description: 'Mettre à jour vos informations personnelles et notifications.',
+          description:
+            'Mettre à jour vos informations personnelles et notifications.',
           href: `${EDUCATION_BASE_URL}/profile`,
           type: 'form',
         },
@@ -171,7 +175,8 @@ export const useEducationMyCoursesEndpoints = () => {
           slug: 'accessibilite-et-securite',
           icon: 'mdi-shield-check-outline',
           title: 'Accessibilité et sécurité',
-          description: 'Configurer 2FA, langue, affichage et options d’accessibilité.',
+          description:
+            'Configurer 2FA, langue, affichage et options d’accessibilité.',
           href: `${EDUCATION_BASE_URL}/settings`,
           type: 'page',
         },
@@ -179,10 +184,14 @@ export const useEducationMyCoursesEndpoints = () => {
     },
   ])
 
-  const primaryShortcuts = computed(() => groups.value[0]?.items.slice(0, 3) || [])
+  const primaryShortcuts = computed(
+    () => groups.value[0]?.items.slice(0, 3) || [],
+  )
 
   const findEndpointBySlug = (slug: string) =>
-    groups.value.flatMap((group) => group.items).find((item) => item.slug === slug)
+    groups.value
+      .flatMap((group) => group.items)
+      .find((item) => item.slug === slug)
 
   const findGroupBySlug = (slug: string) =>
     groups.value.find((group) => group.items.some((item) => item.slug === slug))

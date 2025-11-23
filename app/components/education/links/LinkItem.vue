@@ -3,10 +3,7 @@
     <div class="pb-2">
       <h6>
         <a :href="link.url">
-          <BaseIcon
-            icon="link-external"
-            size="small"
-          />
+          <BaseIcon icon="link-external" size="small" />
           {{ link.title }}
         </a>
         <BaseIcon
@@ -82,16 +79,16 @@
   </div>
 </template>
 
-<script setup>
-import BaseButton from "../basecomponents/BaseButton.vue"
-import { useI18n } from "vue-i18n"
-import BaseIcon from "../basecomponents/BaseIcon.vue"
-import { isVisible } from "./linkVisibility.js"
-import { useSecurityStore } from "../legacy/store/securityStore.js"
-import { computed, onMounted, ref } from "vue"
-import { checkIsAllowedToEdit } from "../legacy/composables/userPermissions.js"
-import { useRoute } from "vue-router"
-import { useCidReq } from "../legacy/composables/cidReq.js"
+<script setup lang="ts">
+import BaseButton from '../basecomponents/BaseButton.vue'
+
+import BaseIcon from '../basecomponents/BaseIcon.vue'
+import { isVisible } from './linkVisibility.js'
+import { useSecurityStore } from '~/stores/securityStore.js'
+import { computed, onMounted, ref } from 'vue'
+import { checkIsAllowedToEdit } from '~/composables/userPermissions.js'
+import { useRoute } from 'vue-router'
+import { useCidReq } from '~/composables/cidReq.js'
 
 const securityStore = useSecurityStore()
 const isCurrentTeacher = computed(() => securityStore.isCurrentTeacher)
@@ -110,7 +107,14 @@ defineProps({
   },
 })
 
-const emit = defineEmits(["check", "edit", "toggle", "moveUp", "moveDown", "delete"])
+const emit = defineEmits([
+  'check',
+  'edit',
+  'toggle',
+  'moveUp',
+  'moveDown',
+  'delete',
+])
 
 const isAllowedToEdit = ref(false)
 
@@ -119,7 +123,10 @@ const canEdit = (item) => {
   const isSessionDocument = sessionId && sessionId === sid
   const isBaseCourse = !sessionId
 
-  return (isSessionDocument && isAllowedToEdit.value) || (isBaseCourse && !sid && isCurrentTeacher.value)
+  return (
+    (isSessionDocument && isAllowedToEdit.value) ||
+    (isBaseCourse && !sid && isCurrentTeacher.value)
+  )
 }
 
 onMounted(async () => {

@@ -1,8 +1,5 @@
 <template>
-  <v-card
-    variant="outlined"
-    class="pa-4"
-  >
+  <v-card variant="outlined" class="pa-4">
     <v-card-title v-if="legend">{{ legend }}</v-card-title>
     <v-card-text>
       <slot />
@@ -12,6 +9,6 @@
 
 <script setup>
 const props = defineProps({
-  legend: { type: String, default: "" },
+  legend: { type: String, default: '' },
 })
 </script>

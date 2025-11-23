@@ -1,6 +1,10 @@
 <template>
-  <div class="border border-gray-300 p-1 rounded-md flex flex-wrap items-center">
-    <div class="flex flex-wrap items-center p-1 flex-grow min-h-[38px] outline-none border-none">
+  <div
+    class="border border-gray-300 p-1 rounded-md flex flex-wrap items-center"
+  >
+    <div
+      class="flex flex-wrap items-center p-1 flex-grow min-h-[38px] outline-none border-none"
+    >
       <div
         v-for="(tag, index) in tags"
         :key="index"
@@ -25,11 +29,11 @@
   </div>
 </template>
 
-<script setup>
-import { onMounted, ref } from "vue"
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
 
 const tags = ref([])
-const newTag = ref("")
+const newTag = ref('')
 const tagInput = ref(null)
 
 function focusInput() {
@@ -39,7 +43,7 @@ function focusInput() {
 function addTag() {
   if (newTag.value.trim() && !tags.value.includes(newTag.value.trim())) {
     tags.value.push(newTag.value.trim())
-    newTag.value = ""
+    newTag.value = ''
   }
 }
 
@@ -48,13 +52,17 @@ function removeTag(index) {
 }
 
 function deleteLastTag(event) {
-  if (newTag.value === "" && event.key === "Backspace" && tags.value.length > 0) {
+  if (
+    newTag.value === '' &&
+    event.key === 'Backspace' &&
+    tags.value.length > 0
+  ) {
     tags.value.pop()
   }
 }
 
 function checkInputKey(event) {
-  if (event.key === "Enter" || event.key === " ") {
+  if (event.key === 'Enter' || event.key === ' ') {
     event.preventDefault()
     addTag()
   }

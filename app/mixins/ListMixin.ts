@@ -1,19 +1,19 @@
 // @ts-nocheck
-import isEmpty from "lodash/isEmpty"
-import isString from "lodash/isString"
-import isBoolean from "lodash/isBoolean"
-import toInteger from "lodash/toInteger"
+import isEmpty from 'lodash/isEmpty'
+import isString from 'lodash/isString'
+import isBoolean from 'lodash/isBoolean'
+import toInteger from 'lodash/toInteger'
 
-import { formatDateTime } from "../utils/dates"
-import NotificationMixin from "./NotificationMixin"
-import axios from "axios"
+import { formatDateTime } from '~/utils/dates'
+import NotificationMixin from './NotificationMixin'
+import axios from 'axios'
 
 export default {
   mixins: [NotificationMixin],
   data() {
     return {
       pagination: {
-        sortBy: "resourceNode.title",
+        sortBy: 'resourceNode.title',
         descending: false,
         page: 1, // page to be displayed
         rowsPerPage: 10, // maximum displayed rows
@@ -33,12 +33,12 @@ export default {
     $route() {
       // react to route changes...
       this.resetList = true
-      let nodeId = this.$route.params["node"]
+      const nodeId = this.$route.params['node']
       if (!isEmpty(nodeId)) {
-        let cid = toInteger(this.$route.query.cid)
-        let sid = toInteger(this.$route.query.sid)
-        let gid = toInteger(this.$route.query.gid)
-        let id = "/api/resource_nodes/" + nodeId
+        const cid = toInteger(this.$route.query.cid)
+        const sid = toInteger(this.$route.query.sid)
+        const gid = toInteger(this.$route.query.gid)
+        const id = '/api/resource_nodes/' + nodeId
         const params = { id, cid, sid, gid }
         this.findResourceNode(params)
       }
@@ -47,14 +47,16 @@ export default {
     },
 
     deletedItem(item) {
-      this.showMessage(`${item["@id"]} deleted.`)
+      this.showMessage(`${item['@id']} deleted.`)
     },
 
     deletedResource(item) {
       const message =
         this.$i18n && this.$i18n.t
-          ? this.$t("{resource} created", { resource: item["resourceNode"].title })
-          : `${item["resourceNode"].title} created`
+          ? this.$t('{resource} created', {
+              resource: item['resourceNode'].title,
+            })
+          : `${item['resourceNode'].title} created`
       this.showMessage(message)
       this.onUpdateOptions(this.options)
     },
@@ -69,9 +71,14 @@ export default {
   },
   methods: {
     onRequest(props) {
-      console.log("onRequest")
+      console.log('onRequest')
       console.log(props)
-      const { page, rowsPerPage: itemsPerPage, sortBy, descending } = props.pagination
+      const {
+        page,
+        rowsPerPage: itemsPerPage,
+        sortBy,
+        descending,
+      } = props.pagination
       const filter = props.filter
 
       this.nextPage = page
@@ -85,7 +92,7 @@ export default {
       }
 
       if (sortBy) {
-        params[`order[${sortBy}]`] = descending ? "desc" : "asc"
+        params[`order[${sortBy}]`] = descending ? 'desc' : 'asc'
       }
 
       if (this.$route.params.node) {
@@ -100,7 +107,7 @@ export default {
       })
     },
     onUpdateOptions({ page, itemsPerPage, sortBy, sortDesc, totalItems } = {}) {
-      console.log("ListMixin.js: onUpdateOptions")
+      console.log('ListMixin.js: onUpdateOptions')
 
       this.resetList = true
 
@@ -108,7 +115,7 @@ export default {
         ...this.filters,
       }
 
-      if (1 === this.filters["loadNode"]) {
+      if (1 === this.filters['loadNode']) {
         params[`resourceNode.parent`] = this.$route.params.node
       }
 
@@ -122,13 +129,13 @@ export default {
 
       // prime
       if (!isEmpty(sortBy)) {
-        params[`order[${sortBy}]`] = sortDesc ? "desc" : "asc"
+        params[`order[${sortBy}]`] = sortDesc ? 'desc' : 'asc'
       }
 
-      let cid = toInteger(this.$route.query.cid)
-      let sid = toInteger(this.$route.query.sid)
-      let gid = toInteger(this.$route.query.gid)
-      let type = this.$route.query.type
+      const cid = toInteger(this.$route.query.cid)
+      const sid = toInteger(this.$route.query.sid)
+      const gid = toInteger(this.$route.query.gid)
+      const type = this.$route.query.type
 
       params = { ...params, cid, sid, gid, type }
 
@@ -144,7 +151,7 @@ export default {
     },
 
     fetchNewItems({ page, itemsPerPage, sortBy, sortDesc, totalItems } = {}) {
-      console.log("fetchNewItems")
+      console.log('fetchNewItems')
       let params = {
         ...this.filters,
       }
@@ -159,7 +166,7 @@ export default {
 
       if (isString(sortBy) && isBoolean(sortDesc)) {
         //params[`order[${sortBy[0]}]`] = sortDesc[0] ? 'desc' : 'asc'
-        params[`order[${sortBy}]`] = sortDesc ? "desc" : "asc"
+        params[`order[${sortBy}]`] = sortDesc ? 'desc' : 'asc'
       }
 
       this.options.sortBy = sortBy
@@ -169,50 +176,62 @@ export default {
     },
 
     onSendFilter() {
-      console.log("onSendFilter")
+      console.log('onSendFilter')
       this.resetList = true
       this.pagination.page = 1
       this.onRequest({ pagination: this.pagination })
     },
 
     resetFilter() {
-      console.log("resetFilter")
+      console.log('resetFilter')
       this.filters = {}
       this.pagination.page = 1
       this.onRequest({ pagination: this.pagination })
     },
 
     addHandler() {
-      console.log("addHandler")
-      let folderParams = this.$route.query
-      this.$router.push({ name: `${this.$options.servicePrefix}Create`, query: folderParams })
+      console.log('addHandler')
+      const folderParams = this.$route.query
+      this.$router.push({
+        name: `${this.$options.servicePrefix}Create`,
+        query: folderParams,
+      })
     },
 
     addDocumentHandler() {
-      let folderParams = this.$route.query
-      this.$router.push({ name: `${this.$options.servicePrefix}CreateFile`, query: folderParams })
+      const folderParams = this.$route.query
+      this.$router.push({
+        name: `${this.$options.servicePrefix}CreateFile`,
+        query: folderParams,
+      })
     },
 
     uploadDocumentHandler() {
-      let folderParams = this.$route.query
-      this.$router.push({ name: `${this.$options.servicePrefix}UploadFile`, query: folderParams })
+      const folderParams = this.$route.query
+      this.$router.push({
+        name: `${this.$options.servicePrefix}UploadFile`,
+        query: folderParams,
+      })
     },
 
     sharedDocumentHandler() {
-      let folderParams = this.$route.query
-      this.filters["shared"] = 1
-      this.filters["loadNode"] = 0
-      delete this.filters["resourceNode.parent"]
+      const folderParams = this.$route.query
+      this.filters['shared'] = 1
+      this.filters['loadNode'] = 0
+      delete this.filters['resourceNode.parent']
       this.resetList = true
-      this.$router.push({ name: `${this.$options.servicePrefix}Shared`, query: folderParams })
+      this.$router.push({
+        name: `${this.$options.servicePrefix}Shared`,
+        query: folderParams,
+      })
     },
 
     showHandler(item) {
-      console.log("listmixin showHandler")
-      let folderParams = this.$route.query
+      console.log('listmixin showHandler')
+      const folderParams = this.$route.query
       console.log(item)
       if (item) {
-        folderParams["id"] = item["@id"]
+        folderParams['id'] = item['@id']
       }
 
       this.$router.push({
@@ -222,9 +241,9 @@ export default {
       })
     },
     handleClick(item) {
-      let folderParams = this.$route.query
+      const folderParams = this.$route.query
       this.resetList = true
-      let resourceId = item["resourceNode"]["id"]
+      const resourceId = item['resourceNode']['id']
       this.$route.params.node = resourceId
 
       this.filters[`resourceNode.parent`] = resourceId
@@ -236,45 +255,47 @@ export default {
       })
     },
     changeVisibilityHandler(item, slotProps) {
-      let folderParams = this.$route.query
-      folderParams["id"] = item["@id"]
-      axios.put(item["@id"] + "/toggle_visibility", {}).then((response) => {
-        let data = response.data
-        item["resourceLinkListFromEntity"] = data["resourceLinkListFromEntity"]
+      const folderParams = this.$route.query
+      folderParams['id'] = item['@id']
+      axios.put(item['@id'] + '/toggle_visibility', {}).then((response) => {
+        const data = response.data
+        item['resourceLinkListFromEntity'] = data['resourceLinkListFromEntity']
       })
     },
     editHandler(item) {
-      let folderParams = this.$route.query
-      folderParams["id"] = item["@id"]
+      const folderParams = this.$route.query
+      folderParams['id'] = item['@id']
 
-      if ("folder" === item.filetype || isEmpty(item.filetype)) {
+      if ('folder' === item.filetype || isEmpty(item.filetype)) {
         this.$router.push({
           name: `${this.$options.servicePrefix}Update`,
-          params: { id: item["@id"] },
+          params: { id: item['@id'] },
           query: folderParams,
         })
       }
 
-      if ("file" === item.filetype) {
-        folderParams["getFile"] = true
+      if ('file' === item.filetype) {
+        folderParams['getFile'] = true
         if (
           item.resourceNode.firstResourceFile &&
           item.resourceNode.firstResourceFile.mimeType &&
-          "text/html" === item.resourceNode.firstResourceFile.mimeType
+          'text/html' === item.resourceNode.firstResourceFile.mimeType
         ) {
           //folderParams['getFile'] = true;
         }
 
         this.$router.push({
           name: `${this.$options.servicePrefix}UpdateFile`,
-          params: { id: item["@id"] },
+          params: { id: item['@id'] },
           query: folderParams,
         })
       }
     },
     deleteHandler(item) {
       this.pagination.page = 1
-      this.deleteItem(item).then(() => this.onRequest({ pagination: this.pagination }))
+      this.deleteItem(item).then(() =>
+        this.onRequest({ pagination: this.pagination }),
+      )
     },
     formatDateTime,
   },

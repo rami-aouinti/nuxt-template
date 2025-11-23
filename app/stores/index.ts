@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { createStore } from "vuex"
-import notifications from "./modules/notifications"
-import SecurityModule from "./security"
+import { createStore } from 'vuex'
+import notifications from './modules/notifications'
+import SecurityModule from './security'
 
 export default createStore({
   plugins: [

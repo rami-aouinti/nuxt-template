@@ -1,5 +1,5 @@
 // @ts-nocheck
-import baseService from "./baseService"
+import baseService from './baseService'
 
 /**
  * @param {string} userIri
@@ -22,11 +22,11 @@ async function findById(userId) {
  * @returns {Promise<{totalItems, items}>}
  */
 async function findAll(searchParams) {
-  return await baseService.getCollection("/api/users", searchParams)
+  return await baseService.getCollection('/api/users', searchParams)
 }
 
 async function findUsersForSessionAdmin(searchParams) {
-  return await baseService.get("/admin/sessionadmin/users", searchParams)
+  return await baseService.get('/admin/sessionadmin/users', searchParams)
 }
 
 /**
@@ -34,7 +34,7 @@ async function findUsersForSessionAdmin(searchParams) {
  * @returns {Promise<{totalItems, items}>}
  */
 async function findByUsername(username) {
-  return await baseService.getCollection("/api/users", { username })
+  return await baseService.getCollection('/api/users', { username })
 }
 
 /**
@@ -42,7 +42,7 @@ async function findByUsername(username) {
  * @returns {Promise<{totalItems, items}>}
  */
 async function findBySearchTerm(term) {
-  return await baseService.getCollection("/api/users", { search: term })
+  return await baseService.getCollection('/api/users', { search: term })
 }
 
 /**

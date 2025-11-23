@@ -1,9 +1,6 @@
 <template>
-  <div
-    v-if="!isInIframe"
-    class="login-section"
-  >
-    <h2 class="login-section__title">{{ t("Sign in") }}</h2>
+  <div v-if="!isInIframe" class="login-section">
+    <h2 class="login-section__title">{{ t('Sign in') }}</h2>
 
     <form
       v-if="[null, 'ldap'].includes(platformConfigStore.forcedLoginMethod)"
@@ -11,11 +8,14 @@
       @submit.prevent="onSubmitLoginForm"
     >
       <BaseCheckbox
-        v-if="platformConfigStore.ldapAuth?.enabled && 'ldap' !== platformConfigStore.forcedLoginMethod"
+        v-if="
+          platformConfigStore.ldapAuth?.enabled &&
+          'ldap' !== platformConfigStore.forcedLoginMethod
+        "
         id="chb-ldap"
+        v-model="ldapAuth"
         :label="platformConfigStore.ldapAuth.title"
         name="ldap_auth"
-        v-model="ldapAuth"
       />
 
       <div class="field">
@@ -39,10 +39,7 @@
         />
       </div>
 
-      <div
-        v-if="requires2FA"
-        class="field"
-      >
+      <div v-if="requires2FA" class="field">
         <InputText
           v-model="totp"
           :placeholder="t('Enter 2FA code')"
@@ -58,10 +55,7 @@
           name="remember_me"
           tabindex="4"
         />
-        <label
-          v-t="'Remember me'"
-          for="binary"
-        />
+        <label v-t="'Remember me'" for="binary" />
       </div>
 
       <div class="field login-section__buttons">
@@ -95,40 +89,46 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import Button from 'primevue/button'
+import InputText from 'primevue/inputtext'
+import Password from 'primevue/password'
+import ToggleSwitch from 'primevue/toggleswitch'
+import BaseCheckbox from './basecomponents/BaseCheckbox.vue'
+
+import { useLogin } from './legacy/composables/auth/login.js'
+import LoginOAuth2Buttons from './login/LoginOAuth2Buttons.vue'
+import { usePlatformConfig } from './legacy/store/platformConfig.js'
+import { useRouter } from 'vue-router'
+
 const isInIframe = window.self !== window.top
 if (isInIframe) {
   try {
     const parentUrl = window.top.location.href
-    window.top.location.href = "/login?redirect=" + encodeURIComponent(parentUrl)
+    window.top.location.href =
+      '/login?redirect=' + encodeURIComponent(parentUrl)
   } catch (e) {
-    window.top.location.href = "/login"
+    window.top.location.href = '/login'
   }
 }
-
-import { computed, ref } from "vue"
-import Button from "primevue/button"
-import InputText from "primevue/inputtext"
-import Password from "primevue/password"
-import ToggleSwitch from "primevue/toggleswitch"
-import BaseCheckbox from "./basecomponents/BaseCheckbox.vue"
-import { useI18n } from "vue-i18n"
-import { useLogin } from "./legacy/composables/auth/login.js"
-import LoginOAuth2Buttons from "./login/LoginOAuth2Buttons.vue"
-import { usePlatformConfig } from "./legacy/store/platformConfig.js"
-import { useRouter } from "vue-router"
 
 const { t } = useI18n()
 const router = useRouter()
 const platformConfigStore = usePlatformConfig()
-const allowRegistration = computed(() => "false" !== platformConfigStore.getSetting("registration.allow_registration"))
+const allowRegistration = computed(
+  () =>
+    'false' !==
+    platformConfigStore.getSetting('registration.allow_registration'),
+)
 
-const { redirectNotAuthenticated, performLogin, isLoading, requires2FA } = useLogin()
+const { redirectNotAuthenticated, performLogin, isLoading, requires2FA } =
+  useLogin()
 
 const ldapAuth = ref(false)
-const login = ref("")
-const password = ref("")
-const totp = ref("")
+const login = ref('')
+const password = ref('')
+const totp = ref('')
 const remember = ref(false)
 
 redirectNotAuthenticated()

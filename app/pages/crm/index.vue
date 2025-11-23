@@ -133,7 +133,9 @@ const stats = computed(() => [
             color="secondary"
             :to="localePath({ name: 'crm-project' })"
           >
-            {{ translate('crm.drawer.showAllProjects', 'Voir tous les projets') }}
+            {{
+              translate('crm.drawer.showAllProjects', 'Voir tous les projets')
+            }}
           </v-btn>
         </div>
       </teleport>
@@ -161,7 +163,9 @@ const stats = computed(() => [
               <div class="d-flex align-center justify-space-between w-100">
                 <div class="d-flex align-center gap-3">
                   <v-icon v-if="item.icon" :icon="item.icon" size="22" />
-                  <span class="text-subtitle-2 font-weight-medium text-truncate">
+                  <span
+                    class="text-subtitle-2 font-weight-medium text-truncate"
+                  >
                     {{ item.label }}
                   </span>
                 </div>
@@ -188,7 +192,9 @@ const stats = computed(() => [
             color="secondary"
             :to="localePath({ name: 'crm-client' })"
           >
-            {{ translate('crm.drawer.showAllClients', 'Voir tous les clients') }}
+            {{
+              translate('crm.drawer.showAllClients', 'Voir tous les clients')
+            }}
           </v-btn>
         </div>
       </teleport>
@@ -198,7 +204,9 @@ const stats = computed(() => [
       <v-row class="mb-6">
         <v-col cols="12">
           <AppCard class="pa-6 gradient-hero" elevation="3" hover>
-            <div class="d-flex align-center justify-space-between flex-wrap gap-4">
+            <div
+              class="d-flex align-center justify-space-between flex-wrap gap-4"
+            >
               <div>
                 <div class="text-h5 font-weight-bold mb-2">
                   {{ translate('crm.pageTitle', 'Espace CRM') }}
@@ -212,7 +220,12 @@ const stats = computed(() => [
                   }}
                 </div>
               </div>
-              <v-chip color="primary" size="large" variant="flat" class="elevated-chip">
+              <v-chip
+                color="primary"
+                size="large"
+                variant="flat"
+                class="elevated-chip"
+              >
                 <v-icon icon="mdi-chart-areaspline" start />
                 {{ t('common.dashboard', 'Dashboard') }}
               </v-chip>
@@ -236,7 +249,11 @@ const stats = computed(() => [
                   <div class="text-h5 font-weight-bold">{{ stat.value }}</div>
                 </div>
               </div>
-              <v-icon icon="mdi-chevron-right" size="22" class="text-medium-emphasis" />
+              <v-icon
+                icon="mdi-chevron-right"
+                size="22"
+                class="text-medium-emphasis"
+              />
             </div>
             <div class="text-body-2 text-medium-emphasis">
               {{
@@ -272,11 +289,19 @@ const stats = computed(() => [
 }
 
 .gradient-hero {
-  background: linear-gradient(135deg, rgba(92, 107, 192, 0.16), rgba(66, 165, 245, 0.18));
+  background: linear-gradient(
+    135deg,
+    rgba(92, 107, 192, 0.16),
+    rgba(66, 165, 245, 0.18)
+  );
 }
 
 .glass-card {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.86));
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.92),
+    rgba(255, 255, 255, 0.86)
+  );
 }
 
 .elevated-chip {

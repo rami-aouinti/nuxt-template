@@ -8,18 +8,14 @@
   >
     <div class="flex flex-col space-y-4">
       <div>
-        <label class="font-semibold">{{ t("Select") }}</label>
+        <label class="font-semibold">{{ t('Select') }}</label>
         <select
           v-model="selectedTargetId"
           class="border rounded p-2 w-full"
           :disabled="assignments.length === 0"
         >
-          <option
-            v-if="assignments.length === 0"
-            disabled
-            value=""
-          >
-            {{ t("No assignments available") }}
+          <option v-if="assignments.length === 0" disabled value="">
+            {{ t('No assignments available') }}
           </option>
           <option
             v-for="assignment in assignments"
@@ -33,22 +29,22 @@
         <Button
           :label="t('Move the file')"
           icon="pi pi-send"
-          @click="move"
           class="p-button-primary"
           :disabled="assignments.length === 0"
+          @click="move"
         />
       </div>
     </div>
   </Dialog>
 </template>
-<script setup>
-import { computed, ref, watch } from "vue"
-import { useI18n } from "vue-i18n"
-import Button from "primevue/button"
-import Dialog from "primevue/dialog"
-import cStudentPublicationService from "../legacy/services/cstudentpublication.js"
-import { useNotification } from "../legacy/composables/notification.js"
-import { useCidReq } from "../legacy/composables/cidReq.js"
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+
+import Button from 'primevue/button'
+import Dialog from 'primevue/dialog'
+import cStudentPublicationService from '~/services/cstudentpublication.js'
+import { useNotification } from '~/composables/notification.js'
+import { useCidReq } from '~/composables/cidReq.js'
 
 const props = defineProps({
   modelValue: Boolean,
@@ -56,14 +52,14 @@ const props = defineProps({
   currentAssignmentId: Number,
 })
 
-const emit = defineEmits(["update:modelValue", "moved"])
+const emit = defineEmits(['update:modelValue', 'moved'])
 const { cid, sid, gid } = useCidReq()
 const { t } = useI18n()
 const notification = useNotification()
 
 const visible = computed({
   get: () => props.modelValue,
-  set: (val) => emit("update:modelValue", val),
+  set: (val) => emit('update:modelValue', val),
 })
 
 const assignments = ref([])
@@ -80,7 +76,7 @@ watch(
 )
 
 function onHide() {
-  emit("update:modelValue", false)
+  emit('update:modelValue', false)
 }
 
 function resetForm() {
@@ -95,15 +91,19 @@ async function loadAssignments() {
         cid,
         sid,
         gid,
-        "publicationParent.iid": false,
+        'publicationParent.iid': false,
       },
     })
 
     const json = await response.json()
-    const member = json["hydra:member"] || []
+    const member = json['hydra:member'] || []
 
-    assignments.value = member.filter((a) => a.iid !== props.currentAssignmentId)
-    selectedTargetId.value = assignments.value.length ? assignments.value[0].iid : null
+    assignments.value = member.filter(
+      (a) => a.iid !== props.currentAssignmentId,
+    )
+    selectedTargetId.value = assignments.value.length
+      ? assignments.value[0].iid
+      : null
   } catch (error) {
     notification.showErrorNotification(error)
   }
@@ -111,15 +111,18 @@ async function loadAssignments() {
 
 async function move() {
   if (!selectedTargetId.value) {
-    notification.showErrorNotification(t("Please select a target assignment"))
+    notification.showErrorNotification(t('Please select a target assignment'))
     return
   }
 
   try {
-    await cStudentPublicationService.moveSubmission(props.submission.iid, selectedTargetId.value)
-    notification.showSuccessNotification(t("Submission moved successfully"))
-    emit("moved")
-    emit("update:modelValue", false)
+    await cStudentPublicationService.moveSubmission(
+      props.submission.iid,
+      selectedTargetId.value,
+    )
+    notification.showSuccessNotification(t('Submission moved successfully'))
+    emit('moved')
+    emit('update:modelValue', false)
   } catch (error) {
     notification.showErrorNotification(error)
   }

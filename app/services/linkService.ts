@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { ENTRYPOINT } from "../config/entrypoint"
-import axios from "axios"
-import baseService from "./baseService"
+import { ENTRYPOINT } from '../config/entrypoint'
+import axios from 'axios'
+import baseService from './baseService'
 
 export default {
   /**
@@ -12,7 +12,7 @@ export default {
     const endpoint = `${ENTRYPOINT}links/${linkId}/upload-image`
     const response = await axios.post(endpoint, imageData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     })
     return response.data
@@ -22,7 +22,7 @@ export default {
    * @param {Object} params
    */
   getLinks: async (params) => {
-    const response = await axios.get(ENTRYPOINT + "links/", { params })
+    const response = await axios.get(ENTRYPOINT + 'links/', { params })
 
     return response.data
   },
@@ -31,7 +31,9 @@ export default {
    * @param {Number|String} linkId
    */
   getLink: async (linkId) => {
-    const response = await axios.get(ENTRYPOINT + "links/" + linkId + "/details/")
+    const response = await axios.get(
+      ENTRYPOINT + 'links/' + linkId + '/details/',
+    )
 
     return response.data
   },
@@ -95,16 +97,20 @@ export default {
   },
 
   getCategories: async (parentId) => {
-    const response = await axios.get(`${ENTRYPOINT}link_categories?resourceNode.parent=${parentId}`)
+    const response = await axios.get(
+      `${ENTRYPOINT}link_categories?resourceNode.parent=${parentId}`,
+    )
 
-    return response.data["hydra:member"]
+    return response.data['hydra:member']
   },
 
   /**
    * @param {Number|String} categoryId
    */
   getCategory: async (categoryId) => {
-    const response = await axios.get(ENTRYPOINT + "link_categories/" + categoryId)
+    const response = await axios.get(
+      ENTRYPOINT + 'link_categories/' + categoryId,
+    )
 
     return response.data
   },

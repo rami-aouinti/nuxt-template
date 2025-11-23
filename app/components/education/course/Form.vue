@@ -5,17 +5,18 @@
         id="course-name"
         v-model="courseName"
         :error-text="courseNameError"
-        :help-text="t('Write a short and striking course name, for example: Innovation Management')"
+        :help-text="
+          t(
+            'Write a short and striking course name, for example: Innovation Management',
+          )
+        "
         :is-invalid="isCourseNameInvalid"
         :label="t('Course name')"
         required
       />
-      <BaseAdvancedSettingsButton v-model="showAdvancedSettings"></BaseAdvancedSettingsButton>
+      <BaseAdvancedSettingsButton v-model="showAdvancedSettings" />
     </div>
-    <div
-      v-if="showAdvancedSettings"
-      class="advanced-settings"
-    >
+    <div v-if="showAdvancedSettings" class="advanced-settings">
       <BaseMultiSelect
         id="category-multiselect"
         v-model="courseCategory"
@@ -34,10 +35,10 @@
         validation-message="Only letters (a-z) and numbers (0-9) are allowed."
       />
       <BaseSelect
+        id="language-dropdowns"
         v-model="courseLanguage"
         :label="t('Language')"
         :options="languageOptions"
-        id="language-dropdowns"
         name="language"
         option-label="name"
         option-value="id"
@@ -74,23 +75,22 @@
   </div>
 </template>
 
-<script setup>
-import { onMounted, ref } from "vue"
-import BaseInputText from "../basecomponents/BaseInputText.vue"
-import BaseAdvancedSettingsButton from "../basecomponents/BaseAdvancedSettingsButton.vue"
-import BaseSelect from "../basecomponents/BaseSelect.vue"
-import BaseCheckbox from "../basecomponents/BaseCheckbox.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import { useRouter } from "vue-router"
-import courseService from "../legacy/services/courseService.js"
-import languageService from "../legacy/services/languageService.js"
-import BaseMultiSelect from "../basecomponents/BaseMultiSelect.vue"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import BaseInputText from '../basecomponents/BaseInputText.vue'
+import BaseAdvancedSettingsButton from '../basecomponents/BaseAdvancedSettingsButton.vue'
+import BaseSelect from '../basecomponents/BaseSelect.vue'
+import BaseCheckbox from '../basecomponents/BaseCheckbox.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import { useRouter } from 'vue-router'
+import courseService from '~/services/courseService.js'
+import languageService from '~/services/languageService.js'
+import BaseMultiSelect from '../basecomponents/BaseMultiSelect.vue'
 
 const { t } = useI18n()
-const courseName = ref("")
+const courseName = ref('')
 const courseCategory = ref([])
-const courseCode = ref("")
+const courseCode = ref('')
 const courseLanguage = ref(null)
 const fillDemoContent = ref(false)
 const courseTemplate = ref(null)
@@ -100,23 +100,23 @@ const router = useRouter()
 const categoryOptions = ref([])
 const languageOptions = ref([])
 
-const courseNameError = ref("")
-const courseCodeError = ref("")
+const courseNameError = ref('')
+const courseCodeError = ref('')
 const isCodeInvalid = ref(false)
 const isCourseNameInvalid = ref(false)
 
 const formSubmitted = ref(false)
 
-const emit = defineEmits(["submit"])
+const emit = defineEmits(['submit'])
 
 const validateCourseCode = () => {
   const pattern = /^[a-zA-Z0-9]*$/
   if (!pattern.test(courseCode.value)) {
     isCodeInvalid.value = true
-    courseCodeError.value = "Only letters (a-z) and numbers (0-9) are allowed."
+    courseCodeError.value = 'Only letters (a-z) and numbers (0-9) are allowed.'
     return false
   }
-  courseCodeError.value = ""
+  courseCodeError.value = ''
   return true
 }
 
@@ -124,7 +124,7 @@ const submitForm = () => {
   formSubmitted.value = true
   if (!courseName.value) {
     isCourseNameInvalid.value = true
-    courseNameError.value = "This field is required"
+    courseNameError.value = 'This field is required'
     return
   }
 
@@ -132,7 +132,7 @@ const submitForm = () => {
     return
   }
 
-  emit("submit", {
+  emit('submit', {
     name: courseName.value,
     category: courseCategory.value ? courseCategory.value : null,
     code: courseCode.value,
@@ -144,7 +144,7 @@ const submitForm = () => {
 
 onMounted(async () => {
   try {
-    const categoriesResponse = await courseService.getCategories("categories")
+    const categoriesResponse = await courseService.getCategories('categories')
     categoryOptions.value = categoriesResponse.map((category) => ({
       name: category.name,
       id: category.id,
@@ -152,12 +152,12 @@ onMounted(async () => {
 
     const languagesResponse = await languageService.findAll()
     const data = await languagesResponse.json()
-    languageOptions.value = data["hydra:member"].map((language) => ({
+    languageOptions.value = data['hydra:member'].map((language) => ({
       name: language.originalName,
       id: language.isocode,
     }))
   } catch (error) {
-    console.error("Failed to load dropdown data", error)
+    console.error('Failed to load dropdown data', error)
   }
 })
 

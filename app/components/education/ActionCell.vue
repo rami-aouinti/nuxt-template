@@ -1,8 +1,8 @@
 <template>
   <!--  auto-width-->
-  <q-td slot="body-cell-action">
+  <v-td slot="body-cell-action">
     <div class="p-4 flex flex-row gap-1">
-      <q-btn
+      <v-btn
         v-if="handleShow"
         color="secondary"
         dense
@@ -10,7 +10,7 @@
         no-caps
         @click="handleShow"
       />
-      <q-btn
+      <v-btn
         v-if="handleEdit"
         color="secondary"
         dense
@@ -18,7 +18,7 @@
         no-caps
         @click="handleEdit"
       />
-      <q-btn
+      <v-btn
         v-if="handleDelete"
         color="red"
         dense
@@ -33,21 +33,16 @@
         :show="confirmDeleteClick"
       />
     </div>
-  </q-td>
+  </v-td>
 </template>
 
-<script>
-import ConfirmDelete from "./ConfirmDelete.vue"
+<script setup lang="ts">
+import ConfirmDelete from './ConfirmDelete.vue'
 
 export default {
-  name: "ActionCell",
+  name: 'ActionCell',
   components: {
     ConfirmDelete,
-  },
-  data() {
-    return {
-      confirmDeleteClick: false,
-    }
   },
   props: {
     handleShow: {
@@ -62,6 +57,11 @@ export default {
       type: Function,
       required: false,
     },
+  },
+  data() {
+    return {
+      confirmDeleteClick: false,
+    }
   },
 }
 </script>

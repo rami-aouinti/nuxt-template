@@ -1,11 +1,11 @@
 // @ts-nocheck
-import baseService from "./baseService"
+import baseService from './baseService'
 
 /**
  * @returns {Promise<Array>}
  */
 export async function getSkillTree() {
-  const { items } = await baseService.getCollection("/api/skills/tree")
+  const { items } = await baseService.getCollection('/api/skills/tree')
 
   return items
 }
@@ -15,5 +15,5 @@ export async function getSkillTree() {
  * @returns {Promise<{totalItems, items}>}
  */
 export async function findAll(searchParams) {
-  return await baseService.getCollection("api/skills", searchParams)
+  return await baseService.getCollection('api/skills', searchParams)
 }

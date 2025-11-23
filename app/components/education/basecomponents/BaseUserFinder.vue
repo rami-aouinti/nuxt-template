@@ -1,13 +1,12 @@
-<script setup>
-import { reactive, ref, watch } from "vue"
-import { FilterMatchMode } from "@primevue/core/api"
-import debounce from "lodash/debounce"
-import userService from "../legacy/services/userService.js"
-import { useNotification } from "../legacy/composables/notification.js"
-import InputText from "primevue/inputtext"
-import BaseButton from "./BaseButton.vue"
-import BaseTable from "./BaseTable.vue"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import { reactive, ref, watch } from 'vue'
+import { FilterMatchMode } from '@primevue/core/api'
+import debounce from 'lodash/debounce'
+import userService from '~/services/userService.js'
+import { useNotification } from '~/composables/notification.js'
+import InputText from 'primevue/inputtext'
+import BaseButton from './BaseButton.vue'
+import BaseTable from './BaseTable.vue'
 
 const { t } = useI18n()
 const { showErrorNotification } = useNotification()
@@ -25,13 +24,15 @@ const userList = ref([])
 const selectedUsers = ref([])
 
 async function listUsers() {
-  let searchParams = {
+  const searchParams = {
     page: tableState.currentPage + 1,
     itemsPerPage: tableState.rows,
   }
 
   if (tableState.sortField) {
-    searchParams.order = { [tableState.sortField]: tableState.sortOrder === -1 ? "desc" : "asc" }
+    searchParams.order = {
+      [tableState.sortField]: tableState.sortOrder === -1 ? 'desc' : 'asc',
+    }
   }
 
   if (tableState.filters) {
@@ -125,10 +126,7 @@ defineExpose({ selectedUsers })
   >
     <template #header>
       <div class="flex justify-between items-center gap-4">
-        <span
-          v-t="'User list'"
-          class="mr-auto"
-        />
+        <span v-t="'User list'" class="mr-auto" />
         <BaseButton
           :label="t('Clear filters')"
           icon="clear-all"
@@ -139,7 +137,7 @@ defineExpose({ selectedUsers })
       </div>
     </template>
 
-    <Column selectionMode="multiple" />
+    <Column selection-mode="multiple" />
 
     <Column
       :header="t('Username')"

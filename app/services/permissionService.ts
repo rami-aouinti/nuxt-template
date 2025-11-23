@@ -1,8 +1,8 @@
 // @ts-nocheck
-import api from "../config/api"
+import api from '../config/api'
 
 async function toogleStudentView() {
-  const { data } = await api.get("/toggle_student_view")
+  const { data } = await api.get('/toggle_student_view')
 
   return data
 }

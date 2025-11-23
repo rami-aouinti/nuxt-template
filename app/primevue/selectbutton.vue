@@ -18,17 +18,17 @@
 </template>
 
 <script setup>
-import { computed } from "vue"
+import { computed } from 'vue'
 
 const props = defineProps({
   modelValue: { type: [Array, String, Number, Boolean], default: null },
   options: { type: Array, default: () => [] },
   multiple: { type: Boolean, default: false },
-  color: { type: String, default: "primary" },
+  color: { type: String, default: 'primary' },
 })
-const emit = defineEmits(["update:modelValue"])
+const emit = defineEmits(['update:modelValue'])
 const model = computed({
   get: () => props.modelValue,
-  set: value => emit("update:modelValue", value),
+  set: (value) => emit('update:modelValue', value),
 })
 </script>

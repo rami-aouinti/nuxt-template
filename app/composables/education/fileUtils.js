@@ -5,19 +5,23 @@ export function useFileUtils() {
 
   const safeMime = (fileData) => {
     // normalize: strip params like "; charset=UTF-8"
-    const raw = fileData?.resourceNode?.firstResourceFile?.mimeType || ""
-    return String(raw).split(";")[0].trim()
+    const raw = fileData?.resourceNode?.firstResourceFile?.mimeType || ''
+    return String(raw).split(';')[0].trim()
   }
 
   const fileName = (fileData) => {
     // prefer originalName; fallback to node title
-    return fileData?.resourceNode?.firstResourceFile?.originalName || fileData?.resourceNode?.title || ""
+    return (
+      fileData?.resourceNode?.firstResourceFile?.originalName ||
+      fileData?.resourceNode?.title ||
+      ''
+    )
   }
 
   const ext = (fileData) => {
     const name = fileName(fileData)
     const m = /\.([A-Za-z0-9]+)$/.exec(name)
-    return m ? m[1].toLowerCase() : ""
+    return m ? m[1].toLowerCase() : ''
   }
 
   const isImage = (fileData) => {
@@ -30,8 +34,8 @@ export function useFileUtils() {
 
   const isAudio = (fileData) => {
     if (!isFile(fileData)) return false
-    const top = safeMime(fileData).split("/")[0]?.toLowerCase() || ""
-    return top === "audio" || !!fileData.resourceNode.firstResourceFile.audio
+    const top = safeMime(fileData).split('/')[0]?.toLowerCase() || ''
+    return top === 'audio' || !!fileData.resourceNode.firstResourceFile.audio
   }
 
   const isHtml = (fileData) => {
@@ -41,16 +45,24 @@ export function useFileUtils() {
     const e = ext(fileData)
 
     // MIME-based detection
-    const byMime = mime.includes("text/html") || mime.includes("application/html") || mime.includes("application/xhtml")
+    const byMime =
+      mime.includes('text/html') ||
+      mime.includes('application/html') ||
+      mime.includes('application/xhtml')
 
     // Extension-based fallback when MIME is missing/wrong
-    const byExt = e === "html" || e === "htm" || e === "xhtml"
+    const byExt = e === 'html' || e === 'htm' || e === 'xhtml'
 
     return byMime || byExt
   }
 
   const isPreviewable = (fileData) => {
-    return isImage(fileData) || isVideo(fileData) || isAudio(fileData) || isHtml(fileData)
+    return (
+      isImage(fileData) ||
+      isVideo(fileData) ||
+      isAudio(fileData) ||
+      isHtml(fileData)
+    )
   }
 
   return {

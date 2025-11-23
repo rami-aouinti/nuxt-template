@@ -11,9 +11,9 @@
           @error="onImgError"
         />
         <button
-          @click.stop="toggleFavorite"
           :aria-label="isFavorite ? t('Unmark favorite') : t('Mark favorite')"
           class="absolute top-2 right-2 grid place-content-center w-10 h-10 rounded-full bg-white/80 backdrop-blur text-yellow-400 hover:text-yellow-500 shadow"
+          @click.stop="toggleFavorite"
         >
           <i :class="isFavorite ? 'pi pi-star-fill' : 'pi pi-star'" />
         </button>
@@ -22,7 +22,10 @@
 
     <template #title>
       <div class="course-card__title flex items-start gap-2">
-        <span class="font-semibold leading-snug line-clamp-2" :title="course.title">
+        <span
+          class="font-semibold leading-snug line-clamp-2"
+          :title="course.title"
+        >
           {{ course.title }}
         </span>
       </div>
@@ -34,19 +37,19 @@
           :to="{ name: 'RegisterStudent', params: { courseId: course.id } }"
           class="btn btn--primary"
         >
-          {{ t("Register student") }}
+          {{ t('Register student') }}
         </RouterLink>
       </div>
     </template>
   </Card>
 </template>
 
-<script setup>
-import Card from "primevue/card"
-import { ref, watch, computed } from "vue"
-import { useI18n } from "vue-i18n"
-import courseService from "../legacy/services/courseService.js"
-import { useSecurityStore } from "../legacy/store/securityStore.js"
+<script setup lang="ts">
+import Card from 'primevue/card'
+import { ref, watch, computed } from 'vue'
+
+import courseService from '~/services/courseService.js'
+import { useSecurityStore } from '~/stores/securityStore.js'
 
 const { t } = useI18n()
 const securityStore = useSecurityStore()
@@ -54,16 +57,17 @@ const securityStore = useSecurityStore()
 const props = defineProps({
   course: { type: Object, required: true },
 })
-const emit = defineEmits(["favorite-toggled"])
+const emit = defineEmits(['favorite-toggled'])
 
 const isFavorite = ref(false)
-const PLACEHOLDER = "/img/session_default.svg"
+const PLACEHOLDER = '/img/session_default.svg'
 
 function normalizeUrl(u) {
-  if (!u || typeof u !== "string") return null
+  if (!u || typeof u !== 'string') return null
   const s = u.trim()
-  if (s.startsWith("http://") || s.startsWith("https://") || s.startsWith("/")) return s
-  return `/${s.replace(/^\/+/, "")}`
+  if (s.startsWith('http://') || s.startsWith('https://') || s.startsWith('/'))
+    return s
+  return `/${s.replace(/^\/+/, '')}`
 }
 
 const imageUrl = computed(() => {
@@ -94,9 +98,12 @@ function onImgError(e) {
 }
 
 async function toggleFavorite() {
-  const result = await courseService.toggleFavorite(props.course.id, securityStore.user.id)
+  const result = await courseService.toggleFavorite(
+    props.course.id,
+    securityStore.user.id,
+  )
   isFavorite.value = result
-  emit("favorite-toggled", {
+  emit('favorite-toggled', {
     courseId: props.course.id,
     isFavorite: result,
   })
@@ -108,4 +115,3 @@ watch(
   { immediate: true },
 )
 </script>
-

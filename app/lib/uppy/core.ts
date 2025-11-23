@@ -12,7 +12,9 @@ class UppyStub {
   }
 
   off(event: string, handler: (...args: any[]) => void) {
-    this.handlers[event] = (this.handlers[event] || []).filter((fn) => fn !== handler)
+    this.handlers[event] = (this.handlers[event] || []).filter(
+      (fn) => fn !== handler,
+    )
     return this
   }
 
@@ -29,7 +31,9 @@ class UppyStub {
   }
 
   upload() {
-    (this.handlers['complete'] || []).forEach((fn) => fn({ successful: [], failed: [] }))
+    ;(this.handlers['complete'] || []).forEach((fn) =>
+      fn({ successful: [], failed: [] }),
+    )
     return Promise.resolve({ successful: [], failed: [] })
   }
 

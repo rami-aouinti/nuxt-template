@@ -9,11 +9,11 @@
   </a>
 </template>
 
-<script>
-import ResourceIcon from "./ResourceIcon.vue"
+<script setup lang="ts">
+import ResourceIcon from './ResourceIcon.vue'
 
 export default {
-  name: "ResourceFileLink",
+  name: 'ResourceFileLink',
   components: {
     ResourceIcon,
   },
@@ -26,13 +26,13 @@ export default {
   computed: {
     getDataType() {
       if (this.resource.resourceNode.firstResourceFile.image) {
-        return "image"
+        return 'image'
       }
       if (this.resource.resourceNode.firstResourceFile.video) {
-        return "video"
+        return 'video'
       }
 
-      return "iframe"
+      return 'iframe'
     },
   },
 }

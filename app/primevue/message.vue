@@ -11,9 +11,9 @@
 
 <script setup>
 const props = defineProps({
-  text: { type: String, default: "" },
-  severity: { type: String, default: "info" },
-  variant: { type: String, default: "tonal" },
+  text: { type: String, default: '' },
+  severity: { type: String, default: 'info' },
+  variant: { type: String, default: 'tonal' },
   closable: { type: Boolean, default: false },
 })
 </script>

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import baseService from "./baseService"
+import baseService from './baseService'
 
 /**
  * @param {number} cId

@@ -54,7 +54,9 @@ const formatDate = (value?: string) => {
     <v-row class="mb-6">
       <v-col cols="12">
         <AppCard class="pa-6" elevation="3" hover>
-          <div class="d-flex align-center justify-space-between flex-wrap gap-4">
+          <div
+            class="d-flex align-center justify-space-between flex-wrap gap-4"
+          >
             <div>
               <div class="text-h5 font-weight-bold mb-2">
                 {{ translate('crm.projects.title', 'Tous les projets') }}
@@ -88,7 +90,12 @@ const formatDate = (value?: string) => {
             <v-list-item
               v-for="project in projects"
               :key="project.id"
-              :to="localePath({ name: 'crm-project-id', params: { id: project.id } })"
+              :to="
+                localePath({
+                  name: 'crm-project-id',
+                  params: { id: project.id },
+                })
+              "
               rounded="lg"
             >
               <template #prepend>
@@ -103,7 +110,10 @@ const formatDate = (value?: string) => {
               <v-list-item-subtitle class="d-flex align-center gap-2 flex-wrap">
                 <v-chip size="small" color="secondary" variant="tonal">
                   <v-icon icon="mdi-account-tie-outline" start />
-                  {{ clientsById[project.client?.id ?? -1] ?? t('common.client', 'Client') }}
+                  {{
+                    clientsById[project.client?.id ?? -1] ??
+                    t('common.client', 'Client')
+                  }}
                 </v-chip>
                 <span class="text-caption text-medium-emphasis">
                   {{ translate('crm.projects.updated', 'Mis à jour') }}
@@ -116,7 +126,12 @@ const formatDate = (value?: string) => {
               </template>
             </v-list-item>
             <v-list-item v-if="!projects.length" disabled>
-              {{ translate('crm.projects.empty', 'Aucun projet disponible pour le moment.') }}
+              {{
+                translate(
+                  'crm.projects.empty',
+                  'Aucun projet disponible pour le moment.',
+                )
+              }}
             </v-list-item>
           </v-list>
         </AppCard>

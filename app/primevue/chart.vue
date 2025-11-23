@@ -6,9 +6,7 @@
     v-bind="$attrs"
   >
     <slot>
-      <div class="text-subtitle-2 text-medium-emphasis">
-        Chart placeholder
-      </div>
+      <div class="text-subtitle-2 text-medium-emphasis">Chart placeholder</div>
     </slot>
   </v-sheet>
 </template>

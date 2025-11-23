@@ -7,17 +7,14 @@
         display="chip"
         fluid
         input-id="multiSelect"
-        optionLabel="name"
-        optionValue="id"
-        panelClass="multi-select-panel"
+        option-label="name"
+        option-value="id"
+        panel-class="multi-select-panel"
         @blur="isFocused = false"
         @focus="isFocused = true"
         @update:model-value="updateModelValue"
       />
-      <label
-        :for="inputId"
-        v-text="label"
-      />
+      <label :for="inputId" v-text="label" />
     </FloatLabel>
     <small
       v-if="isInvalid"
@@ -27,10 +24,10 @@
   </div>
 </template>
 
-<script setup>
-import { ref, watch } from "vue"
-import FloatLabel from "primevue/floatlabel"
-import MultiSelect from "primevue/multiselect"
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import FloatLabel from 'primevue/floatlabel'
+import MultiSelect from 'primevue/multiselect'
 
 const props = defineProps({
   modelValue: {
@@ -45,12 +42,12 @@ const props = defineProps({
   inputId: {
     type: String,
     required: true,
-    default: "",
+    default: '',
   },
   label: {
     type: String,
     required: true,
-    default: "",
+    default: '',
   },
   errorText: {
     type: String,
@@ -63,7 +60,7 @@ const props = defineProps({
     default: false,
   },
 })
-const emit = defineEmits(["update:modelValue"])
+const emit = defineEmits(['update:modelValue'])
 const selectedValues = ref([...props.modelValue])
 const isFocused = ref(false)
 
@@ -75,6 +72,6 @@ watch(
 )
 
 const updateModelValue = (newValue) => {
-  emit("update:modelValue", newValue)
+  emit('update:modelValue', newValue)
 }
 </script>

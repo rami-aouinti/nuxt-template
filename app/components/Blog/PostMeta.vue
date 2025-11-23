@@ -52,7 +52,10 @@ const resolvedTag = computed(() => props.tag || 'div')
 </script>
 
 <template>
-  <component :is="resolvedTag" class="blog-post-meta d-flex flex-wrap align-center">
+  <component
+    :is="resolvedTag"
+    class="blog-post-meta d-flex flex-wrap align-center"
+  >
     <span>{{ metaParts.prefix }}</span>
     <NuxtLink
       v-if="authorLink"

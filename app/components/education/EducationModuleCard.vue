@@ -1,8 +1,5 @@
 <template>
-  <v-card
-    class="h-100 d-flex flex-column"
-    variant="outlined"
-  >
+  <v-card class="h-100 d-flex flex-column" variant="outlined">
     <v-card-item>
       <div class="text-overline text-medium-emphasis mb-1">
         {{ module.category }}
@@ -36,12 +33,7 @@
       <div class="text-caption text-medium-emphasis">
         {{ module.relatedViews.length }} vues migrées
       </div>
-      <v-btn
-        :to="moduleTarget"
-        color="primary"
-        size="small"
-        variant="tonal"
-      >
+      <v-btn :to="moduleTarget" color="primary" size="small" variant="tonal">
         Ouvrir
       </v-btn>
     </v-card-actions>
@@ -56,5 +48,7 @@ const props = defineProps<{
   module: EducationModule
 }>()
 
-const moduleTarget = computed(() => props.module.path ?? `/education/${props.module.slug}`)
+const moduleTarget = computed(
+  () => props.module.path ?? `/education/${props.module.slug}`,
+)
 </script>

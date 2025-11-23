@@ -1,13 +1,16 @@
 // @ts-nocheck
-import baseService from "./baseService"
-import { USER_RELATION_TYPE_FRIEND, USER_RELATION_TYPE_FRIEND_REQUEST } from "../constants/entity/userreluser"
+import baseService from './baseService'
+import {
+  USER_RELATION_TYPE_FRIEND,
+  USER_RELATION_TYPE_FRIEND_REQUEST,
+} from '../constants/entity/userreluser'
 
 /**
  * @param {Object} searchParams
  * @returns {Promise<{totalItems, items}>}
  */
 async function findAll(searchParams = {}) {
-  return await baseService.getCollection("/api/user_rel_users", searchParams)
+  return await baseService.getCollection('/api/user_rel_users', searchParams)
 }
 
 /**
@@ -17,14 +20,17 @@ async function findAll(searchParams = {}) {
 async function getFriendList(userIri) {
   const { items } = await findAll({
     user: userIri,
-    relationType: [USER_RELATION_TYPE_FRIEND, USER_RELATION_TYPE_FRIEND_REQUEST],
+    relationType: [
+      USER_RELATION_TYPE_FRIEND,
+      USER_RELATION_TYPE_FRIEND_REQUEST,
+    ],
   })
 
   return items
 }
 
 async function sendFriendRequest(userIri, friendIri) {
-  return await baseService.post("/api/user_rel_users", {
+  return await baseService.post('/api/user_rel_users', {
     user: userIri,
     friend: friendIri,
     relationType: USER_RELATION_TYPE_FRIEND_REQUEST,
@@ -39,7 +45,7 @@ async function sendFriendRequest(userIri, friendIri) {
 async function searchRelationshipByUsername(userIri, searchTerm) {
   return await findAll({
     user: userIri,
-    "friend.username": searchTerm,
+    'friend.username': searchTerm,
   })
 }
 

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import baseService from "./baseService"
+import baseService from './baseService'
 
 /**
  * Saves a new vote for a course in the catalog.
@@ -11,7 +11,13 @@ import baseService from "./baseService"
  * @param {number} urlId - Access URL ID
  * @returns {Promise<Object>}
  */
-export async function saveVote({ courseIri, userId, vote, sessionId = null, urlId }) {
+export async function saveVote({
+  courseIri,
+  userId,
+  vote,
+  sessionId = null,
+  urlId,
+}) {
   const payload = {
     user: `/api/users/${userId}`,
     vote,
@@ -21,7 +27,7 @@ export async function saveVote({ courseIri, userId, vote, sessionId = null, urlI
   if (courseIri) payload.course = courseIri
   if (sessionId) payload.session = `/api/sessions/${sessionId}`
 
-  return await baseService.post("/api/user_rel_course_votes", payload)
+  return await baseService.post('/api/user_rel_course_votes', payload)
 }
 
 /**
@@ -36,16 +42,16 @@ export async function saveVote({ courseIri, userId, vote, sessionId = null, urlI
 export async function updateVote({ iri, vote, sessionId = null, urlId }) {
   try {
     if (!iri) {
-      throw new Error("Cannot update vote because IRI is missing.")
+      throw new Error('Cannot update vote because IRI is missing.')
     }
 
-    let payload = { vote }
+    const payload = { vote }
     if (sessionId) payload.session = `/api/sessions/${sessionId}`
     if (urlId) payload.url = `/api/access_urls/${urlId}`
 
     return await baseService.put(iri, payload)
   } catch (error) {
-    console.error("Error updating user vote:", error)
+    console.error('Error updating user vote:', error)
     throw error
   }
 }
@@ -59,7 +65,12 @@ export async function updateVote({ iri, vote, sessionId = null, urlId }) {
  * @param urlId
  * @returns {Promise<Object|null>} - Returns the vote object if found, otherwise null
  */
-export async function getUserVote({ userId, courseId, sessionId = null, urlId }) {
+export async function getUserVote({
+  userId,
+  courseId,
+  sessionId = null,
+  urlId,
+}) {
   try {
     let query = `/api/user_rel_course_votes?user.id=${userId}`
 
@@ -73,12 +84,11 @@ export async function getUserVote({ userId, courseId, sessionId = null, urlId })
 
     const response = await baseService.get(query)
 
-    if (response?.["hydra:member"]?.length > 0) {
-      return response["hydra:member"][0]
+    if (response?.['hydra:member']?.length > 0) {
+      return response['hydra:member'][0]
     }
 
     return null
-    // eslint-disable-next-line no-unused-vars
   } catch (error) {
     return null
   }
@@ -98,9 +108,9 @@ export async function getUserVotes({ userId, urlId }) {
 
     const response = await baseService.get(query)
 
-    return response && response["hydra:member"] ? response["hydra:member"] : []
+    return response && response['hydra:member'] ? response['hydra:member'] : []
   } catch (error) {
-    console.error("Error retrieving user votes:", error)
+    console.error('Error retrieving user votes:', error)
     return []
   }
 }

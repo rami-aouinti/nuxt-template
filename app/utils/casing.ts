@@ -1,6 +1,7 @@
-export type SnakeToCamelCase<S extends string> = S extends `${infer Head}_${infer Tail}`
-  ? `${Lowercase<Head>}${Capitalize<SnakeToCamelCase<Tail>>}`
-  : S
+export type SnakeToCamelCase<S extends string> =
+  S extends `${infer Head}_${infer Tail}`
+    ? `${Lowercase<Head>}${Capitalize<SnakeToCamelCase<Tail>>}`
+    : S
 
 export type Camelize<T> = T extends (infer U)[]
   ? Camelize<U>[]

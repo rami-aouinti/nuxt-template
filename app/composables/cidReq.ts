@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { useRoute } from "vue-router"
+import { useRoute } from 'vue-router'
 
 export function useCidReq() {
   const route = useRoute()

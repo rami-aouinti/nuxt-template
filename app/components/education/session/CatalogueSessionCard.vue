@@ -18,67 +18,66 @@
     <Button
       v-if="allowDescription"
       icon="pi pi-info-circle"
-      @click="showDescriptionDialog = true"
       class="absolute top-2 left-2 z-20"
       size="small"
       text
       aria-label="Session info"
+      @click="showDescriptionDialog = true"
     />
     <span
       v-if="languages.length"
       class="absolute top-0 right-0 bg-primary text-white text-xs px-2 py-1 font-semibold rounded-bl-lg z-10"
     >
-      {{ languages.length === 1 ? languages[0] : $t("Multilingual") }}
+      {{ languages.length === 1 ? languages[0] : $t('Multilingual') }}
     </span>
     <div class="p-4 flex flex-col flex-grow gap-2">
       <h3 class="text-xl font-semibold text-gray-800">{{ session.title }}</h3>
       <div class="text-sm text-gray-700">
-        <strong>{{ $t("Duration") }}:</strong> {{ duration }}
+        <strong>{{ $t('Duration') }}:</strong> {{ duration }}
       </div>
 
       <div class="text-sm text-gray-700">
-        <strong>{{ $t("Start date") }}:</strong> {{ formattedStartDate }}
+        <strong>{{ $t('Start date') }}:</strong> {{ formattedStartDate }}
       </div>
 
       <div class="text-sm text-gray-700">
-        <strong>{{ $t("End date") }}:</strong> {{ formattedEndDate }}
+        <strong>{{ $t('End date') }}:</strong> {{ formattedEndDate }}
       </div>
 
       <div
         class="text-sm text-blue-600 cursor-pointer underline"
         @click="showCourseDialog = true"
       >
-        {{ courseCount }} {{ $t("Course") }}<span v-if="courseCount !== 1">s</span>
+        {{ courseCount }} {{ $t('Course')
+        }}<span v-if="courseCount !== 1">s</span>
       </div>
 
-      <div
-        v-if="session.category"
-        class="text-sm text-gray-700"
-      >
-        <strong>{{ $t("Category") }}:</strong> {{ session.category.title }}
+      <div v-if="session.category" class="text-sm text-gray-700">
+        <strong>{{ $t('Category') }}:</strong> {{ session.category.title }}
       </div>
 
-      <div
-        v-if="teachers.length"
-        class="text-sm text-gray-700"
-      >
-        <strong>{{ $t("Teachers") }}:</strong> {{ teachers.join(", ") }}
+      <div v-if="teachers.length" class="text-sm text-gray-700">
+        <strong>{{ $t('Teachers') }}:</strong> {{ teachers.join(', ') }}
       </div>
 
       <Rating
         :model-value="session.userVote?.vote || 0"
         :stars="5"
         :cancel="false"
-        @change="emitRating"
         class="mt-2"
+        @change="emitRating"
       />
       <div class="text-xs text-gray-600 mt-1">
-        {{ session.popularity || 0 }} Vote<span v-if="session.popularity !== 1">s</span>
+        {{ session.popularity || 0 }} Vote<span v-if="session.popularity !== 1"
+          >s</span
+        >
         |
-        {{ session.nbVisits || 0 }} Visite<span v-if="session.nbVisits !== 1">s</span>
+        {{ session.nbVisits || 0 }} Visite<span v-if="session.nbVisits !== 1"
+          >s</span
+        >
         <span v-if="session.userVote?.vote">
           |
-          {{ $t("Your vote") }} [{{ session.userVote.vote }}]
+          {{ $t('Your vote') }} [{{ session.userVote.vote }}]
         </span>
       </div>
 
@@ -100,10 +99,7 @@
         />
 
         <template v-else-if="session.buyButtonHtml">
-          <div
-            v-html="session.buyButtonHtml"
-            class="w-full text-center mb-2"
-          ></div>
+          <div class="w-full text-center mb-2" v-html="session.buyButtonHtml" />
         </template>
 
         <Button
@@ -157,15 +153,12 @@
     >
       <ul class="list-disc pl-5 text-sm text-gray-700">
         <template v-if="validCourses.length">
-          <li
-            v-for="item in validCourses"
-            :key="item.id"
-          >
+          <li v-for="item in validCourses" :key="item.id">
             {{ item.title }}
           </li>
         </template>
         <template v-else>
-          <li class="text-gray-500 italic">{{ $t("No course available") }}</li>
+          <li class="text-gray-500 italic">{{ $t('No course available') }}</li>
         </template>
       </ul>
     </Dialog>
@@ -197,7 +190,7 @@
           </li>
         </template>
         <template v-else>
-          <li class="text-gray-500 italic">{{ $t("No course available") }}</li>
+          <li class="text-gray-500 italic">{{ $t('No course available') }}</li>
         </template>
       </ul>
     </Dialog>
@@ -225,17 +218,17 @@
     :graph-image="sessionRequirementStatus.graphImage.value"
   />
 </template>
-<script setup>
-import { ref, computed, watchEffect, onMounted } from "vue"
-import Rating from "primevue/rating"
-import Button from "primevue/button"
-import Dialog from "primevue/dialog"
-import axios from "axios"
-import { useSecurityStore } from "../legacy/store/securityStore.js"
-import { usePlatformConfig } from "../legacy/store/platformConfig.js"
-import { useLocale } from "../legacy/composables/locale.js"
-import CatalogueRequirementModal from "../course/CatalogueRequirementModal.vue"
-import { useSessionRequirementStatus } from "../legacy/composables/session/useSessionRequirementStatus.js"
+<script setup lang="ts">
+import { ref, computed, watchEffect, onMounted } from 'vue'
+import Rating from 'primevue/rating'
+import Button from 'primevue/button'
+import Dialog from 'primevue/dialog'
+import axios from 'axios'
+import { useSecurityStore } from '~/stores/securityStore.js'
+import { usePlatformConfig } from '~/stores/platformConfig.js'
+import { useLocale } from '~/composables/locale.js'
+import CatalogueRequirementModal from '../course/CatalogueRequirementModal.vue'
+import { useSessionRequirementStatus } from '~/composables/session/useSessionRequirementStatus.js'
 
 const props = defineProps({
   session: Object,
@@ -248,7 +241,10 @@ const fallback = ref(false)
 
 const platformConfigStore = usePlatformConfig()
 const allowDescription = computed(
-  () => platformConfigStore.getSetting("catalog.show_courses_descriptions_in_catalog") !== "false",
+  () =>
+    platformConfigStore.getSetting(
+      'catalog.show_courses_descriptions_in_catalog',
+    ) !== 'false',
 )
 const { getOriginalLanguageName } = useLocale()
 
@@ -257,7 +253,9 @@ const isLoading = ref(false)
 
 const securityStore = useSecurityStore()
 
-const thumbnail = computed(() => (!fallback.value ? props.session.imageUrl || null : null))
+const thumbnail = computed(() =>
+  !fallback.value ? props.session.imageUrl || null : null,
+)
 const hasThumbnail = computed(() => !!props.session.imageUrl && !fallback.value)
 
 const now = new Date()
@@ -278,9 +276,11 @@ const onImageError = () => {
 }
 
 watchEffect(() => {
-  console.log("session.courses =", props.session.courses)
+  console.log('session.courses =', props.session.courses)
   if (props.session.courses) {
-    props.session.courses.forEach((c, i) => console.log(`Course[${i}]`, c.course?.title))
+    props.session.courses.forEach((c, i) =>
+      console.log(`Course[${i}]`, c.course?.title),
+    )
   }
 })
 
@@ -292,21 +292,25 @@ const courseCount = computed(() => validCourses.value.length)
 
 const formattedStartDate = computed(() => {
   const d = new Date(props.session.startDate)
-  return isNaN(d) ? "-" : d.toLocaleDateString()
+  return isNaN(d) ? '-' : d.toLocaleDateString()
 })
 
 const formattedEndDate = computed(() => {
-  if (!props.session.endDate) return "-"
+  if (!props.session.endDate) return '-'
   const d = new Date(props.session.endDate)
-  return isNaN(d.getTime()) ? "-" : d.toLocaleDateString()
+  return isNaN(d.getTime()) ? '-' : d.toLocaleDateString()
 })
 
 const duration = computed(() => {
-  const durations = (props.session.courses || []).map((item) => item.duration).filter((d) => typeof d === "number")
+  const durations = (props.session.courses || [])
+    .map((item) => item.duration)
+    .filter((d) => typeof d === 'number')
 
   const total = durations.reduce((a, b) => a + b, 0)
   const inHours = total / 3600
-  const hasMissing = (props.session.courses || []).some((item) => item.duration == null)
+  const hasMissing = (props.session.courses || []).some(
+    (item) => item.duration == null,
+  )
   return hasMissing ? `${inHours.toFixed(2)}+ h` : `${inHours.toFixed(2)} h`
 })
 
@@ -339,16 +343,22 @@ onMounted(async () => {
 })
 
 const isSessionLocked = computed(() => {
-  return !requirementStatusLoading.value && !sessionRequirementStatus.allowSubscription.value
+  return (
+    !requirementStatusLoading.value &&
+    !sessionRequirementStatus.allowSubscription.value
+  )
 })
 
-const emit = defineEmits(["rate", "subscribed"])
+const emit = defineEmits(['rate', 'subscribed'])
 const emitRating = (event) => {
-  emit("rate", { value: event.value, session: props.session })
+  emit('rate', { value: event.value, session: props.session })
 }
 
 const allowAutoSubscription = computed(
-  () => platformConfigStore.getSetting("catalog.allow_session_auto_subscription") === "true",
+  () =>
+    platformConfigStore.getSetting(
+      'catalog.allow_session_auto_subscription',
+    ) === 'true',
 )
 
 const subscribeToSession = async () => {
@@ -357,7 +367,7 @@ const subscribeToSession = async () => {
     const userId = securityStore.user.id
     const sessionId = props.session.id
 
-    await axios.post("/api/session_rel_users", {
+    await axios.post('/api/session_rel_users', {
       user: `/api/users/${userId}`,
       session: `/api/sessions/${sessionId}`,
       relationType: 0,
@@ -365,7 +375,7 @@ const subscribeToSession = async () => {
     })
 
     const promises = (props.session.courses || []).map((c) =>
-      axios.post("/api/session_rel_course_rel_users", {
+      axios.post('/api/session_rel_course_rel_users', {
         user: `/api/users/${userId}`,
         session: `/api/sessions/${sessionId}`,
         course: `/api/courses/${c.id}`,
@@ -377,10 +387,10 @@ const subscribeToSession = async () => {
     )
 
     await Promise.all(promises)
-    emit("subscribed", props.session.id)
+    emit('subscribed', props.session.id)
   } catch (error) {
-    console.error("Error subscribing to session:", error)
-    alert("There was an error subscribing. Please try again.")
+    console.error('Error subscribing to session:', error)
+    alert('There was an error subscribing. Please try again.')
   } finally {
     isLoading.value = false
   }

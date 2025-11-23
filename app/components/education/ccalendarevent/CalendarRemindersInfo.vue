@@ -1,6 +1,6 @@
-<script setup>
-import { useCalendarReminders } from "../legacy/composables/calendar/calendarReminders.js"
-import BaseIcon from "../basecomponents/BaseIcon.vue"
+<script setup lang="ts">
+import { useCalendarReminders } from '~/composables/calendar/calendarReminders.js'
+import BaseIcon from '../basecomponents/BaseIcon.vue'
 
 const { decodeDateInterval } = useCalendarReminders()
 
@@ -28,10 +28,7 @@ defineProps({
         :key="i"
         class="reminders-info__item"
       >
-        <BaseIcon
-          icon="event-reminder"
-          size="small"
-        />
+        <BaseIcon icon="event-reminder" size="small" />
         {{ decodeDateInterval(reminder) }}
       </li>
     </ul>

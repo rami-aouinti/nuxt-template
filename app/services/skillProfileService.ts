@@ -1,11 +1,11 @@
 // @ts-nocheck
-import baseService from "./baseService"
+import baseService from './baseService'
 
 /**
  * @returns {Promise<{totalItems, items}>}
  */
 export async function findAll() {
-  return baseService.getCollection("/api/skill_profiles")
+  return baseService.getCollection('/api/skill_profiles')
 }
 
 /**
@@ -15,7 +15,7 @@ export async function findAll() {
  * @returns {Promise<Object>}
  */
 export async function createProfile({ title, description, skills }) {
-  return baseService.post("/api/skill_profiles", { title, description, skills })
+  return baseService.post('/api/skill_profiles', { title, description, skills })
 }
 
 /**
@@ -41,8 +41,8 @@ export async function deleteProfile(iri) {
  * @returns {Promise<string>}
  */
 export async function matchProfiles(idList) {
-  return await baseService.get("/main/inc/ajax/skill.ajax.php", {
-    a: "profile_matches",
+  return await baseService.get('/main/inc/ajax/skill.ajax.php', {
+    a: 'profile_matches',
     skill_id: idList,
   })
 }

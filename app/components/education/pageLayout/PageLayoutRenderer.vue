@@ -10,8 +10,8 @@
 
       <div class="space-y-4">
         <component
-          v-for="block in col.blocks"
           :is="getBlockComponent(block.type)"
+          v-for="block in col.blocks"
           :key="block.id"
           :block="block"
         />
@@ -19,8 +19,8 @@
     </div>
   </div>
 </template>
-<script setup>
-import blockComponents from "./blocks/index.js"
+<script setup lang="ts">
+import blockComponents from './blocks/index.js'
 
 const props = defineProps({
   layout: {

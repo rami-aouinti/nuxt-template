@@ -1,10 +1,10 @@
-<script>
-import CourseCard from "../course/CourseCard.vue"
-import { ref } from "vue"
-import isEmpty from "lodash/isEmpty"
+<script setup lang="ts">
+import CourseCard from '../course/CourseCard.vue'
+import { ref } from 'vue'
+import isEmpty from 'lodash/isEmpty'
 
 export default {
-  name: "SessionCard",
+  name: 'SessionCard',
   components: {
     CourseCard,
   },
@@ -21,7 +21,6 @@ export default {
         // User is Session::SESSION_ADMIN
         if (4 === node.relationType) {
           showAllCourses = true
-
         }
       })
     }
@@ -31,10 +30,15 @@ export default {
         return node.course
       })
     } else {
-      if (!isEmpty(props.session.courses) && !isEmpty(props.session.courses.edges)) {
+      if (
+        !isEmpty(props.session.courses) &&
+        !isEmpty(props.session.courses.edges)
+      ) {
         props.session.sessionRelCourseRelUsers.edges.map(({ node }) => {
           const courseExists =
-            props.session.courses.edges.findIndex((courseItem) => courseItem.node.course._id === node.course._id) >= 0
+            props.session.courses.edges.findIndex(
+              (courseItem) => courseItem.node.course._id === node.course._id,
+            ) >= 0
 
           if (courseExists) {
             courses.value.push(node.course)
@@ -53,15 +57,8 @@ export default {
 <template>
   <div class="text-h6 mt-4">{{ session.title }}</div>
   <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-    <div
-      v-for="(course, idx) in courses"
-      :key="idx"
-      style="max-width: 540px"
-    >
-      <CourseCard
-        :course="course"
-        :session-id="session._id"
-      />
+    <div v-for="(course, idx) in courses" :key="idx" style="max-width: 540px">
+      <CourseCard :course="course" :session-id="session._id" />
     </div>
   </div>
 </template>

@@ -12,9 +12,9 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 export default {
-  name: "TemplateList",
+  name: 'TemplateList',
   props: {
     templates: {
       type: Array,
@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     selectTemplate(content) {
-      this.$emit("template-selected", content)
+      this.$emit('template-selected', content)
     },
   },
 }

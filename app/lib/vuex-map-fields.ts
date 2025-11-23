@@ -9,7 +9,9 @@ type FieldPayload = {
 }
 
 const getFromPath = (state: any, path: string) => {
-  return path.split('.').reduce((acc, key) => (acc ? acc[key] : undefined), state)
+  return path
+    .split('.')
+    .reduce((acc, key) => (acc ? acc[key] : undefined), state)
 }
 
 const setByPath = (state: any, path: string, value: unknown) => {
@@ -38,37 +40,47 @@ export const mapFields = (
   mutationType = 'updateField',
 ) => {
   const hasNamespace = typeof namespaceOrFields === 'string'
-  const fieldMap = hasNamespace ? fields || {} : (namespaceOrFields as FieldMapping)
+  const fieldMap = hasNamespace
+    ? fields || {}
+    : (namespaceOrFields as FieldMapping)
   const namespace = hasNamespace ? (namespaceOrFields as string) : ''
 
   const normalizedEntries = Array.isArray(fieldMap)
     ? (fieldMap as string[]).map((field) => [field, field])
     : Object.entries(fieldMap)
 
-  return normalizedEntries.reduce((acc, [key, field]) => {
-    const path = field as string
-    const getterKey = namespace ? `${namespace}/${getterType}` : getterType
-    const mutationKey = namespace ? `${namespace}/${mutationType}` : mutationType
+  return normalizedEntries.reduce(
+    (acc, [key, field]) => {
+      const path = field as string
+      const getterKey = namespace ? `${namespace}/${getterType}` : getterType
+      const mutationKey = namespace
+        ? `${namespace}/${mutationType}`
+        : mutationType
 
-    acc[key] = {
-      get(this: any) {
-        const store = resolveStore(this)
-        const state = namespace ? store?.state?.[namespace] : store?.state
-        return store?.getters?.[getterKey]?.(state, path) ?? getFromPath(state, path)
-      },
-      set(this: any, value: unknown) {
-        const store = resolveStore(this)
-        if (store?.commit) {
-          store.commit(mutationKey, { path, value })
-          return
-        }
-        const state = namespace ? store?.state?.[namespace] : store?.state
-        setByPath(state, path, value)
-      },
-    }
+      acc[key] = {
+        get(this: any) {
+          const store = resolveStore(this)
+          const state = namespace ? store?.state?.[namespace] : store?.state
+          return (
+            store?.getters?.[getterKey]?.(state, path) ??
+            getFromPath(state, path)
+          )
+        },
+        set(this: any, value: unknown) {
+          const store = resolveStore(this)
+          if (store?.commit) {
+            store.commit(mutationKey, { path, value })
+            return
+          }
+          const state = namespace ? store?.state?.[namespace] : store?.state
+          setByPath(state, path, value)
+        },
+      }
 
-    return acc
-  }, {} as Record<string, any>)
+      return acc
+    },
+    {} as Record<string, any>,
+  )
 }
 
 export const createHelpers = (options?: {
@@ -83,6 +95,7 @@ export const createHelpers = (options?: {
   return {
     getField,
     updateField,
-    mapFields: (fields: FieldMapping) => mapFields(namespace || '', fields, getterType, mutationType),
+    mapFields: (fields: FieldMapping) =>
+      mapFields(namespace || '', fields, getterType, mutationType),
   }
 }

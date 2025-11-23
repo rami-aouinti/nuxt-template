@@ -1,11 +1,12 @@
-<script setup>
-import { onMounted } from "vue"
+<script setup lang="ts">
+import { onMounted } from 'vue'
 
-import Skeleton from "primevue/skeleton"
+import Skeleton from 'primevue/skeleton'
 
-import { useSkillWheel } from "../legacy/composables/skill/skillWheel.js"
+import { useSkillWheel } from '~/composables/skill/skillWheel.js'
 
-const { wheelContainer, isLoading, loadSkills, showRoot, showSkill } = useSkillWheel()
+const { wheelContainer, isLoading, loadSkills, showRoot, showSkill } =
+  useSkillWheel()
 
 defineExpose({
   showRoot,
@@ -21,10 +22,6 @@ onMounted(() => {
   <div class="aspect-square">
     <div ref="wheelContainer" />
 
-    <Skeleton
-      v-if="isLoading"
-      shape="circle"
-      size="100%"
-    />
+    <Skeleton v-if="isLoading" shape="circle" size="100%" />
   </div>
 </template>

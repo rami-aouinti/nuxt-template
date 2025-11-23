@@ -9,17 +9,17 @@
   </div>
 </template>
 
-<script setup>
-import UserProfileCard from "../social/UserProfileCard.vue"
-import { onMounted, provide } from "vue"
-import { useSocialInfo } from "../legacy/composables/useSocialInfo.js"
+<script setup lang="ts">
+import UserProfileCard from '../social/UserProfileCard.vue'
+import { onMounted, provide } from 'vue'
+import { useSocialInfo } from '~/composables/useSocialInfo.js'
 
 const { user, isCurrentUser, groupInfo, isGroup, loadUser } = useSocialInfo()
 
-provide("social-user", user)
-provide("is-current-user", isCurrentUser)
-provide("group-info", groupInfo)
-provide("is-group", isGroup)
+provide('social-user', user)
+provide('is-current-user', isCurrentUser)
+provide('group-info', groupInfo)
+provide('is-group', isGroup)
 
 onMounted(loadUser)
 </script>

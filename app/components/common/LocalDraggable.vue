@@ -1,6 +1,9 @@
 <template>
   <component :is="tag" class="local-draggable" @dragover.prevent>
-    <template v-for="(element, index) in items" :key="itemKeyValue(element, index)">
+    <template
+      v-for="(element, index) in items"
+      :key="itemKeyValue(element, index)"
+    >
       <div
         :draggable="!disabled"
         :class="[

@@ -1,4 +1,4 @@
 // @ts-nocheck
-import makeService from "./api"
+import makeService from './api'
 
-export default makeService("resource_links")
+export default makeService('resource_links')

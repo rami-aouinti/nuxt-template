@@ -19,15 +19,15 @@
   </form>
 </template>
 
-<script setup>
-import { ref } from "vue"
-import axios from "axios"
-import { ENTRYPOINT } from "../legacy/config/entrypoint.js"
-import { SOCIAL_TYPE_WALL_COMMENT } from "./constants.js"
-import BaseInputText from "../basecomponents/BaseInputText.vue"
-import { useI18n } from "vue-i18n"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import { useSecurityStore } from "../legacy/store/securityStore.js"
+<script setup lang="ts">
+import { ref } from 'vue'
+import axios from 'axios'
+import { ENTRYPOINT } from '~/config/entrypoint.js'
+import { SOCIAL_TYPE_WALL_COMMENT } from './constants.js'
+import BaseInputText from '../basecomponents/BaseInputText.vue'
+
+import BaseButton from '../basecomponents/BaseButton.vue'
+import { useSecurityStore } from '~/stores/securityStore.js'
 
 const securityStore = useSecurityStore()
 const { t } = useI18n()
@@ -39,30 +39,30 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(["comment-posted"])
+const emit = defineEmits(['comment-posted'])
 
-const comment = ref("")
-const error = ref("")
+const comment = ref('')
+const error = ref('')
 const isLoading = ref(false)
 
 function sendComment() {
-  if (comment.value === "") {
-    error.value = t("The comment is required")
+  if (comment.value === '') {
+    error.value = t('The comment is required')
     return
   }
   isLoading.value = true
 
   axios
-    .post(ENTRYPOINT + "social_posts", {
+    .post(ENTRYPOINT + 'social_posts', {
       content: comment.value,
       type: SOCIAL_TYPE_WALL_COMMENT,
-      sender: securityStore.user["@id"],
-      parent: props.post["@id"],
+      sender: securityStore.user['@id'],
+      parent: props.post['@id'],
     })
     .then((response) => {
-      emit("comment-posted", response.data)
-      comment.value = ""
-      error.value = ""
+      emit('comment-posted', response.data)
+      comment.value = ''
+      error.value = ''
     })
     .finally(() => {
       isLoading.value = false

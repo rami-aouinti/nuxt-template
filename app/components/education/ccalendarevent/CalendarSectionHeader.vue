@@ -1,14 +1,18 @@
-<script setup>
-import SectionHeader from "../layout/SectionHeader.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import { useI18n } from "vue-i18n"
-import { useCalendarActionButtons } from "../legacy/composables/calendar/calendarActionButtons.js"
+<script setup lang="ts">
+import SectionHeader from '../layout/SectionHeader.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
+
+import { useCalendarActionButtons } from '~/composables/calendar/calendarActionButtons.js'
 
 const { t } = useI18n()
 
-const { showAddButton, showSessionPlanningButton, showMyStudentsScheduleButton } = useCalendarActionButtons()
+const {
+  showAddButton,
+  showSessionPlanningButton,
+  showMyStudentsScheduleButton,
+} = useCalendarActionButtons()
 
-defineEmits(["addClick", "myStudentsScheduleClick", "sessionPlanningClick"])
+defineEmits(['addClick', 'myStudentsScheduleClick', 'sessionPlanningClick'])
 </script>
 
 <template>

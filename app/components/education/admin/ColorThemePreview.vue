@@ -1,37 +1,41 @@
-<script setup>
-import { provide, ref } from "vue"
-import { useI18n } from "vue-i18n"
-import BaseCalendar from "../basecomponents/BaseCalendar.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import BaseMenu from "../basecomponents/BaseMenu.vue"
-import BaseDialogConfirmCancel from "../basecomponents/BaseDialogConfirmCancel.vue"
-import BaseSelect from "../basecomponents/BaseSelect.vue"
-import BaseRadioButtons from "../basecomponents/BaseRadioButtons.vue"
-import BaseCheckbox from "../basecomponents/BaseCheckbox.vue"
-import BaseInputText from "../basecomponents/BaseInputText.vue"
-import BaseToggleButton from "../basecomponents/BaseToggleButton.vue"
+<script setup lang="ts">
+import { provide, ref } from 'vue'
+
+import BaseCalendar from '../basecomponents/BaseCalendar.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import BaseMenu from '../basecomponents/BaseMenu.vue'
+import BaseDialogConfirmCancel from '../basecomponents/BaseDialogConfirmCancel.vue'
+import BaseSelect from '../basecomponents/BaseSelect.vue'
+import BaseRadioButtons from '../basecomponents/BaseRadioButtons.vue'
+import BaseCheckbox from '../basecomponents/BaseCheckbox.vue'
+import BaseInputText from '../basecomponents/BaseInputText.vue'
+import BaseToggleButton from '../basecomponents/BaseToggleButton.vue'
 
 const { t } = useI18n()
 
 // properties for example components
-const menu = ref("menu")
-const menuItems = [{ label: t("Item 1") }, { label: t("Item 2") }, { label: t("Item 3") }]
+const menu = ref('menu')
+const menuItems = [
+  { label: t('Item 1') },
+  { label: t('Item 2') },
+  { label: t('Item 3') },
+]
 
 const toggle = (event) => {
   menu.value.toggle(event)
 }
 
-const dropdown = ref("")
+const dropdown = ref('')
 
 const checkbox1 = ref(true)
 const checkbox2 = ref(false)
 
 const radioButtons = [
-  { label: t("Value 1"), value: "value1" },
-  { label: t("Value 2"), value: "value2" },
-  { label: t("Value 3"), value: "value3" },
+  { label: t('Value 1'), value: 'value1' },
+  { label: t('Value 2'), value: 'value2' },
+  { label: t('Value 3'), value: 'value3' },
 ]
-const radioValue = ref("value1")
+const radioValue = ref('value1')
 
 const isDialogVisible = ref(false)
 
@@ -41,16 +45,16 @@ const toggleState = ref(true)
 const isSorting = ref(false)
 const isCustomizing = ref(false)
 
-provide("isSorting", isSorting)
-provide("isCustomizing", isCustomizing)
+provide('isSorting', isSorting)
+provide('isCustomizing', isCustomizing)
 </script>
 
 <template>
   <div class="admin-colors__settings-preview">
-    <h6>{{ t("You can see examples of how chamilo will look here") }}</h6>
+    <h6>{{ t('You can see examples of how chamilo will look here') }}</h6>
 
     <div>
-      <p class="mb-3 text-lg">{{ t("Buttons") }}</p>
+      <p class="mb-3 text-lg">{{ t('Buttons') }}</p>
       <div class="flex flex-row flex-wrap mb-3">
         <BaseButton
           :label="t('Primary')"
@@ -111,17 +115,12 @@ provide("isCustomizing", isCustomizing)
           icon="eye-on"
           type="primary"
         />
-        <BaseButton
-          class="mr-2 mb-2"
-          icon="cog"
-          only-icon
-          type="primary"
-        />
+        <BaseButton class="mr-2 mb-2" icon="cog" only-icon type="primary" />
       </div>
     </div>
 
     <div>
-      <p class="mb-3 text-lg">{{ t("Dropdowns") }}</p>
+      <p class="mb-3 text-lg">{{ t('Dropdowns') }}</p>
       <div class="flex flex-row gap-3">
         <BaseButton
           class="mr-3 mb-2"
@@ -131,11 +130,7 @@ provide("isCustomizing", isCustomizing)
           type="primary"
           @click="toggle"
         />
-        <BaseMenu
-          id="menu"
-          ref="menu"
-          :model="menuItems"
-        />
+        <BaseMenu id="menu" ref="menu" :model="menuItems" />
         <BaseSelect
           id="dropdown"
           name="dropdown"
@@ -146,7 +141,7 @@ provide("isCustomizing", isCustomizing)
     </div>
 
     <div>
-      <p class="mb-3 text-lg">{{ t("Checkbox and radio buttons") }}</p>
+      <p class="mb-3 text-lg">{{ t('Checkbox and radio buttons') }}</p>
       <div class="flex flex-col md:flex-row gap-3 md:gap-5">
         <BaseRadioButtons
           v-model="radioValue"
@@ -172,7 +167,7 @@ provide("isCustomizing", isCustomizing)
     </div>
 
     <div>
-      <p class="mb-3 text-lg">{{ t("Toggle") }}</p>
+      <p class="mb-3 text-lg">{{ t('Toggle') }}</p>
       <BaseToggleButton
         :model-value="toggleState"
         :off-label="t('Show all')"
@@ -186,7 +181,7 @@ provide("isCustomizing", isCustomizing)
     </div>
 
     <div>
-      <p class="mb-3 text-lg">{{ t("Forms") }}</p>
+      <p class="mb-3 text-lg">{{ t('Forms') }}</p>
       <BaseInputText
         :label="t('This is the default form')"
         :model-value="null"
@@ -196,15 +191,11 @@ provide("isCustomizing", isCustomizing)
         :label="t('This is a form with an error')"
         :model-value="null"
       />
-      <BaseCalendar
-        id="dates"
-        :label="t('Date')"
-        show-time
-      />
+      <BaseCalendar id="dates" :label="t('Date')" show-time />
     </div>
 
     <div>
-      <p class="mb-3 text-lg">{{ t("Dialogs") }}</p>
+      <p class="mb-3 text-lg">{{ t('Dialogs') }}</p>
       <BaseButton
         :label="t('Show dialog')"
         icon="eye-on"
@@ -219,15 +210,17 @@ provide("isCustomizing", isCustomizing)
       />
     </div>
     <div>
-      <p class="mb-3 text-lg">{{ t("Some more elements") }}</p>
+      <p class="mb-3 text-lg">{{ t('Some more elements') }}</p>
       <div class="course-tool cursor-pointer">
-        <div class="course-tool__link hover:primary-gradient hover:bg-primary-gradient/10">
+        <div
+          class="course-tool__link hover:primary-gradient hover:bg-primary-gradient/10"
+        >
           <span
             aria-hidden="true"
             class="course-tool__icon mdi mdi-bookshelf"
           />
         </div>
-        <p class="course-tool__title">{{ t("Documents") }}</p>
+        <p class="course-tool__title">{{ t('Documents') }}</p>
       </div>
     </div>
   </div>

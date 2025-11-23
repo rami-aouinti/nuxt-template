@@ -1,5 +1,7 @@
 <template>
-  <div class="flex flex-col flex-wrap justify-center content-center text-center">
+  <div
+    class="flex flex-col flex-wrap justify-center content-center text-center"
+  >
     <BaseInputText
       v-if="audio"
       v-model="recordName"
@@ -9,11 +11,7 @@
       class="max-w-full self-center mb-4 w-60"
     />
 
-    <audio
-      v-if="audio"
-      class="max-w-full self-center mb-4"
-      controls
-    >
+    <audio v-if="audio" class="max-w-full self-center mb-4" controls>
       <source :src="window.URL.createObjectURL(audio)" />
     </audio>
 
@@ -26,10 +24,7 @@
       @recorded-audio="processAudio($event)"
     />
 
-    <div
-      v-if="audio"
-      class="flex"
-    >
+    <div v-if="audio" class="flex">
       <BaseButton
         :label="t('Start recording')"
         class="mr-2"
@@ -48,15 +43,15 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue"
-import { useI18n } from "vue-i18n"
-import BaseInputText from "../basecomponents/BaseInputText.vue"
-import AudioRecorder from "../AudioRecorder.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import { RESOURCE_LINK_PUBLISHED } from "../legacy/constants/entity/resourcelink.js"
-import { useCidReq } from "../legacy/composables/cidReq.js"
-import documentsService from "../legacy/services/documents.js"
+<script setup lang="ts">
+import { ref } from 'vue'
+
+import BaseInputText from '../basecomponents/BaseInputText.vue'
+import AudioRecorder from '../AudioRecorder.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import { RESOURCE_LINK_PUBLISHED } from '~/constants/entity/resourcelink.js'
+import { useCidReq } from '~/composables/cidReq.js'
+import documentsService from '~/services/documents.js'
 
 const { t } = useI18n()
 const queryParams = useCidReq()
@@ -68,10 +63,10 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(["document-saved", "document-not-saved"])
+const emit = defineEmits(['document-saved', 'document-not-saved'])
 
-const recordName = ref("")
-const recordError = ref("")
+const recordName = ref('')
+const recordError = ref('')
 const audioRecorder = ref(null)
 const showAudioRecorderButtons = ref(true)
 const audio = ref()
@@ -82,23 +77,23 @@ const processAudio = (recordedAudio) => {
 }
 
 const recordAudio = () => {
-  recordError.value = ""
+  recordError.value = ''
   audio.value = null
   showAudioRecorderButtons.value = true
   audioRecorder.value.record()
 }
 
 const saveAudio = async () => {
-  if (recordName.value === "") {
-    recordError.value = t("A file name is required to save the recorded audio")
+  if (recordName.value === '') {
+    recordError.value = t('A file name is required to save the recorded audio')
     return
   }
 
-  let fileName = recordName.value + ".wav"
-  let uploadFile = new File([audio.value], fileName)
-  let data = {
+  const fileName = recordName.value + '.wav'
+  const uploadFile = new File([audio.value], fileName)
+  const data = {
     title: fileName,
-    filetype: "file",
+    filetype: 'file',
     uploadFile: uploadFile,
     parentResourceNodeId: props.parentResourceNodeId,
     resourceLinkList: JSON.stringify([
@@ -111,9 +106,9 @@ const saveAudio = async () => {
 
   try {
     await documentsService.createWithFormData(data)
-    emit("document-saved")
+    emit('document-saved')
   } catch (error) {
-    emit("document-not-saved", error)
+    emit('document-not-saved', error)
   }
 }
 </script>

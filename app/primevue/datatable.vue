@@ -21,40 +21,27 @@
       #[`item.${col.key}`]="slotProps"
     >
       <span :class="col.bodyClass">
-        <component
-          v-if="col.body"
-          :is="col.body"
-          v-bind="slotProps"
-        />
+        <component :is="col.body" v-if="col.body" v-bind="slotProps" />
         <template v-else>
           {{ slotProps.item?.[col.key] }}
         </template>
       </span>
     </template>
 
-    <template
-      v-if="$slots.header"
-      #top
-    >
+    <template v-if="$slots.header" #top>
       <slot name="header" />
     </template>
-    <template
-      v-if="$slots.footer"
-      #bottom
-    >
+    <template v-if="$slots.footer" #bottom>
       <slot name="footer" />
     </template>
-    <template
-      v-if="$slots.empty"
-      #no-data
-    >
+    <template v-if="$slots.empty" #no-data>
       <slot name="empty" />
     </template>
   </v-data-table>
 </template>
 
 <script setup>
-import { computed, provide, ref } from "vue"
+import { computed, provide, ref } from 'vue'
 
 const props = defineProps({
   value: { type: Array, default: () => [] },
@@ -67,18 +54,20 @@ const props = defineProps({
 })
 
 const emit = defineEmits([
-  "update:selection",
-  "update:rows",
-  "update:sort-field",
-  "update:sort-order",
-  "sort",
-  "page",
+  'update:selection',
+  'update:rows',
+  'update:sort-field',
+  'update:sort-order',
+  'sort',
+  'page',
 ])
 
 const registeredColumns = ref([])
-const showSelect = computed(() => registeredColumns.value.some(col => col.selectionMode))
+const showSelect = computed(() =>
+  registeredColumns.value.some((col) => col.selectionMode),
+)
 const columns = computed(() =>
-  registeredColumns.value.map(col => ({
+  registeredColumns.value.map((col) => ({
     key: col.field || col.header || `col-${Math.random()}`,
     title: col.header || col.field,
     sortable: col.sortable,
@@ -88,30 +77,32 @@ const columns = computed(() =>
   })),
 )
 const headers = computed(() =>
-  columns.value.map(col => ({
+  columns.value.map((col) => ({
     key: col.key,
     title: col.title,
     sortable: col.sortable,
   })),
 )
-provide("primevue-register-column", column => {
+provide('primevue-register-column', (column) => {
   registeredColumns.value.push(column)
   return () => {
-    registeredColumns.value = registeredColumns.value.filter(c => c !== column)
+    registeredColumns.value = registeredColumns.value.filter(
+      (c) => c !== column,
+    )
   }
 })
 
-const items = computed(() => props.value?.length ? props.value : props.values)
-const itemsLength = computed(() => (props.totalRecords || items.value.length))
+const items = computed(() => (props.value?.length ? props.value : props.values))
+const itemsLength = computed(() => props.totalRecords || items.value.length)
 
 const selected = computed({
   get: () => props.selection,
-  set: value => emit("update:selection", value),
+  set: (value) => emit('update:selection', value),
 })
 
 const rowsModel = computed({
   get: () => props.rows,
-  set: value => emit("update:rows", value),
+  set: (value) => emit('update:rows', value),
 })
 
 const page = ref(1)
@@ -119,7 +110,7 @@ const sortBy = ref([])
 
 function onPage(pageInfo) {
   page.value = Array.isArray(pageInfo) ? pageInfo[0] : Number(pageInfo) || 1
-  emit("page", { page: page.value })
+  emit('page', { page: page.value })
 }
 
 function onRowsChange(value) {
@@ -130,9 +121,9 @@ function onSort(value) {
   sortBy.value = value
   const first = Array.isArray(value) && value[0] ? value[0] : null
   if (first) {
-    emit("update:sort-field", first.key)
-    emit("update:sort-order", first.order === "desc" ? -1 : 1)
+    emit('update:sort-field', first.key)
+    emit('update:sort-order', first.order === 'desc' ? -1 : 1)
   }
-  emit("sort", value)
+  emit('sort', value)
 }
 </script>

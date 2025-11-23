@@ -206,11 +206,14 @@ export const useEcommerceCartStore = defineStore('ecommerce-cart', () => {
 
       const payload = buildAddItemPayload(options)
 
-      await $fetch(`/api/v2/shop/orders/${encodeURIComponent(tokenValue)}/items`, {
-        ...fetchOptions.value,
-        method: 'POST',
-        body: payload,
-      })
+      await $fetch(
+        `/api/v2/shop/orders/${encodeURIComponent(tokenValue)}/items`,
+        {
+          ...fetchOptions.value,
+          method: 'POST',
+          body: payload,
+        },
+      )
 
       const updated = await fetchOrder(tokenValue)
       return updated

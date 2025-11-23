@@ -1,18 +1,14 @@
 <template>
   <div v-if="pageList.length">
-    <PageCard
-      v-for="page in pageList"
-      :key="page.id"
-      :page="page"
-    />
+    <PageCard v-for="page in pageList" :key="page.id" :page="page" />
   </div>
 </template>
 
-<script setup>
-import PageCard from "./PageCard.vue"
-import pageService from "../legacy/services/page.js"
-import { useI18n } from "vue-i18n"
-import { ref } from "vue"
+<script setup lang="ts">
+import PageCard from './PageCard.vue'
+import pageService from '~/services/page.js'
+
+import { ref } from 'vue'
 
 const { locale } = useI18n()
 
@@ -32,12 +28,12 @@ if (props.pages.length) {
   pageService
     .findAll({
       params: {
-        "category.title": "home",
-        enabled: "1",
+        'category.title': 'home',
+        enabled: '1',
         locale: locale.value,
       },
     })
     .then((response) => response.json())
-    .then((json) => (pageList.value = json["hydra:member"]))
+    .then((json) => (pageList.value = json['hydra:member']))
 }
 </script>

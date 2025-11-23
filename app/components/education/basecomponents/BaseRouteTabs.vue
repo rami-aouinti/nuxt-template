@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="flex flex-wrap items-center"
-    role="tablist"
-  >
+  <div class="flex flex-wrap items-center" role="tablist">
     <BaseAppLink
       v-for="(tab, index) in tabs"
       :key="tab.title"
@@ -21,7 +18,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 /**
  * Component that will render a tab interface WITHOUT content. Every tab should be a router link. So, when user
  * change tab the route of the url will change
@@ -31,11 +28,13 @@ defineProps({
     type: Array,
     required: true,
     validator: (value) => {
-      let isTabsCorrect = value.every((e) => Object.hasOwn(e, "title") && Object.hasOwn(e, "to"))
+      const isTabsCorrect = value.every(
+        (e) => Object.hasOwn(e, 'title') && Object.hasOwn(e, 'to'),
+      )
       if (!isTabsCorrect) {
         return false
       }
-      let titles = value.map((e) => e.title)
+      const titles = value.map((e) => e.title)
       return new Set(titles).size === titles.length
     },
   },

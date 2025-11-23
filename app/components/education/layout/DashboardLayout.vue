@@ -11,11 +11,11 @@
   </div>
 </template>
 
-<script setup>
-import Breadcrumb from "../Breadcrumb.vue"
-import Topbar from "./Topbar.vue"
-import Sidebar from "./Sidebar.vue"
-import { useSecurityStore } from "../legacy/store/securityStore.js"
+<script setup lang="ts">
+import Breadcrumb from '../Breadcrumb.vue'
+import Topbar from './Topbar.vue'
+import Sidebar from './Sidebar.vue'
+import { useSecurityStore } from '~/stores/securityStore.js'
 
 defineProps({
   showBreadcrumb: {

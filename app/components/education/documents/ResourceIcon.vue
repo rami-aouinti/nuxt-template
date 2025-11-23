@@ -1,8 +1,5 @@
 <template>
-  <BaseIcon
-    v-if="resourceData.filetype === 'folder'"
-    icon="folder-generic"
-  />
+  <BaseIcon v-if="resourceData.filetype === 'folder'" icon="folder-generic" />
   <BaseIcon
     v-else-if="resourceData.resourceNode.firstResourceFile.image"
     icon="file-image"
@@ -16,22 +13,18 @@
     icon="file-text"
   />
   <BaseIcon
-    v-else-if="'application/pdf' === resourceData.resourceNode.firstResourceFile.mimeType"
+    v-else-if="
+      'application/pdf' === resourceData.resourceNode.firstResourceFile.mimeType
+    "
     icon="file-pdf"
   />
-  <BaseIcon
-    v-else-if="isAudio(resourceData)"
-    icon="file-audio"
-  />
-  <BaseIcon
-    v-else
-    icon="file-generic"
-  />
+  <BaseIcon v-else-if="isAudio(resourceData)" icon="file-audio" />
+  <BaseIcon v-else icon="file-generic" />
 </template>
 
-<script setup>
-import BaseIcon from "../basecomponents/BaseIcon.vue"
-import { useFileUtils } from "../legacy/composables/fileUtils.js"
+<script setup lang="ts">
+import BaseIcon from '../basecomponents/BaseIcon.vue'
+import { useFileUtils } from '~/composables/fileUtils.js'
 
 const { isAudio } = useFileUtils()
 

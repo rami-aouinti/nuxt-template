@@ -1,5 +1,5 @@
-<script setup>
-import Divider from "primevue/divider"
+<script setup lang="ts">
+import Divider from 'primevue/divider'
 
 defineProps({
   align: {
@@ -10,7 +10,7 @@ defineProps({
   layout: {
     type: String,
     required: false,
-    default: "horizontal",
+    default: 'horizontal',
   },
   title: {
     type: [String, undefined],
@@ -21,12 +21,7 @@ defineProps({
 </script>
 
 <template>
-  <Divider
-    :align="align"
-    :layout="layout"
-    class="divider"
-    unstyled
-  >
+  <Divider :align="align" :layout="layout" class="divider" unstyled>
     {{ title }}
   </Divider>
 </template>

@@ -9,7 +9,9 @@
 
     <BaseTinyEditor
       v-if="
-        (item.resourceNode && item.resourceNode.firstResourceFile && item.resourceNode.firstResourceFile.text) ||
+        (item.resourceNode &&
+          item.resourceNode.firstResourceFile &&
+          item.resourceNode.firstResourceFile.text) ||
         item.newDocument
       "
       v-model="item.contentFile"
@@ -19,7 +21,7 @@
     />
 
     <!-- For extra content-->
-    <slot></slot>
+    <slot />
 
     <BaseButton
       type="primary"
@@ -30,18 +32,18 @@
   </form>
 </template>
 
-<script>
-import useVuelidate from "@vuelidate/core"
-import { required } from "@vuelidate/validators"
-import { ref } from "vue"
-import { usePlatformConfig } from "../legacy/store/platformConfig.js"
-import BaseInputTextWithVuelidate from "../basecomponents/BaseInputTextWithVuelidate.vue"
-import BaseTinyEditor from "../basecomponents/BaseTinyEditor.vue"
-import { useI18n } from "vue-i18n"
-import BaseButton from "../basecomponents/BaseButton.vue"
+<script setup lang="ts">
+import useVuelidate from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
+import { ref } from 'vue'
+import { usePlatformConfig } from '~/stores/platformConfig.js'
+import BaseInputTextWithVuelidate from '../basecomponents/BaseInputTextWithVuelidate.vue'
+import BaseTinyEditor from '../basecomponents/BaseTinyEditor.vue'
+
+import BaseButton from '../basecomponents/BaseButton.vue'
 
 export default {
-  name: "DocumentsForm",
+  name: 'DocumentsForm',
   components: { BaseButton, BaseTinyEditor, BaseInputTextWithVuelidate },
   props: {
     values: {
@@ -57,13 +59,14 @@ export default {
       default: () => {},
     },
   },
+  emits: ['submit'],
   setup() {
     const platformConfigStore = usePlatformConfig()
-    const extraPlugins = ref("")
+    const extraPlugins = ref('')
     const { t } = useI18n()
 
-    if ("true" === platformConfigStore.getSetting("editor.translate_html")) {
-      extraPlugins.value = "translatehtml"
+    if ('true' === platformConfigStore.getSetting('editor.translate_html')) {
+      extraPlugins.value = 'translatehtml'
     }
 
     return { v$: useVuelidate(), extraPlugins, t }
@@ -71,7 +74,7 @@ export default {
   data() {
     return {
       title: null,
-      contentFile: this.initialValues ? this.initialValues.contentFile : "",
+      contentFile: this.initialValues ? this.initialValues.contentFile : '',
       parentResourceNodeId: null,
       resourceNode: null,
     }
@@ -88,7 +91,7 @@ export default {
             !this.$v.item.title.required && errors.push(this.$t('Required field'));*/
 
       if (this.v$.item.title.required) {
-        return this.$t("Required field")
+        return this.$t('Required field')
       }
 
       return errors
@@ -99,32 +102,32 @@ export default {
   },
   watch: {
     contentFile(newContent) {
-      tinymce.get("item_content").setContent(newContent)
+      tinymce.get('item_content').setContent(newContent)
     },
   },
   methods: {
     browser(callback, value, meta) {
       //const route = useRoute();
-      let nodeId = this.$route.params["node"]
-      let folderParams = this.$route.query
+      const nodeId = this.$route.params['node']
+      const folderParams = this.$route.query
       let url = this.$router.resolve({
-        name: "DocumentForHtmlEditor",
+        name: 'DocumentForHtmlEditor',
         params: { id: nodeId },
         query: folderParams,
       })
       url = url.fullPath
       console.log(url)
 
-      if (meta.filetype === "image") {
-        url = url + "&type=images"
+      if (meta.filetype === 'image') {
+        url = url + '&type=images'
       } else {
-        url = url + "&type=files"
+        url = url + '&type=files'
       }
 
       console.log(url)
 
-      window.addEventListener("message", function (event) {
-        var data = event.data
+      window.addEventListener('message', function (event) {
+        const data = event.data
         if (data.url) {
           url = data.url
           console.log(meta) // {filetype: "image", fieldname: "src"}
@@ -135,33 +138,33 @@ export default {
       tinymce.activeEditor.windowManager.openUrl(
         {
           url: url, // use an absolute path!
-          title: "file manager",
+          title: 'file manager',
           /*width: 900,
                   height: 450,
                   resizable: 'yes'*/
         },
         {
           oninsert: function (file, fm) {
-            var url, info
+            let url, info
 
             // URL normalization
             url = fm.convAbsUrl(file.url)
 
             // Make file info
-            info = file.name + " (" + fm.formatSize(file.size) + ")"
+            info = file.name + ' (' + fm.formatSize(file.size) + ')'
 
             // Provide file and text for the link dialog
-            if (meta.filetype === "file") {
+            if (meta.filetype === 'file') {
               callback(url, { text: info, title: info })
             }
 
             // Provide image and alt text for the image dialog
-            if (meta.filetype === "image") {
+            if (meta.filetype === 'image') {
               callback(url, { alt: info })
             }
 
             // Provide alternative source and posted for the media dialog
-            if (meta.filetype === "media") {
+            if (meta.filetype === 'media') {
               callback(url)
             }
           },
@@ -185,6 +188,5 @@ export default {
       resourceNode: {},
     },
   },
-  emits: ["submit"],
 }
 </script>

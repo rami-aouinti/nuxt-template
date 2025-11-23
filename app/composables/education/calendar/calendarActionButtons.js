@@ -1,9 +1,9 @@
-import { ref, watchEffect } from "vue"
-import { storeToRefs } from "pinia"
-import { useCidReqStore } from "../../store/cidReq"
-import { usePlatformConfig } from "../../store/platformConfig"
-import { useSecurityStore } from "../../store/securityStore"
-import { checkIsAllowedToEdit } from "../userPermissions"
+import { ref, watchEffect } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useCidReqStore } from '../../store/cidReq'
+import { usePlatformConfig } from '../../store/platformConfig'
+import { useSecurityStore } from '../../store/securityStore'
+import { checkIsAllowedToEdit } from '../userPermissions'
 
 /**
  * Extracted from Agenda::displayActions
@@ -17,11 +17,13 @@ export function useCalendarActionButtons() {
 
   const isAllowedToEdit = ref(false)
 
-  checkIsAllowedToEdit(false, true).then((response) => (isAllowedToEdit.value = response))
+  checkIsAllowedToEdit(false, true).then(
+    (response) => (isAllowedToEdit.value = response),
+  )
 
   const isAllowedToSessionEdit = false
 
-  const courseAllowUserEditAgenda = "0"
+  const courseAllowUserEditAgenda = '0'
 
   const showAddButton = ref(false)
   const showImportICalButton = ref(false)
@@ -36,8 +38,11 @@ export function useCalendarActionButtons() {
       isAllowedToEdit.value ||
       (isPersonal &&
         securityStore.isAuthenticated &&
-        "true" === platformConfigStore.getSetting("agenda.allow_personal_agenda")) ||
-      ("1" === courseAllowUserEditAgenda && securityStore.isAuthenticated && isAllowedToSessionEdit)
+        'true' ===
+          platformConfigStore.getSetting('agenda.allow_personal_agenda')) ||
+      ('1' === courseAllowUserEditAgenda &&
+        securityStore.isAuthenticated &&
+        isAllowedToSessionEdit)
     ) {
       showAddButton.value = true
       showImportICalButton.value = true

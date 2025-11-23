@@ -7,16 +7,16 @@
       required
     />
     <!-- For extra content-->
-    <slot></slot>
+    <slot />
   </form>
 </template>
 
-<script setup>
-import useVuelidate from "@vuelidate/core"
-import { computed, ref } from "vue"
-import { usePlatformConfig } from "../legacy/store/platformConfig.js"
-import { useRoute } from "vue-router"
-import BaseTinyEditor from "../basecomponents/BaseTinyEditor.vue"
+<script setup lang="ts">
+import useVuelidate from '@vuelidate/core'
+import { computed, ref } from 'vue'
+import { usePlatformConfig } from '~/stores/platformConfig.js'
+import { useRoute } from 'vue-router'
+import BaseTinyEditor from '../basecomponents/BaseTinyEditor.vue'
 
 const props = defineProps({
   values: {
@@ -46,12 +46,12 @@ const violations = computed(() => {
   return props.errors || {}
 })
 
-const extraPlugins = ref("")
+const extraPlugins = ref('')
 
 const platformConfigStore = usePlatformConfig()
 
-if ("true" === platformConfigStore.getSetting("editor.translate_html")) {
-  extraPlugins.value = "translatehtml"
+if ('true' === platformConfigStore.getSetting('editor.translate_html')) {
+  extraPlugins.value = 'translatehtml'
 }
 
 const validations = {

@@ -3,7 +3,10 @@ export default class Sortable {
     return new Sortable(element, _options)
   }
 
-  constructor(_element: HTMLElement | null, _options: Record<string, unknown> = {}) {}
+  constructor(
+    _element: HTMLElement | null,
+    _options: Record<string, unknown> = {},
+  ) {}
 
   option() {
     return null

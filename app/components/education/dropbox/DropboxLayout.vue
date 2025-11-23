@@ -1,6 +1,6 @@
 <template>
   <div class="dbx">
-    <BaseToolbar class="dbx-toolbar" :showTopBorder="true">
+    <BaseToolbar class="dbx-toolbar" :show-top-border="true">
       <template #start>
         <h2 class="text-lg font-semibold m-0">Dropbox</h2>
       </template>
@@ -8,13 +8,21 @@
       <template #end>
         <RouterLink
           class="nav-link"
-          :to="{ name:'DropboxListSent', params:$route.params, query:$route.query }"
+          :to="{
+            name: 'DropboxListSent',
+            params: $route.params,
+            query: $route.query,
+          }"
         >
           Sent
         </RouterLink>
         <RouterLink
           class="nav-link"
-          :to="{ name:'DropboxListReceived', params:$route.params, query:$route.query }"
+          :to="{
+            name: 'DropboxListReceived',
+            params: $route.params,
+            query: $route.query,
+          }"
         >
           Received
         </RouterLink>
@@ -27,8 +35,8 @@
   </div>
 </template>
 
-<script setup>
-import BaseToolbar from "../basecomponents/BaseToolbar.vue"
+<script setup lang="ts">
+import BaseToolbar from '../basecomponents/BaseToolbar.vue'
 </script>
 <style scoped>
 .dbx {
@@ -58,11 +66,19 @@ import BaseToolbar from "../basecomponents/BaseToolbar.vue"
   font-weight: 500;
 }
 .nav-link:hover {
-  background: color-mix(in srgb, var(--primary-color, #2563eb) 10%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--primary-color, #2563eb) 10%,
+    transparent
+  );
   color: var(--primary-color, #2563eb);
 }
 a.router-link-active.nav-link {
-  background: color-mix(in srgb, var(--primary-color, #2563eb) 15%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--primary-color, #2563eb) 15%,
+    transparent
+  );
   color: var(--primary-color, #2563eb);
 }
 .dbx-body :deep(.p-datatable),

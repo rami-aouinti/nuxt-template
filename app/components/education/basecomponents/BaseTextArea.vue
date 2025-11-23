@@ -20,9 +20,8 @@
   </div>
 </template>
 
-<script setup>
-import Textarea from "primevue/textarea"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import Textarea from 'primevue/textarea'
 
 const { t } = useI18n()
 
@@ -30,12 +29,12 @@ const props = defineProps({
   id: {
     type: String,
     required: true,
-    default: "",
+    default: '',
   },
   label: {
     type: String,
     required: true,
-    default: "",
+    default: '',
   },
   modelValue: {
     type: String,
@@ -53,5 +52,5 @@ const props = defineProps({
   },
 })
 
-defineEmits(["update:modelValue"])
+defineEmits(['update:modelValue'])
 </script>

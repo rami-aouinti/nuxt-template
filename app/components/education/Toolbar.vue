@@ -80,13 +80,13 @@
   </PrimeToolbar>
 </template>
 
-<script>
-import PrimeToolbar from "primevue/toolbar"
-import PrimeButton from "primevue/button"
-import BaseButton from "./basecomponents/BaseButton.vue"
+<script setup lang="ts">
+import PrimeToolbar from 'primevue/toolbar'
+import PrimeButton from 'primevue/button'
+import BaseButton from './basecomponents/BaseButton.vue'
 
 export default {
-  name: "Toolbar",
+  name: 'Toolbar',
   components: {
     BaseButton,
     PrimeToolbar,
@@ -201,8 +201,8 @@ export default {
     },
     onHandleDelete() {
       this.$confirm.require({
-        header: "Confirmation",
-        message: "Are you sure you want to delete this item?",
+        header: 'Confirmation',
+        message: 'Are you sure you want to delete this item?',
         accept: () => {
           this.handleDelete()
         },

@@ -109,4 +109,6 @@ const fileContent = `// Auto-generated from symfony_education.sql to describe ed
 
 writeFileSync(outputPath, fileContent)
 
-console.log(`Generated ${interfaces.length} education entity types at ${outputPath}`)
+console.log(
+  `Generated ${interfaces.length} education entity types at ${outputPath}`,
+)

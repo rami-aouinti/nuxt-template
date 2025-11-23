@@ -18,20 +18,20 @@
   </BaseInputText>
 </template>
 
-<script setup>
-import BaseInputText from "./BaseInputText.vue"
-import { computed } from "vue"
+<script setup lang="ts">
+import BaseInputText from './BaseInputText.vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   id: {
     type: String,
     require: true,
-    default: "",
+    default: '',
   },
   label: {
     type: String,
     required: true,
-    default: "",
+    default: '',
   },
   modelValue: {
     type: String,
@@ -43,10 +43,10 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(["update:modelValue"])
+const emit = defineEmits(['update:modelValue'])
 
 const labelWithRequiredIfNeeded = computed(() => {
-  if (Object.hasOwn(props.vuelidateProperty, "required")) {
+  if (Object.hasOwn(props.vuelidateProperty, 'required')) {
     return `* ${props.label}`
   }
   return props.label

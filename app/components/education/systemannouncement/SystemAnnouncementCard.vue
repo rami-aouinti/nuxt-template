@@ -1,10 +1,9 @@
 <template>
-  <BaseCard
-    plain
-    class="mb-2 last:mb-0"
-  >
+  <BaseCard plain class="mb-2 last:mb-0">
     <template #header>
-      <div class="-mb-2 flex items-center justify-between gap-2 bg-gray-15 px-4 py-2">
+      <div
+        class="-mb-2 flex items-center justify-between gap-2 bg-gray-15 px-4 py-2"
+      >
         <h6 v-text="announcement.title" />
 
         <BaseButton
@@ -21,10 +20,10 @@
   </BaseCard>
 </template>
 
-<script setup>
-import BaseButton from "../basecomponents/BaseButton.vue"
-import BaseCard from "../basecomponents/BaseCard.vue"
-import { useSecurityStore } from "../legacy/store/securityStore.js"
+<script setup lang="ts">
+import BaseButton from '../basecomponents/BaseButton.vue'
+import BaseCard from '../basecomponents/BaseCard.vue'
+import { useSecurityStore } from '~/stores/securityStore.js'
 
 const securityStore = useSecurityStore()
 
@@ -38,6 +37,8 @@ defineProps({
 function handleAnnouncementClick(announcement) {
   // until announcement is migrated to vue we need to use a browser action
   // when announcement is migrated we should use router.push here
-  location.assign(`/main/admin/system_announcements.php?id=${announcement["id"]}&action=edit`)
+  location.assign(
+    `/main/admin/system_announcements.php?id=${announcement['id']}&action=edit`,
+  )
 }
 </script>

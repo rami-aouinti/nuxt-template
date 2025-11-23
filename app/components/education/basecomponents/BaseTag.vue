@@ -1,12 +1,9 @@
 <template>
-  <Tag
-    :severity="type"
-    :value="label"
-  />
+  <Tag :severity="type" :value="label" />
 </template>
 
-<script setup>
-import Tag from "primevue/tag"
+<script setup lang="ts">
+import Tag from 'primevue/tag'
 
 defineProps({
   type: {

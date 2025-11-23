@@ -27,10 +27,7 @@
           name="dbHostForm"
           type="text"
         />
-        <label
-          v-t="'Database host'"
-          for="dbHostForm"
-        />
+        <label v-t="'Database host'" for="dbHostForm" />
       </div>
       <small v-t="'ex. localhost'" />
     </div>
@@ -45,10 +42,7 @@
           name="dbPortForm"
           type="number"
         />
-        <label
-          v-t="'Port'"
-          for="dbPortForm"
-        />
+        <label v-t="'Port'" for="dbPortForm" />
       </div>
       <small v-t="'ex. 3306'" />
     </div>
@@ -63,10 +57,7 @@
           name="dbUsernameForm"
           type="text"
         />
-        <label
-          v-t="'Database user'"
-          for="dbUsernameForm"
-        />
+        <label v-t="'Database user'" for="dbUsernameForm" />
       </div>
       <small v-t="'ex. root'" />
     </div>
@@ -81,13 +72,13 @@
           input-id="dbPassForm"
           toggle-mask
         />
-        <label
-          v-t="'Database Password'"
-          for="dbPassForm"
-        />
+        <label v-t="'Database Password'" for="dbPassForm" />
       </div>
       <small
-        v-t="{ path: 'ex. {examplePassword}', args: { examplePassword: installerData.stepData.examplePassword } }"
+        v-t="{
+          path: 'ex. {examplePassword}',
+          args: { examplePassword: installerData.stepData.examplePassword },
+        }"
       />
     </div>
 
@@ -101,24 +92,18 @@
           name="dbNameForm"
           type="text"
         />
-        <label
-          v-t="'Database name'"
-          for="dbNameForm"
-        />
+        <label v-t="'Database name'" for="dbNameForm" />
       </div>
       <small v-if="'update' !== installerData.installType">
         {{
           t(
-            "Only letters, digits and underscore (_) are allowed in the database name. Invalid characters will be removed automatically.",
+            'Only letters, digits and underscore (_) are allowed in the database name. Invalid characters will be removed automatically.',
           )
         }}
       </small>
     </div>
 
-    <div
-      v-if="'update' !== installerData.installType"
-      class="formgroup-inline"
-    >
+    <div v-if="'update' !== installerData.installType" class="formgroup-inline">
       <div class="field">
         <Button
           :label="t('Check database connection')"
@@ -137,7 +122,11 @@
       severity="warn"
       style="margin-bottom: 8px"
     >
-      <span v-html="t('A database with the same name already exists. It will be deleted.')" />
+      <span
+        v-html="
+          t('A database with the same name already exists. It will be deleted.')
+        "
+      />
     </Message>
 
     <Message
@@ -179,15 +168,10 @@
         </tbody>
       </table>
     </Message>
-    <Message
-      v-else
-      id="db_status"
-      :closable="false"
-      severity="error"
-    >
+    <Message v-else id="db_status" :closable="false" severity="error">
       {{
         t(
-          "The database connection has failed. This is generally due to the wrong user, the wrong password or the wrong database prefix being set above. Please review these settings and try again.",
+          'The database connection has failed. This is generally due to the wrong user, the wrong password or the wrong database prefix being set above. Please review these settings and try again.',
         )
       }}
       <code v-t="installerData.stepData.dbConnError" />
@@ -213,34 +197,31 @@
         name="step4"
         type="submit"
       />
-      <input
-        id="is_executable"
-        name="is_executable"
-        type="hidden"
-        value="-"
-      />
+      <input id="is_executable" name="is_executable" type="hidden" value="-" />
     </div>
   </div>
 </template>
 
-<script setup>
-import { inject } from "vue"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import { inject } from 'vue'
 
-import InputText from "primevue/inputtext"
-import Password from "primevue/password"
-import Button from "primevue/button"
-import Message from "primevue/message"
-import SectionHeader from "../layout/SectionHeader.vue"
+import InputText from 'primevue/inputtext'
+import Password from 'primevue/password'
+import Button from 'primevue/button'
+import Message from 'primevue/message'
+import SectionHeader from '../layout/SectionHeader.vue'
 
 const { t } = useI18n()
 
-const installerData = inject("installerData")
+const installerData = inject('installerData')
 
 // Normalize database name on the client so it matches backend sanitization.
 // We only allow letters, digits and underscore. Other characters are stripped.
-if (installerData.value.installType !== "update") {
-  const rawName = installerData.value.stepData?.dbNameForm || ""
-  installerData.value.stepData.dbNameForm = rawName.replace(/[^a-zA-Z0-9_]/g, "")
+if (installerData.value.installType !== 'update') {
+  const rawName = installerData.value.stepData?.dbNameForm || ''
+  installerData.value.stepData.dbNameForm = rawName.replace(
+    /[^a-zA-Z0-9_]/g,
+    '',
+  )
 }
 </script>

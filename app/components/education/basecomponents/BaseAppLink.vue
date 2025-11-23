@@ -1,6 +1,6 @@
-<script setup>
-import { RouterLink } from "vue-router"
-import { computed } from "vue"
+<script setup lang="ts">
+import { RouterLink } from 'vue-router'
+import { computed } from 'vue'
 
 const props = defineProps({
   ...RouterLink.props,
@@ -15,17 +15,10 @@ const isAnchor = computed(() => !!props.url)
 </script>
 
 <template>
-  <a
-    v-if="isAnchor"
-    :href="url !== '#' ? url : undefined"
-    v-bind="$attrs"
-  >
+  <a v-if="isAnchor" :href="url !== '#' ? url : undefined" v-bind="$attrs">
     <slot />
   </a>
-  <router-link
-    v-else-if="props.to"
-    v-bind="props"
-  >
+  <router-link v-else-if="props.to" v-bind="props">
     <slot />
   </router-link>
   <span v-else>

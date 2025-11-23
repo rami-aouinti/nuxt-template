@@ -1,12 +1,12 @@
 // @ts-nocheck
-import baseService from "./baseService"
+import baseService from './baseService'
 
 /**
  * @param {Object} searchParams
  * @returns {Promise<{totalItems, items}>}
  */
 async function findAll(searchParams) {
-  return await baseService.getCollection("/api/course_rel_users", searchParams)
+  return await baseService.getCollection('/api/course_rel_users', searchParams)
 }
 
 /**
@@ -17,7 +17,7 @@ async function findAll(searchParams) {
  * @returns {Promise<Object>}
  */
 async function subscribe({ userId, courseId }) {
-  return await baseService.post("/api/course_rel_users", {
+  return await baseService.post('/api/course_rel_users', {
     user: `/api/users/${userId}`,
     course: `/api/courses/${courseId}`,
     relationType: 0,

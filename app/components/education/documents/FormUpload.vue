@@ -1,6 +1,6 @@
 <template>
-  <q-form>
-    <!--        <q-uploader-->
+  <v-form>
+    <!--        <v-uploader-->
     <!--            :factory="processFiles"-->
     <!--            label="Batch upload"-->
     <!--            multiple-->
@@ -44,29 +44,23 @@
           {{ file.name }}
           <span v-if="file.invalidMessage"> - {{ file.invalidMessage }} </span>
           <span>
-            <a
-              class="delete"
-              @click.prevent="files.splice(index, 1)"
-            >
+            <a class="delete" @click.prevent="files.splice(index, 1)">
               <v-icon icon="mdi-delete" />
             </a>
           </span>
         </div>
       </div>
     </div>
-  </q-form>
+  </v-form>
 </template>
 
-<script>
-import has from "lodash/has"
-import map from "lodash/map"
-import useVuelidate from "@vuelidate/core"
+<script setup lang="ts">
+import has from 'lodash/has'
+import map from 'lodash/map'
+import useVuelidate from '@vuelidate/core'
 
 export default {
-  name: "DocumentsFormUpload",
-  setup() {
-    return { v$: useVuelidate() }
-  },
+  name: 'DocumentsFormUpload',
   props: {
     values: {
       type: Array,
@@ -87,6 +81,9 @@ export default {
       required: false,
     },
   },
+  setup() {
+    return { v$: useVuelidate() }
+  },
   data() {
     return {
       fileList: [],
@@ -97,8 +94,8 @@ export default {
     titleErrors() {
       const errors = []
       if (!this.$v.item.title.$dirty) return errors
-      has(this.violations, "title") && errors.push(this.violations.title)
-      !this.$v.item.title.required && errors.push(this.$t("Required field"))
+      has(this.violations, 'title') && errors.push(this.violations.title)
+      !this.$v.item.title.required && errors.push(this.$t('Required field'))
 
       return errors
     },
@@ -116,7 +113,7 @@ export default {
           name: file.name,
           size: file.size,
           type: file.type,
-          filetype: "file",
+          filetype: 'file',
           parentResourceNodeId: this.parentResourceNodeId,
           resourceLinkList: this.resourceLinkList,
           uploadFile: file,
@@ -126,10 +123,10 @@ export default {
     },
     validate(file) {
       if (file) {
-        return ""
+        return ''
       }
 
-      return "error"
+      return 'error'
     },
   },
   validations: {

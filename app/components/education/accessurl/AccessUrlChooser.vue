@@ -1,14 +1,14 @@
-<script setup>
-import { ref } from "vue"
-import { useI18n } from "vue-i18n"
-import Dialog from "primevue/dialog"
-import { useAccessUrlChooser } from "../legacy/composables/accessurl/accessUrlChooser.js"
-import { useSecurityStore } from "../legacy/store/securityStore.js"
+<script setup lang="ts">
+import { ref } from 'vue'
+import Dialog from 'primevue/dialog'
+import { useAccessUrlChooser } from '~/composables/accessurl/accessUrlChooser.ts'
+import { useSecurityStore } from '~/stores/securityStore.ts'
 
 const { t } = useI18n()
 const securityStore = useSecurityStore()
 
-const { loadComponent, isLoading, accessUrls, doRedirectToPortal } = useAccessUrlChooser()
+const { loadComponent, isLoading, accessUrls, doRedirectToPortal } =
+  useAccessUrlChooser()
 
 const visible = ref(loadComponent.value)
 </script>
@@ -23,21 +23,33 @@ const visible = ref(loadComponent.value)
     :style="{ width: '60vw' }"
     modal
   >
-    <i
-      v-if="isLoading"
-      class="pi pi-spin pi-spinner"
-    />
-    <div
-      v-else
-      class="space-y-4 text-center"
-    >
+    <i v-if="isLoading" class="pi pi-spin pi-spinner" />
+    <div v-else class="space-y-4 text-center">
       <div v-if="1 === accessUrls.length">
-        <p>{{ t("You only have access to the URL %s", [accessUrls[0].url]) }}</p>
-        <p v-text="t('You will therefore be automatically redirected to this URL.')" />
+        <p>
+          {{ t('You only have access to the URL %s', [accessUrls[0].url]) }}
+        </p>
+        <p
+          v-text="
+            t('You will therefore be automatically redirected to this URL.')
+          "
+        />
       </div>
       <div v-else-if="accessUrls.length > 1">
-        <p v-text="t('You have access to multiple URLs. Here is the list of your accesses.')" />
-        <p v-text="t('Please click on the link below corresponding to the URL you wish to access.')" />
+        <p
+          v-text="
+            t(
+              'You have access to multiple URLs. Here is the list of your accesses.',
+            )
+          "
+        />
+        <p
+          v-text="
+            t(
+              'Please click on the link below corresponding to the URL you wish to access.',
+            )
+          "
+        />
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div
             v-for="accessUrl in accessUrls"
@@ -45,14 +57,8 @@ const visible = ref(loadComponent.value)
             class="text-center"
             @click="doRedirectToPortal(accessUrl.url)"
           >
-            <span
-              class="cursor-pointer"
-              v-text="accessUrl.url"
-            />
-            <p
-              v-if="accessUrl.description"
-              v-text="accessUrl.description"
-            />
+            <span class="cursor-pointer" v-text="accessUrl.url" />
+            <p v-if="accessUrl.description" v-text="accessUrl.description" />
           </div>
         </div>
       </div>

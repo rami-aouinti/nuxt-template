@@ -1,8 +1,5 @@
 <template>
-  <form
-    @submit.prevent="submitForm"
-    class="flex flex-col gap-6 mt-6"
-  >
+  <form class="flex flex-col gap-6 mt-6" @submit.prevent="submitForm">
     <!-- Title -->
     <BaseInputTextWithVuelidate
       v-model="formData.title"
@@ -24,7 +21,7 @@
       v-model="showAdvancedSettings"
     >
       <div class="flex flex-row mb-4">
-        <label class="font-semibold w-28">{{ t("Gradebook options") }}:</label>
+        <label class="font-semibold w-28">{{ t('Gradebook options') }}:</label>
         <BaseCheckbox
           id="attendance_qualify_gradebook"
           v-model="formData.qualifyGradebook"
@@ -34,10 +31,7 @@
         />
       </div>
 
-      <div
-        v-if="formData.qualifyGradebook"
-        class="ml-6"
-      >
+      <div v-if="formData.qualifyGradebook" class="ml-6">
         <BaseSelect
           v-model="formData.gradebookOption"
           :label="t('Select gradebook option')"
@@ -75,31 +69,31 @@
     </LayoutFormButtons>
   </form>
 </template>
-<script setup>
-import { computed, onMounted, ref, reactive, watch } from "vue"
-import { useI18n } from "vue-i18n"
-import { required } from "@vuelidate/validators"
-import useVuelidate from "@vuelidate/core"
-import attendanceService from "../legacy/services/attendanceService.js"
-import BaseInputTextWithVuelidate from "../basecomponents/BaseInputTextWithVuelidate.vue"
-import BaseTinyEditor from "../basecomponents/BaseTinyEditor.vue"
-import BaseCheckbox from "../basecomponents/BaseCheckbox.vue"
-import BaseSelect from "../basecomponents/BaseSelect.vue"
-import BaseInputNumber from "../basecomponents/BaseInputNumber.vue"
-import LayoutFormButtons from "../layout/LayoutFormButtons.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import BaseAdvancedSettingsButton from "../basecomponents/BaseAdvancedSettingsButton.vue"
-import BaseInputText from "../basecomponents/BaseInputText.vue"
-import { useRoute, useRouter } from "vue-router"
-import { RESOURCE_LINK_PUBLISHED } from "../legacy/constants/entity/resourcelink.js"
-import { useCidReq } from "../legacy/composables/cidReq.js"
-import gradebookService from "../legacy/services/gradebookService.js"
+<script setup lang="ts">
+import { computed, onMounted, ref, reactive, watch } from 'vue'
+
+import { required } from '@vuelidate/validators'
+import useVuelidate from '@vuelidate/core'
+import attendanceService from '~/services/attendanceService.js'
+import BaseInputTextWithVuelidate from '../basecomponents/BaseInputTextWithVuelidate.vue'
+import BaseTinyEditor from '../basecomponents/BaseTinyEditor.vue'
+import BaseCheckbox from '../basecomponents/BaseCheckbox.vue'
+import BaseSelect from '../basecomponents/BaseSelect.vue'
+import BaseInputNumber from '../basecomponents/BaseInputNumber.vue'
+import LayoutFormButtons from '../layout/LayoutFormButtons.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import BaseAdvancedSettingsButton from '../basecomponents/BaseAdvancedSettingsButton.vue'
+import BaseInputText from '../basecomponents/BaseInputText.vue'
+import { useRoute, useRouter } from 'vue-router'
+import { RESOURCE_LINK_PUBLISHED } from '~/constants/entity/resourcelink.js'
+import { useCidReq } from '~/composables/cidReq.js'
+import gradebookService from '~/services/gradebookService.js'
 
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const { sid, cid } = useCidReq()
-const emit = defineEmits(["backPressed"])
+const emit = defineEmits(['backPressed'])
 const props = defineProps({
   initialData: {
     type: Object,
@@ -118,11 +112,11 @@ const resourceLinkList = ref([
 
 const formData = reactive({
   id: null,
-  title: "",
-  description: "",
+  title: '',
+  description: '',
   qualifyGradebook: false,
   gradebookOption: null,
-  gradebookTitle: "",
+  gradebookTitle: '',
   gradeWeight: 0.0,
 })
 
@@ -152,7 +146,7 @@ onMounted(async () => {
         value: cat.id,
       }))
     } catch (error) {
-      console.error("Error loading gradebook categories:", error)
+      console.error('Error loading gradebook categories:', error)
     }
   }
 })
@@ -160,7 +154,7 @@ onMounted(async () => {
 const toggleGradebookOptions = () => {
   if (!formData.qualifyGradebook) {
     formData.gradebookOption = null
-    formData.gradebookTitle = ""
+    formData.gradebookTitle = ''
     formData.gradeWeight = 0.0
   }
 }
@@ -193,11 +187,11 @@ const submitForm = async () => {
   try {
     if (props.initialData?.id) {
       await attendanceService.updateAttendance(props.initialData.id, postData)
-      emit("backPressed", route.query)
+      emit('backPressed', route.query)
     } else {
       const created = await attendanceService.createAttendance(postData)
       router.push({
-        name: "AttendanceAddCalendarEvent",
+        name: 'AttendanceAddCalendarEvent',
         params: {
           node: getNodeId(created.resourceNode),
           id: created.iid,
@@ -210,13 +204,13 @@ const submitForm = async () => {
       })
     }
   } catch (error) {
-    console.error("Error submitting attendance:", error)
+    console.error('Error submitting attendance:', error)
   }
 }
 
 function getNodeId(resourceNode) {
-  if (!resourceNode || !resourceNode["@id"]) return 0
-  const parts = resourceNode["@id"].split("/")
+  if (!resourceNode || !resourceNode['@id']) return 0
+  const parts = resourceNode['@id'].split('/')
   return parseInt(parts[parts.length - 1])
 }
 </script>

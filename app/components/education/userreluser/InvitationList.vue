@@ -1,19 +1,13 @@
 <template>
   <div class="friends-invitations">
-    <BaseCard
-      class="bg-white mt-4"
-      plain
-    >
+    <BaseCard class="bg-white mt-4" plain>
       <template #header>
         <div class="px-4 py-2 bg-gray-100 border-b border-gray-300">
           <h2 class="text-xl font-semibold">{{ title }}</h2>
         </div>
       </template>
       <hr class="my-4" />
-      <div
-        v-if="invitations && invitations.length > 0"
-        class="space-y-4"
-      >
+      <div v-if="invitations && invitations.length > 0" class="space-y-4">
         <div
           v-for="invitation in invitations"
           :key="invitation.id"
@@ -55,27 +49,23 @@
           </div>
         </div>
       </div>
-      <div
-        v-else
-        class="p-4 text-center text-gray-500"
-      >
-        <p>{{ t("No invitations or records found") }}</p>
+      <div v-else class="p-4 text-center text-gray-500">
+        <p>{{ t('No invitations or records found') }}</p>
       </div>
     </BaseCard>
   </div>
 </template>
 
-<script setup>
-import BaseCard from "../basecomponents/BaseCard.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import BaseCard from '../basecomponents/BaseCard.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
 
 const { t } = useI18n()
 const props = defineProps({
   invitations: Array,
   title: String,
 })
-const emit = defineEmits(["accept", "deny"])
+const emit = defineEmits(['accept', 'deny'])
 
 function emitEvent(event, id) {
   emit(event, id)

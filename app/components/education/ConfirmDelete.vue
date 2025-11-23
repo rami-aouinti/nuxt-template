@@ -1,27 +1,22 @@
 <template>
-  <q-dialog
-    :model-value="show"
-    persistent
-  >
+  <v-dialog :model-value="show" persistent>
     <v-card>
-      <q-card-section class="row items-center">
-        <q-avatar
-          color="primary"
-          icon="warning"
-          text-color="white"
-        />
-        <span class="q-ml-sm">{{ $t("Are you sure you want to delete this item?") }}</span>
-      </q-card-section>
+      <v-card-section class="row items-center">
+        <v-avatar color="primary" icon="warning" text-color="white" />
+        <span class="v-ml-sm">{{
+          $t('Are you sure you want to delete this item?')
+        }}</span>
+      </v-card-section>
 
       <v-card-actions>
-        <q-btn
+        <v-btn
           v-close-popup
           color="primary"
           flat
           label="Cancel"
           @click="handleCancel"
         />
-        <q-btn
+        <v-btn
           v-close-popup
           color="primary"
           flat
@@ -30,12 +25,12 @@
         />
       </v-card-actions>
     </v-card>
-  </q-dialog>
+  </v-dialog>
 </template>
 
-<script>
+<script setup lang="ts">
 export default {
-  name: "ConfirmDelete",
+  name: 'ConfirmDelete',
   props: {
     show: {
       type: Boolean,

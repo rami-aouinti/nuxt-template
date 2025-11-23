@@ -2,13 +2,10 @@
   <div class="flex flex-col md:flex-row gap-4">
     <div class="md:basis-1/4 lg:basis-1/6 2xl:basis-1/8 flex flex-col">
       <UserProfileCard />
-      <BaseCard
-        class="mt-4"
-        plain
-      >
+      <BaseCard class="mt-4" plain>
         <template #header>
           <div class="px-4 py-3 bg-gray-200 border-b border-gray-300">
-            <h3 class="text-xl font-semibold">{{ t("Requests") }}</h3>
+            <h3 class="text-xl font-semibold">{{ t('Requests') }}</h3>
           </div>
         </template>
         <div class="px-4 py-3">
@@ -30,23 +27,22 @@
   </div>
 </template>
 
-<script setup>
-import UserProfileCard from "../social/UserProfileCard.vue"
-import { nextTick, onMounted, provide, ref, watch } from "vue"
-import { useSocialInfo } from "../legacy/composables/useSocialInfo.js"
-import UserRelUserRequestsList from "./UserRelUserRequestsList.vue"
-import BaseCard from "../basecomponents/BaseCard.vue"
-import { useNotification } from "../legacy/composables/notification.js"
-import userRelUserService from "../legacy/services/userreluser.js"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import UserProfileCard from '../social/UserProfileCard.vue'
+import { nextTick, onMounted, provide, ref, watch } from 'vue'
+import { useSocialInfo } from '~/composables/useSocialInfo.js'
+import UserRelUserRequestsList from './UserRelUserRequestsList.vue'
+import BaseCard from '../basecomponents/BaseCard.vue'
+import { useNotification } from '~/composables/notification.js'
+import userRelUserService from '~/services/userreluser.js'
 
 const { t } = useI18n()
 const { user, isCurrentUser, groupInfo, isGroup, loadUser } = useSocialInfo()
 
-provide("social-user", user)
-provide("is-current-user", isCurrentUser)
-provide("group-info", groupInfo)
-provide("is-group", isGroup)
+provide('social-user', user)
+provide('is-current-user', isCurrentUser)
+provide('group-info', groupInfo)
+provide('is-group', isGroup)
 
 const requestList = ref(null)
 const friendsListView = ref(null)
@@ -76,12 +72,17 @@ const reloadHandler = async () => {
 
     const [json1, json2] = await Promise.all([resp1.json(), resp2.json()])
     const seen = new Set()
-    items.value = [...json1["hydra:member"], ...json2["hydra:member"]].filter((item) => {
-      const otherId = item.user["@id"] === user["@id"] ? item.friend["@id"] : item.user["@id"]
-      if (seen.has(otherId)) return false
-      seen.add(otherId)
-      return true
-    })
+    items.value = [...json1['hydra:member'], ...json2['hydra:member']].filter(
+      (item) => {
+        const otherId =
+          item.user['@id'] === user['@id']
+            ? item.friend['@id']
+            : item.user['@id']
+        if (seen.has(otherId)) return false
+        seen.add(otherId)
+        return true
+      },
+    )
   } catch (e) {
     notification.showErrorNotification(e)
   } finally {

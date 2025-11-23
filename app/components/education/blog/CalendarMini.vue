@@ -1,12 +1,12 @@
 <template>
   <div class="calendar">
     <div class="cal-head">
-      <button class="nav" @click="$emit('prev')" :title="t('Previous')">
-        <i class="mdi mdi-chevron-left"></i>
+      <button class="nav" :title="t('Previous')" @click="$emit('prev')">
+        <i class="mdi mdi-chevron-left" />
       </button>
       <div class="month">{{ monthLabel }} {{ year }}</div>
-      <button class="nav" @click="$emit('next')" :title="t('Next')">
-        <i class="mdi mdi-chevron-right"></i>
+      <button class="nav" :title="t('Next')" @click="$emit('next')">
+        <i class="mdi mdi-chevron-right" />
       </button>
     </div>
 
@@ -15,7 +15,7 @@
     </div>
 
     <div class="grid grid-cols-7 gap-1">
-      <div v-for="i in startOffset" :key="'off'+i"></div>
+      <div v-for="i in startOffset" :key="'off' + i" />
       <button
         v-for="d in daysInMonth"
         :key="d"
@@ -29,22 +29,23 @@
   </div>
 </template>
 
-<script setup>
-import { computed } from "vue"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import { computed } from 'vue'
 
 const props = defineProps({
   year: { type: Number, required: true },
   month: { type: Number, required: true }, // 1-12
-  selected: { type: String, default: "" }, // YYYY-MM-DD
+  selected: { type: String, default: '' }, // YYYY-MM-DD
 })
-const emit = defineEmits(["select","prev","next"])
+const emit = defineEmits(['select', 'prev', 'next'])
 const { t } = useI18n()
 
 const monthLabel = computed(() =>
-  new Date(props.year, props.month - 1, 1).toLocaleString(undefined, { month: "long" })
+  new Date(props.year, props.month - 1, 1).toLocaleString(undefined, {
+    month: 'long',
+  }),
 )
-const weekDays = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 const firstWeekday = computed(() => {
   // Convert Sunday=0 -> 7
@@ -53,10 +54,20 @@ const firstWeekday = computed(() => {
   return w // 1..7 (Mon..Sun)
 })
 const startOffset = computed(() => firstWeekday.value - 1)
-const daysInMonth = computed(() => new Date(props.year, props.month, 0).getDate())
+const daysInMonth = computed(() =>
+  new Date(props.year, props.month, 0).getDate(),
+)
 
-function pad(n){ return String(n).padStart(2,"0") }
-function iso(d){ return `${props.year}-${pad(props.month)}-${pad(d)}` }
-function isSelected(d){ return props.selected === iso(d) }
-function select(d){ emit("select", iso(d)) }
+function pad(n) {
+  return String(n).padStart(2, '0')
+}
+function iso(d) {
+  return `${props.year}-${pad(props.month)}-${pad(d)}`
+}
+function isSelected(d) {
+  return props.selected === iso(d)
+}
+function select(d) {
+  emit('select', iso(d))
+}
 </script>

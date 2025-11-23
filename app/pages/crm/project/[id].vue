@@ -6,7 +6,12 @@ import { useTranslateWithFallback } from '~/composables/useTranslateWithFallback
 import { useCrmStore } from '~/stores/crm'
 import { Notify } from '~/stores/notification'
 import { useCrmApi } from '~/composables/useCrmApi'
-import type { CrmProject, CrmTask, CrmTaskPayload, CrmTaskStatus } from '~/types/crm'
+import type {
+  CrmProject,
+  CrmTask,
+  CrmTaskPayload,
+  CrmTaskStatus,
+} from '~/types/crm'
 
 definePageMeta({
   title: 'navigation.crmProject',
@@ -104,7 +109,18 @@ const projectTasks = computed<CrmTask[]>(() => {
   return Array.from(merged.values())
 })
 
-const doneStatusKeywords = ['done', 'terminé', 'terminée', 'complete', 'completed', 'fini', 'finie', 'clos', 'close', 'closed']
+const doneStatusKeywords = [
+  'done',
+  'terminé',
+  'terminée',
+  'complete',
+  'completed',
+  'fini',
+  'finie',
+  'clos',
+  'close',
+  'closed',
+]
 
 const isDoneStatus = (status?: CrmTaskStatus | null) => {
   if (!status) return false
@@ -133,48 +149,47 @@ const doneTasks = computed(() =>
   projectTasks.value.filter((task) => isDoneStatus(task.status)),
 )
 
-const kanbanColumns = computed<{ id: KanbanColumnId; name: string; tasks: CrmTask[] }[]>(
-  () => {
-    const statuses = (taskStatusCollection.data?.member ?? []).filter(
-      (status) => !isDoneStatus(status),
-    )
-    const tasks = projectTasks.value.filter(
-      (task) => task.status && !isDoneStatus(task.status),
-    )
+const kanbanColumns = computed<
+  { id: KanbanColumnId; name: string; tasks: CrmTask[] }[]
+>(() => {
+  const statuses = (taskStatusCollection.data?.member ?? []).filter(
+    (status) => !isDoneStatus(status),
+  )
+  const tasks = projectTasks.value.filter(
+    (task) => task.status && !isDoneStatus(task.status),
+  )
 
-    const grouped = statuses.map((status) => ({
-      id: status.id as KanbanColumnId,
-      name: status.name,
-      tasks: tasks.filter((task) => task.status?.id === status.id),
-    }))
+  const grouped = statuses.map((status) => ({
+    id: status.id as KanbanColumnId,
+    name: status.name,
+    tasks: tasks.filter((task) => task.status?.id === status.id),
+  }))
 
-    return [
-      {
-        id: 'backlog' as const,
-        name: translate('crm.project.kanban.backlog', 'Backlog'),
-        tasks: backlogTasks.value,
-      },
-      ...grouped,
-      {
-        id: 'done' as const,
-        name: translate('crm.project.kanban.done', 'Done'),
-        tasks: doneTasks.value,
-      },
-    ]
-  },
-)
+  return [
+    {
+      id: 'backlog' as const,
+      name: translate('crm.project.kanban.backlog', 'Backlog'),
+      tasks: backlogTasks.value,
+    },
+    ...grouped,
+    {
+      id: 'done' as const,
+      name: translate('crm.project.kanban.done', 'Done'),
+      tasks: doneTasks.value,
+    },
+  ]
+})
 
 const projectDocuments = computed(() => project.value?.documents ?? [])
 const projectClient = computed(() => project.value?.client ?? null)
 
 const statusIndex = computed(() =>
-  (taskStatusCollection.data?.member ?? []).reduce<Record<number, CrmTaskStatus>>(
-    (acc, status) => {
-      acc[status.id] = status
-      return acc
-    },
-    {},
-  ),
+  (taskStatusCollection.data?.member ?? []).reduce<
+    Record<number, CrmTaskStatus>
+  >((acc, status) => {
+    acc[status.id] = status
+    return acc
+  }, {}),
 )
 
 function navigateToTask(taskId: number) {
@@ -234,7 +249,7 @@ async function updateTaskStatus(
       timeSpent: task.timeSpent,
       status:
         nextStatusId != null
-          ? statusResource?.['@id'] ?? `/task_statuses/${nextStatusId}`
+          ? (statusResource?.['@id'] ?? `/task_statuses/${nextStatusId}`)
           : null,
       isActive: task.isActive,
     }
@@ -425,14 +440,11 @@ async function createTask() {
 
       <teleport to="#app-drawer">
         <div class="d-flex align-center justify-space-between mb-3">
-            <span class="text-subtitle-2 font-weight-semibold">
-              {{
-                translate(
-                  'crm.project.drawer.clientTitle',
-                  'Informations client',
-                )
-              }}
-            </span>
+          <span class="text-subtitle-2 font-weight-semibold">
+            {{
+              translate('crm.project.drawer.clientTitle', 'Informations client')
+            }}
+          </span>
           <v-chip
             :color="projectClient.isActive ? 'primary' : 'error'"
             size="x-small"
@@ -449,45 +461,61 @@ async function createTask() {
 
         <div class="d-flex flex-column gap-3">
           <div class="d-flex flex-column">
-              <span class="text-body-2 text-medium-emphasis">
-                {{ translate('crm.project.drawer.clientName', 'Nom') }}
-              </span>
+            <span class="text-body-2 text-medium-emphasis">
+              {{ translate('crm.project.drawer.clientName', 'Nom') }}
+            </span>
             <span class="font-weight-medium">{{ projectClient.name }}</span>
           </div>
           <div v-if="project?.status" class="d-flex flex-column">
-              <span class="text-body-2 text-medium-emphasis">
-                {{ translate('crm.project.drawer.projectStatus', 'Statut du projet') }}
-              </span>
-            <v-chip color="secondary" size="x-small" variant="tonal" class="text-capitalize">
+            <span class="text-body-2 text-medium-emphasis">
+              {{
+                translate(
+                  'crm.project.drawer.projectStatus',
+                  'Statut du projet',
+                )
+              }}
+            </span>
+            <v-chip
+              color="secondary"
+              size="x-small"
+              variant="tonal"
+              class="text-capitalize"
+            >
               {{ project.status.name }}
             </v-chip>
           </div>
           <div v-if="project?.type" class="d-flex flex-column">
-              <span class="text-body-2 text-medium-emphasis">
-                {{ translate('crm.project.drawer.projectType', 'Type de projet') }}
-              </span>
+            <span class="text-body-2 text-medium-emphasis">
+              {{
+                translate('crm.project.drawer.projectType', 'Type de projet')
+              }}
+            </span>
             <span class="font-weight-medium">{{ project.type.name }}</span>
           </div>
           <div class="d-flex flex-column">
-              <span class="text-body-2 text-medium-emphasis">
-                {{ translate('crm.project.drawer.createdAt', 'Créé le') }}
-              </span>
-            <span class="font-weight-medium">{{ projectClient.createdAt?.slice(0, 10) }}</span>
+            <span class="text-body-2 text-medium-emphasis">
+              {{ translate('crm.project.drawer.createdAt', 'Créé le') }}
+            </span>
+            <span class="font-weight-medium">{{
+              projectClient.createdAt?.slice(0, 10)
+            }}</span>
           </div>
           <div class="d-flex flex-column">
-              <span class="text-body-2 text-medium-emphasis">
-                {{ translate('crm.project.drawer.updatedAt', 'Mis à jour le') }}
-              </span>
-            <span class="font-weight-medium">{{ projectClient.updatedAt?.slice(0, 10) }}</span>
+            <span class="text-body-2 text-medium-emphasis">
+              {{ translate('crm.project.drawer.updatedAt', 'Mis à jour le') }}
+            </span>
+            <span class="font-weight-medium">{{
+              projectClient.updatedAt?.slice(0, 10)
+            }}</span>
           </div>
         </div>
       </teleport>
 
       <teleport to="#app-drawer-right">
         <div class="d-flex align-center justify-space-between mb-3">
-            <span class="text-subtitle-2 font-weight-semibold">
-              {{ translate('crm.project.drawerRight.documents', 'Documents') }}
-            </span>
+          <span class="text-subtitle-2 font-weight-semibold">
+            {{ translate('crm.project.drawerRight.documents', 'Documents') }}
+          </span>
           <v-chip color="primary" size="x-small" variant="tonal">
             {{ projectDocuments.length }}
           </v-chip>
@@ -500,10 +528,10 @@ async function createTask() {
               :key="document.id"
               :title="document.name"
               :subtitle="
-                  translate('crm.project.drawerRight.files', 'Fichiers') +
-                  ': ' +
-                  (document.files?.length ?? 0)
-                "
+                translate('crm.project.drawerRight.files', 'Fichiers') +
+                ': ' +
+                (document.files?.length ?? 0)
+              "
               rounded
             >
               <template #prepend>
@@ -542,17 +570,17 @@ async function createTask() {
             </div>
 
             <v-list lines="two" nav>
-            <v-list-item
-              v-for="task in projectTasks"
-              :key="task.id"
-              :value="task.id"
-              rounded
-              class="mb-2"
-              @click="navigateToTask(task.id)"
-            >
-              <template #title>
-                <div class="d-flex align-center justify-space-between w-100">
-                  <span class="font-weight-medium">{{ task.name }}</span>
+              <v-list-item
+                v-for="task in projectTasks"
+                :key="task.id"
+                :value="task.id"
+                rounded
+                class="mb-2"
+                @click="navigateToTask(task.id)"
+              >
+                <template #title>
+                  <div class="d-flex align-center justify-space-between w-100">
+                    <span class="font-weight-medium">{{ task.name }}</span>
                     <v-chip
                       v-if="task.status"
                       color="secondary"
@@ -625,7 +653,9 @@ async function createTask() {
                       @dragstart="onTaskDragStart($event, task.id)"
                       @dragend="onTaskDragEnd"
                     >
-                      <div class="d-flex align-center justify-space-between mb-2">
+                      <div
+                        class="d-flex align-center justify-space-between mb-2"
+                      >
                         <NuxtLink
                           :to="`/project/${projectId}/task/${task.id}`"
                           class="font-weight-medium kanban-card__link"
@@ -682,7 +712,12 @@ async function createTask() {
                       v-if="!column.tasks.length"
                       class="text-body-2 text-medium-emphasis text-center py-6 border-dash"
                     >
-                      {{ translate('crm.project.kanban.empty', 'Glissez une tâche ici') }}
+                      {{
+                        translate(
+                          'crm.project.kanban.empty',
+                          'Glissez une tâche ici',
+                        )
+                      }}
                     </div>
                   </div>
                 </AppCard>
@@ -701,10 +736,19 @@ async function createTask() {
               {{ translate('crm.project.createTask.title', 'Nouvelle tâche') }}
             </div>
             <div class="text-body-2 text-medium-emphasis">
-              {{ translate('crm.project.createTask.subtitle', 'Ajoutez rapidement une tâche dans le backlog ou un statut existant') }}
+              {{
+                translate(
+                  'crm.project.createTask.subtitle',
+                  'Ajoutez rapidement une tâche dans le backlog ou un statut existant',
+                )
+              }}
             </div>
           </div>
-          <v-btn icon="mdi-close" variant="text" @click="createDialog = false" />
+          <v-btn
+            icon="mdi-close"
+            variant="text"
+            @click="createDialog = false"
+          />
         </div>
 
         <v-form class="d-flex flex-column gap-4" @submit.prevent="createTask">
@@ -718,7 +762,12 @@ async function createTask() {
 
           <v-textarea
             v-model="createTaskForm.description"
-            :label="translate('crm.project.createTask.description', 'Description (optionnelle)')"
+            :label="
+              translate(
+                'crm.project.createTask.description',
+                'Description (optionnelle)',
+              )
+            "
             rows="3"
             variant="outlined"
             auto-grow
@@ -739,13 +788,19 @@ async function createTask() {
             :item-title="(item) => item.name"
             :item-value="(item) => item.id"
             clearable
-            :label="translate('crm.project.createTask.status', 'Statut (optionnel)')"
+            :label="
+              translate('crm.project.createTask.status', 'Statut (optionnel)')
+            "
             variant="outlined"
             density="comfortable"
           />
 
           <div class="d-flex gap-2 justify-end">
-            <v-btn variant="text" color="secondary" @click="createDialog = false">
+            <v-btn
+              variant="text"
+              color="secondary"
+              @click="createDialog = false"
+            >
               {{ translate('common.actions.cancel', 'Annuler') }}
             </v-btn>
             <v-btn
@@ -773,11 +828,17 @@ async function createTask() {
   border: 1px dashed rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   padding: 12px;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .kanban-column--active {
-  background: linear-gradient(145deg, rgba(94, 135, 255, 0.08), rgba(94, 255, 201, 0.05));
+  background: linear-gradient(
+    145deg,
+    rgba(94, 135, 255, 0.08),
+    rgba(94, 255, 201, 0.05)
+  );
   border-color: rgba(94, 135, 255, 0.4);
 }
 

@@ -1,6 +1,6 @@
 // @ts-nocheck
-import makeService from "./api"
-import baseService from "./baseService"
+import makeService from './api'
+import baseService from './baseService'
 
 /**
  * @param {string} iri
@@ -11,6 +11,6 @@ async function update(iri, params) {
   return await baseService.put(iri, params)
 }
 
-export default makeService("message_rel_users", {
+export default makeService('message_rel_users', {
   update,
 })

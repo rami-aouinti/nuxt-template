@@ -13,7 +13,9 @@ const isRtlLocale = computed(() =>
 )
 const drawerLocation = computed(() => (isRtlLocale.value ? 'left' : 'right'))
 const drawerPlacementClass = computed(() =>
-  isRtlLocale.value ? 'app-navigation-drawer--left' : 'app-navigation-drawer--right',
+  isRtlLocale.value
+    ? 'app-navigation-drawer--left'
+    : 'app-navigation-drawer--right',
 )
 const drawer = computed({
   get() {
@@ -77,10 +79,7 @@ ensureInitialDrawerState()
     :location="drawerLocation"
     width="320"
     floating
-    :class="[
-      { 'app-drawer--hydrating': !appBarReady },
-      drawerPlacementClass,
-    ]"
+    :class="[{ 'app-drawer--hydrating': !appBarReady }, drawerPlacementClass]"
     elevation="0"
   >
     <v-card class="drawer-nav mt-5" variant="text">

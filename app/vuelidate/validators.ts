@@ -1,4 +1,7 @@
-function withMessage<T extends (...args: any[]) => boolean>(validator: T, message: string) {
+function withMessage<T extends (...args: any[]) => boolean>(
+  validator: T,
+  message: string,
+) {
   ;(validator as any).$message = message
   return validator
 }
@@ -21,7 +24,15 @@ export const url = withMessage((value: any) => {
 }, 'Invalid URL')
 
 export const minValue = (min: number) =>
-  withMessage((value: any) => (value === undefined || value === null ? true : Number(value) >= min), `Minimum value is ${min}`)
+  withMessage(
+    (value: any) =>
+      value === undefined || value === null ? true : Number(value) >= min,
+    `Minimum value is ${min}`,
+  )
 
 export const maxValue = (max: number) =>
-  withMessage((value: any) => (value === undefined || value === null ? true : Number(value) <= max), `Maximum value is ${max}`)
+  withMessage(
+    (value: any) =>
+      value === undefined || value === null ? true : Number(value) <= max,
+    `Maximum value is ${max}`,
+  )

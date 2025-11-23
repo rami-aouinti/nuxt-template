@@ -1,5 +1,5 @@
-<script setup>
-import Rating from "primevue/rating"
+<script setup lang="ts">
+import Rating from 'primevue/rating'
 
 const model = defineModel({
   type: Number,
@@ -13,7 +13,7 @@ defineProps({
   },
 })
 
-const emit = defineEmits(["change"])
+const emit = defineEmits(['change'])
 </script>
 
 <template>

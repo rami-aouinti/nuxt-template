@@ -6,10 +6,7 @@
     />
 
     <div v-if="'update' === installerData.installType">
-      <h3
-        v-t="'System'"
-        class="mb-4"
-      />
+      <h3 v-t="'System'" class="mb-4" />
 
       <div class="field">
         <div class="p-float-label">
@@ -20,10 +17,7 @@
             name="loginForm"
             type="text"
           />
-          <label
-            v-t="'Chamilo URL'"
-            for="loginForm"
-          />
+          <label v-t="'Chamilo URL'" for="loginForm" />
         </div>
       </div>
 
@@ -36,10 +30,7 @@
             name="loginForm"
             type="text"
           />
-          <label
-            v-t="'Path'"
-            for="loginForm"
-          />
+          <label v-t="'Path'" for="loginForm" />
         </div>
       </div>
 
@@ -52,25 +43,16 @@
             name="loginForm"
             type="text"
           />
-          <label
-            v-t="'Path'"
-            for="loginForm"
-          />
+          <label v-t="'Path'" for="loginForm" />
         </div>
       </div>
     </div>
 
     <div>
-      <h3
-        v-t="'Administrator'"
-        class="mb-4"
-      />
+      <h3 v-t="'Administrator'" class="mb-4" />
 
       <!-- Parameter 1: administrator's login -->
-      <div
-        v-if="'update' !== installerData.installType"
-        class="field"
-      >
+      <div v-if="'update' !== installerData.installType" class="field">
         <div class="p-float-label">
           <InputText
             v-model="installerData.stepData.loginForm"
@@ -79,16 +61,10 @@
             name="loginForm"
             type="text"
           />
-          <label
-            v-t="'Administrator login'"
-            for="loginForm"
-          />
+          <label v-t="'Administrator login'" for="loginForm" />
         </div>
       </div>
-      <div
-        v-else
-        class="field"
-      >
+      <div v-else class="field">
         <input
           v-model="installerData.stepData.loginForm"
           name="loginForm"
@@ -98,10 +74,7 @@
       </div>
 
       <!-- Parameter 2: administrator's password -->
-      <div
-        v-if="'update' !== installerData.installType"
-        class="field"
-      >
+      <div v-if="'update' !== installerData.installType" class="field">
         <div class="p-float-label">
           <Password
             v-model="installerData.stepData.passForm"
@@ -110,15 +83,9 @@
             input-id="passForm"
             toggle-mask
           />
-          <label
-            v-t="'Administrator password'"
-            for="passForm"
-          />
+          <label v-t="'Administrator password'" for="passForm" />
         </div>
-        <small
-          v-t="'You may want to change this'"
-          class="text-error"
-        />
+        <small v-t="'You may want to change this'" class="text-error" />
       </div>
 
       <!-- Parameters 3 and 4: administrator's names -->
@@ -131,10 +98,7 @@
             name="adminFirstName"
             type="text"
           />
-          <label
-            v-t="'Administrator first name'"
-            for="adminFirstName"
-          />
+          <label v-t="'Administrator first name'" for="adminFirstName" />
         </div>
       </div>
 
@@ -147,10 +111,7 @@
             name="adminLastName"
             type="text"
           />
-          <label
-            v-t="'Administrator last name'"
-            for="adminLastName"
-          />
+          <label v-t="'Administrator last name'" for="adminLastName" />
         </div>
       </div>
 
@@ -164,10 +125,7 @@
             name="emailForm"
             type="email"
           />
-          <label
-            v-t="'Administrator e-mail'"
-            for="emailForm"
-          />
+          <label v-t="'Administrator e-mail'" for="emailForm" />
         </div>
       </div>
 
@@ -181,19 +139,13 @@
             name="adminPhoneForm"
             type="text"
           />
-          <label
-            v-t="'Administrator telephone'"
-            for="adminPhoneForm"
-          />
+          <label v-t="'Administrator telephone'" for="adminPhoneForm" />
         </div>
       </div>
     </div>
 
     <div>
-      <h3
-        v-t="'Portal'"
-        class="mb-4"
-      />
+      <h3 v-t="'Portal'" class="mb-4" />
 
       <!-- First parameter: language. -->
       <div class="field">
@@ -213,10 +165,7 @@
             :readonly="true"
             type="text"
           />
-          <label
-            v-t="'Language'"
-            for="language_form_list"
-          />
+          <label v-t="'Language'" for="language_form_list" />
           <input
             v-model="installerData.stepData.languageForm"
             name="languageForm"
@@ -226,10 +175,7 @@
       </div>
 
       <!-- Second parameter: Chamilo URL -->
-      <div
-        v-if="'install' === installerData.installType"
-        class="field"
-      >
+      <div v-if="'install' === installerData.installType" class="field">
         <div class="p-float-label">
           <InputText
             v-model="installerData.stepData.urlForm"
@@ -238,10 +184,7 @@
             name="urlForm"
             type="url"
           />
-          <label
-            v-t="'Chamilo URL'"
-            for="urlForm"
-          />
+          <label v-t="'Chamilo URL'" for="urlForm" />
         </div>
       </div>
 
@@ -255,10 +198,7 @@
             name="campusForm"
             type="text"
           />
-          <label
-            v-t="'Your portal name'"
-            for="campusForm"
-          />
+          <label v-t="'Your portal name'" for="campusForm" />
         </div>
       </div>
 
@@ -272,10 +212,7 @@
             name="institutionForm"
             type="text"
           />
-          <label
-            v-t="'Your company short name'"
-            for="institutionForm"
-          />
+          <label v-t="'Your company short name'" for="institutionForm" />
         </div>
       </div>
 
@@ -289,10 +226,7 @@
             name="institutionUrlForm"
             type="text"
           />
-          <label
-            v-t="'URL of this company'"
-            for="institutionUrlForm"
-          />
+          <label v-t="'URL of this company'" for="institutionUrlForm" />
         </div>
       </div>
 
@@ -308,10 +242,7 @@
             name="encryptPassForm"
             value="bcrypt"
           />
-          <label
-            for="encrypt_bcrypt"
-            v-text="'bcrypt'"
-          />
+          <label for="encrypt_bcrypt" v-text="'bcrypt'" />
         </div>
         <div class="field-checkbox">
           <RadioButton
@@ -320,10 +251,7 @@
             name="encryptPassForm"
             value="sha1"
           />
-          <label
-            for="encrypt_sha1"
-            v-text="'SHA1'"
-          />
+          <label for="encrypt_sha1" v-text="'SHA1'" />
         </div>
         <div class="field-checkbox">
           <RadioButton
@@ -332,10 +260,7 @@
             name="encryptPassForm"
             value="md5"
           />
-          <label
-            for="encrypt_md5"
-            v-text="'MD5'"
-          />
+          <label for="encrypt_md5" v-text="'MD5'" />
         </div>
         <div class="field-checkbox">
           <RadioButton
@@ -344,16 +269,10 @@
             name="encryptPassForm"
             value="none"
           />
-          <label
-            v-t="'None'"
-            for="encrypt_none"
-          />
+          <label v-t="'None'" for="encrypt_none" />
         </div>
       </div>
-      <div
-        v-else
-        class="formgroup-inline"
-      >
+      <div v-else class="formgroup-inline">
         <input
           v-model="installerData.stepData.encryptPassForm"
           name="encryptPassForm"
@@ -374,10 +293,7 @@
             name="allowSelfReg"
             value="true"
           />
-          <label
-            v-t="'Yes'"
-            for="self_reg_yes"
-          />
+          <label v-t="'Yes'" for="self_reg_yes" />
         </div>
         <div class="field-checkbox">
           <RadioButton
@@ -386,10 +302,7 @@
             name="allowSelfReg"
             value="false"
           />
-          <label
-            v-t="'No'"
-            for="self_reg_no"
-          />
+          <label v-t="'No'" for="self_reg_no" />
         </div>
         <div class="field-checkbox">
           <RadioButton
@@ -398,10 +311,7 @@
             name="allowSelfReg"
             value="approval"
           />
-          <label
-            v-t="'After approval'"
-            for="self_reg_approval"
-          />
+          <label v-t="'After approval'" for="self_reg_approval" />
         </div>
       </div>
       <div v-else>
@@ -418,10 +328,7 @@
           v-else-if="'false' === installerData.stepData.allowSelfReg"
           v-t="'No'"
         />
-        <span
-          v-else
-          v-t="'After approval'"
-        />
+        <span v-else v-t="'After approval'" />
       </div>
 
       <label v-t="'Allow self-registration as a trainer'" />
@@ -436,10 +343,7 @@
             name="allowSelfRegProf"
             value="1"
           />
-          <label
-            v-t="'Yes'"
-            for="self_reg_prof_yes"
-          />
+          <label v-t="'Yes'" for="self_reg_prof_yes" />
         </div>
         <div class="field-checkbox">
           <RadioButton
@@ -448,10 +352,7 @@
             name="allowSelfRegProf"
             value="0"
           />
-          <label
-            v-t="'No'"
-            for="self_reg_prof_no"
-          />
+          <label v-t="'No'" for="self_reg_prof_no" />
         </div>
       </div>
       <div v-else>
@@ -493,31 +394,25 @@
         type="submit"
       />
 
-      <input
-        id="is_executable"
-        name="is_executable"
-        type="hidden"
-        value="-"
-      />
+      <input id="is_executable" name="is_executable" type="hidden" value="-" />
     </div>
   </div>
 </template>
 
-<script setup>
-import { inject } from "vue"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import { inject } from 'vue'
 
-import InputText from "primevue/inputtext"
-import Password from "primevue/password"
-import Select from "primevue/select"
-import Button from "primevue/button"
-import RadioButton from "primevue/radiobutton"
-import SectionHeader from "../layout/SectionHeader.vue"
+import InputText from 'primevue/inputtext'
+import Password from 'primevue/password'
+import Select from 'primevue/select'
+import Button from 'primevue/button'
+import RadioButton from 'primevue/radiobutton'
+import SectionHeader from '../layout/SectionHeader.vue'
 
-import languages from "../../../utils/languages.js"
-import EmailSettings from "./EmailSettings.vue"
+import languages from '../../../utils/languages.js'
+import EmailSettings from './EmailSettings.vue'
 
 const { t } = useI18n()
 
-const installerData = inject("installerData")
+const installerData = inject('installerData')
 </script>

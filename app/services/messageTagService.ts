@@ -1,12 +1,12 @@
 // @ts-nocheck
-import baseService from "./baseService"
+import baseService from './baseService'
 
 /**
  * @param {Object} params
  * @returns {Promise<{totalItems, items}>}
  */
 async function findAll(params) {
-  return await baseService.getCollection("/api/message_tags", params)
+  return await baseService.getCollection('/api/message_tags', params)
 }
 
 /**

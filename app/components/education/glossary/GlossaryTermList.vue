@@ -8,11 +8,15 @@
         plain
       >
         <template #header>
-          <div class="-mb-2 flex items-center justify-between gap-2 bg-gray-15 px-4 py-2">
+          <div
+            class="-mb-2 flex items-center justify-between gap-2 bg-gray-15 px-4 py-2"
+          >
             <div class="flex items-center gap-2">
               <span>{{ term.title }}</span>
               <BaseIcon
-                v-if="isAllowedToEdit && term.sessionId && term.sessionId === sid"
+                v-if="
+                  isAllowedToEdit && term.sessionId && term.sessionId === sid
+                "
                 class="mr-8"
                 icon="session-star"
                 size="small"
@@ -42,29 +46,26 @@
 
         <hr class="-mx-4 -mt-2 mb-4" />
 
-        <div
-          class="prose max-w-none"
-          v-html="sanitize(term.description)"
-        ></div>
+        <div class="prose max-w-none" v-html="sanitize(term.description)" />
       </BaseCard>
     </li>
     <li v-if="!isLoading && glossaries.length === 0">
-      {{ t("There is no terms that matches the search: %s", [searchTerm]) }}
+      {{ t('There is no terms that matches the search: %s', [searchTerm]) }}
     </li>
   </ul>
 </template>
 
-<script setup>
-import BaseButton from "../basecomponents/BaseButton.vue"
-import { useI18n } from "vue-i18n"
-import BaseCard from "../basecomponents/BaseCard.vue"
-import BaseIcon from "../basecomponents/BaseIcon.vue"
-import { useSecurityStore } from "../legacy/store/securityStore.js"
-import { useRoute } from "vue-router"
-import { computed, onMounted, ref } from "vue"
-import { checkIsAllowedToEdit } from "../legacy/composables/userPermissions.js"
-import { useCidReq } from "../legacy/composables/cidReq.js"
-import DOMPurify from "dompurify"
+<script setup lang="ts">
+import BaseButton from '../basecomponents/BaseButton.vue'
+
+import BaseCard from '../basecomponents/BaseCard.vue'
+import BaseIcon from '../basecomponents/BaseIcon.vue'
+import { useSecurityStore } from '~/stores/securityStore.js'
+import { useRoute } from 'vue-router'
+import { computed, onMounted, ref } from 'vue'
+import { checkIsAllowedToEdit } from '~/composables/userPermissions.js'
+import { useCidReq } from '~/composables/cidReq.js'
+import DOMPurify from 'dompurify'
 
 const { t } = useI18n()
 const securityStore = useSecurityStore()
@@ -89,17 +90,21 @@ defineProps({
   },
 })
 
-const emit = defineEmits(["edit", "delete"])
+const emit = defineEmits(['edit', 'delete'])
 
 const canEdit = (item) => {
   const sessionId = item.sessionId
   const isSessionDocument = sessionId && sessionId === sid
   const isBaseCourse = !sessionId
 
-  return (isSessionDocument && isAllowedToEdit.value) || (isBaseCourse && !sid && isCurrentTeacher.value)
+  return (
+    (isSessionDocument && isAllowedToEdit.value) ||
+    (isBaseCourse && !sid && isCurrentTeacher.value)
+  )
 }
 
-const sanitize = (html) => DOMPurify.sanitize(html ?? "", { ADD_ATTR: ["target", "rel"] })
+const sanitize = (html) =>
+  DOMPurify.sanitize(html ?? '', { ADD_ATTR: ['target', 'rel'] })
 
 onMounted(async () => {
   isAllowedToEdit.value = await checkIsAllowedToEdit(true, true, true)

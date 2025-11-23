@@ -1,7 +1,7 @@
-<script setup>
-import { useCidReqStore } from "../legacy/store/cidReq.js"
-import { storeToRefs } from "pinia"
-import StudentViewButton from "../StudentViewButton.vue"
+<script setup lang="ts">
+import { useCidReqStore } from '~/stores/cidReq.js'
+import { storeToRefs } from 'pinia'
+import StudentViewButton from '../StudentViewButton.vue'
 
 defineProps({
   title: {
@@ -11,7 +11,7 @@ defineProps({
   size: {
     type: String,
     required: false,
-    default: "2",
+    default: '2',
   },
 })
 
@@ -21,14 +21,8 @@ const { course } = storeToRefs(cidReqStore)
 </script>
 
 <template>
-  <div
-    :class="`section-header--h${size}`"
-    class="section-header"
-  >
-    <component
-      :is="`h${size}`"
-      class="section-header__title"
-    >
+  <div :class="`section-header--h${size}`" class="section-header">
+    <component :is="`h${size}`" class="section-header__title">
       {{ title }}
     </component>
 

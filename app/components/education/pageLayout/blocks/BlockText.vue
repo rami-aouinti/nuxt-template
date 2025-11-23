@@ -1,10 +1,10 @@
 <template>
   <div class="text-gray-800">
-    {{ block.content || "Empty Text Block" }}
+    {{ block.content || 'Empty Text Block' }}
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
   block: {
     type: Object,

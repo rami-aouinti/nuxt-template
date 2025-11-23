@@ -50,7 +50,10 @@ const iriFor = (resource: string, id: number | string | null | undefined) => {
 async function submit() {
   if (!form.name.trim() || !form.clientId) {
     Notify.error(
-      translate('crm.project.create.missing', 'Veuillez renseigner un nom et un client.'),
+      translate(
+        'crm.project.create.missing',
+        'Veuillez renseigner un nom et un client.',
+      ),
     )
     return
   }
@@ -95,7 +98,9 @@ async function submit() {
     <v-row class="mb-6">
       <v-col cols="12">
         <AppCard class="pa-6" elevation="3" hover>
-          <div class="d-flex align-center justify-space-between flex-wrap gap-4">
+          <div
+            class="d-flex align-center justify-space-between flex-wrap gap-4"
+          >
             <div>
               <div class="text-h5 font-weight-bold mb-2">
                 {{ translate('crm.project.create.title', 'Nouveau projet') }}
@@ -125,7 +130,9 @@ async function submit() {
             <v-text-field
               v-model="form.name"
               :label="translate('crm.project.name', 'Nom du projet')"
-              :placeholder="translate('crm.project.namePlaceholder', 'Refonte du site')"
+              :placeholder="
+                translate('crm.project.namePlaceholder', 'Refonte du site')
+              "
               prepend-inner-icon="mdi-briefcase-outline"
               class="mb-4"
               required
@@ -138,7 +145,12 @@ async function submit() {
               item-value="id"
               :label="translate('crm.project.client', 'Client lié')"
               prepend-inner-icon="mdi-account-tie-outline"
-              :hint="translate('crm.project.clientHint', 'Associez le projet à son client principal.')"
+              :hint="
+                translate(
+                  'crm.project.clientHint',
+                  'Associez le projet à son client principal.',
+                )
+              "
               persistent-hint
               class="mb-4"
               required

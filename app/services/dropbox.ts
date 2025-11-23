@@ -1,30 +1,34 @@
 // @ts-nocheck
-import axios from "axios"
-import { useCidReq } from "../composables/cidReq"
+import axios from 'axios'
+import { useCidReq } from '../composables/cidReq'
 
-const BASE = "/dropbox"
+const BASE = '/dropbox'
 
 function buildQuery(extra = {}, overrideCtx = {}) {
   let qCid, qSid, qGid
-  if (typeof window !== "undefined") {
-    const sp = new URLSearchParams(window.location.search || "")
-    qCid = sp.get("cid")
-    qSid = sp.get("sid")
-    qGid = sp.get("gid")
+  if (typeof window !== 'undefined') {
+    const sp = new URLSearchParams(window.location.search || '')
+    qCid = sp.get('cid')
+    qSid = sp.get('sid')
+    qGid = sp.get('gid')
   }
   let fromComp = {}
-  if (typeof useCidReq === "function") {
-    try { fromComp = useCidReq() || {} } catch {}
+  if (typeof useCidReq === 'function') {
+    try {
+      fromComp = useCidReq() || {}
+    } catch {}
   }
   const cid = overrideCtx.cid ?? qCid ?? fromComp.cid
   const sid = overrideCtx.sid ?? qSid ?? fromComp.sid ?? 0
   const gid = overrideCtx.gid ?? qGid ?? fromComp.gid ?? 0
 
   const params = new URLSearchParams({
-    cid: String(cid ?? ""),
+    cid: String(cid ?? ''),
     sid: String(sid ?? 0),
     gid: String(gid ?? 0),
-    ...Object.fromEntries(Object.entries(extra ?? {}).map(([k, v]) => [k, String(v)])),
+    ...Object.fromEntries(
+      Object.entries(extra ?? {}).map(([k, v]) => [k, String(v)]),
+    ),
   })
   return params.toString()
 }
@@ -42,7 +46,10 @@ async function createCategory({ title, area }) {
 }
 async function renameCategory({ id, title, area }) {
   const qs = buildQuery()
-  const { data } = await axios.patch(`${BASE}/categories/${id}?${qs}`, { title, area })
+  const { data } = await axios.patch(`${BASE}/categories/${id}?${qs}`, {
+    title,
+    area,
+  })
   return data
 }
 async function deleteCategory({ id, area }) {
@@ -59,12 +66,17 @@ async function listFiles({ area, categoryId = 0 }) {
 }
 async function moveFile({ id, targetCatId, area }) {
   const qs = buildQuery()
-  const { data } = await axios.patch(`${BASE}/files/${id}/move?${qs}`, { targetCatId, area })
+  const { data } = await axios.patch(`${BASE}/files/${id}/move?${qs}`, {
+    targetCatId,
+    area,
+  })
   return data
 }
 async function deleteFiles(ids, area) {
   const qs = buildQuery()
-  const { data } = await axios.delete(`${BASE}/files?${qs}`, { data: { ids, area } })
+  const { data } = await axios.delete(`${BASE}/files?${qs}`, {
+    data: { ids, area },
+  })
   return data
 }
 
@@ -76,7 +88,9 @@ async function listFeedback(id) {
 }
 async function createFeedback(id, text) {
   const qs = buildQuery()
-  const { data } = await axios.post(`${BASE}/files/${id}/feedback?${qs}`, { text })
+  const { data } = await axios.post(`${BASE}/files/${id}/feedback?${qs}`, {
+    text,
+  })
   return data
 }
 
@@ -98,7 +112,13 @@ async function getFile(id) {
 /**
  * @param {{id:number, file?: Blob|File|{data:Blob,name?:string}|null, categoryId?: number|null, renameTitle?: boolean}} args
  */
-async function updateFile({ id, file = null, categoryId = null, renameTitle = false, newTitle = "" }) {
+async function updateFile({
+  id,
+  file = null,
+  categoryId = null,
+  renameTitle = false,
+  newTitle = '',
+}) {
   const qs = buildQuery()
   const fd = new FormData()
 
@@ -109,16 +129,19 @@ async function updateFile({ id, file = null, categoryId = null, renameTitle = fa
         : file?.data instanceof Blob
           ? file.data
           : null
-    if (!blob) throw new Error("Invalid file object: expected Blob/File or Uppy file with .data")
-    const name = file?.name || "upload.bin"
-    fd.append("newFile", blob, name)
-    fd.append("renameTitle", renameTitle ? "1" : "0")
+    if (!blob)
+      throw new Error(
+        'Invalid file object: expected Blob/File or Uppy file with .data',
+      )
+    const name = file?.name || 'upload.bin'
+    fd.append('newFile', blob, name)
+    fd.append('renameTitle', renameTitle ? '1' : '0')
   }
   if (categoryId != null) {
-    fd.append("categoryId", String(categoryId))
+    fd.append('categoryId', String(categoryId))
   }
   if (renameTitle && newTitle) {
-    fd.append("newTitle", newTitle)
+    fd.append('newTitle', newTitle)
   }
 
   const { data } = await axios.post(`${BASE}/files/${id}/update?${qs}`, fd)
@@ -126,22 +149,37 @@ async function updateFile({ id, file = null, categoryId = null, renameTitle = fa
 }
 
 /** ------- Upload / Download ------- */
-export async function uploadFile({ file, description, overwrite, recipients, area, context, parentResourceNodeId }) {
-  const sp = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : new URLSearchParams("")
-  const cid = Number(context?.cid ?? (sp.get("cid") || 0))
-  const sid = Number(context?.sid ?? (sp.get("sid") || 0))
-  const gid = Number(context?.gid ?? (sp.get("gid") || 0))
-  if (!cid) throw new Error("cid missing or invalid")
+export async function uploadFile({
+  file,
+  description,
+  overwrite,
+  recipients,
+  area,
+  context,
+  parentResourceNodeId,
+}) {
+  const sp =
+    typeof window !== 'undefined'
+      ? new URLSearchParams(window.location.search)
+      : new URLSearchParams('')
+  const cid = Number(context?.cid ?? (sp.get('cid') || 0))
+  const sid = Number(context?.sid ?? (sp.get('sid') || 0))
+  const gid = Number(context?.gid ?? (sp.get('gid') || 0))
+  if (!cid) throw new Error('cid missing or invalid')
 
   const fd = new FormData()
-  fd.append("uploadFile", file, file?.name || "upload.bin")
-  fd.append("filetype", "file")
-  fd.append("description", description || "")
-  fd.append("fileExistsOption", overwrite ? "overwrite" : "")
-  ;(recipients || []).forEach((r) => fd.append("recipients[]", String(r)))
-  if (parentResourceNodeId != null) fd.append("parentResourceNodeId", String(parentResourceNodeId))
+  fd.append('uploadFile', file, file?.name || 'upload.bin')
+  fd.append('filetype', 'file')
+  fd.append('description', description || '')
+  fd.append('fileExistsOption', overwrite ? 'overwrite' : '')
+  ;(recipients || []).forEach((r) => fd.append('recipients[]', String(r)))
+  if (parentResourceNodeId != null)
+    fd.append('parentResourceNodeId', String(parentResourceNodeId))
 
-  return axios.post(`/api/c_dropbox_files/upload?cid=${cid}&sid=${sid}&gid=${gid}`, fd)
+  return axios.post(
+    `/api/c_dropbox_files/upload?cid=${cid}&sid=${sid}&gid=${gid}`,
+    fd,
+  )
 }
 
 function downloadUrl(id) {
@@ -149,7 +187,7 @@ function downloadUrl(id) {
   return `${BASE}/files/${id}/download?${qs}`
 }
 
-function categoryZipUrl(id, area = "sent") {
+function categoryZipUrl(id, area = 'sent') {
   const qs = buildQuery({ area })
   return `${BASE}/categories/${id}/zip?${qs}`
 }

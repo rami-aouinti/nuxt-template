@@ -1,21 +1,17 @@
 <template>
   <BaseTable
-    :text-for-empty="t('There is no terms that matches the search: %s', [searchTerm])"
+    :text-for-empty="
+      t('There is no terms that matches the search: %s', [searchTerm])
+    "
     :values="glossaries"
     :total-items="glossaries.length"
     data-key="title"
   >
-    <Column
-      :header="t('Term')"
-      field="title"
-    />
+    <Column :header="t('Term')" field="title" />
 
     <Column :header="t('Definition')">
       <template #body="{ data }">
-        <div
-          class="prose max-w-none"
-          v-html="sanitize(data.description)"
-        ></div>
+        <div class="prose max-w-none" v-html="sanitize(data.description)" />
       </template>
     </Column>
 
@@ -42,12 +38,11 @@
   </BaseTable>
 </template>
 
-<script setup>
-import { useI18n } from "vue-i18n"
-import Column from "primevue/column"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import BaseTable from "../basecomponents/BaseTable.vue"
-import DOMPurify from "dompurify"
+<script setup lang="ts">
+import Column from 'primevue/column'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import BaseTable from '../basecomponents/BaseTable.vue'
+import DOMPurify from 'dompurify'
 
 const { t } = useI18n()
 
@@ -62,6 +57,7 @@ defineProps({
   },
 })
 
-const emit = defineEmits(["edit", "delete"])
-const sanitize = (html) => DOMPurify.sanitize(html ?? "", { ADD_ATTR: ["target", "rel"] })
+const emit = defineEmits(['edit', 'delete'])
+const sanitize = (html) =>
+  DOMPurify.sanitize(html ?? '', { ADD_ATTR: ['target', 'rel'] })
 </script>

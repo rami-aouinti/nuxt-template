@@ -72,7 +72,7 @@ const extractPricingFromRecord = (
   }
 }
 
-export const extractCollectionItems = <T,>(input: unknown): T[] =>
+export const extractCollectionItems = <T>(input: unknown): T[] =>
   baseExtractCollectionItems<T>(input)
 
 export const resolveTranslation = (

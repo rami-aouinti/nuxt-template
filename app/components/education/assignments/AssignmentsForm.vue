@@ -31,12 +31,14 @@
 
       <div v-if="chkAddToGradebook">
         <BaseSelect
+          id="gradebook-gradebook-id"
           v-model="assignment.gradebookId"
-          :error-text="v$.gradebookId.$errors.map((e) => e.$message).join('<br>')"
+          :error-text="
+            v$.gradebookId.$errors.map((e) => e.$message).join('<br>')
+          "
           :is-invalid="v$.gradebookId.$error"
           :label="t('Select assessment')"
           :options="gradebookCategories"
-          id="gradebook-gradebook-id"
           name="gradebook_category_id"
           option-label="name"
         />
@@ -94,11 +96,11 @@
       />
 
       <BaseSelect
+        id="allow-text-assignment"
         v-model="assignment.allowTextAssignment"
         :options="documentTypes"
         option-label="label"
         option-value="value"
-        id="allow-text-assignment"
         name="allow_text_assignment"
         label=""
       />
@@ -116,22 +118,22 @@
   </form>
 </template>
 
-<script setup>
-import BaseCalendar from "../basecomponents/BaseCalendar.vue"
-import BaseInputText from "../basecomponents/BaseInputText.vue"
-import BaseAdvancedSettingsButton from "../basecomponents/BaseAdvancedSettingsButton.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import BaseCheckbox from "../basecomponents/BaseCheckbox.vue"
-import BaseSelect from "../basecomponents/BaseSelect.vue"
-import BaseInputNumber from "../basecomponents/BaseInputNumber.vue"
-import BaseTinyEditor from "../basecomponents/BaseTinyEditor.vue"
-import useVuelidate from "@vuelidate/core"
-import { computed, reactive, ref, watchEffect } from "vue"
-import { maxValue, minValue, required } from "@vuelidate/validators"
-import { useI18n } from "vue-i18n"
-import { useCidReq } from "../legacy/composables/cidReq.js"
-import { useRoute } from "vue-router"
-import { RESOURCE_LINK_PUBLISHED } from "../legacy/constants/entity/resourcelink.js"
+<script setup lang="ts">
+import BaseCalendar from '../basecomponents/BaseCalendar.vue'
+import BaseInputText from '../basecomponents/BaseInputText.vue'
+import BaseAdvancedSettingsButton from '../basecomponents/BaseAdvancedSettingsButton.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import BaseCheckbox from '../basecomponents/BaseCheckbox.vue'
+import BaseSelect from '../basecomponents/BaseSelect.vue'
+import BaseInputNumber from '../basecomponents/BaseInputNumber.vue'
+import BaseTinyEditor from '../basecomponents/BaseTinyEditor.vue'
+import useVuelidate from '@vuelidate/core'
+import { computed, reactive, ref, watchEffect } from 'vue'
+import { maxValue, minValue, required } from '@vuelidate/validators'
+
+import { useCidReq } from '~/composables/cidReq.js'
+import { useRoute } from 'vue-router'
+import { RESOURCE_LINK_PUBLISHED } from '~/constants/entity/resourcelink.js'
 
 const props = defineProps({
   defaultAssignment: {
@@ -144,7 +146,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(["submit"])
+const emit = defineEmits(['submit'])
 
 const { t } = useI18n()
 const { cid, sid, gid } = useCidReq()
@@ -155,16 +157,16 @@ const chkAddToGradebook = ref(false)
 const chkExpiresOn = ref(false)
 const chkEndsOn = ref(false)
 
-const gradebookCategories = ref([{ name: "Default", id: 1 }])
+const gradebookCategories = ref([{ name: 'Default', id: 1 }])
 const documentTypes = ref([
-  { label: t("Allow files or online text"), value: 0 },
-  { label: t("Allow only text"), value: 1 },
-  { label: t("Allow only files"), value: 2 },
+  { label: t('Allow files or online text'), value: 0 },
+  { label: t('Allow only text'), value: 1 },
+  { label: t('Allow only files'), value: 2 },
 ])
 
 const assignment = reactive({
-  title: "",
-  description: "",
+  title: '',
+  description: '',
   qualification: 0,
   gradebookId: gradebookCategories.value[0],
   weight: 0,
@@ -256,10 +258,10 @@ async function onSubmit() {
   if (chkEndsOn.value) {
     payload.endsOn = assignment.endsOn.toISOString()
   }
-  if (props.defaultAssignment?.["@id"]) {
-    payload["@id"] = props.defaultAssignment["@id"]
+  if (props.defaultAssignment?.['@id']) {
+    payload['@id'] = props.defaultAssignment['@id']
   }
 
-  emit("submit", payload)
+  emit('submit', payload)
 }
 </script>

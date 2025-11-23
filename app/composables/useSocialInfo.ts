@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { onMounted, readonly, ref } from "vue"
-import { useStore } from "vuex"
-import { useRoute } from "vue-router"
-import axios from "axios"
-import { useSecurityStore } from "../store/securityStore"
+import { onMounted, readonly, ref } from 'vue'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
+import axios from 'axios'
+import { useSecurityStore } from '../store/securityStore'
 
 export function useSocialInfo() {
   const store = useStore()
@@ -13,9 +13,9 @@ export function useSocialInfo() {
   const isCurrentUser = ref(true)
   const groupInfo = ref({
     isMember: false,
-    title: "",
-    description: "",
-    role: "",
+    title: '',
+    description: '',
+    role: '',
   })
   const isGroup = ref(false)
   const isLoading = ref(true)
@@ -23,7 +23,9 @@ export function useSocialInfo() {
     isLoading.value = true
     if (groupId) {
       try {
-        const response = await axios.get(`/social-network/group-details/${groupId}`)
+        const response = await axios.get(
+          `/social-network/group-details/${groupId}`,
+        )
         groupInfo.value = {
           ...response.data,
           isMember: response.data.isMember,
@@ -31,7 +33,7 @@ export function useSocialInfo() {
         }
         isGroup.value = true
       } catch (error) {
-        console.error("Error loading group:", error)
+        console.error('Error loading group:', error)
         groupInfo.value = {}
         isGroup.value = false
       }
@@ -45,10 +47,12 @@ export function useSocialInfo() {
     try {
       if (route.query.id) {
         const params = { ...route.query }
-        if (route.path.includes("/social")) {
-          params.page_origin = "social"
+        if (route.path.includes('/social')) {
+          params.page_origin = 'social'
         }
-        const response = await axios.get(`/api/users/${route.query.id}`, { params })
+        const response = await axios.get(`/api/users/${route.query.id}`, {
+          params,
+        })
         user.value = response.data
         isCurrentUser.value = false
       } else {

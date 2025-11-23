@@ -1,11 +1,11 @@
-<script setup>
-import { ref } from "vue"
+<script setup lang="ts">
+import { ref } from 'vue'
 
-import Skeleton from "primevue/skeleton"
+import Skeleton from 'primevue/skeleton'
 
-import { useNotification } from "../legacy/composables/notification.js"
+import { useNotification } from '~/composables/notification.js'
 
-import * as skillProfileService from "../legacy/services/skillProfileService.js"
+import * as skillProfileService from '~/services/skillProfileService.js'
 
 const { showErrorNotification } = useNotification()
 
@@ -22,7 +22,8 @@ async function searchProfileMatches(skills) {
   const skillIdList = skills.map((skill) => skill.id)
 
   try {
-    containerEl.value.innerHTML = await skillProfileService.matchProfiles(skillIdList)
+    containerEl.value.innerHTML =
+      await skillProfileService.matchProfiles(skillIdList)
   } catch (e) {
     showErrorNotification(e)
   } finally {
@@ -36,12 +37,6 @@ defineExpose({
 </script>
 
 <template>
-  <Skeleton
-    v-if="isLoading"
-    height="10rem"
-  />
-  <div
-    v-show="!isLoading"
-    ref="containerEl"
-  />
+  <Skeleton v-if="isLoading" height="10rem" />
+  <div v-show="!isLoading" ref="containerEl" />
 </template>

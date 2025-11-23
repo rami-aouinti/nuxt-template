@@ -12,9 +12,9 @@
         <Dropdown
           v-model="model.extra[f.variable]"
           :options="toDropdown(f.options)"
-          optionLabel="label"
-          optionValue="value"
-          showClear
+          option-label="label"
+          option-value="value"
+          show-clear
           :placeholder="$t('Select')"
           class="w-full"
         />
@@ -26,8 +26,8 @@
         <MultiSelect
           v-model="model.extra[f.variable]"
           :options="toDropdown(f.options)"
-          optionLabel="label"
-          optionValue="value"
+          option-label="label"
+          option-value="value"
           display="chip"
           :placeholder="$t('Select')"
           class="w-full"
@@ -38,8 +38,16 @@
       <div v-else-if="isRadio(f)">
         <label class="block text-sm font-medium mb-1">{{ f.title }}</label>
         <div class="flex flex-wrap gap-3">
-          <div v-for="opt in toDropdown(f.options)" :key="opt.value" class="flex items-center gap-2">
-            <RadioButton :inputId="f.variable + opt.value" :value="opt.value" v-model="model.extra[f.variable]" />
+          <div
+            v-for="opt in toDropdown(f.options)"
+            :key="opt.value"
+            class="flex items-center gap-2"
+          >
+            <RadioButton
+              v-model="model.extra[f.variable]"
+              :input-id="f.variable + opt.value"
+              :value="opt.value"
+            />
             <label :for="f.variable + opt.value">{{ opt.label }}</label>
           </div>
         </div>
@@ -49,15 +57,26 @@
       <div v-else-if="isCheckbox(f)">
         <label class="block text-sm font-medium mb-1">{{ f.title }}</label>
         <div v-if="hasOptions(f)" class="flex flex-col gap-1">
-          <div v-for="opt in toDropdown(f.options)" :key="opt.value" class="flex items-center gap-2">
-            <Checkbox :inputId="f.variable + opt.value"
-                      :value="opt.value"
-                      v-model="model.extra[f.variable]" binary="false" />
+          <div
+            v-for="opt in toDropdown(f.options)"
+            :key="opt.value"
+            class="flex items-center gap-2"
+          >
+            <Checkbox
+              v-model="model.extra[f.variable]"
+              :input-id="f.variable + opt.value"
+              :value="opt.value"
+              binary="false"
+            />
             <label :for="f.variable + opt.value">{{ opt.label }}</label>
           </div>
         </div>
         <div v-else class="flex items-center gap-2">
-          <Checkbox :inputId="f.variable" v-model="model.extra[f.variable]" binary />
+          <Checkbox
+            v-model="model.extra[f.variable]"
+            :input-id="f.variable"
+            binary
+          />
           <label :for="f.variable">{{ $t('Yes') }}</label>
         </div>
       </div>
@@ -65,13 +84,25 @@
       <!-- DATE -->
       <div v-else-if="isDate(f)">
         <label class="block text-sm font-medium mb-1">{{ f.title }}</label>
-        <Calendar v-model="model.extra[f.variable]" dateFormat="yy-mm-dd" showIcon class="w-full" />
+        <Calendar
+          v-model="model.extra[f.variable]"
+          date-format="yy-mm-dd"
+          show-icon
+          class="w-full"
+        />
       </div>
 
       <!-- DATETIME -->
       <div v-else-if="isDateTime(f)">
         <label class="block text-sm font-medium mb-1">{{ f.title }}</label>
-        <Calendar v-model="model.extra[f.variable]" showTime hourFormat="24" dateFormat="yy-mm-dd" showIcon class="w-full" />
+        <Calendar
+          v-model="model.extra[f.variable]"
+          show-time
+          hour-format="24"
+          date-format="yy-mm-dd"
+          show-icon
+          class="w-full"
+        />
       </div>
 
       <!-- SELECT + TEXT -->
@@ -81,9 +112,15 @@
           <Dropdown
             v-model="model.extra[f.variable]"
             :options="toDropdown(level1(f))"
-            optionLabel="label" optionValue="id" showClear class="w-full"
+            option-label="label"
+            option-value="id"
+            show-clear
+            class="w-full"
           />
-          <InputText v-model="model.extra[`${f.variable}_second`]" :placeholder="$t('Enter a value here')" />
+          <InputText
+            v-model="model.extra[`${f.variable}_second`]"
+            :placeholder="$t('Enter a value here')"
+          />
         </div>
       </div>
 
@@ -94,13 +131,19 @@
           <Dropdown
             v-model="model.extra[f.variable]"
             :options="toDropdown(level1(f))"
-            optionLabel="label" optionValue="id" showClear class="w-full"
+            option-label="label"
+            option-value="id"
+            show-clear
+            class="w-full"
             @change="onDoubleChange(f)"
           />
           <Dropdown
             v-model="model.extra[`${f.variable}_second`]"
             :options="toDropdown(level2(f, model.extra[f.variable]))"
-            optionLabel="label" optionValue="id" showClear class="w-full"
+            option-label="label"
+            option-value="id"
+            show-clear
+            class="w-full"
             :disabled="!model.extra[f.variable]"
           />
         </div>
@@ -113,20 +156,31 @@
           <Dropdown
             v-model="model.extra[f.variable]"
             :options="toDropdown(level1(f))"
-            optionLabel="label" optionValue="id" showClear class="w-full"
+            option-label="label"
+            option-value="id"
+            show-clear
+            class="w-full"
             @change="onTripleL1Change(f)"
           />
           <Dropdown
             v-model="model.extra[`${f.variable}_second`]"
             :options="toDropdown(level2(f, model.extra[f.variable]))"
-            optionLabel="label" optionValue="id" showClear class="w-full"
+            option-label="label"
+            option-value="id"
+            show-clear
+            class="w-full"
             :disabled="!model.extra[f.variable]"
             @change="onTripleL2Change(f)"
           />
           <Dropdown
             v-model="model.extra[`${f.variable}_third`]"
-            :options="toDropdown(level3(f, model.extra[`${f.variable}_second`]))"
-            optionLabel="label" optionValue="id" showClear class="w-full"
+            :options="
+              toDropdown(level3(f, model.extra[`${f.variable}_second`]))
+            "
+            option-label="label"
+            option-value="id"
+            show-clear
+            class="w-full"
             :disabled="!model.extra[`${f.variable}_second`]"
           />
         </div>
@@ -135,7 +189,10 @@
       <!-- TAGS -->
       <div v-else-if="isTag(f)">
         <label class="block text-sm font-medium mb-1">{{ f.title }}</label>
-        <Chips v-model="model.extra[f.variable]" :placeholder="$t('Add tags')" />
+        <Chips
+          v-model="model.extra[f.variable]"
+          :placeholder="$t('Add tags')"
+        />
       </div>
 
       <!-- TEXT / INTEGER / FLOAT / DURATION  -->
@@ -146,13 +203,22 @@
     </template>
 
     <div class="md:col-span-4 flex flex-wrap gap-2 justify-end">
-      <Button type="button" class="p-button-outlined" :label="$t('Clear')" @click="clear" />
-      <Button type="submit" :label="$t('Apply advanced filters')" icon="pi pi-filter" />
+      <Button
+        type="button"
+        class="p-button-outlined"
+        :label="$t('Clear')"
+        @click="clear"
+      />
+      <Button
+        type="submit"
+        :label="$t('Apply advanced filters')"
+        icon="pi pi-filter"
+      />
     </div>
   </form>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, computed } from 'vue'
 import Dropdown from 'primevue/dropdown'
 import MultiSelect from 'primevue/multiselect'
@@ -164,12 +230,34 @@ import Chips from 'primevue/chips'
 import Button from 'primevue/button'
 
 const TYPE = {
-  TEXT: 1, TEXTAREA: 2, RADIO: 3, SELECT: 4, SELECT_MULTI: 5,
-  DATE: 6, DATETIME: 7, DOUBLE: 8, DIVIDER: 9, TAG: 10,
-  TIMEZONE: 11, SOCIAL: 12, CHECKBOX: 13, MOBILE: 14, INTEGER: 15,
-  FILE_IMAGE: 16, FLOAT: 17, FILE: 18, VIDEO_URL: 19, LETTERS_ONLY: 20,
-  ALPHANUM: 21, LETTERS_SPACE: 22, ALPHANUM_SPACE: 23, GEO: 24,
-  GEO_COORD: 25, SELECT_WITH_TEXT: 26, TRIPLE: 27, DURATION: 28,
+  TEXT: 1,
+  TEXTAREA: 2,
+  RADIO: 3,
+  SELECT: 4,
+  SELECT_MULTI: 5,
+  DATE: 6,
+  DATETIME: 7,
+  DOUBLE: 8,
+  DIVIDER: 9,
+  TAG: 10,
+  TIMEZONE: 11,
+  SOCIAL: 12,
+  CHECKBOX: 13,
+  MOBILE: 14,
+  INTEGER: 15,
+  FILE_IMAGE: 16,
+  FLOAT: 17,
+  FILE: 18,
+  VIDEO_URL: 19,
+  LETTERS_ONLY: 20,
+  ALPHANUM: 21,
+  LETTERS_SPACE: 22,
+  ALPHANUM_SPACE: 23,
+  GEO: 24,
+  GEO_COORD: 25,
+  SELECT_WITH_TEXT: 26,
+  TRIPLE: 27,
+  DURATION: 28,
 }
 
 // Props
@@ -184,25 +272,31 @@ const model = reactive({
   extra: {},
 })
 
-const isSelect        = f => f.value_type === TYPE.SELECT
-const isMulti         = f => f.value_type === TYPE.SELECT_MULTI
-const isRadio         = f => f.value_type === TYPE.RADIO
-const isCheckbox      = f => f.value_type === TYPE.CHECKBOX
-const isDate          = f => f.value_type === TYPE.DATE
-const isDateTime      = f => f.value_type === TYPE.DATETIME
-const isDouble        = f => f.value_type === TYPE.DOUBLE
-const isTriple        = f => f.value_type === TYPE.TRIPLE
-const isSelectWithText= f => f.value_type === TYPE.SELECT_WITH_TEXT
-const isTag           = f => f.value_type === TYPE.TAG
-const hasOptions      = f => Array.isArray(f.options) && f.options.length > 0
+const isSelect = (f) => f.value_type === TYPE.SELECT
+const isMulti = (f) => f.value_type === TYPE.SELECT_MULTI
+const isRadio = (f) => f.value_type === TYPE.RADIO
+const isCheckbox = (f) => f.value_type === TYPE.CHECKBOX
+const isDate = (f) => f.value_type === TYPE.DATE
+const isDateTime = (f) => f.value_type === TYPE.DATETIME
+const isDouble = (f) => f.value_type === TYPE.DOUBLE
+const isTriple = (f) => f.value_type === TYPE.TRIPLE
+const isSelectWithText = (f) => f.value_type === TYPE.SELECT_WITH_TEXT
+const isTag = (f) => f.value_type === TYPE.TAG
+const hasOptions = (f) => Array.isArray(f.options) && f.options.length > 0
 
-const toDropdown = opts => (opts || []).map(o => ({
-  id: o.id, label: o.label, value: o.value ?? o.id, parent: o.parent ?? 0,
-}))
+const toDropdown = (opts) =>
+  (opts || []).map((o) => ({
+    id: o.id,
+    label: o.label,
+    value: o.value ?? o.id,
+    parent: o.parent ?? 0,
+  }))
 
-const level1 = f => (f.options || []).filter(o => Number(o.parent) === 0)
-const level2 = (f, parentId) => (f.options || []).filter(o => String(o.parent) === String(parentId))
-const level3 = (f, parentId) => (f.options || []).filter(o => String(o.parent) === String(parentId))
+const level1 = (f) => (f.options || []).filter((o) => Number(o.parent) === 0)
+const level2 = (f, parentId) =>
+  (f.options || []).filter((o) => String(o.parent) === String(parentId))
+const level3 = (f, parentId) =>
+  (f.options || []).filter((o) => String(o.parent) === String(parentId))
 
 function onDoubleChange(f) {
   model.extra[`${f.variable}_second`] = ''

@@ -9,6 +9,11 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'change'],
   setup(_props, { slots }) {
-    return () => h('div', { class: 'vuedraggable-stub' }, slots.default ? slots.default() : [])
+    return () =>
+      h(
+        'div',
+        { class: 'vuedraggable-stub' },
+        slots.default ? slots.default() : [],
+      )
   },
 })

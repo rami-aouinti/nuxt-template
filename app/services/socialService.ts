@@ -1,11 +1,11 @@
 // @ts-nocheck
-import axios from "axios"
-import baseService from "./baseService"
+import axios from 'axios'
+import baseService from './baseService'
 
-const API_URL = "/social-network"
+const API_URL = '/social-network'
 
 async function createPost(params) {
-  return baseService.post("/api/social_posts", params)
+  return baseService.post('/api/social_posts', params)
 }
 
 /**
@@ -29,7 +29,7 @@ async function sendPostDislike(postIri) {
  * @returns {Promise<Object>}
  */
 async function addAttachment(formData) {
-  return await baseService.postForm("/api/social_post_attachments", formData)
+  return await baseService.postForm('/api/social_post_attachments', formData)
 }
 
 export default {
@@ -39,18 +39,20 @@ export default {
 
       return response.data.personalData
     } catch (error) {
-      console.error("Error fetching personal data:", error)
+      console.error('Error fetching personal data:', error)
       throw error
     }
   },
 
   async fetchTermsAndConditions(userId) {
     try {
-      const response = await axios.get(`${API_URL}/terms-and-conditions/${userId}`)
+      const response = await axios.get(
+        `${API_URL}/terms-and-conditions/${userId}`,
+      )
 
       return response.data.terms
     } catch (error) {
-      console.error("Error fetching terms and conditions:", error)
+      console.error('Error fetching terms and conditions:', error)
       throw error
     }
   },
@@ -61,7 +63,7 @@ export default {
 
       return response.data
     } catch (error) {
-      console.error("Error fetching legal status:", error)
+      console.error('Error fetching legal status:', error)
       throw error
     }
   },
@@ -76,7 +78,7 @@ export default {
 
       return response.data
     } catch (error) {
-      console.error("Error submitting privacy request:", error)
+      console.error('Error submitting privacy request:', error)
       throw error
     }
   },
@@ -89,7 +91,7 @@ export default {
 
       return response.data
     } catch (error) {
-      console.error("Error accepting the term:", error)
+      console.error('Error accepting the term:', error)
       throw error
     }
   },
@@ -102,7 +104,7 @@ export default {
 
       return response.data
     } catch (error) {
-      console.error("Error revoking acceptance:", error)
+      console.error('Error revoking acceptance:', error)
       throw error
     }
   },
@@ -111,7 +113,7 @@ export default {
     try {
       return await baseService.get(`${API_URL}/terms-restrictions/${userId}`)
     } catch (error) {
-      console.error("Error checking terms restrictions:", error)
+      console.error('Error checking terms restrictions:', error)
       throw error
     }
   },
@@ -122,7 +124,7 @@ export default {
 
       return response.data
     } catch (error) {
-      console.error("Error fetching invitations:", error)
+      console.error('Error fetching invitations:', error)
       throw error
     }
   },
@@ -132,13 +134,13 @@ export default {
       const response = await axios.post(`${API_URL}/user-action`, {
         userId,
         targetUserId,
-        action: "add_friend",
+        action: 'add_friend',
         is_my_friend: true,
       })
 
       return response.data
     } catch (error) {
-      console.error("Error accepting invitation:", error)
+      console.error('Error accepting invitation:', error)
       throw error
     }
   },
@@ -148,12 +150,12 @@ export default {
       const response = await axios.post(`${API_URL}/user-action`, {
         userId,
         targetUserId,
-        action: "deny_friend",
+        action: 'deny_friend',
       })
 
       return response.data
     } catch (error) {
-      console.error("Error denying invitation:", error)
+      console.error('Error denying invitation:', error)
       throw error
     }
   },
@@ -163,12 +165,12 @@ export default {
       const response = await axios.post(`${API_URL}/group-action`, {
         userId,
         groupId,
-        action: "accept",
+        action: 'accept',
       })
 
       return response.data
     } catch (error) {
-      console.error("Error accepting group invitation:", error)
+      console.error('Error accepting group invitation:', error)
       throw error
     }
   },
@@ -178,12 +180,12 @@ export default {
       const response = await axios.post(`${API_URL}/group-action`, {
         userId,
         groupId,
-        action: "deny",
+        action: 'deny',
       })
 
       return response.data
     } catch (error) {
-      console.error("Error denying group invitation:", error)
+      console.error('Error denying group invitation:', error)
       throw error
     }
   },
@@ -193,12 +195,12 @@ export default {
       const response = await axios.post(`${API_URL}/group-action`, {
         userId,
         groupId,
-        action: "join",
+        action: 'join',
       })
 
       return response.data
     } catch (error) {
-      console.error("Error joining the group:", error)
+      console.error('Error joining the group:', error)
       throw error
     }
   },

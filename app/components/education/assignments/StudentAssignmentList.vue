@@ -7,10 +7,7 @@
   >
     <Column :header="t('Type')">
       <template #body>
-        <BaseIcon
-          icon="file-text"
-          size="small"
-        />
+        <BaseIcon icon="file-text" size="small" />
       </template>
     </Column>
 
@@ -37,8 +34,10 @@
           v-if="slotProps.data.feedbackCount > 0"
           class="flex items-center gap-2"
         >
-          <span class="bg-primary text-white text-tiny font-semibold px-2 py-0.5 rounded">
-            {{ slotProps.data.feedbackCount }} {{ t("Feedback") }}
+          <span
+            class="bg-primary text-white text-tiny font-semibold px-2 py-0.5 rounded"
+          >
+            {{ slotProps.data.feedbackCount }} {{ t('Feedback') }}
           </span>
           <BaseIcon
             icon="comment"
@@ -53,7 +52,7 @@
 
     <Column :header="t('Last upload')">
       <template #body="slotProps">
-        {{ abbreviatedDatetime(slotProps.data.sentDate) || "-" }}
+        {{ abbreviatedDatetime(slotProps.data.sentDate) || '-' }}
       </template>
     </Column>
   </BaseTable>
@@ -61,22 +60,22 @@
   <CorrectAndRateModal
     v-model="showCorrectAndRateDialog"
     :item="correctingItem"
-    @commentSent="loadAssignments"
-    @update:modelValue="handleDialogVisibility"
+    @comment-sent="loadAssignments"
+    @update:model-value="handleDialogVisibility"
   />
 </template>
 
-<script setup>
-import Column from "primevue/column"
-import { ref, onMounted, nextTick } from "vue"
-import { useI18n } from "vue-i18n"
-import { useFormatDate } from "../legacy/composables/formatDate.js"
-import { useRoute, useRouter } from "vue-router"
-import { useCidReq } from "../legacy/composables/cidReq.js"
-import cStudentPublicationService from "../legacy/services/cstudentpublication.js"
-import BaseIcon from "../basecomponents/BaseIcon.vue"
-import BaseTable from "../basecomponents/BaseTable.vue"
-import CorrectAndRateModal from "./CorrectAndRateModal.vue"
+<script setup lang="ts">
+import Column from 'primevue/column'
+import { ref, onMounted, nextTick } from 'vue'
+
+import { useFormatDate } from '~/composables/formatDate.js'
+import { useRoute, useRouter } from 'vue-router'
+import { useCidReq } from '~/composables/cidReq.js'
+import cStudentPublicationService from '~/services/cstudentpublication.js'
+import BaseIcon from '../basecomponents/BaseIcon.vue'
+import BaseTable from '../basecomponents/BaseTable.vue'
+import CorrectAndRateModal from './CorrectAndRateModal.vue'
 
 const { t } = useI18n()
 const { abbreviatedDatetime } = useFormatDate()
@@ -109,12 +108,12 @@ onMounted(async () => {
   loading.value = true
   try {
     const response = await cStudentPublicationService.findStudentAssignments()
-    assignments.value = response["hydra:member"].map((item) => ({
+    assignments.value = response['hydra:member'].map((item) => ({
       ...item,
       id: item.iid,
     }))
   } catch (e) {
-    console.error("Error loading student assignments", e)
+    console.error('Error loading student assignments', e)
   } finally {
     loading.value = false
   }
@@ -122,11 +121,11 @@ onMounted(async () => {
 
 function getNodeIdFromAssignment(item) {
   const rn = item?.resourceNode
-  if (rn && typeof rn === "object" && "id" in rn) {
+  if (rn && typeof rn === 'object' && 'id' in rn) {
     return Number(rn.id)
   }
 
-  if (typeof rn === "string") {
+  if (typeof rn === 'string') {
     const m = rn.match(/(\d+)$/)
     if (m) return Number(m[1])
   }
@@ -147,14 +146,14 @@ function goToAssignmentDetail(assignment) {
   const nodeId = getNodeIdFromAssignment(assignment)
 
   router.push({
-    name: "AssignmentDetail",
+    name: 'AssignmentDetail',
     params: { id: assignment.id, node: nodeId },
     query: { cid, ...(sid && { sid }), ...(gid && { gid }) },
   })
 }
 
 function formatStored(val) {
-  if (!val) return "—"
+  if (!val) return '—'
   const s = String(val)
   const m = s.match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/)
   if (m) return `${m[3]}/${m[2]}/${m[1]} ${m[4]}:${m[5]}`

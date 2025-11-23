@@ -1,14 +1,11 @@
 <template>
   <div class="social-group-show group-info text-center">
     <div class="group-header">
-      <h1 class="group-title">{{ groupInfo?.title || "..." }}</h1>
+      <h1 class="group-title">{{ groupInfo?.title || '...' }}</h1>
       <p class="group-description">{{ groupInfo?.description }}</p>
     </div>
   </div>
-  <div
-    v-if="!isLoading"
-    class="discussion"
-  >
+  <div v-if="!isLoading" class="discussion">
     <BaseButton
       :label="t('Back')"
       class="back-button mb-8"
@@ -16,7 +13,7 @@
       type="button"
       @click="goBack"
     />
-    <h2>{{ firstMessageTitle || "Discussion Thread" }}</h2>
+    <h2>{{ firstMessageTitle || 'Discussion Thread' }}</h2>
     <div class="message-list mt-8">
       <MessageItem
         v-for="message in messages"
@@ -68,17 +65,17 @@
   </Dialog>
 </template>
 
-<script setup>
-import { computed, onMounted, reactive, ref, toRefs } from "vue"
-import { useRoute, useRouter } from "vue-router"
-import { useSocialInfo } from "../legacy/composables/useSocialInfo.js"
-import axios from "axios"
-import MessageItem from "./MessageItem.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import { useI18n } from "vue-i18n"
-import BaseInputText from "../basecomponents/BaseInputText.vue"
-import BaseFileUploadMultiple from "../basecomponents/BaseFileUploadMultiple.vue"
-import BaseTinyEditor from "../basecomponents/BaseTinyEditor.vue"
+<script setup lang="ts">
+import { computed, onMounted, reactive, ref, toRefs } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useSocialInfo } from '~/composables/useSocialInfo.js'
+import axios from 'axios'
+import MessageItem from './MessageItem.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
+
+import BaseInputText from '../basecomponents/BaseInputText.vue'
+import BaseFileUploadMultiple from '../basecomponents/BaseFileUploadMultiple.vue'
+import BaseTinyEditor from '../basecomponents/BaseTinyEditor.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -94,8 +91,8 @@ const showMessageDialog = ref(false)
 const isEditMode = ref(false)
 const currentMessageId = ref(null)
 const state = reactive({
-  messageTitle: "",
-  messageContent: "",
+  messageTitle: '',
+  messageContent: '',
   files: [],
   titleError: false,
 })
@@ -113,10 +110,12 @@ const fetchMessages = async () => {
   const groupId = route.params.group_id
   const discussionId = route.params.discussion_id
   try {
-    const response = await axios.get(`/social-network/group/${groupId}/discussion/${discussionId}/messages`)
+    const response = await axios.get(
+      `/social-network/group/${groupId}/discussion/${discussionId}/messages`,
+    )
     messages.value = response.data
   } catch (error) {
-    console.error("Error fetching messages:", error)
+    console.error('Error fetching messages:', error)
   }
 }
 
@@ -135,52 +134,60 @@ function openDialogForEdit(message) {
 }
 
 async function handleSubmit() {
-  if (isEditMode.value && title.value.trim() === "") {
+  if (isEditMode.value && title.value.trim() === '') {
     titleError.value = true
     return
   }
   const filesArray = files.value
   const formData = new FormData()
-  formData.append("action", isEditMode.value ? "edit_message_group" : "reply_message_group")
-  formData.append("title", messageTitle.value)
-  formData.append("content", messageContent.value)
+  formData.append(
+    'action',
+    isEditMode.value ? 'edit_message_group' : 'reply_message_group',
+  )
+  formData.append('title', messageTitle.value)
+  formData.append('content', messageContent.value)
   if (isEditMode.value) {
-    formData.append("messageId", currentMessageId.value)
+    formData.append('messageId', currentMessageId.value)
   } else {
-    formData.append("parentId", currentMessageId.value)
+    formData.append('parentId', currentMessageId.value)
   }
-  formData.append("userId", user.value.id)
-  formData.append("groupId", groupInfo.value.id)
+  formData.append('userId', user.value.id)
+  formData.append('groupId', groupInfo.value.id)
   for (let i = 0; i < filesArray.length; i++) {
-    formData.append("files[]", filesArray[i])
+    formData.append('files[]', filesArray[i])
   }
   try {
-    await axios.post("/social-network/group-action", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
+    await axios.post('/social-network/group-action', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
     })
     showMessageDialog.value = false
     await fetchMessages()
   } catch (error) {
-    console.error("Error submitting the form:", error)
+    console.error('Error submitting the form:', error)
   }
 }
 
 const deleteMessage = async (message) => {
   try {
-    const confirmed = confirm(`Are you sure you want to delete this message: ${message.title}?`)
+    const confirmed = confirm(
+      `Are you sure you want to delete this message: ${message.title}?`,
+    )
     if (!confirmed) {
       return
     }
     const data = {
-      action: "delete_message_group",
+      action: 'delete_message_group',
       messageId: message.id,
       userId: user.value.id,
       groupId: groupInfo.value.id,
     }
-    await axios.post("/social-network/group-action", data)
-    await router.push({ name: "UserGroupShow", params: { group_id: groupInfo.value.id } })
+    await axios.post('/social-network/group-action', data)
+    await router.push({
+      name: 'UserGroupShow',
+      params: { group_id: groupInfo.value.id },
+    })
   } catch (error) {
-    console.error("Error deleting the message:", error)
+    console.error('Error deleting the message:', error)
   }
 }
 onMounted(() => {

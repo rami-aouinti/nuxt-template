@@ -1,7 +1,9 @@
 <template>
   <Card class="course-card">
     <template #header>
-      <div class="relative aspect-[16/9] w-full overflow-hidden rounded-t-2xl bg-gray-100">
+      <div
+        class="relative aspect-[16/9] w-full overflow-hidden rounded-t-2xl bg-gray-100"
+      >
         <img
           v-if="isLocked"
           :alt="course.title || 'Course illustration'"
@@ -12,7 +14,11 @@
         />
         <BaseAppLink
           v-else
-          :to="{ name: 'CourseHome', params: { id: course._id }, query: { sid: sessionId } }"
+          :to="{
+            name: 'CourseHome',
+            params: { id: course._id },
+            query: { sid: sessionId },
+          }"
           aria-label="Open course"
           class="absolute inset-0 block"
         >
@@ -29,11 +35,7 @@
     <template #title>
       <div class="course-card__title flex items-center gap-2">
         <div v-if="isLocked">
-          <div
-            v-if="session"
-            class="session__title"
-            v-text="session.title"
-          />
+          <div v-if="session" class="session__title" v-text="session.title" />
           {{ course.title }}
           <span v-if="showCourseDuration && course.duration">
             ({{ (course.duration / 60 / 60).toFixed(2) }} hours)
@@ -41,14 +43,14 @@
         </div>
         <BaseAppLink
           v-else
-          :to="{ name: 'CourseHome', params: { id: course._id }, query: { sid: sessionId } }"
+          :to="{
+            name: 'CourseHome',
+            params: { id: course._id },
+            query: { sid: sessionId },
+          }"
           class="course-card__home-link"
         >
-          <div
-            v-if="session"
-            class="session__title"
-            v-text="session.title"
-          />
+          <div v-if="session" class="session__title" v-text="session.title" />
           {{ course.title }}
         </BaseAppLink>
 
@@ -56,7 +58,7 @@
           v-if="isLocked && hasRequirements"
           class="!bg-support-1 !text-support-3 !rounded-md !shadow-sm hover:!bg-support-2"
           icon="shield-check"
-          onlyIcon
+          only-icon
           size="large"
           type="black"
           @click="openRequirementsModal"
@@ -83,16 +85,16 @@
   />
 </template>
 
-<script setup>
-import Card from "primevue/card"
-import BaseAvatarList from "../basecomponents/BaseAvatarList.vue"
-import { computed, onMounted, ref } from "vue"
-import { useFormatDate } from "../legacy/composables/formatDate.js"
-import { usePlatformConfig } from "../legacy/store/platformConfig.js"
-import { useI18n } from "vue-i18n"
-import { useCourseRequirementStatus } from "../legacy/composables/course/useCourseRequirementStatus.js"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import CatalogueRequirementModal from "./CatalogueRequirementModal.vue"
+<script setup lang="ts">
+import Card from 'primevue/card'
+import BaseAvatarList from '../basecomponents/BaseAvatarList.vue'
+import { computed, onMounted, ref } from 'vue'
+import { useFormatDate } from '~/composables/formatDate.js'
+import { usePlatformConfig } from '~/stores/platformConfig.js'
+
+import { useCourseRequirementStatus } from '~/composables/course/useCourseRequirementStatus.js'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import CatalogueRequirementModal from './CatalogueRequirementModal.vue'
 
 const { abbreviatedDatetime } = useFormatDate()
 
@@ -121,7 +123,10 @@ const props = defineProps({
 const { t } = useI18n()
 const platformConfigStore = usePlatformConfig()
 const showRemainingDays = computed(
-  () => platformConfigStore.getSetting("session.session_list_view_remaining_days") === "true",
+  () =>
+    platformConfigStore.getSetting(
+      'session.session_list_view_remaining_days',
+    ) === 'true',
 )
 
 const daysRemainingText = computed(() => {
@@ -134,17 +139,20 @@ const daysRemainingText = computed(() => {
   const diff = Math.floor((endDate - today) / (1000 * 60 * 60 * 24))
 
   if (diff > 1) return `${diff} days remaining`
-  if (diff === 1) return t("Ends tomorrow")
-  if (diff === 0) return t("Ends today")
-  return t("Expired")
+  if (diff === 1) return t('Ends tomorrow')
+  if (diff === 0) return t('Ends today')
+  return t('Expired')
 })
 
-const showCourseDuration = computed(() => platformConfigStore.getSetting("course.show_course_duration") === "true")
+const showCourseDuration = computed(
+  () =>
+    platformConfigStore.getSetting('course.show_course_duration') === 'true',
+)
 
 const teachers = computed(() => {
   if (props.session?.courseCoachesSubscriptions) {
     return props.session.courseCoachesSubscriptions
-      .filter((srcru) => srcru.course["@id"] === props.course["@id"])
+      .filter((srcru) => srcru.course['@id'] === props.course['@id'])
       .map((srcru) => srcru.user)
   }
 
@@ -162,22 +170,21 @@ const sessionDisplayDate = computed(() => {
   if (daysRemainingText.value) return daysRemainingText.value
 
   const parts = []
-  if (props.session?.displayStartDate) parts.push(abbreviatedDatetime(props.session.displayStartDate))
-  if (props.session?.displayEndDate) parts.push(abbreviatedDatetime(props.session.displayEndDate))
+  if (props.session?.displayStartDate)
+    parts.push(abbreviatedDatetime(props.session.displayStartDate))
+  if (props.session?.displayEndDate)
+    parts.push(abbreviatedDatetime(props.session.displayEndDate))
 
-  return parts.join(" — ")
+  return parts.join(' — ')
 })
 
 const internalLocked = ref(false)
 const showDependenciesModal = ref(false)
 
-const { hasRequirements, requirementList, graphImage, fetchStatus } = useCourseRequirementStatus(
-  props.course.id,
-  props.sessionId,
-  (locked) => {
+const { hasRequirements, requirementList, graphImage, fetchStatus } =
+  useCourseRequirementStatus(props.course.id, props.sessionId, (locked) => {
     internalLocked.value = locked
-  },
-)
+  })
 
 const isLocked = computed(() => props.disabled || internalLocked.value)
 
@@ -187,7 +194,7 @@ const imageUrl = computed(
     props.course?.image?.url ||
     props.course?.pictureUrl ||
     props.course?.thumbnail ||
-    "/img/session_default.svg",
+    '/img/session_default.svg',
 )
 
 onMounted(() => {

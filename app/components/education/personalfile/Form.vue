@@ -1,6 +1,6 @@
 <template>
-  <q-form>
-    <q-input
+  <v-form>
+    <v-input
       id="item_title"
       v-model="item.title"
       :error="v$.item.title.$error"
@@ -9,20 +9,17 @@
       @blur="v$.item.title.$touch()"
       @input="v$.item.title.$touch()"
     />
-    <slot></slot>
-  </q-form>
+    <slot />
+  </v-form>
 </template>
 
-<script>
-import has from "lodash/has"
-import useVuelidate from "@vuelidate/core"
-import { required } from "@vuelidate/validators"
+<script setup lang="ts">
+import has from 'lodash/has'
+import useVuelidate from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 
 export default {
-  name: "PersonalFileForm",
-  setup() {
-    return { v$: useVuelidate() }
-  },
+  name: 'PersonalFileForm',
   props: {
     values: {
       type: Object,
@@ -37,6 +34,9 @@ export default {
       default: () => {},
     },
   },
+  setup() {
+    return { v$: useVuelidate() }
+  },
   data() {
     return {
       title: null,
@@ -50,10 +50,10 @@ export default {
     titleErrors() {
       const errors = []
       if (!this.v$.item.title.$dirty) return errors
-      has(this.violations, "title") && errors.push(this.violations.title)
+      has(this.violations, 'title') && errors.push(this.violations.title)
 
       if (this.v$.item.title.required) {
-        return this.$t("Required field")
+        return this.$t('Required field')
       }
 
       return errors

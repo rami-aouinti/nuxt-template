@@ -10,25 +10,25 @@
       v-if="uppy"
       :uppy="uppy"
       :height="300"
-      :showProgressDetails="true"
-      :hideUploadButton="false"
-      :hidePauseResumeButton="false"
-      :hideCancelButton="false"
+      :show-progress-details="true"
+      :hide-upload-button="false"
+      :hide-pause-resume-button="false"
+      :hide-cancel-button="false"
       note="Only one file allowed"
     />
   </Dialog>
 </template>
 
-<script setup>
-import { ref, watch, onBeforeUnmount } from "vue"
-import { Dashboard } from "@uppy/vue"
-import Uppy from "@uppy/core"
-import Dialog from "primevue/dialog"
-import { useNotification } from "../legacy/composables/notification.js"
-import { ENTRYPOINT } from "../legacy/config/entrypoint.js"
-import axios from "axios"
-import "@uppy/core/dist/style.css"
-import "@uppy/dashboard/dist/style.css"
+<script setup lang="ts">
+import { ref, watch, onBeforeUnmount } from 'vue'
+import { Dashboard } from '@uppy/vue'
+import Uppy from '@uppy/core'
+import Dialog from 'primevue/dialog'
+import { useNotification } from '~/composables/notification.js'
+import { ENTRYPOINT } from '~/config/entrypoint.js'
+import axios from 'axios'
+import '@uppy/core/dist/style.css'
+import '@uppy/dashboard/dist/style.css'
 
 const props = defineProps({
   parentResourceNodeId: {
@@ -45,7 +45,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(["close", "uploaded"])
+const emit = defineEmits(['close', 'uploaded'])
 
 const isVisible = ref(false)
 const uppy = ref(null)
@@ -71,22 +71,22 @@ function setupUppy() {
     autoProceed: true,
   })
 
-  uppy.value.on("file-added", async (file) => {
+  uppy.value.on('file-added', async (file) => {
     try {
       const formData = new FormData()
-      formData.append("uploadFile", file.data)
+      formData.append('uploadFile', file.data)
 
       const uploadUrl = `${ENTRYPOINT}c_student_publication_corrections/upload?parentResourceNodeId=${props.parentResourceNodeId}&submissionId=${props.submissionId}&filetype=file`
 
       await axios.post(uploadUrl, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
-          Accept: "application/json",
+          'Content-Type': 'multipart/form-data',
+          Accept: 'application/json',
         },
       })
 
-      showSuccessNotification("Correction uploaded successfully!")
-      emit("uploaded", file)
+      showSuccessNotification('Correction uploaded successfully!')
+      emit('uploaded', file)
       closeUploader()
     } catch (error) {
       console.error(error)
@@ -98,7 +98,7 @@ function setupUppy() {
 function destroyUppy() {
   if (uppy.value) {
     uppy.value.cancelAll()
-    if (typeof uppy.value.close === "function") {
+    if (typeof uppy.value.close === 'function') {
       uppy.value.close()
     }
     uppy.value = null
@@ -107,7 +107,7 @@ function destroyUppy() {
 
 function closeUploader() {
   destroyUppy()
-  emit("close")
+  emit('close')
 }
 
 function onDialogHide() {

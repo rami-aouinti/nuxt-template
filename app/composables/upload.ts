@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { useI18n } from "vue-i18n"
-import { useNotification } from "./notification"
+import { useI18n } from 'vue-i18n'
+import { useNotification } from './notification'
 
 // This is the migration from assets/vue/mixins/UploadMixin.js to composables
 // some components still use UploadMixin with options API, this should be use
@@ -10,7 +10,9 @@ export const useUpload = () => {
   const notification = useNotification()
 
   const onCreated = (item) => {
-    notification.showSuccessNotification(t("{resource} created", { resource: item["resourceNode"].title }))
+    notification.showSuccessNotification(
+      t('{resource} created', { resource: item['resourceNode'].title }),
+    )
   }
 
   const onError = (message) => {

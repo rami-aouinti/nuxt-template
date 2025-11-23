@@ -14,21 +14,12 @@
         @complete="onComplete"
         @item-select="$emit('item-select', $event)"
       >
-        <template
-          v-if="hasChipSlot"
-          #chip="{ value }"
-        >
-          <slot
-            :value="value"
-            name="chip"
-          ></slot>
+        <template v-if="hasChipSlot" #chip="{ value }">
+          <slot :value="value" name="chip" />
         </template>
         <template #removetokenicon="slopProps">
           <span class="p-autocomplete-token-icon">
-            <BaseIcon
-              icon="close"
-              @click="slopProps.removeCallback"
-            />
+            <BaseIcon icon="close" @click="slopProps.removeCallback" />
           </span>
         </template>
       </AutoComplete>
@@ -42,12 +33,11 @@
   </div>
 </template>
 
-<script setup>
-import { onMounted, ref, useSlots } from "vue"
-import FloatLabel from "primevue/floatlabel"
-import AutoComplete from "primevue/autocomplete"
-import BaseIcon from "./BaseIcon.vue"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import { onMounted, ref, useSlots } from 'vue'
+import FloatLabel from 'primevue/floatlabel'
+import AutoComplete from 'primevue/autocomplete'
+import BaseIcon from './BaseIcon.vue'
 
 const { t } = useI18n()
 
@@ -95,11 +85,11 @@ const props = defineProps({
   optionLabel: {
     type: String,
     required: false,
-    default: () => "name",
+    default: () => 'name',
   },
 })
 
-defineEmits(["item-select"])
+defineEmits(['item-select'])
 
 const suggestions = ref([])
 
@@ -108,7 +98,7 @@ const onComplete = async (event) => {
     const members = await props.search(event.query)
     suggestions.value = members && members.length ? members : []
   } catch (error) {
-    console.error("Error during onComplete:", error)
+    console.error('Error during onComplete:', error)
     suggestions.value = []
   }
 }

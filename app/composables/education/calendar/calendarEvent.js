@@ -1,10 +1,13 @@
-import { DateTime } from "luxon"
+import { DateTime } from 'luxon'
 
-import cCalendarEventService from "../../services/ccalendarevent"
+import cCalendarEventService from '../../services/ccalendarevent'
+
+import {
+  subscriptionVisibility,
+  type,
+} from '../../constants/entity/ccalendarevent'
+import { useFormatDate } from '../formatDate'
 const { getCurrentTimezone } = useFormatDate()
-
-import { subscriptionVisibility, type } from "../../constants/entity/ccalendarevent"
-import { useFormatDate } from "../formatDate"
 
 export function useCalendarEvent() {
   return {
@@ -24,7 +27,9 @@ export function useCalendarEvent() {
  * @returns {Object|undefined}
  */
 function findUserLink(event, userId) {
-  return event.resourceLinkListFromEntity.find((linkEntity) => linkEntity.user.id === userId)
+  return event.resourceLinkListFromEntity.find(
+    (linkEntity) => linkEntity.user.id === userId,
+  )
 }
 
 /**
@@ -61,7 +66,10 @@ function isSubscribeable(event) {
  * @returns {boolean}
  */
 function canSubscribeToEvent(event) {
-  return event.resourceLinkListFromEntity.length < event.maxAttendees || 0 === event.maxAttendees
+  return (
+    event.resourceLinkListFromEntity.length < event.maxAttendees ||
+    0 === event.maxAttendees
+  )
 }
 
 function allowSubscribeToEvent(event) {
@@ -85,18 +93,24 @@ function allowUnsubscribeToEvent(event, userId) {
  * @returns {Promise<Object[]>}
  */
 async function requestCalendarEvents(params) {
-  const calendarEvents = await cCalendarEventService.findAll({ params }).then((response) => response.json())
+  const calendarEvents = await cCalendarEventService
+    .findAll({ params })
+    .then((response) => response.json())
 
-  return calendarEvents["hydra:member"].map((event) => {
+  return calendarEvents['hydra:member'].map((event) => {
     const timezone = getCurrentTimezone()
-    const start = DateTime.fromISO(event.startDate, { zone: "utc" }).setZone(timezone)
-    const end = DateTime.fromISO(event.endDate, { zone: "utc" }).setZone(timezone)
+    const start = DateTime.fromISO(event.startDate, { zone: 'utc' }).setZone(
+      timezone,
+    )
+    const end = DateTime.fromISO(event.endDate, { zone: 'utc' }).setZone(
+      timezone,
+    )
 
     return {
       ...event,
       start: start.toString(),
       end: end.toString(),
-      color: event.color || "#007BFF",
+      color: event.color || '#007BFF',
     }
   })
 }
@@ -110,20 +124,20 @@ async function requestCalendarEvents(params) {
 async function getCalendarEvents(startDate, endDate, commonParams) {
   const endingEventsPromise = requestCalendarEvents({
     ...commonParams,
-    "endDate[before]": endDate.toISOString(),
-    "endDate[after]": startDate.toISOString(),
+    'endDate[before]': endDate.toISOString(),
+    'endDate[after]': startDate.toISOString(),
   })
 
   const currentEventsPromise = requestCalendarEvents({
     ...commonParams,
-    "startDate[before]": startDate.toISOString(),
-    "endDate[after]": endDate.toISOString(),
+    'startDate[before]': startDate.toISOString(),
+    'endDate[after]': endDate.toISOString(),
   })
 
   const startingEventsPromise = requestCalendarEvents({
     ...commonParams,
-    "startDate[before]": endDate.toISOString(),
-    "startDate[after]": startDate.toISOString(),
+    'startDate[before]': endDate.toISOString(),
+    'startDate[after]': startDate.toISOString(),
   })
 
   const [endingEvents, currentEvents, startingEvents] = await Promise.all([

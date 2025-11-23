@@ -1,7 +1,7 @@
-<script setup>
-import { ref, watch } from "vue"
-import PanelMenu from "primevue/panelmenu"
-import BaseIcon from "./BaseIcon.vue"
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import PanelMenu from 'primevue/panelmenu'
+import BaseIcon from './BaseIcon.vue'
 
 const modelValue = defineModel({
   type: Array,
@@ -15,7 +15,7 @@ watch(
   (val) => {
     expandedKeys.value = buildExpandedKeys(val || [])
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 function buildExpandedKeys(items) {
@@ -35,8 +35,8 @@ function buildExpandedKeys(items) {
 <template>
   <PanelMenu
     :model="modelValue"
-    :expandedKeys="expandedKeys"
-    @update:expandedKeys="expandedKeys = $event"
+    :expanded-keys="expandedKeys"
+    @update:expanded-keys="expandedKeys = $event"
   >
     <template #item="{ item, root, active, props }">
       <BaseAppLink
@@ -46,20 +46,11 @@ function buildExpandedKeys(items) {
         :url="item.url"
       >
         <span v-bind="props.icon" />
-        <span
-          v-bind="props.label"
-          v-text="item.label"
-        />
+        <span v-bind="props.label" v-text="item.label" />
       </BaseAppLink>
-      <a
-        v-else-if="root"
-        class="p-panelmenu-header-action"
-      >
+      <a v-else-if="root" class="p-panelmenu-header-action">
         <span v-bind="props.icon" />
-        <span
-          v-bind="props.label"
-          v-text="item.label"
-        />
+        <span v-bind="props.label" v-text="item.label" />
         <BaseIcon
           :icon="active ? 'fold' : 'unfold'"
           class="p-icon p-submenu-icon"

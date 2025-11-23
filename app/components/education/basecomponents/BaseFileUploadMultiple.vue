@@ -8,11 +8,7 @@
       @click="showFileDialog"
     />
     <div v-if="files.length > 0">
-      <p
-        v-for="file in files"
-        :key="file.name"
-        class="text-gray-500"
-      >
+      <p v-for="file in files" :key="file.name" class="text-gray-500">
         {{ file.name }}
       </p>
     </div>
@@ -27,30 +23,30 @@
   </div>
 </template>
 
-<script setup>
-import BaseButton from "./BaseButton.vue"
-import { computed, ref } from "vue"
+<script setup lang="ts">
+import BaseButton from './BaseButton.vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   modelValue: Array,
   label: String,
   accept: {
     type: String,
-    default: "",
+    default: '',
   },
   size: {
     type: String,
-    default: "normal",
+    default: 'normal',
   },
 })
 
-const emit = defineEmits(["update:modelValue"])
+const emit = defineEmits(['update:modelValue'])
 
 const inputFile = ref(null)
 
 const acceptFileType = computed(() => {
-  if (props.accept === "image") {
-    return "image/*"
+  if (props.accept === 'image') {
+    return 'image/*'
   }
   return props.accept
 })
@@ -58,7 +54,7 @@ const acceptFileType = computed(() => {
 const files = computed({
   get: () => props.modelValue,
   set: (newValue) => {
-    emit("update:modelValue", newValue)
+    emit('update:modelValue', newValue)
   },
 })
 

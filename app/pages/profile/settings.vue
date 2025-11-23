@@ -36,7 +36,6 @@ const currentUser = computed<Record<string, unknown> | null>(() => {
   return null
 })
 
-
 const profileEmail = computed(() => {
   if (profile.value) {
     const trimmed = profile.value.email.trim()

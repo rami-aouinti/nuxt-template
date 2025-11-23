@@ -1,4 +1,4 @@
 // @ts-nocheck
-import makeService from "./api"
+import makeService from './api'
 
-export default makeService("user")
+export default makeService('user')

@@ -1,8 +1,8 @@
-<script>
-import SessionCard from "./SessionCard.vue"
+<script setup lang="ts">
+import SessionCard from './SessionCard.vue'
 
 export default {
-  name: "SessionCardList",
+  name: 'SessionCardList',
   components: {
     SessionCard,
   },
@@ -17,15 +17,15 @@ export default {
   methods: {
     isList: function () {
       if (!this.deck) {
-        return "primary"
+        return 'primary'
       }
-      return "secondary"
+      return 'secondary'
     },
     isDeck: function () {
       if (this.deck) {
-        return "primary"
+        return 'primary'
       }
-      return "secondary"
+      return 'secondary'
     },
     changeLayout: function () {
       this.deck = !this.deck
@@ -35,10 +35,7 @@ export default {
 </script>
 
 <template>
-  <div
-    v-for="session in sessions"
-    :key="session.id"
-  >
+  <div v-for="session in sessions" :key="session.id">
     <SessionCard :session="session" />
   </div>
 </template>

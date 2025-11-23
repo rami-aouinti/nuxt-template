@@ -38,7 +38,9 @@ const projectsByClient = computed(() =>
     <v-row class="mb-6">
       <v-col cols="12">
         <AppCard class="pa-6" elevation="3" hover>
-          <div class="d-flex align-center justify-space-between flex-wrap gap-4">
+          <div
+            class="d-flex align-center justify-space-between flex-wrap gap-4"
+          >
             <div>
               <div class="text-h5 font-weight-bold mb-2">
                 {{ translate('crm.clients.title', 'Tous les clients') }}
@@ -72,7 +74,9 @@ const projectsByClient = computed(() =>
             <v-list-item
               v-for="client in clients"
               :key="client.id"
-              :to="localePath({ name: 'crm-client-id', params: { id: client.id } })"
+              :to="
+                localePath({ name: 'crm-client-id', params: { id: client.id } })
+              "
               rounded="lg"
             >
               <template #prepend>
@@ -102,7 +106,12 @@ const projectsByClient = computed(() =>
               </template>
             </v-list-item>
             <v-list-item v-if="!clients.length" disabled>
-              {{ translate('crm.clients.empty', 'Aucun client disponible pour le moment.') }}
+              {{
+                translate(
+                  'crm.clients.empty',
+                  'Aucun client disponible pour le moment.',
+                )
+              }}
             </v-list-item>
           </v-list>
         </AppCard>

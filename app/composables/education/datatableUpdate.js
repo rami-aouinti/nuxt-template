@@ -1,9 +1,9 @@
-import { computed, ref, watch } from "vue"
-import { useStore } from "vuex"
-import { useRoute } from "vue-router"
-import { isEmpty } from "lodash"
-import { useI18n } from "vue-i18n"
-import { useToast } from "primevue/usetoast"
+import { computed, ref, watch } from 'vue'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
+import { isEmpty } from 'lodash'
+import { useI18n } from 'vue-i18n'
+import { useToast } from 'primevue/usetoast'
 
 export function useDatatableUpdate(servicePrefix) {
   const moduleName = servicePrefix.toLowerCase()
@@ -70,9 +70,9 @@ export function useDatatableUpdate(servicePrefix) {
 
   function onUpdated(item) {
     toast.add({
-      severity: "success",
-      detail: t("{resource} updated", {
-        resource: item["@id"],
+      severity: 'success',
+      detail: t('{resource} updated', {
+        resource: item['@id'],
       }),
       life: 3500,
     })

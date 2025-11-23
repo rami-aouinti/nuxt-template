@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { mapFields } from "vuex-map-fields"
-import { useNotification } from "../composables/notification"
+import { mapFields } from 'vuex-map-fields'
+import { useNotification } from '~/composables/notification'
 
 export default {
   setup() {
@@ -10,19 +10,19 @@ export default {
       notification.showErrorNotification(error)
     }
 
-    const showMessage = (message, type = "success") => {
+    const showMessage = (message, type = 'success') => {
       switch (type) {
-        case "info":
+        case 'info':
           notification.showInfoNotification(message)
           break
-        case "success":
+        case 'success':
           notification.showSuccessNotification(message)
           break
-        case "error":
-        case "danger":
+        case 'error':
+        case 'danger':
           notification.showErrorNotification(message)
           break
-        case "warning":
+        case 'warning':
           notification.showWarningNotification(message)
           break
       }
@@ -35,26 +35,32 @@ export default {
   },
   methods: {
     showError(error) {
-      this.showMessage(error, "error") // Use 'error' for PrimeVue
+      this.showMessage(error, 'error') // Use 'error' for PrimeVue
     },
-    showMessage(message, type = "success") {
+    showMessage(message, type = 'success') {
       // Convert message type to PrimeVue's severity
       let severity = type
-      if (type === "danger") {
-        severity = "error" // PrimeVue uses 'error' instead of 'danger'
+      if (type === 'danger') {
+        severity = 'error' // PrimeVue uses 'error' instead of 'danger'
       }
 
       // Use PrimeVue's ToastService
       this.$toast.add({
         severity: severity,
         summary: message,
-        detail: "",
+        detail: '',
         life: 5000, // Message duration in milliseconds
         closable: true, // Whether the message can be closed manually
       })
     },
   },
   computed: {
-    ...mapFields("notifications", ["color", "show", "subText", "text", "timeout"]),
+    ...mapFields('notifications', [
+      'color',
+      'show',
+      'subText',
+      'text',
+      'timeout',
+    ]),
   },
 }

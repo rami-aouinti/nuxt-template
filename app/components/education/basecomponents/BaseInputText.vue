@@ -14,34 +14,28 @@
         {{ label }}
       </label>
     </div>
-    <small
-      v-if="formSubmitted && isInvalid"
-      class="p-error"
-    >
+    <small v-if="formSubmitted && isInvalid" class="p-error">
       {{ errorText }}
     </small>
-    <small
-      v-if="helpText"
-      class="form-text text-muted"
-    >
+    <small v-if="helpText" class="form-text text-muted">
       {{ helpText }}
     </small>
   </div>
 </template>
 
-<script setup>
-import InputText from "primevue/inputtext"
+<script setup lang="ts">
+import InputText from 'primevue/inputtext'
 
 defineProps({
   id: {
     type: String,
     require: true,
-    default: "",
+    default: '',
   },
   label: {
     type: String,
     required: true,
-    default: "",
+    default: '',
   },
   modelValue: {
     type: [String, null],
@@ -50,7 +44,7 @@ defineProps({
   errorText: {
     type: String,
     required: false,
-    default: "",
+    default: '',
   },
   isInvalid: {
     type: Boolean,
@@ -62,7 +56,7 @@ defineProps({
   },
   helpText: {
     type: String,
-    default: "",
+    default: '',
   },
   formSubmitted: {
     type: Boolean,
@@ -70,7 +64,7 @@ defineProps({
   },
   inputClass: {
     type: String,
-    default: "",
+    default: '',
   },
   disabled: {
     type: Boolean,
@@ -78,8 +72,8 @@ defineProps({
   },
 })
 
-const emits = defineEmits(["update:modelValue"])
+const emits = defineEmits(['update:modelValue'])
 const updateValue = (value) => {
-  emits("update:modelValue", value)
+  emits('update:modelValue', value)
 }
 </script>

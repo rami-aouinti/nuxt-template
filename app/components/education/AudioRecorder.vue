@@ -38,10 +38,7 @@
         :key="index"
         class="py-2"
       >
-        <audio
-          class="max-w-full"
-          controls
-        >
+        <audio class="max-w-full" controls>
           <source :src="window.URL.createObjectURL(audio)" />
         </audio>
 
@@ -63,12 +60,12 @@
   </div>
 </template>
 
-<script setup>
-import BaseButton from "./basecomponents/BaseButton.vue"
-import { computed, onMounted, reactive, ref } from "vue"
-import { RecordRTCPromisesHandler, StereoAudioRecorder } from "recordrtc"
-import { useI18n } from "vue-i18n"
-import BaseIcon from "./basecomponents/BaseIcon.vue"
+<script setup lang="ts">
+import BaseButton from './basecomponents/BaseButton.vue'
+import { computed, onMounted, reactive, ref } from 'vue'
+import { RecordRTCPromisesHandler, StereoAudioRecorder } from 'recordrtc'
+
+import BaseIcon from './basecomponents/BaseIcon.vue'
 
 const { t } = useI18n()
 
@@ -88,7 +85,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(["attach-audio", "recorded-audio"])
+const emit = defineEmits(['attach-audio', 'recorded-audio'])
 
 defineExpose({
   record,
@@ -103,24 +100,27 @@ const recorderState = reactive({
   hours: 0,
 })
 
-const microphoneError = ref("")
+const microphoneError = ref('')
 
 const recordedTime = computed(() => {
-  let hours = timeComponentToString(recorderState.hours)
-  let minutes = timeComponentToString(recorderState.minutes)
-  let seconds = timeComponentToString(recorderState.seconds)
+  const hours = timeComponentToString(recorderState.hours)
+  const minutes = timeComponentToString(recorderState.minutes)
+  const seconds = timeComponentToString(recorderState.seconds)
   return `${hours} : ${minutes} : ${seconds}`
 })
 
 onMounted(() => {
-  let isMediaDevicesSupported = navigator.mediaDevices && navigator.mediaDevices.getUserMedia
+  const isMediaDevicesSupported =
+    navigator.mediaDevices && navigator.mediaDevices.getUserMedia
 
   if (!isMediaDevicesSupported) {
     console.warn(
-      "Either your browser does not support microphone or your are serving your site from not secure " +
-        "context, check https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia for more information",
+      'Either your browser does not support microphone or your are serving your site from not secure ' +
+        'context, check https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia for more information',
     )
-    microphoneError.value = t("We are sorry, your browser does not support using a microphone")
+    microphoneError.value = t(
+      'We are sorry, your browser does not support using a microphone',
+    )
   }
 })
 
@@ -132,11 +132,14 @@ async function record() {
   }
 
   try {
-    let stream = await navigator.mediaDevices.getUserMedia({ video: false, audio: true })
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: false,
+      audio: true,
+    })
     recorder = new RecordRTCPromisesHandler(stream, {
       recorderType: StereoAudioRecorder,
-      type: "audio",
-      mimeType: "audio/wav",
+      type: 'audio',
+      mimeType: 'audio/wav',
       numberOfAudioChannels: 2,
     })
     recorder.startRecording()
@@ -145,15 +148,17 @@ async function record() {
     recorderState.isRecording = true
   } catch (error) {
     console.warn(
-      "Either the user denied permission or microphone is not available, " +
-        "check https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia",
+      'Either the user denied permission or microphone is not available, ' +
+        'check https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia',
     )
-    if (error.name === "NotAllowedError") {
+    if (error.name === 'NotAllowedError') {
       microphoneError.value = t(
-        "Permission to use the microphone is not enabled, please enable it in your browser to record audio",
+        'Permission to use the microphone is not enabled, please enable it in your browser to record audio',
       )
     } else {
-      microphoneError.value = t("We are sorry, your browser does not support using a microphone")
+      microphoneError.value = t(
+        'We are sorry, your browser does not support using a microphone',
+      )
     }
   }
 }
@@ -172,14 +177,14 @@ async function stop() {
   const audioBlob = await recorder.getBlob()
 
   recorderState.audioList.push(audioBlob)
-  emit("recorded-audio", audioBlob)
+  emit('recorded-audio', audioBlob)
 
   recorderState.isRecording = false
   stopTimer()
 }
 
 function attachAudio(audio) {
-  emit("attach-audio", audio)
+  emit('attach-audio', audio)
 
   const index = recorderState.audioList.indexOf(audio)
 
@@ -218,6 +223,6 @@ function stopTimer() {
 }
 
 function timeComponentToString(value) {
-  return value.toString().padStart(2, "0")
+  return value.toString().padStart(2, '0')
 }
 </script>

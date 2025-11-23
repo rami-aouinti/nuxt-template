@@ -7,6 +7,6 @@
   </div>
 </template>
 
-<script setup>
-import SessionAdminSidebar from "./SessionAdminSidebar.vue"
+<script setup lang="ts">
+import SessionAdminSidebar from './SessionAdminSidebar.vue'
 </script>

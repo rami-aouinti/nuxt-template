@@ -1,18 +1,15 @@
-<script setup>
-import PlatformLogo from "./PlatformLogo.vue"
-import Avatar from "primevue/avatar"
-import AccessUrlChooser from "../accessurl/AccessUrlChooser.vue"
+<script setup lang="ts">
+import PlatformLogo from './PlatformLogo.vue'
+import Avatar from 'primevue/avatar'
+import AccessUrlChooser from '../accessurl/AccessUrlChooser.vue'
 
-import { useSecurityStore } from "../legacy/store/securityStore.js"
+import { useSecurityStore } from '~/stores/securityStore.js'
 
 const securityStore = useSecurityStore()
 </script>
 
 <template>
-  <div
-    class="app-topbar"
-    v-if="securityStore.isAuthenticated"
-  >
+  <div v-if="securityStore.isAuthenticated" class="app-topbar">
     <div class="app-topbar__start">
       <PlatformLogo />
     </div>

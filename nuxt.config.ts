@@ -24,7 +24,6 @@ const DEFAULT_ECOMMERCE_ADMIN_EMAIL = 'rami.aouinti@gmail.com'
 const DEFAULT_ECOMMERCE_ADMIN_PASSWORD = '19891989aA!'
 const DEFAULT_ECOMMERCE_SHOP_EMAIL = 'rami.aouiti@gmail.com'
 const DEFAULT_ECOMMERCE_SHOP_PASSWORD = '19891989aA!'
-const DEFAULT_ECOMMERCE_ORIGIN = 'https://ecommerce.bro-world.org'
 
 const mercureUrl = process.env.MERCURE_URL || DEFAULT_MERCURE_URL
 const mercurePublicUrl =
@@ -32,19 +31,6 @@ const mercurePublicUrl =
   process.env.NUXT_PUBLIC_MESSENGER_HUB_URL ||
   DEFAULT_MERCURE_PUBLIC_URL
 const mercureJwtSecret = process.env.MERCURE_JWT_SECRET || ''
-
-const normalizeOrigin = (value: string | undefined, fallback: string) => {
-  const candidate = value && value.trim().length > 0 ? value.trim() : fallback
-  return candidate.replace(/\/+$/, '')
-}
-
-const ecommerceOrigin = normalizeOrigin(
-  process.env.NUXT_ECOMMERCE_ORIGIN || process.env.NUXT_PUBLIC_ECOMMERCE_ORIGIN,
-  DEFAULT_ECOMMERCE_ORIGIN,
-)
-
-const ecommerceApiBase =
-  process.env.NUXT_ECOMMERCE_API_BASE_URL?.trim() || `${ecommerceOrigin}/api/v2`
 
 function createOAuthConfig() {
   return { clientId: '', clientSecret: '' }
@@ -127,191 +113,16 @@ export default defineNuxtConfig({
     resolve: {
       alias: {
         i18n: projectRoot,
-        primevue: resolve(__dirname, './app/primevue'),
-        vuedraggable: resolve(__dirname, './app/utils/stubs/vuedraggable.ts'),
-        vuex: resolve(__dirname, './app/utils/stubs/vuex.ts'),
-        'vuex-map-fields': resolve(
-          __dirname,
-          './app/utils/stubs/vuex-map-fields.ts',
-        ),
-        '@vue/apollo-composable': resolve(
-          __dirname,
-          './app/utils/stubs/vue-apollo-composable.ts',
-        ),
-        '@vuelidate/core': resolve(
-          __dirname,
-          './app/utils/stubs/vuelidate-core.ts',
-        ),
-        '@vuelidate/validators': resolve(
-          __dirname,
-          './app/utils/stubs/vuelidate-validators.ts',
-        ),
-        '@primevue/core/api': resolve(
-          __dirname,
-          './app/utils/stubs/primevue-core-api.ts',
-        ),
-        sortablejs: resolve(__dirname, './app/utils/stubs/sortablejs.ts'),
-        axios: resolve(__dirname, './app/utils/stubs/axios.ts'),
-        '@uppy/core': resolve(__dirname, './app/utils/stubs/uppy/core.ts'),
-        '@uppy/vue': resolve(__dirname, './app/utils/stubs/uppy/vue.ts'),
-        '@uppy/webcam': resolve(
-          __dirname,
-          './app/utils/stubs/uppy/webcam.ts',
-        ),
-        '@uppy/audio': resolve(__dirname, './app/utils/stubs/uppy/audio.ts'),
-        '@uppy/xhr-upload': resolve(
-          __dirname,
-          './app/utils/stubs/uppy/xhr-upload.ts',
-        ),
-        '@uppy/image-editor': resolve(
-          __dirname,
-          './app/utils/stubs/uppy/image-editor.ts',
-        ),
-        '@uppy/locales/lib/es_ES': resolve(
-          __dirname,
-          './app/utils/stubs/uppy/locale.ts',
-        ),
-        '@uppy/locales/lib/en_US': resolve(
-          __dirname,
-          './app/utils/stubs/uppy/locale.ts',
-        ),
-        '@uppy/locales/lib/fr_FR': resolve(
-          __dirname,
-          './app/utils/stubs/uppy/locale.ts',
-        ),
-        '@uppy/locales/lib/de_DE': resolve(
-          __dirname,
-          './app/utils/stubs/uppy/locale.ts',
-        ),
-        '@uppy/locales/lib/it_IT': resolve(
-          __dirname,
-          './app/utils/stubs/uppy/locale.ts',
-        ),
-        '@uppy/locales/lib/pl_PL': resolve(
-          __dirname,
-          './app/utils/stubs/uppy/locale.ts',
-        ),
-        '@uppy/locales/lib/pt_PT': resolve(
-          __dirname,
-          './app/utils/stubs/uppy/locale.ts',
-        ),
-        '@uppy/core/dist/style.css': resolve(
-          __dirname,
-          './app/utils/stubs/empty.css',
-        ),
-        '@uppy/dashboard/dist/style.css': resolve(
-          __dirname,
-          './app/utils/stubs/empty.css',
-        ),
-        '@uppy/image-editor/dist/style.css': resolve(
-          __dirname,
-          './app/utils/stubs/empty.css',
-        ),
-        '@uppy/webcam/dist/style.css': resolve(
-          __dirname,
-          './app/utils/stubs/empty.css',
-        ),
-        '@uppy/audio/dist/style.css': resolve(
-          __dirname,
-          './app/utils/stubs/empty.css',
-        ),
       },
-      build: {
-        sourcemap: false,
+    },
+    build: {
+      sourcemap: false,
       cssCodeSplit: false,
     },
   },
   nitro: {
     alias: {
       i18n: projectRoot,
-      primevue: resolve(__dirname, './app/primevue'),
-      vuedraggable: resolve(__dirname, './app/utils/stubs/vuedraggable.ts'),
-      vuex: resolve(__dirname, './app/utils/stubs/vuex.ts'),
-      'vuex-map-fields': resolve(
-        __dirname,
-        './app/utils/stubs/vuex-map-fields.ts',
-      ),
-      '@vue/apollo-composable': resolve(
-        __dirname,
-        './app/utils/stubs/vue-apollo-composable.ts',
-      ),
-      '@vuelidate/core': resolve(
-        __dirname,
-        './app/utils/stubs/vuelidate-core.ts',
-      ),
-      '@vuelidate/validators': resolve(
-        __dirname,
-        './app/utils/stubs/vuelidate-validators.ts',
-      ),
-      '@primevue/core/api': resolve(
-        __dirname,
-        './app/utils/stubs/primevue-core-api.ts',
-      ),
-      sortablejs: resolve(__dirname, './app/utils/stubs/sortablejs.ts'),
-      axios: resolve(__dirname, './app/utils/stubs/axios.ts'),
-      '@uppy/core': resolve(__dirname, './app/utils/stubs/uppy/core.ts'),
-      '@uppy/vue': resolve(__dirname, './app/utils/stubs/uppy/vue.ts'),
-      '@uppy/webcam': resolve(
-        __dirname,
-        './app/utils/stubs/uppy/webcam.ts',
-      ),
-      '@uppy/audio': resolve(__dirname, './app/utils/stubs/uppy/audio.ts'),
-      '@uppy/xhr-upload': resolve(
-        __dirname,
-        './app/utils/stubs/uppy/xhr-upload.ts',
-      ),
-      '@uppy/image-editor': resolve(
-        __dirname,
-        './app/utils/stubs/uppy/image-editor.ts',
-      ),
-      '@uppy/locales/lib/es_ES': resolve(
-        __dirname,
-        './app/utils/stubs/uppy/locale.ts',
-      ),
-      '@uppy/locales/lib/en_US': resolve(
-        __dirname,
-        './app/utils/stubs/uppy/locale.ts',
-      ),
-      '@uppy/locales/lib/fr_FR': resolve(
-        __dirname,
-        './app/utils/stubs/uppy/locale.ts',
-      ),
-      '@uppy/locales/lib/de_DE': resolve(
-        __dirname,
-        './app/utils/stubs/uppy/locale.ts',
-      ),
-      '@uppy/locales/lib/it_IT': resolve(
-        __dirname,
-        './app/utils/stubs/uppy/locale.ts',
-      ),
-      '@uppy/locales/lib/pl_PL': resolve(
-        __dirname,
-        './app/utils/stubs/uppy/locale.ts',
-      ),
-      '@uppy/locales/lib/pt_PT': resolve(
-        __dirname,
-        './app/utils/stubs/uppy/locale.ts',
-      ),
-      '@uppy/core/dist/style.css': resolve(
-        __dirname,
-        './app/utils/stubs/empty.css',
-      ),
-      '@uppy/dashboard/dist/style.css': resolve(
-        __dirname,
-        './app/utils/stubs/empty.css',
-      ),
-      '@uppy/image-editor/dist/style.css': resolve(
-        __dirname,
-        './app/utils/stubs/empty.css',
-      ),
-      '@uppy/webcam/dist/style.css': resolve(
-        __dirname,
-        './app/utils/stubs/empty.css',
-      ),
-      '@uppy/audio/dist/style.css': resolve(
-        __dirname,
-        './app/utils/stubs/empty.css',
-      ),
     },
   },
   i18n: {
@@ -389,10 +200,6 @@ export default defineNuxtConfig({
     vueI18n: './app/i18n/i18n.config.ts',
   },
   runtimeConfig: {
-    ecommerce: {
-      origin: ecommerceOrigin,
-      apiBase: ecommerceApiBase,
-    },
     mercure: {
       url: mercureUrl,
       publicUrl: mercurePublicUrl,
@@ -421,9 +228,6 @@ export default defineNuxtConfig({
             DEFAULT_ECOMMERCE_SHOP_PASSWORD,
         },
       },
-      job: {
-        token: process.env.BRO_WORLD_JOB_TOKEN || '',
-      },
     },
     oauth: {
       github: createOAuthConfig(),
@@ -437,8 +241,8 @@ export default defineNuxtConfig({
     redis: {
       url: process.env.REDIS_URL || '',
       profileTtl: toPositiveInteger(process.env.REDIS_PROFILE_TTL, 60 * 60),
-      adminTtl: toPositiveInteger(process.env.REDIS_ADMIN_TTL, 6000),
-      blogTtl: toPositiveInteger(process.env.REDIS_BLOG_TTL, 6000),
+      adminTtl: toPositiveInteger(process.env.REDIS_ADMIN_TTL, 60),
+      blogTtl: toPositiveInteger(process.env.REDIS_BLOG_TTL, 60),
       profileEventsTtl: toPositiveInteger(
         process.env.REDIS_PROFILE_EVENTS_TTL,
         60,
@@ -455,18 +259,9 @@ export default defineNuxtConfig({
         process.env.REDIS_PROFILE_PUBLIC_TTL,
         60,
       ),
-      workspaceTtl: toPositiveInteger(process.env.REDIS_WORKSPACE_TTL, 6000),
-      workplaceTtl: toPositiveInteger(process.env.REDIS_WORKPLACE_TTL, 6000),
-      ecommerceTtl: toPositiveInteger(process.env.REDIS_ECOMMERCE_TTL, 6000),
-      educationTtl: toPositiveInteger(process.env.REDIS_EDUCATION_TTL, 600),
-      jobTtl: toPositiveInteger(process.env.REDIS_JOB_TTL, 300),
-    },
-    educationApiBaseUrl:
-      process.env.NUXT_EDUCATION_API_BASE_URL || 'https://education.bro-world.org',
-    educationApiAuth: {
-      token: process.env.NUXT_EDUCATION_API_TOKEN || '',
-      username: process.env.NUXT_EDUCATION_API_USERNAME || '',
-      password: process.env.NUXT_EDUCATION_API_PASSWORD || '',
+      workspaceTtl: toPositiveInteger(process.env.REDIS_WORKSPACE_TTL, 60),
+      workplaceTtl: toPositiveInteger(process.env.REDIS_WORKPLACE_TTL, 60),
+      ecommerceTtl: toPositiveInteger(process.env.REDIS_ECOMMERCE_TTL, 60),
     },
     profileCookie: {
       name: process.env.PROFILE_COOKIE_NAME || 'bro_profile',
@@ -476,14 +271,6 @@ export default defineNuxtConfig({
       ),
     },
     public: {
-      crmApiBaseUrl: 'https://crm.bro-world.org',
-      crmApiProxyBaseUrl: '/api/crm',
-      educationApiBaseUrl:
-        process.env.NUXT_PUBLIC_EDUCATION_API_BASE_URL ||
-        'https://education.bro-world.org',
-      educationApiProxyBaseUrl:
-        process.env.NUXT_PUBLIC_EDUCATION_API_PROXY_BASE_URL ||
-        '/api/education',
       mercure: {
         hubUrl: mercurePublicUrl,
       },
@@ -519,10 +306,6 @@ export default defineNuxtConfig({
             '',
           retry: process.env.NUXT_PUBLIC_MESSENGER_SUBSCRIPTION_RETRY || '',
         },
-      },
-      ecommerce: {
-        origin:
-          process.env.NUXT_PUBLIC_ECOMMERCE_ORIGIN?.trim() || ecommerceOrigin,
       },
     },
   },

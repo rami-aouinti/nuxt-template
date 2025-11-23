@@ -10,13 +10,10 @@
         :model-value="modelValue"
         :step="step"
         fluid
-        showButtons
+        show-buttons
         @update:model-value="$emit('update:modelValue', $event)"
       />
-      <label
-        :for="id"
-        v-text="label"
-      />
+      <label :for="id" v-text="label" />
     </FloatLabel>
     <small
       v-if="smallText"
@@ -26,10 +23,10 @@
   </div>
 </template>
 
-<script setup>
-import FloatLabel from "primevue/floatlabel"
-import InputNumber from "primevue/inputnumber"
-import { computed } from "vue"
+<script setup lang="ts">
+import FloatLabel from 'primevue/floatlabel'
+import InputNumber from 'primevue/inputnumber'
+import { computed } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -67,7 +64,7 @@ const props = defineProps({
   errorText: {
     type: String,
     required: false,
-    default: "",
+    default: '',
   },
   disabled: {
     type: Boolean,
@@ -81,7 +78,7 @@ const props = defineProps({
   },
 })
 
-defineEmits(["update:modelValue"])
+defineEmits(['update:modelValue'])
 
 const smallText = computed(() => {
   if (props.errorText && props.isInvalid) {

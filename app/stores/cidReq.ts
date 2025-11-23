@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { defineStore } from "pinia"
-import courseService from "../services/courseService"
-import { ref } from "vue"
-import sessionService from "../services/sessionService"
-import { useCourseSettings } from "./courseSettingStore"
+import { defineStore } from 'pinia'
+import courseService from '../services/courseService'
+import { ref } from 'vue'
+import sessionService from '../services/sessionService'
+import { useCourseSettings } from './courseSettingStore'
 
-export const useCidReqStore = defineStore("cidReq", () => {
+export const useCidReqStore = defineStore('cidReq', () => {
   const course = ref(null)
   const session = ref(null)
   const group = ref(null)
@@ -24,17 +24,22 @@ export const useCidReqStore = defineStore("cidReq", () => {
   const setCourseByIri = async (cId, sid = 0) => {
     const courseIri = `/api/courses/${cId}`
 
-    if (course.value && courseIri === course.value["@id"]) {
+    if (course.value && courseIri === course.value['@id']) {
       return
     }
 
     isCourseLoaded.value = false
 
     const coursePromise = courseService.find(courseIri, { sid })
-    const courseSettingsPromise = courseSettingsStore.loadCourseSettings(cId, sid)
+    const courseSettingsPromise = courseSettingsStore.loadCourseSettings(
+      cId,
+      sid,
+    )
 
     try {
-      await Promise.all([coursePromise, courseSettingsPromise]).then((responses) => (course.value = responses[0]))
+      await Promise.all([coursePromise, courseSettingsPromise]).then(
+        (responses) => (course.value = responses[0]),
+      )
     } catch (error) {
       console.error(error)
     } finally {
@@ -45,7 +50,7 @@ export const useCidReqStore = defineStore("cidReq", () => {
   const setSessionByIri = async (sId, useBasic = true) => {
     const sessionIri = `/api/sessions/${sId}`
 
-    if (session.value && sessionIri === session.value["@id"]) {
+    if (session.value && sessionIri === session.value['@id']) {
       return
     }
 

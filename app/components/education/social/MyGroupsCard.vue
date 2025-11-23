@@ -1,21 +1,14 @@
 <template>
-  <BaseCard
-    class="my-groups-card bg-white mt-3 mb-3"
-    plain
-  >
+  <BaseCard class="my-groups-card bg-white mt-3 mb-3" plain>
     <template #header>
       <div class="px-4 py-3 bg-gray-200">
-        <h2 class="text-xl font-semibold">{{ t("My communities") }}</h2>
+        <h2 class="text-xl font-semibold">{{ t('My communities') }}</h2>
       </div>
     </template>
     <hr class="my-2" />
     <div class="px-4">
       <ul class="mb-4">
-        <li
-          v-for="group in groups"
-          :key="group.id"
-          class="mb-2"
-        >
+        <li v-for="group in groups" :key="group.id" class="mb-2">
           <a
             v-if="group.url"
             :href="group.url || '#'"
@@ -25,21 +18,13 @@
           <span v-else>{{ group.name }}</span>
         </li>
       </ul>
-      <div
-        v-if="isValidGlobalForumsCourse"
-        class="text-center mb-4"
-      >
-        <a
-          :href="goToUrl"
-          class="btn btn-primary"
-          >{{ t("See all communities") }}</a
-        >
+      <div v-if="isValidGlobalForumsCourse" class="text-center mb-4">
+        <a :href="goToUrl" class="btn btn-primary">{{
+          t('See all communities')
+        }}</a>
       </div>
       <div v-else>
-        <div
-          v-if="isCurrentUser"
-          class="flex items-center mb-4"
-        >
+        <div v-if="isCurrentUser" class="flex items-center mb-4">
           <input
             v-model="searchQuery"
             :placeholder="t('Search')"
@@ -51,7 +36,7 @@
             type="button"
             @click="search"
           >
-            <i class="mdi mdi-magnify text-gray-700"></i>
+            <i class="mdi mdi-magnify text-gray-700" />
           </button>
         </div>
       </div>
@@ -59,22 +44,24 @@
   </BaseCard>
 </template>
 
-<script setup>
-import BaseCard from "../basecomponents/BaseCard.vue"
-import { useI18n } from "vue-i18n"
-import { computed, inject, ref, watchEffect } from "vue"
-import axios from "axios"
-import { usePlatformConfig } from "../legacy/store/platformConfig.js"
-import { useRouter } from "vue-router"
+<script setup lang="ts">
+import BaseCard from '../basecomponents/BaseCard.vue'
+
+import { computed, inject, ref, watchEffect } from 'vue'
+import axios from 'axios'
+import { usePlatformConfig } from '~/stores/platformConfig.js'
+import { useRouter } from 'vue-router'
 
 const { t } = useI18n()
-const searchQuery = ref("")
+const searchQuery = ref('')
 const groups = ref([])
-const goToUrl = ref("")
-const user = inject("social-user")
-const isCurrentUser = inject("is-current-user")
+const goToUrl = ref('')
+const user = inject('social-user')
+const isCurrentUser = inject('is-current-user')
 const platformConfigStore = usePlatformConfig()
-const globalForumsCourse = computed(() => platformConfigStore.getSetting("forum.global_forums_course_id"))
+const globalForumsCourse = computed(() =>
+  platformConfigStore.getSetting('forum.global_forums_course_id'),
+)
 const isValidGlobalForumsCourse = computed(() => {
   const courseId = globalForumsCourse.value
   return courseId !== null && courseId !== undefined && courseId > 0
@@ -83,7 +70,7 @@ const isValidGlobalForumsCourse = computed(() => {
 const router = useRouter()
 
 function search() {
-  router.push({ name: "UserGroupSearch", query: { q: searchQuery.value } })
+  router.push({ name: 'UserGroupSearch', query: { q: searchQuery.value } })
 }
 
 async function fetchGroups(userId) {
@@ -95,7 +82,7 @@ async function fetchGroups(userId) {
     }
   } catch (error) {
     groups.value = []
-    goToUrl.value = ""
+    goToUrl.value = ''
   }
 }
 

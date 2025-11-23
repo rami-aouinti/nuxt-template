@@ -1,16 +1,19 @@
-<script setup>
-import { computed, ref, watch } from "vue"
-import { useI18n } from "vue-i18n"
-import Fieldset from "primevue/fieldset"
-import SelectButton from "primevue/selectbutton"
-import BaseCheckbox from "../basecomponents/BaseCheckbox.vue"
-import BaseInputNumber from "../basecomponents/BaseInputNumber.vue"
-import BaseSelect from "../basecomponents/BaseSelect.vue"
-import EditLinks from "../resource_links/EditLinks.vue"
-import { useCalendarInvitations } from "../legacy/composables/calendar/calendarInvitations.js"
-import BaseAutocomplete from "../basecomponents/BaseAutocomplete.vue"
-import usergrupService from "../legacy/services/usergroupService.js"
-import { subscriptionVisibility, type } from "../legacy/constants/entity/ccalendarevent.js"
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+
+import Fieldset from 'primevue/fieldset'
+import SelectButton from 'primevue/selectbutton'
+import BaseCheckbox from '../basecomponents/BaseCheckbox.vue'
+import BaseInputNumber from '../basecomponents/BaseInputNumber.vue'
+import BaseSelect from '../basecomponents/BaseSelect.vue'
+import EditLinks from '../resource_links/EditLinks.vue'
+import { useCalendarInvitations } from '~/composables/calendar/calendarInvitations.js'
+import BaseAutocomplete from '../basecomponents/BaseAutocomplete.vue'
+import usergrupService from '~/services/usergroupService.js'
+import {
+  subscriptionVisibility,
+  type,
+} from '~/constants/entity/ccalendarevent.js'
 
 const model = defineModel({
   type: Object,
@@ -18,7 +21,8 @@ const model = defineModel({
 
 const { t } = useI18n()
 
-const { allowCollectiveInvitations, allowSubscriptions } = useCalendarInvitations()
+const { allowCollectiveInvitations, allowSubscriptions } =
+  useCalendarInvitations()
 
 const showInvitationsFieldset = computed(() => {
   if (allowCollectiveInvitations && !allowSubscriptions) {
@@ -33,12 +37,15 @@ const showSubscriptionsFieldset = computed(() => {
     return true
   }
 
-  return allowCollectiveInvitations && type.subscription === model.value?.invitationType
+  return (
+    allowCollectiveInvitations &&
+    type.subscription === model.value?.invitationType
+  )
 })
 
 const invitationTypeList = [
-  { name: t("Invitations"), value: type.invitation },
-  { name: t("Subscriptions"), value: type.subscription },
+  { name: t('Invitations'), value: type.invitation },
+  { name: t('Subscriptions'), value: type.subscription },
 ]
 
 const invitationTypeSelected = ref()
@@ -46,20 +53,25 @@ const invitationTypeSelected = ref()
 model.value.invitationType = computed(() => invitationTypeSelected.value)
 
 const subscriptionVisibilityList = [
-  { label: t("No"), value: subscriptionVisibility.no },
-  { label: t("All system users"), value: subscriptionVisibility.all },
-  { label: t("Users inside the class"), value: subscriptionVisibility.class },
+  { label: t('No'), value: subscriptionVisibility.no },
+  { label: t('All system users'), value: subscriptionVisibility.all },
+  { label: t('Users inside the class'), value: subscriptionVisibility.class },
 ]
 
 const subscriptionVisibilitySelected = ref(0)
 
-model.value.subscriptionVisibility = computed(() => subscriptionVisibilitySelected.value)
+model.value.subscriptionVisibility = computed(
+  () => subscriptionVisibilitySelected.value,
+)
 
 const subscriptionItemSelected = ref()
 
-const subscriptionItemDisabled = computed(() => 2 !== subscriptionVisibilitySelected.value)
+const subscriptionItemDisabled = computed(
+  () => 2 !== subscriptionVisibilitySelected.value,
+)
 
-const onSubscriptionItemSelected = (event) => (model.value.subscriptionItemId = event.value.id)
+const onSubscriptionItemSelected = (event) =>
+  (model.value.subscriptionItemId = event.value.id)
 
 watch(subscriptionItemSelected, (newValue) => {
   if (!newValue) {
@@ -73,14 +85,13 @@ const findUsergroup = async (query) => {
   return response.items
 }
 
-const maxSubscriptionsDisabled = computed(() => 0 === subscriptionVisibilitySelected.value)
+const maxSubscriptionsDisabled = computed(
+  () => 0 === subscriptionVisibilitySelected.value,
+)
 </script>
 
 <template>
-  <div
-    v-if="allowCollectiveInvitations && allowSubscriptions"
-    class="field"
-  >
+  <div v-if="allowCollectiveInvitations && allowSubscriptions" class="field">
     <SelectButton
       v-model="invitationTypeSelected"
       :options="invitationTypeList"
@@ -89,10 +100,7 @@ const maxSubscriptionsDisabled = computed(() => 0 === subscriptionVisibilitySele
     />
   </div>
 
-  <Fieldset
-    v-if="showInvitationsFieldset"
-    :legend="t('Invitations')"
-  >
+  <Fieldset v-if="showInvitationsFieldset" :legend="t('Invitations')">
     <EditLinks
       v-model="model"
       :edit-status="false"
@@ -109,10 +117,7 @@ const maxSubscriptionsDisabled = computed(() => 0 === subscriptionVisibilitySele
     />
   </Fieldset>
 
-  <Fieldset
-    v-if="showSubscriptionsFieldset"
-    :legend="t('Subscriptions')"
-  >
+  <Fieldset v-if="showSubscriptionsFieldset" :legend="t('Subscriptions')">
     <BaseSelect
       v-model="subscriptionVisibilitySelected"
       :label="t('Allow subscriptions')"
@@ -131,14 +136,15 @@ const maxSubscriptionsDisabled = computed(() => 0 === subscriptionVisibilitySele
       id="max_subscription"
       v-model="model.maxAttendees"
       :disabled="maxSubscriptionsDisabled"
-      :help-text="t('Maximum number of subscriptions allowed. Leave at 0 to not limit it.')"
+      :help-text="
+        t(
+          'Maximum number of subscriptions allowed. Leave at 0 to not limit it.',
+        )
+      "
       :label="t('Maximum number of subscriptions')"
       min="0"
       step="1"
     />
-    <div
-      id="form_subscriptions_edit"
-      style="display: none"
-    ></div>
+    <div id="form_subscriptions_edit" style="display: none" />
   </Fieldset>
 </template>

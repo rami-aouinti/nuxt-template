@@ -20,7 +20,7 @@ export default {
     isAdmin(state, getters) {
       return (
         getters.isAuthenticated &&
-        (getters.hasRole("ROLE_ADMIN") || getters.hasRole("ROLE_GLOBAL_ADMIN"))
+        (getters.hasRole('ROLE_ADMIN') || getters.hasRole('ROLE_GLOBAL_ADMIN'))
       )
     },
     isCourseAdmin(state, getters) {
@@ -30,25 +30,28 @@ export default {
 
       return (
         getters.isAuthenticated &&
-        getters.hasRole("ROLE_CURRENT_COURSE_SESSION_TEACHER") &&
-        getters.hasRole("ROLE_CURRENT_COURSE_TEACHER")
+        getters.hasRole('ROLE_CURRENT_COURSE_SESSION_TEACHER') &&
+        getters.hasRole('ROLE_CURRENT_COURSE_TEACHER')
       )
     },
     isCurrentTeacher(state, getters) {
       if (!getters.isAuthenticated) {
         return false
       }
-      if (getters.hasRole("ROLE_ADMIN") || getters.hasRole("ROLE_GLOBAL_ADMIN")) {
+      if (
+        getters.hasRole('ROLE_ADMIN') ||
+        getters.hasRole('ROLE_GLOBAL_ADMIN')
+      ) {
         return true
       }
 
-      return getters.hasRole("ROLE_CURRENT_COURSE_TEACHER")
+      return getters.hasRole('ROLE_CURRENT_COURSE_TEACHER')
     },
     isBoss(state, getters) {
-      return getters.hasRole("ROLE_STUDENT_BOSS")
+      return getters.hasRole('ROLE_STUDENT_BOSS')
     },
     isStudent(state, getters) {
-      return getters.hasRole("ROLE_STUDENT")
+      return getters.hasRole('ROLE_STUDENT')
     },
     getUser(state) {
       return state.user

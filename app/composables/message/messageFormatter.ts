@@ -5,7 +5,9 @@ export function useMessageReceiverFormatter() {
    * @returns {Object[]}
    */
   function mapReceiverMixToUsers(message) {
-    return [...message.receiversTo, ...message.receiversCc].map((receiver) => receiver.receiver)
+    return [...message.receiversTo, ...message.receiversCc].map(
+      (receiver) => receiver.receiver,
+    )
   }
 
   /**

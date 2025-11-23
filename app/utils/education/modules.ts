@@ -95,8 +95,7 @@ export const educationSections: EducationSection[] = [
         slug: 'messaging-notifications',
         title: 'Messagerie & notifications',
         category: 'Communication',
-        summary:
-          'Messagerie directe, hub de notifications et files d’alertes.',
+        summary: 'Messagerie directe, hub de notifications et files d’alertes.',
         description:
           'Centralise les vues message et notification pour garder les utilisateurs informés des activités clés.',
         highlights: [
@@ -129,8 +128,7 @@ export const educationSections: EducationSection[] = [
         slug: 'personal-workspace',
         title: 'Espace personnel',
         category: 'Profil',
-        summary:
-          'Fichiers personnels, préférences et suivi d’activité.',
+        summary: 'Fichiers personnels, préférences et suivi d’activité.',
         description:
           'Associe les vues personalfile, pageLayout et profile pour offrir un cockpit individuel moderne.',
         highlights: [
@@ -158,15 +156,18 @@ export const educationSections: EducationSection[] = [
           'Badge des statuts et visibilité',
           'Listing des fournisseurs tiers / intégrations',
         ],
-        relatedViews: ['social/List.vue', 'socialpost/Show.vue', 'admin/UserList.vue'],
+        relatedViews: [
+          'social/List.vue',
+          'socialpost/Show.vue',
+          'admin/UserList.vue',
+        ],
       },
     ],
   },
   {
     key: 'administration',
     title: 'Administration & conformité',
-    description:
-      'Supervision des utilisateurs, sessions et contrôles qualité.',
+    description: 'Supervision des utilisateurs, sessions et contrôles qualité.',
     modules: [
       {
         slug: 'user-and-session-admin',
@@ -228,7 +229,8 @@ export const educationSections: EducationSection[] = [
         path: '/education/glossary',
         title: 'Glossaire institutionnel',
         category: 'Conformité',
-        summary: 'Centralisation des définitions et import/export de termes via /api/glossaries.',
+        summary:
+          'Centralisation des définitions et import/export de termes via /api/glossaries.',
         description:
           'Expose les termes du glossaire à partir de l’API distante et relie les écrans legacy d’export/import.',
         highlights: [

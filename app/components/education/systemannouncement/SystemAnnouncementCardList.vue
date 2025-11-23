@@ -8,16 +8,16 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue"
-import axios from "axios"
+<script setup lang="ts">
+import { ref } from 'vue'
+import axios from 'axios'
 
-import SystemAnnouncementCard from "./SystemAnnouncementCard.vue"
+import SystemAnnouncementCard from './SystemAnnouncementCard.vue'
 
 const announcements = ref([])
 
 axios
-  .get("/news/list")
+  .get('/news/list')
   .then((response) => {
     if (Array.isArray(response.data)) {
       announcements.value = response.data

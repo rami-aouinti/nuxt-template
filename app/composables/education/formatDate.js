@@ -1,7 +1,7 @@
-import { DateTime } from "luxon"
-import { useLocale } from "./locale"
-import { usePlatformConfig } from "../store/platformConfig"
-import { useSecurityStore } from "../store/securityStore"
+import { DateTime } from 'luxon'
+import { useLocale } from './locale'
+import { usePlatformConfig } from '../store/platformConfig'
+import { useSecurityStore } from '../store/securityStore'
 
 export function useFormatDate() {
   const { appParentLocale } = useLocale()
@@ -9,15 +9,16 @@ export function useFormatDate() {
   const securityStore = useSecurityStore()
 
   function getCurrentTimezone() {
-    const allowUserTimezone = platformConfigStore.getSetting("profile.use_users_timezone") === "true"
+    const allowUserTimezone =
+      platformConfigStore.getSetting('profile.use_users_timezone') === 'true'
     const userTimezone = securityStore.user?.timezone
-    const platformTimezone = platformConfigStore.getSetting("platform.timezone")
+    const platformTimezone = platformConfigStore.getSetting('platform.timezone')
 
     if (allowUserTimezone && userTimezone) {
       return userTimezone
     }
 
-    if (platformTimezone && platformTimezone !== "false") {
+    if (platformTimezone && platformTimezone !== 'false') {
       return platformTimezone
     }
 
@@ -31,10 +32,10 @@ export function useFormatDate() {
 
     let dt
 
-    if (typeof datetime === "string") {
-      dt = DateTime.fromISO(datetime, { zone: "utc" })
+    if (typeof datetime === 'string') {
+      dt = DateTime.fromISO(datetime, { zone: 'utc' })
     } else if (datetime instanceof Date) {
-      dt = DateTime.fromJSDate(datetime, { zone: "utc" })
+      dt = DateTime.fromJSDate(datetime, { zone: 'utc' })
     } else {
       return null
     }
@@ -49,7 +50,7 @@ export function useFormatDate() {
   const abbreviatedDatetime = (datetime) =>
     getDateTimeObject(datetime)?.toLocaleString({
       ...DateTime.DATETIME_MED,
-      month: "long",
+      month: 'long',
     })
 
   const relativeDatetime = (datetime) =>

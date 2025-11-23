@@ -1,4 +1,4 @@
-import { ENTRYPOINT } from "../legacy/config/entrypoint.js"
+import { ENTRYPOINT } from '~/config/entrypoint.js'
 
 // From
 // https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/upload-adapter.html
@@ -36,8 +36,8 @@ export default class MyUploadAdapter {
     // integration to choose the right communication channel. This example uses
     // a POST request with JSON as a data structure but your configuration
     // could be different.
-    xhr.open("POST", ENTRYPOINT + "documents", true)
-    xhr.responseType = "json"
+    xhr.open('POST', ENTRYPOINT + 'documents', true)
+    xhr.responseType = 'json'
   }
 
   // Initializes XMLHttpRequest listeners.
@@ -46,9 +46,9 @@ export default class MyUploadAdapter {
     const loader = this.loader
     const genericErrorText = `Couldn't upload file: ${file.name}.`
 
-    xhr.addEventListener("error", () => reject(genericErrorText))
-    xhr.addEventListener("abort", () => reject())
-    xhr.addEventListener("load", () => {
+    xhr.addEventListener('error', () => reject(genericErrorText))
+    xhr.addEventListener('abort', () => reject())
+    xhr.addEventListener('load', () => {
       const response = xhr.response
 
       // This example assumes the XHR server's "response" object will come with
@@ -58,7 +58,11 @@ export default class MyUploadAdapter {
       // Your integration may handle upload errors in a different way so make sure
       // it is done properly. The reject() function must be called when the upload fails.
       if (!response || response.error) {
-        return reject(response && response.error ? response.error.message : genericErrorText)
+        return reject(
+          response && response.error
+            ? response.error.message
+            : genericErrorText,
+        )
       }
 
       // If the upload is successful, resolve the upload promise with an object containing
@@ -75,7 +79,7 @@ export default class MyUploadAdapter {
     // properties which are used e.g. to display the upload progress bar in the editor
     // user interface.
     if (xhr.upload) {
-      xhr.upload.addEventListener("progress", (evt) => {
+      xhr.upload.addEventListener('progress', (evt) => {
         if (evt.lengthComputable) {
           loader.uploadTotal = evt.total
           loader.uploaded = evt.loaded
@@ -90,10 +94,10 @@ export default class MyUploadAdapter {
     const data = new FormData()
 
     // Chamilo
-    data.append("filetype", "file")
-    data.append("parentResourceNodeId", "4")
+    data.append('filetype', 'file')
+    data.append('parentResourceNodeId', '4')
     //data.append('resourceLinkList', '{"cid": 1, "visibility":2}');
-    data.append("uploadFile", file)
+    data.append('uploadFile', file)
     //data.append( 'upload', file );
 
     // Important note: This is the right place to implement security mechanisms

@@ -1,9 +1,9 @@
 // common validators across base components
 
-import { chamiloIconToClass } from "./ChamiloIcons.js"
+import { chamiloIconToClass } from './ChamiloIcons.js'
 
 export const iconValidator = (value) => {
-  if (typeof value !== "string") {
+  if (typeof value !== 'string') {
     return false
   }
 
@@ -11,19 +11,26 @@ export const iconValidator = (value) => {
 }
 
 export const sizeValidator = (value) => {
-  if (typeof value !== "string") {
+  if (typeof value !== 'string') {
     return false
   }
 
-  return ["normal", "small"].includes(value)
+  return ['normal', 'small'].includes(value)
 }
 
 export const buttonTypeValidator = (value) => {
-  if (typeof value !== "string") {
+  if (typeof value !== 'string') {
     return false
   }
 
-  return ["primary", "primary-alternative", "secondary", "black", "success", "info", "warning", "danger"].includes(
-    value,
-  )
+  return [
+    'primary',
+    'primary-alternative',
+    'secondary',
+    'black',
+    'success',
+    'info',
+    'warning',
+    'danger',
+  ].includes(value)
 }

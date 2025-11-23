@@ -1,15 +1,17 @@
-import { findUserActivePortals } from "../../services/accessurlService"
-import { useSecurityStore } from "../../store/securityStore"
-import { computed, ref } from "vue"
-import { useNotification } from "../notification"
-import securityService from "../../services/securityService"
+import { findUserActivePortals } from '../../services/accessurlService'
+import { useSecurityStore } from '../../store/securityStore'
+import { computed, ref } from 'vue'
+import { useNotification } from '../notification'
+import securityService from '../../services/securityService'
 
 export function useAccessUrlChooser() {
   const securityStore = useSecurityStore()
 
   const { showErrorNotification } = useNotification()
 
-  const loadComponent = computed(() => !!(securityStore.isAuthenticated && window.is_login_url))
+  const loadComponent = computed(
+    () => !!(securityStore.isAuthenticated && window.is_login_url),
+  )
   const isLoading = ref(true)
   const accessUrls = ref([])
 
@@ -19,7 +21,7 @@ export function useAccessUrlChooser() {
     }
 
     try {
-      const items = await findUserActivePortals(securityStore.user["@id"])
+      const items = await findUserActivePortals(securityStore.user['@id'])
 
       accessUrls.value = items
 
@@ -41,7 +43,10 @@ export function useAccessUrlChooser() {
 
   async function doRedirectToPortal(url) {
     try {
-      await securityService.loginTokenCheck(url, await securityService.loginTokenRequest())
+      await securityService.loginTokenCheck(
+        url,
+        await securityService.loginTokenRequest(),
+      )
 
       window.location.href = url
     } catch (error) {

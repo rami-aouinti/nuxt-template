@@ -13,32 +13,24 @@
       </button>
 
       <!-- Dock -->
-      <div
-        v-if="open"
-        class="chd-dock"
-        role="dialog"
-        aria-label="Chat dock"
-      >
+      <div v-if="open" class="chd-dock" role="dialog" aria-label="Chat dock">
         <header class="chd-header">
           <div class="chd-title">
             <i class="mdi mdi-chat-outline" />
-            <span>{{ t("Chat") }}</span>
+            <span>{{ t('Chat') }}</span>
           </div>
           <div class="chd-actions">
-            <button
-              class="chd-btn"
-              @click="toggleStatus"
-            >
+            <button class="chd-btn" @click="toggleStatus">
               <span
                 class="chd-dot"
                 :class="userStatus === 1 ? 'chd-dot--on' : 'chd-dot--off'"
               />
-              {{ userStatus === 1 ? t("Online") : t("Offline") }}
+              {{ userStatus === 1 ? t('Online') : t('Offline') }}
             </button>
             <button
               class="chd-btn chd-btn--ghost"
-              @click="toggleDock(false)"
               aria-label="Close"
+              @click="toggleDock(false)"
             >
               <i class="mdi mdi-close" />
             </button>
@@ -49,32 +41,26 @@
           <!-- Contacts -->
           <aside class="chd-sidebar">
             <div class="chd-sidebar__head">
-              <strong>{{ t("Contacts") }}</strong>
+              <strong>{{ t('Contacts') }}</strong>
               <button
                 class="chd-btn chd-btn--ghost chd-btn--xs"
-                @click="loadContacts"
                 :disabled="loadingContacts"
+                @click="loadContacts"
               >
                 <i class="mdi mdi-refresh" />
               </button>
             </div>
 
-            <div
-              class="chd-contacts"
-              @scroll.passive="onContactsScroll"
-            >
+            <div class="chd-contacts" @scroll.passive="onContactsScroll">
               <template v-if="contactsHtml">
                 <div
                   class="chd-contacts-html chd-legacy"
-                  v-html="contactsHtml"
                   @click.prevent="onContactsClick"
+                  v-html="contactsHtml"
                 />
               </template>
-              <p
-                v-else
-                class="chd-text--muted"
-              >
-                {{ t("No contacts found") }}
+              <p v-else class="chd-text--muted">
+                {{ t('No contacts found') }}
               </p>
             </div>
           </aside>
@@ -100,19 +86,19 @@
                     <span
                       class="chd-presence"
                       :class="activePeer.online ? 'on' : 'off'"
-                    ></span>
+                    />
                   </div>
                 </template>
                 <template v-else>
-                  <strong>{{ t("Select a contact") }}</strong>
+                  <strong>{{ t('Select a contact') }}</strong>
                 </template>
               </div>
             </div>
 
             <!-- Scrollable messages area -->
             <div
-              class="chd-chat__body"
               ref="scrollBox"
+              class="chd-chat__body"
               @scroll.passive="handleScroll"
             >
               <template v-if="activePeer">
@@ -130,7 +116,9 @@
                       v-html="renderMessage(msg.message)"
                     />
                     <div class="chd-bubble__meta">
-                      <span class="chd-bubble__date">{{ formatTs(msg.date) }}</span>
+                      <span class="chd-bubble__date">{{
+                        formatTs(msg.date)
+                      }}</span>
                       <span
                         v-if="isMine(msg)"
                         class="chd-bubble__ack"
@@ -145,22 +133,16 @@
                   v-if="activeMessages.length === 0"
                   class="chd-text--muted chd-center chd-py-8"
                 >
-                  {{ t("No messages yet") }}
+                  {{ t('No messages yet') }}
                 </div>
               </template>
-              <div
-                v-else
-                class="chd-text--muted chd-center chd-py-16"
-              >
-                {{ t("Pick someone in the left box to start chatting") }}
+              <div v-else class="chd-text--muted chd-center chd-py-16">
+                {{ t('Pick someone in the left box to start chatting') }}
               </div>
             </div>
 
             <!-- Composer -->
-            <div
-              class="chd-composer"
-              v-if="activePeer"
-            >
+            <div v-if="activePeer" class="chd-composer">
               <textarea
                 v-model.trim="draft"
                 class="chd-input"
@@ -171,21 +153,23 @@
                 @keydown.enter.shift.exact="newline"
               />
               <div class="chd-composer__actions">
-                <span class="chd-hint">{{ t("Enter to send · Shift+Enter for newline") }}</span>
+                <span class="chd-hint">{{
+                  t('Enter to send · Shift+Enter for newline')
+                }}</span>
                 <div class="chd-spacer" />
                 <button
                   class="chd-btn chd-btn--danger-outline"
-                  @click="clearConversation"
                   :disabled="sending || clearing"
+                  @click="clearConversation"
                 >
-                  {{ t("Reset") }}
+                  {{ t('Reset') }}
                 </button>
                 <button
                   class="chd-btn chd-btn--primary"
-                  @click="send"
                   :disabled="!draft || sending || userStatus !== 1"
+                  @click="send"
                 >
-                  <i class="mdi mdi-send" /> {{ t("Send") }}
+                  <i class="mdi mdi-send" /> {{ t('Send') }}
                 </button>
               </div>
             </div>
@@ -196,11 +180,10 @@
   </Teleport>
 </template>
 
-<script setup>
-import { ref, reactive, computed, onBeforeUnmount, watch, onMounted } from "vue"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import { ref, reactive, computed, onBeforeUnmount, watch, onMounted } from 'vue'
 
-const { t } = useI18n({ useScope: "global" })
+const { t } = useI18n({ useScope: 'global' })
 const openedOnce = ref(false)
 const AUTO_OPEN_LAST_PEER = false
 const queuedBadgePids = new Set()
@@ -209,7 +192,7 @@ const queuedBadgePids = new Set()
 const activePeer = ref(null) // { id, name, online, image }
 
 /** Persist last opened peer locally (nice UX). */
-const LAST_PEER_KEY = "chd:lastPeerId"
+const LAST_PEER_KEY = 'chd:lastPeerId'
 watch(activePeer, (v) => {
   if (v?.id) localStorage.setItem(LAST_PEER_KEY, String(v.id))
 })
@@ -225,33 +208,60 @@ function RG(candidates, fallback) {
   return fallback
 }
 const API = {
-  start: RG(["chat_api_start", "chamilo_core_chat_api_start"], "/account/chat/api/start"),
-  contacts: RG(["chat_api_contacts", "chamilo_core_chat_api_contacts"], "/account/chat/api/contacts"),
-  heartbeat: RG(["chat_api_heartbeat", "chamilo_core_chat_api_heartbeat"], "/account/chat/api/heartbeat"),
-  send: RG(["chat_api_send", "chamilo_core_chat_api_send"], "/account/chat/api/send"),
-  status: RG(["chat_api_status", "chamilo_core_chat_api_status"], "/account/chat/api/status"),
-  history: RG(["chat_api_history", "chamilo_core_chat_api_history"], "/account/chat/api/history"),
-  history_since: RG(
-    ["chat_api_history_since", "chamilo_core_chat_api_history_since"],
-    "/account/chat/api/history_since",
+  start: RG(
+    ['chat_api_start', 'chamilo_core_chat_api_start'],
+    '/account/chat/api/start',
   ),
-  preview: RG(["chat_api_preview", "chamilo_core_chat_api_preview"], "/account/chat/api/preview"),
-  presence: RG(["chat_api_presence", "chamilo_core_chat_api_presence"], "/account/chat/api/presence"),
-  ack: RG(["chat_api_ack", "chamilo_core_chat_api_ack"], "/account/chat/api/ack"),
+  contacts: RG(
+    ['chat_api_contacts', 'chamilo_core_chat_api_contacts'],
+    '/account/chat/api/contacts',
+  ),
+  heartbeat: RG(
+    ['chat_api_heartbeat', 'chamilo_core_chat_api_heartbeat'],
+    '/account/chat/api/heartbeat',
+  ),
+  send: RG(
+    ['chat_api_send', 'chamilo_core_chat_api_send'],
+    '/account/chat/api/send',
+  ),
+  status: RG(
+    ['chat_api_status', 'chamilo_core_chat_api_status'],
+    '/account/chat/api/status',
+  ),
+  history: RG(
+    ['chat_api_history', 'chamilo_core_chat_api_history'],
+    '/account/chat/api/history',
+  ),
+  history_since: RG(
+    ['chat_api_history_since', 'chamilo_core_chat_api_history_since'],
+    '/account/chat/api/history_since',
+  ),
+  preview: RG(
+    ['chat_api_preview', 'chamilo_core_chat_api_preview'],
+    '/account/chat/api/preview',
+  ),
+  presence: RG(
+    ['chat_api_presence', 'chamilo_core_chat_api_presence'],
+    '/account/chat/api/presence',
+  ),
+  ack: RG(
+    ['chat_api_ack', 'chamilo_core_chat_api_ack'],
+    '/account/chat/api/ack',
+  ),
 }
 
 /** ===== State ===== */
 const open = ref(false)
 const userStatus = ref(0)
-const me = reactive({ id: 0, name: "", secToken: "" })
+const me = reactive({ id: 0, name: '', secToken: '' })
 
-const contactsHtml = ref("")
+const contactsHtml = ref('')
 const loadingContacts = ref(false)
 
 const messagesByPeer = reactive(new Map())
 const fetchingPrev = ref(false)
 
-const draft = ref("")
+const draft = ref('')
 const sending = ref(false)
 const clearing = ref(false)
 
@@ -264,7 +274,9 @@ const lastSeenMsgIdByPeer = reactive(new Map()) // peerId -> last msg id seen
 
 /** FAB global unread from /heartbeat?mode=min */
 const fabUnread = ref(0)
-const fabHasUnread = computed(() => unreadTotal.value > 0 || fabUnread.value > 0)
+const fabHasUnread = computed(
+  () => unreadTotal.value > 0 || fabUnread.value > 0,
+)
 const unreadTotal = computed(() => {
   let t = 0
   unreadByPeer.forEach((v) => (t += Number(v || 0)))
@@ -272,7 +284,7 @@ const unreadTotal = computed(() => {
 })
 
 let hbTimer = null
-let hbLegacyLoop = false
+const hbLegacyLoop = false
 let contactsTimer = null
 
 /** ===== Utils ===== */
@@ -280,32 +292,46 @@ function qs(obj) {
   return new URLSearchParams(obj).toString()
 }
 function linkify(str) {
-  return (str || "").replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')
+  return (str || '').replace(
+    /(https?:\/\/[^\s<]+)/g,
+    '<a href="$1" target="_blank" rel="noopener">$1</a>',
+  )
 }
 function renderMessage(html) {
   return linkify(html)
 }
 function formatTs(ts) {
   const d = Number(ts) * 1000
-  if (!Number.isFinite(d)) return ""
+  if (!Number.isFinite(d)) return ''
   try {
-    return new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(new Date(d))
+    return new Intl.DateTimeFormat(undefined, {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    }).format(new Date(d))
   } catch {
-    return ""
+    return ''
   }
 }
 function bubbleClass(msg) {
-  const mine = Number(msg.from_user_info?.id) === me.id || Number(msg?.f) === me.id
-  return mine ? "chd-row chd-row--me" : "chd-row chd-row--peer"
+  const mine =
+    Number(msg.from_user_info?.id) === me.id || Number(msg?.f) === me.id
+  return mine ? 'chd-row chd-row--me' : 'chd-row chd-row--peer'
 }
 function handleScroll(e) {
   onScrollUpLoadMore(e)
   onBodyScrollForRead()
 }
 function escapeForHtml(s) {
-  return (s || "").replace(
+  return (s || '').replace(
     /[&<>"']/g,
-    (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[m],
+    (m) =>
+      ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;',
+      })[m],
   )
 }
 function isMine(m) {
@@ -315,32 +341,34 @@ function isMine(m) {
 /** ===== Acks: UI helpers ===== */
 function ackGlyph(msg) {
   const v = Number(msg?.recd ?? 0)
-  if (v >= 2) return "✓✓"
-  if (v >= 1) return "✓"
-  return ""
+  if (v >= 2) return '✓✓'
+  if (v >= 1) return '✓'
+  return ''
 }
 function ackTitle(msg) {
   const v = Number(msg?.recd ?? 0)
-  if (v >= 2) return t("Read")
-  if (v >= 1) return t("Delivered")
-  return t("Sending")
+  if (v >= 2) return t('Read')
+  if (v >= 1) return t('Delivered')
+  return t('Sending')
 }
 
 /** API helpers */
 async function getJSON(url, params) {
   const full = params ? `${url}?${qs(params)}` : url
-  const r = await fetch(full, { credentials: "same-origin" })
-  if (!r.ok) throw new Error("net")
+  const r = await fetch(full, { credentials: 'same-origin' })
+  if (!r.ok) throw new Error('net')
   return r.json()
 }
 async function post(url, params, expectJson = true) {
   const r = await fetch(url, {
-    method: "POST",
-    credentials: "same-origin",
-    headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    },
     body: new URLSearchParams(params || {}),
   })
-  if (!r.ok) throw new Error("net")
+  if (!r.ok) throw new Error('net')
   return expectJson ? r.json() : r.text()
 }
 
@@ -359,7 +387,7 @@ function filterAfterClear(pid, list) {
 const pendingByPeer = reactive(new Map()) // peerId -> [{ id: tempId, msg, ts }]
 function addPending(pid, tempId, msg, ts) {
   const arr = pendingByPeer.get(pid) || []
-  arr.push({ id: tempId, msg: String(msg || ""), ts: Number(ts) })
+  arr.push({ id: tempId, msg: String(msg || ''), ts: Number(ts) })
   pendingByPeer.set(pid, arr)
 }
 function removePending(pid, tempId) {
@@ -380,14 +408,14 @@ function replaceTempId(pid, tempId, newMsg) {
 }
 
 function textToPlain(s) {
-  const el = document.createElement("div")
-  el.innerHTML = String(s ?? "")
-  return (el.textContent || "").trim()
+  const el = document.createElement('div')
+  el.innerHTML = String(s ?? '')
+  return (el.textContent || '').trim()
 }
 
 function sameContent(a, b) {
-  const textA = textToPlain(a?.message ?? a?.m ?? "")
-  const textB = textToPlain(b?.message ?? b?.m ?? "")
+  const textA = textToPlain(a?.message ?? a?.m ?? '')
+  const textB = textToPlain(b?.message ?? b?.m ?? '')
   if (textA !== textB) return false
   const ta = Number(a?.date) || 0
   const tb = Number(b?.date) || 0
@@ -399,11 +427,18 @@ function adoptPendingFromServer(pid, srvList, prevList) {
   const adopted = new Set()
   for (const srv of srvList) {
     if (!isMine(srv)) continue
-    const hit = pend.find((p) => sameContent(srv, { message: p.msg, date: srv.date }))
+    const hit = pend.find((p) =>
+      sameContent(srv, { message: p.msg, date: srv.date }),
+    )
     if (!hit) continue
     const tempIdx = prevList.findIndex((m) => m.id === hit.id)
     if (tempIdx >= 0) {
-      prevList[tempIdx] = { ...prevList[tempIdx], ...srv, id: Number(srv.id), pending: false }
+      prevList[tempIdx] = {
+        ...prevList[tempIdx],
+        ...srv,
+        id: Number(srv.id),
+        pending: false,
+      }
       adopted.add(Number(srv.id))
       removePending(pid, hit.id)
     }
@@ -416,7 +451,9 @@ function dedupeNewWithPending(pid, newList) {
   if (!pend.length) return newList
   return newList.filter((srv) => {
     if (!isMine(srv)) return true
-    const same = pend.find((p) => sameContent(srv, { message: p.msg, date: srv.date }))
+    const same = pend.find((p) =>
+      sameContent(srv, { message: p.msg, date: srv.date }),
+    )
     return !same
   })
 }
@@ -457,32 +494,43 @@ function extractPeerIdFromNode(node) {
   if (!node) return 0
   const ds = node.dataset || {}
 
-  const cand = Number(ds.user || ds.id || ds.userId || ds.idUser || ds.uid || ds.friend || ds.contactId || 0)
+  const cand = Number(
+    ds.user ||
+      ds.id ||
+      ds.userId ||
+      ds.idUser ||
+      ds.uid ||
+      ds.friend ||
+      ds.contactId ||
+      0,
+  )
   if (cand) return cand
 
-  if (node.matches?.("a[href]")) {
+  if (node.matches?.('a[href]')) {
     try {
-      const u = new URL(node.getAttribute("href"), location.origin)
+      const u = new URL(node.getAttribute('href'), location.origin)
       const p = Number(
-        u.searchParams.get("user") ||
-          u.searchParams.get("id") ||
-          u.searchParams.get("uid") ||
-          u.searchParams.get("friend") ||
-          u.searchParams.get("contact") ||
+        u.searchParams.get('user') ||
+          u.searchParams.get('id') ||
+          u.searchParams.get('uid') ||
+          u.searchParams.get('friend') ||
+          u.searchParams.get('contact') ||
           0,
       )
       if (p) return p
     } catch {}
   }
 
-  const oc = node.getAttribute?.("onclick") || ""
+  const oc = node.getAttribute?.('onclick') || ''
   if (oc) {
-    const m = oc.match(/(?:chatWith|openChat|startChat)\s*\(\s*['"]?(\d+)['"]?/i)
+    const m = oc.match(
+      /(?:chatWith|openChat|startChat)\s*\(\s*['"]?(\d+)['"]?/i,
+    )
     if (m) return Number(m[1])
   }
 
   // id="friend_123" / "contact-123"
-  const idAttr = node.id || ""
+  const idAttr = node.id || ''
   if (idAttr) {
     const m2 = idAttr.match(/(?:friend|user|contact|person|peer)[_-]?(\d+)/i)
     if (m2) return Number(m2[1])
@@ -494,26 +542,30 @@ function findContactNodesByPeerId(root, pid) {
   if (!root || !pid) return []
   const candidates = Array.from(
     root.querySelectorAll(
-      "[data-user],[data-id],[data-user-id],[data-id-user],[data-uid],[data-friend],[data-contact-id],a[href],[onclick],[id]",
+      '[data-user],[data-id],[data-user-id],[data-id-user],[data-uid],[data-friend],[data-contact-id],a[href],[onclick],[id]',
     ),
   )
   return candidates
     .filter((el) => extractPeerIdFromNode(el) === pid)
     .map((el) => {
       const row =
-        el.closest(".chd-contact-row") || el.closest(".list-group-item, .media, .panel, .panel-body, li, tr, div") || el
-      row.classList.add("chd-contact-row")
+        el.closest('.chd-contact-row') ||
+        el.closest(
+          '.list-group-item, .media, .panel, .panel-body, li, tr, div',
+        ) ||
+        el
+      row.classList.add('chd-contact-row')
       return row
     })
 }
 
 function setRowUnreadDot(row, hasUnread) {
   if (!row) return
-  let dot = row.querySelector(":scope > .chd-contact-dot")
+  let dot = row.querySelector(':scope > .chd-contact-dot')
   if (hasUnread) {
     if (!dot) {
-      dot = document.createElement("span")
-      dot.className = "chd-contact-dot"
+      dot = document.createElement('span')
+      dot.className = 'chd-contact-dot'
       row.appendChild(dot)
     }
   } else {
@@ -521,7 +573,7 @@ function setRowUnreadDot(row, hasUnread) {
   }
 }
 function updateContactUnreadBadge(pid) {
-  const root = document.querySelector(".chd .chd-contacts .chd-contacts-html")
+  const root = document.querySelector('.chd .chd-contacts .chd-contacts-html')
   if (!root) {
     queuedBadgePids.add(pid)
     return
@@ -532,9 +584,9 @@ function updateContactUnreadBadge(pid) {
 }
 
 function repaintAllContactBadges() {
-  const root = document.querySelector(".chd .chd-contacts .chd-contacts-html")
+  const root = document.querySelector('.chd .chd-contacts .chd-contacts-html')
   if (!root) return
-  root.querySelectorAll(".chd-contact-dot").forEach((n) => n.remove())
+  root.querySelectorAll('.chd-contact-dot').forEach((n) => n.remove())
   unreadByPeer.forEach((count, pid) => {
     if (Number(count || 0) > 0) updateContactUnreadBadge(Number(pid))
   })
@@ -547,9 +599,14 @@ function repaintAllContactBadges() {
 /** Presence helpers */
 function resolveOnlineFromInfo(ui) {
   if (!ui) return false
-  let v = ui.user_is_online_in_chat ?? ui.user_is_online ?? ui.online ?? ui.is_online ?? ui.presence
+  const v =
+    ui.user_is_online_in_chat ??
+    ui.user_is_online ??
+    ui.online ??
+    ui.is_online ??
+    ui.presence
   if (v !== undefined && v !== null) {
-    if (typeof v === "string") return /^(1|true|online|on)$/i.test(v)
+    if (typeof v === 'string') return /^(1|true|online|on)$/i.test(v)
     return !!Number(v) || v === true
   }
   const ts = ui.last_seen_ts ?? ui.last_active_ts ?? ui.last_active_at ?? null
@@ -561,13 +618,17 @@ function resolveOnlineFromInfo(ui) {
   return false
 }
 function collectVisibleContactIds() {
-  const root = document.querySelector(".chd .chd-contacts .chd-contacts-html")
+  const root = document.querySelector('.chd .chd-contacts .chd-contacts-html')
   if (!root) return []
   const ids = new Set()
-  root.querySelectorAll("[data-user],[data-id],[data-user-id],[data-id-user],a[href],[onclick],[id]").forEach((el) => {
-    const id = extractPeerIdFromNode(el)
-    if (id) ids.add(id)
-  })
+  root
+    .querySelectorAll(
+      '[data-user],[data-id],[data-user-id],[data-id-user],a[href],[onclick],[id]',
+    )
+    .forEach((el) => {
+      const id = extractPeerIdFromNode(el)
+      if (id) ids.add(id)
+    })
   if (activePeer.value?.id) ids.add(activePeer.value.id)
   return Array.from(ids)
 }
@@ -576,22 +637,24 @@ async function refreshPresence() {
 }
 
 function paintPresenceOnContacts(map) {
-  const root = document.querySelector(".chd .chd-contacts .chd-contacts-html")
+  const root = document.querySelector('.chd .chd-contacts .chd-contacts-html')
   if (!root) return
   Object.entries(map).forEach(([sid, online]) => {
     const pid = Number(sid)
     const rows = findContactNodesByPeerId(root, pid)
     rows.forEach((row) => {
-      row.querySelectorAll(":scope > .chd-presence-dot").forEach((n) => n.remove())
+      row
+        .querySelectorAll(':scope > .chd-presence-dot')
+        .forEach((n) => n.remove())
       const icon =
-        row.querySelector("i.mdi-account-check") ||
-        row.querySelector("i.mdi-account-outline") ||
+        row.querySelector('i.mdi-account-check') ||
+        row.querySelector('i.mdi-account-outline') ||
         row.querySelector('i[class*="mdi-account"]')
       if (icon) {
-        icon.classList.toggle("mdi-account-check", !!online)
-        icon.classList.toggle("mdi-account-outline", !online)
-        icon.classList.toggle("is-online", !!online)
-        icon.classList.toggle("is-offline", !online)
+        icon.classList.toggle('mdi-account-check', !!online)
+        icon.classList.toggle('mdi-account-outline', !online)
+        icon.classList.toggle('is-online', !!online)
+        icon.classList.toggle('is-offline', !online)
       }
     })
   })
@@ -601,10 +664,10 @@ function paintPresenceOnContacts(map) {
 async function startSession() {
   const data = await getJSON(API.start)
   if (!data) return
-  me.name = data.me || ""
+  me.name = data.me || ''
   me.id = Number(data.user_id || 0)
   userStatus.value = Number(data.user_status || 0)
-  me.secToken = data.sec_token || ""
+  me.secToken = data.sec_token || ''
 
   if (data.items) {
     Object.entries(data.items).forEach(([peerId, userItems]) => {
@@ -612,7 +675,9 @@ async function startSession() {
       const arr = filterAfterClear(pid, normalizeItems(userItems?.items ?? []))
       messagesByPeer.set(pid, arr)
       if (activePeer.value?.id === pid && userItems?.window_user_info) {
-        activePeer.value.online = resolveOnlineFromInfo(userItems.window_user_info)
+        activePeer.value.online = resolveOnlineFromInfo(
+          userItems.window_user_info,
+        )
       }
       if (arr.length) lastSeenMsgIdByPeer.set(pid, arr[arr.length - 1].id)
     })
@@ -622,8 +687,8 @@ async function startSession() {
 async function loadContacts() {
   loadingContacts.value = true
   try {
-    const html = await post(API.contacts, { to: "user_id" }, false)
-    contactsHtml.value = String(html || "")
+    const html = await post(API.contacts, { to: 'user_id' }, false)
+    contactsHtml.value = String(html || '')
     requestAnimationFrame(() => {
       repaintAllContactBadges()
       refreshPresence()
@@ -634,51 +699,68 @@ async function loadContacts() {
 }
 /** Contacts click handler */
 function onContactsClick(e) {
-  const a = e.target.closest("a[href]")
+  const a = e.target.closest('a[href]')
   if (a) {
     e.preventDefault()
     e.stopPropagation()
   }
 
-  let el = e.target.closest("[data-user],[data-id],[data-user-id],[data-id-user]")
+  let el = e.target.closest(
+    '[data-user],[data-id],[data-user-id],[data-id-user]',
+  )
   if (el) {
-    const userId = Number(el.dataset.user || el.dataset.id || el.dataset.userId || el.dataset.idUser || 0)
-    const name = el.getAttribute("data-name") || el.textContent?.trim() || "User"
-    const image = el.getAttribute("data-image") || ""
+    const userId = Number(
+      el.dataset.user ||
+        el.dataset.id ||
+        el.dataset.userId ||
+        el.dataset.idUser ||
+        0,
+    )
+    const name =
+      el.getAttribute('data-name') || el.textContent?.trim() || 'User'
+    const image = el.getAttribute('data-image') || ''
     if (userId) return openConversation({ id: userId, name, image })
   }
 
-  el = e.target.closest("[onclick]")
+  el = e.target.closest('[onclick]')
   if (el) {
-    const oc = el.getAttribute("onclick") || ""
+    const oc = el.getAttribute('onclick') || ''
     const m =
       oc.match(/chatWith\s*\(\s*['"]?(\d+)['"]?\s*[,\)]/i) ||
       oc.match(/openChat\s*\(\s*['"]?(\d+)['"]?\s*[,\)]/i) ||
       oc.match(/startChat\s*\(\s*['"]?(\d+)['"]?\s*[,\)]/i)
     if (m) {
       const userId = Number(m[1])
-      const name = el.getAttribute("data-name") || el.textContent?.trim() || "User"
+      const name =
+        el.getAttribute('data-name') || el.textContent?.trim() || 'User'
       return openConversation({ id: userId, name })
     }
   }
 
   if (a) {
     try {
-      const u = new URL(a.getAttribute("href"), location.origin)
-      const id = Number(u.searchParams.get("user") || u.searchParams.get("id") || 0)
+      const u = new URL(a.getAttribute('href'), location.origin)
+      const id = Number(
+        u.searchParams.get('user') || u.searchParams.get('id') || 0,
+      )
       if (id) {
-        const name = a.getAttribute("data-name") || a.textContent?.trim() || "User"
+        const name =
+          a.getAttribute('data-name') || a.textContent?.trim() || 'User'
         return openConversation({ id, name })
       }
     } catch {}
   }
 
-  el = e.target.closest("[id]")
+  el = e.target.closest('[id]')
   if (el) {
-    const m = (el.id || "").match(/(?:friend|user|contact)[_-]?(\d+)/i)
+    const m = (el.id || '').match(/(?:friend|user|contact)[_-]?(\d+)/i)
     if (m) {
       const userId = Number(m[1])
-      const name = el.getAttribute("title") || el.getAttribute("data-name") || el.textContent?.trim() || "User"
+      const name =
+        el.getAttribute('title') ||
+        el.getAttribute('data-name') ||
+        el.textContent?.trim() ||
+        'User'
       return openConversation({ id: userId, name })
     }
   }
@@ -690,8 +772,8 @@ function pickOnline() {
 async function openConversation(peer) {
   activePeer.value = {
     id: Number(peer.id),
-    name: peer.name || "User",
-    image: peer.image || "",
+    name: peer.name || 'User',
+    image: peer.image || '',
     online: pickOnline(peer.id) ?? false,
   }
 
@@ -717,7 +799,14 @@ function debounceMarkAsRead(ms = 180) {
 
 function isActuallyViewingActivePeer() {
   const el = scrollBox.value
-  return open.value && document.hasFocus() && !!activePeer.value && !!el && el.clientHeight > 0 && isAtBottom(el, 24)
+  return (
+    open.value &&
+    document.hasFocus() &&
+    !!activePeer.value &&
+    !!el &&
+    el.clientHeight > 0 &&
+    isAtBottom(el, 24)
+  )
 }
 
 function maybeMarkAsReadOnView() {
@@ -742,7 +831,10 @@ async function getPreviousMessages() {
   const visible = current.length
   fetchingPrev.value = true
   try {
-    const items = await getJSON(API.history, { user_id: pid, visible_messages: visible })
+    const items = await getJSON(API.history, {
+      user_id: pid,
+      visible_messages: visible,
+    })
     const list = filterAfterClear(pid, normalizeItems(items))
     if (list.length) {
       const merged = [...list, ...current].sort(byChronoId)
@@ -769,13 +861,18 @@ async function heartbeat() {
       for (const [peerId, userItems] of Object.entries(data.items)) {
         const pid = Number(peerId)
         const prev = messagesByPeer.get(pid) || []
-        const pruned = filterAfterClear(pid, normalizeItems(userItems?.items ?? []))
+        const pruned = filterAfterClear(
+          pid,
+          normalizeItems(userItems?.items ?? []),
+        )
 
         // Adopt optimistic bubbles that the server just acknowledged
         const adopted = adoptPendingFromServer(pid, pruned, prev)
 
         // Dedupe vs existing and pending
-        let newOnes = pruned.filter((x) => !prev.find((p) => p.id === x.id && !adopted.has(Number(x.id))))
+        let newOnes = pruned.filter(
+          (x) => !prev.find((p) => p.id === x.id && !adopted.has(Number(x.id))),
+        )
         newOnes = dedupeNewWithPending(pid, newOnes)
 
         if (newOnes.length) {
@@ -815,7 +912,9 @@ async function heartbeat() {
 
         // Optional presence hint from server
         if (userItems.window_user_info && activePeer.value?.id === pid) {
-          activePeer.value.online = resolveOnlineFromInfo(userItems.window_user_info)
+          activePeer.value.online = resolveOnlineFromInfo(
+            userItems.window_user_info,
+          )
         }
       }
     }
@@ -847,18 +946,27 @@ function lastKnownIdForPeer(pid) {
 }
 async function fetchNewForActivePeer(pid) {
   const since = lastKnownIdForPeer(pid)
-  const items = await getJSON(API.history_since, { user_id: pid, since_id: since })
+  const items = await getJSON(API.history_since, {
+    user_id: pid,
+    since_id: since,
+  })
   const list = normalizeItems(items)
   if (!list.length) return
   const prev = messagesByPeer.get(pid) || []
   const adopted = adoptPendingFromServer(pid, list, prev)
-  let newOnes = list.filter((x) => !prev.find((p) => p.id === x.id && !adopted.has(Number(x.id))))
+  let newOnes = list.filter(
+    (x) => !prev.find((p) => p.id === x.id && !adopted.has(Number(x.id))),
+  )
   newOnes = dedupeNewWithPending(pid, newOnes)
   if (!newOnes.length) return
   const merged = [...prev, ...newOnes].sort(byChronoId)
   messagesByPeer.set(pid, merged)
   lastIdByPeer.set(pid, Number(merged[merged.length - 1].id) || since)
-  const viewing = open.value && activePeer.value?.id === pid && isAtBottom(scrollBox.value) && document.hasFocus()
+  const viewing =
+    open.value &&
+    activePeer.value?.id === pid &&
+    isAtBottom(scrollBox.value) &&
+    document.hasFocus()
   if (!viewing) {
     incUnread(pid, newOnes.filter((m) => !isMine(m)).length || 0)
   } else {
@@ -903,13 +1011,16 @@ function createBackoffScheduler({ onTick, onReset, getOverrideDelayMs } = {}) {
     const p = phases[idx]
     ticks++
     if (p.repeats === Infinity) return
-    if (typeof p.repeats === "number" && ticks >= p.repeats) {
+    if (typeof p.repeats === 'number' && ticks >= p.repeats) {
       idx++
       ticks = 0
       started = performance.now()
       return
     }
-    if (typeof p.durationMs === "number" && performance.now() - started >= p.durationMs) {
+    if (
+      typeof p.durationMs === 'number' &&
+      performance.now() - started >= p.durationMs
+    ) {
       idx++
       ticks = 0
       started = performance.now()
@@ -945,7 +1056,8 @@ let noChangeTicks = 0 // counts consecutive min ticks without server-reported ch
 function computeGlobalLastId() {
   let maxId = 0
   messagesByPeer.forEach((arr) => {
-    if (arr?.length) maxId = Math.max(maxId, Number(arr[arr.length - 1].id) || 0)
+    if (arr?.length)
+      maxId = Math.max(maxId, Number(arr[arr.length - 1].id) || 0)
   })
   return maxId
 }
@@ -975,7 +1087,8 @@ async function heartbeatMinTick() {
   if (!shouldPoll()) return
 
   const presenceIds = collectVisibleContactIds()
-  const presenceParam = presenceIds.length > 0 ? { presence_ids: JSON.stringify(presenceIds) } : {}
+  const presenceParam =
+    presenceIds.length > 0 ? { presence_ids: JSON.stringify(presenceIds) } : {}
 
   // Ultra-light path when a conversation is active
   const pid = activePeer.value?.id
@@ -983,7 +1096,7 @@ async function heartbeatMinTick() {
     try {
       const since = lastKnownIdForPeer(pid)
       const params = {
-        mode: "tiny",
+        mode: 'tiny',
         peer_id: pid,
         since_id: since,
         ...presenceParam,
@@ -1004,7 +1117,10 @@ async function heartbeatMinTick() {
       // update presence from heartbeat payload
       if (r?.presence) {
         paintPresenceOnContacts(r.presence)
-        if (activePeer.value?.id && r.presence[activePeer.value.id] !== undefined) {
+        if (
+          activePeer.value?.id &&
+          r.presence[activePeer.value.id] !== undefined
+        ) {
           activePeer.value.online = !!r.presence[activePeer.value.id]
         }
       }
@@ -1021,7 +1137,7 @@ async function heartbeatMinTick() {
   try {
     const since = lastHeartbeatId.value || computeGlobalLastId()
     const params = {
-      mode: "min",
+      mode: 'min',
       since_id: since,
       ...presenceParam,
     }
@@ -1037,12 +1153,16 @@ async function heartbeatMinTick() {
     const srvLast = Number(r?.last_id ?? 0)
     const hasNew = !!r?.has_new || srvLast > since
 
-    if (typeof r?.unread === "number") {
+    if (typeof r?.unread === 'number') {
       fabUnread.value = r.unread
     }
 
     if (hasNew) {
-      lastHeartbeatId.value = Math.max(srvLast || 0, computeGlobalLastId(), since)
+      lastHeartbeatId.value = Math.max(
+        srvLast || 0,
+        computeGlobalLastId(),
+        since,
+      )
       noChangeTicks = 0
       if (open.value) scheduler.reset()
     } else {
@@ -1097,7 +1217,7 @@ async function send() {
   // Optimistic bubble
   const tempId = -Date.now()
   const optimistic = {
-    from_user_info: { id: me.id, complete_name: "me" },
+    from_user_info: { id: me.id, complete_name: 'me' },
     username: me.name,
     date: nowSec,
     f: me.id,
@@ -1114,12 +1234,16 @@ async function send() {
     if (el) el.scrollTop = el.scrollHeight
   })
 
-  draft.value = ""
+  draft.value = ''
   sending.value = true
 
   try {
-    const res = await post(API.send, { to: pid, message: raw, chat_sec_token: me.secToken })
-    if (res && typeof res === "object" && Number(res.id) > 0) {
+    const res = await post(API.send, {
+      to: pid,
+      message: raw,
+      chat_sec_token: me.secToken,
+    })
+    if (res && typeof res === 'object' && Number(res.id) > 0) {
       if (res.sec_token) me.secToken = res.sec_token
       replaceTempId(pid, tempId, { id: Number(res.id), recd: 0, date: nowSec })
       removePending(pid, tempId)
@@ -1141,7 +1265,7 @@ function newline() {
 
 async function clearConversation() {
   if (!activePeer.value) return
-  if (!confirm(t("Are you sure you want to clear this conversation?"))) return
+  if (!confirm(t('Are you sure you want to clear this conversation?'))) return
   clearing.value = true
   try {
     const pid = activePeer.value.id
@@ -1175,7 +1299,9 @@ function applyBlinkFrame() {
     return
   }
   blinkState = !blinkState
-  document.title = blinkState ? `(${total}) ${t("New messages")}` : originalTitle
+  document.title = blinkState
+    ? `(${total}) ${t('New messages')}`
+    : originalTitle
 }
 function maybeStartBlink() {
   if (!document.hidden) return
@@ -1194,7 +1320,7 @@ function stopBlinkNow() {
   document.title = originalTitle
   blinkState = false
 }
-document.addEventListener("visibilitychange", () => {
+document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     maybeStartBlink()
   } else {
@@ -1203,13 +1329,13 @@ document.addEventListener("visibilitychange", () => {
     maybeMarkAsReadOnView()
   }
 })
-window.addEventListener("focus", () => {
+window.addEventListener('focus', () => {
   maybeStopBlink()
   maybeResetScheduler()
   maybeMarkAsReadOnView()
 })
-window.addEventListener("online", () => maybeResetScheduler())
-window.addEventListener("offline", () => scheduler.stop())
+window.addEventListener('online', () => maybeResetScheduler())
+window.addEventListener('offline', () => scheduler.stop())
 
 /** Legacy compatibility layer */
 function registerLegacyChatGlobals() {
@@ -1217,13 +1343,13 @@ function registerLegacyChatGlobals() {
     try {
       // Only open the dock if it's closed; do not re-trigger init paths
       if (!open.value) toggleDock(true)
-      openConversation({ id: Number(id), name: name || "User" })
+      openConversation({ id: Number(id), name: name || 'User' })
     } catch (e) {}
     return false
   }
-  if (!("chatWith" in window)) window.chatWith = handler
-  if (!("openChat" in window)) window.openChat = handler
-  if (!("startChat" in window)) window.startChat = handler
+  if (!('chatWith' in window)) window.chatWith = handler
+  if (!('openChat' in window)) window.openChat = handler
+  if (!('startChat' in window)) window.startChat = handler
 }
 
 function startPassiveHeartbeat() {
@@ -1233,10 +1359,10 @@ function startPassiveHeartbeat() {
 async function passiveTick() {
   try {
     const since = lastHeartbeatId.value || computeGlobalLastId()
-    const r = await getJSON(API.heartbeat, { mode: "min", since_id: since })
+    const r = await getJSON(API.heartbeat, { mode: 'min', since_id: since })
 
     syncUnreadFromServer(r)
-    if (typeof r?.unread === "number") fabUnread.value = r.unread
+    if (typeof r?.unread === 'number') fabUnread.value = r.unread
 
     const srvLast = Number(r?.last_id ?? 0)
     const hasNew = !!r?.has_new || srvLast > since
@@ -1255,7 +1381,10 @@ async function passiveTick() {
 function recomputeUnreadFromLocal() {
   let total = 0
   // Consider peers that have messages or a lastSeen stored
-  const pids = new Set([...Array.from(messagesByPeer.keys()), ...Array.from(lastSeenMsgIdByPeer.keys())])
+  const pids = new Set([
+    ...Array.from(messagesByPeer.keys()),
+    ...Array.from(lastSeenMsgIdByPeer.keys()),
+  ])
 
   pids.forEach((pid0) => {
     const pid = Number(pid0)
@@ -1310,7 +1439,7 @@ async function toggleDock(v) {
       // First open: ask heartbeat for contacts + presence in one go
       const presenceIds = collectVisibleContactIds()
       const params = {
-        mode: "min",
+        mode: 'min',
         since_id: lastHeartbeatId.value || 0,
         include_contacts: 1,
       }
@@ -1320,7 +1449,7 @@ async function toggleDock(v) {
 
       const r = await getJSON(API.heartbeat, params)
 
-      if (typeof r?.contacts_html === "string") {
+      if (typeof r?.contacts_html === 'string') {
         contactsHtml.value = r.contacts_html
         requestAnimationFrame(() => repaintAllContactBadges())
       }
@@ -1352,7 +1481,7 @@ async function toggleDock(v) {
       if (AUTO_OPEN_LAST_PEER) {
         const last = Number(localStorage.getItem(LAST_PEER_KEY) || 0)
         if (last > 0 && !activePeer.value) {
-          openConversation({ id: last, name: "User" })
+          openConversation({ id: last, name: 'User' })
         }
       } else {
         activePeer.value = null
@@ -1404,7 +1533,7 @@ function onContactsScroll() {}
 
 <style scoped>
 .chd .chd-fab.has-unread::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 6px;
   inset-inline-end: 6px;
@@ -1417,7 +1546,7 @@ function onContactsScroll() {}
   box-shadow: 0 0 0 2px #fff;
   z-index: 2;
 }
-html[dir="rtl"] .chd .chd-fab.has-unread::after {
+html[dir='rtl'] .chd .chd-fab.has-unread::after {
   left: 6px;
   right: auto;
 }
@@ -1439,7 +1568,7 @@ html[dir="rtl"] .chd .chd-fab.has-unread::after {
   box-shadow: 0 0 0 2px #fff;
   z-index: 2;
 }
-html[dir="rtl"] .chd .chd-contacts .chd-contact-dot {
+html[dir='rtl'] .chd .chd-contacts .chd-contact-dot {
   left: 8px;
   right: auto;
 }

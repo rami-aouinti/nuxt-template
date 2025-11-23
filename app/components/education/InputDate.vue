@@ -7,36 +7,30 @@
     offset-y
     transition="scale-transition"
   >
-    <template v-slot:activator="{ on }">
+    <template #activator="{ on }">
       <v-text-field
         v-model="date"
         :label="label"
         prepend-icon="mdi-calendar"
         readonly
         v-on="on"
-      ></v-text-field>
+      />
     </template>
-    <v-date-picker
-      v-model="date"
-      @input="handleInput"
-    ></v-date-picker>
+    <v-date-picker v-model="date" @input="handleInput" />
   </v-menu>
 </template>
 
-<script>
-import { formatDateTime } from "../../utils/dates.js"
+<script setup lang="ts">
+import { formatDateTime } from '../../utils/dates.js'
 
 export default {
   props: {
     label: {
       type: String,
       required: false,
-      default: () => "",
+      default: () => '',
     },
     value: String,
-  },
-  created() {
-    this.date = this.value ? this.value : this.date
   },
   data() {
     return {
@@ -44,11 +38,14 @@ export default {
       showMenu: false,
     }
   },
+  created() {
+    this.date = this.value ? this.value : this.date
+  },
   methods: {
     formatDateTime,
     handleInput() {
       this.showMenu = false
-      this.$emit("input", this.date)
+      this.$emit('input', this.date)
     },
   },
 }

@@ -8,25 +8,22 @@
     <SectionHeader :title="t('Step 1 - Installation Language')" />
 
     <BaseSelect
+      id="language_list"
       v-model="installerData.langIso"
       :message-text="
-        t('Cannot find your language in the list? Contact us at {0} to contribute as a translator.', [
-          'info@chamilo.org',
-        ])
+        t(
+          'Cannot find your language in the list? Contact us at {0} to contribute as a translator.',
+          ['info@chamilo.org'],
+        )
       "
       :label="t('Please select installation language')"
       :options="availableLanguages"
-      id="language_list"
       name="language_list_alt"
       option-label="original_name"
       option-value="isocode"
     />
 
-    <input
-      v-model="installerData.langIso"
-      name="language_list"
-      type="hidden"
-    />
+    <input v-model="installerData.langIso" name="language_list" type="hidden" />
 
     <input
       v-model="installerData.stepData.installationProfile"
@@ -44,15 +41,19 @@
         severity="warn"
       >
         <p
+          v-t="
+            'An update is available. Click the button below to proceed with the update.'
+          "
           class="update-message-text"
-          v-t="'An update is available. Click the button below to proceed with the update.'"
         />
         <p>{{ installerData.checkMigrationStatus.message }}</p>
         <p v-if="installerData.checkMigrationStatus.current_migration">
-          Current Migration: {{ installerData.checkMigrationStatus.current_migration }}
+          Current Migration:
+          {{ installerData.checkMigrationStatus.current_migration }}
         </p>
         <p v-if="installerData.checkMigrationStatus.progress_percentage">
-          Progress: {{ installerData.checkMigrationStatus.progress_percentage }}%
+          Progress:
+          {{ installerData.checkMigrationStatus.progress_percentage }}%
         </p>
         <hr />
       </Message>
@@ -73,21 +74,31 @@
   </div>
 </template>
 
-<script setup>
-import { inject, computed } from "vue"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import { inject, computed } from 'vue'
 
-import Message from "primevue/message"
-import BaseSelect from "../basecomponents/BaseSelect.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import SectionHeader from "../layout/SectionHeader.vue"
+import Message from 'primevue/message'
+import BaseSelect from '../basecomponents/BaseSelect.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import SectionHeader from '../layout/SectionHeader.vue'
 
-import languages from "../../../utils/languages.js"
+import languages from '../../../utils/languages.js'
 
 const { t } = useI18n()
-const installerData = inject("installerData")
+const installerData = inject('installerData')
 
-const ALLOWED = ["ar", "de", "en_US", "es", "fr_FR", "he_IL", "it", "nl", "pt_BR", "sl_SI"]
+const ALLOWED = [
+  'ar',
+  'de',
+  'en_US',
+  'es',
+  'fr_FR',
+  'he_IL',
+  'it',
+  'nl',
+  'pt_BR',
+  'sl_SI',
+]
 
 const availableLanguages = computed(() => {
   const allow = new Set(ALLOWED.map((x) => x.toLowerCase()))
@@ -98,8 +109,13 @@ const availableLanguages = computed(() => {
       original_name: l.original_name || l.english_name || l.isocode,
     }))
   const iso = installerData?.value?.langIso
-  if (iso && !list.some((l) => l.isocode.toLowerCase() === String(iso).toLowerCase())) {
-    const found = languages.find((l) => l.isocode.toLowerCase() === String(iso).toLowerCase())
+  if (
+    iso &&
+    !list.some((l) => l.isocode.toLowerCase() === String(iso).toLowerCase())
+  ) {
+    const found = languages.find(
+      (l) => l.isocode.toLowerCase() === String(iso).toLowerCase(),
+    )
     list.unshift({
       isocode: iso,
       original_name: found?.original_name || found?.english_name || iso,

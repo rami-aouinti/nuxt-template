@@ -19,7 +19,8 @@ type Store = {
 let activeStore: Store | null = null
 
 function createStore(options: StoreOptions = {}): Store {
-  const rawState = typeof options.state === 'function' ? options.state() : options.state || {}
+  const rawState =
+    typeof options.state === 'function' ? options.state() : options.state || {}
   const state = reactive(rawState)
   const getters: Record<string, any> = {}
 

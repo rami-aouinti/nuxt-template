@@ -19,10 +19,10 @@
   </div>
 </template>
 
-<script setup>
-import BaseButton from "./BaseButton.vue"
-import { computed, onMounted, ref } from "vue"
-import { sizeValidator } from "./validators.js"
+<script setup lang="ts">
+import BaseButton from './BaseButton.vue'
+import { computed, onMounted, ref } from 'vue'
+import { sizeValidator } from './validators.js'
 
 const props = defineProps({
   modelValue: {
@@ -35,45 +35,45 @@ const props = defineProps({
   },
   accept: {
     type: String,
-    default: "",
+    default: '',
     validator: (value) => {
-      if (value === "") {
+      if (value === '') {
         return true
       }
-      return ["image"].includes(value)
+      return ['image'].includes(value)
     },
   },
   size: {
     type: String,
-    default: "normal",
+    default: 'normal',
     validator: sizeValidator,
   },
 })
 
-const emit = defineEmits(["fileSelected"])
+const emit = defineEmits(['fileSelected'])
 
 const inputFile = ref(null)
-const fileName = ref("")
+const fileName = ref('')
 
 const acceptFileType = computed(() => {
   switch (props.accept) {
-    case "":
-      return ""
-    case "image":
-      return "image/*"
+    case '':
+      return ''
+    case 'image':
+      return 'image/*'
     default:
-      return ""
+      return ''
   }
 })
 
 onMounted(() => {
-  inputFile.value.addEventListener("change", fileSelected)
+  inputFile.value.addEventListener('change', fileSelected)
 })
 
 const fileSelected = () => {
-  let file = inputFile.value.files[0]
+  const file = inputFile.value.files[0]
   fileName.value = file.name
-  emit("fileSelected", file)
+  emit('fileSelected', file)
 }
 
 const showFileDialog = () => {

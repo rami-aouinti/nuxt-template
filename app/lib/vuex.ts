@@ -1,10 +1,17 @@
-import { App, computed, inject, reactive } from 'vue'
+import type { App } from 'vue'
+import { computed, inject, reactive } from 'vue'
 
-type GetterTree<S = any> = Record<string, (state: S, getters: any, rootState?: any, rootGetters?: any) => any>
+type GetterTree<S = any> = Record<
+  string,
+  (state: S, getters: any, rootState?: any, rootGetters?: any) => any
+>
 type MutationTree<S = any> = Record<string, (state: S, payload?: any) => void>
 type ActionTree<S = any> = Record<
   string,
-  (ctx: { state: S; rootState: any; getters: any; commit: any; dispatch: any }, payload?: any) => any
+  (
+    ctx: { state: S; rootState: any; getters: any; commit: any; dispatch: any },
+    payload?: any,
+  ) => any
 >
 
 type ModuleOptions = {
@@ -34,7 +41,8 @@ type Store = {
 const storeKey = Symbol('vuex-store')
 let activeStore: Store | null = null
 
-const normalizeState = (state: any) => reactive(typeof state === 'function' ? state() : state || {})
+const normalizeState = (state: any) =>
+  reactive(typeof state === 'function' ? state() : state || {})
 
 const splitType = (type: string) => {
   const parts = type.split('/')
@@ -62,7 +70,12 @@ export const createStore = (options: StoreOptions): Store => {
   const rootState = normalizeState(options.state)
   const modules: Record<
     string,
-    ModuleOptions & { state: any; getters: Record<string, any>; mutations: MutationTree; actions: ActionTree }
+    ModuleOptions & {
+      state: any
+      getters: Record<string, any>
+      mutations: MutationTree
+      actions: ActionTree
+    }
   > = {}
 
   const store: Store = {
@@ -89,10 +102,22 @@ export const createStore = (options: StoreOptions): Store => {
       actions: mod.actions || {},
       namespaced: mod.namespaced !== false,
     }
-    registerGetters(modules[name].getters, mod.getters, moduleState, rootState, store.getters)
+    registerGetters(
+      modules[name].getters,
+      mod.getters,
+      moduleState,
+      rootState,
+      store.getters,
+    )
   })
 
-  registerGetters(store.getters, options.getters, rootState, rootState, store.getters)
+  registerGetters(
+    store.getters,
+    options.getters,
+    rootState,
+    rootState,
+    store.getters,
+  )
 
   Object.entries(modules).forEach(([name, mod]) => {
     Object.keys(mod.getters || {}).forEach((key) => {
@@ -116,17 +141,23 @@ export const createStore = (options: StoreOptions): Store => {
   const dispatch = async (type: string, payload?: any) => {
     const { moduleName, name } = splitType(type)
     const target = moduleName ? modules[moduleName] : null
-    const handler = target?.actions?.[name] ?? options.actions?.[name] ?? options.actions?.[type]
+    const handler =
+      target?.actions?.[name] ??
+      options.actions?.[name] ??
+      options.actions?.[type]
 
     if (!handler) return Promise.resolve()
 
-    const namespacedPrefix = moduleName && target?.namespaced !== false ? `${moduleName}/` : ''
+    const namespacedPrefix =
+      moduleName && target?.namespaced !== false ? `${moduleName}/` : ''
     const ctx = {
       state: target ? target.state : rootState,
       rootState,
       getters: store.getters,
-      commit: (t: string, p?: any) => commit(namespacedPrefix ? `${namespacedPrefix}${t}` : t, p),
-      dispatch: (t: string, p?: any) => dispatch(namespacedPrefix ? `${namespacedPrefix}${t}` : t, p),
+      commit: (t: string, p?: any) =>
+        commit(namespacedPrefix ? `${namespacedPrefix}${t}` : t, p),
+      dispatch: (t: string, p?: any) =>
+        dispatch(namespacedPrefix ? `${namespacedPrefix}${t}` : t, p),
     }
 
     return await handler(ctx as any, payload)
@@ -135,7 +166,8 @@ export const createStore = (options: StoreOptions): Store => {
   return store
 }
 
-const resolveStore = (ctx?: any): Store | null => ctx?.$store ?? inject(storeKey, null) ?? activeStore
+const resolveStore = (ctx?: any): Store | null =>
+  ctx?.$store ?? inject(storeKey, null) ?? activeStore
 
 export const useStore = () => resolveStore() as Store
 
@@ -145,25 +177,35 @@ const createMapper = (
   map?: any,
 ) => {
   const hasNamespace = typeof namespaceOrMap === 'string'
-  const entries = Object.entries(hasNamespace ? map || {} : namespaceOrMap || {})
+  const entries = Object.entries(
+    hasNamespace ? map || {} : namespaceOrMap || {},
+  )
   const namespace = hasNamespace ? (namespaceOrMap as string) : ''
 
-  return entries.reduce((acc, [key, val]) => {
-    const type = namespace ? `${namespace}/${val as string}` : (val as string)
-    acc[key] = function mapper(this: any, payload?: any) {
-      const store = resolveStore(this)
-      return handler(store, type, payload)
-    }
-    return acc
-  }, {} as Record<string, any>)
+  return entries.reduce(
+    (acc, [key, val]) => {
+      const type = namespace ? `${namespace}/${val as string}` : (val as string)
+      acc[key] = function mapper(this: any, payload?: any) {
+        const store = resolveStore(this)
+        return handler(store, type, payload)
+      }
+      return acc
+    },
+    {} as Record<string, any>,
+  )
 }
 
 export const mapGetters = (namespaceOrMap: any, map?: any) => {
-  return createMapper((store, key) => store?.getters?.[key], namespaceOrMap, map)
+  return createMapper(
+    (store, key) => store?.getters?.[key],
+    namespaceOrMap,
+    map,
+  )
 }
 
 export const mapActions = (namespaceOrMap: any, map?: any) => {
-  const handler = (store: Store | null, key: string, payload?: any) => store?.dispatch(key, payload)
+  const handler = (store: Store | null, key: string, payload?: any) =>
+    store?.dispatch(key, payload)
   return createMapper(handler, namespaceOrMap, map)
 }
 

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import baseService from "./baseService"
+import baseService from './baseService'
 
 /**
  * @param {string} courseIri
@@ -9,7 +9,7 @@ import baseService from "./baseService"
  * @returns {Promise<Object>}
  */
 export async function saveRanking({ courseIri, urlId, sessionId, totalScore }) {
-  return await baseService.post("/api/track_course_rankings", {
+  return await baseService.post('/api/track_course_rankings', {
     totalScore,
     course: courseIri,
     urlId,

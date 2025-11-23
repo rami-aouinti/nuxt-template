@@ -24,20 +24,20 @@
   </div>
 </template>
 
-<script setup>
-import ShowLinks from "./ShowLinks.vue"
-import { ref } from "vue"
-import VueMultiselect from "vue-multiselect"
-import isEmpty from "lodash/isEmpty"
-import { RESOURCE_LINK_PUBLISHED } from "../legacy/constants/entity/resourcelink.js"
-import { useSecurityStore } from "../legacy/store/securityStore.js"
-import userService from "../legacy/services/userService.js"
-import userRelUserService from "../legacy/services/userRelUserService.js"
-import { useCidReqStore } from "../legacy/store/cidReq.js"
-import { storeToRefs } from "pinia"
-import sessionRelCourseRelUserService from "../legacy/services/sessionRelCourseRelUserService.js"
-import sessionRelUserService from "../legacy/services/sessionRelUserService.js"
-import courseRelUserService from "../legacy/services/courseRelUserService.js"
+<script setup lang="ts">
+import ShowLinks from './ShowLinks.vue'
+import { ref } from 'vue'
+import VueMultiselect from 'vue-multiselect'
+import isEmpty from 'lodash/isEmpty'
+import { RESOURCE_LINK_PUBLISHED } from '~/constants/entity/resourcelink.js'
+import { useSecurityStore } from '~/stores/securityStore.js'
+import userService from '~/services/userService.js'
+import userRelUserService from '~/services/userRelUserService.js'
+import { useCidReqStore } from '~/stores/cidReq.js'
+import { storeToRefs } from 'pinia'
+import sessionRelCourseRelUserService from '~/services/sessionRelCourseRelUserService.js'
+import sessionRelUserService from '~/services/sessionRelUserService.js'
+import courseRelUserService from '~/services/courseRelUserService.js'
 
 // eslint-disable-next-line vue/require-prop-types
 const model = defineModel()
@@ -56,7 +56,7 @@ const props = defineProps({
   linksType: {
     type: String,
     required: true,
-    default: "user",
+    default: 'user',
   },
   showShareWithUser: {
     type: Boolean,
@@ -66,7 +66,7 @@ const props = defineProps({
   linkListName: {
     type: String,
     required: false,
-    default: "resourceLinkListFromEntity",
+    default: 'resourceLinkListFromEntity',
   },
 })
 
@@ -84,7 +84,9 @@ function addUser(userResult) {
     model.value[props.linkListName] = []
   }
 
-  const someLink = model.value[props.linkListName].some((link) => link.user.username === userResult.username)
+  const someLink = model.value[props.linkListName].some(
+    (link) => link.user.username === userResult.username,
+  )
 
   if (someLink) {
     return
@@ -106,32 +108,35 @@ function findUsers(query) {
 
 function findUserRelUsers(query) {
   userRelUserService
-    .searchRelationshipByUsername(securityStore.user["@id"], query)
-    .then(({ items }) => (users.value = items.map((relationship) => relationship.friend)))
+    .searchRelationshipByUsername(securityStore.user['@id'], query)
+    .then(
+      ({ items }) =>
+        (users.value = items.map((relationship) => relationship.friend)),
+    )
     .finally(() => (isLoading.value = false))
 }
 
 function findStudentsInCourse(query) {
   const searchParams = new URLSearchParams(window.location.search)
-  const cId = parseInt(searchParams.get("cid"))
-  const sId = parseInt(searchParams.get("sid"))
+  const cId = parseInt(searchParams.get('cid'))
+  const sId = parseInt(searchParams.get('sid'))
 
   if (!course.value && !session.value) {
     return
   }
 
-  let params = {
-    "user.username": query,
+  const params = {
+    'user.username': query,
   }
 
   if (session.value) {
-    params.session = session.value["@id"]
+    params.session = session.value['@id']
   }
 
   let service
 
   if (cId) {
-    params.course = course.value["@id"]
+    params.course = course.value['@id']
 
     if (sId) {
       service = sessionRelCourseRelUserService.findAll
@@ -143,7 +148,9 @@ function findStudentsInCourse(query) {
   }
 
   service(params)
-    .then(({ items }) => (users.value = items.map((membership) => membership.user)))
+    .then(
+      ({ items }) => (users.value = items.map((membership) => membership.user)),
+    )
     .finally(() => (isLoading.value = false))
 }
 
@@ -155,15 +162,15 @@ function asyncFind(query) {
   isLoading.value = true
 
   switch (props.linksType) {
-    case "users":
+    case 'users':
       findUsers(query)
       break
 
-    case "user_rel_users":
+    case 'user_rel_users':
       findUserRelUsers(query)
       break
 
-    case "course_students":
+    case 'course_students':
       findStudentsInCourse(query)
       break
   }

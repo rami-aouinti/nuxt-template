@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { SESSION_VISIBILITY_LIST_ONLY } from "../../constants/entity/session"
-import { useSecurityStore } from "../../store/securityStore"
+import { SESSION_VISIBILITY_LIST_ONLY } from '../../constants/entity/session'
+import { useSecurityStore } from '../../store/securityStore'
 
 /**
  * @param {Object} session
@@ -13,10 +13,15 @@ export function useSessionCard(session) {
    * @type {Object[]}
    */
   const courses = session.courses
-    ? session.courses.map((sesionRelCourse) => ({ ...sesionRelCourse.course, _id: sesionRelCourse.course.id }))
+    ? session.courses.map((sesionRelCourse) => ({
+        ...sesionRelCourse.course,
+        _id: sesionRelCourse.course.id,
+      }))
     : []
 
-  const isEnabled = session.accessVisibility !== SESSION_VISIBILITY_LIST_ONLY || securityStore.isAdmin
+  const isEnabled =
+    session.accessVisibility !== SESSION_VISIBILITY_LIST_ONLY ||
+    securityStore.isAdmin
 
   return {
     courses,

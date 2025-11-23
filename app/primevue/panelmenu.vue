@@ -1,9 +1,6 @@
 <template>
   <v-expansion-panels multiple>
-    <v-expansion-panel
-      v-for="(item, idx) in model"
-      :key="idx"
-    >
+    <v-expansion-panel v-for="(item, idx) in model" :key="idx">
       <v-expansion-panel-title>{{ item.label }}</v-expansion-panel-title>
       <v-expansion-panel-text>
         <v-list density="compact">

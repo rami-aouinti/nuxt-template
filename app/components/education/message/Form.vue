@@ -30,7 +30,7 @@
         required
       />
 
-      <slot></slot>
+      <slot />
 
       <BaseButton
         :disabled="!canSubmitMessage"
@@ -45,7 +45,7 @@
     <div class="mt-4 md:mt-0 md:w-1/3">
       <p class="text-h6">
         <BaseIcon icon="attachment" />
-        {{ t("Attachments") }}
+        {{ t('Attachments') }}
       </p>
 
       <ul
@@ -71,26 +71,29 @@
   </div>
 </template>
 
-<script setup>
-import BaseInputText from "../basecomponents/BaseInputText.vue"
-import { useI18n } from "vue-i18n"
-import { computed, ref, watch } from "vue"
-import BaseIcon from "../basecomponents/BaseIcon.vue"
-import BaseUploader from "../basecomponents/BaseUploader.vue"
-import resourceFileService from "../legacy/services/resourceFileService.js"
-import BaseAutocomplete from "../basecomponents/BaseAutocomplete.vue"
-import userService from "../legacy/services/userService.js"
-import { MESSAGE_TYPE_INBOX } from "../legacy/constants/entity/message.js"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import { useSecurityStore } from "../legacy/store/securityStore.js"
-import { MESSAGE_REL_USER_TYPE_CC, MESSAGE_REL_USER_TYPE_TO } from "../legacy/constants/entity/messagereluser.js"
-import BaseTinyEditor from "../basecomponents/BaseTinyEditor.vue"
+<script setup lang="ts">
+import BaseInputText from '../basecomponents/BaseInputText.vue'
+
+import { computed, ref, watch } from 'vue'
+import BaseIcon from '../basecomponents/BaseIcon.vue'
+import BaseUploader from '../basecomponents/BaseUploader.vue'
+import resourceFileService from '~/services/resourceFileService.js'
+import BaseAutocomplete from '../basecomponents/BaseAutocomplete.vue'
+import userService from '~/services/userService.js'
+import { MESSAGE_TYPE_INBOX } from '~/constants/entity/message.js'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import { useSecurityStore } from '~/stores/securityStore.js'
+import {
+  MESSAGE_REL_USER_TYPE_CC,
+  MESSAGE_REL_USER_TYPE_TO,
+} from '~/constants/entity/messagereluser.js'
+import BaseTinyEditor from '../basecomponents/BaseTinyEditor.vue'
 
 const props = defineProps({
   title: {
     type: String,
     required: false,
-    default: "",
+    default: '',
   },
   receiversTo: {
     type: Array,
@@ -105,7 +108,7 @@ const props = defineProps({
   content: {
     type: String,
     required: false,
-    default: "",
+    default: '',
   },
   attachments: {
     type: Array,
@@ -119,17 +122,17 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(["submit"])
+const emit = defineEmits(['submit'])
 
 const { t } = useI18n()
 
 const securityStore = useSecurityStore()
 
 const messagePayload = ref({
-  sender: securityStore.user["@id"],
+  sender: securityStore.user['@id'],
   msgType: MESSAGE_TYPE_INBOX,
-  title: "",
-  content: "",
+  title: '',
+  content: '',
   receivers: [],
   attachments: [],
 })
@@ -158,7 +161,7 @@ watch(
   (newReceiversTo) => {
     usersTo.value = newReceiversTo.map((messageRelUser) => ({
       name: messageRelUser.fullName,
-      value: messageRelUser["@id"],
+      value: messageRelUser['@id'],
     }))
   },
   { immediate: true },
@@ -169,7 +172,7 @@ watch(
   (newReceiversCc) => {
     usersCc.value = newReceiversCc.map((messageRelUser) => ({
       name: messageRelUser.fullName,
-      value: messageRelUser["@id"],
+      value: messageRelUser['@id'],
     }))
   },
   { immediate: true },
@@ -181,7 +184,7 @@ async function asyncFind(query) {
     .filter((member) => member.active === 1)
     .map((member) => ({
       name: member.fullName,
-      value: member["@id"],
+      value: member['@id'],
     }))
 }
 
@@ -202,8 +205,8 @@ function onUploadComplete() {
 const canSubmitMessage = computed(() => {
   return (
     (usersTo.value.length > 0 || usersCc.value.length > 0) &&
-    messagePayload.value.title.trim() !== "" &&
-    messagePayload.value.content.trim() !== "" &&
+    messagePayload.value.title.trim() !== '' &&
+    messagePayload.value.content.trim() !== '' &&
     !isUploading.value
   )
 })
@@ -220,10 +223,12 @@ function onSubmit() {
     })),
   ]
 
-  messagePayload.value.attachments = resourceFileList.value.map((resourceFile) => ({
-    resourceFileToAttach: resourceFile["@id"],
-  }))
+  messagePayload.value.attachments = resourceFileList.value.map(
+    (resourceFile) => ({
+      resourceFileToAttach: resourceFile['@id'],
+    }),
+  )
 
-  emit("submit", messagePayload.value)
+  emit('submit', messagePayload.value)
 }
 </script>

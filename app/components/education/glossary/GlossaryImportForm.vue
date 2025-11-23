@@ -7,7 +7,7 @@
       @file-selected="selectedFile = $event"
     />
 
-    <p>{{ t("File type") }}</p>
+    <p>{{ t('File type') }}</p>
     <BaseRadioButtons
       id="file-type"
       v-model="fileType"
@@ -48,19 +48,19 @@
   </form>
 </template>
 
-<script setup>
-import { useRoute, useRouter } from "vue-router"
-import { useI18n } from "vue-i18n"
-import { ref } from "vue"
-import { RESOURCE_LINK_PUBLISHED } from "../legacy/constants/entity/resourcelink.js"
-import LayoutFormButtons from "../layout/LayoutFormButtons.vue"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import { useNotification } from "../legacy/composables/notification.js"
-import BaseRadioButtons from "../basecomponents/BaseRadioButtons.vue"
-import BaseCheckbox from "../basecomponents/BaseCheckbox.vue"
-import glossaryService from "../legacy/services/glossaryService.js"
-import BaseFileUpload from "../basecomponents/BaseFileUpload.vue"
-import { useCidReq } from "../legacy/composables/cidReq.js"
+<script setup lang="ts">
+import { useRoute, useRouter } from 'vue-router'
+
+import { ref } from 'vue'
+import { RESOURCE_LINK_PUBLISHED } from '~/constants/entity/resourcelink.js'
+import LayoutFormButtons from '../layout/LayoutFormButtons.vue'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import { useNotification } from '~/composables/notification.js'
+import BaseRadioButtons from '../basecomponents/BaseRadioButtons.vue'
+import BaseCheckbox from '../basecomponents/BaseCheckbox.vue'
+import glossaryService from '~/services/glossaryService.js'
+import BaseFileUpload from '../basecomponents/BaseFileUpload.vue'
+import { useCidReq } from '~/composables/cidReq.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -68,13 +68,13 @@ const { t } = useI18n()
 const notification = useNotification()
 const { sid, cid } = useCidReq()
 
-const emit = defineEmits(["backPressed"])
+const emit = defineEmits(['backPressed'])
 
 const formats = [
-  { label: "CSV", value: "csv" },
-  { label: "Excel", value: "xls" },
+  { label: 'CSV', value: 'csv' },
+  { label: 'Excel', value: 'xls' },
 ]
-const fileType = ref("csv")
+const fileType = ref('csv')
 
 const selectedFile = ref(null)
 const replace = ref(false)
@@ -94,24 +94,24 @@ const resourceLinkList = ref(
 const submitForm = async () => {
   console.log(selectedFile.value)
   const formData = new FormData()
-  formData.append("file", selectedFile.value)
-  formData.append("file_type", fileType.value)
-  formData.append("replace", replace.value)
-  formData.append("update", update.value)
-  formData.append("sid", route.query.sid)
-  formData.append("cid", route.query.cid)
-  formData.append("parentResourceNodeId", parentResourceNodeId.value)
-  formData.append("resourceLinkList", resourceLinkList.value)
+  formData.append('file', selectedFile.value)
+  formData.append('file_type', fileType.value)
+  formData.append('replace', replace.value)
+  formData.append('update', update.value)
+  formData.append('sid', route.query.sid)
+  formData.append('cid', route.query.cid)
+  formData.append('parentResourceNodeId', parentResourceNodeId.value)
+  formData.append('resourceLinkList', resourceLinkList.value)
 
   try {
     await glossaryService.import(formData)
-    notification.showSuccessNotification(t("Terms imported successfully"))
+    notification.showSuccessNotification(t('Terms imported successfully'))
     await router.push({
-      name: "GlossaryList",
+      name: 'GlossaryList',
       query: route.query,
     })
   } catch (error) {
-    notification.showErrorNotification(t("Could not import terms"))
+    notification.showErrorNotification(t('Could not import terms'))
   }
 }
 </script>

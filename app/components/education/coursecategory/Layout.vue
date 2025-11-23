@@ -1,9 +1,9 @@
 <template>
-  <router-view></router-view>
+  <router-view />
 </template>
 
-<script>
+<script setup lang="ts">
 export default {
-  name: "CourseCategoryLayout",
+  name: 'CourseCategoryLayout',
 }
 </script>

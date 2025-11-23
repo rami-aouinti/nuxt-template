@@ -1,8 +1,5 @@
 <template>
-  <v-menu
-    v-model="open"
-    offset="6"
-  >
+  <v-menu v-model="open" offset="6">
     <template #activator="{ props: activatorProps }">
       <span v-bind="activatorProps">
         <slot name="activator">
@@ -25,7 +22,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref } from 'vue'
 
 const props = defineProps({
   model: { type: Array, default: () => [] },

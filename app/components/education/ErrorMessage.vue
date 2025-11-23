@@ -1,16 +1,13 @@
 <template>
-  <div
-    class="alert alert-danger"
-    role="alert"
-  >
+  <div class="alert alert-danger" role="alert">
     {{ error.response.data.error }}
     {{ error.response.data.message }}
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 export default {
-  name: "ErrorMessage",
+  name: 'ErrorMessage',
   props: {
     error: {
       type: Error,

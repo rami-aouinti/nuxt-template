@@ -4,25 +4,23 @@
     <div class="w-full border-b border-gray-25">
       <div class="px-6 py-4 flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <i class="mdi mdi-wrench-cog text-xl text-gray-90"></i>
+          <i class="mdi mdi-wrench-cog text-xl text-gray-90" />
           <div>
-            <h1
-              id="page_title"
-              class="text-lg font-semibold tracking-tight"
-            >
-              {{ t("Course maintenance") }}
+            <h1 id="page_title" class="text-lg font-semibold tracking-tight">
+              {{ t('Course maintenance') }}
             </h1>
             <p class="text-caption text-gray-50">
-              {{ t("Manage backups, restore, copy, recycle and delete course data.") }}
+              {{
+                t(
+                  'Manage backups, restore, copy, recycle and delete course data.',
+                )
+              }}
             </p>
           </div>
         </div>
 
         <!-- Course info -->
-        <div
-          v-if="course"
-          class="text-right"
-        >
+        <div v-if="course" class="text-right">
           <div class="text-body-2 text-gray-90">{{ course.title }}</div>
           <div class="text-tiny text-gray-50">({{ course.code }})</div>
         </div>
@@ -38,8 +36,8 @@
               active-class="cm-tab--active"
               @click="goToTab('CMImportBackup', $event)"
             >
-              <i class="mdi mdi-tray-arrow-down cm-tab__icon"></i>
-              <span>{{ t("Import backup") }}</span>
+              <i class="mdi mdi-tray-arrow-down cm-tab__icon" />
+              <span>{{ t('Import backup') }}</span>
             </RouterLink>
           </li>
           <li>
@@ -49,8 +47,8 @@
               active-class="cm-tab--active"
               @click="goToTab('CMCreateBackup', $event)"
             >
-              <i class="mdi mdi-content-save cm-tab__icon"></i>
-              <span>{{ t("Create a backup") }}</span>
+              <i class="mdi mdi-content-save cm-tab__icon" />
+              <span>{{ t('Create a backup') }}</span>
             </RouterLink>
           </li>
           <li>
@@ -60,8 +58,8 @@
               active-class="cm-tab--active"
               @click="goToTab('CMCopyCourse', $event)"
             >
-              <i class="mdi mdi-content-copy cm-tab__icon"></i>
-              <span>{{ t("Copy course") }}</span>
+              <i class="mdi mdi-content-copy cm-tab__icon" />
+              <span>{{ t('Copy course') }}</span>
             </RouterLink>
           </li>
           <li>
@@ -71,7 +69,7 @@
               active-class="cm-tab--active"
               @click="goToTab('CMCc13', $event)"
             >
-              <i class="mdi mdi-layers cm-tab__icon"></i>
+              <i class="mdi mdi-layers cm-tab__icon" />
               <span>IMS CC 1.3</span>
             </RouterLink>
           </li>
@@ -82,8 +80,8 @@
               active-class="cm-tab--active"
               @click="goToTab('CMRecycle', $event)"
             >
-              <i class="mdi mdi-recycle cm-tab__icon"></i>
-              <span>{{ t("Recycle course") }}</span>
+              <i class="mdi mdi-recycle cm-tab__icon" />
+              <span>{{ t('Recycle course') }}</span>
             </RouterLink>
           </li>
           <li>
@@ -93,8 +91,8 @@
               active-class="cm-tab--active"
               @click="goToTab('CMDelete', $event)"
             >
-              <i class="mdi mdi-trash-can-outline cm-tab__icon"></i>
-              <span>{{ t("Completely delete this course") }}</span>
+              <i class="mdi mdi-trash-can-outline cm-tab__icon" />
+              <span>{{ t('Completely delete this course') }}</span>
             </RouterLink>
           </li>
         </ul>
@@ -108,12 +106,12 @@
   </div>
 </template>
 
-<script setup>
-import { onMounted } from "vue"
-import { useI18n } from "vue-i18n"
-import { useRoute, useRouter } from "vue-router"
-import { storeToRefs } from "pinia"
-import { useCidReqStore } from "../legacy/store/cidReq.js"
+<script setup lang="ts">
+import { onMounted } from 'vue'
+
+import { useRoute, useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useCidReqStore } from '~/stores/cidReq.js'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -147,7 +145,8 @@ function goToTab(name, evt) {
 onMounted(() => {
   const q = { ...route.query }
   let changed = false
-  const ensureNum = (val) => (val === null || val === undefined ? null : Number(val))
+  const ensureNum = (val) =>
+    val === null || val === undefined ? null : Number(val)
 
   const storeCid = ensureNum(course?.value?.id)
   const storeSid = ensureNum(session?.value?.id)

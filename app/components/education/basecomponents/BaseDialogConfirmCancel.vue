@@ -5,7 +5,7 @@
     :title="title"
     @update:is-visible="$emit('update:isVisible', $event)"
   >
-    <slot></slot>
+    <slot />
     <template #footer>
       <BaseButton
         :label="innerCancelLabel"
@@ -23,12 +23,12 @@
   </BaseDialog>
 </template>
 
-<script setup>
-import BaseDialog from "./BaseDialog.vue"
-import BaseButton from "./BaseButton.vue"
-import { computed } from "vue"
-import { useI18n } from "vue-i18n"
-import { buttonTypeValidator, iconValidator } from "./validators.js"
+<script setup lang="ts">
+import BaseDialog from './BaseDialog.vue'
+import BaseButton from './BaseButton.vue'
+import { computed } from 'vue'
+
+import { buttonTypeValidator, iconValidator } from './validators.js'
 
 const { t } = useI18n()
 
@@ -43,31 +43,31 @@ const props = defineProps({
   },
   confirmLabel: {
     type: String,
-    default: "",
+    default: '',
   },
   confirmIcon: {
     type: String,
-    default: "confirm",
+    default: 'confirm',
     validator: iconValidator,
   },
   confirmType: {
     type: String,
-    default: "secondary",
+    default: 'secondary',
     validator: buttonTypeValidator,
   },
   cancelLabel: {
     type: String,
-    default: "",
+    default: '',
   },
 })
 
-defineEmits(["update:isVisible", "confirmClicked", "cancelClicked"])
+defineEmits(['update:isVisible', 'confirmClicked', 'cancelClicked'])
 
 const innerConfirmLabel = computed(() => {
-  return props.confirmLabel === "" ? t("Yes") : props.confirmLabel
+  return props.confirmLabel === '' ? t('Yes') : props.confirmLabel
 })
 
 const innerCancelLabel = computed(() => {
-  return props.cancelLabel === "" ? t("No") : props.cancelLabel
+  return props.cancelLabel === '' ? t('No') : props.cancelLabel
 })
 </script>

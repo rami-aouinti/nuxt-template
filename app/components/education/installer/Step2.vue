@@ -3,14 +3,12 @@
     <SectionHeader :title="t('Step 2 - Requirements')" />
 
     <p class="RequirementText mb-4">
-      <strong v-text="t('Please read the following requirements thoroughly.')" />
+      <strong
+        v-text="t('Please read the following requirements thoroughly.')"
+      />
     </p>
 
-    <i18n-t
-      class="mb-4"
-      keypath="For more details %s"
-      tag="p"
-    >
+    <i18n-t class="mb-4" keypath="For more details %s" tag="p">
       <a
         v-t="'Read the installation guide'"
         href="/main/documentation/installation_guide.html"
@@ -19,11 +17,12 @@
       />
     </i18n-t>
 
-    <p
-      v-if="'update' === installerData.installType"
-      class="mb-4"
-    >
-      {{ t("If you plan to upgrade from an older version of Chamilo, you might want to") }}
+    <p v-if="'update' === installerData.installType" class="mb-4">
+      {{
+        t(
+          'If you plan to upgrade from an older version of Chamilo, you might want to',
+        )
+      }}
       <a
         href="/main/documentation/changelog.html"
         target="_blank"
@@ -32,10 +31,7 @@
       {{ t("to know what's new and what has been changed.") }}
     </p>
 
-    <h2
-      class="install-subtitle mb-8"
-      v-text="t('Server requirements')"
-    />
+    <h2 class="install-subtitle mb-8" v-text="t('Server requirements')" />
 
     <Message
       v-if="!installerData.stepData.timezone"
@@ -44,22 +40,21 @@
     >
       {{
         t(
-          "We have detected that your PHP installation does not define the date.timezone setting. This is a requirement of Chamilo. Please make sure it is configured by checking your php.ini configuration, otherwise you will run into problems. We warned you!",
+          'We have detected that your PHP installation does not define the date.timezone setting. This is a requirement of Chamilo. Please make sure it is configured by checking your php.ini configuration, otherwise you will run into problems. We warned you!',
         )
       }}
     </Message>
 
     <div class="text-center mb-4">
-      <p class="text-body-2 font-semibold mb-2">{{ t("PHP version") }} >= {{ installerData.phpRequiredVersion }}</p>
+      <p class="text-body-2 font-semibold mb-2">
+        {{ t('PHP version') }} >= {{ installerData.phpRequiredVersion }}
+      </p>
       <p
         v-if="installerData.stepData.isVersionPassed"
         class="text-success text-body-1 font-semibold"
       >
-        <span
-          aria-hidden="true"
-          class="mdi mdi-check"
-        />
-        {{ t("Your PHP version matches the minimum requirement:") }}
+        <span aria-hidden="true" class="mdi mdi-check" />
+        {{ t('Your PHP version matches the minimum requirement:') }}
         {{ installerData.stepData.phpVersion }}
       </p>
       <p
@@ -73,22 +68,21 @@
       />
     </div>
 
-    <div class="grid grid-flow-row-dense grid-cols-3 gap-x-3 gap-y-4 place-items-center mb-4">
+    <div
+      class="grid grid-flow-row-dense grid-cols-3 gap-x-3 gap-y-4 place-items-center mb-4"
+    >
       <p
         v-for="(extension, i) in installerData.stepData.extensions"
         :key="i"
         class="text-center"
       >
-        <a
-          :href="extension.url"
-          class="block"
-          v-text="extension.title"
-        />
+        <a :href="extension.url" class="block" v-text="extension.title" />
 
         <Tag
           :icon="{
             'pi pi-check': 'success' === extension.status.severity,
-            'pi pi-exclamation-triangle': 'warning' === extension.status.severity,
+            'pi pi-exclamation-triangle':
+              'warning' === extension.status.severity,
             'pi pi-times': 'danger' === extension.status.severity,
           }"
           :severity="extension.status.severity"
@@ -97,10 +91,7 @@
       </p>
     </div>
 
-    <h4
-      class="install-subtitle mb-4"
-      v-text="t('Recommended settings')"
-    />
+    <h4 class="install-subtitle mb-4" v-text="t('Recommended settings')" />
     <p
       class="install-requirement mb-4"
       v-text="
@@ -113,40 +104,26 @@
       <table class="requirements-list">
         <thead>
           <tr>
-            <th
-              class="requirements-item"
-              v-text="t('Setting')"
-            />
+            <th class="requirements-item" v-text="t('Setting')" />
             <th
               class="requirements-recommended"
               v-text="t('Recommended settings')"
             />
-            <th
-              class="requirements-value"
-              v-text="t('Currently')"
-            />
+            <th class="requirements-value" v-text="t('Currently')" />
           </tr>
         </thead>
         <tbody>
           <tr
-            v-for="({ title, recommended, current }, i) in installerData.stepData.phpIni"
+            v-for="({ title, recommended, current }, i) in installerData
+              .stepData.phpIni"
             :key="i"
           >
-            <td
-              class="requirements-item"
-              v-text="title"
-            />
+            <td class="requirements-item" v-text="title" />
             <td class="requirements-recommended">
-              <Tag
-                :value="recommended"
-                severity="success"
-              />
+              <Tag :value="recommended" severity="success" />
             </td>
             <td class="requirements-value">
-              <Tag
-                :severity="current.severity"
-                :value="current.value"
-              />
+              <Tag :severity="current.severity" :value="current.value" />
             </td>
           </tr>
         </tbody>
@@ -168,7 +145,8 @@
       <table class="requirements-list">
         <tbody>
           <tr
-            v-for="({ item, status }, i) in installerData.stepData.pathPermissions"
+            v-for="({ item, status }, i) in installerData.stepData
+              .pathPermissions"
             :key="i"
           >
             <td v-text="item" />
@@ -183,26 +161,27 @@
                 :value="t('Not writable')"
                 severity="danger"
               />
-              <Tag
-                v-else
-                :value="status"
-                severity="info"
-              />
+              <Tag v-else :value="status" severity="info" />
             </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div v-if="'update' === installerData.installType && (!installerData.updatePath || installerData.badUpdatePath)">
+    <div
+      v-if="
+        'update' === installerData.installType &&
+        (!installerData.updatePath || installerData.badUpdatePath)
+      "
+    >
       <Message
         v-if="installerData.badUpdatePath"
         :closable="false"
         severity="warning"
       >
         <strong v-text="t('Error')" /><br />
-        Chamilo {{ installerData.upgradeFromVersion.join("|") }}
-        {{ t("has not been found in that directory") }}
+        Chamilo {{ installerData.upgradeFromVersion.join('|') }}
+        {{ t('has not been found in that directory') }}
       </Message>
 
       <!-- form inputs for old version path -->
@@ -210,7 +189,11 @@
         <div class="p-float-label">
           <InputText
             id="updatePath"
-            :value="installerData.badUpdatePath && installerData.updatePath ? updatePath : ''"
+            :value="
+              installerData.badUpdatePath && installerData.updatePath
+                ? updatePath
+                : ''
+            "
             name="updatePath"
             size="50"
           />
@@ -230,7 +213,11 @@
         </div>
         <Button
           :label="t('Next')"
-          :name="installerData.stepData.step2_update_6 ? 'step2_update_6' : 'step2_update_8'"
+          :name="
+            installerData.stepData.step2_update_6
+              ? 'step2_update_6'
+              : 'step2_update_8'
+          "
           class="p-button-secondary"
           icon="mdi mdi-page-next"
           type="submit"
@@ -245,10 +232,7 @@
     </div>
     <div v-else>
       <div v-if="installerData.stepData.notWritable.length > 0">
-        <strong
-          v-t="'Warning!'"
-          class="text-error"
-        />
+        <strong v-t="'Warning!'" class="text-error" />
         <p class="text-error">
           {{
             t(
@@ -274,11 +258,12 @@
 
       <div v-else-if="installerData.stepData.existsConfigurationFile">
         <!-- Check wether a Chamilo configuration file already exists -->
-        <Message
-          :closable="false"
-          severity="warning"
-        >
-          {{ t("Warning! The installer has detected an existing Chamilo platform on your system.") }}
+        <Message :closable="false" severity="warning">
+          {{
+            t(
+              'Warning! The installer has detected an existing Chamilo platform on your system.',
+            )
+          }}
         </Message>
       </div>
 
@@ -293,7 +278,8 @@
         />
         <ul class="list-disc list-inside">
           <li
-            v-for="(deprecatedToRemove, i) in installerData.stepData.deprecatedToRemove"
+            v-for="(deprecatedToRemove, i) in installerData.stepData
+              .deprecatedToRemove"
             :key="i"
             class="text-error"
             v-text="deprecatedToRemove"
@@ -317,7 +303,10 @@
         </div>
         <div class="field">
           <Button
-            :disabled="installerData.stepData.installError || installerData.isUpdateAvailable"
+            :disabled="
+              installerData.stepData.installError ||
+              installerData.isUpdateAvailable
+            "
             :label="t('New installation')"
             class="p-button-success"
             icon="mdi mdi-page-next"
@@ -344,25 +333,24 @@
   </div>
 </template>
 
-<script setup>
-import { useI18n } from "vue-i18n"
-import { inject } from "vue"
+<script setup lang="ts">
+import { inject } from 'vue'
 
-import Message from "primevue/message"
-import Tag from "primevue/tag"
-import InputText from "primevue/inputtext"
-import Button from "primevue/button"
-import SectionHeader from "../layout/SectionHeader.vue"
+import Message from 'primevue/message'
+import Tag from 'primevue/tag'
+import InputText from 'primevue/inputtext'
+import Button from 'primevue/button'
+import SectionHeader from '../layout/SectionHeader.vue'
 
 const { t } = useI18n()
 
-const installerData = inject("installerData")
+const installerData = inject('installerData')
 
 function goToUpgrade() {
-  window.location = `/main/install/index.php?running=1&installType=${installerData.installType || "update"}&step=step2_update_8`
+  window.location = `/main/install/index.php?running=1&installType=${installerData.installType || 'update'}&step=step2_update_8`
 }
 
 function goToIndex() {
-  window.location = "index.php"
+  window.location = 'index.php'
 }
 </script>

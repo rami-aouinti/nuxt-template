@@ -54,7 +54,9 @@ async function generate() {
 
     try {
       await fs.access(pagePath)
-      console.warn(`Skipping existing page: ${path.relative(process.cwd(), pagePath)}`)
+      console.warn(
+        `Skipping existing page: ${path.relative(process.cwd(), pagePath)}`,
+      )
       continue
     } catch {
       // Create a fresh file

@@ -1,7 +1,7 @@
 // @ts-nocheck
-import isEmpty from "lodash/isEmpty"
-import { formatDateTime } from "../utils/dates"
-import NotificationMixin from "./NotificationMixin"
+import isEmpty from 'lodash/isEmpty'
+import { formatDateTime } from '~/utils/dates'
+import NotificationMixin from './NotificationMixin'
 
 export default {
   mixins: [NotificationMixin],
@@ -21,12 +21,12 @@ export default {
       // react to route changes...
       this.resetList = true
       this.onUpdateOptions(this.options)
-      let nodeId = this.$route.params["node"]
-      this.findResourceNode("/api/resource_nodes/" + nodeId)
+      const nodeId = this.$route.params['node']
+      this.findResourceNode('/api/resource_nodes/' + nodeId)
     },
 
     deletedItem(item) {
-      this.showMessage(`${item["@id"]} deleted.`)
+      this.showMessage(`${item['@id']} deleted.`)
     },
 
     error(message) {
@@ -52,7 +52,7 @@ export default {
       }
 
       if (!isEmpty(sortBy) && !isEmpty(sortDesc)) {
-        params[`order[${sortBy[0]}]`] = sortDesc[0] ? "desc" : "asc"
+        params[`order[${sortBy[0]}]`] = sortDesc[0] ? 'desc' : 'asc'
       }
 
       this.resetList = true
@@ -75,23 +75,32 @@ export default {
     },
 
     addHandler() {
-      let folderParams = this.$route.query
-      this.$router.push({ name: `${this.$options.servicePrefix}Create`, query: folderParams })
+      const folderParams = this.$route.query
+      this.$router.push({
+        name: `${this.$options.servicePrefix}Create`,
+        query: folderParams,
+      })
     },
 
     addDocumentHandler() {
-      let folderParams = this.$route.query
-      this.$router.push({ name: `${this.$options.servicePrefix}CreateFile`, query: folderParams })
+      const folderParams = this.$route.query
+      this.$router.push({
+        name: `${this.$options.servicePrefix}CreateFile`,
+        query: folderParams,
+      })
     },
 
     uploadDocumentHandler() {
-      let folderParams = this.$route.query
-      this.$router.push({ name: `${this.$options.servicePrefix}UploadFile`, query: folderParams })
+      const folderParams = this.$route.query
+      this.$router.push({
+        name: `${this.$options.servicePrefix}UploadFile`,
+        query: folderParams,
+      })
     },
 
     showHandler(item) {
-      let folderParams = this.$route.query
-      folderParams["id"] = item["@id"]
+      const folderParams = this.$route.query
+      folderParams['id'] = item['@id']
 
       this.$router.push({
         name: `${this.$options.servicePrefix}Show`,
@@ -101,13 +110,13 @@ export default {
     },
 
     handleClick(item) {
-      let folderParams = this.$route.query
+      const folderParams = this.$route.query
       this.resetList = true
-      this.$route.params.node = item["resourceNode"]["id"]
+      this.$route.params.node = item['resourceNode']['id']
 
       this.$router.push({
         name: `${this.$options.servicePrefix}List`,
-        params: { node: item["resourceNode"]["id"] },
+        params: { node: item['resourceNode']['id'] },
         query: folderParams,
       })
 
@@ -120,31 +129,31 @@ export default {
       this.onUpdateOptions(this.options);*/
     },
     editHandler(item) {
-      let folderParams = this.$route.query
-      folderParams["id"] = item["@id"]
+      const folderParams = this.$route.query
+      folderParams['id'] = item['@id']
 
-      if ("folder" === item.filetype) {
+      if ('folder' === item.filetype) {
         this.$router.push({
           name: `${this.$options.servicePrefix}Update`,
-          params: { id: item["@id"] },
+          params: { id: item['@id'] },
           query: folderParams,
         })
       }
 
-      if ("file" === item.filetype) {
-        folderParams["getFile"] = false
+      if ('file' === item.filetype) {
+        folderParams['getFile'] = false
 
         if (
           item.resourceNode.firstResourceFile &&
           item.resourceNode.firstResourceFile.mimeType &&
-          "text/html" === item.resourceNode.firstResourceFile.mimeType
+          'text/html' === item.resourceNode.firstResourceFile.mimeType
         ) {
-          folderParams["getFile"] = true
+          folderParams['getFile'] = true
         }
 
         this.$router.push({
           name: `${this.$options.servicePrefix}UpdateFile`,
-          params: { id: item["@id"] },
+          params: { id: item['@id'] },
           query: folderParams,
         })
       }

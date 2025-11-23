@@ -1,10 +1,10 @@
 // @ts-nocheck
-import makeService from "./api"
-import baseService from "./baseService"
+import makeService from './api'
+import baseService from './baseService'
 
 // we should refactor this to use methods in export default using baseService
 // see assets/vue/services/api.js for reference
-const oldService = makeService("documents")
+const oldService = makeService('documents')
 
 export default {
   ...oldService,

@@ -1,6 +1,6 @@
 // @ts-nocheck
-import NotificationMixin from "./NotificationMixin"
-import { formatDateTime } from "../utils/dates"
+import NotificationMixin from './NotificationMixin'
+import { formatDateTime } from '~/utils/dates'
 
 export default {
   mixins: [NotificationMixin],
@@ -8,22 +8,26 @@ export default {
     formatDateTime,
     onCreated(item) {
       let message
-      if (item["resourceNode"]) {
+      if (item['resourceNode']) {
         message =
           this.$i18n && this.$i18n.t
-            ? this.$t("{resource} created", { resource: item["resourceNode"].title })
-            : `${item["resourceNode"].title} created`
+            ? this.$t('{resource} created', {
+                resource: item['resourceNode'].title,
+              })
+            : `${item['resourceNode'].title} created`
       } else {
         message =
-          this.$i18n && this.$i18n.t ? this.$t("{resource} created", { resource: item.title }) : `${item.title} created`
+          this.$i18n && this.$i18n.t
+            ? this.$t('{resource} created', { resource: item.title })
+            : `${item.title} created`
       }
 
       this.showMessage(message)
-      let folderParams = this.$route.query
+      const folderParams = this.$route.query
 
       this.$router.push({
         name: `${this.$options.servicePrefix}List`,
-        params: { id: item["@id"] },
+        params: { id: item['@id'] },
         query: folderParams,
       })
     },
@@ -48,7 +52,7 @@ export default {
   },
   watch: {
     created(created) {
-      console.log("CreateMixin.js::created")
+      console.log('CreateMixin.js::created')
       console.log(created)
 
       if (!created) {

@@ -1,35 +1,40 @@
 // @ts-nocheck
-import { ref, computed } from "vue"
+import { ref, computed } from 'vue'
 
 /** Normalize, filter and manage a resource-selection tree */
 export default function useResourceSelection() {
   // state
   const tree = ref([]) // groups from backend
   const selections = ref({}) // { [type]: { [id]: 1 } }
-  const query = ref("")
+  const query = ref('')
   const forceOpen = ref(null) // true/false or null (release)
 
   // --- helpers ---------------------------------------------------------------
   const singular = (t) =>
     ({
-      documents: "document",
-      links: "link",
-      announcements: "announcement",
-      events: "event",
-      forums: "forum",
-      forum_category: "forum_category",
-      thread: "thread",
-      post: "post",
-      course_descriptions: "course_description",
-      quizzes: "quiz",
-      survey: "survey",
-      surveys: "survey",
-      learnpaths: "learnpath",
-      scorm_documents: "document",
-      tool_intro: "tool_intro",
-    })[t] || (t ? t.replace(/s$/, "") : "document")
+      documents: 'document',
+      links: 'link',
+      announcements: 'announcement',
+      events: 'event',
+      forums: 'forum',
+      forum_category: 'forum_category',
+      thread: 'thread',
+      post: 'post',
+      course_descriptions: 'course_description',
+      quizzes: 'quiz',
+      survey: 'survey',
+      surveys: 'survey',
+      learnpaths: 'learnpath',
+      scorm_documents: 'document',
+      tool_intro: 'tool_intro',
+    })[t] || (t ? t.replace(/s$/, '') : 'document')
 
-  const getKids = (n) => (Array.isArray(n?.children) ? n.children : Array.isArray(n?.items) ? n.items : [])
+  const getKids = (n) =>
+    Array.isArray(n?.children)
+      ? n.children
+      : Array.isArray(n?.items)
+        ? n.items
+        : []
 
   const resolveId = (node) => {
     const raw = node?.id ?? node?.iid ?? node?.uuid ?? node?.source_id ?? null
@@ -41,20 +46,24 @@ export default function useResourceSelection() {
   /** Ensure each leaf has {id,type,selectable}, and move items -> children */
   function normalizeTreeForSelection(groups) {
     const walk = (node, itemTypeFromParent) => {
-      if (!node || typeof node !== "object") return
+      if (!node || typeof node !== 'object') return
       const kids = getKids(node)
       const ownType = node.type || node.titleType || null
-      const nextItemType = kids.length ? singular(ownType || node.itemType || "documents") : itemTypeFromParent
+      const nextItemType = kids.length
+        ? singular(ownType || node.itemType || 'documents')
+        : itemTypeFromParent
 
       if (!kids.length) {
         const id = resolveId(node)
         if (id != null) node.id = id
-        if (!node.type) node.type = nextItemType || "document"
-        if (typeof node.selectable === "undefined") node.selectable = true
+        if (!node.type) node.type = nextItemType || 'document'
+        if (typeof node.selectable === 'undefined') node.selectable = true
       } else {
-        for (const child of kids) walk(child, singular(ownType || nextItemType || "documents"))
+        for (const child of kids)
+          walk(child, singular(ownType || nextItemType || 'documents'))
         // Unify child container
-        if (!Array.isArray(node.children) && Array.isArray(node.items)) node.children = node.items
+        if (!Array.isArray(node.children) && Array.isArray(node.items))
+          node.children = node.items
       }
     }
     ;(groups || []).forEach((g) => walk(g, null))
@@ -62,7 +71,8 @@ export default function useResourceSelection() {
   }
 
   const isNodeCheckable = (n) => !!(n && n.id != null && n.selectable !== false)
-  const isChecked = (n) => !!(n && isNodeCheckable(n) && selections.value?.[n.type]?.[n.id])
+  const isChecked = (n) =>
+    !!(n && isNodeCheckable(n) && selections.value?.[n.type]?.[n.id])
 
   // --- SELECTION: bulk apply + bump -----------------------------------------
   function markOne(n, checked) {
@@ -103,8 +113,8 @@ export default function useResourceSelection() {
   // --- search/filter ---------------------------------------------------------
   function matchNode(node, q) {
     if (!q) return true
-    const t = (node.label || node.title || "").toLowerCase()
-    const p = (node.meta || "").toLowerCase()
+    const t = (node.label || node.title || '').toLowerCase()
+    const p = (node.meta || '').toLowerCase()
     const s = q.toLowerCase()
     return t.includes(s) || p.includes(s)
   }
@@ -131,7 +141,10 @@ export default function useResourceSelection() {
   })
 
   const selectedTotal = computed(() =>
-    Object.values(selections.value).reduce((a, g) => a + Object.keys(g || {}).length, 0),
+    Object.values(selections.value).reduce(
+      (a, g) => a + Object.keys(g || {}).length,
+      0,
+    ),
   )
   function countSelected(group) {
     const map = selections.value || {}

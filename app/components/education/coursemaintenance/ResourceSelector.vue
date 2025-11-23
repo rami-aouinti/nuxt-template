@@ -1,19 +1,18 @@
 <template>
   <section class="space-y-4">
     <!-- Toolbar -->
-    <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+    <div
+      class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between"
+    >
       <div class="flex items-center gap-2 text-sm">
         <h3 class="text-sm font-semibold text-gray-90">{{ title }}</h3>
         <span class="px-2 py-1 rounded-md bg-gray-15 text-gray-50">
-          {{ $t("{0} selected", [selectedTotal]) }}
+          {{ $t('{0} selected', [selectedTotal]) }}
         </span>
       </div>
 
       <div class="flex flex-wrap gap-2">
-        <div
-          class="relative"
-          v-if="searchable"
-        >
+        <div v-if="searchable" class="relative">
           <input
             v-model.trim="query"
             :placeholder="$t('Search by title or path...')"
@@ -23,36 +22,24 @@
           <button
             v-if="query"
             class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-50 hover:text-gray-90"
-            @click="query = ''"
             :aria-label="$t('Clear')"
+            @click="query = ''"
           >
-            <i class="mdi mdi-close"></i>
+            <i class="mdi mdi-close" />
           </button>
         </div>
 
-        <button
-          class="btn-secondary"
-          @click="expandAll(true)"
-        >
-          <i class="mdi mdi-arrow-expand-vertical"></i> {{ $t("Expand") }}
+        <button class="btn-secondary" @click="expandAll(true)">
+          <i class="mdi mdi-arrow-expand-vertical" /> {{ $t('Expand') }}
         </button>
-        <button
-          class="btn-secondary"
-          @click="expandAll(false)"
-        >
-          <i class="mdi mdi-arrow-collapse-vertical"></i> {{ $t("Collapse") }}
+        <button class="btn-secondary" @click="expandAll(false)">
+          <i class="mdi mdi-arrow-collapse-vertical" /> {{ $t('Collapse') }}
         </button>
-        <button
-          class="btn-secondary"
-          @click="checkAll(true)"
-        >
-          <i class="mdi mdi-check-all"></i> {{ $t("Select all") }}
+        <button class="btn-secondary" @click="checkAll(true)">
+          <i class="mdi mdi-check-all" /> {{ $t('Select all') }}
         </button>
-        <button
-          class="btn-secondary"
-          @click="checkAll(false)"
-        >
-          <i class="mdi mdi-close-thick"></i> {{ $t("Clear") }}
+        <button class="btn-secondary" @click="checkAll(false)">
+          <i class="mdi mdi-close-thick" /> {{ $t('Clear') }}
         </button>
       </div>
     </div>
@@ -66,19 +53,16 @@
         {{ emptyText }}
       </div>
 
-      <div
-        v-else
-        class="divide-y divide-gray-25"
-      >
+      <div v-else class="divide-y divide-gray-25">
         <GroupBlock
           v-for="g in filteredGroups"
           :key="g.type"
           :group="g"
-          :isChecked="isChecked"
-          :toggleFn="toggleNode"
-          :forceOpen="forceOpen"
+          :is-checked="isChecked"
+          :toggle-fn="toggleNode"
+          :force-open="forceOpen"
           :count-selected="countSelected"
-          :isNodeCheckable="isNodeCheckable"
+          :is-node-checkable="isNodeCheckable"
           @select-group="(val) => toggleNode(g, val)"
         />
       </div>
@@ -86,9 +70,9 @@
   </section>
 </template>
 
-<script setup>
-import { watch, toRefs } from "vue"
-import useResourceSelection from "../legacy/composables/coursemaintenance/useResourceSelection.js"
+<script setup lang="ts">
+import { watch, toRefs } from 'vue'
+import useResourceSelection from '~/composables/coursemaintenance/useResourceSelection.js'
 
 const props = defineProps({
   /** Array of groups from backend (will be normalized) */
@@ -96,14 +80,14 @@ const props = defineProps({
   /** v-model: { [type]: { [id]: 1 } } */
   modelValue: { type: Object, default: () => ({}) },
   /** Title above toolbar */
-  title: { type: String, default: "Select resources" },
+  title: { type: String, default: 'Select resources' },
   /** Text when there is no data */
-  emptyText: { type: String, default: "No resources available." },
+  emptyText: { type: String, default: 'No resources available.' },
   /** Show search input */
   searchable: { type: Boolean, default: true },
 })
 
-const emit = defineEmits(["update:modelValue"])
+const emit = defineEmits(['update:modelValue'])
 
 // Shared selection logic (composable)
 const sel = useResourceSelection()
@@ -133,19 +117,25 @@ const {
 function treeifyDocuments(groups) {
   const out = Array.isArray(groups) ? groups : []
   for (const g of out) {
-    if (!g || g.type !== "document") continue
+    if (!g || g.type !== 'document') continue
 
-    const flat = Array.isArray(g.children) ? g.children : Array.isArray(g.items) ? g.items : []
+    const flat = Array.isArray(g.children)
+      ? g.children
+      : Array.isArray(g.items)
+        ? g.items
+        : []
     if (!flat.length) continue
 
     // Compute relative path (strip "document/" prefix if present)
     const relOf = (n) => {
-      const raw = String(n?.extra?.path || n?.label || "").trim()
+      const raw = String(n?.extra?.path || n?.label || '').trim()
       if (!raw) return null
-      let rel = raw.replace(/^\/?document\/?/, "").replace(/\\/g, "/")
-      const isFolder = String(n?.extra?.filetype || "").toLowerCase() === "folder" || /\/$/.test(rel)
-      if (isFolder) rel = rel.replace(/\/+$/, "") + "/"
-      return rel.replace(/^\/+/, "")
+      let rel = raw.replace(/^\/?document\/?/, '').replace(/\\/g, '/')
+      const isFolder =
+        String(n?.extra?.filetype || '').toLowerCase() === 'folder' ||
+        /\/$/.test(rel)
+      if (isFolder) rel = rel.replace(/\/+$/, '') + '/'
+      return rel.replace(/^\/+/, '')
     }
 
     // Index existing (real) folders
@@ -153,9 +143,11 @@ function treeifyDocuments(groups) {
     for (const it of flat) {
       const rel = relOf(it)
       if (!rel) continue
-      const isFolder = String(it?.extra?.filetype || "").toLowerCase() === "folder" || rel.endsWith("/")
+      const isFolder =
+        String(it?.extra?.filetype || '').toLowerCase() === 'folder' ||
+        rel.endsWith('/')
       if (isFolder) {
-        it.label = (rel.replace(/\/$/, "").split("/").pop() || "/") + "/"
+        it.label = (rel.replace(/\/$/, '').split('/').pop() || '/') + '/'
         it.meta = rel
         it.children = Array.isArray(it.children) ? it.children : []
         folderMap.set(rel, it)
@@ -165,24 +157,26 @@ function treeifyDocuments(groups) {
     // Create synthetic folder if missing for a given relative path
     const ensureFolder = (rel) => {
       if (folderMap.has(rel)) return folderMap.get(rel)
-      const name = rel.replace(/\/$/, "").split("/").pop() || "/"
+      const name = rel.replace(/\/$/, '').split('/').pop() || '/'
       const synthetic = {
         id: `__dir__${rel}`,
-        type: "document",
-        label: name + "/",
+        type: 'document',
+        label: name + '/',
         meta: rel,
         selectable: false, // synthetic folders shouldn't be checkable
         children: [],
-        extra: { filetype: "folder" },
+        extra: { filetype: 'folder' },
       }
       folderMap.set(rel, synthetic)
       return synthetic
     }
 
     const parentRelOf = (rel, isFolder) => {
-      const clean = isFolder ? rel.replace(/\/+$/, "") : rel
-      const dir = clean.includes("/") ? clean.slice(0, clean.lastIndexOf("/")) : ""
-      return dir ? dir + "/" : ""
+      const clean = isFolder ? rel.replace(/\/+$/, '') : rel
+      const dir = clean.includes('/')
+        ? clean.slice(0, clean.lastIndexOf('/'))
+        : ''
+      return dir ? dir + '/' : ''
     }
 
     const root = { children: [] }
@@ -191,7 +185,9 @@ function treeifyDocuments(groups) {
     for (const it of flat) {
       const rel = relOf(it)
       if (!rel) continue
-      const isFolder = String(it?.extra?.filetype || "").toLowerCase() === "folder" || rel.endsWith("/")
+      const isFolder =
+        String(it?.extra?.filetype || '').toLowerCase() === 'folder' ||
+        rel.endsWith('/')
       const parentRel = parentRelOf(rel, isFolder)
       const parent = parentRel ? ensureFolder(parentRel) : root
 
@@ -199,7 +195,7 @@ function treeifyDocuments(groups) {
         const f = ensureFolder(rel)
         if (!parent.children.includes(f)) parent.children.push(f)
       } else {
-        const n = { ...it, meta: rel, label: rel.split("/").pop() }
+        const n = { ...it, meta: rel, label: rel.split('/').pop() }
         parent.children.push(n)
       }
     }
@@ -207,10 +203,18 @@ function treeifyDocuments(groups) {
     // Sort: folders first, then files (case-insensitive)
     const sortChildren = (list) => {
       list.sort((a, b) => {
-        const af = (a.extra?.filetype || "").toLowerCase() === "folder" || /\/$/.test(a.label || "")
-        const bf = (b.extra?.filetype || "").toLowerCase() === "folder" || /\/$/.test(b.label || "")
+        const af =
+          (a.extra?.filetype || '').toLowerCase() === 'folder' ||
+          /\/$/.test(a.label || '')
+        const bf =
+          (b.extra?.filetype || '').toLowerCase() === 'folder' ||
+          /\/$/.test(b.label || '')
         if (af !== bf) return af ? -1 : 1
-        return String(a.label || "").localeCompare(String(b.label || ""), undefined, { sensitivity: "base" })
+        return String(a.label || '').localeCompare(
+          String(b.label || ''),
+          undefined,
+          { sensitivity: 'base' },
+        )
       })
       for (const n of list) if (n.children?.length) sortChildren(n.children)
     }
@@ -228,12 +232,16 @@ watch(
   groups,
   (arr) => {
     // Normalize the incoming tree first (ensures leaves have id/type/selectable)
-    let norm = normalizeTreeForSelection(Array.isArray(arr) ? JSON.parse(JSON.stringify(arr)) : [])
+    let norm = normalizeTreeForSelection(
+      Array.isArray(arr) ? JSON.parse(JSON.stringify(arr)) : [],
+    )
     // Build the folder/file hierarchy only for Documents
     norm = treeifyDocuments(norm)
     // Ensure top-level children exist
     tree.value = norm.map((g) =>
-      Array.isArray(g.children) ? g : { ...g, children: Array.isArray(g.items) ? g.items : [] },
+      Array.isArray(g.children)
+        ? g
+        : { ...g, children: Array.isArray(g.items) ? g.items : [] },
     )
   },
   { immediate: true },
@@ -271,7 +279,7 @@ watch(
   (v) => {
     if (syncing) return
     syncing = true
-    emit("update:modelValue", { ...(v || {}) })
+    emit('update:modelValue', { ...(v || {}) })
     queueMicrotask(() => {
       syncing = false
     })
@@ -280,12 +288,12 @@ watch(
 )
 </script>
 
-<script>
+<script setup lang="ts">
 /* Inline child components to keep it self-contained */
 export default {
   components: {
     GroupBlock: {
-      name: "GroupBlock",
+      name: 'GroupBlock',
       props: {
         group: Object,
         isChecked: Function,
@@ -294,11 +302,11 @@ export default {
         forceOpen: [Boolean, null],
         isNodeCheckable: Function,
       },
-      emits: ["select-group"],
+      emits: ['select-group'],
       components: {
         /* <-- Tree node item (no type badge; uses folder/file icon) */
         TreeNode: {
-          name: "TreeNode",
+          name: 'TreeNode',
           props: {
             node: Object,
             checked: Boolean,
@@ -307,7 +315,7 @@ export default {
             forceOpen: [Boolean, null],
             isNodeCheckable: Function,
           },
-          emits: ["toggle"],
+          emits: ['toggle'],
           data() {
             return { open: true }
           },
@@ -324,7 +332,7 @@ export default {
               this.open = !this.open
             },
             onCheck(e) {
-              this.$emit("toggle", e.target.checked)
+              this.$emit('toggle', e.target.checked)
             },
           },
           template: `
@@ -425,10 +433,10 @@ export default {
           this.open = !this.open
         },
         selectAll() {
-          this.$emit("select-group", true)
+          this.$emit('select-group', true)
         },
         selectNone() {
-          this.$emit("select-group", false)
+          this.$emit('select-group', false)
         },
       },
       template: `

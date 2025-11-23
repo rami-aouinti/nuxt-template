@@ -4,10 +4,7 @@
 
     <p v-text="abbreviatedDatetime(event.startDate)" />
 
-    <p
-      v-if="event.endDate"
-      v-text="abbreviatedDatetime(event.endDate)"
-    />
+    <p v-if="event.endDate" v-text="abbreviatedDatetime(event.endDate)" />
 
     <hr />
 
@@ -32,13 +29,13 @@
   </div>
 </template>
 
-<script setup>
-import { useFormatDate } from "../legacy/composables/formatDate.js"
-import ShowLinks from "../resource_links/ShowLinks.vue"
-import { type } from "../legacy/constants/entity/ccalendarevent.js"
-import CalendarEventSubscriptionsInfo from "./CalendarEventSubscriptionsInfo.vue"
-import CalendarEventInvitationsInfo from "./CalendarEventInvitationsInfo.vue"
-import CalendarRemindersInfo from "./CalendarRemindersInfo.vue"
+<script setup lang="ts">
+import { useFormatDate } from '~/composables/formatDate.js'
+import ShowLinks from '../resource_links/ShowLinks.vue'
+import { type } from '~/constants/entity/ccalendarevent.js'
+import CalendarEventSubscriptionsInfo from './CalendarEventSubscriptionsInfo.vue'
+import CalendarEventInvitationsInfo from './CalendarEventInvitationsInfo.vue'
+import CalendarRemindersInfo from './CalendarRemindersInfo.vue'
 
 const { abbreviatedDatetime } = useFormatDate()
 

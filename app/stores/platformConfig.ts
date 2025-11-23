@@ -1,14 +1,14 @@
 // @ts-nocheck
-import { defineStore } from "pinia"
-import axios from "axios"
-import { computed, ref } from "vue"
+import { defineStore } from 'pinia'
+import axios from 'axios'
+import { computed, ref } from 'vue'
 
-export const usePlatformConfig = defineStore("platformConfig", () => {
+export const usePlatformConfig = defineStore('platformConfig', () => {
   const isLoading = ref(false)
   const settings = ref([])
-  const studentView = ref("teacherview")
+  const studentView = ref('teacherview')
   const plugins = ref([])
-  const visualTheme = ref("chamilo")
+  const visualTheme = ref('chamilo')
   const oauth2Providers = ref([])
   const ldapAuth = ref(null)
   const forcedLoginMethod = ref(null)
@@ -17,7 +17,7 @@ export const usePlatformConfig = defineStore("platformConfig", () => {
     isLoading.value = true
 
     try {
-      const { data } = await axios.get("/platform-config/list")
+      const { data } = await axios.get('/platform-config/list')
 
       visualTheme.value = data.visual_theme
 
@@ -44,17 +44,25 @@ export const usePlatformConfig = defineStore("platformConfig", () => {
   }
 
   const getSetting = computed(
-    () => (variable) => (settings.value && settings.value[variable] ? settings.value[variable] : null),
+    () => (variable) =>
+      settings.value && settings.value[variable]
+        ? settings.value[variable]
+        : null,
   )
 
-  const isStudentViewActive = computed(() => "studentview" === studentView.value)
+  const isStudentViewActive = computed(
+    () => 'studentview' === studentView.value,
+  )
 
   function setStudentViewEnabled(enabled) {
-    studentView.value = enabled ? "studentview" : "teacherview"
+    studentView.value = enabled ? 'studentview' : 'teacherview'
   }
 
   function setStudentViewMode(mode) {
-    const m = (mode || "").toString().toLowerCase() === "studentview" ? "studentview" : "teacherview"
+    const m =
+      (mode || '').toString().toLowerCase() === 'studentview'
+        ? 'studentview'
+        : 'teacherview'
     studentView.value = m
   }
 

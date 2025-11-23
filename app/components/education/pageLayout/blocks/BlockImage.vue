@@ -8,8 +8,8 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 defineProps({
-  block: Object
+  block: Object,
 })
 </script>

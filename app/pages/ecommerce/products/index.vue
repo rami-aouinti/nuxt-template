@@ -363,7 +363,11 @@ const refreshAll = () => {
           </p>
           <div class="d-flex align-center gap-3 flex-wrap">
             <v-chip color="primary" variant="tonal" size="large">
-              {{ t('pages.ecommerce.drawer.metrics.products', { count: products.length }) }}
+              {{
+                t('pages.ecommerce.drawer.metrics.products', {
+                  count: products.length,
+                })
+              }}
             </v-chip>
             <v-chip color="secondary" variant="tonal" size="large">
               {{
@@ -391,7 +395,9 @@ const refreshAll = () => {
               <span class="text-body-2 text-medium-emphasis">
                 {{ t('pages.ecommerce.productsList.filters.search') }}
               </span>
-              <strong class="text-body-2">{{ search || t('pages.ecommerce.fallbacks.noQuery') }}</strong>
+              <strong class="text-body-2">{{
+                search || t('pages.ecommerce.fallbacks.noQuery')
+              }}</strong>
             </div>
             <div class="d-flex align-center justify-space-between">
               <span class="text-body-2 text-medium-emphasis">

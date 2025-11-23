@@ -44,12 +44,9 @@
       name="show-link-on-home-page"
     />
 
-    <div
-      v-if="formData.showOnHomepage"
-      class="mt-4 space-y-4"
-    >
+    <div v-if="formData.showOnHomepage" class="mt-4 space-y-4">
       <div v-if="currentPreviewImage">
-        <p class="text-gray-600 font-semibold">{{ t("Current icon") }}</p>
+        <p class="text-gray-600 font-semibold">{{ t('Current icon') }}</p>
         <img
           :src="currentPreviewImage"
           alt="Custom Image"
@@ -73,15 +70,25 @@
           height: 350,
           hideUploadButton: true,
           autoOpenFileEditor: true,
-          note: t('Click the image to crop it (1:1 ratio, 120x120 px recommended).'),
+          note: t(
+            'Click the image to crop it (1:1 ratio, 120x120 px recommended).',
+          ),
         }"
       />
 
       <p class="text-sm text-gray-600">
-        {{ t("This icon will show for the link displayed as a tool on the course homepage.") }}
+        {{
+          t(
+            'This icon will show for the link displayed as a tool on the course homepage.',
+          )
+        }}
       </p>
       <p class="text-sm text-gray-600">
-        {{ t("Use the crop tool to select a 1:1 region. Recommended size: 120x120 pixels.") }}
+        {{
+          t(
+            'Use the crop tool to select a 1:1 region. Recommended size: 120x120 pixels.',
+          )
+        }}
       </p>
     </div>
 
@@ -102,28 +109,28 @@
   </form>
 </template>
 
-<script setup>
-import { RESOURCE_LINK_PUBLISHED } from "../legacy/constants/entity/resourcelink.js"
-import linkService from "../legacy/services/linkService.js"
-import { useRoute, useRouter } from "vue-router"
-import { useI18n } from "vue-i18n"
-import { computed, onMounted, reactive, ref, watch } from "vue"
-import { useCidReq } from "../legacy/composables/cidReq.js"
-import BaseButton from "../basecomponents/BaseButton.vue"
-import { required, url } from "@vuelidate/validators"
-import useVuelidate from "@vuelidate/core"
-import BaseInputTextWithVuelidate from "../basecomponents/BaseInputTextWithVuelidate.vue"
-import BaseCheckbox from "../basecomponents/BaseCheckbox.vue"
-import BaseTextArea from "../basecomponents/BaseTextArea.vue"
-import BaseSelect from "../basecomponents/BaseSelect.vue"
-import { useNotification } from "../legacy/composables/notification.js"
-import LayoutFormButtons from "../layout/LayoutFormButtons.vue"
-import "@uppy/core/dist/style.css"
-import "@uppy/dashboard/dist/style.css"
-import "@uppy/image-editor/dist/style.css"
-import Uppy from "@uppy/core"
-import ImageEditor from "@uppy/image-editor"
-import { Dashboard } from "@uppy/vue"
+<script setup lang="ts">
+import { RESOURCE_LINK_PUBLISHED } from '~/constants/entity/resourcelink.js'
+import linkService from '~/services/linkService.js'
+import { useRoute, useRouter } from 'vue-router'
+
+import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { useCidReq } from '~/composables/cidReq.js'
+import BaseButton from '../basecomponents/BaseButton.vue'
+import { required, url } from '@vuelidate/validators'
+import useVuelidate from '@vuelidate/core'
+import BaseInputTextWithVuelidate from '../basecomponents/BaseInputTextWithVuelidate.vue'
+import BaseCheckbox from '../basecomponents/BaseCheckbox.vue'
+import BaseTextArea from '../basecomponents/BaseTextArea.vue'
+import BaseSelect from '../basecomponents/BaseSelect.vue'
+import { useNotification } from '~/composables/notification.js'
+import LayoutFormButtons from '../layout/LayoutFormButtons.vue'
+import '@uppy/core/dist/style.css'
+import '@uppy/dashboard/dist/style.css'
+import '@uppy/image-editor/dist/style.css'
+import Uppy from '@uppy/core'
+import ImageEditor from '@uppy/image-editor'
+import { Dashboard } from '@uppy/vue'
 
 const notification = useNotification()
 const { t } = useI18n()
@@ -143,7 +150,7 @@ const currentPreviewImage = computed(() => {
 })
 
 const uppy = new Uppy({
-  restrictions: { maxNumberOfFiles: 1, allowedFileTypes: ["image/*"] },
+  restrictions: { maxNumberOfFiles: 1, allowedFileTypes: ['image/*'] },
   autoProceed: false,
   debug: false,
 })
@@ -162,27 +169,27 @@ const uppy = new Uppy({
         width: 120,
         height: 120,
         imageSmoothingEnabled: true,
-        imageSmoothingQuality: "high",
+        imageSmoothingQuality: 'high',
       },
     },
   })
-  .on("file-added", async (file) => {
+  .on('file-added', async (file) => {
     formData.removeImage = false
 
-    const editor = uppy.getPlugin("ImageEditor")
+    const editor = uppy.getPlugin('ImageEditor')
     selectedFile.value = file.data
 
     if (editor?.openEditor) await editor.openEditor(file.id)
   })
-  .on("file-editor:complete", (updatedFile) => {
+  .on('file-editor:complete', (updatedFile) => {
     if (updatedFile?.data) {
       const uniqueName = `customicon-${Date.now()}.png`
       selectedFile.value = new File([updatedFile.data], uniqueName, {
-        type: updatedFile.type || "image/png",
+        type: updatedFile.type || 'image/png',
       })
     }
   })
-  .on("file-removed", () => {
+  .on('file-removed', () => {
     selectedFile.value = null
     formData.removeImage = true
   })
@@ -194,7 +201,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(["backPressed"])
+const emit = defineEmits(['backPressed'])
 
 const parentResourceNodeId = ref(Number(route.params.node))
 const resourceLinkList = ref(
@@ -209,12 +216,12 @@ const resourceLinkList = ref(
 const categories = ref([])
 
 const formData = reactive({
-  url: "https://",
-  title: "",
-  description: "",
+  url: 'https://',
+  title: '',
+  description: '',
   category: null,
   showOnHomepage: false,
-  target: "_blank",
+  target: '_blank',
   customImage: null,
   customImageUrl: null,
   removeImage: false,
@@ -243,9 +250,11 @@ onMounted(() => {
 
 const fetchCategories = async () => {
   try {
-    categories.value = await linkService.getCategories(parentResourceNodeId.value)
+    categories.value = await linkService.getCategories(
+      parentResourceNodeId.value,
+    )
   } catch (error) {
-    console.error("Error fetching categories:", error)
+    console.error('Error fetching categories:', error)
   }
 }
 
@@ -269,7 +278,7 @@ const fetchLink = async () => {
         formData.category = response.category
       }
     } catch (error) {
-      console.error("Error fetching link:", error)
+      console.error('Error fetching link:', error)
     }
   }
 }
@@ -311,27 +320,33 @@ const submitForm = async () => {
       linkId = newLink.iid
     }
 
-    if (formData.showOnHomepage && (formData.removeImage || selectedFile.value)) {
+    if (
+      formData.showOnHomepage &&
+      (formData.removeImage || selectedFile.value)
+    ) {
       const formDataImage = new FormData()
 
-      formDataImage.append("removeImage", formData.removeImage ? "true" : "false")
+      formDataImage.append(
+        'removeImage',
+        formData.removeImage ? 'true' : 'false',
+      )
 
       if (selectedFile.value) {
-        formDataImage.append("customImage", selectedFile.value)
+        formDataImage.append('customImage', selectedFile.value)
       }
 
       await linkService.uploadImage(linkId, formDataImage)
     }
 
-    notification.showSuccessNotification(t("Link saved"))
+    notification.showSuccessNotification(t('Link saved'))
 
     await router.push({
-      name: "LinksList",
+      name: 'LinksList',
       query: route.query,
     })
   } catch (error) {
-    console.error("Error updating link:", error)
-    notification.showErrorNotification(t("Error saving the link"))
+    console.error('Error updating link:', error)
+    notification.showErrorNotification(t('Error saving the link'))
   }
 }
 </script>

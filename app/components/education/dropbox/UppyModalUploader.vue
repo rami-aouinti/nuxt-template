@@ -8,36 +8,36 @@
       hideUploadButton: true,
       showProgressDetails: false,
       proudlyDisplayPoweredByUppy: false,
-      maxNumberOfFiles: 1
+      maxNumberOfFiles: 1,
     }"
-    @close="handleClose"
     :done-button-handler="handleDone"
+    @close="handleClose"
   />
 </template>
 
-<script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue"
-import Uppy from "@uppy/core"
-import { DashboardModal } from "@uppy/vue"
-import "@uppy/core/dist/style.css"
-import "@uppy/dashboard/dist/style.css"
+<script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import Uppy from '@uppy/core'
+import { DashboardModal } from '@uppy/vue'
+import '@uppy/core/dist/style.css'
+import '@uppy/dashboard/dist/style.css'
 
 const props = defineProps({
   visible: { type: Boolean, default: false },
 })
-const emit = defineEmits(["close", "files-selected", "file-added"])
+const emit = defineEmits(['close', 'files-selected', 'file-added'])
 
 const uppy = ref(null)
 const ready = ref(false)
 
 function handleClose() {
-  emit("close")
+  emit('close')
 }
 
 function handleDone() {
   // Return all selected files without uploading
-  const files = Object.values(uppy.value.getFiles()).map(f => f.data)
-  if (files.length) emit("files-selected", files)
+  const files = Object.values(uppy.value.getFiles()).map((f) => f.data)
+  if (files.length) emit('files-selected', files)
   handleClose()
 }
 
@@ -48,15 +48,19 @@ onMounted(() => {
     restrictions: { maxNumberOfFiles: null },
   })
 
-  uppy.value.on("file-added", file => emit("file-added", file))
+  uppy.value.on('file-added', (file) => emit('file-added', file))
 
   ready.value = true
 })
 
 onBeforeUnmount(() => {
   if (uppy.value) {
-    try { uppy.value.cancelAll() } catch {}
-    try { uppy.value.reset() } catch {}
+    try {
+      uppy.value.cancelAll()
+    } catch {}
+    try {
+      uppy.value.reset()
+    } catch {}
     uppy.value = null
   }
 })

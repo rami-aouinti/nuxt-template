@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { defineStore } from "pinia"
-import axios from "axios"
-import { ref } from "vue"
+import { defineStore } from 'pinia'
+import axios from 'axios'
+import { ref } from 'vue'
 
-export const useCourseSettings = defineStore("courseSettings", () => {
+export const useCourseSettings = defineStore('courseSettings', () => {
   const isLoading = ref(false)
   const settings = ref({})
 
@@ -15,10 +15,13 @@ export const useCourseSettings = defineStore("courseSettings", () => {
       if (sessionId) {
         params.sid = sessionId
       }
-      const { data } = await axios.get(`/platform-config/list/course_settings`, { params })
+      const { data } = await axios.get(
+        `/platform-config/list/course_settings`,
+        { params },
+      )
       settings.value = data.settings
     } catch (e) {
-      console.error("Error loading course settings:", e)
+      console.error('Error loading course settings:', e)
     } finally {
       isLoading.value = false
     }

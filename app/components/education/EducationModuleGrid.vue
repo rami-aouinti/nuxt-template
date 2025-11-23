@@ -1,8 +1,5 @@
 <template>
-  <section
-    :id="section.key"
-    class="d-flex flex-column gap-6"
-  >
+  <section :id="section.key" class="d-flex flex-column gap-6">
     <div>
       <div class="text-subtitle-1 text-uppercase text-medium-emphasis">
         {{ section.title }}

@@ -1,11 +1,11 @@
 // @ts-nocheck
-import axios from "axios"
-import { ENTRYPOINT } from "../config/entrypoint"
+import axios from 'axios'
+import { ENTRYPOINT } from '~/config/entrypoint'
 
 function withCourseParams(params = {}) {
   const merged = { ...params }
   const search = new URLSearchParams(window.location.search)
-  for (const k of ["cid", "sid", "gid", "gradebook", "origin"]) {
+  for (const k of ['cid', 'sid', 'gid', 'gradebook', 'origin']) {
     if (search.has(k) && merged[k] === undefined) merged[k] = search.get(k)
   }
   return merged
@@ -17,13 +17,17 @@ function courseContextParams() {
   const pickNum = (...names) => {
     for (const n of names) {
       const v = qs.get(n)
-      if (v !== null && v !== undefined && !Number.isNaN(Number(v))) return Number(v)
+      if (v !== null && v !== undefined && !Number.isNaN(Number(v)))
+        return Number(v)
     }
     return null
   }
-  const cid = pickNum("cid", "cidReq") ?? Number(window?.chamilo?.course?.id) ?? null
-  const sid = pickNum("sid", "id_session") ?? Number(window?.chamilo?.session?.id) ?? null
-  const gid = pickNum("gid", "gidReq") ?? Number(window?.chamilo?.group?.id) ?? null
+  const cid =
+    pickNum('cid', 'cidReq') ?? Number(window?.chamilo?.course?.id) ?? null
+  const sid =
+    pickNum('sid', 'id_session') ?? Number(window?.chamilo?.session?.id) ?? null
+  const gid =
+    pickNum('gid', 'gidReq') ?? Number(window?.chamilo?.group?.id) ?? null
   const out = {}
   if (cid) out.cid = cid
   if (sid) out.sid = sid
@@ -36,9 +40,9 @@ function extractId(item) {
   if (!item) return null
   if (item.iid) return item.iid
   if (item.id) return item.id
-  const iri = item["@id"]
-  if (typeof iri === "string") {
-    const segs = iri.split("/")
+  const iri = item['@id']
+  if (typeof iri === 'string') {
+    const segs = iri.split('/')
     const last = segs.pop() || segs.pop()
     return Number(last) || last
   }
@@ -48,8 +52,8 @@ function extractId(item) {
 /** Map hydra members to rows with a mapper and return {rows,total} */
 function hydraMembers(resp, mapper) {
   const data = resp?.data ?? {}
-  const arr = (data["hydra:member"] || []).map(mapper)
-  const total = data["hydra:totalItems"] ?? arr.length
+  const arr = (data['hydra:member'] || []).map(mapper)
+  const total = data['hydra:totalItems'] ?? arr.length
   return { rows: arr, total }
 }
 
@@ -58,9 +62,9 @@ function mapBlogToProject(item) {
   return {
     id: extractId(item),
     title: item.title,
-    subtitle: item.blogSubtitle ?? "",
+    subtitle: item.blogSubtitle ?? '',
     createdAt: item.dateCreation ?? item.createdAt ?? null,
-    visible: typeof item.visible === "boolean" ? item.visible : true,
+    visible: typeof item.visible === 'boolean' ? item.visible : true,
     owner: item.owner ?? null,
   }
 }
@@ -69,7 +73,7 @@ function mapBlogToProject(item) {
 function buildOrderParams(order) {
   const params = {}
   if (!order) return params
-  const [field, dir] = order.split(":")
+  const [field, dir] = order.split(':')
   if (field && dir) params[`order[${field}]`] = dir
   return params
 }
@@ -82,7 +86,7 @@ function resolveParentResourceNode() {
     if (!Number.isNaN(v)) return v
   }
   const qs = new URLSearchParams(window.location.search)
-  const qv = Number(qs.get("parentResourceNode"))
+  const qv = Number(qs.get('parentResourceNode'))
   if (!Number.isNaN(qv) && qv > 0) return qv
   const gv = Number(window?.chamilo?.course?.resourceNodeId)
   if (!Number.isNaN(gv) && gv > 0) return gv
@@ -91,48 +95,63 @@ function resolveParentResourceNode() {
 
 /** Returns relative IRI like "/api/c_blogs/1" */
 function iri(resource, id) {
-  const basePath = new URL(ENTRYPOINT, window.location.origin).pathname.replace(/\/$/, "")
-  const res = String(resource).replace(/^\//, "")
+  const basePath = new URL(ENTRYPOINT, window.location.origin).pathname.replace(
+    /\/$/,
+    '',
+  )
+  const res = String(resource).replace(/^\//, '')
   return `${basePath}/${res}/${id}`
 }
 
 /** Best-effort display name for user objects */
 function displayName(u) {
-  const fn = u?.firstname || ""
-  const ln = u?.lastname || ""
-  const username = u?.username || ""
+  const fn = u?.firstname || ''
+  const ln = u?.lastname || ''
+  const username = u?.username || ''
   const full = `${fn} ${ln}`.trim()
-  return full || username || `User #${u?.id ?? "?"}`
+  return full || username || `User #${u?.id ?? '?'}`
 }
 
 /** Try to read an avatar URL from common fields */
 function avatarFromUser(u) {
-  return u?.avatarUrl || u?.pictureUrl || u?.picture?.url || u?.avatar?.url || null
+  return (
+    u?.avatarUrl || u?.pictureUrl || u?.picture?.url || u?.avatar?.url || null
+  )
 }
 
 /** Ensure { id, name, avatar } for any user reference */
 async function ensureUserInfo(userRef) {
-  if (userRef && typeof userRef === "object" && (userRef.firstname || userRef.lastname || userRef.username)) {
+  if (
+    userRef &&
+    typeof userRef === 'object' &&
+    (userRef.firstname || userRef.lastname || userRef.username)
+  ) {
     const id = extractId(userRef)
     return { id, name: displayName(userRef), avatar: avatarFromUser(userRef) }
   }
-  if (typeof userRef === "string") {
-    const id = extractId({ "@id": userRef })
+  if (typeof userRef === 'string') {
+    const id = extractId({ '@id': userRef })
     return fetchUserBasic(id)
   }
-  if (typeof userRef === "number") {
+  if (typeof userRef === 'number') {
     return fetchUserBasic(userRef)
   }
-  return { id: null, name: "User", avatar: null }
+  return { id: null, name: 'User', avatar: null }
 }
 
 /** Fetch minimal user info from /users/{id} */
 async function fetchUserBasic(id) {
   try {
-    if (!id) return { id: null, name: "User", avatar: null }
-    const resp = await axios.get(`${ENTRYPOINT}users/${id}`, { params: withCourseParams() })
+    if (!id) return { id: null, name: 'User', avatar: null }
+    const resp = await axios.get(`${ENTRYPOINT}users/${id}`, {
+      params: withCourseParams(),
+    })
     const u = resp?.data || {}
-    return { id: extractId(u) || id, name: displayName(u), avatar: avatarFromUser(u) }
+    return {
+      id: extractId(u) || id,
+      name: displayName(u),
+      avatar: avatarFromUser(u),
+    }
   } catch {
     return { id, name: `User #${id}`, avatar: null }
   }
@@ -156,7 +175,7 @@ function resolveBlogIdFromPath() {
     if (!Number.isNaN(v) && v > 0) return v
   }
   const qs = new URLSearchParams(window.location.search)
-  const qv = Number(qs.get("blogId"))
+  const qv = Number(qs.get('blogId'))
   if (!Number.isNaN(qv) && qv > 0) return qv
   return null
 }
@@ -166,7 +185,7 @@ function resolveBlogIdFromPath() {
    ========================= */
 
 /** GET /c_blogs */
-async function listProjects({ q = "", order = "dateCreation:desc" } = {}) {
+async function listProjects({ q = '', order = 'dateCreation:desc' } = {}) {
   const params = withCourseParams({
     ...(q ? { title: q } : {}),
     ...buildOrderParams(order),
@@ -193,7 +212,7 @@ async function createProject({
   if (showOnHomepage) payload.showOnHomepage = true
 
   const resp = await axios.post(`${ENTRYPOINT}c_blogs`, payload, {
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
     params: withCourseParams(),
   })
   return { id: extractId(resp?.data) }
@@ -205,7 +224,7 @@ async function renameProject(id, newTitle) {
     `${ENTRYPOINT}c_blogs/${id}`,
     { title: newTitle },
     {
-      headers: { "Content-Type": "application/merge-patch+json" },
+      headers: { 'Content-Type': 'application/merge-patch+json' },
       params: withCourseParams(),
     },
   )
@@ -217,7 +236,9 @@ async function toggleProjectVisibility(id) {
   const params = withCourseParams({
     parentResourceNodeId: resolveParentResourceNode(),
   })
-  await axios.put(`${ENTRYPOINT}c_blogs/${id}/toggle_visibility`, null, { params })
+  await axios.put(`${ENTRYPOINT}c_blogs/${id}/toggle_visibility`, null, {
+    params,
+  })
   return { ok: true }
 }
 
@@ -236,7 +257,7 @@ async function getProject(id) {
   })
   const raw = resp?.data || {}
   const mapped = mapBlogToProject(raw)
-  return { ...mapped, subtitle: raw.blogSubtitle ?? mapped.subtitle ?? "" }
+  return { ...mapped, subtitle: raw.blogSubtitle ?? mapped.subtitle ?? '' }
 }
 
 /* =========================
@@ -245,33 +266,39 @@ async function getProject(id) {
 
 /** Strip HTML and build a safe excerpt */
 function stripHtml(html) {
-  if (!html) return ""
-  const tmp = document.createElement("div")
+  if (!html) return ''
+  const tmp = document.createElement('div')
   tmp.innerHTML = html
-  return (tmp.textContent || tmp.innerText || "").trim()
+  return (tmp.textContent || tmp.innerText || '').trim()
 }
 function makeExcerpt(html, max = 160) {
-  const text = stripHtml(html).replace(/\s+/g, " ").trim()
-  return text.length > max ? text.slice(0, max) + "…" : text
+  const text = stripHtml(html).replace(/\s+/g, ' ').trim()
+  return text.length > max ? text.slice(0, max) + '…' : text
 }
 
 /** Map a post list row */
 function mapPostRow(item) {
   const id = extractId(item)
   const authorName =
-    item.author?.username || [item.author?.firstname, item.author?.lastname].filter(Boolean).join(" ") || "Author"
+    item.author?.username ||
+    [item.author?.firstname, item.author?.lastname].filter(Boolean).join(' ') ||
+    'Author'
   const date = item.dateCreation ?? item.createdAt ?? item.updatedAt ?? null
-  const fullText = item.fullText ?? ""
-  const embeddedAttachCount = Array.isArray(item.attachments) ? item.attachments.length : undefined
+  const fullText = item.fullText ?? ''
+  const embeddedAttachCount = Array.isArray(item.attachments)
+    ? item.attachments.length
+    : undefined
   return {
     id,
-    title: item.title ?? "",
+    title: item.title ?? '',
     author: authorName,
-    date: date ? new Date(date).toISOString().slice(0, 10) : "",
+    date: date ? new Date(date).toISOString().slice(0, 10) : '',
     excerpt: makeExcerpt(fullText, 160),
     tags: [],
     comments: 0,
-    ...(typeof embeddedAttachCount === "number" ? { attachmentsCount: embeddedAttachCount } : {}),
+    ...(typeof embeddedAttachCount === 'number'
+      ? { attachmentsCount: embeddedAttachCount }
+      : {}),
   }
 }
 
@@ -279,11 +306,13 @@ function mapPostRow(item) {
 function mapPostDetail(item) {
   const authorInfo = item.authorInfo || {}
   const fallbackName =
-    item.author?.username || [item.author?.firstname, item.author?.lastname].filter(Boolean).join(" ") || "Author"
+    item.author?.username ||
+    [item.author?.firstname, item.author?.lastname].filter(Boolean).join(' ') ||
+    'Author'
 
   return {
     id: extractId(item),
-    title: item.title ?? "",
+    title: item.title ?? '',
     author: authorInfo.name || fallbackName,
     authorId: authorInfo.id ?? item.author?.id ?? null,
     authorInfo: {
@@ -291,7 +320,7 @@ function mapPostDetail(item) {
       name: authorInfo.name || fallbackName,
     },
     date: item.dateCreation ?? null,
-    fullText: item.fullText ?? "",
+    fullText: item.fullText ?? '',
     attachments: (item.attachments || []).map((a) => ({
       id: extractId(a),
       name: a.filename,
@@ -308,9 +337,11 @@ function mapCommentRow(item) {
   const id = extractId(item)
   const authorInfo = item.authorInfo || {}
   const fallbackName =
-    item.author?.username || [item.author?.firstname, item.author?.lastname].filter(Boolean).join(" ") || "Author"
+    item.author?.username ||
+    [item.author?.firstname, item.author?.lastname].filter(Boolean).join(' ') ||
+    'Author'
   const when = item.dateCreation ?? item.createdAt ?? item.updatedAt ?? null
-  const text = item.text ?? item.content ?? item.comment ?? ""
+  const text = item.text ?? item.content ?? item.comment ?? ''
   return {
     id,
     author: authorInfo.name || fallbackName,
@@ -320,14 +351,22 @@ function mapCommentRow(item) {
       name: authorInfo.name || fallbackName,
     },
     text,
-    date: when ? new Date(when).toISOString().slice(0, 16).replace("T", " ") : "",
+    date: when
+      ? new Date(when).toISOString().slice(0, 16).replace('T', ' ')
+      : '',
   }
 }
 
 /** GET /c_blog_posts */
-async function listPostsApi({ blogId, page = 1, pageSize = 10, q = "", order = "dateCreation:desc" } = {}) {
+async function listPostsApi({
+  blogId,
+  page = 1,
+  pageSize = 10,
+  q = '',
+  order = 'dateCreation:desc',
+} = {}) {
   const params = withCourseParams({
-    blog: iri("c_blogs", blogId),
+    blog: iri('c_blogs', blogId),
     ...(q ? { title: q } : {}),
     ...buildOrderParams(order),
     page,
@@ -342,10 +381,10 @@ async function createPostApi({ blogId, title, fullText }) {
   const payload = {
     title,
     fullText,
-    blog: iri("c_blogs", blogId),
+    blog: iri('c_blogs', blogId),
   }
   const resp = await axios.post(`${ENTRYPOINT}c_blog_posts`, payload, {
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
     params: withCourseParams(),
   })
   return { id: extractId(resp?.data) }
@@ -362,32 +401,36 @@ async function getPostApi(postId) {
 async function updatePost(postId, payload) {
   return axios.patch(`${ENTRYPOINT}c_blog_posts/${postId}`, payload, {
     params: withCourseParams(),
-    headers: { "Content-Type": "application/merge-patch+json" },
+    headers: { 'Content-Type': 'application/merge-patch+json' },
   })
 }
 
 async function deletePost(postId) {
-  return axios.delete(`${ENTRYPOINT}c_blog_posts/${postId}`, { params: withCourseParams() })
+  return axios.delete(`${ENTRYPOINT}c_blog_posts/${postId}`, {
+    params: withCourseParams(),
+  })
 }
 
 async function updateComment(commentId, payload) {
   return axios.patch(`${ENTRYPOINT}c_blog_comments/${commentId}`, payload, {
     params: withCourseParams(),
-    headers: { "Content-Type": "application/merge-patch+json" },
+    headers: { 'Content-Type': 'application/merge-patch+json' },
   })
 }
 
 async function deleteComment(commentId) {
-  return axios.delete(`${ENTRYPOINT}c_blog_comments/${commentId}`, { params: withCourseParams() })
+  return axios.delete(`${ENTRYPOINT}c_blog_comments/${commentId}`, {
+    params: withCourseParams(),
+  })
 }
 
 /* === Attachments (CBlogAttachment) === */
 async function listPostAttachmentsApi(postId) {
   try {
-    const params = withCourseParams({ post: iri("c_blog_posts", postId) })
+    const params = withCourseParams({ post: iri('c_blog_posts', postId) })
     const resp = await axios.get(`${ENTRYPOINT}c_blog_attachments`, { params })
     const data = resp?.data ?? {}
-    const arr = data["hydra:member"] || []
+    const arr = data['hydra:member'] || []
     return arr.map((a) => ({
       id: extractId(a),
       name: a.filename,
@@ -404,13 +447,13 @@ async function listPostAttachmentsApi(postId) {
 /* === Ratings (CBlogRating) === */
 async function ratePostApi(blogId, postId, score) {
   const payload = {
-    blog: iri("c_blogs", blogId),
-    post: iri("c_blog_posts", postId),
+    blog: iri('c_blogs', blogId),
+    post: iri('c_blog_posts', postId),
     rating: Number(score),
-    ratingType: "post",
+    ratingType: 'post',
   }
   await axios.post(`${ENTRYPOINT}c_blog_ratings`, payload, {
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
     params: withCourseParams(),
   })
   return { ok: true }
@@ -418,13 +461,15 @@ async function ratePostApi(blogId, postId, score) {
 
 async function getPostRatingApi(blogId, postId) {
   const params = withCourseParams({
-    blog: iri("c_blogs", blogId),
-    post: iri("c_blog_posts", postId),
+    blog: iri('c_blogs', blogId),
+    post: iri('c_blog_posts', postId),
   })
   const resp = await axios.get(`${ENTRYPOINT}c_blog_ratings`, { params })
-  const arr = resp?.data?.["hydra:member"] ?? []
+  const arr = resp?.data?.['hydra:member'] ?? []
   const count = arr.length
-  const average = count ? arr.reduce((s, it) => s + Number(it.rating || 0), 0) / count : 0
+  const average = count
+    ? arr.reduce((s, it) => s + Number(it.rating || 0), 0) / count
+    : 0
   return { average, count }
 }
 
@@ -446,44 +491,49 @@ async function getManyPostRatingsApi(blogId, postIds = []) {
 
 async function uploadResourceFileApi(file) {
   const fd = new FormData()
-  fd.append("file", file, file.name)
+  fd.append('file', file, file.name)
   const resp = await axios.post(`${ENTRYPOINT}resource_files`, fd, {
-    headers: { "Content-Type": "multipart/form-data" },
+    headers: { 'Content-Type': 'multipart/form-data' },
     params: withCourseParams(),
   })
   const data = resp?.data || {}
   return {
-    path: data.path || data.filePath || data.url || "",
+    path: data.path || data.filePath || data.url || '',
     filename: data.filename || file.name,
     size: Number(data.size ?? file.size ?? 0),
-    iri: data["@id"] || null,
+    iri: data['@id'] || null,
   }
 }
 
-async function createAttachmentForPostApi({ blogId, postId, fileInfo, comment = "" }) {
+async function createAttachmentForPostApi({
+  blogId,
+  postId,
+  fileInfo,
+  comment = '',
+}) {
   const payload = {
-    blog: iri("c_blogs", blogId),
-    post: iri("c_blog_posts", postId),
+    blog: iri('c_blogs', blogId),
+    post: iri('c_blog_posts', postId),
     path: fileInfo.path,
     filename: fileInfo.filename,
     size: Number(fileInfo.size || 0),
     comment,
   }
   await axios.post(`${ENTRYPOINT}c_blog_attachments`, payload, {
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
     params: withCourseParams(),
   })
   return { ok: true }
 }
 
-async function uploadBlogAttachmentApi({ blogId, postId, file, comment = "" }) {
+async function uploadBlogAttachmentApi({ blogId, postId, file, comment = '' }) {
   const fd = new FormData()
-  fd.append("uploadFile", file, file.name)
-  fd.append("blog", iri("c_blogs", blogId))
-  fd.append("post", iri("c_blog_posts", postId))
-  if (comment) fd.append("comment", comment)
+  fd.append('uploadFile', file, file.name)
+  fd.append('blog', iri('c_blogs', blogId))
+  fd.append('post', iri('c_blog_posts', postId))
+  if (comment) fd.append('comment', comment)
   const resp = await axios.post(`${ENTRYPOINT}c_blog_attachments/upload`, fd, {
-    headers: { "Content-Type": "multipart/form-data" },
+    headers: { 'Content-Type': 'multipart/form-data' },
     params: courseContextParams(),
   })
   return resp?.data ?? { ok: true }
@@ -496,16 +546,22 @@ async function uploadBlogAttachmentApi({ blogId, postId, file, comment = "" }) {
 /** GET /c_blog_rel_users */
 async function listBlogMembers(blogId) {
   const params = withCourseParams({
-    blog: iri("c_blogs", blogId),
+    blog: iri('c_blogs', blogId),
     itemsPerPage: 1000,
   })
   const resp = await axios.get(`${ENTRYPOINT}c_blog_rel_users`, { params })
-  const arr = resp?.data?.["hydra:member"] ?? []
+  const arr = resp?.data?.['hydra:member'] ?? []
   const hydrated = await Promise.all(
     arr.map(async (row) => {
       const relId = extractId(row)
       const base = await ensureUserInfo(row.user)
-      return { relId, userId: base.id, name: base.name, avatar: base.avatar, role: "member" }
+      return {
+        relId,
+        userId: base.id,
+        name: base.name,
+        avatar: base.avatar,
+        role: 'member',
+      }
     }),
   )
   return hydrated
@@ -514,11 +570,11 @@ async function listBlogMembers(blogId) {
 /** POST /c_blog_rel_users */
 async function addBlogMember(blogId, userId) {
   const payload = {
-    blog: iri("c_blogs", blogId),
-    user: iri("users", userId),
+    blog: iri('c_blogs', blogId),
+    user: iri('users', userId),
   }
   await axios.post(`${ENTRYPOINT}c_blog_rel_users`, payload, {
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
     params: withCourseParams(),
   })
   return { ok: true }
@@ -545,30 +601,37 @@ async function listCourseOrSessionUsers() {
       const base = await ensureUserInfo(it.user || it)
       if (!base.id) continue
       if (!usersById.has(base.id)) {
-        usersById.set(base.id, { id: base.id, name: base.name, avatar: base.avatar, meta: metaLabel })
+        usersById.set(base.id, {
+          id: base.id,
+          name: base.name,
+          avatar: base.avatar,
+          meta: metaLabel,
+        })
       }
     }
   }
 
   if (cid) {
     const params = withCourseParams({
-      course: iri("courses", cid),
+      course: iri('courses', cid),
       itemsPerPage: 1000,
     })
     const resp = await axios.get(`${ENTRYPOINT}course_rel_users`, { params })
-    await addUsers(resp?.data?.["hydra:member"] ?? [], "course")
+    await addUsers(resp?.data?.['hydra:member'] ?? [], 'course')
   }
 
   if (sid) {
     const params = withCourseParams({
-      session: iri("sessions", sid),
+      session: iri('sessions', sid),
       itemsPerPage: 1000,
     })
     const resp = await axios.get(`${ENTRYPOINT}session_rel_users`, { params })
-    await addUsers(resp?.data?.["hydra:member"] ?? [], "session")
+    await addUsers(resp?.data?.['hydra:member'] ?? [], 'session')
   }
 
-  return Array.from(usersById.values()).sort((a, b) => a.name.localeCompare(b.name))
+  return Array.from(usersById.values()).sort((a, b) =>
+    a.name.localeCompare(b.name),
+  )
 }
 
 /* =========================
@@ -580,9 +643,9 @@ function mapTaskRow(row) {
   return {
     id: extractId(row),
     taskId: row.taskId ?? 0,
-    title: row.title ?? "",
-    description: row.description ?? "",
-    color: row.color ?? "#0ea5e9",
+    title: row.title ?? '',
+    description: row.description ?? '',
+    color: row.color ?? '#0ea5e9',
     system: !!row.systemTask,
     status: row.systemTask ? 1 : 0,
     authorId: row.authorId ?? row.author?.id ?? null,
@@ -595,7 +658,7 @@ async function mapAssignmentRow(row) {
   const taskId = extractId(row.task)
   const targetDate = row.targetDate ?? row.target_date ?? null
   const u = await ensureUserInfo(row.user)
-  const status = typeof row.status === "number" ? row.status : 0
+  const status = typeof row.status === 'number' ? row.status : 0
   return {
     id,
     taskId,
@@ -608,11 +671,11 @@ async function mapAssignmentRow(row) {
 /** GET /c_blog_tasks */
 async function listTasks(blogId = resolveBlogIdFromPath()) {
   const params = withCourseParams({
-    blog: iri("c_blogs", blogId),
+    blog: iri('c_blogs', blogId),
     itemsPerPage: 1000,
   })
   const resp = await axios.get(`${ENTRYPOINT}c_blog_tasks`, { params })
-  const arr = resp?.data?.["hydra:member"] ?? []
+  const arr = resp?.data?.['hydra:member'] ?? []
   return arr.map(mapTaskRow)
 }
 
@@ -620,23 +683,29 @@ async function listTasks(blogId = resolveBlogIdFromPath()) {
 async function updateTask(taskId, payload) {
   await axios.patch(`${ENTRYPOINT}c_blog_tasks/${taskId}`, payload, {
     params: withCourseParams(),
-    headers: { "Content-Type": "application/merge-patch+json" },
+    headers: { 'Content-Type': 'application/merge-patch+json' },
   })
   return { ok: true }
 }
 
 /** DELETE /c_blog_tasks/{id} */
 async function deleteTask(taskId) {
-  await axios.delete(`${ENTRYPOINT}c_blog_tasks/${taskId}`, { params: withCourseParams() })
+  await axios.delete(`${ENTRYPOINT}c_blog_tasks/${taskId}`, {
+    params: withCourseParams(),
+  })
   return { ok: true }
 }
 
 /** PATCH /c_blog_task_rel_users/{id} */
 async function updateAssignment(assignmentId, payload) {
-  await axios.patch(`${ENTRYPOINT}c_blog_task_rel_users/${assignmentId}`, payload, {
-    params: withCourseParams(),
-    headers: { "Content-Type": "application/merge-patch+json" },
-  })
+  await axios.patch(
+    `${ENTRYPOINT}c_blog_task_rel_users/${assignmentId}`,
+    payload,
+    {
+      params: withCourseParams(),
+      headers: { 'Content-Type': 'application/merge-patch+json' },
+    },
+  )
   return { ok: true }
 }
 
@@ -646,15 +715,15 @@ async function createTask(
   blogId = resolveBlogIdFromPath(),
 ) {
   const payload = {
-    title: String(title ?? "").trim(),
-    description: String(description ?? ""),
-    color: color || "#0ea5e9",
+    title: String(title ?? '').trim(),
+    description: String(description ?? ''),
+    color: color || '#0ea5e9',
     taskId: Number(taskId) || 0,
     systemTask: !!systemTask,
-    blog: iri("c_blogs", blogId),
+    blog: iri('c_blogs', blogId),
   }
   const resp = await axios.post(`${ENTRYPOINT}c_blog_tasks`, payload, {
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
     params: withCourseParams(),
   })
   return { id: extractId(resp?.data) }
@@ -663,35 +732,44 @@ async function createTask(
 /** GET /c_blog_task_rel_users */
 async function listAssignments(blogId = resolveBlogIdFromPath()) {
   const params = withCourseParams({
-    blog: iri("c_blogs", blogId),
+    blog: iri('c_blogs', blogId),
     itemsPerPage: 1000,
   })
   const resp = await axios.get(`${ENTRYPOINT}c_blog_task_rel_users`, { params })
-  const arr = resp?.data?.["hydra:member"] ?? []
+  const arr = resp?.data?.['hydra:member'] ?? []
   return Promise.all(arr.map(mapAssignmentRow))
 }
 
 /** POST /c_blog_task_rel_users */
-async function assignTask({ taskId, userId, targetDate }, blogId = resolveBlogIdFromPath()) {
+async function assignTask(
+  { taskId, userId, targetDate },
+  blogId = resolveBlogIdFromPath(),
+) {
   const payload = {
-    task: iri("c_blog_tasks", taskId),
-    user: iri("users", userId),
-    blog: iri("c_blogs", blogId),
+    task: iri('c_blog_tasks', taskId),
+    user: iri('users', userId),
+    blog: iri('c_blogs', blogId),
     targetDate, // ISO "YYYY-MM-DD"
   }
   await axios.post(`${ENTRYPOINT}c_blog_task_rel_users`, payload, {
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
     params: withCourseParams(),
   })
   return { ok: true }
 }
 
-async function createPostWithFiles({ blogId, title, fullText, files = [], commentsByIndex = [] }) {
+async function createPostWithFiles({
+  blogId,
+  title,
+  fullText,
+  files = [],
+  commentsByIndex = [],
+}) {
   const { id: postId } = await createPostApi({ blogId, title, fullText })
 
   for (let i = 0; i < files.length; i++) {
     const file = files[i]
-    const comment = commentsByIndex[i] || ""
+    const comment = commentsByIndex[i] || ''
     await uploadBlogAttachmentApi({ blogId, postId, file, comment })
   }
 
@@ -743,11 +821,11 @@ export default {
   async listComments(postId) {
     try {
       const params = withCourseParams({
-        post: iri("c_blog_posts", postId),
-        "order[dateCreation]": "asc",
+        post: iri('c_blog_posts', postId),
+        'order[dateCreation]': 'asc',
       })
       const resp = await axios.get(`${ENTRYPOINT}c_blog_comments`, { params })
-      return (resp?.data?.["hydra:member"] ?? []).map(mapCommentRow)
+      return (resp?.data?.['hydra:member'] ?? []).map(mapCommentRow)
     } catch (e) {
       if (e?.response?.status === 404) return []
       throw e
@@ -755,12 +833,12 @@ export default {
   },
   async addComment(postId, { text, blogId } = {}) {
     const payload = {
-      post: iri("c_blog_posts", postId),
-      comment: String(text ?? "").trim(),
+      post: iri('c_blog_posts', postId),
+      comment: String(text ?? '').trim(),
     }
-    if (blogId) payload.blog = iri("c_blogs", blogId)
+    if (blogId) payload.blog = iri('c_blogs', blogId)
     await axios.post(`${ENTRYPOINT}c_blog_comments`, payload, {
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' },
       params: withCourseParams(),
     })
     return { ok: true }

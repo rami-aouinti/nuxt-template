@@ -1,44 +1,44 @@
-<script setup>
-import { computed, ref, watch } from "vue"
-import BaseAppLink from "../basecomponents/BaseAppLink.vue"
-import { usePlatformConfig } from "../legacy/store/platformConfig.js"
-import { useSecurityStore } from "../legacy/store/securityStore.js"
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import BaseAppLink from '../basecomponents/BaseAppLink.vue'
+import { usePlatformConfig } from '~/stores/platformConfig.js'
+import { useSecurityStore } from '~/stores/securityStore.js'
 
 const platformConfigStore = usePlatformConfig()
 const securityStore = useSecurityStore()
 
-const siteName = platformConfigStore.getSetting("platform.site_name")
+const siteName = platformConfigStore.getSetting('platform.site_name')
 
-const theme = computed(() => platformConfigStore.visualTheme || "chamilo")
-const DEFAULT_THEME = "chamilo"
+const theme = computed(() => platformConfigStore.visualTheme || 'chamilo')
+const DEFAULT_THEME = 'chamilo'
 const bust = ref(Date.now())
 
 function themeUrl(name, path, { strict = false } = {}) {
   const base = `/themes/${encodeURIComponent(name)}/${path}`
   const qs = []
-  if (strict) qs.push("strict=1")
+  if (strict) qs.push('strict=1')
   qs.push(`t=${bust.value}`)
-  return `${base}?${qs.join("&")}`
+  return `${base}?${qs.join('&')}`
 }
 
 const sources = computed(() => [
-  themeUrl(theme.value, "images/header-logo.svg", { strict: true }),
-  themeUrl(theme.value, "images/header-logo.png", { strict: true }),
-  themeUrl(theme.value, "images/header-logo.svg"),
-  themeUrl(theme.value, "images/header-logo.png"),
-  themeUrl(DEFAULT_THEME, "images/header-logo.svg"),
-  themeUrl(DEFAULT_THEME, "images/header-logo.png"),
+  themeUrl(theme.value, 'images/header-logo.svg', { strict: true }),
+  themeUrl(theme.value, 'images/header-logo.png', { strict: true }),
+  themeUrl(theme.value, 'images/header-logo.svg'),
+  themeUrl(theme.value, 'images/header-logo.png'),
+  themeUrl(DEFAULT_THEME, 'images/header-logo.svg'),
+  themeUrl(DEFAULT_THEME, 'images/header-logo.png'),
 ])
 
 const idx = ref(0)
-const currentSrc = computed(() => sources.value[idx.value] || "")
+const currentSrc = computed(() => sources.value[idx.value] || '')
 
 watch(
   () => platformConfigStore.visualTheme,
   () => {
     idx.value = 0
     bust.value = Date.now()
-  }
+  },
 )
 
 const onError = () => {
@@ -51,7 +51,9 @@ const onError = () => {
 </script>
 <template>
   <div class="platform-logo">
-    <BaseAppLink :to="securityStore.user ? { name: 'Home' } : { name: 'Index' }">
+    <BaseAppLink
+      :to="securityStore.user ? { name: 'Home' } : { name: 'Index' }"
+    >
       <img
         v-if="currentSrc"
         :alt="siteName"

@@ -10,7 +10,10 @@ export function useEcommerceApi() {
   const { locale } = useI18n()
 
   const baseUrl = computed(() =>
-    normalizeBaseUrl(config.public.ecommerceApiBaseUrl, 'https://ecommerce.bro-world.org'),
+    normalizeBaseUrl(
+      config.public.ecommerceApiBaseUrl,
+      'https://ecommerce.bro-world.org',
+    ),
   )
   const proxyBaseUrl = computed(() =>
     normalizeBaseUrl(config.public.ecommerceApiProxyBaseUrl, '/api/v2'),

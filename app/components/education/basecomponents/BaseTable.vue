@@ -1,17 +1,32 @@
-<script setup>
-import { ref, useSlots, computed } from "vue"
-import DataTable from "primevue/datatable"
-import { usePlatformConfig } from "../legacy/store/platformConfig.js"
+<script setup lang="ts">
+import { ref, useSlots, computed } from 'vue'
+import DataTable from 'primevue/datatable'
+import { usePlatformConfig } from '~/stores/platformConfig.js'
 
 const platformConfigStore = usePlatformConfig()
 
 /* v-models */
-const filters = defineModel("filters", { type: Object, required: false })
-const selectedItems = defineModel("selectedItems", { type: Array, required: false })
-const sortOrder = defineModel("sortOrder", { type: Number, required: false, default: null })
-const sortField = defineModel("sortField", { type: String, required: false, default: null })
-const multiSortMeta = defineModel("multiSortMeta", { type: Array, required: false, default: null })
-const rows = defineModel("rows", { type: Number, required: false })
+const filters = defineModel('filters', { type: Object, required: false })
+const selectedItems = defineModel('selectedItems', {
+  type: Array,
+  required: false,
+})
+const sortOrder = defineModel('sortOrder', {
+  type: Number,
+  required: false,
+  default: null,
+})
+const sortField = defineModel('sortField', {
+  type: String,
+  required: false,
+  default: null,
+})
+const multiSortMeta = defineModel('multiSortMeta', {
+  type: Array,
+  required: false,
+  default: null,
+})
+const rows = defineModel('rows', { type: Number, required: false })
 
 /* props */
 const props = defineProps({
@@ -57,7 +72,7 @@ const props = defineProps({
   sortMode: {
     type: String,
     required: false,
-    default: "single", // single, multiple
+    default: 'single', // single, multiple
   },
   rowClass: {
     type: Function,
@@ -76,32 +91,34 @@ const DEFAULT_FALLBACK_ROWS = 20
 
 function getSetting(key, fallback) {
   const v = platformConfigStore.getSetting(key)
-  return (v === undefined || v === null || v === "") ? fallback : v
+  return v === undefined || v === null || v === '' ? fallback : v
 }
 
 function parseRowList(val) {
   if (!val) return [5, 10, 20, 50]
   if (Array.isArray(val)) return val.map(Number).filter(Number.isFinite)
-  if (typeof val === "string") {
+  if (typeof val === 'string') {
     try {
       const parsed = JSON.parse(val)
       const arr = Array.isArray(parsed) ? parsed : parsed?.options
       if (Array.isArray(arr)) return arr.map(Number).filter(Number.isFinite)
     } catch {
-      const arr = val.split(",").map(s => Number(s.trim()))
-      if (arr.some(n => !Number.isNaN(n))) return arr
+      const arr = val.split(',').map((s) => Number(s.trim()))
+      if (arr.some((n) => !Number.isNaN(n))) return arr
     }
-  } else if (typeof val === "object" && val?.options) {
+  } else if (typeof val === 'object' && val?.options) {
     const arr = val.options
     if (Array.isArray(arr)) return arr.map(Number).filter(Number.isFinite)
   }
   return [5, 10, 20, 50]
 }
 
-const rowListRaw = computed(() => getSetting("display.table_row_list", [5, 10, 20, 50]))
+const rowListRaw = computed(() =>
+  getSetting('display.table_row_list', [5, 10, 20, 50]),
+)
 
 const defaultRowSetting = computed(() => {
-  const raw = getSetting("display.table_default_row", DEFAULT_FALLBACK_ROWS)
+  const raw = getSetting('display.table_default_row', DEFAULT_FALLBACK_ROWS)
   const n = Number(raw)
   if (!Number.isFinite(n) || n <= 0) return DEFAULT_FALLBACK_ROWS
   return n
@@ -129,7 +146,7 @@ if (rows.value == null) {
   rows.value = initialRows()
 }
 
-defineEmits(["filter", "page", "sort"])
+defineEmits(['filter', 'page', 'sort'])
 
 const slots = useSlots()
 
@@ -171,24 +188,15 @@ defineExpose({
   >
     <slot />
 
-    <template
-      #header
-      v-if="slots.header"
-    >
+    <template v-if="slots.header" #header>
       <slot name="header" />
     </template>
 
-    <template
-      #footer
-      v-if="slots.footer"
-    >
+    <template v-if="slots.footer" #footer>
       <slot name="footer" />
     </template>
 
-    <template
-      #empty
-      v-if="textForEmpty"
-    >
+    <template v-if="textForEmpty" #empty>
       {{ textForEmpty }}
     </template>
   </DataTable>

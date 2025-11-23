@@ -1,10 +1,6 @@
 <template>
   <div class="p-inputgroup">
-    <InputText
-      :name="inputName"
-      :placeholder="inputPlaceholder"
-      type="text"
-    />
+    <InputText :name="inputName" :placeholder="inputPlaceholder" type="text" />
     <BaseButton
       :icon="buttonIcon"
       :label="buttonLabel"
@@ -15,9 +11,9 @@
   </div>
 </template>
 
-<script setup>
-import InputText from "primevue/inputtext"
-import BaseButton from "./BaseButton.vue"
+<script setup lang="ts">
+import InputText from 'primevue/inputtext'
+import BaseButton from './BaseButton.vue'
 
 defineProps({
   inputName: {
@@ -38,5 +34,5 @@ defineProps({
   },
 })
 
-defineEmits(["button-click"])
+defineEmits(['button-click'])
 </script>

@@ -1,17 +1,18 @@
-<script setup>
-import { computed, onMounted, ref, watch } from "vue"
-import DatePicker from "primevue/datepicker"
-import FloatLabel from "primevue/floatlabel"
-import Message from "primevue/message"
-import { usePlatformConfig } from "../legacy/store/platformConfig.js"
-import { calendarLocales } from "../../../utils/calendarLocales.js"
-import { useLocale } from "../legacy/composables/locale.js"
-import { usePrimeVue } from "primevue/config"
-import { useI18n } from "vue-i18n"
+<script setup lang="ts">
+import { computed, onMounted, ref, watch } from 'vue'
+import DatePicker from 'primevue/datepicker'
+import FloatLabel from 'primevue/floatlabel'
+import Message from 'primevue/message'
+import { usePlatformConfig } from '~/stores/platformConfig.js'
+import { calendarLocales } from '../../../utils/calendarLocales.js'
+import { useLocale } from '~/composables/locale.js'
+import { usePrimeVue } from 'primevue/config'
 
 const { t } = useI18n()
 const platformConfigStore = usePlatformConfig()
-const timepicketIncrement = Number(platformConfigStore.getSetting("platform.timepicker_increment"))
+const timepicketIncrement = Number(
+  platformConfigStore.getSetting('platform.timepicker_increment'),
+)
 
 const modelValue = defineModel({
   type: [Date, Array, String, undefined, null],
@@ -43,13 +44,13 @@ const props = defineProps({
   id: {
     type: String,
     required: true,
-    default: "",
+    default: '',
   },
   type: {
     type: String,
     required: false,
-    default: "single",
-    validator: (value) => ["single", "range"].includes(value),
+    default: 'single',
+    validator: (value) => ['single', 'range'].includes(value),
   },
   showTime: {
     type: Boolean,
@@ -69,22 +70,22 @@ const props = defineProps({
 })
 
 function getLocalePrefix(locale) {
-  const defaultLang = "en"
-  return typeof locale === "string" ? locale.split("_")[0] : defaultLang
+  const defaultLang = 'en'
+  return typeof locale === 'string' ? locale.split('_')[0] : defaultLang
 }
 
 function getDateFormat(locale) {
   switch (locale) {
-    case "en":
-      return "mm/dd/yy"
-    case "fr":
-      return "dd/mm/yy"
-    case "de":
-      return "dd.mm.yy"
-    case "es":
-      return "dd/mm/yy"
+    case 'en':
+      return 'mm/dd/yy'
+    case 'fr':
+      return 'dd/mm/yy'
+    case 'de':
+      return 'dd.mm.yy'
+    case 'es':
+      return 'dd/mm/yy'
     default:
-      return "dd/mm/yy"
+      return 'dd/mm/yy'
   }
 }
 
@@ -92,7 +93,9 @@ const dateFormat = computed(() => {
   return getDateFormat(localePrefix.value)
 })
 
-const selectedLocale = computed(() => calendarLocales[localePrefix.value] || calendarLocales.en)
+const selectedLocale = computed(
+  () => calendarLocales[localePrefix.value] || calendarLocales.en,
+)
 
 const primevue = usePrimeVue()
 onMounted(() => {
@@ -119,12 +122,12 @@ const hideOverlay = () => {
   }
 
   // PrimeVue DatePicker exposes overlayVisible / hideOverlay in runtime instance
-  if (typeof instance.hideOverlay === "function") {
+  if (typeof instance.hideOverlay === 'function') {
     instance.hideOverlay()
     return
   }
 
-  if ("overlayVisible" in instance) {
+  if ('overlayVisible' in instance) {
     instance.overlayVisible = false
   }
 }
@@ -161,39 +164,28 @@ const onCancelClick = () => {
         show-icon
       >
         <!-- Custom footer only when using time selection -->
-        <template
-          v-if="showTime"
-          #footer
-        >
+        <template v-if="showTime" #footer>
           <div class="base-calendar-footer">
             <button
               type="button"
               class="base-calendar-footer__button base-calendar-footer__button--secondary"
               @click="onCancelClick"
             >
-              {{ t("Cancel") }}
+              {{ t('Cancel') }}
             </button>
             <button
               type="button"
               class="base-calendar-footer__button base-calendar-footer__button--primary"
               @click="onApplyClick"
             >
-              {{ t("Ok") }}
+              {{ t('Ok') }}
             </button>
           </div>
         </template>
       </DatePicker>
-      <label
-        :for="id"
-        v-text="label"
-      />
+      <label :for="id" v-text="label" />
     </FloatLabel>
-    <Message
-      v-if="isInvalid"
-      size="small"
-      severity="seconday"
-      variant="simple"
-    >
+    <Message v-if="isInvalid" size="small" severity="seconday" variant="simple">
       {{ errorText }}
     </Message>
   </div>

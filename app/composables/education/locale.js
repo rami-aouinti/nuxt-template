@@ -1,9 +1,9 @@
-import { usePlatformConfig } from "../store/platformConfig"
-import { useSecurityStore } from "../store/securityStore"
-import { useCidReqStore } from "../store/cidReq"
-import { useCourseSettings } from "../store/courseSettingStore"
-import { computed, ref, watch } from "vue"
-import { useRoute, useRouter } from "vue-router"
+import { usePlatformConfig } from '../store/platformConfig'
+import { useSecurityStore } from '../store/securityStore'
+import { useCidReqStore } from '../store/cidReq'
+import { useCourseSettings } from '../store/courseSettingStore'
+import { computed, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 export function useLocale() {
   const router = useRouter()
@@ -14,18 +14,22 @@ export function useLocale() {
   const cidReqStore = useCidReqStore()
   const courseSettingsStore = useCourseSettings()
 
-  const appLocale = ref(document.querySelector("html").lang)
+  const appLocale = ref(document.querySelector('html').lang)
 
   const localeList = computed(() => {
     const list = {}
 
-    list["platform_lang"] = platformConfigStore.getSetting("language.platform_language")
-    list["user_profil_lang"] = securityStore.user ? securityStore.user.locale : null
+    list['platform_lang'] = platformConfigStore.getSetting(
+      'language.platform_language',
+    )
+    list['user_profil_lang'] = securityStore.user
+      ? securityStore.user.locale
+      : null
 
     let courseLang = null
 
     if (
-      courseSettingsStore.getSetting("show_course_in_user_language") === "1" &&
+      courseSettingsStore.getSetting('show_course_in_user_language') === '1' &&
       securityStore.user &&
       securityStore.user.locale
     ) {
@@ -34,7 +38,7 @@ export function useLocale() {
       courseLang = cidReqStore.course.courseLanguage
     }
 
-    list["course_lang"] = courseLang
+    list['course_lang'] = courseLang
 
     return list
   })
@@ -42,7 +46,12 @@ export function useLocale() {
   watch(
     localeList,
     (newLocaleList) => {
-      const priorityList = ["language_priority_1", "language_priority_2", "language_priority_3", "language_priority_4"]
+      const priorityList = [
+        'language_priority_1',
+        'language_priority_2',
+        'language_priority_3',
+        'language_priority_4',
+      ]
 
       for (const priority of priorityList) {
         const setting = platformConfigStore.getSetting(`language.${priority}`)
@@ -57,7 +66,7 @@ export function useLocale() {
     { immediate: true },
   )
 
-  const defaultLanguage = { originalName: "English", isocode: "en" }
+  const defaultLanguage = { originalName: 'English', isocode: 'en' }
 
   /**
    * @type {{originalName: string, isocode: string}[]}
@@ -68,7 +77,9 @@ export function useLocale() {
    * @type {{originalName: string, isocode: string}}
    */
   const currentLanguageFromList =
-    languageList.find((language) => document.querySelector("html").lang === language.isocode) || defaultLanguage
+    languageList.find(
+      (language) => document.querySelector('html').lang === language.isocode,
+    ) || defaultLanguage
 
   /**
    * @param {string} isoCode
@@ -96,12 +107,12 @@ export function useLocale() {
 
   function normalizeIso(iso) {
     // Normalize to DB and BCP-47 variants and extract parent (e.g., "pt_BR" -> "pt")
-    if (!iso) return { db: "", bcp47: "", parent: "" }
+    if (!iso) return { db: '', bcp47: '', parent: '' }
     const u = String(iso).trim()
     return {
-      db: u.replace("-", "_"),     // pt-BR -> pt_BR (DB)
-      bcp47: u.replace("_", "-"),  // pt_BR -> pt-BR (BCP-47)
-      parent: u.split(/[-_]/)[0],  // pt_BR -> pt
+      db: u.replace('-', '_'), // pt-BR -> pt_BR (DB)
+      bcp47: u.replace('_', '-'), // pt_BR -> pt-BR (BCP-47)
+      parent: u.split(/[-_]/)[0], // pt_BR -> pt
     }
   }
 
@@ -110,15 +121,21 @@ export function useLocale() {
    * Does not depend on window.languages; falls back to it if Intl fails.
    */
   function getLanguageName(iso, displayLocale = null) {
-    if (!iso) return "-"
-    const tag = String(iso).replace("_", "-")
-    const ui = displayLocale || appLocale.value || document.documentElement.lang || "en"
+    if (!iso) return '-'
+    const tag = String(iso).replace('_', '-')
+    const ui =
+      displayLocale || appLocale.value || document.documentElement.lang || 'en'
     try {
-      const dn = new Intl.DisplayNames([ui], { type: "language" })
+      const dn = new Intl.DisplayNames([ui], { type: 'language' })
       return dn.of(tag) || iso.toUpperCase()
     } catch {
       const hit = (window.languages || []).find((l) => l.isocode === iso)
-      return hit?.originalName || hit?.original_name || hit?.english_name || iso.toUpperCase()
+      return (
+        hit?.originalName ||
+        hit?.original_name ||
+        hit?.english_name ||
+        iso.toUpperCase()
+      )
     }
   }
 
@@ -127,7 +144,7 @@ export function useLocale() {
    * Tries exact, variant, then parent. Results are cached.
    */
   async function fetchLanguageNameFromApi(iso) {
-    if (!iso) return "-"
+    if (!iso) return '-'
     if (__apiLangCache.has(iso)) return __apiLangCache.get(iso)
 
     const { db, bcp47, parent } = normalizeIso(iso)
@@ -136,7 +153,7 @@ export function useLocale() {
       const r = await fetch(`/api/languages?isocode=${encodeURIComponent(q)}`)
       if (!r.ok) return null
       const j = await r.json()
-      const arr = j["hydra:member"] || j
+      const arr = j['hydra:member'] || j
       return Array.isArray(arr) && arr.length ? arr[0] : null
     }
 
@@ -171,7 +188,7 @@ export function useLocale() {
  * @param {string} localeName
  */
 export function useParentLocale(localeName) {
-  const parts = localeName.split("_")
+  const parts = localeName.split('_')
 
   if (parts.length > 0) {
     return parts[0]

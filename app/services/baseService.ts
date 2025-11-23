@@ -1,5 +1,5 @@
 // @ts-nocheck
-import api from "../config/api"
+import api from '../config/api'
 
 export default {
   /**
@@ -27,15 +27,15 @@ export default {
 
     let nextPageParams = null
 
-    if (data["hydra:view"] && data["hydra:view"]["hydra:next"]) {
-      const queryString = data["hydra:view"]["hydra:next"].split("?")[1]
+    if (data['hydra:view'] && data['hydra:view']['hydra:next']) {
+      const queryString = data['hydra:view']['hydra:next'].split('?')[1]
 
       nextPageParams = Object.fromEntries(new URLSearchParams(queryString))
     }
 
     return {
-      totalItems: data["hydra:totalItems"] || data.totalItems,
-      items: data["hydra:member"],
+      totalItems: data['hydra:totalItems'] || data.totalItems,
+      items: data['hydra:member'],
       nextPageParams,
     }
   },
@@ -48,11 +48,17 @@ export default {
    * @param {Object} [options={}]
    * @returns {Promise<Object>}
    */
-  async post(endpoint, params = {}, addContentType = false, additionalHeaders = {}, options = {}) {
+  async post(
+    endpoint,
+    params = {},
+    addContentType = false,
+    additionalHeaders = {},
+    options = {},
+  ) {
     const headers = {}
 
     if (addContentType) {
-      headers["Content-Type"] = "application/json"
+      headers['Content-Type'] = 'application/json'
     }
 
     const { data } = await api.post(endpoint, params, {

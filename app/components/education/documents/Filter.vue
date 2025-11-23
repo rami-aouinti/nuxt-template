@@ -1,5 +1,5 @@
 <template>
-  <q-input
+  <v-input
     id="search_filter"
     v-model="item.title"
     :placeholder="$t('Title')"
@@ -7,9 +7,9 @@
   />
 </template>
 
-<script>
+<script setup lang="ts">
 export default {
-  name: "DocumentsFilter",
+  name: 'DocumentsFilter',
   props: {
     values: {
       type: Object,

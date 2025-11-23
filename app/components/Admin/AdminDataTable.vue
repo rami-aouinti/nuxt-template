@@ -10,7 +10,9 @@ export type AdminCreateField = {
   required?: boolean
 }
 
-type CreateEventPayload = Record<string, string | null> & { type: string | null }
+type CreateEventPayload = Record<string, string | null> & {
+  type: string | null
+}
 
 type ItemsPerPageOption = number | { title: string; value: number }
 
@@ -349,7 +351,8 @@ const toolbarStyle = computed(() => ({
 const availableCreateTypes = computed(() => {
   const rawTypes = Array.isArray(props.createTypes)
     ? props.createTypes.filter(
-        (value): value is string => typeof value === 'string' && value.trim().length > 0,
+        (value): value is string =>
+          typeof value === 'string' && value.trim().length > 0,
       )
     : []
 
@@ -386,7 +389,11 @@ const headerCreateFields = computed<AdminCreateField[]>(() =>
             ? (header as Record<string, unknown>).key
             : null
 
-      if (!headerKey || headerKey === 'actions' || shouldExcludeFromCreate(headerKey)) {
+      if (
+        !headerKey ||
+        headerKey === 'actions' ||
+        shouldExcludeFromCreate(headerKey)
+      ) {
         return null
       }
 
@@ -438,7 +445,8 @@ function formatCreateFieldLabel(key: string, index: number): string {
     .replace(/[_-]+/g, ' ')
     .trim()
 
-  const normalized = labelFromKey.length > 0 ? labelFromKey : `Field ${index + 1}`
+  const normalized =
+    labelFromKey.length > 0 ? labelFromKey : `Field ${index + 1}`
 
   return normalized.replace(/^./, (char) => char.toUpperCase())
 }
@@ -834,7 +842,10 @@ function submitCreate(event: Event) {
       @update:page="handleTablePageUpdate"
     >
       <template #loading="slotProps">
-        <tbody v-if="slotProps?.isActive" class="admin-data-table__skeleton-body">
+        <tbody
+          v-if="slotProps?.isActive"
+          class="admin-data-table__skeleton-body"
+        >
           <tr
             v-for="rowIndex in skeletonRowCount"
             :key="`skeleton-row-${rowIndex}`"

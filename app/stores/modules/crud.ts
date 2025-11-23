@@ -1,15 +1,15 @@
 // @ts-nocheck
-import { getField, updateField } from "vuex-map-fields"
-import remove from "lodash/remove"
-import SubmissionError from "../../error/SubmissionError"
-import isEmpty from "lodash/isEmpty"
+import { getField, updateField } from 'vuex-map-fields'
+import remove from 'lodash/remove'
+import SubmissionError from '../../error/SubmissionError'
+import isEmpty from 'lodash/isEmpty'
 
 const initialState = () => ({
   allIds: [],
   byId: {},
   created: null,
   deleted: null,
-  error: "",
+  error: '',
   isLoading: false,
   resetList: false,
   selectItems: null,
@@ -24,50 +24,54 @@ const initialState = () => ({
 })
 
 const handleError = (commit, e) => {
-  console.log("handleError")
+  console.log('handleError')
   commit(ACTIONS.TOGGLE_LOADING)
   console.log(e)
   if (e instanceof SubmissionError) {
-    console.log("SubmissionError")
+    console.log('SubmissionError')
     commit(ACTIONS.SET_VIOLATIONS, e.errors)
-    // eslint-disable-next-line
+
     commit(ACTIONS.SET_ERROR, e.errors._error)
 
     return Promise.reject(e)
   }
 
-  console.log("ACTIONS.SET_ERROR")
-  // eslint-disable-next-line
+  console.log('ACTIONS.SET_ERROR')
+
   commit(ACTIONS.SET_ERROR, e.message)
 
   return Promise.reject(e)
 }
 
 export const ACTIONS = {
-  ADD: "ADD",
-  RESET_CREATE: "RESET_CREATE",
-  RESET_DELETE: "RESET_DELETE",
-  RESET_LIST: "RESET_LIST",
-  RESET_SHOW: "RESET_SHOW",
-  RESET_UPDATE: "RESET_UPDATE",
-  SET_CREATED: "SET_CREATED",
-  SET_DELETED: "SET_DELETED",
-  SET_DELETED_MULTIPLE: "SET_DELETED_MULTIPLE",
-  SET_ERROR: "SET_ERROR",
-  SET_SELECT_ITEMS: "SET_SELECT_ITEMS",
-  SET_TOTAL_ITEMS: "SET_TOTAL_ITEMS",
-  SET_UPDATED: "SET_UPDATED",
-  SET_VIEW: "SET_VIEW",
-  SET_VIOLATIONS: "SET_VIOLATIONS",
-  SET_RECENTS: "SET_RECENTS",
-  TOGGLE_LOADING: "TOGGLE_LOADING",
-  ADD_RESOURCE_NODE: "ADD_RESOURCE_NODE",
-  ADD_COURSE: "ADD_COURSE",
-  ADD_SESSION: "ADD_SESSION",
-  REMOVE_SESSION: "REMOVE_SESSION",
+  ADD: 'ADD',
+  RESET_CREATE: 'RESET_CREATE',
+  RESET_DELETE: 'RESET_DELETE',
+  RESET_LIST: 'RESET_LIST',
+  RESET_SHOW: 'RESET_SHOW',
+  RESET_UPDATE: 'RESET_UPDATE',
+  SET_CREATED: 'SET_CREATED',
+  SET_DELETED: 'SET_DELETED',
+  SET_DELETED_MULTIPLE: 'SET_DELETED_MULTIPLE',
+  SET_ERROR: 'SET_ERROR',
+  SET_SELECT_ITEMS: 'SET_SELECT_ITEMS',
+  SET_TOTAL_ITEMS: 'SET_TOTAL_ITEMS',
+  SET_UPDATED: 'SET_UPDATED',
+  SET_VIEW: 'SET_VIEW',
+  SET_VIOLATIONS: 'SET_VIOLATIONS',
+  SET_RECENTS: 'SET_RECENTS',
+  TOGGLE_LOADING: 'TOGGLE_LOADING',
+  ADD_RESOURCE_NODE: 'ADD_RESOURCE_NODE',
+  ADD_COURSE: 'ADD_COURSE',
+  ADD_SESSION: 'ADD_SESSION',
+  REMOVE_SESSION: 'REMOVE_SESSION',
 }
 
-export default function makeCrudModule({ normalizeRelations = (x) => x, resolveRelations = (x) => x, service } = {}) {
+export default function makeCrudModule({
+  normalizeRelations = (x) => x,
+  resolveRelations = (x) => x,
+  service,
+} = {}) {
   return {
     actions: {
       checkResponse(response) {
@@ -78,8 +82,8 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
         return response
       },
       createWithFormData: ({ commit }, values) => {
-        console.log("createWithFormData")
-        commit(ACTIONS.SET_ERROR, "")
+        console.log('createWithFormData')
+        commit(ACTIONS.SET_ERROR, '')
         commit(ACTIONS.TOGGLE_LOADING)
 
         return (
@@ -100,9 +104,9 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
         )
       },
       create: ({ commit }, values) => {
-        console.log("crud.js create")
+        console.log('crud.js create')
         console.log(values)
-        commit(ACTIONS.SET_ERROR, "")
+        commit(ACTIONS.SET_ERROR, '')
         commit(ACTIONS.TOGGLE_LOADING)
 
         return service
@@ -116,8 +120,8 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
           .catch((e) => handleError(commit, e))
       },
       del: ({ commit }, item) => {
-        console.log("del")
-        commit(ACTIONS.SET_ERROR, "")
+        console.log('del')
+        commit(ACTIONS.SET_ERROR, '')
         commit(ACTIONS.TOGGLE_LOADING)
 
         return service
@@ -143,7 +147,7 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
         })
       },
       findAll: ({ commit, state }, params) => {
-        if (!service) throw new Error("No service specified!")
+        if (!service) throw new Error('No service specified!')
 
         //commit(ACTIONS.TOGGLE_LOADING);
 
@@ -151,15 +155,15 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
           .findAll({ params })
           .then((response) => response.json())
           .then((retrieved) => {
-            console.log("result of retrieved")
+            console.log('result of retrieved')
             //commit(ACTIONS.TOGGLE_LOADING);
 
-            return retrieved["hydra:member"]
+            return retrieved['hydra:member']
           })
           .catch((e) => handleError(commit, e))
       },
       fetchAll: ({ commit, state }, params) => {
-        if (!service) throw new Error("No service specified!")
+        if (!service) throw new Error('No service specified!')
 
         commit(ACTIONS.TOGGLE_LOADING)
 
@@ -167,42 +171,45 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
           .findAll({ params })
           .then((response) => response.json())
           .then((retrieved) => {
-            console.log("result of retrieved")
+            console.log('result of retrieved')
             commit(ACTIONS.TOGGLE_LOADING)
-            commit(ACTIONS.SET_TOTAL_ITEMS, retrieved["hydra:totalItems"])
-            commit(ACTIONS.SET_VIEW, retrieved["hydra:view"])
-            commit(ACTIONS.SET_RECENTS, retrieved["hydra:member"])
+            commit(ACTIONS.SET_TOTAL_ITEMS, retrieved['hydra:totalItems'])
+            commit(ACTIONS.SET_VIEW, retrieved['hydra:view'])
+            commit(ACTIONS.SET_RECENTS, retrieved['hydra:member'])
             if (true === state.resetList) {
               commit(ACTIONS.RESET_LIST)
             }
-            retrieved["hydra:member"].forEach((item) => {
+            retrieved['hydra:member'].forEach((item) => {
               commit(ACTIONS.ADD, normalizeRelations(item))
             })
           })
           .catch((e) => handleError(commit, e))
       },
-      fetchSelectItems: ({ commit }, { params = { properties: ["@id", "name"] } } = {}) => {
-        console.log("fetchSelectItems")
+      fetchSelectItems: (
+        { commit },
+        { params = { properties: ['@id', 'name'] } } = {},
+      ) => {
+        console.log('fetchSelectItems')
         commit(ACTIONS.TOGGLE_LOADING)
-        if (!service) throw new Error("No service specified!")
+        if (!service) throw new Error('No service specified!')
 
         return service
           .findAll({ params })
           .then((response) => response.json())
           .then((retrieved) => {
             commit(ACTIONS.TOGGLE_LOADING)
-            commit(ACTIONS.SET_SELECT_ITEMS, retrieved["hydra:member"])
+            commit(ACTIONS.SET_SELECT_ITEMS, retrieved['hydra:member'])
           })
           .catch((e) => handleError(commit, e))
       },
       loadWithQuery: ({ commit }, params = {}) => {
-        if (!service) throw new Error("No service specified!")
+        if (!service) throw new Error('No service specified!')
 
-        const id = params["id"]
-        delete params["id"]
+        const id = params['id']
+        delete params['id']
 
         if (isEmpty(id)) {
-          throw new Error("Incorrect id")
+          throw new Error('Incorrect id')
         }
 
         commit(ACTIONS.TOGGLE_LOADING)
@@ -221,11 +228,11 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
           .catch((e) => handleError(commit, e))
       },
       load: ({ commit }, id) => {
-        if (!service) throw new Error("No service specified!")
-        console.log("crud load")
+        if (!service) throw new Error('No service specified!')
+        console.log('crud load')
 
         if (isEmpty(id)) {
-          throw new Error("Incorrect id")
+          throw new Error('Incorrect id')
         }
 
         commit(ACTIONS.TOGGLE_LOADING)
@@ -248,10 +255,10 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
         )
       },
       findCourse: ({ commit }, params) => {
-        const id = params["id"]
-        delete params["id"]
-        if (!service) throw new Error("No service specified!")
-        console.log("findCourse")
+        const id = params['id']
+        delete params['id']
+        if (!service) throw new Error('No service specified!')
+        console.log('findCourse')
         commit(ACTIONS.TOGGLE_LOADING)
 
         return service
@@ -274,9 +281,9 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
         commit(ACTIONS.REMOVE_SESSION)
       },
       findSession: ({ commit }, params) => {
-        const id = params["id"]
-        delete params["id"]
-        if (!service) throw new Error("No service specified!")
+        const id = params['id']
+        delete params['id']
+        if (!service) throw new Error('No service specified!')
         commit(ACTIONS.TOGGLE_LOADING)
 
         return service
@@ -296,10 +303,10 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
           .catch((e) => handleError(commit, e))
       },
       findResourceNode: ({ commit }, params) => {
-        const id = params["id"]
-        delete params["id"]
-        console.log("findResourceNode", id)
-        if (!service) throw new Error("No service specified!")
+        const id = params['id']
+        delete params['id']
+        console.log('findResourceNode', id)
+        if (!service) throw new Error('No service specified!')
 
         commit(ACTIONS.TOGGLE_LOADING)
 
@@ -335,7 +342,7 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
         commit(ACTIONS.RESET_UPDATE)
       },
       update: ({ commit }, item) => {
-        console.log("crud update")
+        console.log('crud update')
         commit(ACTIONS.TOGGLE_LOADING)
 
         return service
@@ -348,7 +355,7 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
           .catch((e) => handleError(commit, e))
       },
       updateWithFormData: ({ commit }, item) => {
-        console.log("crud updateWithFormData")
+        console.log('crud updateWithFormData')
         commit(ACTIONS.TOGGLE_LOADING)
 
         return service
@@ -419,19 +426,19 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
       },
       [ACTIONS.ADD]: (state, item) => {
         //this.$set(state.byId, item['@id'], item);
-        state.byId[item["@id"]] = item
+        state.byId[item['@id']] = item
         state.isLoading = false
         //this.$set(state, 'isLoading', false);
-        if (state.allIds.includes(item["@id"])) {
+        if (state.allIds.includes(item['@id'])) {
           return
         }
-        state.allIds.push(item["@id"])
+        state.allIds.push(item['@id'])
       },
       [ACTIONS.SET_RECENTS]: (state, items) => (state.recents = items),
       [ACTIONS.RESET_CREATE]: (state) => {
         Object.assign(state, {
           isLoading: false,
-          error: "",
+          error: '',
           created: null,
           violations: null,
         })
@@ -439,7 +446,7 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
       [ACTIONS.RESET_DELETE]: (state) => {
         Object.assign(state, {
           isLoading: false,
-          error: "",
+          error: '',
           deleted: null,
         })
       },
@@ -447,20 +454,20 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
         Object.assign(state, {
           allIds: [],
           byId: {},
-          error: "",
+          error: '',
           isLoading: false,
           resetList: false,
         })
       },
       [ACTIONS.RESET_SHOW]: (state) => {
         Object.assign(state, {
-          error: "",
+          error: '',
           isLoading: false,
         })
       },
       [ACTIONS.RESET_UPDATE]: (state) => {
         Object.assign(state, {
-          error: "",
+          error: '',
           isLoading: false,
           updated: null,
           violations: null,
@@ -474,24 +481,30 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
       },
       [ACTIONS.SET_DELETED]: (state, deleted) => {
         //console.log('SET_DELETED');
-        if (!state.allIds.includes(deleted["@id"])) {
+        if (!state.allIds.includes(deleted['@id'])) {
           return
         }
         Object.assign(state, {
-          allIds: remove(state.allIds, (item) => item["@id"] === deleted["@id"]),
-          byId: remove(state.byId, (id) => id === deleted["@id"]),
+          allIds: remove(
+            state.allIds,
+            (item) => item['@id'] === deleted['@id'],
+          ),
+          byId: remove(state.byId, (id) => id === deleted['@id']),
           deleted,
         })
       },
       [ACTIONS.SET_DELETED_MULTIPLE]: (state, deleted) => {
-        console.log("SET_DELETED_MULTIPLE")
+        console.log('SET_DELETED_MULTIPLE')
         //console.log(deleted['@id']);
         /*if (!state.allIds.includes(deleted['@id'])) {
           return;
         }*/
         Object.assign(state, {
-          allIds: remove(state.allIds, (item) => item["@id"] === deleted["@id"]),
-          byId: remove(state.byId, (id) => id === deleted["@id"]),
+          allIds: remove(
+            state.allIds,
+            (item) => item['@id'] === deleted['@id'],
+          ),
+          byId: remove(state.byId, (id) => id === deleted['@id']),
           deleted,
         })
       },
@@ -502,7 +515,7 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
       },
       [ACTIONS.SET_SELECT_ITEMS]: (state, selectItems) => {
         Object.assign(state, {
-          error: "",
+          error: '',
           isLoading: false,
           selectItems,
         })
@@ -511,9 +524,9 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
         Object.assign(state, { totalItems })
       },
       [ACTIONS.SET_UPDATED]: (state, updated) => {
-        console.log("SET_UPDATED")
+        console.log('SET_UPDATED')
         console.log(updated)
-        state.byId[updated["@id"]] = updated
+        state.byId[updated['@id']] = updated
         state.isLoading = false
         state.updated = updated
         /*Object.assign(state, {
@@ -530,7 +543,7 @@ export default function makeCrudModule({ normalizeRelations = (x) => x, resolveR
         Object.assign(state, { violations })
       },
       [ACTIONS.TOGGLE_LOADING]: (state) => {
-        Object.assign(state, { error: "", isLoading: !state.isLoading })
+        Object.assign(state, { error: '', isLoading: !state.isLoading })
       },
     },
     namespaced: true,
