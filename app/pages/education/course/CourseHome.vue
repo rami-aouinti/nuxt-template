@@ -236,7 +236,7 @@
 import { computed, onMounted, provide, ref, watch } from 'vue'
 
 import axios from 'axios'
-import { ENTRYPOINT } from '../../config/entrypoint'
+import { ENTRYPOINT } from '~/config/entrypoint'
 import CourseTool from '../../../components/education/course/CourseTool'
 import ShortCutList from '../../../components/education/course/ShortCutList.vue'
 import translateHtml from '../../../js/translatehtml.js'

@@ -14,7 +14,7 @@ import AssignmentsForm from '../../../components/education/assignments/Assignmen
 
 import { ref } from 'vue'
 import axios from 'axios'
-import { ENTRYPOINT } from '../../config/entrypoint'
+import { ENTRYPOINT } from '~/config/entrypoint'
 import { useCidReq } from '~/composables/education/cidReq'
 import { useNotification } from '~/composables/education/notification'
 
