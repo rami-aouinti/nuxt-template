@@ -86,10 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { mapActions, mapGetters } from 'vuex'
-import { mapFields } from 'vuex-map-fields'
 import Loading from '../../../components/education/Loading.vue'
-import ShowMixin from '../../../mixins/ShowMixin'
 import Toolbar from '../../../components/education/Toolbar.vue'
 
 import ShowLinks from '../../../components/education/resource_links/ShowLinks.vue'
@@ -98,46 +95,15 @@ import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
 import { useFormatDate } from '~/composables/education/formatDate'
 import { useSecurityStore } from '~/stores/securityStore'
 import { storeToRefs } from 'pinia'
+import { useShowResource } from '~/composables/education/useShowResource'
 
-const servicePrefix = 'Documents'
+const securityStore = useSecurityStore()
+const { isAuthenticated, isAdmin, isCurrentTeacher } = storeToRefs(securityStore)
 
-export default {
-  name: 'DocumentsShow',
-  components: {
-    BaseIcon,
-    Loading,
-    Toolbar,
-    ShowLinks,
-  },
-  mixins: [ShowMixin],
-  data() {
-    const { relativeDatetime } = useFormatDate()
+const { relativeDatetime } = useFormatDate()
 
-    const securityStore = useSecurityStore()
-
-    const { isAuthenticated, isAdmin, isCurrentTeacher } =
-      storeToRefs(securityStore)
-
-    return {
-      relativeDatetime,
-      isAuthenticated,
-      isAdmin,
-      isCurrentTeacher,
-    }
-  },
-  computed: {
-    ...mapFields('documents', {
-      isLoading: 'isLoading',
-    }),
-    ...mapGetters('documents', ['find']),
-  },
-  methods: {
-    ...mapActions('documents', {
-      deleteItem: 'del',
-      reset: 'resetShow',
-      retrieve: 'loadWithQuery',
-    }),
-  },
-  servicePrefix,
-}
+const { item, isLoading, del, editHandler } = useShowResource({
+  namespace: 'documents',
+  servicePrefix: 'Documents',
+})
 </script>

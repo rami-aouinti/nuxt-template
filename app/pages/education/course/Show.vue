@@ -2,9 +2,7 @@
   <div>
     <Toolbar :handle-delete="del" :handle-list="list">
       <template #left>
-        <v-toolbar-title v-if="item">{{
-          `${$options.servicePrefix} ${item['@id']}`
-        }}</v-toolbar-title>
+        <v-toolbar-title v-if="item">{{ `${servicePrefix} ${item['@id']}` }}</v-toolbar-title>
       </template>
     </Toolbar>
     <br />
@@ -97,34 +95,14 @@
 </template>
 
 <script setup lang="ts">
-import { mapActions, mapGetters } from 'vuex'
-import { mapFields } from 'vuex-map-fields'
 import Loading from '../../../components/education/Loading.vue'
-import ShowMixin from '../../../mixins/ShowMixin'
 import Toolbar from '../../../components/education/Toolbar.vue'
+import { useShowResource } from '~/composables/education/useShowResource'
 
 const servicePrefix = 'Course'
 
-export default {
-  name: 'CourseShow',
+const { item, isLoading, del, editHandler, list } = useShowResource({
+  namespace: 'course',
   servicePrefix,
-  components: {
-    Loading,
-    Toolbar,
-  },
-  mixins: [ShowMixin],
-  computed: {
-    ...mapFields('course', {
-      isLoading: 'isLoading',
-    }),
-    ...mapGetters('course', ['find']),
-  },
-  methods: {
-    ...mapActions('course', {
-      deleteItem: 'del',
-      reset: 'resetShow',
-      retrieve: 'load',
-    }),
-  },
-}
+})
 </script>
