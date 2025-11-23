@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useHead } from '#imports'
-import LegacyView from '~/education/views/ccalendarevent/CCalendarEventCreate.vue'
+import LegacyView from '~~/education/views/ccalendarevent/CCalendarEventCreate.vue'
 
 definePageMeta({
   layout: 'default',
