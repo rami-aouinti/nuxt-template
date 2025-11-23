@@ -127,6 +127,7 @@ export default defineNuxtConfig({
     resolve: {
       alias: {
         i18n: projectRoot,
+        primevue: resolve(__dirname, './app/primevue'),
       },
     },
     build: {
@@ -137,6 +138,7 @@ export default defineNuxtConfig({
   nitro: {
     alias: {
       i18n: projectRoot,
+      primevue: resolve(__dirname, './app/primevue'),
     },
   },
   i18n: {
