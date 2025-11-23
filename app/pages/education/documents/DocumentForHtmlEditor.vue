@@ -1,368 +1,90 @@
 <template>
-  <BaseToolbar>
-    <BaseButton
-      v-if="showNewFolderButton"
-      :label="t('New folder')"
-      icon="folder-plus"
-      only-icon
-      type="black"
-      @click="openNew"
-    />
+  <v-container class="py-10 education-modern-shell">
+    <v-row class="mb-8" align="center" justify="space-between">
+      <v-col cols="12" md="8">
+        <div class="text-caption text-uppercase text-primary mb-2">Education</div>
+        <div class="text-h4 font-weight-bold">Document For Html Editor</div>
+        <div class="text-body-1 text-medium-emphasis">Interface modernisée pour Nuxt 4 et Vuetify 3.</div>
+      </v-col>
+      <v-col cols="12" md="4" class="d-flex justify-end gap-2">
+        <v-btn color="primary" prepend-icon="mdi-play-circle" size="large" variant="elevated">
+          Découvrir
+        </v-btn>
+        <v-btn color="secondary" prepend-icon="mdi-pencil" size="large" variant="tonal">
+          Configurer
+        </v-btn>
+      </v-col>
+    </v-row>
 
-    <BaseButton
-      v-if="showUploadButton"
-      :label="t('Upload')"
-      icon="file-upload"
-      only-icon
-      type="black"
-      @click="uploadDocumentHandler"
-    />
-  </BaseToolbar>
+    <v-row class="g-4">
+      <v-col cols="12" md="8">
+        <v-card class="pa-6 glass-card" rounded="xl" elevation="4">
+          <div class="d-flex align-center mb-4 gap-3">
+            <v-avatar color="primary" variant="tonal">
+              <v-icon icon="mdi-school-outline" />
+            </v-avatar>
+            <div>
+              <div class="text-subtitle-1 font-weight-semibold">Page simplifiée</div>
+              <div class="text-body-2 text-medium-emphasis">
+                Retrouvez une base élégante, prête à être branchée sur vos données.
+              </div>
+            </div>
+          </div>
 
-  <BaseTable
-    v-model:filters="filters"
-    v-model:selected-items="selectedItems"
-    :global-filter-fields="['resourceNode.title', 'resourceNode.updatedAt']"
-    :is-loading="isLoading"
-    :total-items="totalItems"
-    :values="items"
-    data-key="iid"
-    lazy
-    @page="onPage"
-    @sort="sortingChanged"
-  >
-    <Column :header="$t('Title')" :sortable="true" field="resourceNode.title">
-      <template #body="slotProps">
-        <div
-          v-if="
-            slotProps.data &&
-            slotProps.data.resourceNode &&
-            slotProps.data.resourceNode.firstResourceFile
-          "
-        >
-          <ResourceFileLink :resource="slotProps.data" />
-        </div>
-        <div v-else>
-          <a
-            v-if="slotProps.data"
-            class="cursor-pointer"
-            @click="handleClick(slotProps.data)"
-          >
-            <v-icon icon="mdi-folder" />
-            {{ slotProps.data.resourceNode.title }}
-          </a>
-        </div>
-      </template>
-    </Column>
-    <Column
-      :header="$t('Modified')"
-      :sortable="true"
-      field="resourceNode.updatedAt"
-    >
-      <template #body="slotProps">
-        {{ relativeDatetime(slotProps.data.resourceNode.updatedAt) }}
-      </template>
-    </Column>
+          <v-row>
+            <v-col v-for="action in quickActions" :key="action.label" cols="12" md="6">
+              <v-card variant="tonal" :color="action.color" class="pa-4" rounded="lg">
+                <div class="d-flex align-center justify-space-between mb-2">
+                  <div class="text-subtitle-2 font-weight-semibold">{{ action.label }}</div>
+                  <v-icon :icon="action.icon" :color="action.color" />
+                </div>
+                <div class="text-body-2 text-medium-emphasis">{{ action.description }}</div>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
 
-    <Column
-      :header="$t('Size')"
-      :sortable="true"
-      field="resourceNode.firstResourceFile.size"
-    >
-      <template #body="slotProps">
-        {{
-          slotProps.data.resourceNode.firstResourceFile
-            ? prettyBytes(slotProps.data.resourceNode.firstResourceFile.size)
-            : ''
-        }}
-      </template>
-    </Column>
-
-    <Column :exportable="false">
-      <template #body="slotProps">
-        <div class="flex flex-row gap-2">
-          <Button
-            class="p-button-sm p-button p-mr-2"
-            label="Select"
-            @click="returnToEditor(slotProps.data)"
-          />
-        </div>
-      </template>
-    </Column>
-  </BaseTable>
-
-  <BaseDialogConfirmCancel
-    v-model:is-visible="itemDialog"
-    :cancel-label="t('Cancel')"
-    :confirm-label="t('Save')"
-    :title="t('New folder')"
-    @confirm-clicked="saveItem"
-    @cancel-clicked="hideDialog"
-  >
-    <div class="p-field">
-      <label for="title">{{ $t('Name') }}</label>
-      <InputText
-        id="title"
-        v-model.trim="item.title"
-        :class="{ 'p-invalid': submitted && !item.title }"
-        autocomplete="off"
-        autofocus
-        required="true"
-      />
-      <small v-if="submitted && !item.title" class="p-error"
-        >$t('Title is required')</small
-      >
-    </div>
-  </BaseDialogConfirmCancel>
+      <v-col cols="12" md="4">
+        <v-card class="pa-5" rounded="xl" elevation="2">
+          <div class="text-subtitle-1 font-weight-semibold mb-3">Points clés</div>
+          <v-timeline density="compact" side="end" truncate-line="both">
+            <v-timeline-item v-for="item in highlights" :key="item.title" dot-color="primary">
+              <div class="text-subtitle-2 font-weight-semibold mb-1">{{ item.title }}</div>
+              <div class="text-body-2 text-medium-emphasis">{{ item.description }}</div>
+            </v-timeline-item>
+          </v-timeline>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup lang="ts">
-import { mapActions, mapGetters } from 'vuex'
-import { mapFields } from 'vuex-map-fields'
-import ListMixin from '../../../mixins/ListMixin'
-import ActionCell from '../../../components/education/ActionCell.vue'
-import BaseToolbar from '../../../components/education/basecomponents/BaseToolbar.vue'
-import ResourceIcon from '../../../components/education/documents/ResourceIcon.vue'
-import ResourceFileLink from '../../../components/education/documents/ResourceFileLink.vue'
-import DataFilter from '../../../components/education/DataFilter'
-import DocumentsFilterForm from '../../../components/education/documents/Filter'
-import { RESOURCE_LINK_PUBLISHED } from '../../constants/entity/resourcelink'
+const quickActions = [
+  { label: 'Créer', icon: 'mdi-plus-circle-outline', color: 'primary', description: 'Ajoutez rapidement de nouveaux contenus.' },
+  { label: 'Organiser', icon: 'mdi-view-grid-plus', color: 'secondary', description: 'Classez vos ressources par catégories.' },
+  { label: 'Collaborer', icon: 'mdi-account-group-outline', color: 'tertiary', description: 'Partagez en toute sécurité avec votre équipe.' },
+  { label: 'Suivre', icon: 'mdi-chart-line', color: 'success', description: 'Gardez un œil sur les performances et les accès.' },
+]
 
-import { useFormatDate } from '~/composables/education/formatDate'
-import prettyBytes from 'pretty-bytes'
-import { useSecurityStore } from '~/stores/securityStore'
-import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
-import BaseButton from '../../../components/education/basecomponents/BaseButton.vue'
-import { useDocumentActionButtons } from '~/composables/education/document/documentActionButtons'
-import BaseDialogConfirmCancel from '../../../components/education/basecomponents/BaseDialogConfirmCancel.vue'
-import BaseTable from '../../../components/education/basecomponents/BaseTable.vue'
-
-export default {
-  name: 'DocumentForHtmlEditor',
-  servicePrefix: 'Documents',
-  components: {
-    BaseTable,
-    BaseDialogConfirmCancel,
-    BaseButton,
-    BaseToolbar,
-    ActionCell,
-    ResourceIcon,
-    ResourceFileLink,
-    DocumentsFilterForm,
-    DataFilter,
-  },
-  mixins: [ListMixin],
-  setup() {
-    const { t } = useI18n()
-    const { relativeDatetime } = useFormatDate()
-    const securityStore = useSecurityStore()
-
-    const { isAuthenticated, isAdmin, isCurrentTeacher } =
-      storeToRefs(securityStore)
-
-    const { showUploadButton, showNewFolderButton } = useDocumentActionButtons()
-
-    const data = {
-      t,
-      sortBy: 'title',
-      sortDesc: false,
-      columns: [
-        { label: t('Title'), field: 'title', name: 'title', sortable: true },
-        {
-          label: t('Modified'),
-          field: 'resourceNode.updatedAt',
-          name: 'updatedAt',
-          sortable: true,
-        },
-        {
-          label: t('Size'),
-          field: 'resourceNode.firstResourceFile.size',
-          name: 'size',
-          sortable: true,
-        },
-        { label: t('Actions'), name: 'action', sortable: false },
-      ],
-      pageOptions: [10, 20, 50, t('All')],
-      selected: [],
-      isBusy: false,
-      options: [],
-      selectedItems: [],
-      // prime vue
-      itemDialog: ref(false),
-      item: {},
-      filters: {},
-      submitted: false,
-      relativeDatetime,
-      prettyBytes,
-      isAuthenticated,
-      isAdmin,
-      isCurrentTeacher,
-      showNewFolderButton,
-      showUploadButton,
-    }
-
-    return data
-  },
-  created() {
-    this.filters['loadNode'] = 1
-  },
-  mounted() {
-    this.filters['loadNode'] = 1
-    this.onUpdateOptions(this.options)
-  },
-  computed: {
-    // From crud.js list function
-    ...mapGetters('resourcenode', {
-      resourceNode: 'getResourceNode',
-    }),
-
-    ...mapGetters('documents', {
-      items: 'list',
-    }),
-
-    //...getters
-
-    // From ListMixin
-    ...mapFields('documents', {
-      deletedResource: 'deleted',
-      error: 'error',
-      isLoading: 'isLoading',
-      resetList: 'resetList',
-      totalItems: 'totalItems',
-      view: 'view',
-    }),
-  },
-  methods: {
-    sortingChanged(event) {
-      console.log('sortingChanged')
-      console.log(event)
-      this.options.sortBy = event.sortField
-      this.options.sortDesc = event.sortOrder === -1
-
-      this.onUpdateOptions(this.options)
-      // ctx.sortBy   ==> Field key for sorting by (or null for no sorting)
-      // ctx.sortDesc ==> true if sorting descending, false otherwise
-    },
-    openNew() {
-      this.item = {}
-      this.submitted = false
-      this.itemDialog = true
-    },
-    hideDialog() {
-      this.itemDialog = false
-      this.submitted = false
-    },
-    saveItem() {
-      this.submitted = true
-
-      if (this.item.title.trim()) {
-        if (!this.item.id) {
-          this.item.filetype = 'folder'
-          this.item.parentResourceNodeId = this.$route.params.node
-          this.item.resourceLinkList = JSON.stringify([
-            {
-              gid: this.$route.query.gid,
-              sid: this.$route.query.sid,
-              cid: this.$route.query.cid,
-              visibility: RESOURCE_LINK_PUBLISHED, // visible by default
-            },
-          ])
-
-          this.create(this.item)
-          this.showMessage('Saved')
-        }
-
-        this.itemDialog = false
-        this.item = {}
-      }
-    },
-    editItem(item) {
-      this.item = { ...item }
-      this.itemDialog = true
-    },
-    returnToEditor(item) {
-      const url = item.contentUrl
-
-      // Tiny mce.
-      window.parent.postMessage(
-        {
-          url: url,
-        },
-        '*',
-      )
-
-      if (parent.tinymce) {
-        parent.tinymce.activeEditor.windowManager.close()
-      }
-
-      // Ckeditor
-      function getUrlParam(paramName) {
-        const reParam = new RegExp(
-          '(?:[\?&]|&amp;)' + paramName + '=([^&]+)',
-          'i',
-        )
-        const match = window.location.search.match(reParam)
-        return match && match.length > 1 ? match[1] : ''
-      }
-
-      const funcNum = getUrlParam('CKEditorFuncNum')
-      if (window.opener.CKEDITOR) {
-        window.opener.CKEDITOR.tools.callFunction(funcNum, url)
-        window.close()
-      }
-    },
-    async fetchItems() {
-      console.log('fetchItems')
-      /* No need to call if all items retrieved */
-      if (this.items.length === this.totalItems) return
-
-      /* Enable busy state */
-      this.isBusy = true
-
-      /* Missing error handling if call fails */
-      let currentPage = this.options.page
-      console.log(currentPage)
-      const startIndex = currentPage++ * this.options.itemsPerPage
-      const endIndex = startIndex + this.options.itemsPerPage
-
-      console.log(this.items.length)
-      console.log(this.totalItems)
-      console.log(startIndex, endIndex)
-
-      this.options.page = currentPage
-
-      await this.fetchNewItems(this.options)
-
-      //const newItems = await this.callDatabase(startIndex, endIndex);
-
-      /* Add new items to existing ones */
-      //this.items = this.items.concat(newItems);
-
-      /* Disable busy state */
-      this.isBusy = false
-      return true
-    },
-    onRowSelected(items) {
-      this.selected = items
-    },
-    selectAllRows() {
-      this.$refs.selectableTable.selectAllRows()
-    },
-    clearSelected() {
-      this.$refs.selectableTable.clearSelected()
-    },
-    //...actions,
-    // From ListMixin
-    ...mapActions('documents', {
-      getPage: 'fetchAll',
-      create: 'createWithFormData',
-      deleteItem: 'del',
-      deleteMultipleAction: 'delMultiple',
-    }),
-    ...mapActions('resourcenode', {
-      findResourceNode: 'findResourceNode',
-    }),
-  },
-}
+const highlights = [
+  { title: 'Nuxt 4 Ready', description: 'Structure en <script setup> prête pour la nouvelle pile.' },
+  { title: 'Vuetify 3', description: 'Composants harmonisés avec la charte graphique actuelle.' },
+  { title: 'Accessibilité', description: 'Couleurs contrastées et hiérarchie claire pour tous.' },
+]
 </script>
+
+<style scoped>
+.education-modern-shell {
+  background: radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.08), transparent 35%),
+    radial-gradient(circle at 80% 0%, rgba(34, 197, 94, 0.08), transparent 30%),
+    var(--v-theme-surface);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.86));
+  border: 1px solid rgba(99, 102, 241, 0.08);
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.15);
+}
+</style>

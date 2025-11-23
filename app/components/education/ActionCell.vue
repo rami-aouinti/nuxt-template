@@ -1,67 +1,77 @@
 <template>
-  <!--  auto-width-->
-  <v-td slot="body-cell-action">
-    <div class="p-4 flex flex-row gap-1">
-      <v-btn
-        v-if="handleShow"
-        color="secondary"
-        dense
-        label="Show"
-        no-caps
-        @click="handleShow"
-      />
-      <v-btn
-        v-if="handleEdit"
-        color="secondary"
-        dense
-        label="Edit"
-        no-caps
-        @click="handleEdit"
-      />
-      <v-btn
-        v-if="handleDelete"
-        color="red"
-        dense
-        label="Delete"
-        no-caps
-        @click="confirmDeleteClick = true"
-      />
-      <ConfirmDelete
-        v-if="handleDelete"
-        :handle-cancel="() => (confirmDeleteClick = false)"
-        :handle-delete="handleDelete"
-        :show="confirmDeleteClick"
-      />
-    </div>
-  </v-td>
+  <div class="d-flex align-center gap-2">
+    <v-tooltip v-if="handleShow" text="{{ $t('Show') }}">
+      <template #activator="{ props: tooltipProps }">
+        <v-btn
+          v-bind="tooltipProps"
+          color="secondary"
+          density="comfortable"
+          icon="mdi-eye"
+          size="small"
+          variant="tonal"
+          @click="handleShow"
+        />
+      </template>
+    </v-tooltip>
+
+    <v-tooltip v-if="handleEdit" text="{{ $t('Edit') }}">
+      <template #activator="{ props: tooltipProps }">
+        <v-btn
+          v-bind="tooltipProps"
+          color="primary"
+          density="comfortable"
+          icon="mdi-pencil"
+          size="small"
+          variant="tonal"
+          @click="handleEdit"
+        />
+      </template>
+    </v-tooltip>
+
+    <v-tooltip v-if="handleDelete" text="{{ $t('Delete') }}">
+      <template #activator="{ props: tooltipProps }">
+        <v-btn
+          v-bind="tooltipProps"
+          color="error"
+          density="comfortable"
+          icon="mdi-delete"
+          size="small"
+          variant="tonal"
+          @click="confirmDeleteClick = true"
+        />
+      </template>
+    </v-tooltip>
+
+    <ConfirmDelete
+      v-if="handleDelete"
+      :handle-cancel="closeDialog"
+      :handle-delete="onDelete"
+      :show="confirmDeleteClick"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+
 import ConfirmDelete from './ConfirmDelete.vue'
 
-export default {
-  name: 'ActionCell',
-  components: {
-    ConfirmDelete,
-  },
-  props: {
-    handleShow: {
-      type: Function,
-      required: false,
-    },
-    handleEdit: {
-      type: Function,
-      required: false,
-    },
-    handleDelete: {
-      type: Function,
-      required: false,
-    },
-  },
-  data() {
-    return {
-      confirmDeleteClick: false,
-    }
-  },
+const props = defineProps<{
+  handleShow?: () => void
+  handleEdit?: () => void
+  handleDelete?: () => void
+}>()
+
+const confirmDeleteClick = ref(false)
+
+const closeDialog = () => {
+  confirmDeleteClick.value = false
 }
+
+const onDelete = () => {
+  props.handleDelete?.()
+  closeDialog()
+}
+
+const { handleShow, handleEdit } = props
 </script>

@@ -49,4 +49,4 @@ import 'tinymce/plugins/visualchars'
 import 'tinymce/plugins/wordcount'
 import '../../../public/libs/editor/tinymce_plugins/translatehtml'
 
-export default Editor
+export { Editor }

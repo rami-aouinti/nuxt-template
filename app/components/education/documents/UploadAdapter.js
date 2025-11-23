@@ -3,7 +3,7 @@ import { ENTRYPOINT } from '~/config/entrypoint.js'
 // From
 // https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/upload-adapter.html
 
-export default class MyUploadAdapter {
+class MyUploadAdapter {
   constructor(loader) {
     // The file loader instance to use during the upload.
     this.loader = loader
@@ -109,3 +109,5 @@ export default class MyUploadAdapter {
     this.xhr.send(data)
   }
 }
+
+export { MyUploadAdapter }

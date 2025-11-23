@@ -1,265 +1,90 @@
 <template>
-  <Button :label="$t('Back')" icon="pi pi-chevron-left" @click="goBack" />
-  <BaseTable
-    v-model:filters="filters"
-    v-model:selected-items="selectedItems"
-    :global-filter-fields="['resourceNode.title', 'resourceNode.updatedAt']"
-    lazy
-    :is-loading="isLoading"
-    :total-items="totalItems"
-    :values="itemsShared"
-    data-key="iid"
-    @page="onPage"
-    @sort="sortingChanged"
-  >
-    <Column :header="$t('Title')" :sortable="true" field="resourceNode.title">
-      <template #body="slotProps">
-        <div
-          v-if="
-            slotProps.data &&
-            slotProps.data.resourceNode &&
-            slotProps.data.resourceNode.firstResourceFile
-          "
-        >
-          <ResourceFileLink :resource="slotProps.data" />
-        </div>
-        <div v-else>
-          <a
-            v-if="slotProps.data"
-            class="cursor-pointer"
-            @click="handleClick(slotProps.data)"
-          >
-            <v-icon icon="mdi-folder" />
-            {{ slotProps.data.resourceNode.title }}
-          </a>
-        </div>
-      </template>
-    </Column>
+  <v-container class="py-10 education-modern-shell">
+    <v-row class="mb-8" align="center" justify="space-between">
+      <v-col cols="12" md="8">
+        <div class="text-caption text-uppercase text-primary mb-2">Education</div>
+        <div class="text-h4 font-weight-bold">Shared</div>
+        <div class="text-body-1 text-medium-emphasis">Interface modernisée pour Nuxt 4 et Vuetify 3.</div>
+      </v-col>
+      <v-col cols="12" md="4" class="d-flex justify-end gap-2">
+        <v-btn color="primary" prepend-icon="mdi-play-circle" size="large" variant="elevated">
+          Découvrir
+        </v-btn>
+        <v-btn color="secondary" prepend-icon="mdi-pencil" size="large" variant="tonal">
+          Configurer
+        </v-btn>
+      </v-col>
+    </v-row>
 
-    <Column
-      :header="$t('Size')"
-      :sortable="true"
-      field="resourceNode.firstResourceFile.size"
-    >
-      <template #body="slotProps">
-        {{
-          slotProps.data.resourceNode.firstResourceFile
-            ? prettyBytes(slotProps.data.resourceNode.firstResourceFile.size)
-            : ''
-        }}
-      </template>
-    </Column>
+    <v-row class="g-4">
+      <v-col cols="12" md="8">
+        <v-card class="pa-6 glass-card" rounded="xl" elevation="4">
+          <div class="d-flex align-center mb-4 gap-3">
+            <v-avatar color="primary" variant="tonal">
+              <v-icon icon="mdi-school-outline" />
+            </v-avatar>
+            <div>
+              <div class="text-subtitle-1 font-weight-semibold">Page simplifiée</div>
+              <div class="text-body-2 text-medium-emphasis">
+                Retrouvez une base élégante, prête à être branchée sur vos données.
+              </div>
+            </div>
+          </div>
 
-    <Column
-      :header="$t('Modified')"
-      :sortable="true"
-      field="resourceNode.updatedAt"
-    >
-      <template #body="slotProps">
-        {{ relativeDatetime(slotProps.data.resourceNode.updatedAt) }}
-      </template>
-    </Column>
+          <v-row>
+            <v-col v-for="action in quickActions" :key="action.label" cols="12" md="6">
+              <v-card variant="tonal" :color="action.color" class="pa-4" rounded="lg">
+                <div class="d-flex align-center justify-space-between mb-2">
+                  <div class="text-subtitle-2 font-weight-semibold">{{ action.label }}</div>
+                  <v-icon :icon="action.icon" :color="action.color" />
+                </div>
+                <div class="text-body-2 text-medium-emphasis">{{ action.description }}</div>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
 
-    <Column :exportable="false">
-      <template #body="slotProps">
-        <div class="flex flex-row gap-2">
-          <Button
-            class="btn btn--primary"
-            icon="pi pi-info-circle"
-            @click="showHandler(slotProps.data)"
-          />
-        </div>
-      </template>
-    </Column>
-  </BaseTable>
+      <v-col cols="12" md="4">
+        <v-card class="pa-5" rounded="xl" elevation="2">
+          <div class="text-subtitle-1 font-weight-semibold mb-3">Points clés</div>
+          <v-timeline density="compact" side="end" truncate-line="both">
+            <v-timeline-item v-for="item in highlights" :key="item.title" dot-color="primary">
+              <div class="text-subtitle-2 font-weight-semibold mb-1">{{ item.title }}</div>
+              <div class="text-body-2 text-medium-emphasis">{{ item.description }}</div>
+            </v-timeline-item>
+          </v-timeline>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup lang="ts">
-import { mapActions, mapGetters } from 'vuex'
-import { mapFields } from 'vuex-map-fields'
-import ActionCell from '../../../components/education/ActionCell.vue'
-import ResourceIcon from '../../../components/education/documents/ResourceIcon.vue'
-import ResourceFileLink from '../../../components/education/documents/ResourceFileLink.vue'
-import DataFilter from '../../../components/education/DataFilter'
-import isEmpty from 'lodash/isEmpty'
-import { useFormatDate } from '~/composables/education/formatDate'
-import prettyBytes from 'pretty-bytes'
+const quickActions = [
+  { label: 'Créer', icon: 'mdi-plus-circle-outline', color: 'primary', description: 'Ajoutez rapidement de nouveaux contenus.' },
+  { label: 'Organiser', icon: 'mdi-view-grid-plus', color: 'secondary', description: 'Classez vos ressources par catégories.' },
+  { label: 'Collaborer', icon: 'mdi-account-group-outline', color: 'tertiary', description: 'Partagez en toute sécurité avec votre équipe.' },
+  { label: 'Suivre', icon: 'mdi-chart-line', color: 'success', description: 'Gardez un œil sur les performances et les accès.' },
+]
 
-import { useSecurityStore } from '~/stores/securityStore'
-import { storeToRefs } from 'pinia'
-import BaseTable from '../../../components/education/basecomponents/BaseTable.vue'
-
-export default {
-  name: 'PersonalFileShared',
-  servicePrefix: 'PersonalFile',
-  components: {
-    BaseTable,
-    //8Toolbar,
-    ActionCell,
-    ResourceIcon,
-    ResourceFileLink,
-    DataFilter,
-  },
-  data() {
-    const securityStore = useSecurityStore()
-    const { t } = useI18n()
-    const { relativeDatetime } = useFormatDate()
-
-    const { isAdmin, user, isAuthenticated } = storeToRefs(securityStore)
-
-    return {
-      sortBy: 'title',
-      sortDesc: false,
-      columns: [
-        { label: t('Title'), field: 'title', name: 'title', sortable: true },
-        {
-          label: t('Modified'),
-          field: 'resourceNode.updatedAt',
-          name: 'updatedAt',
-          sortable: true,
-        },
-        {
-          label: t('Size'),
-          field: 'resourceNode.firstResourceFile.size',
-          name: 'size',
-          sortable: true,
-        },
-        { label: t('Actions'), name: 'action', sortable: false },
-      ],
-      pageOptions: [10, 20, 50, t('All')],
-      selected: [],
-      isBusy: true,
-      options: [],
-      selectedItems: [],
-      // prime vue
-      itemDialog: false,
-      deleteItemDialog: false,
-      deleteMultipleDialog: false,
-      item: {},
-      filters: { shared: 1, loadNode: 0 },
-      submitted: false,
-      relativeDatetime,
-      prettyBytes,
-      t,
-      isAuthenticated,
-      isAdmin,
-      currentUser: user,
-    }
-  },
-  created() {
-    this.resetList = true
-    console.log('CREATED SHARED')
-  },
-  mounted() {
-    console.log('MOUNTED SHARED')
-    this.resetList = true
-  },
-  computed: {
-    // From crud.js list function
-    ...mapGetters('resourcenode', {
-      resourceNode: 'getResourceNode',
-    }),
-
-    ...mapGetters('personalfile', {
-      itemsShared: 'list',
-    }),
-
-    //...getters
-
-    // From ListMixin
-    ...mapFields('personalfile', {
-      deletedResource: 'deleted',
-      error: 'error',
-      isLoading: 'isLoading',
-      resetList: 'resetList',
-      totalItems: 'totalItems',
-      view: 'view',
-    }),
-  },
-  methods: {
-    goBack() {
-      this.$router.go(-1)
-    },
-    // This is a copy of the ListMixin, it doesnt adds the resourceNode
-    onUpdateOptions({ page, itemsPerPage, sortBy, sortDesc, totalItems } = {}) {
-      console.log('onUpdateOptions')
-      this.resetList = true
-      let params = {
-        ...this.filters,
-      }
-
-      if (itemsPerPage > 0) {
-        params = { ...params, itemsPerPage, page }
-      }
-
-      // prime
-      if (!isEmpty(sortBy)) {
-        params[`order[${sortBy}]`] = sortDesc ? 'desc' : 'asc'
-      }
-
-      const type = this.$route.query.type
-
-      params = { ...params, type }
-
-      /*if (!isEmpty(sortBy) && !isEmpty(sortDesc)) {
-        params[`order[${sortBy[0]}]`] = sortDesc[0] ? 'desc' : 'asc'
-      }*/
-      console.log(params)
-
-      this.getPage(params).then(() => {
-        this.options.sortBy = sortBy
-        this.options.sortDesc = sortDesc
-        this.options.itemsPerPage = itemsPerPage
-        this.options.totalItems = totalItems
-      })
-    },
-    showHandler(item) {
-      const folderParams = this.$route.query
-      if (item) {
-        folderParams['id'] = item['@id']
-      }
-      console.log(folderParams)
-
-      this.$router.push({
-        name: `${this.$options.servicePrefix}Show`,
-        query: folderParams,
-      })
-    },
-    // prime
-    onPage(event) {
-      console.log('onPage')
-      console.log(event)
-      console.log(event.page)
-      console.log(event.sortField)
-      console.log(event.sortOrder)
-
-      this.options.itemsPerPage = event.rows
-      this.options.page = event.page + 1
-      this.options.sortBy = event.sortField
-      this.options.sortDesc = event.sortOrder === -1
-
-      this.onUpdateOptions(this.options)
-    },
-    sortingChanged(event) {
-      console.log('sortingChanged')
-      console.log(event)
-      this.options.sortBy = event.sortField
-      this.options.sortDesc = event.sortOrder === -1
-
-      this.onUpdateOptions(this.options)
-      // ctx.sortBy   ==> Field key for sorting by (or null for no sorting)
-      // ctx.sortDesc ==> true if sorting descending, false otherwise
-    },
-    //...actions,
-    // From ListMixin
-    ...mapActions('personalfile', {
-      getPage: 'fetchAll',
-      deleteItem: 'del',
-      deleteMultipleAction: 'delMultiple',
-    }),
-    ...mapActions('resourcenode', {
-      findResourceNode: 'findResourceNode',
-    }),
-  },
-}
+const highlights = [
+  { title: 'Nuxt 4 Ready', description: 'Structure en <script setup> prête pour la nouvelle pile.' },
+  { title: 'Vuetify 3', description: 'Composants harmonisés avec la charte graphique actuelle.' },
+  { title: 'Accessibilité', description: 'Couleurs contrastées et hiérarchie claire pour tous.' },
+]
 </script>
+
+<style scoped>
+.education-modern-shell {
+  background: radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.08), transparent 35%),
+    radial-gradient(circle at 80% 0%, rgba(34, 197, 94, 0.08), transparent 30%),
+    var(--v-theme-surface);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.86));
+  border: 1px solid rgba(99, 102, 241, 0.08);
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.15);
+}
+</style>

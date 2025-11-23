@@ -1,80 +1,43 @@
 <template>
-  <span>
-    <v-btn v-b-toggle.collapse-1 variant="primary">
-      <v-icon icon="mdi-magnify" />
-
+  <div class="data-filter">
+    <v-btn color="primary" prepend-icon="mdi-filter-variant" @click="toggleFilters">
       {{ $t('Search') }}
     </v-btn>
-    <!--    <b-collapse-->
-    <!--      id="collapse-1"-->
-    <!--      class="mt-2"-->
-    <!--    >-->
-    <v-card>
-      <p class="card-text">
+
+    <v-expand-transition>
+      <v-card
+        v-if="filtersExpanded"
+        class="mt-3 pa-4 rounded-lg"
+        color="primary"
+        variant="tonal"
+      >
+        <div class="text-body-2 text-medium-emphasis mb-3">
+          {{ $t('Affinez votre recherche avec des filtres modernes.') }}
+        </div>
         <slot name="filter" />
-        <br />
-        <v-btn variant="primary" @click="handleFilter">
-          {{ $t('Filter') }}
-        </v-btn>
-        <v-btn class="ml-2" text variant="secondary" @click="handleReset">
-          {{ $t('Reset') }}
-        </v-btn>
-      </p>
-    </v-card>
-    <!--    </b-collapse>-->
-
-    <!--    <v-expansion-panels v-model="filtersExpanded">-->
-    <!--      <v-expansion-panel>-->
-    <!--        <v-expansion-panel-header>-->
-    <!--          {{ $t('Filters') }}-->
-
-    <!--          <template slot="actions">-->
-    <!--            <v-icon large>-->
-    <!--              mdi-filter-variant-->
-    <!--            </v-icon>-->
-    <!--          </template>-->
-    <!--        </v-expansion-panel-header>-->
-
-    <!--        <v-expansion-panel-content>-->
-    <!--          <slot name="filter" />-->
-
-    <!--          <b-button-->
-    <!--            variant="primary"-->
-    <!--            @click="handleFilter"-->
-    <!--          >-->
-    <!--            {{ $t('Filter') }}-->
-    <!--          </b-button>-->
-    <!--          <b-button-->
-    <!--            variant="secondary"-->
-    <!--            class="ml-2"-->
-    <!--            text-->
-    <!--            @click="handleReset"-->
-    <!--          >-->
-    <!--            {{ $t('Reset') }}-->
-    <!--          </b-button>-->
-    <!--        </v-expansion-panel-content>-->
-    <!--      </v-expansion-panel>-->
-    <!--    </v-expansion-panels>-->
-  </span>
+        <div class="d-flex align-center gap-2 mt-4">
+          <v-btn color="primary" variant="elevated" @click="handleFilter">
+            {{ $t('Filter') }}
+          </v-btn>
+          <v-btn color="secondary" variant="tonal" @click="handleReset">
+            {{ $t('Reset') }}
+          </v-btn>
+        </div>
+      </v-card>
+    </v-expand-transition>
+  </div>
 </template>
 
 <script setup lang="ts">
-export default {
-  name: 'DataFilter',
-  props: {
-    handleReset: {
-      type: Function,
-      required: true,
-    },
-    handleFilter: {
-      type: Function,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      filtersExpanded: false,
-    }
-  },
+import { ref } from 'vue'
+
+const props = defineProps<{ handleReset: () => void; handleFilter: () => void }>()
+
+const filtersExpanded = ref(false)
+
+const toggleFilters = () => {
+  filtersExpanded.value = !filtersExpanded.value
 }
+
+const { handleFilter, handleReset } = props
 </script>
