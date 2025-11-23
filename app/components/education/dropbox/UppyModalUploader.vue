@@ -19,8 +19,8 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import Uppy from '@uppy/core'
 import { DashboardModal } from '@uppy/vue'
-import '@uppy/core/dist/style.css'
-import '@uppy/dashboard/dist/style.css'
+import '@uppy/core/css/style.css'
+import '@uppy/dashboard/css/style.css'
 
 const props = defineProps({
   visible: { type: Boolean, default: false },

@@ -180,8 +180,8 @@ import { useRoute, useRouter } from 'vue-router'
 
 import Uppy from '@uppy/core'
 import { Dashboard } from '@uppy/vue'
-import '@uppy/core/dist/style.css'
-import '@uppy/dashboard/dist/style.css'
+import '@uppy/core/css/style.css'
+import '@uppy/dashboard/css/style.css'
 
 import BaseSelect from '../../../components/education/basecomponents/BaseSelect.vue'
 import BaseInputText from '../../../components/education/basecomponents/BaseInputText.vue'

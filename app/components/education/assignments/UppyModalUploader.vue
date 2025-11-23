@@ -27,8 +27,8 @@ import Dialog from 'primevue/dialog'
 import { useNotification } from '~/composables/notification.js'
 import { ENTRYPOINT } from '~/config/entrypoint.js'
 import axios from 'axios'
-import '@uppy/core/dist/style.css'
-import '@uppy/dashboard/dist/style.css'
+import '@uppy/core/css/style.css'
+import '@uppy/dashboard/css/style.css'
 
 const props = defineProps({
   parentResourceNodeId: {

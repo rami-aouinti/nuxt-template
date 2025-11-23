@@ -16,10 +16,10 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import '@uppy/core/dist/style.css'
-import '@uppy/dashboard/dist/style.css'
-import '@uppy/image-editor/dist/style.css'
-import '@uppy/webcam/dist/style.css'
+import '@uppy/core/css/style.css'
+import '@uppy/dashboard/css/style.css'
+import '@uppy/image-editor/css/style.css'
+import '@uppy/webcam/css/style.css'
 import Uppy from '@uppy/core'
 import { Dashboard } from '@uppy/vue'
 

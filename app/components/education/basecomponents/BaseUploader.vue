@@ -14,11 +14,11 @@ import it_IT from '@uppy/locales/lib/it_IT'
 import pl_PL from '@uppy/locales/lib/pl_PL'
 import pt_PT from '@uppy/locales/lib/pt_PT'
 
-import '@uppy/core/dist/style.css'
-import '@uppy/dashboard/dist/style.css'
-import '@uppy/image-editor/dist/style.css'
-import '@uppy/webcam/dist/style.css'
-import '@uppy/audio/dist/style.css'
+import '@uppy/core/css/style.css'
+import '@uppy/dashboard/css/style.css'
+import '@uppy/image-editor/css/style.css'
+import '@uppy/webcam/css/style.css'
+import '@uppy/audio/css/style.css'
 import { useLocale } from '~/composables/locale.js'
 
 const { appLocale } = useLocale()
