@@ -17,7 +17,7 @@ import MessageForm from '../../../components/education/message/Form.vue'
 import Loading from '../../../components/education/Loading.vue'
 import isEmpty from 'lodash/isEmpty'
 import { useRoute, useRouter } from 'vue-router'
-import { MESSAGE_TYPE_INBOX } from '../../constants/entity/message'
+import { MESSAGE_TYPE_INBOX } from '../../../constants/entity/message'
 
 import { useSecurityStore } from '~/stores/securityStore'
 import { useNotification } from '~/composables/education/notification'
