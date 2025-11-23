@@ -1,319 +1,189 @@
 <template>
-  <BaseTable
-    v-if="securityStore.isAdmin"
-    v-model:filters="filters"
-    v-model:selected-items="selectedItems"
-    :is-loading="isLoading"
-    :rows="options.itemsPerPage"
-    :total-items="totalItems"
-    :values="items"
-    data-key="@id"
-    lazy
-    @page="onPage"
-    @sort="sortingChanged"
-  >
-    <Column :exportable="false" selection-mode="multiple" />
-    <Column :header="t('Title')" :sortable="true" field="title">
-      <template #body="slotProps">
-        <a
-          v-if="slotProps.data"
-          class="cursor-pointer"
-          @click="onShowItem(slotProps.data)"
-        >
-          {{ slotProps.data.title }}
-        </a>
-      </template>
-    </Column>
+  <div class="page-list">
+    <Toolbar :handle-add="addHandler" />
 
-    <Column :header="t('Language')" field="locale">
-      <template #body="{ data }">
-        {{ ensureLanguageName(data?.locale) }}
-      </template>
-    </Column>
-    <Column :header="t('Category')" field="category.title" />
-    <Column :header="t('Enabled')" field="enabled">
-      <template #body="slotProps">
-        <span v-if="slotProps.data.enabled" v-t="'Yes'" />
-        <span v-else v-t="'No'" />
-      </template>
-    </Column>
+    <v-container fluid>
+      <v-row>
+        <v-col cols="12">
+          <v-card class="pa-4" elevation="1">
+            <v-data-table-server
+              v-model:selected="selected"
+              v-model:items-per-page="options.itemsPerPage"
+              v-model:page="options.page"
+              :headers="headers"
+              :items="tableItems"
+              :items-length="totalItems"
+              :loading="isLoading"
+              :loading-text="t('Loading')"
+              class="elevation-1"
+              item-value="@id"
+              show-select
+              @update:options="handleUpdateOptions"
+            >
+              <template #item.title="{ value }">
+                <div class="text-body-1 font-weight-medium">{{ value }}</div>
+              </template>
 
-    <Column :exportable="false">
-      <template #body="slotProps">
-        <div class="text-right space-x-2">
-          <Button
-            v-if="securityStore.isAuthenticated"
-            class="p-button-icon-only p-button-plain p-button-outlined p-button-sm"
-            icon="mdi mdi-pencil"
-            @click="goToEditItem(slotProps.data)"
-          />
-          <Button
-            v-if="securityStore.isAuthenticated"
-            class="p-button-icon-only p-button-danger p-button-outlined p-button-sm"
-            icon="mdi mdi-delete"
-            @click="confirmDeleteItem(slotProps.data)"
-          />
-          <Button
-            v-if="slotProps.data.enabled && slotProps.data.slug"
-            class="p-button-icon-only p-button-plain p-button-outlined p-button-sm"
-            icon="mdi mdi-link-variant"
-            :title="t('Show public link')"
-            @click="showPublicLinkDialog(slotProps.data)"
-          />
-        </div>
-      </template>
-    </Column>
-  </BaseTable>
+              <template #item.localeLabel="{ value }">
+                <v-chip color="primary" size="small" variant="tonal">
+                  {{ value }}
+                </v-chip>
+              </template>
 
-  <Dialog
-    v-model:visible="itemDialog"
-    :header="t('New folder')"
-    :modal="true"
-    :style="{ width: '450px' }"
-    class="p-fluid"
-  >
-    <div class="field">
-      <div class="p-float-label">
-        <InputText
-          id="title"
-          v-model.trim="item.title"
-          :class="{ 'p-invalid': submitted && !item.title }"
-          autocomplete="off"
-          autofocus
-          required="true"
-        />
-        <label v-t="'Name'" for="title" />
-      </div>
-      <small
-        v-if="submitted && !item.title"
-        v-t="'Title is required'"
-        class="p-error"
-      />
-    </div>
+              <template #item.enabled="{ value }">
+                <v-chip
+                  :color="value ? 'success' : 'error'"
+                  size="small"
+                  variant="flat"
+                  class="text-uppercase"
+                >
+                  {{ value ? t('Yes') : t('No') }}
+                </v-chip>
+              </template>
 
-    <template #footer>
-      <Button
-        v-if="securityStore.isAuthenticated"
-        class="p-button-icon-only p-button-plain p-button-outlined p-button-sm"
-        icon="mdi mdi-pencil"
-        @click="goToEditItem(slotProps.data)"
-      />
+              <template #item.action="{ item }">
+                <ActionCell
+                  :handle-delete="() => deleteHandler(item.raw)"
+                  :handle-edit="() => editHandler(item.raw)"
+                  :handle-show="() => showHandler(item.raw)"
+                />
+              </template>
+            </v-data-table-server>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
 
-      <Button
-        v-if="securityStore.isAuthenticated"
-        class="p-button-icon-only p-button-danger p-button-outlined p-button-sm"
-        icon="mdi mdi-delete"
-        @click="confirmDeleteItem(slotProps.data)"
-      />
-    </template>
-  </Dialog>
-
-  <Dialog
-    v-model:visible="deleteItemDialog"
-    :modal="true"
-    :style="{ width: '450px' }"
-    header="Confirm"
-  >
-    <div class="confirmation-content">
-      <i class="pi pi-exclamation-triangle p-mr-3" style="font-size: 2rem" />
-      <span v-if="item"
-        >Are you sure you want to delete <b>{{ item.title }}</b
-        >?</span
-      >
-    </div>
-    <template #footer>
-      <Button
-        :label="t('No')"
-        class="p-button-outlined p-button-plain"
-        icon="pi pi-times"
-        @click="deleteItemDialog = false"
-      />
-      <Button
-        :label="t('Yes')"
-        class="p-button-secondary"
-        icon="pi pi-check"
-        @click="btnCofirmSingleDeleteOnClick"
-      />
-    </template>
-  </Dialog>
-
-  <Dialog
-    v-model:visible="deleteMultipleDialog"
-    :modal="true"
-    :style="{ width: '450px' }"
-    header="Confirm"
-  >
-    <div class="confirmation-content">
-      <i class="pi pi-exclamation-triangle p-mr-3" style="font-size: 2rem" />
-      <span
-        v-if="item"
-        v-t="'Are you sure you want to delete the selected items?'"
-      />
-    </div>
-    <template #footer>
-      <Button
-        class="p-button-text"
-        icon="pi pi-times"
-        label="No"
-        @click="deleteMultipleDialog = false"
-      />
-      <Button
-        class="p-button-text"
-        icon="pi pi-check"
-        label="Yes"
-        @click="deleteMultipleItems"
-      />
-    </template>
-  </Dialog>
-
-  <Dialog
-    v-model:visible="publicLinkDialogVisible"
-    :header="t('Public link')"
-    :modal="true"
-    :style="{ width: '500px' }"
-  >
-    <div class="text-center">
-      <p class="text-sm mb-2">{{ t('You can share or copy this link:') }}</p>
-      <InputText
-        v-model="publicLink"
-        readonly
-        class="w-full mb-3 cursor-pointer"
-        @focus="$event.target.select()"
-      />
-      <p class="text-xs text-gray-500 italic">
-        {{ t('Select the link above and press Ctrl+C to copy it') }}
-      </p>
-    </div>
-  </Dialog>
+    <ConfirmDelete
+      :show="showConfirmDialog"
+      :handle-delete="confirmDelete"
+      :handle-cancel="cancelDelete"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
+import { computed, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
+
+import ConfirmDelete from '../../../components/education/ConfirmDelete.vue'
+import ActionCell from '../../../components/education/ActionCell.vue'
+import Toolbar from '../../../components/education/Toolbar.vue'
 import { useDatatableList } from '~/composables/education/datatableList'
-import { computed, inject, onMounted, reactive, ref } from 'vue'
-
-import { useToast } from 'primevue/usetoast'
-import { useSecurityStore } from '~/stores/securityStore'
-
 import { useLocale } from '~/composables/education/locale'
-import BaseTable from '../../../components/education/basecomponents/BaseTable.vue'
-
-const router = useRouter()
-const store = useStore()
-const securityStore = useSecurityStore()
 
 const { t } = useI18n()
+const store = useStore()
+const route = useRoute()
 
-const {
-  filters,
-  options,
-  onUpdateOptions,
-  onShowItem,
-  goToEditItem,
-  deleteItem,
-} = useDatatableList('Page')
+const { onUpdateOptions, goToAddItem, goToEditItem, onShowItem, deleteItem, options } =
+  useDatatableList('Page')
 const { getLanguageName, fetchLanguageNameFromApi } = useLocale()
-const langMap = reactive({})
 
-function ensureLanguageName(iso) {
-  if (!iso) return '-'
-  if (!langMap[iso]) {
-    langMap[iso] = getLanguageName(iso)
+const headers = [
+  { title: t('Title'), key: 'title' },
+  { title: t('Language'), key: 'localeLabel' },
+  { title: t('Category'), key: 'categoryTitle' },
+  { title: t('Enabled'), key: 'enabled' },
+  {
+    title: t('Actions'),
+    key: 'action',
+    sortable: false,
+    width: '140px',
+  },
+]
+
+const selected = ref<string[]>([])
+const pendingDelete = ref<Record<string, any> | null>(null)
+const showConfirmDialog = ref(false)
+
+const rawItems = computed(() => store.state['page']?.recents ?? [])
+const isLoading = computed(() => store.state['page']?.isLoading ?? false)
+const totalItems = computed(() => store.state['page']?.totalItems ?? 0)
+
+const languageCache = ref<Record<string, string>>({})
+
+const ensureLanguageName = (iso?: string) => {
+  if (!iso) return t('Unknown')
+  if (!languageCache.value[iso]) {
+    languageCache.value[iso] = getLanguageName(iso)
     fetchLanguageNameFromApi(iso)
       .then((name) => {
-        if (name) langMap[iso] = name
+        if (name) languageCache.value[iso] = name
       })
       .catch(() => {})
   }
-  return langMap[iso]
+  return languageCache.value[iso]
 }
 
-const toast = useToast()
+const tableItems = computed(() =>
+  rawItems.value.map((item: Record<string, any>) => ({
+    ...item,
+    localeLabel: ensureLanguageName(item?.locale),
+    categoryTitle: item?.category?.title ?? '-',
+  })),
+)
 
-const layoutMenuItems = inject('layoutMenuItems')
+const handleUpdateOptions = (payload: Record<string, any> = {}) => {
+  const { page, itemsPerPage, sortBy } = payload
+  const primarySort = Array.isArray(sortBy) && sortBy.length > 0 ? sortBy[0] : null
+  const sortKey = primarySort && typeof primarySort === 'object' ? primarySort.key : primarySort
+  const sortDesc =
+    primarySort && typeof primarySort === 'object' ? primarySort.order === 'desc' : false
+
+  onUpdateOptions({
+    page,
+    itemsPerPage,
+    sortBy: sortKey,
+    sortDesc,
+  })
+}
+
+const addHandler = () => {
+  goToAddItem()
+}
+
+const showHandler = (item: Record<string, any>) => {
+  onShowItem(item)
+}
+
+const editHandler = (item: Record<string, any>) => {
+  goToEditItem(item)
+}
+
+const deleteHandler = (item: Record<string, any>) => {
+  pendingDelete.value = item
+  showConfirmDialog.value = true
+}
+
+const confirmDelete = () => {
+  if (pendingDelete.value) {
+    deleteItem(ref(pendingDelete.value))
+  }
+  showConfirmDialog.value = false
+  pendingDelete.value = null
+}
+
+const cancelDelete = () => {
+  showConfirmDialog.value = false
+  pendingDelete.value = null
+}
 
 onMounted(() => {
-  const { page, itemsPerPage } = router.currentRoute.value.query
+  const { page, itemsPerPage } = route.query
 
-  if (page) options.value.page = parseInt(page)
-  if (itemsPerPage) options.value.itemsPerPage = parseInt(itemsPerPage)
-
-  filters.value.loadNode = 0
-
-  onUpdateOptions(options.value)
-
-  if (securityStore.isAdmin) {
-    layoutMenuItems.value = [
-      {
-        label: t('New page'),
-        url: router.resolve({ name: 'PageCreate' }).href,
-      },
-    ]
+  if (page) {
+    const parsed = Number.parseInt(page as string, 10)
+    if (Number.isFinite(parsed)) options.value.page = parsed
   }
+
+  if (itemsPerPage) {
+    const parsed = Number.parseInt(itemsPerPage as string, 10)
+    if (Number.isFinite(parsed)) options.value.itemsPerPage = parsed
+  }
+
+  onUpdateOptions(options.value)
 })
-
-const items = computed(() => store.state['page'].recents)
-const isLoading = computed(() => store.state['page'].isLoading)
-const totalItems = computed(() => store.state['page'].totalItems)
-
-const selectedItems = ref([])
-const itemDialog = ref(false)
-const deleteItemDialog = ref(false)
-const deleteMultipleDialog = ref(false)
-const item = ref({})
-const submitted = ref(false)
-
-const onPage = (event) => {
-  options.value.itemsPerPage = event.rows
-  options.value.page = event.page + 1
-  options.value.sortBy = event.sortField
-  options.value.sortDesc = event.sortOrder === -1
-
-  onUpdateOptions(options.value)
-}
-
-const sortingChanged = (event) => {
-  options.value.sortBy = event.sortField
-  options.value.sortDesc = event.sortOrder === -1
-
-  onUpdateOptions(options.value)
-}
-
-const deleteMultipleItems = () => {
-  console.log('deleteMultipleItems'.selectedItems.value)
-
-  store.dispatch('page/delMultiple', selectedItems.value).then(() => {
-    deleteMultipleDialog.value = false
-    selectedItems.value = []
-
-    toast.add({
-      severity: 'success',
-      detail: t('Pages deleted'),
-      life: 3500,
-    })
-  })
-
-  onUpdateOptions(options.value)
-}
-const confirmDeleteItem = (itemToDelete) => {
-  item.value = itemToDelete
-  deleteItemDialog.value = true
-}
-
-const btnCofirmSingleDeleteOnClick = () => {
-  deleteItem(item)
-
-  item.value = {}
-
-  deleteItemDialog.value = false
-}
-
-const publicLinkDialogVisible = ref(false)
-const publicLink = ref('')
-
-const showPublicLinkDialog = (item) => {
-  if (!item.slug) return
-  publicLink.value = `${window.location.origin}/pages/${item.slug}`
-  publicLinkDialogVisible.value = true
-}
 </script>
