@@ -1,67 +1,64 @@
 <template>
-  <!--  auto-width-->
-  <v-td slot="body-cell-action">
-    <div class="p-4 flex flex-row gap-1">
-      <v-btn
-        v-if="handleShow"
-        color="secondary"
-        dense
-        label="Show"
-        no-caps
-        @click="handleShow"
-      />
-      <v-btn
-        v-if="handleEdit"
-        color="secondary"
-        dense
-        label="Edit"
-        no-caps
-        @click="handleEdit"
-      />
-      <v-btn
-        v-if="handleDelete"
-        color="red"
-        dense
-        label="Delete"
-        no-caps
-        @click="confirmDeleteClick = true"
-      />
-      <ConfirmDelete
-        v-if="handleDelete"
-        :handle-cancel="() => (confirmDeleteClick = false)"
-        :handle-delete="handleDelete"
-        :show="confirmDeleteClick"
-      />
-    </div>
-  </v-td>
+  <div class="d-flex align-center ga-2">
+    <v-btn
+      v-if="handleShow"
+      color="primary"
+      variant="text"
+      density="comfortable"
+      icon="mdi-eye"
+      @click="handleShow"
+    />
+
+    <v-btn
+      v-if="handleEdit"
+      color="secondary"
+      variant="text"
+      density="comfortable"
+      icon="mdi-pencil"
+      @click="handleEdit"
+    />
+
+    <v-btn
+      v-if="handleDelete"
+      color="error"
+      variant="text"
+      density="comfortable"
+      icon="mdi-delete"
+      @click="confirmDeleteClick = true"
+    />
+
+    <ConfirmDelete
+      v-if="handleDelete"
+      :handle-cancel="() => (confirmDeleteClick = false)"
+      :handle-delete="confirmDeletion"
+      :show="confirmDeleteClick"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
+import { ref, watch } from 'vue'
 import ConfirmDelete from './ConfirmDelete.vue'
 
-export default {
-  name: 'ActionCell',
-  components: {
-    ConfirmDelete,
-  },
-  props: {
-    handleShow: {
-      type: Function,
-      required: false,
-    },
-    handleEdit: {
-      type: Function,
-      required: false,
-    },
-    handleDelete: {
-      type: Function,
-      required: false,
-    },
-  },
-  data() {
-    return {
-      confirmDeleteClick: false,
-    }
-  },
+type ActionHandler = (() => void) | undefined
+
+const { handleShow, handleEdit, handleDelete } = defineProps<{
+  handleShow?: ActionHandler
+  handleEdit?: ActionHandler
+  handleDelete?: ActionHandler
+}>()
+
+const confirmDeleteClick = ref(false)
+
+const confirmDeletion = () => {
+  handleDelete?.()
+  confirmDeleteClick.value = false
 }
+
+watch(
+  () => handleDelete,
+  () => {
+    confirmDeleteClick.value = false
+  },
+)
 </script>
