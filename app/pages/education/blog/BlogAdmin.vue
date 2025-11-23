@@ -195,7 +195,7 @@ import BaseDialog from '../../../components/education/basecomponents/BaseDialog.
 import ProjectCreateDialog from '../../../components/education/blog/ProjectCreateDialog.vue'
 import service from '../../../services/blogs'
 import { useSecurityStore } from '~/stores/securityStore'
-import { RESOURCE_LINK_DRAFT } from '../../constants/entity/resourcelink'
+import { RESOURCE_LINK_DRAFT } from '~/constants/entity/resourcelink'
 import { useCidReq } from '~/composables/education/cidReq'
 
 const { cid, sid } = useCidReq()

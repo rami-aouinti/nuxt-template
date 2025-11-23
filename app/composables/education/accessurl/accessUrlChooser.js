@@ -1,5 +1,5 @@
 import { findUserActivePortals } from '../../services/accessurlService'
-import { useSecurityStore } from '../../stores/securityStore'
+import { useSecurityStore } from '~/stores/securityStore'
 import { computed, ref } from 'vue'
 import { useNotification } from '../notification'
 import securityService from '../../services/securityService'

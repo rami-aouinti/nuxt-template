@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { ref } from 'vue'
-import { usePlatformConfig } from '../store/platformConfig'
+import { usePlatformConfig } from '~/stores/platformConfig'
 import {
   arrayBufferToBase64,
   urlBase64ToUint8Array,

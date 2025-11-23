@@ -112,7 +112,7 @@ import BaseToolbar from '../../../components/education/basecomponents/BaseToolba
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-import { RESOURCE_LINK_PUBLISHED } from '../../constants/entity/resourcelink'
+import { RESOURCE_LINK_PUBLISHED } from '~/constants/entity/resourcelink'
 import BaseInputText from '../../../components/education/basecomponents/BaseInputText.vue'
 import GlossaryTermList from '../../../components/education/glossary/GlossaryTermList.vue'
 import GlossaryTermTable from '../../../components/education/glossary/GlossaryTermTable.vue'
