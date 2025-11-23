@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { storeToRefs } from 'pinia'
 import { useCidReqStore } from '~/stores/cidReq'
-import api from '~/config/api'
+import api from '../config/api'
 import { computed, ref, unref } from 'vue'
 import { useSecurityStore } from '~/stores/securityStore'
 

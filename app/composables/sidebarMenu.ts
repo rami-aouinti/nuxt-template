@@ -1,9 +1,9 @@
 // @ts-nocheck
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
-import { useSecurityStore } from '../store/securityStore'
-import { usePlatformConfig } from '../store/platformConfig'
-import { useEnrolledStore } from '../store/enrolledStore'
+import { useSecurityStore } from '~/stores/securityStore'
+import { usePlatformConfig } from '~/stores/platformConfig'
+import { useEnrolledStore } from '~/stores/enrolledStore'
 import { useRoute } from 'vue-router'
 import { useSocialMenuItems } from './useSocialMenuItems'
 

@@ -31,7 +31,6 @@ import 'tinymce/plugins/table'
 import 'tinymce/plugins/visualblocks'
 import 'tinymce/plugins/visualchars'
 import 'tinymce/plugins/wordcount'
-import '~/js/translatehtml'
 
 export { Editor }
 export default Editor
