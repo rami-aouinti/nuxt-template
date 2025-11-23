@@ -4191,7 +4191,7 @@
     "Your PHP version does not match the requirements for this software": "Your PHP version does not match the requirements for this software",
     "Some files or folders don't have writing permission": "Some files or folders don't have writing permission",
     "Warning! The installer has detected an existing Chamilo platform on your system": "Warning! The installer has detected an existing Chamilo platform on your system",
-    "Because the <code>newscorm</code> and <code>exercice</code> directories were renamed to <code>lp</code> and <code>exercise</code> respectively, is necessary to delete or rename to <code>newscorm_old</code> and <code>exercice_old</code>": "Because the <code>newscorm</code> and <code>exercice</code> directories were renamed to <code>lp</code> and <code>exercise</code> respectively, is necessary to delete or rename to <code>newscorm_old</code> and <code>exercice_old</code>",
+    "Because the newscorm and exercice directories were renamed to lp and exercise respectively, is necessary to delete or rename to newscorm_old and exercice_old": "Because the newscorm and exercice directories were renamed to lp and exercise respectively, is necessary to delete or rename to newscorm_old and exercice_old",
     "The form contains incorrect or incomplete data": "The form contains incorrect or incomplete data",
     "Your contact information could not be sent": "Your contact information could not be sent",
     "ex": "ex",
