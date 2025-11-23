@@ -94,7 +94,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 import { useNotification } from '~/composables/education/notification'
 import BaseButton from '../../../components/education/basecomponents/BaseButton.vue'
-import { ENTRYPOINT } from '../../config/entrypoint'
+import { ENTRYPOINT } from '~/config/entrypoint'
 import { useCidReq } from '~/composables/education/cidReq'
 import debounce from 'lodash/debounce'
 import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
