@@ -128,6 +128,17 @@ export default defineNuxtConfig({
       alias: {
         i18n: projectRoot,
         primevue: resolve(__dirname, './app/primevue'),
+        '~/education': resolve(projectRoot, 'education'),
+        '@/education': resolve(projectRoot, 'education'),
+        vuedraggable: resolve(
+          projectRoot,
+          './app/components/common/LocalDraggable.vue',
+        ),
+        vuex: resolve(projectRoot, './app/lib/vuex.ts'),
+        'vuex-map-fields': resolve(projectRoot, './app/lib/vuex-map-fields.ts'),
+        '@primevue/core/api': resolve(projectRoot, './app/primevue/core/api.ts'),
+        axios: resolve(projectRoot, './app/lib/axios.ts'),
+        '@uppy': resolve(projectRoot, './app/lib/uppy'),
       },
     },
     build: {
@@ -139,6 +150,17 @@ export default defineNuxtConfig({
     alias: {
       i18n: projectRoot,
       primevue: resolve(__dirname, './app/primevue'),
+      '~/education': resolve(projectRoot, 'education'),
+      '@/education': resolve(projectRoot, 'education'),
+      vuedraggable: resolve(
+        projectRoot,
+        './app/components/common/LocalDraggable.vue',
+      ),
+      vuex: resolve(projectRoot, './app/lib/vuex.ts'),
+      'vuex-map-fields': resolve(projectRoot, './app/lib/vuex-map-fields.ts'),
+      '@primevue/core/api': resolve(projectRoot, './app/primevue/core/api.ts'),
+      axios: resolve(projectRoot, './app/lib/axios.ts'),
+      '@uppy': resolve(projectRoot, './app/lib/uppy'),
     },
   },
   i18n: {
