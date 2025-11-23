@@ -3,10 +3,10 @@ import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
-import { useSecurityStore } from '../store/securityStore'
+import { useSecurityStore } from '../stores/securityStore'
 import { useCidReq } from './cidReq'
 import { RESOURCE_LINK_PUBLISHED } from '../constants/entity/resourcelink'
-import { useCidReqStore } from '../store/cidReq'
+import { useCidReqStore } from '../stores/cidReq'
 import axios from 'axios'
 
 export function useFileManager(

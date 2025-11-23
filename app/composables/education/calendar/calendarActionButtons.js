@@ -1,8 +1,8 @@
 import { ref, watchEffect } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useCidReqStore } from '../../store/cidReq'
-import { usePlatformConfig } from '../../store/platformConfig'
-import { useSecurityStore } from '../../store/securityStore'
+import { useCidReqStore } from '../../stores/cidReq'
+import { usePlatformConfig } from '../../stores/platformConfig'
+import { useSecurityStore } from '../../stores/securityStore'
 import { checkIsAllowedToEdit } from '../userPermissions'
 
 /**

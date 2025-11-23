@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { useSecurityStore } from '../../store/securityStore'
-import { usePlatformConfig } from '../../store/platformConfig'
+import { useSecurityStore } from '../../stores/securityStore'
+import { usePlatformConfig } from '../../stores/platformConfig'
 
 export function useDocumentActionButtons() {
   const route = useRoute()

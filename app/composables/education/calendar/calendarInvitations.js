@@ -1,5 +1,5 @@
-import { useCidReqStore } from '../../store/cidReq'
-import { useSecurityStore } from '../../store/securityStore'
+import { useCidReqStore } from '../../stores/cidReq'
+import { useSecurityStore } from '../../stores/securityStore'
 
 export function useCalendarInvitations() {
   const cidReqStore = useCidReqStore()

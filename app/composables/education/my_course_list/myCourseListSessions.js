@@ -1,5 +1,5 @@
 import { SESSION_VISIBILITY_LIST_ONLY } from '../../constants/entity/session'
-import { useSecurityStore } from '../../store/securityStore'
+import { useSecurityStore } from '../../stores/securityStore'
 
 /**
  * @param {Object} session
