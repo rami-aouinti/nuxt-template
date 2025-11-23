@@ -6,7 +6,7 @@ import { useEducationApi } from '~/composables/useEducationApi'
 import { useEducationNavigation } from '~/composables/useEducationNavigation'
 import { useEducationMyCoursesEndpoints } from '~/composables/useEducationMyCoursesEndpoints'
 import type { ApiPlatformCollection } from '~/utils/apiPlatform'
-import { extractCollectionItems } from '~/utils/apiPlatform'
+import { extractApiPlatformCollectionItems } from '~/utils/apiPlatform'
 import type { Camelize } from '~/utils/casing'
 import type { Course } from '~/types/education'
 
@@ -36,7 +36,7 @@ const {
       const collection = await educationApi.courses.list<
         ApiPlatformCollection<EducationCourse>
       >()
-      const items = extractCollectionItems(collection)
+      const items = extractApiPlatformCollectionItems(collection)
 
       if (items.length) {
         return items
@@ -49,7 +49,7 @@ const {
     const fallback = await educationApi.courses.publicList<
       ApiPlatformCollection<EducationCourse>
     >()
-    return extractCollectionItems(fallback)
+    return extractApiPlatformCollectionItems(fallback)
   },
   { default: () => [] },
 )
