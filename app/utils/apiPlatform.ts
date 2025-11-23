@@ -6,7 +6,9 @@ export interface ApiPlatformCollection<T> {
   totalItems?: number
 }
 
-export function extractCollectionItems<T>(payload: ApiPlatformCollection<T> | T[] | null | undefined): T[] {
+export function extractApiPlatformCollectionItems<T>(
+  payload: ApiPlatformCollection<T> | T[] | null | undefined,
+): T[] {
   if (!payload) {
     return []
   }

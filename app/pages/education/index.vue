@@ -5,7 +5,7 @@ import AppCard from '~/components/ui/AppCard.vue'
 import { useEducationApi } from '~/composables/useEducationApi'
 import { useEducationNavigation } from '~/composables/useEducationNavigation'
 import type { ApiPlatformCollection } from '~/utils/apiPlatform'
-import { extractCollectionItems } from '~/utils/apiPlatform'
+import { extractApiPlatformCollectionItems } from '~/utils/apiPlatform'
 import type { Camelize } from '~/utils/casing'
 import type { Course } from '~/types/education'
 
@@ -32,7 +32,7 @@ const {
     const collection = await educationApi.courses.publicList<
       ApiPlatformCollection<EducationCourse>
     >()
-    return extractCollectionItems(collection).slice(0, 3)
+    return extractApiPlatformCollectionItems(collection).slice(0, 3)
   },
   { default: () => [] },
 )
