@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useHead } from '#imports'
-import LegacyView from '~/education/views/skill/SkillWheel.vue'
+import LegacyView from '~~/education/views/skill/SkillWheel.vue'
 
 definePageMeta({
   layout: 'default',

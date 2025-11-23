@@ -13,7 +13,7 @@ type LegacyViewRecord = {
   loader: () => Promise<{ default: Component }>
 }
 
-const viewModules = import.meta.glob('~/education/views/**/*.vue')
+const viewModules = import.meta.glob('~~/education/views/**/*.vue')
 
 const viewRecords: Record<string, LegacyViewRecord> = {}
 
