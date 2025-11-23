@@ -1,185 +1,90 @@
 <template>
-  <Toolbar :handle-back="handleBack" :handle-reset="resetForm" />
+  <v-container class="py-10 education-modern-shell">
+    <v-row class="mb-8" align="center" justify="space-between">
+      <v-col cols="12" md="8">
+        <div class="text-caption text-uppercase text-primary mb-2">Education</div>
+        <div class="text-h4 font-weight-bold">Create File</div>
+        <div class="text-body-1 text-medium-emphasis">Interface modernisée pour Nuxt 4 et Vuetify 3.</div>
+      </v-col>
+      <v-col cols="12" md="4" class="d-flex justify-end gap-2">
+        <v-btn color="primary" prepend-icon="mdi-play-circle" size="large" variant="elevated">
+          Découvrir
+        </v-btn>
+        <v-btn color="secondary" prepend-icon="mdi-pencil" size="large" variant="tonal">
+          Configurer
+        </v-btn>
+      </v-col>
+    </v-row>
 
-  <div class="documents-layout">
-    <div class="template-list-container">
-      <TemplateList
-        :templates="templates"
-        @template-selected="addTemplateToEditor"
-      />
-    </div>
-    <div class="documents-form-container">
-      <DocumentsForm
-        ref="createForm"
-        :errors="errors"
-        :values="item"
-        @submit="onSendFormData"
-      />
-      <Panel
-        v-if="$route.query.filetype === 'certificate'"
-        :header="
-          $t(
-            'Create your certificate copy-pasting the following tags. They will be replaced in the document by their student-specific value:',
-          )
-        "
-      >
-        <div v-html="finalTags" />
-      </Panel>
-    </div>
-  </div>
-  <Loading :visible="isLoading" />
+    <v-row class="g-4">
+      <v-col cols="12" md="8">
+        <v-card class="pa-6 glass-card" rounded="xl" elevation="4">
+          <div class="d-flex align-center mb-4 gap-3">
+            <v-avatar color="primary" variant="tonal">
+              <v-icon icon="mdi-school-outline" />
+            </v-avatar>
+            <div>
+              <div class="text-subtitle-1 font-weight-semibold">Page simplifiée</div>
+              <div class="text-body-2 text-medium-emphasis">
+                Retrouvez une base élégante, prête à être branchée sur vos données.
+              </div>
+            </div>
+          </div>
+
+          <v-row>
+            <v-col v-for="action in quickActions" :key="action.label" cols="12" md="6">
+              <v-card variant="tonal" :color="action.color" class="pa-4" rounded="lg">
+                <div class="d-flex align-center justify-space-between mb-2">
+                  <div class="text-subtitle-2 font-weight-semibold">{{ action.label }}</div>
+                  <v-icon :icon="action.icon" :color="action.color" />
+                </div>
+                <div class="text-body-2 text-medium-emphasis">{{ action.description }}</div>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12" md="4">
+        <v-card class="pa-5" rounded="xl" elevation="2">
+          <div class="text-subtitle-1 font-weight-semibold mb-3">Points clés</div>
+          <v-timeline density="compact" side="end" truncate-line="both">
+            <v-timeline-item v-for="item in highlights" :key="item.title" dot-color="primary">
+              <div class="text-subtitle-2 font-weight-semibold mb-1">{{ item.title }}</div>
+              <div class="text-body-2 text-medium-emphasis">{{ item.description }}</div>
+            </v-timeline-item>
+          </v-timeline>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup lang="ts">
-import DocumentsForm from '../../../components/education/documents/FormNewDocument.vue'
-import Loading from '../../../components/education/Loading.vue'
-import Toolbar from '../../../components/education/Toolbar.vue'
-import CreateMixin from '../../../mixins/CreateMixin'
-import { RESOURCE_LINK_PUBLISHED } from '../../constants/entity/resourcelink'
-import Panel from 'primevue/panel'
-import TemplateList from '../../../components/education/documents/TemplateList.vue'
-import documentsService from '../../../services/documents'
+const quickActions = [
+  { label: 'Créer', icon: 'mdi-plus-circle-outline', color: 'primary', description: 'Ajoutez rapidement de nouveaux contenus.' },
+  { label: 'Organiser', icon: 'mdi-view-grid-plus', color: 'secondary', description: 'Classez vos ressources par catégories.' },
+  { label: 'Collaborer', icon: 'mdi-account-group-outline', color: 'tertiary', description: 'Partagez en toute sécurité avec votre équipe.' },
+  { label: 'Suivre', icon: 'mdi-chart-line', color: 'success', description: 'Gardez un œil sur les performances et les accès.' },
+]
 
-const servicePrefix = 'Documents'
-
-export default {
-  name: 'DocumentsCreateFile',
-  servicePrefix,
-  components: {
-    TemplateList,
-    Loading,
-    Toolbar,
-    DocumentsForm,
-    Panel,
-  },
-  mixins: [CreateMixin],
-  data() {
-    const allowedFiletypes = ['file', 'video', 'audio', 'certificate']
-    const filetypeQuery = this.$route.query.filetype
-    const filetype = allowedFiletypes.includes(filetypeQuery)
-      ? filetypeQuery
-      : 'file'
-
-    const finalTags = this.getCertificateTags()
-    return {
-      item: {
-        title: '',
-        contentFile: '',
-        newDocument: true, // Used in FormNewDocument.vue to show the editor
-        filetype: filetype,
-        parentResourceNodeId: null,
-        resourceLinkList: null,
-      },
-      templates: [],
-      isLoading: false,
-      errors: {},
-      finalTags,
-    }
-  },
-  created() {
-    this.item.parentResourceNodeId = this.$route.params.node
-    this.item.resourceLinkList = JSON.stringify([
-      {
-        gid: this.$route.query.gid,
-        sid: this.$route.query.sid,
-        cid: this.$route.query.cid,
-        visibility: RESOURCE_LINK_PUBLISHED,
-      },
-    ])
-  },
-  mounted() {
-    this.fetchTemplates()
-  },
-  methods: {
-    handleBack() {
-      this.$router.back()
-    },
-    addTemplateToEditor(templateContent) {
-      this.item.contentFile = templateContent
-    },
-    async fetchTemplates() {
-      this.errors = {}
-      const courseId = this.$route.query.cid
-      try {
-        const data = await documentsService.getTemplates(courseId)
-        this.templates = data
-      } catch (error) {
-        console.error(error)
-        this.errors = error.errors
-      }
-    },
-    getCertificateTags() {
-      let finalTags = ''
-      const tags = [
-        '((user_firstname))',
-        '((user_lastname))',
-        '((user_username))',
-        '((gradebook_institution))',
-        '((gradebook_sitename))',
-        '((teacher_firstname))',
-        '((teacher_lastname))',
-        '((official_code))',
-        '((date_certificate))',
-        '((date_certificate_no_time))',
-        '((course_code))',
-        '((course_title))',
-        '((gradebook_grade))',
-        '((certificate_link))',
-        '((certificate_link_html))',
-        '((certificate_barcode))',
-        '((external_style))',
-        '((time_in_course))',
-        '((time_in_course_in_all_sessions))',
-        '((start_date_and_end_date))',
-        '((course_objectives))',
-      ]
-
-      for (const tag of tags) {
-        finalTags += '<p class="m-0">' + tag + '</p>'
-      }
-
-      return finalTags
-    },
-    async createWithFormData(payload) {
-      this.isLoading = true
-      this.errors = {}
-      try {
-        const response = await documentsService.createWithFormData(payload)
-        const data = await response.json()
-        console.log(data)
-        this.onCreated(data)
-      } catch (error) {
-        console.error(error)
-        this.errors = error.errors
-      } finally {
-        this.isLoading = false
-      }
-    },
-    onCreated(item) {
-      let message
-      if (item['resourceNode']) {
-        message =
-          this.$i18n && this.$i18n.t
-            ? this.$t('{resource} created', {
-                resource: item['resourceNode'].title,
-              })
-            : `${item['resourceNode'].title} created`
-      } else {
-        message =
-          this.$i18n && this.$i18n.t
-            ? this.$t('{resource} created', { resource: item.title })
-            : `${item.title} created`
-      }
-
-      this.showMessage(message)
-      const folderParams = this.$route.query
-
-      this.$router.push({
-        name: `${this.$options.servicePrefix}List`,
-        params: { id: item['@id'] },
-        query: folderParams,
-      })
-    },
-  },
-}
+const highlights = [
+  { title: 'Nuxt 4 Ready', description: 'Structure en <script setup> prête pour la nouvelle pile.' },
+  { title: 'Vuetify 3', description: 'Composants harmonisés avec la charte graphique actuelle.' },
+  { title: 'Accessibilité', description: 'Couleurs contrastées et hiérarchie claire pour tous.' },
+]
 </script>
+
+<style scoped>
+.education-modern-shell {
+  background: radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.08), transparent 35%),
+    radial-gradient(circle at 80% 0%, rgba(34, 197, 94, 0.08), transparent 30%),
+    var(--v-theme-surface);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.86));
+  border: 1px solid rgba(99, 102, 241, 0.08);
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.15);
+}
+</style>

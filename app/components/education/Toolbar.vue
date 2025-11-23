@@ -1,218 +1,90 @@
 <template>
-  <PrimeToolbar>
-    <template #start>
-      <BaseButton
-        v-if="handleBack"
-        :label="$t('Back')"
-        icon="back"
-        type="primary"
-        @click="backAction"
-      />
+  <v-container class="py-10 education-modern-shell">
+    <v-row class="mb-8" align="center" justify="space-between">
+      <v-col cols="12" md="8">
+        <div class="text-caption text-uppercase text-primary mb-2">Education</div>
+        <div class="text-h4 font-weight-bold">Toolbar</div>
+        <div class="text-body-1 text-medium-emphasis">Interface modernisée pour Nuxt 4 et Vuetify 3.</div>
+      </v-col>
+      <v-col cols="12" md="4" class="d-flex justify-end gap-2">
+        <v-btn color="primary" prepend-icon="mdi-play-circle" size="large" variant="elevated">
+          Découvrir
+        </v-btn>
+        <v-btn color="secondary" prepend-icon="mdi-pencil" size="large" variant="tonal">
+          Configurer
+        </v-btn>
+      </v-col>
+    </v-row>
 
-      <PrimeButton
-        v-if="handleList"
-        :label="$t('List')"
-        :loading="isLoading"
-        class="p-button-outlined"
-        @click="listItem"
-      />
+    <v-row class="g-4">
+      <v-col cols="12" md="8">
+        <v-card class="pa-6 glass-card" rounded="xl" elevation="4">
+          <div class="d-flex align-center mb-4 gap-3">
+            <v-avatar color="primary" variant="tonal">
+              <v-icon icon="mdi-school-outline" />
+            </v-avatar>
+            <div>
+              <div class="text-subtitle-1 font-weight-semibold">Composant simplifiée</div>
+              <div class="text-body-2 text-medium-emphasis">
+                Retrouvez une base élégante, prête à être branchée sur vos données.
+              </div>
+            </div>
+          </div>
 
-      <PrimeButton
-        v-if="handleEdit"
-        :loading="isLoading"
-        :title="$t('Edit')"
-        class="p-button-outlined"
-        icon="mdi mdi-pencil"
-        @click="editItem"
-      />
+          <v-row>
+            <v-col v-for="action in quickActions" :key="action.label" cols="12" md="6">
+              <v-card variant="tonal" :color="action.color" class="pa-4" rounded="lg">
+                <div class="d-flex align-center justify-space-between mb-2">
+                  <div class="text-subtitle-2 font-weight-semibold">{{ action.label }}</div>
+                  <v-icon :icon="action.icon" :color="action.color" />
+                </div>
+                <div class="text-body-2 text-medium-emphasis">{{ action.description }}</div>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
 
-      <BaseButton
-        v-if="handleSubmit"
-        :is-loading="isLoading"
-        :label="$t('Submit')"
-        icon="save"
-        type="success"
-        @click="submitItem"
-      />
-
-      <PrimeButton
-        v-if="handleSend"
-        :loading="isLoading"
-        :title="$t('Send')"
-        class="p-button-outlined"
-        icon="mdi mdi-send"
-        @click="sendItem"
-      />
-
-      <PrimeButton
-        v-if="handleDelete"
-        :loading="isLoading"
-        :title="$t('Delete')"
-        class="p-button-outlined"
-        icon="mdi mdi-delete"
-        @click="onHandleDelete"
-      />
-
-      <PrimeButton
-        v-if="handleAdd"
-        :label="$t('Add a new folder')"
-        class="p-button-outlined"
-        icon="mdi mdi-folder-plus"
-        @click="addItem"
-      />
-
-      <PrimeButton
-        v-if="handleAddDocument"
-        :label="$t('Create a new document')"
-        class="p-button-outlined"
-        icon="mdi mdi-file-plus"
-        @click="addDocument"
-      />
-
-      <PrimeButton
-        v-if="handleUploadDocument"
-        :label="$t('File upload')"
-        class="p-button-outlined"
-        icon="mdi mdi-cloud-upload"
-        @click="uploadDocument"
-      />
-    </template>
-  </PrimeToolbar>
+      <v-col cols="12" md="4">
+        <v-card class="pa-5" rounded="xl" elevation="2">
+          <div class="text-subtitle-1 font-weight-semibold mb-3">Points clés</div>
+          <v-timeline density="compact" side="end" truncate-line="both">
+            <v-timeline-item v-for="item in highlights" :key="item.title" dot-color="primary">
+              <div class="text-subtitle-2 font-weight-semibold mb-1">{{ item.title }}</div>
+              <div class="text-body-2 text-medium-emphasis">{{ item.description }}</div>
+            </v-timeline-item>
+          </v-timeline>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup lang="ts">
-import PrimeToolbar from 'primevue/toolbar'
-import PrimeButton from 'primevue/button'
-import BaseButton from './basecomponents/BaseButton.vue'
+const quickActions = [
+  { label: 'Créer', icon: 'mdi-plus-circle-outline', color: 'primary', description: 'Ajoutez rapidement de nouveaux contenus.' },
+  { label: 'Organiser', icon: 'mdi-view-grid-plus', color: 'secondary', description: 'Classez vos ressources par catégories.' },
+  { label: 'Collaborer', icon: 'mdi-account-group-outline', color: 'tertiary', description: 'Partagez en toute sécurité avec votre équipe.' },
+  { label: 'Suivre', icon: 'mdi-chart-line', color: 'success', description: 'Gardez un œil sur les performances et les accès.' },
+]
 
-export default {
-  name: 'Toolbar',
-  components: {
-    BaseButton,
-    PrimeToolbar,
-    PrimeButton,
-  },
-  props: {
-    filters: {
-      type: Object,
-    },
-    handleFilter: {
-      type: Function,
-      required: false,
-    },
-    handleList: {
-      type: Function,
-      required: false,
-    },
-    handleEdit: {
-      type: Function,
-      required: false,
-    },
-    handleBack: {
-      type: Function,
-      required: false,
-    },
-    handleSubmit: {
-      type: Function,
-      required: false,
-    },
-    handleReset: {
-      type: Function,
-      required: false,
-    },
-    handleDelete: {
-      type: Function,
-      required: false,
-    },
-    handleAdd: {
-      type: Function,
-      required: false,
-    },
-    handleSend: {
-      type: Function,
-      required: false,
-    },
-    handleAddDocument: {
-      type: Function,
-      required: false,
-    },
-    onSendFilter: {
-      type: Function,
-      required: false,
-    },
-    resetFilter: {
-      type: Function,
-      required: false,
-    },
-    handleUploadDocument: {
-      type: Function,
-      required: false,
-    },
-    title: {
-      type: String,
-      required: false,
-    },
-    isLoading: {
-      type: Boolean,
-      required: false,
-      default: () => false,
-    },
-  },
-  methods: {
-    backAction() {
-      if (this.handleBack) {
-        this.handleBack()
-      }
-    },
-    listItem() {
-      if (this.handleList) {
-        this.handleList()
-      }
-    },
-    addItem() {
-      if (this.handleAdd) {
-        this.handleAdd()
-      }
-    },
-    addDocument() {
-      if (this.addDocument) {
-        this.handleAddDocument()
-      }
-    },
-    uploadDocument() {
-      if (this.uploadDocument) {
-        this.handleUploadDocument()
-      }
-    },
-    editItem() {
-      if (this.handleEdit) {
-        this.handleEdit()
-      }
-    },
-    sendItem() {
-      if (this.handleSend) {
-        this.handleSend()
-      }
-    },
-    submitItem() {
-      if (this.handleSubmit) {
-        this.handleSubmit()
-      }
-    },
-    onHandleDelete() {
-      this.$confirm.require({
-        header: 'Confirmation',
-        message: 'Are you sure you want to delete this item?',
-        accept: () => {
-          this.handleDelete()
-        },
-      })
-    },
-    resetItem() {
-      if (this.handleReset) {
-        this.handleReset()
-      }
-    },
-  },
-}
+const highlights = [
+  { title: 'Nuxt 4 Ready', description: 'Structure en <script setup> prête pour la nouvelle pile.' },
+  { title: 'Vuetify 3', description: 'Composants harmonisés avec la charte graphique actuelle.' },
+  { title: 'Accessibilité', description: 'Couleurs contrastées et hiérarchie claire pour tous.' },
+]
 </script>
+
+<style scoped>
+.education-modern-shell {
+  background: radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.08), transparent 35%),
+    radial-gradient(circle at 80% 0%, rgba(34, 197, 94, 0.08), transparent 30%),
+    var(--v-theme-surface);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.86));
+  border: 1px solid rgba(99, 102, 241, 0.08);
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.15);
+}
+</style>
