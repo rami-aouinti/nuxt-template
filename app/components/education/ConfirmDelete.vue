@@ -1,25 +1,36 @@
 <template>
-  <v-dialog :model-value="show" persistent max-width="460">
-    <v-card>
-      <v-card-item class="py-4">
-        <div class="d-flex align-center gap-3">
-          <v-avatar color="primary" icon="mdi-alert" size="40" variant="tonal" />
-          <div>
-            <div class="text-subtitle-1 font-weight-semibold mb-1">
-              {{ $t('Confirm deletion') }}
-            </div>
-            <div class="text-body-2 text-medium-emphasis">
-              {{ $t('Are you sure you want to delete this item?') }}
-            </div>
+  <v-dialog
+    :model-value="show"
+    class="education-confirm-dialog"
+    max-width="480"
+    persistent
+    @update:model-value="handleCancel"
+  >
+    <v-card rounded="xl">
+      <v-card-title class="d-flex align-center gap-3 py-5">
+        <v-avatar color="error" size="44" variant="tonal">
+          <v-icon icon="mdi-alert-circle-outline" />
+        </v-avatar>
+        <div>
+          <div class="text-subtitle-1 font-weight-semibold">
+            {{ $t('Are you sure you want to delete this item?') }}
+          </div>
+          <div class="text-body-2 text-medium-emphasis">
+            {{ $t('This action cannot be undone and will remove the record permanently.') }}
           </div>
         </div>
-      </v-card-item>
+      </v-card-title>
 
-      <v-card-actions class="px-4 pb-4 justify-end">
-        <v-btn variant="text" color="secondary" @click="onCancel">
+      <v-card-actions class="px-6 pb-5">
+        <v-spacer />
+        <v-btn
+          color="secondary"
+          variant="tonal"
+          @click="handleCancel"
+        >
           {{ $t('Cancel') }}
         </v-btn>
-        <v-btn color="error" variant="flat" @click="onDelete">
+        <v-btn color="error" variant="elevated" @click="handleDelete">
           {{ $t('Delete') }}
         </v-btn>
       </v-card-actions>
@@ -28,17 +39,14 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  show: boolean
-  handleDelete: () => void
-  handleCancel?: () => void
-}>()
-
-const onCancel = () => {
-  props.handleCancel?.()
-}
-
-const onDelete = () => {
-  props.handleDelete()
-}
+withDefaults(
+  defineProps<{
+    show: boolean
+    handleDelete: () => void
+    handleCancel?: () => void
+  }>(),
+  {
+    handleCancel: () => {},
+  },
+)
 </script>

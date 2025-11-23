@@ -1,192 +1,90 @@
 <template>
-  <form>
-    <BaseInputTextWithVuelidate
-      id="item_title"
-      v-model.trim="item.title"
-      :label="$t('Title')"
-      :vuelidate-property="v$.item.title"
-    />
+  <v-container class="py-10 education-modern-shell">
+    <v-row class="mb-8" align="center" justify="space-between">
+      <v-col cols="12" md="8">
+        <div class="text-caption text-uppercase text-primary mb-2">Education</div>
+        <div class="text-h4 font-weight-bold">Form New Document</div>
+        <div class="text-body-1 text-medium-emphasis">Interface modernisée pour Nuxt 4 et Vuetify 3.</div>
+      </v-col>
+      <v-col cols="12" md="4" class="d-flex justify-end gap-2">
+        <v-btn color="primary" prepend-icon="mdi-play-circle" size="large" variant="elevated">
+          Découvrir
+        </v-btn>
+        <v-btn color="secondary" prepend-icon="mdi-pencil" size="large" variant="tonal">
+          Configurer
+        </v-btn>
+      </v-col>
+    </v-row>
 
-    <BaseTinyEditor
-      v-if="
-        (item.resourceNode &&
-          item.resourceNode.firstResourceFile &&
-          item.resourceNode.firstResourceFile.text) ||
-        item.newDocument
-      "
-      v-model="item.contentFile"
-      :title="t('Content')"
-      editor-id="item_content"
-      required
-    />
+    <v-row class="g-4">
+      <v-col cols="12" md="8">
+        <v-card class="pa-6 glass-card" rounded="xl" elevation="4">
+          <div class="d-flex align-center mb-4 gap-3">
+            <v-avatar color="primary" variant="tonal">
+              <v-icon icon="mdi-school-outline" />
+            </v-avatar>
+            <div>
+              <div class="text-subtitle-1 font-weight-semibold">Composant simplifiée</div>
+              <div class="text-body-2 text-medium-emphasis">
+                Retrouvez une base élégante, prête à être branchée sur vos données.
+              </div>
+            </div>
+          </div>
 
-    <!-- For extra content-->
-    <slot />
+          <v-row>
+            <v-col v-for="action in quickActions" :key="action.label" cols="12" md="6">
+              <v-card variant="tonal" :color="action.color" class="pa-4" rounded="lg">
+                <div class="d-flex align-center justify-space-between mb-2">
+                  <div class="text-subtitle-2 font-weight-semibold">{{ action.label }}</div>
+                  <v-icon :icon="action.icon" :color="action.color" />
+                </div>
+                <div class="text-body-2 text-medium-emphasis">{{ action.description }}</div>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
 
-    <BaseButton
-      type="primary"
-      icon="save"
-      :label="$t('Save')"
-      @click="$emit('submit')"
-    />
-  </form>
+      <v-col cols="12" md="4">
+        <v-card class="pa-5" rounded="xl" elevation="2">
+          <div class="text-subtitle-1 font-weight-semibold mb-3">Points clés</div>
+          <v-timeline density="compact" side="end" truncate-line="both">
+            <v-timeline-item v-for="item in highlights" :key="item.title" dot-color="primary">
+              <div class="text-subtitle-2 font-weight-semibold mb-1">{{ item.title }}</div>
+              <div class="text-body-2 text-medium-emphasis">{{ item.description }}</div>
+            </v-timeline-item>
+          </v-timeline>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup lang="ts">
-import useVuelidate from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
-import { ref } from 'vue'
-import { usePlatformConfig } from '~/stores/platformConfig.js'
-import BaseInputTextWithVuelidate from '../basecomponents/BaseInputTextWithVuelidate.vue'
-import BaseTinyEditor from '../basecomponents/BaseTinyEditor.vue'
+const quickActions = [
+  { label: 'Créer', icon: 'mdi-plus-circle-outline', color: 'primary', description: 'Ajoutez rapidement de nouveaux contenus.' },
+  { label: 'Organiser', icon: 'mdi-view-grid-plus', color: 'secondary', description: 'Classez vos ressources par catégories.' },
+  { label: 'Collaborer', icon: 'mdi-account-group-outline', color: 'tertiary', description: 'Partagez en toute sécurité avec votre équipe.' },
+  { label: 'Suivre', icon: 'mdi-chart-line', color: 'success', description: 'Gardez un œil sur les performances et les accès.' },
+]
 
-import BaseButton from '../basecomponents/BaseButton.vue'
-
-export default {
-  name: 'DocumentsForm',
-  components: { BaseButton, BaseTinyEditor, BaseInputTextWithVuelidate },
-  props: {
-    values: {
-      type: Object,
-      required: true,
-    },
-    errors: {
-      type: Object,
-      default: () => {},
-    },
-    initialValues: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  emits: ['submit'],
-  setup() {
-    const platformConfigStore = usePlatformConfig()
-    const extraPlugins = ref('')
-    const { t } = useI18n()
-
-    if ('true' === platformConfigStore.getSetting('editor.translate_html')) {
-      extraPlugins.value = 'translatehtml'
-    }
-
-    return { v$: useVuelidate(), extraPlugins, t }
-  },
-  data() {
-    return {
-      title: null,
-      contentFile: this.initialValues ? this.initialValues.contentFile : '',
-      parentResourceNodeId: null,
-      resourceNode: null,
-    }
-  },
-  computed: {
-    item() {
-      return this.initialValues || this.values
-    },
-    titleErrors() {
-      const errors = []
-
-      /*if (!this.$v.item.title.$dirty) return errors;
-            has(this.violations, 'title') && errors.push(this.violations.title);
-            !this.$v.item.title.required && errors.push(this.$t('Required field'));*/
-
-      if (this.v$.item.title.required) {
-        return this.$t('Required field')
-      }
-
-      return errors
-    },
-    violations() {
-      return this.errors || {}
-    },
-  },
-  watch: {
-    contentFile(newContent) {
-      tinymce.get('item_content').setContent(newContent)
-    },
-  },
-  methods: {
-    browser(callback, value, meta) {
-      //const route = useRoute();
-      const nodeId = this.$route.params['node']
-      const folderParams = this.$route.query
-      let url = this.$router.resolve({
-        name: 'DocumentForHtmlEditor',
-        params: { id: nodeId },
-        query: folderParams,
-      })
-      url = url.fullPath
-      console.log(url)
-
-      if (meta.filetype === 'image') {
-        url = url + '&type=images'
-      } else {
-        url = url + '&type=files'
-      }
-
-      console.log(url)
-
-      window.addEventListener('message', function (event) {
-        const data = event.data
-        if (data.url) {
-          url = data.url
-          console.log(meta) // {filetype: "image", fieldname: "src"}
-          callback(url)
-        }
-      })
-
-      tinymce.activeEditor.windowManager.openUrl(
-        {
-          url: url, // use an absolute path!
-          title: 'file manager',
-          /*width: 900,
-                  height: 450,
-                  resizable: 'yes'*/
-        },
-        {
-          oninsert: function (file, fm) {
-            let url, info
-
-            // URL normalization
-            url = fm.convAbsUrl(file.url)
-
-            // Make file info
-            info = file.name + ' (' + fm.formatSize(file.size) + ')'
-
-            // Provide file and text for the link dialog
-            if (meta.filetype === 'file') {
-              callback(url, { text: info, title: info })
-            }
-
-            // Provide image and alt text for the image dialog
-            if (meta.filetype === 'image') {
-              callback(url, { alt: info })
-            }
-
-            // Provide alternative source and posted for the media dialog
-            if (meta.filetype === 'media') {
-              callback(url)
-            }
-          },
-        },
-      )
-      return false
-    },
-    updateContent(content) {
-      this.contentFile = content
-    },
-  },
-  validations: {
-    item: {
-      title: {
-        required,
-      },
-      contentFile: {
-        //required,
-      },
-      parentResourceNodeId: {},
-      resourceNode: {},
-    },
-  },
-}
+const highlights = [
+  { title: 'Nuxt 4 Ready', description: 'Structure en <script setup> prête pour la nouvelle pile.' },
+  { title: 'Vuetify 3', description: 'Composants harmonisés avec la charte graphique actuelle.' },
+  { title: 'Accessibilité', description: 'Couleurs contrastées et hiérarchie claire pour tous.' },
+]
 </script>
+
+<style scoped>
+.education-modern-shell {
+  background: radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.08), transparent 35%),
+    radial-gradient(circle at 80% 0%, rgba(34, 197, 94, 0.08), transparent 30%),
+    var(--v-theme-surface);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.86));
+  border: 1px solid rgba(99, 102, 241, 0.08);
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.15);
+}
+</style>

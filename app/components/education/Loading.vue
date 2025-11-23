@@ -1,22 +1,9 @@
 <template>
-  <div
-    v-if="visible"
-    class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 backdrop-blur-md"
-    style="z-index: 10"
-  >
-    <div class="loader" role="status">
-      <span class="sr-only">Loading</span>
-    </div>
-  </div>
+  <v-overlay :model-value="visible" class="align-center justify-center" persistent>
+    <v-progress-circular color="primary" indeterminate size="64" width="6" />
+  </v-overlay>
 </template>
 
 <script setup lang="ts">
-export default {
-  props: {
-    visible: {
-      type: Boolean,
-      required: true,
-    },
-  },
-}
+defineProps<{ visible: boolean }>()
 </script>
