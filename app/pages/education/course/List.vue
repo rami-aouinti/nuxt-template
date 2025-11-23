@@ -2,102 +2,120 @@
   <div class="course-list">
     <Toolbar :handle-add="addHandler" />
 
-    <v-container fluid grid-list-xl>
-      <v-layout row wrap>
-        <!--        <v-flex sm12>-->
-        <!--          <h1>Course List</h1>-->
-        <!--        </v-flex>-->
-        <v-flex lg12>
-          <br />
-
-          <v-data-table
-            v-model="selected"
+    <v-container fluid>
+      <v-row>
+        <v-col cols="12">
+          <v-data-table-server
+            v-model:selected="selected"
             v-model:items-per-page="options.itemsPerPage"
-            v-model:options="options"
+            v-model:page="options.page"
             :headers="headers"
             :items="items"
+            :items-length="totalItems"
             :loading="isLoading"
             :loading-text="$t('Loading')"
-            :server-items-length="totalItems"
             class="elevation-1"
-            item-key="@id"
+            item-value="@id"
             show-select
-            @update:options="onUpdateOptions"
+            @update:options="handleUpdateOptions"
           >
-            <template slot="item.visibility" slot-scope="{ item }">
-              {{ item }}
+            <template #item.visibility="{ value }">
+              {{ value }}
             </template>
 
-            <template slot="item.expirationDate" slot-scope="{ item }">
-              {{ item }}
+            <template #item.expirationDate="{ value }">
+              {{ value }}
             </template>
 
-            <ActionCell
-              slot="item.action"
-              slot-scope="props"
-              :handle-delete="() => deleteHandler(props.item)"
-              :handle-edit="() => editHandler(props.item)"
-              :handle-show="() => showHandler(props.item)"
-            />
-          </v-data-table>
-        </v-flex>
-      </v-layout>
+            <template #item.action="{ item }">
+              <ActionCell
+                :handle-delete="() => deleteHandler(item.raw)"
+                :handle-edit="() => editHandler(item.raw)"
+                :handle-show="() => showHandler(item.raw)"
+              />
+            </template>
+          </v-data-table-server>
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
 
 <script setup lang="ts">
-import { mapActions, mapGetters } from 'vuex'
-import { mapFields } from 'vuex-map-fields'
-import ListMixin from '../../../mixins/ListMixin'
+import { computed, onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
 import ActionCell from '../../../components/education/ActionCell.vue'
-import DataFilter from '../../../components/education/DataFilter.vue'
 import Toolbar from '../../../components/education/Toolbar.vue'
+import { useDatatableList } from '~/composables/education/datatableList'
 
-export default {
-  name: 'CourseList',
-  servicePrefix: 'Course',
-  components: {
-    Toolbar,
-    ActionCell,
-    CourseFilterForm,
-    DataFilter,
+const store = useStore()
+const route = useRoute()
+const { onUpdateOptions, goToAddItem, goToEditItem, onShowItem, deleteItem, options } =
+  useDatatableList('Course')
+
+const headers = [
+  { title: 'title', key: 'title' },
+  { title: 'code', key: 'code' },
+  { title: 'courseLanguage', key: 'Language' },
+  { title: 'visibility', key: 'visibility' },
+  {
+    title: 'Actions',
+    key: 'action',
+    sortable: false,
   },
-  mixins: [ListMixin],
-  data() {
-    return {
-      headers: [
-        { text: 'title', value: 'title' },
-        { text: 'code', value: 'code' },
-        { text: 'courseLanguage', value: 'Language' },
-        { text: 'visibility', value: 'visibility' },
-        {
-          text: 'Actions',
-          value: 'action',
-          sortable: false,
-        },
-      ],
-      selected: [],
-    }
-  },
-  computed: {
-    ...mapGetters('course', {
-      items: 'list',
-    }),
-    ...mapFields('course', {
-      deletedItem: 'deleted',
-      error: 'error',
-      isLoading: 'isLoading',
-      resetList: 'resetList',
-      totalItems: 'totalItems',
-      view: 'view',
-    }),
-  },
-  methods: {
-    ...mapActions('course', {
-      getPage: 'fetchAll',
-      deleteItem: 'del',
-    }),
-  },
+]
+
+const selected = ref<string[]>([])
+
+const items = computed(() => store.state['course']?.recents ?? [])
+const isLoading = computed(() => store.state['course']?.isLoading ?? false)
+const totalItems = computed(() => store.state['course']?.totalItems ?? 0)
+
+const handleUpdateOptions = (payload: Record<string, any> = {}) => {
+  const { page, itemsPerPage, sortBy } = payload
+  const primarySort = Array.isArray(sortBy) && sortBy.length > 0 ? sortBy[0] : null
+  const sortKey = primarySort && typeof primarySort === 'object' ? primarySort.key : primarySort
+  const sortDesc =
+    primarySort && typeof primarySort === 'object' ? primarySort.order === 'desc' : false
+
+  onUpdateOptions({
+    page,
+    itemsPerPage,
+    sortBy: sortKey,
+    sortDesc,
+  })
 }
+
+const addHandler = () => {
+  goToAddItem()
+}
+
+const showHandler = (item: Record<string, any>) => {
+  onShowItem(item)
+}
+
+const editHandler = (item: Record<string, any>) => {
+  goToEditItem(item)
+}
+
+const deleteHandler = (item: Record<string, any>) => {
+  deleteItem(ref(item))
+}
+
+onMounted(() => {
+  const { page, itemsPerPage } = route.query
+
+  if (page) {
+    const parsed = Number.parseInt(page as string, 10)
+    if (Number.isFinite(parsed)) options.value.page = parsed
+  }
+
+  if (itemsPerPage) {
+    const parsed = Number.parseInt(itemsPerPage as string, 10)
+    if (Number.isFinite(parsed)) options.value.itemsPerPage = parsed
+  }
+
+  onUpdateOptions(options.value)
+})
 </script>
