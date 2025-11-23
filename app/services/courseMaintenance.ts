@@ -1,6 +1,6 @@
 // @ts-nocheck
 import axios from 'axios'
-import { useCidReqStore } from '../store/cidReq'
+import { useCidReqStore } from '~/stores/cidReq'
 
 // If the frontend is served from the same origin, this keeps requests relative.
 const http = axios.create({

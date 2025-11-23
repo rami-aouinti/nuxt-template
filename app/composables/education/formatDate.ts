@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { useLocale } from './locale'
-import { usePlatformConfig } from '../stores/platformConfig'
-import { useSecurityStore } from '../stores/securityStore'
+import { usePlatformConfig } from '~/stores/platformConfig'
+import { useSecurityStore } from '~/stores/securityStore'
 
 export function useFormatDate() {
   const { appParentLocale } = useLocale()

@@ -113,6 +113,7 @@ export default defineNuxtConfig({
     resolve: {
       alias: {
         i18n: projectRoot,
+        '@apollo/client/core/index.js': resolve(__dirname, 'app/shims/apolloClientCore'),
       },
     },
     build: {
@@ -123,6 +124,7 @@ export default defineNuxtConfig({
   nitro: {
     alias: {
       i18n: projectRoot,
+      '@apollo/client/core/index.js': resolve(__dirname, 'app/shims/apolloClientCore'),
     },
   },
   i18n: {

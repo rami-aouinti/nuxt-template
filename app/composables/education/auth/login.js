@@ -1,10 +1,10 @@
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useSecurityStore } from '../../stores/securityStore'
-import { usePlatformConfig } from '../../stores/platformConfig'
-import securityService from '../../services/securityService'
+import { useSecurityStore } from '~/stores/securityStore'
+import { usePlatformConfig } from '~/stores/platformConfig'
+import securityService from '~/services/securityService'
 import { useNotification } from '../notification'
-import i18n, { setLocale } from '../../i18n'
+import i18n, { setLocale } from '~/i18n'
 
 function isValidHttpUrl(string) {
   try {

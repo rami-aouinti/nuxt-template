@@ -1,9 +1,9 @@
 // @ts-nocheck
 import { onMounted, ref } from 'vue'
-import { usePlatformConfig } from '../../store/platformConfig'
+import { usePlatformConfig } from '~/stores/platformConfig'
 import adminService from '../../services/adminService'
 import { useToast } from 'primevue/usetoast'
-import { useSecurityStore } from '../../store/securityStore'
+import { useSecurityStore } from '~/stores/securityStore'
 import { useI18n } from 'vue-i18n'
 
 export function useIndexBlocks() {

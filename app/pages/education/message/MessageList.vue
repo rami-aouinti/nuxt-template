@@ -298,8 +298,8 @@ import { useQuery } from '@vue/apollo-composable'
 import {
   MESSAGE_TYPE_INBOX,
   MESSAGE_TYPE_SENDER,
-} from '../../constants/entity/message'
-import { GET_USER_MESSAGE_TAGS } from '../../graphql/queries/MessageTag'
+} from '~/constants/entity/message'
+import { GET_USER_MESSAGE_TAGS } from '~/graphql/queries/MessageTag'
 import { useNotification } from '~/composables/education/notification'
 import { useMessageRelUserStore } from '~/stores/messageRelUserStore'
 import { useSecurityStore } from '~/stores/securityStore'

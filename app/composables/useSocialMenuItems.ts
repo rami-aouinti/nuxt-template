@@ -1,9 +1,9 @@
 // @ts-nocheck
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useMessageRelUserStore } from '../store/messageRelUserStore'
-import { useSecurityStore } from '../store/securityStore'
-import { usePlatformConfig } from '../store/platformConfig'
+import { useMessageRelUserStore } from '~/stores/messageRelUserStore'
+import { useSecurityStore } from '~/stores/securityStore'
+import { usePlatformConfig } from '~/stores/platformConfig'
 import axios from 'axios'
 import { useSocialInfo } from './useSocialInfo'
 import { storeToRefs } from 'pinia'

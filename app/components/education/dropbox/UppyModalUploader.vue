@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import Uppy from '@uppy/core'
-import { DashboardModal } from '@uppy/vue'
+import DashboardModal from '@uppy/vue/dashboard-modal'
 import '@uppy/core/css/style.css'
 import '@uppy/dashboard/css/style.css'
 

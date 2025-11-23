@@ -1,6 +1,6 @@
 import { ref, unref, watch } from 'vue'
 import * as d3 from 'd3'
-import { getSkillTree } from '../../services/skillService'
+import { getSkillTree } from '~/services/skillService'
 import { useNotification } from '../notification'
 
 export function useSkillWheel() {

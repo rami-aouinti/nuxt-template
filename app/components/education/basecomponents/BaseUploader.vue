@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Uppy from '@uppy/core'
-import { Dashboard } from '@uppy/vue'
+import Dashboard from '@uppy/vue/dashboard'
 import Webcam from '@uppy/webcam'
 import Audio from '@uppy/audio'
 import XHRUpload from '@uppy/xhr-upload'

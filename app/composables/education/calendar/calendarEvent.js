@@ -1,11 +1,11 @@
 import { DateTime } from 'luxon'
 
-import cCalendarEventService from '../../services/ccalendarevent'
+import cCalendarEventService from '~/services/ccalendarevent'
 
 import {
   subscriptionVisibility,
   type,
-} from '../../constants/entity/ccalendarevent'
+} from '~/constants/entity/ccalendarevent'
 import { useFormatDate } from '../formatDate'
 const { getCurrentTimezone } = useFormatDate()
 

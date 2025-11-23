@@ -179,7 +179,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import Uppy from '@uppy/core'
-import { Dashboard } from '@uppy/vue'
+import Dashboard from '@uppy/vue/dashboard'
 import '@uppy/core/css/style.css'
 import '@uppy/dashboard/css/style.css'
 

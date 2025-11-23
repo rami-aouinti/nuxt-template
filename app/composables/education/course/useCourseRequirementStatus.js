@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import courseService from '../../services/courseService'
+import courseService from '~/services/courseService'
 
 export function useCourseRequirementStatus(
   courseId,

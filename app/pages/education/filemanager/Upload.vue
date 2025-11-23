@@ -21,7 +21,7 @@ import '@uppy/dashboard/css/style.css'
 import '@uppy/image-editor/css/style.css'
 import '@uppy/webcam/css/style.css'
 import Uppy from '@uppy/core'
-import { Dashboard } from '@uppy/vue'
+import Dashboard from '@uppy/vue/dashboard'
 
 import { ENTRYPOINT } from '~/config/entrypoint'
 import { useCidReq } from '~/composables/education/cidReq'
@@ -29,7 +29,7 @@ import { useUpload } from '~/composables/education/upload'
 
 import BaseButton from '../../../components/education/basecomponents/BaseButton.vue'
 import BaseToolbar from '../../../components/education/basecomponents/BaseToolbar.vue'
-import { RESOURCE_LINK_PUBLISHED } from '../../constants/entity/resourcelink'
+import { RESOURCE_LINK_PUBLISHED } from '~/constants/entity/resourcelink'
 
 const Webcam = require('@uppy/webcam').default
 const XHRUpload = require('@uppy/xhr-upload').default

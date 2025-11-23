@@ -1,12 +1,12 @@
 import { ref } from 'vue'
-import courseService from '../../services/courseService'
+import courseService from '~/services/courseService'
 
 import { useLanguage } from '../language'
 import { useNotification } from '../notification'
 
 import { FilterMatchMode } from '@primevue/core/api'
 
-import * as trackCourseRanking from '../../services/trackCourseRankingService'
+import * as trackCourseRanking from '~/services/trackCourseRankingService'
 
 export function useCatalogueCourseList() {
   const isLoading = ref(true)
