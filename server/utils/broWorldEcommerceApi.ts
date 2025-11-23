@@ -59,18 +59,8 @@ function resolveEcommerceBaseUrl(event: H3Event) {
   return baseUrl.replace(/\/+$/, '')
 }
 
-function resolveEcommerceBaseUrlForPath(event: H3Event, path: string) {
-  const normalizedPath = path.startsWith('/') ? path : `/${path}`
-
-  if (normalizedPath.startsWith('/media/')) {
-    return resolveEcommerceOrigin(event)
-  }
-
-  return resolveEcommerceBaseUrl(event)
-}
-
 function createEcommerceRequest(event: H3Event, path: string) {
-  const baseUrl = resolveEcommerceBaseUrlForPath(event, path)
+  const baseUrl = resolveEcommerceBaseUrl(event)
   const request = createBroWorldRequest(baseUrl, ECOMMERCE_ERROR_MESSAGE, {
     resolveToken: resolveEcommerceToken,
   })
@@ -101,8 +91,14 @@ export async function broWorldEcommerceRawRequest<T>(
   path: string,
   options: FetchOptions<'json'> = {},
 ): Promise<T> {
-  const { request } = createEcommerceRequest(event, path)
-  return await request<T>(event, path, options)
+  const { baseUrl, request } = createEcommerceRequest(event, path)
+  return await fetchEcommerceResponse(
+    event,
+    baseUrl,
+    path,
+    options,
+    () => request<T>(event, path, options),
+  )
 }
 
 export function getEcommerceOrigin(event: H3Event): string {
