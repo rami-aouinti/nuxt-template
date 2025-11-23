@@ -378,18 +378,7 @@ export const resolveProductImagePath = (
     | ProductJsonldSyliusShopProductIndex
     | ProductJsonldSyliusShopProductShow,
 ): string | null => {
-  const record = product as UnknownRecord
-  const imageSources = [record.image, record.images, record.productImage]
-  const paths = new Set<string>()
-
-  for (const source of imageSources) {
-    collectImagePaths(source, paths)
-    if (paths.size) {
-      break
-    }
-  }
-
-  const [firstPath] = paths
+  const [firstPath] = resolveProductImagePaths(product)
   return firstPath ?? null
 }
 
@@ -399,7 +388,7 @@ export const resolveProductImagePaths = (
     | ProductJsonldSyliusShopProductShow,
 ): string[] => {
   const record = product as UnknownRecord
-  const imageSources = [record.image, record.images, record.productImage]
+  const imageSources = [record.images, record.productImage, record.image]
   const paths = new Set<string>()
 
   for (const source of imageSources) {

@@ -7,6 +7,7 @@ import type {
 import type { TaxonJsonLdSyliusShopTaxonIndex } from '~/types/tax'
 import { extractCollectionItems as baseExtractCollectionItems } from '~/utils/collections'
 import { getEcommerceOrigin } from '~/utils/ecommerce/origin'
+import { resolveProductImagePaths as resolveImagePaths } from '~/utils/ecommerce/product'
 
 export type UnknownRecord = Record<string, unknown>
 
@@ -443,39 +444,8 @@ export const resolveProductIdentifier = (
 export const resolveProductImagePath = (
   product: ProductJsonldSyliusShopProductIndex,
 ): string | null => {
-  const record = product as UnknownRecord
-  const imageSources = [record.image, record.images, record.productImage]
-
-  for (const source of imageSources) {
-    if (!source) {
-      continue
-    }
-
-    if (typeof source === 'string' && source.trim().length > 0) {
-      return source
-    }
-
-    if (Array.isArray(source)) {
-      for (const item of source) {
-        if (typeof item === 'string' && item.trim().length > 0) {
-          return item
-        }
-
-        const itemRecord = toRecord(item)
-        const path = getString(itemRecord, 'path')
-        if (path) {
-          return path
-        }
-
-        const file = getString(itemRecord, 'file')
-        if (file) {
-          return file
-        }
-      }
-    }
-  }
-
-  return null
+  const [firstPath] = resolveImagePaths(product)
+  return firstPath ?? null
 }
 
 export const buildImageUrl = (
