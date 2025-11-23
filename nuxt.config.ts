@@ -123,15 +123,23 @@ export default defineNuxtConfig({
       },
     ],
   },
-  vite: {
-    resolve: {
-      alias: {
-        i18n: projectRoot,
-        primevue: resolve(__dirname, './app/primevue'),
+    vite: {
+      resolve: {
+        alias: {
+          i18n: projectRoot,
+          primevue: resolve(__dirname, './app/primevue'),
+          '@primevue/core': resolve(__dirname, './app/primevue/core'),
+          axios: resolve(__dirname, './app/axios'),
+          vuex: resolve(__dirname, './app/vuex'),
+          'vuex-map-fields': resolve(__dirname, './app/vuex-map-fields'),
+          '@vuelidate/core': resolve(__dirname, './app/vuelidate/core'),
+          '@vuelidate/validators': resolve(__dirname, './app/vuelidate/validators'),
+          vuedraggable: resolve(__dirname, './app/vuedraggable'),
+          '@vue/apollo-composable': resolve(__dirname, './app/vue-apollo-composable'),
+        },
       },
-    },
-    build: {
-      sourcemap: false,
+      build: {
+        sourcemap: false,
       cssCodeSplit: false,
     },
   },
@@ -139,6 +147,14 @@ export default defineNuxtConfig({
     alias: {
       i18n: projectRoot,
       primevue: resolve(__dirname, './app/primevue'),
+      '@primevue/core': resolve(__dirname, './app/primevue/core'),
+      axios: resolve(__dirname, './app/axios'),
+      vuex: resolve(__dirname, './app/vuex'),
+      'vuex-map-fields': resolve(__dirname, './app/vuex-map-fields'),
+      '@vuelidate/core': resolve(__dirname, './app/vuelidate/core'),
+      '@vuelidate/validators': resolve(__dirname, './app/vuelidate/validators'),
+      vuedraggable: resolve(__dirname, './app/vuedraggable'),
+      '@vue/apollo-composable': resolve(__dirname, './app/vue-apollo-composable'),
     },
   },
   i18n: {

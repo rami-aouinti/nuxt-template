@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useHead } from '#imports'
-import LegacyView from '~/education/views/assignments/AssignmentDetail.vue'
+import LegacyView from '~~/education/views/assignments/AssignmentDetail.vue'
 
 definePageMeta({
   layout: 'default',

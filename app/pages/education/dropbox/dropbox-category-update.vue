@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useHead } from '#imports'
-import LegacyView from '~/education/views/dropbox/DropboxCategoryUpdate.vue'
+import LegacyView from '~~/education/views/dropbox/DropboxCategoryUpdate.vue'
 
 definePageMeta({
   layout: 'default',
