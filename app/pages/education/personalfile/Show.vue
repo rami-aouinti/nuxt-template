@@ -115,57 +115,21 @@
 </template>
 
 <script setup lang="ts">
-import { mapActions, mapGetters } from 'vuex'
-import { mapFields } from 'vuex-map-fields'
 import Loading from '../../../components/education/Loading.vue'
-import ShowMixin from '../../../mixins/ShowMixin'
 import Toolbar from '../../../components/education/Toolbar.vue'
 
 import ShowLinks from '../../../components/education/resource_links/ShowLinks.vue'
 import { useFormatDate } from '~/composables/education/formatDate'
 import { useSecurityStore } from '~/stores/securityStore'
 import { storeToRefs } from 'pinia'
+import { useShowResource } from '~/composables/education/useShowResource'
 
-const servicePrefix = 'PersonalFile'
+const securityStore = useSecurityStore()
+const { isAuthenticated, isAdmin, isCurrentTeacher } = storeToRefs(securityStore)
+const { relativeDatetime } = useFormatDate()
 
-export default {
-  name: 'PersonalFileShow',
-  components: {
-    Loading,
-    Toolbar,
-    ShowLinks,
-  },
-  mixins: [ShowMixin],
-  data() {
-    const { relativeDatetime } = useFormatDate()
-    const securityStore = useSecurityStore()
-
-    const { isAuthenticated, isAdmin, isCurrentTeacher } =
-      storeToRefs(securityStore)
-
-    return {
-      relativeDatetime,
-      isAuthenticated,
-      isAdmin,
-      isCurrentTeacher,
-    }
-  },
-  computed: {
-    ...mapFields('personalfile', {
-      isLoading: 'isLoading',
-    }),
-    ...mapGetters('personalfile', ['find']),
-  },
-  methods: {
-    goBack() {
-      this.$router.go(-1)
-    },
-    ...mapActions('personalfile', {
-      deleteItem: 'del',
-      reset: 'resetShow',
-      retrieve: 'loadWithQuery',
-    }),
-  },
-  servicePrefix,
-}
+const { item, isLoading, del, editHandler, goBack } = useShowResource({
+  namespace: 'personalfile',
+  servicePrefix: 'PersonalFile',
+})
 </script>

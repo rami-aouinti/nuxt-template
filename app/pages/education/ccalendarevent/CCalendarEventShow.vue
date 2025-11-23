@@ -11,48 +11,17 @@
 </template>
 
 <script setup lang="ts">
-import { mapActions, mapGetters } from 'vuex'
-import { mapFields } from 'vuex-map-fields'
 import Loading from '../../../components/education/Loading.vue'
-import ShowMixin from '../../../mixins/ShowMixin'
 import Toolbar from '../../../components/education/Toolbar.vue'
 import { useSecurityStore } from '~/stores/securityStore'
 import { storeToRefs } from 'pinia'
+import { useShowResource } from '~/composables/education/useShowResource'
 
-const servicePrefix = 'CCalendarEvent'
+const securityStore = useSecurityStore()
+const { isAuthenticated, isAdmin, isCurrentTeacher } = storeToRefs(securityStore)
 
-export default {
-  name: 'CCalendarEventShow',
-  components: {
-    Loading,
-    Toolbar,
-  },
-  mixins: [ShowMixin],
-  setup() {
-    const securityStore = useSecurityStore()
-
-    const { isAuthenticated, isAdmin, isCurrentTeacher } =
-      storeToRefs(securityStore)
-
-    return {
-      isAuthenticated,
-      isAdmin,
-      isCurrentTeacher,
-    }
-  },
-  computed: {
-    ...mapFields('ccalendarevent', {
-      isLoading: 'isLoading',
-    }),
-    ...mapGetters('ccalendarevent', ['find']),
-  },
-  methods: {
-    ...mapActions('ccalendarevent', {
-      deleteItem: 'del',
-      reset: 'resetShow',
-      retrieve: 'loadWithQuery',
-    }),
-  },
-  servicePrefix,
-}
+const { item, isLoading, del, editHandler } = useShowResource({
+  namespace: 'ccalendarevent',
+  servicePrefix: 'CCalendarEvent',
+})
 </script>
