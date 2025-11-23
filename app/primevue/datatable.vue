@@ -40,7 +40,7 @@
   </v-data-table>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, provide, ref } from 'vue'
 
 const props = defineProps({

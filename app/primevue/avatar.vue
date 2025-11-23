@@ -6,7 +6,7 @@
   </v-avatar>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
   image: { type: String, default: '' },
   icon: { type: String, default: '' },

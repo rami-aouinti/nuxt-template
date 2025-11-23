@@ -2,7 +2,7 @@
   <v-text-field v-model="model" :label="label" type="date" v-bind="$attrs" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 
 const props = defineProps({

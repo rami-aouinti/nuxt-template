@@ -2,7 +2,7 @@
   <slot />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { inject, onBeforeUnmount } from 'vue'
 
 const props = defineProps({

@@ -8,7 +8,7 @@
   />
 </template>
 
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
   value: { type: Number, default: 0 },
   color: { type: String, default: 'primary' },

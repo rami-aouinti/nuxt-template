@@ -7,7 +7,7 @@
   </v-card>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
   legend: { type: String, default: '' },
 })

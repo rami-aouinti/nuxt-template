@@ -4,7 +4,7 @@
   </v-chip>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
   color: { type: String, default: 'primary' },
   variant: { type: String, default: 'tonal' },

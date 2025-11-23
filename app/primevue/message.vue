@@ -9,7 +9,7 @@
   </v-alert>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
   text: { type: String, default: '' },
   severity: { type: String, default: 'info' },

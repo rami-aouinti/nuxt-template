@@ -17,7 +17,7 @@
   </v-toolbar>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
   model: { type: Array, default: () => [] },
 })
