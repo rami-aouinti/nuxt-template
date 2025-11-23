@@ -26,6 +26,7 @@ const props = withDefaults(
 
 const { t, locale } = useI18n()
 const requestFetch = useRequestFetch()
+const { authHeaders } = useEcommerceApi()
 
 const ECOMMERCE_BASE_URL = getEcommerceOrigin()
 const ECOMMERCE_HOST = (() => {
@@ -297,6 +298,7 @@ async function loadResource(endpoint: string) {
     actionLoading.value = true
     const data = await requestFetch(endpoint, {
       method: 'GET',
+      headers: authHeaders.value,
     })
     responsePreview.value = data
     hydrateEntityState(data)
@@ -324,6 +326,7 @@ async function submitUpdate() {
     const data = await requestFetch(actionEndpoint.value, {
       method: 'PUT',
       body: payload,
+      headers: authHeaders.value,
     })
     responsePreview.value = data
     hydrateEntityState(data)
@@ -345,6 +348,7 @@ async function confirmDelete() {
     actionLoading.value = true
     await requestFetch(actionEndpoint.value, {
       method: 'DELETE',
+      headers: authHeaders.value,
     })
     deleteSuccess.value = true
   } catch (error) {
@@ -881,6 +885,7 @@ async function inspectRelation(item: EntityRelationItem) {
   try {
     const data = await requestFetch(item.endpoint, {
       method: 'GET',
+      headers: authHeaders.value,
     })
     relationDialogPreview.value = data
   } catch (error) {
