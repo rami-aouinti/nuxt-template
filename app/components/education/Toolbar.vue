@@ -1,218 +1,126 @@
 <template>
-  <PrimeToolbar>
-    <template #start>
-      <BaseButton
+  <v-toolbar density="comfortable" color="transparent" class="px-0">
+    <v-spacer />
+    <div class="d-flex flex-wrap gap-2">
+      <v-btn
         v-if="handleBack"
-        :label="$t('Back')"
-        icon="back"
-        type="primary"
-        @click="backAction"
-      />
+        variant="tonal"
+        color="secondary"
+        prepend-icon="mdi-arrow-left"
+        @click="handleBack()"
+      >
+        {{ $t('Back') }}
+      </v-btn>
 
-      <PrimeButton
+      <v-btn
         v-if="handleList"
-        :label="$t('List')"
+        variant="outlined"
+        color="primary"
+        prepend-icon="mdi-format-list-bulleted"
         :loading="isLoading"
-        class="p-button-outlined"
-        @click="listItem"
-      />
+        @click="handleList()"
+      >
+        {{ $t('List') }}
+      </v-btn>
 
-      <PrimeButton
+      <v-btn
         v-if="handleEdit"
+        variant="outlined"
+        color="primary"
+        prepend-icon="mdi-pencil"
         :loading="isLoading"
-        :title="$t('Edit')"
-        class="p-button-outlined"
-        icon="mdi mdi-pencil"
-        @click="editItem"
-      />
+        @click="handleEdit()"
+      >
+        {{ $t('Edit') }}
+      </v-btn>
 
-      <BaseButton
+      <v-btn
         v-if="handleSubmit"
-        :is-loading="isLoading"
-        :label="$t('Submit')"
-        icon="save"
-        type="success"
-        @click="submitItem"
-      />
+        color="success"
+        variant="flat"
+        prepend-icon="mdi-content-save"
+        :loading="isLoading"
+        @click="handleSubmit()"
+      >
+        {{ $t('Submit') }}
+      </v-btn>
 
-      <PrimeButton
+      <v-btn
         v-if="handleSend"
+        variant="outlined"
+        color="primary"
+        prepend-icon="mdi-send"
         :loading="isLoading"
-        :title="$t('Send')"
-        class="p-button-outlined"
-        icon="mdi mdi-send"
-        @click="sendItem"
-      />
+        @click="handleSend()"
+      >
+        {{ $t('Send') }}
+      </v-btn>
 
-      <PrimeButton
+      <v-btn
         v-if="handleDelete"
+        variant="outlined"
+        color="error"
+        prepend-icon="mdi-delete"
         :loading="isLoading"
-        :title="$t('Delete')"
-        class="p-button-outlined"
-        icon="mdi mdi-delete"
-        @click="onHandleDelete"
-      />
+        @click="handleDelete()"
+      >
+        {{ $t('Delete') }}
+      </v-btn>
 
-      <PrimeButton
+      <v-btn
         v-if="handleAdd"
-        :label="$t('Add a new folder')"
-        class="p-button-outlined"
-        icon="mdi mdi-folder-plus"
-        @click="addItem"
-      />
+        variant="flat"
+        color="primary"
+        prepend-icon="mdi-plus-box"
+        @click="handleAdd()"
+      >
+        {{ $t('Add') }}
+      </v-btn>
 
-      <PrimeButton
+      <v-btn
         v-if="handleAddDocument"
-        :label="$t('Create a new document')"
-        class="p-button-outlined"
-        icon="mdi mdi-file-plus"
-        @click="addDocument"
-      />
+        variant="flat"
+        color="primary"
+        prepend-icon="mdi-file-plus"
+        @click="handleAddDocument()"
+      >
+        {{ $t('Create a new document') }}
+      </v-btn>
 
-      <PrimeButton
+      <v-btn
         v-if="handleUploadDocument"
-        :label="$t('File upload')"
-        class="p-button-outlined"
-        icon="mdi mdi-cloud-upload"
-        @click="uploadDocument"
-      />
-    </template>
-  </PrimeToolbar>
+        variant="flat"
+        color="primary"
+        prepend-icon="mdi-cloud-upload"
+        @click="handleUploadDocument()"
+      >
+        {{ $t('File upload') }}
+      </v-btn>
+    </div>
+  </v-toolbar>
 </template>
 
 <script setup lang="ts">
-import PrimeToolbar from 'primevue/toolbar'
-import PrimeButton from 'primevue/button'
-import BaseButton from './basecomponents/BaseButton.vue'
-
-export default {
-  name: 'Toolbar',
-  components: {
-    BaseButton,
-    PrimeToolbar,
-    PrimeButton,
+withDefaults(
+  defineProps<{
+    handleFilter?: () => void
+    handleList?: () => void
+    handleEdit?: () => void
+    handleBack?: () => void
+    handleSubmit?: () => void
+    handleReset?: () => void
+    handleDelete?: () => void
+    handleAdd?: () => void
+    handleSend?: () => void
+    handleAddDocument?: () => void
+    onSendFilter?: () => void
+    resetFilter?: () => void
+    handleUploadDocument?: () => void
+    title?: string
+    isLoading?: boolean
+  }>(),
+  {
+    isLoading: false,
   },
-  props: {
-    filters: {
-      type: Object,
-    },
-    handleFilter: {
-      type: Function,
-      required: false,
-    },
-    handleList: {
-      type: Function,
-      required: false,
-    },
-    handleEdit: {
-      type: Function,
-      required: false,
-    },
-    handleBack: {
-      type: Function,
-      required: false,
-    },
-    handleSubmit: {
-      type: Function,
-      required: false,
-    },
-    handleReset: {
-      type: Function,
-      required: false,
-    },
-    handleDelete: {
-      type: Function,
-      required: false,
-    },
-    handleAdd: {
-      type: Function,
-      required: false,
-    },
-    handleSend: {
-      type: Function,
-      required: false,
-    },
-    handleAddDocument: {
-      type: Function,
-      required: false,
-    },
-    onSendFilter: {
-      type: Function,
-      required: false,
-    },
-    resetFilter: {
-      type: Function,
-      required: false,
-    },
-    handleUploadDocument: {
-      type: Function,
-      required: false,
-    },
-    title: {
-      type: String,
-      required: false,
-    },
-    isLoading: {
-      type: Boolean,
-      required: false,
-      default: () => false,
-    },
-  },
-  methods: {
-    backAction() {
-      if (this.handleBack) {
-        this.handleBack()
-      }
-    },
-    listItem() {
-      if (this.handleList) {
-        this.handleList()
-      }
-    },
-    addItem() {
-      if (this.handleAdd) {
-        this.handleAdd()
-      }
-    },
-    addDocument() {
-      if (this.addDocument) {
-        this.handleAddDocument()
-      }
-    },
-    uploadDocument() {
-      if (this.uploadDocument) {
-        this.handleUploadDocument()
-      }
-    },
-    editItem() {
-      if (this.handleEdit) {
-        this.handleEdit()
-      }
-    },
-    sendItem() {
-      if (this.handleSend) {
-        this.handleSend()
-      }
-    },
-    submitItem() {
-      if (this.handleSubmit) {
-        this.handleSubmit()
-      }
-    },
-    onHandleDelete() {
-      this.$confirm.require({
-        header: 'Confirmation',
-        message: 'Are you sure you want to delete this item?',
-        accept: () => {
-          this.handleDelete()
-        },
-      })
-    },
-    resetItem() {
-      if (this.handleReset) {
-        this.handleReset()
-      }
-    },
-  },
-}
+)
 </script>
