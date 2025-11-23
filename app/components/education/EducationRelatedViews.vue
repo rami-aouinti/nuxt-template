@@ -16,26 +16,29 @@
         column
         class="d-flex flex-wrap gap-2"
       >
-      <v-chip
-        v-for="view in views"
-        :key="view"
-        color="primary"
-        label
-        variant="tonal"
-        :to="buildLink(view)"
-        component="NuxtLink"
-      >
-        {{ view.replace(/\.vue$/, '') }}
-      </v-chip>
+        <v-chip
+          v-for="view in views"
+          :key="view"
+          color="primary"
+          label
+          variant="tonal"
+          :to="buildLink(view)"
+          component="NuxtLink"
+        >
+          {{ label(view) }}
+        </v-chip>
       </v-chip-group>
     </v-card-text>
   </v-card>
 </template>
 
 <script setup lang="ts">
+import { legacyViewSlugToLabel, legacyViewSlugToPath } from '~/utils/education/legacyRoutes'
+
 defineProps<{
   views: string[]
 }>()
 
-const buildLink = (view: string) => `/education/views/${view.replace(/\.vue$/, '')}`
+const buildLink = (view: string) => legacyViewSlugToPath(view)
+const label = (view: string) => legacyViewSlugToLabel(view)
 </script>

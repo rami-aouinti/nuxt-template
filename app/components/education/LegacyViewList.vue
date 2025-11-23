@@ -27,7 +27,7 @@
             :key="item.slug"
             :title="item.name"
             :subtitle="item.slug"
-            :to="`/education/views/${item.slug}`"
+            :to="buildLink(item.slug)"
             link
           />
         </v-list>
@@ -38,6 +38,7 @@
 
 <script setup lang="ts">
 import type { LegacyViewEntry } from '~/utils/education/legacyViews'
+import { legacyViewSlugToPath } from '~/utils/education/legacyRoutes'
 
 const props = defineProps<{
   views: LegacyViewEntry[]
@@ -57,4 +58,6 @@ const groupedViews = computed(() =>
     return groups
   }, {}),
 )
+
+const buildLink = (slug: string) => legacyViewSlugToPath(slug)
 </script>

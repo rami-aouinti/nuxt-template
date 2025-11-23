@@ -18,7 +18,7 @@
             <v-btn
               color="primary"
               variant="elevated"
-              :to="'/education/views/accessurl'"
+              :to="accessUrlLegacyPath"
             >
               Voir les vues legacy
             </v-btn>
@@ -168,6 +168,7 @@
 
 <script setup lang="ts">
 import { extractHydraMembers } from '~/utils/education/hydra'
+import { legacyViewSlugToPath } from '~/utils/education/legacyRoutes'
 
 type AccessUrl = {
   '@id'?: string
@@ -190,6 +191,7 @@ type AccessUrlCollection = {
 
 const educationApi = useEducationApi()
 
+const accessUrlLegacyPath = legacyViewSlugToPath('accessurl')
 const apiBase = computed(() => educationApi.baseUrl.value)
 
 const {

@@ -15,16 +15,16 @@
         <v-card variant="outlined">
           <v-card-item>
             <v-card-title class="text-subtitle-1 font-weight-bold">
-              Explorer toutes les vues
+              Catalogue complet des vues
             </v-card-title>
             <v-card-subtitle class="text-body-2 text-medium-emphasis">
-              Accédez à l’intégralité du dossier <code>education/views</code> directement dans Nuxt 4 / Vuetify 3.
+              Toutes les pages de <code>education/views</code> sont désormais routées sous <code>/education</code>.
             </v-card-subtitle>
           </v-card-item>
           <v-card-actions>
             <v-btn
               color="primary"
-              :to="'/education/views'"
+              :to="'/education/legacy'"
               variant="tonal"
             >
               Ouvrir le catalogue complet

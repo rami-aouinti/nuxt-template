@@ -18,14 +18,14 @@
             <v-btn
               color="primary"
               variant="elevated"
-              :to="'/education/views/social/List'"
+              :to="legacySocialPath"
             >
               Fil d’actualité legacy
             </v-btn>
             <v-btn
               color="primary"
               variant="tonal"
-              :to="'/education/views/admin/UserList'"
+              :to="legacyAdminPath"
             >
               Gestion admin legacy
             </v-btn>
@@ -216,6 +216,7 @@
 
 <script setup lang="ts">
 import { extractHydraMembers } from '~/utils/education/hydra'
+import { legacyViewSlugToPath } from '~/utils/education/legacyRoutes'
 
 type SocialAuthor = {
   username?: string
@@ -251,6 +252,8 @@ type HydraCollection<T> = {
 
 const educationApi = useEducationApi()
 const apiBase = computed(() => educationApi.baseUrl.value)
+const legacySocialPath = legacyViewSlugToPath('social/List')
+const legacyAdminPath = legacyViewSlugToPath('admin/UserList')
 
 const {
   data: socialPostsResponse,

@@ -18,7 +18,7 @@
             <v-btn
               color="primary"
               variant="elevated"
-              :to="'/education/views/glossary'"
+              :to="legacyGlossaryPath"
             >
               Ouvrir les vues legacy
             </v-btn>
@@ -137,6 +137,7 @@
 
 <script setup lang="ts">
 import { extractHydraMembers } from '~/utils/education/hydra'
+import { legacyViewSlugToPath } from '~/utils/education/legacyRoutes'
 
 type GlossaryTerm = {
   '@id'?: string
@@ -156,6 +157,7 @@ type GlossaryCollection = {
 
 const educationApi = useEducationApi()
 const apiBase = computed(() => educationApi.baseUrl.value)
+const legacyGlossaryPath = legacyViewSlugToPath('glossary')
 
 const {
   data: glossaryResponse,
