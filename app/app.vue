@@ -92,4 +92,7 @@ useSeoMeta(() => ({
   </NuxtLayout>
   <NuxtPage v-else :key="route.fullPath" />
   <AppNotificationToasts />
+  <ClientOnly>
+    <Toast position="bottom-right" />
+  </ClientOnly>
 </template>
