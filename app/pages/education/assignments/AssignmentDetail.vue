@@ -174,7 +174,7 @@ import { useSecurityStore } from '~/stores/securityStore'
 import { usePlatformConfig } from '~/stores/platformConfig'
 import cStudentPublicationService from '../../../services/cstudentpublication'
 import axios from 'axios'
-import { ENTRYPOINT } from '../../config/entrypoint'
+import { ENTRYPOINT } from '~/config/entrypoint'
 import { useNotification } from '~/composables/education/notification'
 
 import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'

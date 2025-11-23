@@ -23,7 +23,7 @@ import '@uppy/webcam/css/style.css'
 import Uppy from '@uppy/core'
 import { Dashboard } from '@uppy/vue'
 
-import { ENTRYPOINT } from '../../config/entrypoint'
+import { ENTRYPOINT } from '~/config/entrypoint'
 import { useCidReq } from '~/composables/education/cidReq'
 import { useUpload } from '~/composables/education/upload'
 

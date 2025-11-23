@@ -60,7 +60,7 @@ import XHRUpload from '@uppy/xhr-upload'
 import ImageEditor from '@uppy/image-editor'
 import { useRoute, useRouter } from 'vue-router'
 import { RESOURCE_LINK_PUBLISHED } from '../../constants/entity/resourcelink'
-import { ENTRYPOINT } from '../../config/entrypoint'
+import { ENTRYPOINT } from '~/config/entrypoint'
 import { useCidReq } from '~/composables/education/cidReq'
 import { useUpload } from '~/composables/education/upload'
 
