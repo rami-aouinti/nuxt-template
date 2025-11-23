@@ -1,7 +1,7 @@
 import {
   RESOURCE_LINK_DRAFT,
   RESOURCE_LINK_PUBLISHED,
-} from '~/constants/entity/resourcelink.js'
+} from '~/constants/entity/resourcelink'
 
 /**
  * @param {Boolean} visibility
