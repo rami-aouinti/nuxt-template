@@ -318,44 +318,68 @@ export const resolveProductPricing = (
   }
 }
 
+const addImagePath = (candidate: unknown, paths: Set<string>) => {
+  if (typeof candidate === 'string' && candidate.trim().length > 0) {
+    paths.add(candidate)
+    return true
+  }
+
+  const record = toRecord(candidate)
+  if (!record) {
+    return false
+  }
+
+  const path = getString(record, 'path')
+  const file = getString(record, 'file')
+
+  if (path) {
+    paths.add(path)
+  }
+
+  if (file) {
+    paths.add(file)
+  }
+
+  return Boolean(path || file)
+}
+
+const collectImagePaths = (source: unknown, paths: Set<string>) => {
+  if (!source) {
+    return
+  }
+
+  if (addImagePath(source, paths)) {
+    return
+  }
+
+  if (Array.isArray(source)) {
+    for (const item of source) {
+      collectImagePaths(item, paths)
+    }
+
+    return
+  }
+
+  const record = toRecord(source)
+  if (!record) {
+    return
+  }
+
+  const collectionItems = extractCollectionItems(record)
+  if (collectionItems.length) {
+    for (const item of collectionItems) {
+      collectImagePaths(item, paths)
+    }
+  }
+}
+
 export const resolveProductImagePath = (
   product:
     | ProductJsonldSyliusShopProductIndex
     | ProductJsonldSyliusShopProductShow,
 ): string | null => {
-  const record = product as UnknownRecord
-  const imageSources = [record.image, record.images, record.productImage]
-
-  for (const source of imageSources) {
-    if (!source) {
-      continue
-    }
-
-    if (typeof source === 'string' && source.trim().length > 0) {
-      return source
-    }
-
-    if (Array.isArray(source)) {
-      for (const item of source) {
-        if (typeof item === 'string' && item.trim().length > 0) {
-          return item
-        }
-
-        const itemRecord = toRecord(item)
-        const path = getString(itemRecord, 'path')
-        if (path) {
-          return path
-        }
-
-        const file = getString(itemRecord, 'file')
-        if (file) {
-          return file
-        }
-      }
-    }
-  }
-
-  return null
+  const [firstPath] = resolveProductImagePaths(product)
+  return firstPath ?? null
 }
 
 export const resolveProductImagePaths = (
@@ -364,38 +388,11 @@ export const resolveProductImagePaths = (
     | ProductJsonldSyliusShopProductShow,
 ): string[] => {
   const record = product as UnknownRecord
-  const imageSources = [record.image, record.images, record.productImage]
+  const imageSources = [record.images, record.productImage, record.image]
   const paths = new Set<string>()
 
   for (const source of imageSources) {
-    if (!source) {
-      continue
-    }
-
-    if (typeof source === 'string' && source.trim().length > 0) {
-      paths.add(source)
-      continue
-    }
-
-    if (Array.isArray(source)) {
-      for (const item of source) {
-        if (typeof item === 'string' && item.trim().length > 0) {
-          paths.add(item)
-          continue
-        }
-
-        const itemRecord = toRecord(item)
-        const path = getString(itemRecord, 'path')
-        if (path) {
-          paths.add(path)
-        }
-
-        const file = getString(itemRecord, 'file')
-        if (file) {
-          paths.add(file)
-        }
-      }
-    }
+    collectImagePaths(source, paths)
   }
 
   if (!paths.size) {
