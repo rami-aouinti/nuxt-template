@@ -9,3 +9,4 @@ const blocks = {
 }
 
 export { blocks }
+export default blocks

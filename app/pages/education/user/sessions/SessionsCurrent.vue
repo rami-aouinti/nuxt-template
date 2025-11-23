@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import SessionTabs from '../../../../components/education/session/SessionTabs.vue'
-import StickyCourses from '../../../views/user/courses/StickyCourses.vue'
+import StickyCourses from '../courses/StickyCourses.vue'
 import SessionCategoryView from '../../../../components/education/session/SessionCategoryView'
 import { useSession } from './session'
 import Loading from '../../../../components/education/Loading.vue'

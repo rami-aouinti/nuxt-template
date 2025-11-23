@@ -473,7 +473,7 @@ import { useStore } from 'vuex'
 import {
   RESOURCE_LINK_DRAFT,
   RESOURCE_LINK_PUBLISHED,
-} from '../../constants/entity/resourcelink'
+} from '~/constants/entity/resourcelink'
 import { isEmpty } from 'lodash'
 import { useRoute, useRouter } from 'vue-router'
 

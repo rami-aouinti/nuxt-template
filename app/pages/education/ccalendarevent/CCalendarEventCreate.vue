@@ -18,7 +18,7 @@ import Loading from '../../../components/education/Loading.vue'
 import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import isEmpty from 'lodash/isEmpty'
-import { RESOURCE_LINK_PUBLISHED } from '../../constants/entity/resourcelink.js'
+import { RESOURCE_LINK_PUBLISHED } from '~/constants/entity/resourcelink'
 import BaseButton from '../../../components/education/basecomponents/BaseButton.vue'
 import { useSecurityStore } from '~/stores/securityStore'
 

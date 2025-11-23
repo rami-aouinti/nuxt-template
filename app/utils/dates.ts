@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { useFormatDate } from '../components/education/legacy/composables/formatDate.js'
+import { useFormatDate } from '~/composables/education/formatDate'
 
 const { getCurrentTimezone } = useFormatDate()
 
