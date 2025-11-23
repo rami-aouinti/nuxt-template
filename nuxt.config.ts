@@ -216,9 +216,8 @@ export default defineNuxtConfig({
           './app/utils/stubs/empty.css',
         ),
       },
-    },
-    build: {
-      sourcemap: false,
+      build: {
+        sourcemap: false,
       cssCodeSplit: false,
     },
   },
