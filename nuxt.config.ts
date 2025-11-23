@@ -123,20 +123,22 @@ export default defineNuxtConfig({
       },
     ],
   },
-    vite: {
-      resolve: {
-        alias: {
-          i18n: projectRoot,
-          primevue: resolve(__dirname, './app/primevue'),
-          '@primevue/core': resolve(__dirname, './app/primevue/core'),
-          axios: resolve(__dirname, './app/axios'),
-          vuex: resolve(__dirname, './app/vuex'),
-          'vuex-map-fields': resolve(__dirname, './app/vuex-map-fields'),
-          '@vuelidate/core': resolve(__dirname, './app/vuelidate/core'),
-          '@vuelidate/validators': resolve(__dirname, './app/vuelidate/validators'),
-          vuedraggable: resolve(__dirname, './app/vuedraggable'),
-          '@vue/apollo-composable': resolve(__dirname, './app/vue-apollo-composable'),
-        },
+  vite: {
+    resolve: {
+      alias: {
+        i18n: projectRoot,
+        primevue: resolve(__dirname, './app/primevue'),
+        '~/education': resolve(projectRoot, 'education'),
+        '@/education': resolve(projectRoot, 'education'),
+        vuedraggable: resolve(
+          projectRoot,
+          './app/components/common/LocalDraggable.vue',
+        ),
+        vuex: resolve(projectRoot, './app/lib/vuex.ts'),
+        'vuex-map-fields': resolve(projectRoot, './app/lib/vuex-map-fields.ts'),
+        '@primevue/core/api': resolve(projectRoot, './app/primevue/core/api.ts'),
+        axios: resolve(projectRoot, './app/lib/axios.ts'),
+        '@uppy': resolve(projectRoot, './app/lib/uppy'),
       },
       build: {
         sourcemap: false,
@@ -147,14 +149,17 @@ export default defineNuxtConfig({
     alias: {
       i18n: projectRoot,
       primevue: resolve(__dirname, './app/primevue'),
-      '@primevue/core': resolve(__dirname, './app/primevue/core'),
-      axios: resolve(__dirname, './app/axios'),
-      vuex: resolve(__dirname, './app/vuex'),
-      'vuex-map-fields': resolve(__dirname, './app/vuex-map-fields'),
-      '@vuelidate/core': resolve(__dirname, './app/vuelidate/core'),
-      '@vuelidate/validators': resolve(__dirname, './app/vuelidate/validators'),
-      vuedraggable: resolve(__dirname, './app/vuedraggable'),
-      '@vue/apollo-composable': resolve(__dirname, './app/vue-apollo-composable'),
+      '~/education': resolve(projectRoot, 'education'),
+      '@/education': resolve(projectRoot, 'education'),
+      vuedraggable: resolve(
+        projectRoot,
+        './app/components/common/LocalDraggable.vue',
+      ),
+      vuex: resolve(projectRoot, './app/lib/vuex.ts'),
+      'vuex-map-fields': resolve(projectRoot, './app/lib/vuex-map-fields.ts'),
+      '@primevue/core/api': resolve(projectRoot, './app/primevue/core/api.ts'),
+      axios: resolve(projectRoot, './app/lib/axios.ts'),
+      '@uppy': resolve(projectRoot, './app/lib/uppy'),
     },
   },
   i18n: {
