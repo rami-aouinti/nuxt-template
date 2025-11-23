@@ -1,70 +1,104 @@
 <template>
-  <div class="catalogue-sessions p-4">
-    <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
-      <div>
-        <strong>{{ $t('Total number of sessions') }}:</strong>
-        {{ sessions?.length || 0 }}<br />
-        <strong>{{ $t('Matching sessions') }}:</strong>
-        {{ filteredSessions.length }}
-        <div
-          v-if="filters['global'].value"
-          class="text-xs text-gray-500 italic mt-1"
-        >
-          {{ $t('Searching by') }}: {{ activeSearchFields.join(', ') }}
+  <v-container class="py-8">
+    <v-card class="mb-6" elevation="2" rounded="xl">
+      <v-card-text>
+        <div class="d-flex flex-wrap justify-space-between align-start gap-4 mb-4">
+          <div>
+            <div class="text-h5 font-weight-bold mb-1">{{ $t('Session catalogue') }}</div>
+            <div class="text-body-2 text-medium-emphasis">
+              {{ $t('Discover and join upcoming sessions.') }}
+            </div>
+          </div>
+          <div class="d-flex flex-column flex-sm-row gap-3 align-end">
+            <v-chip color="primary" variant="tonal" prepend-icon="mdi-format-list-numbered">
+              {{ $t('Total number of sessions') }}: {{ sessions?.length || 0 }}
+            </v-chip>
+            <v-chip color="secondary" variant="tonal" prepend-icon="mdi-filter-check">
+              {{ $t('Matching sessions') }}: {{ filteredSessions.length }}
+            </v-chip>
+          </div>
         </div>
-      </div>
 
-      <div class="flex gap-3 items-end">
-        <Button
-          :label="$t('Clear filter results')"
-          class="p-button-outlined"
-          icon="pi pi-filter-slash"
-          @click="clearFilter()"
-        />
-        <span v-if="activeSearchFields.length" class="p-input-icon-left">
-          <i class="pi pi-search" />
-          <InputText
-            v-model="filters['global'].value"
-            :placeholder="$t('Search')"
-            class="w-64"
-          />
-        </span>
-      </div>
-    </div>
+        <v-row class="align-end" dense>
+          <v-col cols="12" md="3">
+            <v-btn
+              color="secondary"
+              prepend-icon="mdi-filter-remove-outline"
+              variant="tonal"
+              block
+              @click="clearFilter()"
+            >
+              {{ $t('Clear filter results') }}
+            </v-btn>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-if="activeSearchFields.length"
+              v-model="filters.global.value"
+              :label="$t('Search')"
+              density="comfortable"
+              prepend-inner-icon="mdi-magnify"
+              variant="outlined"
+              clearable
+            />
+          </v-col>
+          <v-col cols="12" md="3" class="text-sm-end">
+            <div class="text-caption text-medium-emphasis" v-if="filters.global.value">
+              {{ $t('Searching by') }}: {{ activeSearchFields.join(', ') }}
+            </div>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
 
-    <div v-if="status" class="text-center text-gray-500 py-6">
-      {{ $t('Loading sessions. Please wait.') }}
-    </div>
+    <v-alert
+      v-if="status"
+      type="info"
+      variant="tonal"
+      class="mb-6"
+      border="start"
+      density="comfortable"
+      :text="$t('Loading sessions. Please wait.')"
+    />
 
-    <div
+    <v-alert
       v-else-if="!filteredSessions.length"
-      class="text-center text-gray-500 py-6"
-    >
-      {{ $t('No session available') }}
-    </div>
+      type="warning"
+      variant="tonal"
+      class="mb-6"
+      border="start"
+      density="comfortable"
+      :text="$t('No session available')"
+    />
 
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4"
-    >
-      <CatalogueSessionCard
+    <v-row v-else class="g-4">
+      <v-col
         v-for="session in visibleSessions"
         :key="session.id"
-        :session="session"
-        @rate="onRatingChange"
-        @subscribed="onSessionSubscribed"
-      />
-    </div>
+        cols="12"
+        sm="6"
+        lg="4"
+        xl="3"
+      >
+        <v-card class="h-100" variant="outlined" rounded="lg">
+          <v-card-text class="pa-0">
+            <CatalogueSessionCard
+              :session="session"
+              @rate="onRatingChange"
+              @subscribed="onSessionSubscribed"
+            />
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
 
-    <div v-if="loadingMore" class="text-center text-gray-400 py-4">
+    <div v-if="loadingMore" class="text-center text-medium-emphasis py-4">
       {{ $t('Loading more sessions...') }}
     </div>
-  </div>
+  </v-container>
 </template>
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-import InputText from 'primevue/inputtext'
-import Button from 'primevue/button'
-import { FilterMatchMode } from '@primevue/core/api'
 import axios from 'axios'
 import CatalogueSessionCard from '../../../components/education/session/CatalogueSessionCard.vue'
 import { useSecurityStore } from '~/stores/securityStore'
@@ -85,7 +119,7 @@ const urlId = window.access_url_id
 const status = ref(false)
 const sessions = ref([])
 const filters = ref({
-  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  global: { value: null },
 })
 const rowsPerScroll = 9
 const visibleCount = ref(rowsPerScroll)
@@ -160,94 +194,47 @@ const onSessionSubscribed = (sessionId) => {
   }
 }
 
-const load = async () => {
+const fetchSessions = async () => {
   status.value = true
   try {
-    const response = await axios.get('/catalogue/sessions-list')
-    sessions.value = response.data.map((s) => ({
-      ...s,
-      userVote: null,
-    }))
-
-    const votes = await userRelCourseVoteService.getUserVotes({
-      userId: currentUserId,
-      urlId,
-    })
-
-    for (const vote of votes) {
-      const sessionId =
-        vote.session?.id ?? parseInt(vote.session?.split('/')?.pop())
-      const session = sessions.value.find((s) => s.id === sessionId)
-      if (session) {
-        session.userVote = vote
-      }
-    }
-
-    const sessionSubs = await axios.get(
-      `/api/session_rel_users?user=${currentUserId}`,
-    )
-
-    for (const sub of sessionSubs.data['hydra:member']) {
-      const sessionId =
-        sub.session?.id ?? parseInt(sub.session?.split('/')?.pop())
-      const session = sessions.value.find((s) => s.id === sessionId)
-      if (session) {
-        session.isSubscribed = true
-      }
-    }
-  } catch (error) {
-    console.log(error)
+    const response = await axios.get('/sessions')
+    sessions.value = response.data
+    applySearch()
+  } catch (e) {
+    console.error('Error fetching sessions:', e)
   } finally {
     status.value = false
   }
 }
 
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-  load()
-})
+const filteredSessions = ref([])
 
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
+const matchesSearch = (session) => {
+  const keyword = (filters.value.global.value || '').toString().toLowerCase()
+  if (!keyword) return true
 
-const clearFilter = () => {
-  filters.value.global.value = null
+  const haystack = []
+  if (isEnabled('by_title')) haystack.push(session.title)
+  if (isEnabled('by_tag')) haystack.push(session.tags)
+  if (isEnabled('by_date')) haystack.push(session.startDate)
+
+  return haystack
+    .filter(Boolean)
+    .some((field) => String(field).toLowerCase().includes(keyword))
+}
+
+const applySearch = () => {
+  filteredSessions.value = sessions.value.filter((s) => matchesSearch(s))
   visibleCount.value = rowsPerScroll
 }
 
-const filteredSessions = computed(() => {
-  const keyword = filters.value.global.value?.toLowerCase()
-  if (!keyword) return sessions.value
-  return sessions.value.filter((session) => {
-    const terms = []
+const visibleSessionsBase = computed(() => filteredSessions.value)
 
-    if (isEnabled('by_title') && session.title) {
-      terms.push(session.title.toLowerCase())
-    }
+const visibleSessions = computed(() =>
+  visibleSessionsBase.value.slice(0, visibleCount.value),
+)
 
-    if (isEnabled('by_tag') && session.tags?.length) {
-      terms.push(
-        ...session.tags.map((tag) => tag.name?.toLowerCase()).filter(Boolean),
-      )
-    }
-
-    if (isEnabled('by_date') && session.startDate) {
-      const start = new Date(session.startDate)
-        .toLocaleDateString()
-        .toLowerCase()
-      terms.push(start)
-    }
-
-    return terms.some((t) => t.includes(keyword))
-  })
-})
-
-const visibleSessions = computed(() => {
-  return filteredSessions.value.slice(0, visibleCount.value)
-})
-
-const handleScroll = () => {
+function handleScroll() {
   if (loadingMore.value) return
 
   const threshold = 150
@@ -256,7 +243,7 @@ const handleScroll = () => {
   const fullHeight = document.documentElement.scrollHeight
 
   if (scrollTop + viewportHeight + threshold >= fullHeight) {
-    if (visibleCount.value < filteredSessions.value.length) {
+    if (visibleCount.value < visibleSessionsBase.value.length) {
       loadingMore.value = true
       setTimeout(() => {
         visibleCount.value += rowsPerScroll
@@ -269,7 +256,21 @@ const handleScroll = () => {
 watch(
   () => filters.value.global.value,
   () => {
-    visibleCount.value = rowsPerScroll
+    applySearch()
   },
 )
+
+onMounted(async () => {
+  window.addEventListener('scroll', handleScroll)
+  await fetchSessions()
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
+
+function clearFilter() {
+  filters.value.global.value = null
+  applySearch()
+}
 </script>

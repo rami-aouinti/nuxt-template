@@ -1,99 +1,144 @@
 <template>
-  <div class="catalogue-courses p-4">
-    <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
-      <div>
-        <strong>{{ $t('Total number of courses') }}:</strong>
-        {{ courses.length }}<br />
-        <strong>{{ $t('Matching courses') }}:</strong>
-        {{ totalVisibleCourses }}
-      </div>
-      <div class="flex gap-3 items-center">
-        <Button
-          :label="$t('Clear filter results')"
-          class="p-button-outlined"
-          icon="pi pi-filter-slash"
-          @click="clearFilter"
-        />
-        <Button
-          :label="$t('Advanced search')"
-          class="p-button-outlined"
-          icon="pi pi-sliders-h"
-          @click="showAdvancedSearch = !showAdvancedSearch"
-        />
-
-        <Dropdown
-          v-if="allSortOptions.length"
-          v-model="sortField"
-          :options="allSortOptions"
-          :placeholder="$t('Sort by')"
-          class="w-64"
-          option-label="label"
-          option-value="value"
-        />
-        <div class="relative">
-          <i
-            class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-          />
-          <InputText
-            v-model="filters['global'].value"
-            :placeholder="$t('Search')"
-            class="pl-10 w-64"
-          />
+  <v-container class="py-8">
+    <v-card class="mb-6" elevation="2" rounded="xl">
+      <v-card-text>
+        <div class="d-flex flex-wrap align-start justify-space-between gap-4 mb-4">
+          <div>
+            <div class="text-h5 font-weight-bold mb-1">{{ $t('Course catalogue') }}</div>
+            <div class="text-body-2 text-medium-emphasis">
+              {{ $t('Browse, filter, and subscribe to available courses.') }}
+            </div>
+          </div>
+          <div class="d-flex flex-column flex-sm-row gap-3 align-end">
+            <v-chip color="primary" variant="tonal" prepend-icon="mdi-format-list-numbered">
+              {{ $t('Total number of courses') }}: {{ courses.length }}
+            </v-chip>
+            <v-chip color="secondary" variant="tonal" prepend-icon="mdi-filter-check">
+              {{ $t('Matching courses') }}: {{ totalVisibleCourses }}
+            </v-chip>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Advanced search form -->
-    <div
-      v-if="showAdvancedSearch"
-      class="p-4 border border-gray-300 rounded bg-white mb-6"
-    >
-      <AdvancedCourseFilters
-        :key="advancedFormKey"
-        :allow-title="courseCatalogueSettings.filters?.by_title ?? true"
-        :fields="extraFields"
-        @apply="onAdvancedApply"
-        @clear="onAdvancedClear"
-      />
-    </div>
+        <v-row class="align-end" dense>
+          <v-col cols="12" md="3">
+            <v-btn
+              color="primary"
+              prepend-icon="mdi-tune"
+              variant="elevated"
+              block
+              @click="showAdvancedSearch = !showAdvancedSearch"
+            >
+              {{ showAdvancedSearch ? $t('Hide advanced search') : $t('Advanced search') }}
+            </v-btn>
+          </v-col>
+          <v-col cols="12" md="3">
+            <v-btn
+              color="secondary"
+              prepend-icon="mdi-filter-remove-outline"
+              variant="tonal"
+              block
+              @click="clearFilter"
+            >
+              {{ $t('Clear filter results') }}
+            </v-btn>
+          </v-col>
+          <v-col cols="12" md="3">
+            <v-select
+              v-model="sortField"
+              :items="allSortOptions"
+              :item-title="(item) => item.label"
+              :item-value="(item) => item.value"
+              :label="$t('Sort by')"
+              clearable
+              density="comfortable"
+              prepend-inner-icon="mdi-sort"
+            />
+          </v-col>
+          <v-col cols="12" md="3">
+            <v-text-field
+              v-model="filters.global.value"
+              :label="$t('Search')"
+              density="comfortable"
+              prepend-inner-icon="mdi-magnify"
+              variant="outlined"
+            />
+          </v-col>
+        </v-row>
 
-    <div v-if="status" class="text-center text-gray-500 py-6">
-      {{ $t('Loading courses. Please wait.') }}
-    </div>
+        <v-expand-transition>
+          <v-card
+            v-if="showAdvancedSearch"
+            class="mt-4"
+            variant="tonal"
+            color="primary"
+            rounded="lg"
+          >
+            <v-card-text>
+              <AdvancedCourseFilters
+                :key="advancedFormKey"
+                :allow-title="courseCatalogueSettings.filters?.by_title ?? true"
+                :fields="extraFields"
+                @apply="onAdvancedApply"
+                @clear="onAdvancedClear"
+              />
+            </v-card-text>
+          </v-card>
+        </v-expand-transition>
+      </v-card-text>
+    </v-card>
 
-    <div
+    <v-alert
+      v-if="status"
+      type="info"
+      variant="tonal"
+      class="mb-6"
+      border="start"
+      density="comfortable"
+      :text="$t('Loading courses. Please wait.')"
+    />
+
+    <v-alert
       v-else-if="!filteredCourses.length"
-      class="text-center text-gray-500 py-6"
-    >
-      {{ $t('No course available') }}
-    </div>
+      type="warning"
+      variant="tonal"
+      class="mb-6"
+      border="start"
+      density="comfortable"
+      :text="$t('No course available')"
+    />
 
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4"
-    >
-      <CatalogueCourseCard
+    <v-row v-else class="g-4">
+      <v-col
         v-for="course in visibleCourses"
         :key="course.id"
-        :card-extra-fields="cardExtraFields"
-        :course="course"
-        :current-user-id="currentUserId"
-        :show-title="showCourseTitle"
-        @rate="onRatingChange"
-        @subscribed="onUserSubscribed"
-      />
-    </div>
+        cols="12"
+        sm="6"
+        lg="4"
+        xl="3"
+      >
+        <v-card class="h-100" variant="outlined" rounded="lg">
+          <v-card-text class="pa-0">
+            <CatalogueCourseCard
+              :card-extra-fields="cardExtraFields"
+              :course="course"
+              :current-user-id="currentUserId"
+              :show-title="showCourseTitle"
+              @rate="onRatingChange"
+              @subscribed="onUserSubscribed"
+            />
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
 
-    <div v-if="loadingMore" class="text-center text-gray-400 py-4">
+    <div v-if="loadingMore" class="text-center text-medium-emphasis py-4">
       {{ $t('Loading more courses...') }}
     </div>
-  </div>
+  </v-container>
 </template>
+
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
-import InputText from 'primevue/inputtext'
-import Button from 'primevue/button'
-import Dropdown from 'primevue/dropdown'
-import { FilterMatchMode } from '@primevue/core/api'
 import { useNotification } from '~/composables/education/notification'
 import { useLanguage } from '~/composables/education/language'
 import { useSecurityStore } from '~/stores/securityStore'
@@ -167,7 +212,7 @@ const status = ref(false)
 const courses = ref([])
 const filteredCourses = ref([])
 const filters = ref({
-  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  global: { value: null },
 })
 
 const rowsPerScroll = 9
@@ -320,80 +365,54 @@ function matchesExtraField(course, field, payload) {
   }
 
   const tokensContain = (needle) =>
-    courseTokens.some((tok) => tok.includes(normalizeString(needle)))
+    courseTokens.some((token) => token.includes(normalizeString(needle)))
 
-  const vt = Number(field.value_type)
+  const vt = field.value_type
 
-  // SELECT simple
-  if (vt === 4) {
-    const sel = payload[`extra_${field.variable}`]
-    if (!sel) return true
-    const label = optionLabelBy({ field, idOrValue: sel }) ?? sel
-    return tokensContain(label) || tokensContain(sel)
+  // SELECT or AUTOCOMPLETE SINGLE
+  if (vt === 3 || vt === 6) {
+    const val = payload[`extra_${field.variable}`]
+    if (!val) return true
+    const lbl = optionLabelBy({ field, idOrValue: val }) ?? val
+    return tokensContain(lbl)
   }
 
-  // MULTISELECT
-  if (vt === 5) {
-    const arr = payload[`extra_${field.variable}`]
-    if (!arr || !arr.length) return true
-    const labels = optionLabelsForArray({ field, arr })
+  // SELECT MULTIPLE
+  if (vt === 4 || vt === 7) {
+    const val = payload[`extra_${field.variable}`]
+    if (!val?.length) return true
+    const labels = optionLabelsForArray({ field, arr: val })
     return labels.every((lbl) => tokensContain(lbl))
   }
 
-  // DATE / DATETIME
-  if (vt === 6 || vt === 7) {
-    const sel = payload[`extra_${field.variable}`]
-    if (!sel) return true
-    const dateStr =
-      sel instanceof Date
-        ? `${sel.getFullYear()}-${String(sel.getMonth() + 1).padStart(2, '0')}-${String(sel.getDate()).padStart(2, '0')}`
-        : String(sel)
-    return tokensContain(dateStr)
-  }
-
-  // DOUBLE SELECT
-  if (vt === 8) {
-    const first = payload[`extra_${field.variable}`]
-    const second = payload[`extra_${field.variable}_second`]
-    if (!first && !second) return true
-
-    const firstLbl = first ? optionLabelBy({ field, idOrValue: first }) : null
-    const secondLbl = second
-      ? optionLabelBy({ field, idOrValue: second })
-      : null
-
-    const okFirst = !first || tokensContain(firstLbl ?? first)
-    const okSecond = !second || tokensContain(secondLbl ?? second)
-    return okFirst && okSecond
+  // DATE RANGE
+  if (vt === 11 || vt === 19) {
+    const from = payload[`extra_${field.variable}_from`]
+    const to = payload[`extra_${field.variable}_to`]
+    const valueStr = courseVal?.toString() ?? ''
+    return (
+      (!from || new Date(valueStr) >= new Date(from)) &&
+      (!to || new Date(valueStr) <= new Date(to))
+    )
   }
 
   // TAGS
-  if (vt === 10) {
-    const arr = payload[`extra_${field.variable}`]
-    if (!arr || !arr.length) return true
-    const want = arr.map(normalizeString)
-    return want.every((w) => tokensContain(w))
+  if (vt === 12) {
+    const val = payload[`extra_${field.variable}`]
+    if (!val?.length) return true
+    const tags = splitCandidates(val)
+    return tags.every((tag) => tokensContain(tag))
   }
 
-  // CHECKBOX
-  if (vt === 13) {
-    const v = payload[`extra_${field.variable}`]
-    if (v == null) return true
-    const expected = v === true || v === 1 || v === '1'
-    const yes = ['1', 'yes', 'true', 'on']
-    const courseHasYes = courseTokens.some((x) => yes.includes(x))
-    return expected ? courseHasYes : !courseHasYes
-  }
-
-  // SELECT + TEXT
-  if (vt === 26) {
-    const first = payload[`extra_${field.variable}`]
-    const text = payload[`extra_${field.variable}_second`]
-    const okFirst =
-      !first ||
-      tokensContain(optionLabelBy({ field, idOrValue: first }) ?? first)
-    const okText = !text || tokensContain(text)
-    return okFirst && okText
+  // DOUBLE SELECT
+  if (vt === 21) {
+    const l1 = payload[`extra_${field.variable}`]
+    const l2 = payload[`extra_${field.variable}_second`]
+    if (!l1 && !l2) return true
+    const labels = [l1, l2]
+      .filter(Boolean)
+      .map((x) => optionLabelBy({ field, idOrValue: x }) ?? x)
+    return labels.every((lbl) => tokensContain(lbl))
   }
 
   // TRIPLE SELECT
@@ -492,7 +511,6 @@ const visibleCoursesBase = computed(() => {
         valB = b.extra_fields?.[field] ?? ''
       }
 
-      // Natural compare for strings; numeric compare otherwise
       const cmp =
         typeof valA === 'string' || typeof valB === 'string'
           ? natural.compare(String(valA), String(valB))
@@ -644,6 +662,7 @@ function onUserSubscribed({ courseId, newUser }) {
   }
 }
 </script>
+
 <style scoped>
 .catalogue-courses {
   width: 100%;

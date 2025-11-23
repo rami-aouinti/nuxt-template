@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { useSecurityStore } from '../~/stores/securityStore'
+import { useSecurityStore } from '~/stores/securityStore'
 import sessionService from '../../../../services/sessionService'
 import isEmpty from 'lodash/isEmpty'
 
