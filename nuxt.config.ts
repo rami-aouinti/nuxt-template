@@ -128,17 +128,93 @@ export default defineNuxtConfig({
       alias: {
         i18n: projectRoot,
         primevue: resolve(__dirname, './app/primevue'),
-        '~/education': resolve(projectRoot, 'education'),
-        '@/education': resolve(projectRoot, 'education'),
-        vuedraggable: resolve(
-          projectRoot,
-          './app/components/common/LocalDraggable.vue',
+        vuedraggable: resolve(__dirname, './app/utils/stubs/vuedraggable.ts'),
+        vuex: resolve(__dirname, './app/utils/stubs/vuex.ts'),
+        'vuex-map-fields': resolve(
+          __dirname,
+          './app/utils/stubs/vuex-map-fields.ts',
         ),
-        vuex: resolve(projectRoot, './app/lib/vuex.ts'),
-        'vuex-map-fields': resolve(projectRoot, './app/lib/vuex-map-fields.ts'),
-        '@primevue/core/api': resolve(projectRoot, './app/primevue/core/api.ts'),
-        axios: resolve(projectRoot, './app/lib/axios.ts'),
-        '@uppy': resolve(projectRoot, './app/lib/uppy'),
+        '@vue/apollo-composable': resolve(
+          __dirname,
+          './app/utils/stubs/vue-apollo-composable.ts',
+        ),
+        '@vuelidate/core': resolve(
+          __dirname,
+          './app/utils/stubs/vuelidate-core.ts',
+        ),
+        '@vuelidate/validators': resolve(
+          __dirname,
+          './app/utils/stubs/vuelidate-validators.ts',
+        ),
+        '@primevue/core/api': resolve(
+          __dirname,
+          './app/utils/stubs/primevue-core-api.ts',
+        ),
+        sortablejs: resolve(__dirname, './app/utils/stubs/sortablejs.ts'),
+        axios: resolve(__dirname, './app/utils/stubs/axios.ts'),
+        '@uppy/core': resolve(__dirname, './app/utils/stubs/uppy/core.ts'),
+        '@uppy/vue': resolve(__dirname, './app/utils/stubs/uppy/vue.ts'),
+        '@uppy/webcam': resolve(
+          __dirname,
+          './app/utils/stubs/uppy/webcam.ts',
+        ),
+        '@uppy/audio': resolve(__dirname, './app/utils/stubs/uppy/audio.ts'),
+        '@uppy/xhr-upload': resolve(
+          __dirname,
+          './app/utils/stubs/uppy/xhr-upload.ts',
+        ),
+        '@uppy/image-editor': resolve(
+          __dirname,
+          './app/utils/stubs/uppy/image-editor.ts',
+        ),
+        '@uppy/locales/lib/es_ES': resolve(
+          __dirname,
+          './app/utils/stubs/uppy/locale.ts',
+        ),
+        '@uppy/locales/lib/en_US': resolve(
+          __dirname,
+          './app/utils/stubs/uppy/locale.ts',
+        ),
+        '@uppy/locales/lib/fr_FR': resolve(
+          __dirname,
+          './app/utils/stubs/uppy/locale.ts',
+        ),
+        '@uppy/locales/lib/de_DE': resolve(
+          __dirname,
+          './app/utils/stubs/uppy/locale.ts',
+        ),
+        '@uppy/locales/lib/it_IT': resolve(
+          __dirname,
+          './app/utils/stubs/uppy/locale.ts',
+        ),
+        '@uppy/locales/lib/pl_PL': resolve(
+          __dirname,
+          './app/utils/stubs/uppy/locale.ts',
+        ),
+        '@uppy/locales/lib/pt_PT': resolve(
+          __dirname,
+          './app/utils/stubs/uppy/locale.ts',
+        ),
+        '@uppy/core/dist/style.css': resolve(
+          __dirname,
+          './app/utils/stubs/empty.css',
+        ),
+        '@uppy/dashboard/dist/style.css': resolve(
+          __dirname,
+          './app/utils/stubs/empty.css',
+        ),
+        '@uppy/image-editor/dist/style.css': resolve(
+          __dirname,
+          './app/utils/stubs/empty.css',
+        ),
+        '@uppy/webcam/dist/style.css': resolve(
+          __dirname,
+          './app/utils/stubs/empty.css',
+        ),
+        '@uppy/audio/dist/style.css': resolve(
+          __dirname,
+          './app/utils/stubs/empty.css',
+        ),
       },
       build: {
         sourcemap: false,
@@ -149,17 +225,93 @@ export default defineNuxtConfig({
     alias: {
       i18n: projectRoot,
       primevue: resolve(__dirname, './app/primevue'),
-      '~/education': resolve(projectRoot, 'education'),
-      '@/education': resolve(projectRoot, 'education'),
-      vuedraggable: resolve(
-        projectRoot,
-        './app/components/common/LocalDraggable.vue',
+      vuedraggable: resolve(__dirname, './app/utils/stubs/vuedraggable.ts'),
+      vuex: resolve(__dirname, './app/utils/stubs/vuex.ts'),
+      'vuex-map-fields': resolve(
+        __dirname,
+        './app/utils/stubs/vuex-map-fields.ts',
       ),
-      vuex: resolve(projectRoot, './app/lib/vuex.ts'),
-      'vuex-map-fields': resolve(projectRoot, './app/lib/vuex-map-fields.ts'),
-      '@primevue/core/api': resolve(projectRoot, './app/primevue/core/api.ts'),
-      axios: resolve(projectRoot, './app/lib/axios.ts'),
-      '@uppy': resolve(projectRoot, './app/lib/uppy'),
+      '@vue/apollo-composable': resolve(
+        __dirname,
+        './app/utils/stubs/vue-apollo-composable.ts',
+      ),
+      '@vuelidate/core': resolve(
+        __dirname,
+        './app/utils/stubs/vuelidate-core.ts',
+      ),
+      '@vuelidate/validators': resolve(
+        __dirname,
+        './app/utils/stubs/vuelidate-validators.ts',
+      ),
+      '@primevue/core/api': resolve(
+        __dirname,
+        './app/utils/stubs/primevue-core-api.ts',
+      ),
+      sortablejs: resolve(__dirname, './app/utils/stubs/sortablejs.ts'),
+      axios: resolve(__dirname, './app/utils/stubs/axios.ts'),
+      '@uppy/core': resolve(__dirname, './app/utils/stubs/uppy/core.ts'),
+      '@uppy/vue': resolve(__dirname, './app/utils/stubs/uppy/vue.ts'),
+      '@uppy/webcam': resolve(
+        __dirname,
+        './app/utils/stubs/uppy/webcam.ts',
+      ),
+      '@uppy/audio': resolve(__dirname, './app/utils/stubs/uppy/audio.ts'),
+      '@uppy/xhr-upload': resolve(
+        __dirname,
+        './app/utils/stubs/uppy/xhr-upload.ts',
+      ),
+      '@uppy/image-editor': resolve(
+        __dirname,
+        './app/utils/stubs/uppy/image-editor.ts',
+      ),
+      '@uppy/locales/lib/es_ES': resolve(
+        __dirname,
+        './app/utils/stubs/uppy/locale.ts',
+      ),
+      '@uppy/locales/lib/en_US': resolve(
+        __dirname,
+        './app/utils/stubs/uppy/locale.ts',
+      ),
+      '@uppy/locales/lib/fr_FR': resolve(
+        __dirname,
+        './app/utils/stubs/uppy/locale.ts',
+      ),
+      '@uppy/locales/lib/de_DE': resolve(
+        __dirname,
+        './app/utils/stubs/uppy/locale.ts',
+      ),
+      '@uppy/locales/lib/it_IT': resolve(
+        __dirname,
+        './app/utils/stubs/uppy/locale.ts',
+      ),
+      '@uppy/locales/lib/pl_PL': resolve(
+        __dirname,
+        './app/utils/stubs/uppy/locale.ts',
+      ),
+      '@uppy/locales/lib/pt_PT': resolve(
+        __dirname,
+        './app/utils/stubs/uppy/locale.ts',
+      ),
+      '@uppy/core/dist/style.css': resolve(
+        __dirname,
+        './app/utils/stubs/empty.css',
+      ),
+      '@uppy/dashboard/dist/style.css': resolve(
+        __dirname,
+        './app/utils/stubs/empty.css',
+      ),
+      '@uppy/image-editor/dist/style.css': resolve(
+        __dirname,
+        './app/utils/stubs/empty.css',
+      ),
+      '@uppy/webcam/dist/style.css': resolve(
+        __dirname,
+        './app/utils/stubs/empty.css',
+      ),
+      '@uppy/audio/dist/style.css': resolve(
+        __dirname,
+        './app/utils/stubs/empty.css',
+      ),
     },
   },
   i18n: {
