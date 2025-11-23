@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { ref, watch, onBeforeUnmount } from 'vue'
-import { Dashboard } from '@uppy/vue'
+import Dashboard from '@uppy/vue/dashboard'
 import Uppy from '@uppy/core'
 import Dialog from 'primevue/dialog'
 import { useNotification } from '~/composables/notification.js'

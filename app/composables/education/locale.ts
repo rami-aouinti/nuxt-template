@@ -1,7 +1,7 @@
-import { usePlatformConfig } from '../stores/platformConfig'
-import { useSecurityStore } from '../stores/securityStore'
-import { useCidReqStore } from '../stores/cidReq'
-import { useCourseSettings } from '../stores/courseSettingStore'
+import { usePlatformConfig } from '~/stores/platformConfig'
+import { useSecurityStore } from '~/stores/securityStore'
+import { useCidReqStore } from '~/stores/cidReq'
+import { useCourseSettings } from '~/stores/courseSettingStore'
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 

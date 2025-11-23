@@ -14,11 +14,11 @@
 import BaseToggleButton from './basecomponents/BaseToggleButton.vue'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
-import { usePlatformConfig } from './legacy/store/platformConfig.js'
-import { useCidReqStore } from './legacy/store/cidReq.js'
-import { useSecurityStore } from './legacy/store/securityStore.js'
-import permissionService from './legacy/services/permissionService.js'
-import { useUserSessionSubscription } from './legacy/composables/userPermissions.js'
+import { usePlatformConfig } from '~/stores/platformConfig'
+import { useCidReqStore } from '~/stores/cidReq'
+import { useSecurityStore } from '~/stores/securityStore'
+import permissionService from '~/services/permissionService'
+import { useUserSessionSubscription } from '~/composables/education/userPermissions'
 
 const emit = defineEmits(['change'])
 

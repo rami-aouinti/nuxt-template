@@ -130,7 +130,7 @@ import '@uppy/dashboard/css/style.css'
 import '@uppy/image-editor/css/style.css'
 import Uppy from '@uppy/core'
 import ImageEditor from '@uppy/image-editor'
-import { Dashboard } from '@uppy/vue'
+import Dashboard from '@uppy/vue/dashboard'
 
 const notification = useNotification()
 const { t } = useI18n()

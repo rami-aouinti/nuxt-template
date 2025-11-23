@@ -3,7 +3,7 @@ import { onMounted, readonly, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
-import { useSecurityStore } from '../store/securityStore'
+import { useSecurityStore } from '~/stores/securityStore'
 
 export function useSocialInfo() {
   const store = useStore()

@@ -19,11 +19,11 @@ import CourseCardList from '../../../../components/education/course/CourseCardLi
 import SectionHeader from '../../../../components/education/layout/SectionHeader.vue'
 import BaseDivider from '../../../../components/education/basecomponents/BaseDivider.vue'
 
-import { useSecurityStore } from '../~/stores/securityStore'
+import { useSecurityStore } from '~/stores/securityStore'
 
 import { useQuery } from '@vue/apollo-composable'
 
-import { GET_STICKY_COURSES } from '../../../graphql/queries/Course'
+import { GET_STICKY_COURSES } from '~/graphql/queries/Course'
 
 const securityStore = useSecurityStore()
 
