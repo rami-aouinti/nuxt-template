@@ -4,7 +4,7 @@ import axios from 'axios'
  * @type {axios.AxiosInstance}
  */
 const instance = axios.create({
-  baseURL: window.location.origin,
+  baseURL: typeof window !== 'undefined' ? window.location.origin : undefined,
   headers: {
     Accept: 'application/ld+json',
   },
