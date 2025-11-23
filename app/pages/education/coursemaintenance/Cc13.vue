@@ -522,7 +522,7 @@ async function doImport() {
 onMounted(loadOptionsAndTree)
 </script>
 
-<script>
+<script lang="ts">
 export default {
   components: {
     CMLoader: {
