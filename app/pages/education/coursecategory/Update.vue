@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { mapActions, mapGetters } from 'vuex'
 import { mapFields } from 'vuex-map-fields'
 import CourseCategoryForm from '../../../components/education/coursecategory/Form.vue'

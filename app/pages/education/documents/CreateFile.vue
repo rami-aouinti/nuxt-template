@@ -30,7 +30,7 @@
   <Loading :visible="isLoading" />
 </template>
 
-<script>
+<script setup lang="ts">
 import DocumentsForm from '../../../components/education/documents/FormNewDocument.vue'
 import Loading from '../../../components/education/Loading.vue'
 import Toolbar from '../../../components/education/Toolbar.vue'

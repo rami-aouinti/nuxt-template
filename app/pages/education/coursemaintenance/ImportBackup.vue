@@ -366,7 +366,7 @@ async function doRestore() {
 }
 </script>
 
-<script>
+<script setup lang="ts">
 /* Small inline helpers to match your UI kit */
 export default {
   components: {

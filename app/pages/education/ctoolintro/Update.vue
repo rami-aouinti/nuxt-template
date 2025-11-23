@@ -9,7 +9,7 @@
   <Loading :visible="isLoading || deleteLoading" />
 </template>
 
-<script>
+<script setup lang="ts">
 import { mapActions, mapGetters } from 'vuex'
 import { mapFields } from 'vuex-map-fields'
 import ToolIntroForm from '../../../components/education/ctoolintro/Form.vue'

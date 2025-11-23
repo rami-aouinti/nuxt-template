@@ -375,7 +375,7 @@ async function doCopy() {
 }
 </script>
 
-<script>
+<script setup lang="ts">
 /* Minimal inline helpers to match your UI kit */
 export default {
   components: {

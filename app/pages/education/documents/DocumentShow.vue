@@ -85,7 +85,7 @@
   <Loading :visible="isLoading" />
 </template>
 
-<script>
+<script setup lang="ts">
 import { mapActions, mapGetters } from 'vuex'
 import { mapFields } from 'vuex-map-fields'
 import Loading from '../../../components/education/Loading.vue'

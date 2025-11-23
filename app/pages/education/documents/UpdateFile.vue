@@ -39,7 +39,7 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import { mapFields } from 'vuex-map-fields'

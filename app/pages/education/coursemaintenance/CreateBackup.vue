@@ -280,7 +280,7 @@ async function doExport() {
 }
 </script>
 
-<script>
+<script setup lang="ts">
 /* Lightweight inline helpers to keep the style consistent */
 export default {
   components: {

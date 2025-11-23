@@ -188,7 +188,7 @@ async function doRecycle() {
 }
 </script>
 
-<script>
+<script setup lang="ts">
 /* Inline lightweight UI helpers – same style you use elsewhere */
 export default {
   components: {

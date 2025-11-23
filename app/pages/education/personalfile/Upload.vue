@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { mapActions } from 'vuex'
 import { createHelpers } from 'vuex-map-fields'
 import UploadMixin from '../../../mixins/UploadMixin'

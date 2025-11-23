@@ -5,7 +5,7 @@
   <Loading :visible="isLoading" />
 </template>
 
-<script>
+<script setup lang="ts">
 import { mapActions } from 'vuex'
 import { createHelpers } from 'vuex-map-fields'
 import ToolIntroForm from '../../../components/education/ctoolintro/Form.vue'

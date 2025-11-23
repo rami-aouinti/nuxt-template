@@ -74,7 +74,7 @@
   </BaseTable>
 </template>
 
-<script>
+<script setup lang="ts">
 import { mapActions, mapGetters } from 'vuex'
 import { mapFields } from 'vuex-map-fields'
 import ActionCell from '../../../components/education/ActionCell.vue'

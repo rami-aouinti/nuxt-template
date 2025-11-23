@@ -19,7 +19,7 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { mapActions, mapGetters } from 'vuex'
 import { mapFields } from 'vuex-map-fields'
 import CourseForm from '../../../components/education/course/Form.vue'

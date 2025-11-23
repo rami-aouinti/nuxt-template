@@ -6,7 +6,7 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { mapActions } from 'vuex'
 import { createHelpers } from 'vuex-map-fields'
 import CourseCategoryForm from '../../../components/education/coursecategory/Form.vue'

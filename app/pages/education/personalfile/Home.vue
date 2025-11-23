@@ -2,7 +2,7 @@
   <router-view />
 </template>
 
-<script>
+<script setup lang="ts">
 import { mapGetters } from 'vuex'
 import Loading from '../../../components/education/Loading.vue'
 import Toolbar from '../../../components/education/Toolbar.vue'
