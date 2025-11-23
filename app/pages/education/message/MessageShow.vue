@@ -129,7 +129,7 @@ import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
 import SectionHeader from '../../../components/education/layout/SectionHeader.vue'
 import { useNotification } from '~/composables/education/notification'
 import { useMessageReceiverFormatter } from '~/composables/education/message/messageFormatter'
-import { MESSAGE_TYPE_INBOX } from '../../constants/entity/message'
+import { MESSAGE_TYPE_INBOX } from '../../../constants/entity/message'
 
 const confirm = useConfirm()
 const { t } = useI18n()
