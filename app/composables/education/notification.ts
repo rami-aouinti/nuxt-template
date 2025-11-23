@@ -1,7 +1,7 @@
 import { useToast } from 'primevue/usetoast'
 
 export function useNotification() {
-  const toast = useToast()
+  const toast = process.client ? useToast() : null
 
   const showSuccessNotification = (message) => {
     showMessage(message, 'success')
@@ -32,6 +32,11 @@ export function useNotification() {
   }
 
   const showMessage = (message, severity) => {
+    if (!toast) {
+      console.warn('Toast service unavailable. Message:', message)
+      return
+    }
+
     toast.add({
       severity: severity,
       detail: message,
