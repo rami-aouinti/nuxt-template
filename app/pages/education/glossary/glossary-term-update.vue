@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useHead } from '#imports'
-import LegacyView from '~/education/views/glossary/GlossaryTermUpdate.vue'
+import LegacyView from '~~/education/views/glossary/GlossaryTermUpdate.vue'
 
 definePageMeta({
   layout: 'default',
