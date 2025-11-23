@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useHead } from '#imports'
-import LegacyView from '~/education/views/accessurl/AccessUrlAuthSourcesAssign.vue'
+import LegacyView from '~~/education/views/accessurl/AccessUrlAuthSourcesAssign.vue'
 
 definePageMeta({
   layout: 'default',
