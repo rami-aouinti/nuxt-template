@@ -42,17 +42,22 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import ActionCell from '../../../components/education/ActionCell.vue'
 import Toolbar from '../../../components/education/Toolbar.vue'
-import { useDatatableList } from '~/composables/education/datatableList'
+import courseService from '~/services/courseService'
+import api from '~/config/api'
 
-const store = useStore()
 const route = useRoute()
-const { onUpdateOptions, goToAddItem, goToEditItem, onShowItem, deleteItem, options } =
-  useDatatableList('Course')
+const router = useRouter()
+
+const options = ref({
+  sortBy: [],
+  sortDesc: false,
+  page: 1,
+  itemsPerPage: 5,
+})
 
 const headers = [
   { title: 'title', key: 'title' },
@@ -67,10 +72,41 @@ const headers = [
 ]
 
 const selected = ref<string[]>([])
+const items = ref<Record<string, any>[]>([])
+const isLoading = ref(false)
+const totalItems = ref(0)
 
-const items = computed(() => store.state['course']?.recents ?? [])
-const isLoading = computed(() => store.state['course']?.isLoading ?? false)
-const totalItems = computed(() => store.state['course']?.totalItems ?? 0)
+const fetchCourses = async (payload: Record<string, any> = {}) => {
+  isLoading.value = true
+
+  const { page, itemsPerPage, sortBy, sortDesc } = {
+    ...options.value,
+    ...payload,
+  }
+
+  const params: Record<string, any> = {
+    page,
+    itemsPerPage,
+  }
+
+  if (sortBy) {
+    params[`order[${sortBy}]`] = sortDesc ? 'desc' : 'asc'
+  }
+
+  try {
+    const { totalItems: count, items: courseItems } = await courseService.listAll(params)
+
+    items.value = courseItems ?? []
+    totalItems.value = count ?? items.value.length
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to fetch courses', error)
+    items.value = []
+    totalItems.value = 0
+  } finally {
+    isLoading.value = false
+  }
+}
 
 const handleUpdateOptions = (payload: Record<string, any> = {}) => {
   const { page, itemsPerPage, sortBy } = payload
@@ -79,28 +115,51 @@ const handleUpdateOptions = (payload: Record<string, any> = {}) => {
   const sortDesc =
     primarySort && typeof primarySort === 'object' ? primarySort.order === 'desc' : false
 
-  onUpdateOptions({
-    page,
-    itemsPerPage,
-    sortBy: sortKey,
-    sortDesc,
-  })
+  options.value = { ...options.value, page, itemsPerPage, sortBy: sortKey, sortDesc }
+
+  fetchCourses(options.value)
 }
 
 const addHandler = () => {
-  goToAddItem()
+  router.push({
+    name: 'CourseCreate',
+    query: route.query,
+  })
 }
 
 const showHandler = (item: Record<string, any>) => {
-  onShowItem(item)
+  router.push({
+    name: 'CourseShow',
+    params: route.query,
+    query: { ...route.query, id: item['@id'] },
+  })
 }
 
 const editHandler = (item: Record<string, any>) => {
-  goToEditItem(item)
+  router.push({
+    name: 'CourseUpdate',
+    params: { id: item['@id'] },
+    query: {
+      ...route.query,
+      id: item['@id'],
+      page: options.value.page,
+      itemsPerPage: options.value.itemsPerPage,
+    },
+  })
 }
 
-const deleteHandler = (item: Record<string, any>) => {
-  deleteItem(ref(item))
+const deleteHandler = async (item: Record<string, any>) => {
+  isLoading.value = true
+
+  try {
+    await api.delete(item['@id'])
+    await fetchCourses(options.value)
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to delete course', error)
+  } finally {
+    isLoading.value = false
+  }
 }
 
 onMounted(() => {
@@ -116,6 +175,6 @@ onMounted(() => {
     if (Number.isFinite(parsed)) options.value.itemsPerPage = parsed
   }
 
-  onUpdateOptions(options.value)
+  fetchCourses(options.value)
 })
 </script>
