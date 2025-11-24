@@ -1,5 +1,7 @@
 {
   "All": "全部",
+  "Education": "教育",
+  "Loading": "加载中",
   "app": {
     "title": "Bro World",
     "description": "基于 Vuetify 3 和 Nuxt 3 的主观管理模板",

@@ -201,7 +201,10 @@ export default defineEventHandler(async (event) => {
     undefined
   const url = getRequestURL(event)
   const search = url.search ?? ''
-  const targetUrl = `${educationBaseUrl.replace(/\/+$/, '')}/api/${normalizedPath}${search}`
+  const targetPath = normalizedPath.startsWith('api/')
+    ? normalizedPath
+    : `api/${normalizedPath}`
+  const targetUrl = `${educationBaseUrl.replace(/\/+$/, '')}/${targetPath}${search}`
   const cacheTtl = Number(runtimeConfig.redis?.educationTtl || 0)
   const method = (event.method || 'GET').toUpperCase()
   const isCacheable = method === 'GET'
