@@ -2,6 +2,8 @@ import { computed } from 'vue'
 
 export const EDUCATION_BASE_URL = 'https://education.bro-world.org'
 
+const educationRouteName = (name: string) => ({ name: name as string })
+
 export const useEducationNavigation = () => {
   const { t } = useI18n()
   const localePath = useLocalePath()
