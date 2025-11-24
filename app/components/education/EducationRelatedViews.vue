@@ -1,33 +1,28 @@
 <template>
-  <v-card variant="outlined">
-    <v-card-item>
-      <v-card-title class="text-subtitle-1 font-weight-bold">
-        Vues source
-      </v-card-title>
-      <v-card-subtitle class="text-body-2 text-medium-emphasis">
-        Provenant du dossier <code>education/views</code> pour guider la
-        migration.
-      </v-card-subtitle>
-    </v-card-item>
+  <AppCard class="pa-5 d-flex flex-column gap-4" variant="outlined">
+    <header class="d-flex flex-column gap-1">
+      <div class="text-subtitle-1 font-weight-bold">Vues source</div>
+      <p class="text-body-2 text-medium-emphasis mb-0">
+        Provenant du dossier <code>education/views</code> pour guider la migration.
+      </p>
+    </header>
 
-    <v-divider />
+    <div class="related-views__divider" />
 
-    <v-card-text>
-      <v-chip-group column class="d-flex flex-wrap gap-2">
-        <v-chip
-          v-for="view in views"
-          :key="view"
-          color="primary"
-          label
-          variant="tonal"
-          :to="buildLink(view)"
-          component="NuxtLink"
-        >
-          {{ label(view) }}
-        </v-chip>
-      </v-chip-group>
-    </v-card-text>
-  </v-card>
+    <div class="d-flex flex-wrap gap-2">
+      <AppButton
+        v-for="view in views"
+        :key="view"
+        :to="buildLink(view)"
+        color="primary"
+        variant="tonal"
+        size="small"
+        class="related-views__chip"
+      >
+        {{ label(view) }}
+      </AppButton>
+    </div>
+  </AppCard>
 </template>
 
 <script setup lang="ts">
@@ -43,3 +38,16 @@ defineProps<{
 const buildLink = (view: string) => legacyViewSlugToPath(view)
 const label = (view: string) => legacyViewSlugToLabel(view)
 </script>
+
+<style scoped>
+.related-views__divider {
+  height: 1px;
+  background: rgba(var(--v-theme-primary), 0.12);
+}
+
+.related-views__chip {
+  border-radius: 999px !important;
+  text-transform: none;
+  font-weight: 600;
+}
+</style>

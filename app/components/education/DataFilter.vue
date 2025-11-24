@@ -1,11 +1,16 @@
 <template>
   <div class="data-filter">
-    <v-btn color="primary" prepend-icon="mdi-filter-variant" @click="toggleFilters">
+    <AppButton
+      color="primary"
+      prepend-icon="mdi-filter-variant"
+      variant="tonal"
+      @click="toggleFilters"
+    >
       {{ $t('Search') }}
-    </v-btn>
+    </AppButton>
 
     <v-expand-transition>
-      <v-card
+      <AppCard
         v-if="filtersExpanded"
         class="mt-3 pa-4 rounded-lg"
         color="primary"
@@ -16,14 +21,14 @@
         </div>
         <slot name="filter" />
         <div class="d-flex align-center gap-2 mt-4">
-          <v-btn color="primary" variant="elevated" @click="handleFilter">
+          <AppButton color="primary" variant="elevated" @click="handleFilter">
             {{ $t('Filter') }}
-          </v-btn>
-          <v-btn color="secondary" variant="tonal" @click="handleReset">
+          </AppButton>
+          <AppButton color="secondary" variant="tonal" @click="handleReset">
             {{ $t('Reset') }}
-          </v-btn>
+          </AppButton>
         </div>
-      </v-card>
+      </AppCard>
     </v-expand-transition>
   </div>
 </template>

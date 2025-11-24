@@ -1,17 +1,15 @@
 <template>
-  <v-card variant="outlined">
-    <v-card-item>
-      <v-card-title class="text-subtitle-1 font-weight-bold">
-        {{ heading }}
-      </v-card-title>
-      <v-card-subtitle class="text-body-2 text-medium-emphasis">
+  <AppCard class="pa-5 d-flex flex-column gap-4" variant="outlined">
+    <header class="d-flex flex-column gap-1">
+      <div class="text-subtitle-1 font-weight-bold">{{ heading }}</div>
+      <p class="text-body-2 text-medium-emphasis mb-0">
         Accès direct aux composants du dossier <code>education/views</code>.
-      </v-card-subtitle>
-    </v-card-item>
+      </p>
+    </header>
 
-    <v-divider />
+    <div class="legacy-view-list__divider" />
 
-    <v-card-text class="d-flex flex-column gap-4">
+    <div class="d-flex flex-column gap-4">
       <div
         v-for="(items, category) in groupedViews"
         :key="category"
@@ -21,19 +19,16 @@
           {{ category }}
         </div>
 
-        <v-list density="compact" nav>
-          <v-list-item
-            v-for="item in items"
-            :key="item.slug"
-            :title="item.name"
-            :subtitle="item.slug"
-            :to="buildLink(item.slug)"
-            link
-          />
-        </v-list>
+        <AppList
+          :items="toListItems(items)"
+          density="compact"
+          nav
+          border
+          class="legacy-view-list__list"
+        />
       </div>
-    </v-card-text>
-  </v-card>
+    </div>
+  </AppCard>
 </template>
 
 <script setup lang="ts">
@@ -60,4 +55,21 @@ const groupedViews = computed(() =>
 )
 
 const buildLink = (slug: string) => legacyViewSlugToPath(slug)
+const toListItems = (items: LegacyViewEntry[]) =>
+  items.map((item) => ({
+    title: item.name,
+    subtitle: item.slug,
+    to: buildLink(item.slug),
+  }))
 </script>
+
+<style scoped>
+.legacy-view-list__divider {
+  height: 1px;
+  background: rgba(var(--v-theme-primary), 0.12);
+}
+
+.legacy-view-list__list {
+  --app-shadow: 0 12px 30px rgba(var(--v-theme-primary), 0.12);
+}
+</style>

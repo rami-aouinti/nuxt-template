@@ -1,43 +1,31 @@
 <template>
-  <v-card class="h-100 d-flex flex-column" variant="outlined">
-    <v-card-item>
+  <AppCard class="h-100 d-flex flex-column pa-6 gap-4" variant="outlined">
+    <header class="d-flex flex-column gap-1">
       <div class="text-overline text-medium-emphasis mb-1">
         {{ module.category }}
       </div>
-      <v-card-title class="text-h6 font-weight-bold">
-        {{ module.title }}
-      </v-card-title>
-      <v-card-subtitle class="text-body-2 text-medium-emphasis">
-        {{ module.summary }}
-      </v-card-subtitle>
-    </v-card-item>
+      <div class="text-h6 font-weight-bold">{{ module.title }}</div>
+      <p class="text-body-2 text-medium-emphasis mb-0">{{ module.summary }}</p>
+    </header>
 
-    <v-divider />
+    <div class="module-card__divider" />
 
-    <v-card-text class="flex-grow-1">
-      <v-list density="compact">
-        <v-list-item
-          v-for="highlight in module.highlights"
-          :key="highlight"
-          prepend-icon="mdi-check-circle"
-          title=""
-        >
-          <v-list-item-title class="text-body-2">
-            {{ highlight }}
-          </v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-card-text>
+    <ul class="module-card__list flex-grow-1">
+      <li v-for="highlight in module.highlights" :key="highlight">
+        <v-icon icon="mdi-check-circle" size="18" class="text-primary" />
+        <span class="text-body-2">{{ highlight }}</span>
+      </li>
+    </ul>
 
-    <v-card-actions class="px-6 pb-4 pt-0 d-flex justify-space-between">
+    <footer class="d-flex align-center justify-space-between">
       <div class="text-caption text-medium-emphasis">
         {{ module.relatedViews.length }} vues migrées
       </div>
-      <v-btn :to="moduleTarget" color="primary" size="small" variant="tonal">
+      <AppButton :to="moduleTarget" color="primary" size="small" variant="tonal">
         Ouvrir
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+      </AppButton>
+    </footer>
+  </AppCard>
 </template>
 
 <script setup lang="ts">
@@ -52,3 +40,28 @@ const moduleTarget = computed(
   () => props.module.path ?? `/education/${props.module.slug}`,
 )
 </script>
+
+<style scoped>
+.module-card__divider {
+  height: 1px;
+  background: rgba(var(--v-theme-primary), 0.14);
+}
+
+.module-card__list {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+}
+
+.module-card__list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(var(--v-theme-primary), 0.06);
+}
+</style>
