@@ -161,7 +161,7 @@ function addDocumentToAssignment() {
         >
           <template #item.submissions="{ item }">
             <v-chip color="primary" variant="tonal" size="small">
-              {{ item.raw.submissions ?? '—' }}
+              {{ item?.raw?.submissions ?? '—' }}
             </v-chip>
           </template>
 
@@ -271,7 +271,7 @@ function addDocumentToAssignment() {
       max-width="720"
       scrollable
     >
-      <div v-if="activeAssignment" class="pa-2">
+        <div v-if="activeAssignment" class="pa-2">
         <v-text-field v-model="activeAssignment.title" :label="t('Titre')" />
         <v-text-field v-model="activeAssignment.deadline" :label="t('Deadline')" type="date" />
         <v-select

@@ -135,11 +135,16 @@ function removeCategory(item) {
         </div>
 
         <v-data-table :items="links" :headers="linkHeaders" density="comfortable" class="elevation-0">
-          <template #item.url="{ item }">
-            <a :href="item.raw.url" target="_blank" rel="noopener" class="text-primary">
-              {{ item.raw.url }}
-            </a>
-          </template>
+        <template #item.url="{ item }">
+          <a
+            :href="item?.raw?.url || '#'"
+            target="_blank"
+            rel="noopener"
+            class="text-primary"
+          >
+            {{ item?.raw?.url ?? '—' }}
+          </a>
+        </template>
 
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">

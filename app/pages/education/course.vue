@@ -167,7 +167,7 @@ function addDocumentToCourse() {
         >
           <template #item.seats="{ item }">
             <v-chip color="primary" variant="tonal" size="small">
-              {{ item.raw.seats ?? '—' }}
+              {{ item?.raw?.seats ?? '—' }}
             </v-chip>
           </template>
 
