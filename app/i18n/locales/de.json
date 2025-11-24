@@ -1,5 +1,7 @@
 {
   "All": "Alle",
+  "Education": "Bildung",
+  "Loading": "Wird geladen",
   "app": {
     "title": "Bro world",
     "description": "Vuetify 3 + Nuxt 3, meinungsstarkes Admin-Template",

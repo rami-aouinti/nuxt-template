@@ -1,5 +1,7 @@
 {
   "All": "الكل",
+  "Education": "التعليم",
+  "Loading": "جارٍ التحميل",
   "app": {
     "title": "Bro world",
     "description": "قالب إدارة برأي يعتمد على Vuetify 3 و Nuxt 3",

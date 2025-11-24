@@ -1,5 +1,7 @@
 {
   "All": "Все",
+  "Education": "Образование",
+  "Loading": "Загрузка",
   "app": {
     "title": "Bro World",
     "description": "Шаблон административной панели на Vuetify 3 и Nuxt 3",
