@@ -14,7 +14,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const handleClickOutside = (event) => {
+const handleClickOutside = () => {
   emit('close')
 }
 

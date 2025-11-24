@@ -74,7 +74,7 @@ function inputColorPicked(newHexColor) {
   try {
     const color = new Color(newHexColor)
     emit('update:modelValue', color)
-  } catch (error) {
+  } catch {
     inputHexError.value = t('Invalid format')
   }
 }

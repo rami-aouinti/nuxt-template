@@ -16,14 +16,14 @@ export default function (id, options = {}) {
     options.headers = {}
   }
 
-  if (!options.headers.hasOwnProperty('Accept')) {
+  if (!Object.prototype.hasOwnProperty.call(options.headers, 'Accept')) {
     options.headers = { ...options.headers, Accept: MIME_TYPE }
   }
 
   if (
     undefined !== options.body &&
     !(options.body instanceof FormData) &&
-    !options.headers.hasOwnProperty('Content-Type')
+    !Object.prototype.hasOwnProperty.call(options.headers, 'Content-Type')
   ) {
     options.headers = { ...options.headers, 'Content-Type': MIME_TYPE }
   }

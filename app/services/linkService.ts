@@ -1,7 +1,5 @@
-// @ts-nocheck
 import { ENTRYPOINT } from '../config/entrypoint'
 import axios from 'axios'
-import baseService from './baseService'
 
 export default {
   /**

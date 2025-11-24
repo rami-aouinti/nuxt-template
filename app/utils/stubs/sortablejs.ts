@@ -4,8 +4,8 @@ export default class Sortable {
   }
 
   constructor(
-    _element: HTMLElement | null,
-    _options: Record<string, unknown> = {},
+    private element: HTMLElement | null,
+    private options: Record<string, unknown> = {},
   ) {}
 
   option() {
