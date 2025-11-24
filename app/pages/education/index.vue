@@ -19,19 +19,19 @@ const featuredRoutes = computed(() => [
     icon: 'mdi-home-variant-outline',
     title: t('pages.education.sections.gettingStarted.title'),
     description: t('pages.education.sections.gettingStarted.description'),
-    to: localePath({ name: 'education-course-catalogue-courses' }),
+      to: localePath('/education/course/catalogue-courses'),
   },
   {
     icon: 'mdi-progress-check',
     title: t('pages.education.sections.progress.title'),
     description: t('pages.education.sections.progress.description'),
-    to: localePath({ name: 'education-user-courses-list' }),
+      to: localePath('/education/user/courses/list'),
   },
   {
     icon: 'mdi-flask-outline',
     title: t('pages.education.sections.labs.title'),
     description: t('pages.education.sections.labs.description'),
-    to: localePath({ name: 'education-course-course-home' }),
+      to: localePath('/education/course/course-home'),
   },
 ])
 
@@ -40,19 +40,19 @@ const discoveryItems = computed(() => [
     icon: 'mdi-playlist-check',
     title: t('pages.education.discovery.collections.title'),
     description: t('pages.education.discovery.collections.description'),
-    to: localePath({ name: 'education-links-list' }),
+      to: localePath('/education/links/list'),
   },
   {
     icon: 'mdi-map-marker-path',
     title: t('pages.education.discovery.paths.title'),
     description: t('pages.education.discovery.paths.description'),
-    to: localePath({ name: 'education-terms-list' }),
+      to: localePath('/education/terms/list'),
   },
   {
     icon: 'mdi-account-group-outline',
     title: t('pages.education.discovery.community.title'),
     description: t('pages.education.discovery.community.description'),
-    to: localePath({ name: 'education-blog-blog-posts' }),
+      to: localePath('/education/blog/blog-posts'),
   },
 ])
 </script>
@@ -79,7 +79,7 @@ const discoveryItems = computed(() => [
                   <v-btn
                     color="primary"
                     variant="flat"
-                    :to="localePath({ name: 'education-course-catalogue-courses' })"
+                  :to="localePath('/education/course/catalogue-courses')"
                   >
                     <v-icon icon="mdi-open-in-new" start />
                     {{ t('pages.education.hero.cta') }}
@@ -87,7 +87,7 @@ const discoveryItems = computed(() => [
                   <v-btn
                     color="secondary"
                     variant="text"
-                    :to="localePath({ name: 'education-course-list' })"
+                  :to="localePath('/education/course/list')"
                   >
                     <v-icon icon="mdi-compass-rose" start />
                     {{ t('pages.education.hero.secondaryCta') }}
