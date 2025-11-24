@@ -1,5 +1,5 @@
 import { isObject } from 'lodash'
-import { ENTRYPOINT } from '../config/entrypoint'
+import { ENTRYPOINT } from '~/config/entrypoint'
 import SubmissionError from '../error/SubmissionError'
 import { normalize } from './hydra.js'
 

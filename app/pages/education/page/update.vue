@@ -20,6 +20,7 @@ import { useRouter, useRoute } from 'vue-router'
 import Loading from '../../../components/education/Loading.vue'
 import PageForm from '../../../components/education/page/Form.vue'
 import { useDatatableUpdate } from '~/composables/education/datatableUpdate'
+import Button from '~/primevue/button.vue'
 
 definePageMeta({
   title: 'Page Update',

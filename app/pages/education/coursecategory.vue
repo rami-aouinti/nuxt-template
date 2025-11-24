@@ -14,7 +14,8 @@ async function loadCategories() {
   loadingCategories.value = true
   try {
     const response = await coursecategoryService.findAll()
-    const items = response?.['hydra:member'] ?? response?.items ?? response ?? []
+    const items =
+      response?.['hydra:member'] ?? response?.items ?? response ?? []
 
     categories.value = Array.isArray(items)
       ? items.map((category) => ({
@@ -53,8 +54,13 @@ const modalState = reactive({
   addDocument: false,
 })
 
-const activeCategory = ref<typeof categories.value[number] | null>(null)
-const newCategory = reactive({ name: '', code: '', description: '', visibility: 'Public' })
+const activeCategory = ref<(typeof categories.value)[number] | null>(null)
+const newCategory = reactive({
+  name: '',
+  code: '',
+  description: '',
+  visibility: 'Public',
+})
 
 const linkPayload = reactive({ course: '', document: '' })
 
@@ -114,7 +120,9 @@ async function saveCreatedCategory() {
 
 async function saveEditedCategory() {
   if (!activeCategory.value) return
-  const iri = activeCategory.value['@id'] || `/api/course_categories/${activeCategory.value.id}`
+  const iri =
+    activeCategory.value['@id'] ||
+    `/api/course_categories/${activeCategory.value.id}`
 
   try {
     await coursecategoryService.update({ ...activeCategory.value, '@id': iri })
@@ -151,10 +159,18 @@ function addDocumentToCategory() {
   <div class="category-page">
     <div class="page-header">
       <div>
-        <p class="text-caption text-medium-emphasis mb-1">{{ t('Espace catégories') }}</p>
-        <h1 class="text-h5 text-md-h4 font-weight-bold mb-1">{{ t('Catégories de cours') }}</h1>
+        <p class="text-caption text-medium-emphasis mb-1">
+          {{ t('Espace catégories') }}
+        </p>
+        <h1 class="text-h5 text-md-h4 font-weight-bold mb-1">
+          {{ t('Catégories de cours') }}
+        </h1>
         <p class="text-body-2 text-medium-emphasis">
-          {{ t('Organisation des catégories avec actions show, edit, delete et créations en modals.') }}
+          {{
+            t(
+              'Organisation des catégories avec actions show, edit, delete et créations en modals.',
+            )
+          }}
         </p>
       </div>
       <div class="d-flex flex-wrap gap-3">
@@ -169,9 +185,15 @@ function addDocumentToCategory() {
       <AppCard class="pa-4" elevation="2">
         <div class="d-flex align-center justify-space-between mb-3">
           <div>
-            <div class="text-subtitle-1 font-weight-bold">{{ t('Vue administration') }}</div>
+            <div class="text-subtitle-1 font-weight-bold">
+              {{ t('Vue administration') }}
+            </div>
             <div class="text-body-2 text-medium-emphasis">
-              {{ t('Pilotez les catégories, rattachez des cours ou documents depuis la table.') }}
+              {{
+                t(
+                  'Pilotez les catégories, rattachez des cours ou documents depuis la table.',
+                )
+              }}
             </div>
           </div>
         </div>
@@ -190,13 +212,29 @@ function addDocumentToCategory() {
 
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">
-              <v-btn icon variant="text" size="small" @click="openDetail(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                @click="openDetail(item.raw)"
+              >
                 <v-icon icon="mdi-eye-outline" size="20" />
               </v-btn>
-              <v-btn icon variant="text" size="small" @click="openEdit(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                @click="openEdit(item.raw)"
+              >
                 <v-icon icon="mdi-pencil-outline" size="20" />
               </v-btn>
-              <v-btn icon variant="text" size="small" color="primary" @click="openAddCourse(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                color="primary"
+                @click="openAddCourse(item.raw)"
+              >
                 <v-icon icon="mdi-book-plus-outline" size="20" />
               </v-btn>
               <v-btn
@@ -208,7 +246,13 @@ function addDocumentToCategory() {
               >
                 <v-icon icon="mdi-file-plus-outline" size="20" />
               </v-btn>
-              <v-btn icon variant="text" size="small" color="error" @click="removeCategory(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                color="error"
+                @click="removeCategory(item.raw)"
+              >
                 <v-icon icon="mdi-delete-outline" size="20" />
               </v-btn>
             </div>
@@ -219,9 +263,15 @@ function addDocumentToCategory() {
       <AppCard class="pa-4" elevation="2">
         <div class="d-flex align-center justify-space-between mb-3">
           <div>
-            <div class="text-subtitle-1 font-weight-bold">{{ t('Vue éducation') }}</div>
+            <div class="text-subtitle-1 font-weight-bold">
+              {{ t('Vue éducation') }}
+            </div>
             <div class="text-body-2 text-medium-emphasis">
-              {{ t('Consultation rapide des catégories visibles pour les apprenants.') }}
+              {{
+                t(
+                  'Consultation rapide des catégories visibles pour les apprenants.',
+                )
+              }}
             </div>
           </div>
         </div>
@@ -234,7 +284,12 @@ function addDocumentToCategory() {
         >
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">
-              <v-btn icon variant="text" size="small" @click="openDetail(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                @click="openDetail(item.raw)"
+              >
                 <v-icon icon="mdi-eye-outline" size="20" />
               </v-btn>
             </div>
@@ -265,7 +320,9 @@ function addDocumentToCategory() {
           auto-grow
         />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.create = false">{{ t('Annuler') }}</v-btn>
+          <v-btn variant="text" @click="modalState.create = false">{{
+            t('Annuler')
+          }}</v-btn>
           <v-btn color="primary" type="submit">{{ t('Enregistrer') }}</v-btn>
         </div>
       </v-form>
@@ -278,13 +335,25 @@ function addDocumentToCategory() {
       max-width="680"
       scrollable
     >
-      <div class="py-4 px-2" v-if="activeCategory">
-        <div class="mb-2 text-body-2 text-medium-emphasis">ID: {{ activeCategory.id }}</div>
-        <div class="text-subtitle-1 font-weight-bold mb-1">{{ activeCategory.name }}</div>
-        <div class="text-body-2 mb-3">{{ t('Code') }}: {{ activeCategory.code }}</div>
-        <div class="text-body-2 mb-3">{{ t('Visibilité') }}: {{ activeCategory.visibility }}</div>
+      <div v-if="activeCategory" class="py-4 px-2">
+        <div class="mb-2 text-body-2 text-medium-emphasis">
+          ID: {{ activeCategory.id }}
+        </div>
+        <div class="text-subtitle-1 font-weight-bold mb-1">
+          {{ activeCategory.name }}
+        </div>
+        <div class="text-body-2 mb-3">
+          {{ t('Code') }}: {{ activeCategory.code }}
+        </div>
+        <div class="text-body-2 mb-3">
+          {{ t('Visibilité') }}: {{ activeCategory.visibility }}
+        </div>
         <div class="text-body-2 text-medium-emphasis">
-          {{ t('Utilisez les actions pour modifier, ajouter des cours ou des documents.') }}
+          {{
+            t(
+              'Utilisez les actions pour modifier, ajouter des cours ou des documents.',
+            )
+          }}
         </div>
       </div>
     </AppModal>
@@ -305,8 +374,12 @@ function addDocumentToCategory() {
           :label="t('Visibilité')"
         />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.edit = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="saveEditedCategory">{{ t('Mettre à jour') }}</v-btn>
+          <v-btn variant="text" @click="modalState.edit = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="saveEditedCategory">{{
+            t('Mettre à jour')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
@@ -318,7 +391,7 @@ function addDocumentToCategory() {
       max-width="640"
       scrollable
     >
-      <div class="pa-2" v-if="activeCategory">
+      <div v-if="activeCategory" class="pa-2">
         <div class="text-body-2 text-medium-emphasis mb-3">
           {{ t('Ajouter un cours à la catégorie') }}: {{ activeCategory.name }}
         </div>
@@ -328,8 +401,12 @@ function addDocumentToCategory() {
           prepend-inner-icon="mdi-book"
         />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.addCourse = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="addCourseToCategory">{{ t('Ajouter') }}</v-btn>
+          <v-btn variant="text" @click="modalState.addCourse = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="addCourseToCategory">{{
+            t('Ajouter')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
@@ -341,9 +418,10 @@ function addDocumentToCategory() {
       max-width="640"
       scrollable
     >
-      <div class="pa-2" v-if="activeCategory">
+      <div v-if="activeCategory" class="pa-2">
         <div class="text-body-2 text-medium-emphasis mb-3">
-          {{ t('Attacher un document à la catégorie') }}: {{ activeCategory.name }}
+          {{ t('Attacher un document à la catégorie') }}:
+          {{ activeCategory.name }}
         </div>
         <v-text-field
           v-model="linkPayload.document"
@@ -351,8 +429,12 @@ function addDocumentToCategory() {
           prepend-inner-icon="mdi-file"
         />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.addDocument = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="addDocumentToCategory">{{ t('Ajouter') }}</v-btn>
+          <v-btn variant="text" @click="modalState.addDocument = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="addDocumentToCategory">{{
+            t('Ajouter')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
@@ -373,7 +455,11 @@ function addDocumentToCategory() {
   gap: 12px;
   padding: 20px;
   border-radius: var(--app-rounded, 22px);
-  background: linear-gradient(135deg, rgba(var(--v-theme-primary), 0.08), rgba(0, 0, 0, 0.02));
+  background: linear-gradient(
+    135deg,
+    rgba(var(--v-theme-primary), 0.08),
+    rgba(0, 0, 0, 0.02)
+  );
   border: 1px solid rgba(var(--v-border-color), 0.1);
 }
 

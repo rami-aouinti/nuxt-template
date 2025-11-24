@@ -26,7 +26,7 @@ export const useEducationNavigation = () => {
     {
       icon: 'mdi-book-open-page-variant',
       label: t('pages.education.navigation.myCourses'),
-      to: localePath('/education/user/courses/list'),
+      to: localePath('/education/my-courses'),
     },
     {
       icon: 'mdi-compass-outline',

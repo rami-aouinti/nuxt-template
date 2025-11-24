@@ -37,4 +37,3 @@ const clientOnlyImports = [
 if (typeof window !== 'undefined') {
   await Promise.all(clientOnlyImports.map((path) => import(path)))
 }
-

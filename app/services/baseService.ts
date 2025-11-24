@@ -8,11 +8,9 @@ export default {
    * @returns {Promise<any>}
    */
   async get(iri, params = {}) {
-    const { data } = await api.get(iri, {
+    return await $fetch(iri, {
       params,
     })
-
-    return data
   },
 
   /**
@@ -21,12 +19,11 @@ export default {
    * @returns {Promise<{totalItems: number, items: Object[], nextPageParams: {page: number, itemsPerPage: number}|null}>}
    */
   async getCollection(endpoint, searchParams = {}) {
-    const { data } = await api.get(endpoint, {
+    const data = await $fetch(endpoint, {
       params: searchParams,
     })
 
     let nextPageParams = null
-
     if (data['hydra:view'] && data['hydra:view']['hydra:next']) {
       const queryString = data['hydra:view']['hydra:next'].split('?')[1]
 
@@ -61,12 +58,11 @@ export default {
       headers['Content-Type'] = 'application/json'
     }
 
-    const { data } = await api.post(endpoint, params, {
+    return await $fetch(endpoint, params, {
+      method: 'POST',
       headers: { ...headers, ...additionalHeaders },
       ...options,
     })
-
-    return data
   },
 
   /**
@@ -75,9 +71,9 @@ export default {
    * @returns {Promise<Object>}
    */
   async put(iri, params) {
-    const { data } = await api.put(iri, params)
-
-    return data
+    return await $fetch(iri, params, {
+      method: 'PUT',
+    })
   },
 
   /**

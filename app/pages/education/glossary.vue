@@ -14,7 +14,8 @@ async function loadGlossary() {
   loadingTerms.value = true
   try {
     const response = await glossaryService.getGlossaryTerms()
-    const items = response?.['hydra:member'] ?? response?.items ?? response ?? []
+    const items =
+      response?.['hydra:member'] ?? response?.items ?? response ?? []
     terms.value = Array.isArray(items)
       ? items.map((term) => ({
           ...term,
@@ -41,7 +42,7 @@ const modalState = reactive({
   export: false,
 })
 
-const activeTerm = ref<typeof terms.value[number] | null>(null)
+const activeTerm = ref<(typeof terms.value)[number] | null>(null)
 const termPayload = reactive({ term: '', definition: '', language: 'Français' })
 const importPayload = reactive({ file: '' })
 
@@ -60,7 +61,8 @@ const filteredTerms = computed(() =>
       !filters.query ||
       item.term.toLowerCase().includes(filters.query.toLowerCase()) ||
       item.definition.toLowerCase().includes(filters.query.toLowerCase())
-    const matchLang = filters.language === 'Tous' || item.language === filters.language
+    const matchLang =
+      filters.language === 'Tous' || item.language === filters.language
     return matchQuery && matchLang
   }),
 )
@@ -138,10 +140,18 @@ async function exportGlossary() {
   <div class="glossary-page">
     <div class="glossary-page__header">
       <div>
-        <p class="text-caption text-medium-emphasis mb-1">{{ t('Espace glossaire centralisé') }}</p>
-        <h1 class="text-h5 text-md-h4 font-weight-bold mb-1">{{ t('Glossaire') }}</h1>
+        <p class="text-caption text-medium-emphasis mb-1">
+          {{ t('Espace glossaire centralisé') }}
+        </p>
+        <h1 class="text-h5 text-md-h4 font-weight-bold mb-1">
+          {{ t('Glossaire') }}
+        </h1>
         <p class="text-body-2 text-medium-emphasis">
-          {{ t('Importez, exportez, créez ou modifiez les termes dans des modals sur une seule page.') }}
+          {{
+            t(
+              'Importez, exportez, créez ou modifiez les termes dans des modals sur une seule page.',
+            )
+          }}
         </p>
       </div>
       <div class="d-flex flex-wrap gap-3">
@@ -180,17 +190,33 @@ async function exportGlossary() {
         />
       </div>
 
-      <v-data-table :items="filteredTerms" :headers="headers" density="comfortable" class="elevation-0">
+      <v-data-table
+        :items="filteredTerms"
+        :headers="headers"
+        density="comfortable"
+        class="elevation-0"
+      >
         <template #item.definition="{ item }">
           <span class="text-body-2">{{ item?.raw?.definition ?? '—' }}</span>
         </template>
 
         <template #item.actions="{ item }">
           <div class="d-flex gap-1">
-            <v-btn icon variant="text" size="small" @click="openUpdate(item.raw)">
+            <v-btn
+              icon
+              variant="text"
+              size="small"
+              @click="openUpdate(item.raw)"
+            >
               <v-icon icon="mdi-pencil-outline" size="20" />
             </v-btn>
-            <v-btn icon variant="text" size="small" color="error" @click="removeTerm(item.raw)">
+            <v-btn
+              icon
+              variant="text"
+              size="small"
+              color="error"
+              @click="removeTerm(item.raw)"
+            >
               <v-icon icon="mdi-delete-outline" size="20" />
             </v-btn>
           </div>
@@ -207,10 +233,22 @@ async function exportGlossary() {
     >
       <v-form class="pa-2" @submit.prevent="saveTerm">
         <v-text-field v-model="termPayload.term" :label="t('Terme')" required />
-        <v-textarea v-model="termPayload.definition" :label="t('Définition')" rows="4" auto-grow required />
-        <v-select v-model="termPayload.language" :items="['Français', 'Anglais']" :label="t('Langue')" />
+        <v-textarea
+          v-model="termPayload.definition"
+          :label="t('Définition')"
+          rows="4"
+          auto-grow
+          required
+        />
+        <v-select
+          v-model="termPayload.language"
+          :items="['Français', 'Anglais']"
+          :label="t('Langue')"
+        />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.create = false">{{ t('Annuler') }}</v-btn>
+          <v-btn variant="text" @click="modalState.create = false">{{
+            t('Annuler')
+          }}</v-btn>
           <v-btn color="primary" type="submit">{{ t('Enregistrer') }}</v-btn>
         </div>
       </v-form>
@@ -225,11 +263,24 @@ async function exportGlossary() {
     >
       <div v-if="activeTerm" class="pa-2">
         <v-text-field v-model="activeTerm.term" :label="t('Terme')" />
-        <v-textarea v-model="activeTerm.definition" :label="t('Définition')" rows="4" auto-grow />
-        <v-select v-model="activeTerm.language" :items="['Français', 'Anglais']" :label="t('Langue')" />
+        <v-textarea
+          v-model="activeTerm.definition"
+          :label="t('Définition')"
+          rows="4"
+          auto-grow
+        />
+        <v-select
+          v-model="activeTerm.language"
+          :items="['Français', 'Anglais']"
+          :label="t('Langue')"
+        />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.update = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="saveUpdate">{{ t('Mettre à jour') }}</v-btn>
+          <v-btn variant="text" @click="modalState.update = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="saveUpdate">{{
+            t('Mettre à jour')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
@@ -248,8 +299,12 @@ async function exportGlossary() {
           prepend-inner-icon="mdi-file-import"
         />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.import = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="importGlossary">{{ t('Importer') }}</v-btn>
+          <v-btn variant="text" @click="modalState.import = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="importGlossary">{{
+            t('Importer')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
@@ -263,11 +318,19 @@ async function exportGlossary() {
     >
       <div class="pa-2">
         <p class="text-body-2 text-medium-emphasis mb-4">
-          {{ t('Générez un fichier pour partager ou sauvegarder votre glossaire complet.') }}
+          {{
+            t(
+              'Générez un fichier pour partager ou sauvegarder votre glossaire complet.',
+            )
+          }}
         </p>
         <div class="d-flex justify-end gap-2">
-          <v-btn variant="text" @click="modalState.export = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="exportGlossary">{{ t('Exporter') }}</v-btn>
+          <v-btn variant="text" @click="modalState.export = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="exportGlossary">{{
+            t('Exporter')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
@@ -288,7 +351,11 @@ async function exportGlossary() {
   gap: 12px;
   padding: 20px;
   border-radius: var(--app-rounded, 22px);
-  background: linear-gradient(135deg, rgba(var(--v-theme-primary), 0.08), rgba(0, 0, 0, 0.02));
+  background: linear-gradient(
+    135deg,
+    rgba(var(--v-theme-primary), 0.08),
+    rgba(0, 0, 0, 0.02)
+  );
   border: 1px solid rgba(var(--v-border-color), 0.1);
 }
 </style>

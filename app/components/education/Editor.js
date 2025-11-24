@@ -41,4 +41,3 @@ if (typeof window !== 'undefined') {
 
 export { Editor }
 export default Editor
-

@@ -16,7 +16,8 @@ async function loadAssignments() {
   loadingAssignments.value = true
   try {
     const response = await cstudentpublicationService.findAll({ cid, sid, gid })
-    const items = response?.['hydra:member'] ?? response?.items ?? response ?? []
+    const items =
+      response?.['hydra:member'] ?? response?.items ?? response ?? []
     adminAssignments.value = Array.isArray(items)
       ? items.map((assignment) => ({
           ...assignment,
@@ -61,7 +62,9 @@ const modalState = reactive({
   addDocument: false,
 })
 
-const activeAssignment = ref<typeof adminAssignments.value[number] | null>(null)
+const activeAssignment = ref<(typeof adminAssignments.value)[number] | null>(
+  null,
+)
 const newAssignment = reactive({ title: '', deadline: '', description: '' })
 const linkPayload = reactive({ user: '', document: '' })
 
@@ -190,9 +193,15 @@ function addDocumentToAssignment() {
       <AppCard class="pa-4" elevation="2">
         <div class="d-flex align-center justify-space-between mb-3">
           <div>
-            <div class="text-subtitle-1 font-weight-bold">{{ t('Vue administration') }}</div>
+            <div class="text-subtitle-1 font-weight-bold">
+              {{ t('Vue administration') }}
+            </div>
             <div class="text-body-2 text-medium-emphasis">
-              {{ t('Gestion des devoirs, utilisateurs et documents depuis une table unique.') }}
+              {{
+                t(
+                  'Gestion des devoirs, utilisateurs et documents depuis une table unique.',
+                )
+              }}
             </div>
           </div>
         </div>
@@ -211,13 +220,29 @@ function addDocumentToAssignment() {
 
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">
-              <v-btn icon variant="text" size="small" @click="openDetail(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                @click="openDetail(item.raw)"
+              >
                 <v-icon icon="mdi-eye-outline" size="20" />
               </v-btn>
-              <v-btn icon variant="text" size="small" @click="openEdit(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                @click="openEdit(item.raw)"
+              >
                 <v-icon icon="mdi-pencil-outline" size="20" />
               </v-btn>
-              <v-btn icon variant="text" size="small" color="primary" @click="openAddUser(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                color="primary"
+                @click="openAddUser(item.raw)"
+              >
                 <v-icon icon="mdi-account-plus-outline" size="20" />
               </v-btn>
               <v-btn
@@ -229,7 +254,13 @@ function addDocumentToAssignment() {
               >
                 <v-icon icon="mdi-file-plus-outline" size="20" />
               </v-btn>
-              <v-btn icon variant="text" size="small" color="error" @click="removeAssignment(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                color="error"
+                @click="removeAssignment(item.raw)"
+              >
                 <v-icon icon="mdi-delete-outline" size="20" />
               </v-btn>
             </div>
@@ -240,7 +271,9 @@ function addDocumentToAssignment() {
       <AppCard class="pa-4" elevation="2">
         <div class="d-flex align-center justify-space-between mb-3">
           <div>
-            <div class="text-subtitle-1 font-weight-bold">{{ t('Vue éducation') }}</div>
+            <div class="text-subtitle-1 font-weight-bold">
+              {{ t('Vue éducation') }}
+            </div>
             <div class="text-body-2 text-medium-emphasis">
               {{ t('Accès simplifié aux devoirs pour les apprenants.') }}
             </div>
@@ -255,7 +288,12 @@ function addDocumentToAssignment() {
         >
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">
-              <v-btn icon variant="text" size="small" @click="openDetail(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                @click="openDetail(item.raw)"
+              >
                 <v-icon icon="mdi-eye-outline" size="20" />
               </v-btn>
             </div>
@@ -272,8 +310,16 @@ function addDocumentToAssignment() {
       scrollable
     >
       <v-form class="pa-2" @submit.prevent="saveCreatedAssignment">
-        <v-text-field v-model="newAssignment.title" :label="t('Titre')" required />
-        <v-text-field v-model="newAssignment.deadline" :label="t('Deadline')" type="date" />
+        <v-text-field
+          v-model="newAssignment.title"
+          :label="t('Titre')"
+          required
+        />
+        <v-text-field
+          v-model="newAssignment.deadline"
+          :label="t('Deadline')"
+          type="date"
+        />
         <v-textarea
           v-model="newAssignment.description"
           :label="t('Description')"
@@ -281,7 +327,9 @@ function addDocumentToAssignment() {
           auto-grow
         />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.create = false">{{ t('Annuler') }}</v-btn>
+          <v-btn variant="text" @click="modalState.create = false">{{
+            t('Annuler')
+          }}</v-btn>
           <v-btn color="primary" type="submit">{{ t('Enregistrer') }}</v-btn>
         </div>
       </v-form>
@@ -294,16 +342,26 @@ function addDocumentToAssignment() {
       max-width="680"
       scrollable
     >
-        <div v-if="activeAssignment" class="py-4 px-2">
-        <div class="mb-2 text-body-2 text-medium-emphasis">ID: {{ activeAssignment.id }}</div>
-        <div class="text-subtitle-1 font-weight-bold mb-1">{{ activeAssignment.title }}</div>
-        <div class="text-body-2 mb-3">{{ t('Statut') }}: {{ activeAssignment.status }}</div>
+      <div v-if="activeAssignment" class="py-4 px-2">
+        <div class="mb-2 text-body-2 text-medium-emphasis">
+          ID: {{ activeAssignment.id }}
+        </div>
+        <div class="text-subtitle-1 font-weight-bold mb-1">
+          {{ activeAssignment.title }}
+        </div>
+        <div class="text-body-2 mb-3">
+          {{ t('Statut') }}: {{ activeAssignment.status }}
+        </div>
         <div class="text-body-2 mb-3">
           {{ t('Deadline') }}:
           <strong>{{ activeAssignment.deadline || '—' }}</strong>
         </div>
         <div class="text-body-2 text-medium-emphasis">
-          {{ t('Utilisez les autres actions pour modifier ou enrichir ce devoir.') }}
+          {{
+            t(
+              'Utilisez les autres actions pour modifier ou enrichir ce devoir.',
+            )
+          }}
         </div>
       </div>
     </AppModal>
@@ -315,17 +373,25 @@ function addDocumentToAssignment() {
       max-width="720"
       scrollable
     >
-        <div v-if="activeAssignment" class="pa-2">
+      <div v-if="activeAssignment" class="pa-2">
         <v-text-field v-model="activeAssignment.title" :label="t('Titre')" />
-        <v-text-field v-model="activeAssignment.deadline" :label="t('Deadline')" type="date" />
+        <v-text-field
+          v-model="activeAssignment.deadline"
+          :label="t('Deadline')"
+          type="date"
+        />
         <v-select
           v-model="activeAssignment.status"
           :items="['Publié', 'Brouillon']"
           :label="t('Statut')"
         />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.edit = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="saveEditedAssignment">{{ t('Mettre à jour') }}</v-btn>
+          <v-btn variant="text" @click="modalState.edit = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="saveEditedAssignment">{{
+            t('Mettre à jour')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
@@ -337,9 +403,10 @@ function addDocumentToAssignment() {
       max-width="640"
       scrollable
     >
-        <div v-if="activeAssignment" class="pa-2">
+      <div v-if="activeAssignment" class="pa-2">
         <div class="text-body-2 text-medium-emphasis mb-3">
-          {{ t('Associer un apprenant au devoir') }}: {{ activeAssignment.title }}
+          {{ t('Associer un apprenant au devoir') }}:
+          {{ activeAssignment.title }}
         </div>
         <v-text-field
           v-model="linkPayload.user"
@@ -347,8 +414,12 @@ function addDocumentToAssignment() {
           prepend-inner-icon="mdi-account"
         />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.addUser = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="addUserToAssignment">{{ t('Ajouter') }}</v-btn>
+          <v-btn variant="text" @click="modalState.addUser = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="addUserToAssignment">{{
+            t('Ajouter')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
@@ -360,9 +431,10 @@ function addDocumentToAssignment() {
       max-width="640"
       scrollable
     >
-        <div v-if="activeAssignment" class="pa-2">
+      <div v-if="activeAssignment" class="pa-2">
         <div class="text-body-2 text-medium-emphasis mb-3">
-          {{ t('Attacher un document au devoir') }}: {{ activeAssignment.title }}
+          {{ t('Attacher un document au devoir') }}:
+          {{ activeAssignment.title }}
         </div>
         <v-text-field
           v-model="linkPayload.document"
@@ -370,8 +442,12 @@ function addDocumentToAssignment() {
           prepend-inner-icon="mdi-file"
         />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.addDocument = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="addDocumentToAssignment">{{ t('Ajouter') }}</v-btn>
+          <v-btn variant="text" @click="modalState.addDocument = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="addDocumentToAssignment">{{
+            t('Ajouter')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
@@ -392,7 +468,11 @@ function addDocumentToAssignment() {
   gap: 12px;
   padding: 20px;
   border-radius: var(--app-rounded, 22px);
-  background: linear-gradient(135deg, rgba(var(--v-theme-primary), 0.08), rgba(0, 0, 0, 0.02));
+  background: linear-gradient(
+    135deg,
+    rgba(var(--v-theme-primary), 0.08),
+    rgba(0, 0, 0, 0.02)
+  );
   border: 1px solid rgba(var(--v-border-color), 0.1);
 }
 

@@ -14,7 +14,8 @@ async function loadDocuments() {
   loadingDocuments.value = true
   try {
     const response = await documentsService.findAll()
-    const items = response?.['hydra:member'] ?? response?.items ?? response ?? []
+    const items =
+      response?.['hydra:member'] ?? response?.items ?? response ?? []
     documents.value = Array.isArray(items)
       ? items.map((doc) => ({
           ...doc,
@@ -48,8 +49,13 @@ const modalState = reactive({
   variation: false,
 })
 
-const activeDocument = ref<typeof documents.value[number] | null>(null)
-const newDocument = reactive({ title: '', type: 'PDF', tags: '', owner: 'Admin' })
+const activeDocument = ref<(typeof documents.value)[number] | null>(null)
+const newDocument = reactive({
+  title: '',
+  type: 'PDF',
+  tags: '',
+  owner: 'Admin',
+})
 const uploadPayload = reactive({ fileName: '', target: 'Admin' })
 const variationPayload = reactive({ variationTitle: '', notes: '' })
 
@@ -107,7 +113,8 @@ async function saveCreatedDocument() {
 
 async function saveEditedDocument() {
   if (!activeDocument.value) return
-  const iri = activeDocument.value['@id'] || `/api/documents/${activeDocument.value.id}`
+  const iri =
+    activeDocument.value['@id'] || `/api/documents/${activeDocument.value.id}`
   try {
     await documentsService.update({ ...activeDocument.value, '@id': iri })
     await loadDocuments()
@@ -157,7 +164,9 @@ function addVariation() {
         <p class="text-caption text-medium-emphasis mb-1">
           {{ t('Espace documents centralisé') }}
         </p>
-        <h1 class="text-h5 text-md-h4 font-weight-bold mb-1">{{ t('Documents') }}</h1>
+        <h1 class="text-h5 text-md-h4 font-weight-bold mb-1">
+          {{ t('Documents') }}
+        </h1>
         <p class="text-body-2 text-medium-emphasis">
           {{
             t(
@@ -182,14 +191,25 @@ function addVariation() {
       <AppCard class="pa-4" elevation="2">
         <div class="d-flex align-center justify-space-between mb-3">
           <div>
-            <div class="text-subtitle-1 font-weight-bold">{{ t('Vue administration') }}</div>
+            <div class="text-subtitle-1 font-weight-bold">
+              {{ t('Vue administration') }}
+            </div>
             <div class="text-body-2 text-medium-emphasis">
-              {{ t('Gestion des documents maîtres et variations pour les enseignants.') }}
+              {{
+                t(
+                  'Gestion des documents maîtres et variations pour les enseignants.',
+                )
+              }}
             </div>
           </div>
         </div>
 
-        <v-data-table :items="documents" :headers="headers" density="comfortable" class="elevation-0">
+        <v-data-table
+          :items="documents"
+          :headers="headers"
+          density="comfortable"
+          class="elevation-0"
+        >
           <template #item.tags="{ item }">
             <div class="d-flex flex-wrap gap-1">
               <v-chip
@@ -206,16 +226,38 @@ function addVariation() {
 
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">
-              <v-btn icon variant="text" size="small" @click="openDetail(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                @click="openDetail(item.raw)"
+              >
                 <v-icon icon="mdi-eye-outline" size="20" />
               </v-btn>
-              <v-btn icon variant="text" size="small" @click="openEdit(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                @click="openEdit(item.raw)"
+              >
                 <v-icon icon="mdi-pencil-outline" size="20" />
               </v-btn>
-              <v-btn icon variant="text" size="small" color="secondary" @click="openVariation(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                color="secondary"
+                @click="openVariation(item.raw)"
+              >
                 <v-icon icon="mdi-shape" size="20" />
               </v-btn>
-              <v-btn icon variant="text" size="small" color="error" @click="removeDocument(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                color="error"
+                @click="removeDocument(item.raw)"
+              >
                 <v-icon icon="mdi-delete-outline" size="20" />
               </v-btn>
             </div>
@@ -226,9 +268,15 @@ function addVariation() {
       <AppCard class="pa-4" elevation="2">
         <div class="d-flex align-center justify-space-between mb-3">
           <div>
-            <div class="text-subtitle-1 font-weight-bold">{{ t('Vue médiathèque') }}</div>
+            <div class="text-subtitle-1 font-weight-bold">
+              {{ t('Vue médiathèque') }}
+            </div>
             <div class="text-body-2 text-medium-emphasis">
-              {{ t('Sélection des documents prêts à être intégrés aux cours ou HTML editor.') }}
+              {{
+                t(
+                  'Sélection des documents prêts à être intégrés aux cours ou HTML editor.',
+                )
+              }}
             </div>
           </div>
         </div>
@@ -255,10 +303,21 @@ function addVariation() {
 
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">
-              <v-btn icon variant="text" size="small" @click="openDetail(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                @click="openDetail(item.raw)"
+              >
                 <v-icon icon="mdi-eye-outline" size="20" />
               </v-btn>
-              <v-btn icon variant="text" size="small" color="secondary" @click="openVariation(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                color="secondary"
+                @click="openVariation(item.raw)"
+              >
                 <v-icon icon="mdi-file-document-edit-outline" size="20" />
               </v-btn>
             </div>
@@ -275,7 +334,11 @@ function addVariation() {
       scrollable
     >
       <v-form class="pa-2" @submit.prevent="saveCreatedDocument">
-        <v-text-field v-model="newDocument.title" :label="t('Titre')" required />
+        <v-text-field
+          v-model="newDocument.title"
+          :label="t('Titre')"
+          required
+        />
         <v-select
           v-model="newDocument.type"
           :items="['PDF', 'DOCX', 'PPTX', 'Lien', 'Fichier']"
@@ -292,7 +355,9 @@ function addVariation() {
           prepend-inner-icon="mdi-tag"
         />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.create = false">{{ t('Annuler') }}</v-btn>
+          <v-btn variant="text" @click="modalState.create = false">{{
+            t('Annuler')
+          }}</v-btn>
           <v-btn color="primary" type="submit">{{ t('Enregistrer') }}</v-btn>
         </div>
       </v-form>
@@ -317,8 +382,12 @@ function addVariation() {
           :label="t('Destination')"
         />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.upload = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="uploadDocument">{{ t('Ajouter') }}</v-btn>
+          <v-btn variant="text" @click="modalState.upload = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="uploadDocument">{{
+            t('Ajouter')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
@@ -331,10 +400,18 @@ function addVariation() {
       scrollable
     >
       <div v-if="activeDocument" class="py-4 px-2">
-        <div class="mb-2 text-body-2 text-medium-emphasis">ID: {{ activeDocument.id }}</div>
-        <div class="text-subtitle-1 font-weight-bold mb-1">{{ activeDocument.title }}</div>
-        <div class="text-body-2 mb-3">{{ t('Type') }}: {{ activeDocument.type }}</div>
-        <div class="text-body-2 mb-3">{{ t('Propriétaire') }}: {{ activeDocument.owner }}</div>
+        <div class="mb-2 text-body-2 text-medium-emphasis">
+          ID: {{ activeDocument.id }}
+        </div>
+        <div class="text-subtitle-1 font-weight-bold mb-1">
+          {{ activeDocument.title }}
+        </div>
+        <div class="text-body-2 mb-3">
+          {{ t('Type') }}: {{ activeDocument.type }}
+        </div>
+        <div class="text-body-2 mb-3">
+          {{ t('Propriétaire') }}: {{ activeDocument.owner }}
+        </div>
         <div class="d-flex flex-wrap gap-1 mb-3">
           <v-chip
             v-for="tag in activeDocument.tags"
@@ -347,7 +424,11 @@ function addVariation() {
           </v-chip>
         </div>
         <div class="text-body-2 text-medium-emphasis">
-          {{ t('Prévisualisez ou insérez ce document directement depuis cette fenêtre.') }}
+          {{
+            t(
+              'Prévisualisez ou insérez ce document directement depuis cette fenêtre.',
+            )
+          }}
         </div>
       </div>
     </AppModal>
@@ -375,8 +456,12 @@ function addVariation() {
           prepend-inner-icon="mdi-tag"
         />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.edit = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="saveEditedDocument">{{ t('Mettre à jour') }}</v-btn>
+          <v-btn variant="text" @click="modalState.edit = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="saveEditedDocument">{{
+            t('Mettre à jour')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
@@ -405,8 +490,12 @@ function addVariation() {
           auto-grow
         />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.variation = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="addVariation">{{ t('Enregistrer') }}</v-btn>
+          <v-btn variant="text" @click="modalState.variation = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="addVariation">{{
+            t('Enregistrer')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
@@ -427,7 +516,11 @@ function addVariation() {
   gap: 12px;
   padding: 20px;
   border-radius: var(--app-rounded, 22px);
-  background: linear-gradient(135deg, rgba(var(--v-theme-primary), 0.08), rgba(0, 0, 0, 0.02));
+  background: linear-gradient(
+    135deg,
+    rgba(var(--v-theme-primary), 0.08),
+    rgba(0, 0, 0, 0.02)
+  );
   border: 1px solid rgba(var(--v-border-color), 0.1);
 }
 

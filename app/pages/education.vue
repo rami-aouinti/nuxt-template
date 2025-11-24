@@ -11,24 +11,13 @@ const useAppCardLayout = computed(() => route.meta?.appCardLayout !== false)
 
 <template>
   <EducationShell>
-    <v-container fluid class="education-layout py-8">
-      <AppCard v-if="useAppCardLayout" class="pa-6" elevation="3" hover>
-        <NuxtPage />
-      </AppCard>
-      <div v-else class="education-layout__content">
-        <NuxtPage />
-      </div>
-    </v-container>
+    <AppCard v-if="useAppCardLayout" class="pa-6" elevation="3" hover>
+      <NuxtPage />
+    </AppCard>
+    <div v-else>
+      <NuxtPage />
+    </div>
   </EducationShell>
 </template>
 
-<style scoped>
-.education-layout {
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
-.education-layout__content {
-  width: 100%;
-}
-</style>
+<style scoped></style>

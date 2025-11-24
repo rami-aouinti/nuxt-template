@@ -9,7 +9,11 @@
         <i class="mdi mdi-chevron-left" />
       </button>
       <div class="month">{{ monthLabel }} {{ year }}</div>
-      <button class="nav" :title="t('blogPostsPage.next')" @click="$emit('next')">
+      <button
+        class="nav"
+        :title="t('blogPostsPage.next')"
+        @click="$emit('next')"
+      >
         <i class="mdi mdi-chevron-right" />
       </button>
     </div>

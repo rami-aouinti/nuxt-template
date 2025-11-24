@@ -187,10 +187,18 @@ async function removeCategory(item) {
   <div class="links-page">
     <div class="links-page__header">
       <div>
-        <p class="text-caption text-medium-emphasis mb-1">{{ t('Espace liens centralisé') }}</p>
-        <h1 class="text-h5 text-md-h4 font-weight-bold mb-1">{{ t('Liens') }}</h1>
+        <p class="text-caption text-medium-emphasis mb-1">
+          {{ t('Espace liens centralisé') }}
+        </p>
+        <h1 class="text-h5 text-md-h4 font-weight-bold mb-1">
+          {{ t('Liens') }}
+        </h1>
         <p class="text-body-2 text-medium-emphasis">
-          {{ t('Ajoutez, classez et mettez à jour vos liens et catégories dans des modals sur une seule page.') }}
+          {{
+            t(
+              'Ajoutez, classez et mettez à jour vos liens et catégories dans des modals sur une seule page.',
+            )
+          }}
         </p>
       </div>
       <div class="d-flex flex-wrap gap-3">
@@ -209,31 +217,53 @@ async function removeCategory(item) {
       <AppCard class="pa-4" elevation="2">
         <div class="d-flex align-center justify-space-between mb-3">
           <div>
-            <div class="text-subtitle-1 font-weight-bold">{{ t('Liens disponibles') }}</div>
+            <div class="text-subtitle-1 font-weight-bold">
+              {{ t('Liens disponibles') }}
+            </div>
             <div class="text-body-2 text-medium-emphasis">
-              {{ t('Inventaire des liens partagés aux apprenants et administrateurs.') }}
+              {{
+                t(
+                  'Inventaire des liens partagés aux apprenants et administrateurs.',
+                )
+              }}
             </div>
           </div>
         </div>
 
-        <v-data-table :items="links" :headers="linkHeaders" density="comfortable" class="elevation-0">
-        <template #item.url="{ item }">
-          <a
-            :href="item?.raw?.url || '#'"
-            target="_blank"
-            rel="noopener"
-            class="text-primary"
-          >
-            {{ item?.raw?.url ?? '—' }}
-          </a>
-        </template>
+        <v-data-table
+          :items="links"
+          :headers="linkHeaders"
+          density="comfortable"
+          class="elevation-0"
+        >
+          <template #item.url="{ item }">
+            <a
+              :href="item?.raw?.url || '#'"
+              target="_blank"
+              rel="noopener"
+              class="text-primary"
+            >
+              {{ item?.raw?.url ?? '—' }}
+            </a>
+          </template>
 
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">
-              <v-btn icon variant="text" size="small" @click="openUpdateLink(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                @click="openUpdateLink(item.raw)"
+              >
                 <v-icon icon="mdi-pencil-outline" size="20" />
               </v-btn>
-              <v-btn icon variant="text" size="small" color="error" @click="removeLink(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                color="error"
+                @click="removeLink(item.raw)"
+              >
                 <v-icon icon="mdi-delete-outline" size="20" />
               </v-btn>
             </div>
@@ -244,20 +274,38 @@ async function removeCategory(item) {
       <AppCard class="pa-4" elevation="2">
         <div class="d-flex align-center justify-space-between mb-3">
           <div>
-            <div class="text-subtitle-1 font-weight-bold">{{ t('Catégories') }}</div>
+            <div class="text-subtitle-1 font-weight-bold">
+              {{ t('Catégories') }}
+            </div>
             <div class="text-body-2 text-medium-emphasis">
               {{ t('Gérez les catégories de liens avec leur visibilité.') }}
             </div>
           </div>
         </div>
 
-        <v-data-table :items="linkCategories" :headers="categoryHeaders" density="comfortable" class="elevation-0">
+        <v-data-table
+          :items="linkCategories"
+          :headers="categoryHeaders"
+          density="comfortable"
+          class="elevation-0"
+        >
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">
-              <v-btn icon variant="text" size="small" @click="openUpdateCategory(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                @click="openUpdateCategory(item.raw)"
+              >
                 <v-icon icon="mdi-pencil-outline" size="20" />
               </v-btn>
-              <v-btn icon variant="text" size="small" color="error" @click="removeCategory(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                color="error"
+                @click="removeCategory(item.raw)"
+              >
                 <v-icon icon="mdi-delete-outline" size="20" />
               </v-btn>
             </div>
@@ -274,7 +322,11 @@ async function removeCategory(item) {
       scrollable
     >
       <v-form class="pa-2" @submit.prevent="saveLink">
-        <v-text-field v-model="linkPayload.title" :label="t('Titre')" required />
+        <v-text-field
+          v-model="linkPayload.title"
+          :label="t('Titre')"
+          required
+        />
         <v-text-field v-model="linkPayload.url" :label="t('URL')" required />
         <v-select
           v-model="linkPayload.category"
@@ -282,7 +334,9 @@ async function removeCategory(item) {
           :label="t('Catégorie')"
         />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.createLink = false">{{ t('Annuler') }}</v-btn>
+          <v-btn variant="text" @click="modalState.createLink = false">{{
+            t('Annuler')
+          }}</v-btn>
           <v-btn color="primary" type="submit">{{ t('Enregistrer') }}</v-btn>
         </div>
       </v-form>
@@ -304,8 +358,12 @@ async function removeCategory(item) {
           :label="t('Catégorie')"
         />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.updateLink = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="saveLinkUpdate">{{ t('Mettre à jour') }}</v-btn>
+          <v-btn variant="text" @click="modalState.updateLink = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="saveLinkUpdate">{{
+            t('Mettre à jour')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
@@ -319,10 +377,18 @@ async function removeCategory(item) {
     >
       <div class="pa-2">
         <v-text-field v-model="categoryPayload.name" :label="t('Nom')" />
-        <v-select v-model="categoryPayload.visibility" :items="['Public', 'Privé']" :label="t('Visibilité')" />
+        <v-select
+          v-model="categoryPayload.visibility"
+          :items="['Public', 'Privé']"
+          :label="t('Visibilité')"
+        />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.createCategory = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="saveCategory">{{ t('Enregistrer') }}</v-btn>
+          <v-btn variant="text" @click="modalState.createCategory = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="saveCategory">{{
+            t('Enregistrer')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
@@ -336,10 +402,18 @@ async function removeCategory(item) {
     >
       <div v-if="activeCategory" class="pa-2">
         <v-text-field v-model="activeCategory.name" :label="t('Nom')" />
-        <v-select v-model="activeCategory.visibility" :items="['Public', 'Privé']" :label="t('Visibilité')" />
+        <v-select
+          v-model="activeCategory.visibility"
+          :items="['Public', 'Privé']"
+          :label="t('Visibilité')"
+        />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.updateCategory = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="saveCategoryUpdate">{{ t('Mettre à jour') }}</v-btn>
+          <v-btn variant="text" @click="modalState.updateCategory = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="saveCategoryUpdate">{{
+            t('Mettre à jour')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
@@ -360,7 +434,11 @@ async function removeCategory(item) {
   gap: 12px;
   padding: 20px;
   border-radius: var(--app-rounded, 22px);
-  background: linear-gradient(135deg, rgba(var(--v-theme-primary), 0.08), rgba(0, 0, 0, 0.02));
+  background: linear-gradient(
+    135deg,
+    rgba(var(--v-theme-primary), 0.08),
+    rgba(0, 0, 0, 0.02)
+  );
   border: 1px solid rgba(var(--v-border-color), 0.1);
 }
 

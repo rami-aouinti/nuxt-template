@@ -2233,9 +2233,9 @@
   "pages": {
     "education": {
       "navigation": {
-        "title": "Education navigation",
+        "title": "Home",
         "description": "Quickly move between the education landing page, catalog, and administration tools.",
-        "home": "Education home",
+        "home": "Home",
         "myCourses": "My courses",
         "exploreCourses": "Explore courses",
         "events": "Events",

@@ -17,7 +17,7 @@ export default {
       params.pagination = false
     }
 
-    return await baseService.getCollection('/api/courses', params)
+    return await baseService.getCollection('/api/education/api/courses', params)
   },
 
   /**
@@ -26,7 +26,7 @@ export default {
    * @returns {Promise<Object>}
    */
   findById: async (cid, params) =>
-    baseService.get(`/api/courses/${cid}`, params),
+    baseService.get(`/api/education/api/courses/${cid}`, params),
 
   /**
    * @param {number} courseId
@@ -34,15 +34,15 @@ export default {
    * @returns {Promise<Object>}
    */
   loadTools: async (courseId, sessionId = 0) => {
-    const { data } = await api.get(
-      `/course/${courseId}/home.json?sid=${sessionId}`,
+    const { data } = await baseService.get(
+      `/api/education/course/${courseId}/home.json?sid=${sessionId}`,
     )
 
     return data
   },
 
   loadCTools: async (courseId, sessionId = 0) => {
-    const { data } = await api.get('/api/c_tools', {
+    const { data } = await baseService.get('/api/education/api/c_tools', {
       params: {
         cid: courseId,
         sid: sessionId,
@@ -63,8 +63,8 @@ export default {
    * @returns {Promise<Object>}
    */
   updateToolOrder: async (tool, newIndex, courseId, sessionId = 0) => {
-    const { data } = await api.post(
-      `/course/${courseId}/home.json?sid=${sessionId}`,
+    const { data } = await baseService.post(
+      `/api/education/course/${courseId}/home.json?sid=${sessionId}`,
       {
         index: newIndex,
         toolItem: tool,
@@ -80,11 +80,14 @@ export default {
    * @returns {Promise<{Object}>}
    */
   loadHomeIntro: async (courseId, sessionId = 0) => {
-    const { data } = await api.get(`/course/${courseId}/getToolIntro`, {
-      params: {
-        sid: sessionId,
+    const { data } = await baseService.get(
+      `/api/education/course/${courseId}/getToolIntro`,
+      {
+        params: {
+          sid: sessionId,
+        },
       },
-    })
+    )
 
     return data
   },
@@ -95,9 +98,12 @@ export default {
    * @returns {Promise<Object>}
    */
   checkLegal: async (courseId, sessionId = 0) => {
-    return await baseService.get(`/course/${courseId}/checkLegal.json`, {
-      sid: sessionId,
-    })
+    return await baseService.get(
+      `/api/education/course/${courseId}/checkLegal.json`,
+      {
+        sid: sessionId,
+      },
+    )
   },
 
   /**
@@ -106,7 +112,10 @@ export default {
    * @returns {Promise<Object>} The server response after creating the course.
    */
   createCourse: async (courseData) => {
-    const response = await api.post(`/course/create`, courseData)
+    const response = await baseService.post(
+      `/api/education/course/create`,
+      courseData,
+    )
     console.log('response create ::', response)
 
     return response.data
@@ -117,7 +126,7 @@ export default {
    * @returns {Promise<Array>} A list of available categories.
    */
   getCategories: async () => {
-    const response = await api.get(`/course/categories`)
+    const response = await baseService.get(`/api/education/course/categories`)
 
     return response.data
   },
@@ -128,9 +137,12 @@ export default {
    * @returns {Promise<Array>} A list of templates matching the search term.
    */
   searchTemplates: async (searchTerm) => {
-    const response = await api.get(`/course/search_templates`, {
-      params: { search: searchTerm },
-    })
+    const response = await baseService.get(
+      `/api/education/course/search_templates`,
+      {
+        params: { search: searchTerm },
+      },
+    )
 
     return response.data.items.map((item) => ({
       name: item.name,
@@ -147,8 +159,8 @@ export default {
    */
   getAutoLaunchExerciseId: async (courseId, sessionId = 0) => {
     try {
-      const { data } = await api.get(
-        `/course/${courseId}/getAutoLaunchExerciseId`,
+      const { data } = await baseService.get(
+        `/api/education/course/${courseId}/getAutoLaunchExerciseId`,
         {
           params: {
             sid: sessionId,
@@ -176,11 +188,14 @@ export default {
    */
   getAutoLaunchLPId: async (courseId, sessionId = 0) => {
     try {
-      const { data } = await api.get(`/course/${courseId}/getAutoLaunchLPId`, {
-        params: {
-          sid: sessionId,
+      const { data } = await baseService.get(
+        `/api/education/course/${courseId}/getAutoLaunchLPId`,
+        {
+          params: {
+            sid: sessionId,
+          },
         },
-      })
+      )
 
       if (data && data.lpId) {
         return data.lpId
@@ -198,12 +213,16 @@ export default {
    * @returns {Promise<{items: Array}>}
    */
   listCatalogueCourses: async () => {
-    const response = await api.get('/catalogue/courses-list')
+    const response = await baseService.get(
+      '/api/education/catalogue/courses-list',
+    )
     return response.data
   },
   loadCourseCatalogue: async () => {
     try {
-      const response = await fetch('/api/public_courses')
+      const response = await baseService.get(
+        '/api/education/api/public_courses',
+      )
       if (!response.ok) throw new Error('Failed to load catalogue courses')
 
       const data = await response.json()
@@ -222,7 +241,9 @@ export default {
   },
 
   fetchDashboardCourses: async () => {
-    const { data } = await api.get('/admin/sessionadmin/courses')
+    const { data } = await baseService.get(
+      '/api/education/admin/sessionadmin/courses',
+    )
     console.log('[courseService] dashboard payload →', data)
 
     return data
@@ -230,19 +251,22 @@ export default {
 
   toggleFavorite: async (courseId, userId) => {
     // Check if the vote already exists
-    const { data } = await api.get('/api/user_rel_course_votes', {
-      params: { 'user.id': userId, 'course.id': courseId },
-    })
+    const { data } = await baseService.get(
+      '/api/education/api/user_rel_course_votes',
+      {
+        params: { 'user.id': userId, 'course.id': courseId },
+      },
+    )
 
     if (data['hydra:totalItems'] > 0) {
       // Already favorite → remove
-      await api.delete(data['hydra:member'][0]['@id'])
+      await baseService.delete(data['hydra:member'][0]['@id'])
 
       return false
     }
 
     // Not favorite → create
-    await api.post('/api/user_rel_course_votes', {
+    await baseService.post('/api/education/api/user_rel_course_votes', {
       user: `/api/users/${userId}`,
       course: `/api/courses/${courseId}`,
       vote: 1,
@@ -253,47 +277,63 @@ export default {
   },
 
   listFavoriteCourses: async (userId) => {
-    const { data } = await api.get('/api/user_rel_course_votes', {
-      params: { 'user.id': userId, vote: 1, pagination: false },
-    })
+    const { data } = await baseService.get(
+      '/api/education/api/user_rel_course_votes',
+      {
+        params: { 'user.id': userId, vote: 1, pagination: false },
+      },
+    )
 
     return data['hydra:member'].map((vote) => vote.course)
   },
 
   getCompletedCourses: async (offset = 0, limit = 10) => {
-    const res = await api.get('/admin/sessionadmin/courses/completed', {
-      params: { offset, limit },
-    })
+    const res = await baseService.get(
+      '/api/education/admin/sessionadmin/courses/completed',
+      {
+        params: { offset, limit },
+      },
+    )
 
     return res.data
   },
 
   getIncompleteCourses: async () => {
-    const res = await api.get('/admin/sessionadmin/courses/incomplete')
+    const res = await baseService.get(
+      '/api/education/admin/sessionadmin/courses/incomplete',
+    )
 
     return res.data
   },
 
   getRestartableCourses: async (offset = 0, limit = 10) => {
-    const { data } = await api.get('/admin/sessionadmin/courses/restartable', {
-      params: { offset, limit },
-    })
+    const { data } = await baseService.get(
+      '/api/education/admin/sessionadmin/courses/restartable',
+      {
+        params: { offset, limit },
+      },
+    )
 
     return data
   },
 
   extendSessionByWeek: async (sessionId, userId, courseId) => {
-    const { data } = await api.post('/admin/sessionadmin/courses/extend_week', {
-      sessionId,
-      userId,
-      courseId,
-    })
+    const { data } = await baseService.post(
+      '/api/education/admin/sessionadmin/courses/extend_week',
+      {
+        sessionId,
+        userId,
+        courseId,
+      },
+    )
 
     return data
   },
 
   findCourseForSessionAdmin: async (cid) => {
-    const response = await fetch(`/admin/sessionadmin/courses/${cid}`)
+    const response = await fetch(
+      `/api/education/admin/sessionadmin/courses/${cid}`,
+    )
     if (!response.ok) {
       throw new Error('Failed to fetch course')
     }
@@ -308,12 +348,15 @@ export default {
   },
 
   getNextCourse: async (courseId, sessionId = 0, dependents = false) => {
-    const { data } = await api.get(`/course/${courseId}/next-course`, {
-      params: {
-        sid: sessionId,
-        dependents: dependents ? 1 : 0,
+    const { data } = await baseService.get(
+      `/api/education/course/${courseId}/next-course`,
+      {
+        params: {
+          sid: sessionId,
+          dependents: dependents ? 1 : 0,
+        },
       },
-    })
+    )
     return data
   },
 }

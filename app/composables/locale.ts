@@ -7,7 +7,8 @@ import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 export function useLocale() {
-  const isClient = typeof window !== 'undefined' && typeof document !== 'undefined'
+  const isClient =
+    typeof window !== 'undefined' && typeof document !== 'undefined'
 
   const router = useRouter()
   const route = useRoute()

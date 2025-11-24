@@ -127,7 +127,11 @@ function openCategoryUpdate(item) {
 
 function saveDropbox() {
   if (!newDropbox.title) return
-  const nextId = Math.max(...receivedItems.value.map((d) => d.id), ...sentItems.value.map((d) => d.id)) + 1
+  const nextId =
+    Math.max(
+      ...receivedItems.value.map((d) => d.id),
+      ...sentItems.value.map((d) => d.id),
+    ) + 1
   sentItems.value.push({ id: nextId, ...newDropbox })
   modalState.create = false
   newDropbox.title = ''
@@ -140,10 +144,14 @@ function saveUpdate() {
   const list = [...receivedItems.value, ...sentItems.value]
   const index = list.findIndex((item) => item.id === activeItem.value?.id)
   if (index >= 0) {
-    const listRef = receivedItems.value.find((i) => i.id === activeItem.value?.id)
+    const listRef = receivedItems.value.find(
+      (i) => i.id === activeItem.value?.id,
+    )
       ? receivedItems
       : sentItems
-    listRef.value = listRef.value.map((item) => (item.id === activeItem.value?.id ? { ...activeItem.value } : item))
+    listRef.value = listRef.value.map((item) =>
+      item.id === activeItem.value?.id ? { ...activeItem.value } : item,
+    )
   }
   modalState.update = false
 }
@@ -184,8 +192,12 @@ function removeCategory(item) {
   <div class="dropbox-page">
     <div class="dropbox-page__header">
       <div>
-        <p class="text-caption text-medium-emphasis mb-1">{{ t('Espace dropbox centralisé') }}</p>
-        <h1 class="text-h5 text-md-h4 font-weight-bold mb-1">{{ t('Dropbox') }}</h1>
+        <p class="text-caption text-medium-emphasis mb-1">
+          {{ t('Espace dropbox centralisé') }}
+        </p>
+        <h1 class="text-h5 text-md-h4 font-weight-bold mb-1">
+          {{ t('Dropbox') }}
+        </h1>
         <p class="text-body-2 text-medium-emphasis">
           {{
             t(
@@ -212,12 +224,21 @@ function removeCategory(item) {
           <div>
             <div class="text-subtitle-1 font-weight-bold">{{ t('Reçus') }}</div>
             <div class="text-body-2 text-medium-emphasis">
-              {{ t('Tous les devoirs déposés par les apprenants avec feedback rapide.') }}
+              {{
+                t(
+                  'Tous les devoirs déposés par les apprenants avec feedback rapide.',
+                )
+              }}
             </div>
           </div>
         </div>
 
-        <v-data-table :items="receivedItems" :headers="headers" density="comfortable" class="elevation-0">
+        <v-data-table
+          :items="receivedItems"
+          :headers="headers"
+          density="comfortable"
+          class="elevation-0"
+        >
           <template #item.status="{ item }">
             <v-chip
               :color="item.raw.status === 'Validé' ? 'success' : 'warning'"
@@ -230,13 +251,29 @@ function removeCategory(item) {
 
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">
-              <v-btn icon variant="text" size="small" color="primary" @click="openFeedback(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                color="primary"
+                @click="openFeedback(item.raw)"
+              >
                 <v-icon icon="mdi-message-reply-text" size="20" />
               </v-btn>
-              <v-btn icon variant="text" size="small" @click="openMove(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                @click="openMove(item.raw)"
+              >
                 <v-icon icon="mdi-folder-move" size="20" />
               </v-btn>
-              <v-btn icon variant="text" size="small" @click="openUpdate(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                @click="openUpdate(item.raw)"
+              >
                 <v-icon icon="mdi-pencil-outline" size="20" />
               </v-btn>
             </div>
@@ -247,14 +284,25 @@ function removeCategory(item) {
       <AppCard class="pa-4" elevation="2">
         <div class="d-flex align-center justify-space-between mb-3">
           <div>
-            <div class="text-subtitle-1 font-weight-bold">{{ t('Envoyés') }}</div>
+            <div class="text-subtitle-1 font-weight-bold">
+              {{ t('Envoyés') }}
+            </div>
             <div class="text-body-2 text-medium-emphasis">
-              {{ t('Suivi des remises envoyées par les enseignants ou apprenants.') }}
+              {{
+                t(
+                  'Suivi des remises envoyées par les enseignants ou apprenants.',
+                )
+              }}
             </div>
           </div>
         </div>
 
-        <v-data-table :items="sentItems" :headers="headers" density="comfortable" class="elevation-0">
+        <v-data-table
+          :items="sentItems"
+          :headers="headers"
+          density="comfortable"
+          class="elevation-0"
+        >
           <template #item.status="{ item }">
             <v-chip
               :color="item.raw.status === 'Envoyé' ? 'primary' : 'info'"
@@ -267,13 +315,29 @@ function removeCategory(item) {
 
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">
-              <v-btn icon variant="text" size="small" color="primary" @click="openFeedback(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                color="primary"
+                @click="openFeedback(item.raw)"
+              >
                 <v-icon icon="mdi-message-outline" size="20" />
               </v-btn>
-              <v-btn icon variant="text" size="small" @click="openMove(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                @click="openMove(item.raw)"
+              >
                 <v-icon icon="mdi-folder-move" size="20" />
               </v-btn>
-              <v-btn icon variant="text" size="small" @click="openUpdate(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                @click="openUpdate(item.raw)"
+              >
                 <v-icon icon="mdi-pencil-outline" size="20" />
               </v-btn>
             </div>
@@ -284,20 +348,40 @@ function removeCategory(item) {
       <AppCard class="pa-4" elevation="2">
         <div class="d-flex align-center justify-space-between mb-3">
           <div>
-            <div class="text-subtitle-1 font-weight-bold">{{ t('Catégories') }}</div>
+            <div class="text-subtitle-1 font-weight-bold">
+              {{ t('Catégories') }}
+            </div>
             <div class="text-body-2 text-medium-emphasis">
-              {{ t('Organisez vos remises avec des catégories et visibilités.') }}
+              {{
+                t('Organisez vos remises avec des catégories et visibilités.')
+              }}
             </div>
           </div>
         </div>
 
-        <v-data-table :items="categories" :headers="categoryHeaders" density="comfortable" class="elevation-0">
+        <v-data-table
+          :items="categories"
+          :headers="categoryHeaders"
+          density="comfortable"
+          class="elevation-0"
+        >
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">
-              <v-btn icon variant="text" size="small" @click="openCategoryUpdate(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                @click="openCategoryUpdate(item.raw)"
+              >
                 <v-icon icon="mdi-pencil-outline" size="20" />
               </v-btn>
-              <v-btn icon variant="text" size="small" color="error" @click="removeCategory(item.raw)">
+              <v-btn
+                icon
+                variant="text"
+                size="small"
+                color="error"
+                @click="removeCategory(item.raw)"
+              >
                 <v-icon icon="mdi-delete-outline" size="20" />
               </v-btn>
             </div>
@@ -306,57 +390,121 @@ function removeCategory(item) {
       </AppCard>
     </div>
 
-    <AppModal v-model="modalState.create" :title="t('Créer une remise')" :icon="'mdi-plus'" max-width="680" scrollable>
+    <AppModal
+      v-model="modalState.create"
+      :title="t('Créer une remise')"
+      :icon="'mdi-plus'"
+      max-width="680"
+      scrollable
+    >
       <v-form class="pa-2" @submit.prevent="saveDropbox">
         <v-text-field v-model="newDropbox.title" :label="t('Titre')" required />
-        <v-text-field v-model="newDropbox.dueDate" :label="t('Date limite')" type="date" />
-        <v-select v-model="newDropbox.status" :items="['En attente', 'Envoyé', 'Validé']" :label="t('Statut')" />
+        <v-text-field
+          v-model="newDropbox.dueDate"
+          :label="t('Date limite')"
+          type="date"
+        />
+        <v-select
+          v-model="newDropbox.status"
+          :items="['En attente', 'Envoyé', 'Validé']"
+          :label="t('Statut')"
+        />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.create = false">{{ t('Annuler') }}</v-btn>
+          <v-btn variant="text" @click="modalState.create = false">{{
+            t('Annuler')
+          }}</v-btn>
           <v-btn color="primary" type="submit">{{ t('Enregistrer') }}</v-btn>
         </div>
       </v-form>
     </AppModal>
 
-    <AppModal v-model="modalState.feedback" :title="t('Donner un feedback')" :icon="'mdi-message-reply-text'" max-width="680" scrollable>
+    <AppModal
+      v-model="modalState.feedback"
+      :title="t('Donner un feedback')"
+      :icon="'mdi-message-reply-text'"
+      max-width="680"
+      scrollable
+    >
       <div v-if="activeItem" class="pa-2">
         <div class="text-body-2 text-medium-emphasis mb-3">
           {{ t('Répondre à la remise') }}: {{ activeItem.title }}
         </div>
-        <v-textarea v-model="feedbackPayload.message" :label="t('Message')" rows="4" auto-grow />
+        <v-textarea
+          v-model="feedbackPayload.message"
+          :label="t('Message')"
+          rows="4"
+          auto-grow
+        />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.feedback = false">{{ t('Annuler') }}</v-btn>
+          <v-btn variant="text" @click="modalState.feedback = false">{{
+            t('Annuler')
+          }}</v-btn>
           <v-btn color="primary" @click="addFeedback">{{ t('Envoyer') }}</v-btn>
         </div>
       </div>
     </AppModal>
 
-    <AppModal v-model="modalState.move" :title="t('Déplacer la remise')" :icon="'mdi-folder-move'" max-width="640" scrollable>
+    <AppModal
+      v-model="modalState.move"
+      :title="t('Déplacer la remise')"
+      :icon="'mdi-folder-move'"
+      max-width="640"
+      scrollable
+    >
       <div v-if="activeItem" class="pa-2">
         <div class="text-body-2 text-medium-emphasis mb-3">
           {{ t('Choisir la destination pour') }}: {{ activeItem.title }}
         </div>
-        <v-text-field v-model="movePayload.destination" :label="t('Dossier / catégorie')" />
+        <v-text-field
+          v-model="movePayload.destination"
+          :label="t('Dossier / catégorie')"
+        />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.move = false">{{ t('Annuler') }}</v-btn>
+          <v-btn variant="text" @click="modalState.move = false">{{
+            t('Annuler')
+          }}</v-btn>
           <v-btn color="primary" @click="moveItem">{{ t('Déplacer') }}</v-btn>
         </div>
       </div>
     </AppModal>
 
-    <AppModal v-model="modalState.update" :title="t('Mettre à jour la remise')" :icon="'mdi-pencil-outline'" max-width="680" scrollable>
+    <AppModal
+      v-model="modalState.update"
+      :title="t('Mettre à jour la remise')"
+      :icon="'mdi-pencil-outline'"
+      max-width="680"
+      scrollable
+    >
       <div v-if="activeItem" class="pa-2">
         <v-text-field v-model="activeItem.title" :label="t('Titre')" />
-        <v-text-field v-model="activeItem.dueDate" :label="t('Date limite')" type="date" />
-        <v-select v-model="activeItem.status" :items="['En attente', 'Envoyé', 'Validé']" :label="t('Statut')" />
+        <v-text-field
+          v-model="activeItem.dueDate"
+          :label="t('Date limite')"
+          type="date"
+        />
+        <v-select
+          v-model="activeItem.status"
+          :items="['En attente', 'Envoyé', 'Validé']"
+          :label="t('Statut')"
+        />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.update = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="saveUpdate">{{ t('Mettre à jour') }}</v-btn>
+          <v-btn variant="text" @click="modalState.update = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="saveUpdate">{{
+            t('Mettre à jour')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
 
-    <AppModal v-model="modalState.createCategory" :title="t('Créer une catégorie')" :icon="'mdi-folder-plus'" max-width="600" scrollable>
+    <AppModal
+      v-model="modalState.createCategory"
+      :title="t('Créer une catégorie')"
+      :icon="'mdi-folder-plus'"
+      max-width="600"
+      scrollable
+    >
       <div class="pa-2">
         <v-text-field v-model="categoryPayload.name" :label="t('Nom')" />
         <v-select
@@ -365,19 +513,37 @@ function removeCategory(item) {
           :label="t('Visibilité')"
         />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.createCategory = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="saveCategory">{{ t('Enregistrer') }}</v-btn>
+          <v-btn variant="text" @click="modalState.createCategory = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="saveCategory">{{
+            t('Enregistrer')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
 
-    <AppModal v-model="modalState.updateCategory" :title="t('Mettre à jour la catégorie')" :icon="'mdi-folder-edit-outline'" max-width="600" scrollable>
+    <AppModal
+      v-model="modalState.updateCategory"
+      :title="t('Mettre à jour la catégorie')"
+      :icon="'mdi-folder-edit-outline'"
+      max-width="600"
+      scrollable
+    >
       <div v-if="activeCategory" class="pa-2">
         <v-text-field v-model="activeCategory.name" :label="t('Nom')" />
-        <v-select v-model="activeCategory.visibility" :items="['Public', 'Privé']" :label="t('Visibilité')" />
+        <v-select
+          v-model="activeCategory.visibility"
+          :items="['Public', 'Privé']"
+          :label="t('Visibilité')"
+        />
         <div class="d-flex justify-end mt-4 gap-2">
-          <v-btn variant="text" @click="modalState.updateCategory = false">{{ t('Annuler') }}</v-btn>
-          <v-btn color="primary" @click="updateCategory">{{ t('Mettre à jour') }}</v-btn>
+          <v-btn variant="text" @click="modalState.updateCategory = false">{{
+            t('Annuler')
+          }}</v-btn>
+          <v-btn color="primary" @click="updateCategory">{{
+            t('Mettre à jour')
+          }}</v-btn>
         </div>
       </div>
     </AppModal>
@@ -398,7 +564,11 @@ function removeCategory(item) {
   gap: 12px;
   padding: 20px;
   border-radius: var(--app-rounded, 22px);
-  background: linear-gradient(135deg, rgba(var(--v-theme-primary), 0.08), rgba(0, 0, 0, 0.02));
+  background: linear-gradient(
+    135deg,
+    rgba(var(--v-theme-primary), 0.08),
+    rgba(0, 0, 0, 0.02)
+  );
   border: 1px solid rgba(var(--v-border-color), 0.1);
 }
 

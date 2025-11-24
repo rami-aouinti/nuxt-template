@@ -4,7 +4,9 @@
     <aside class="space-y-4">
       <AppCard variant="elevated" class="overflow-hidden">
         <v-card-text class="p-0">
-          <div class="px-4 py-3 border-b text-sm font-semibold text-gray-700 bg-gray-50">
+          <div
+            class="px-4 py-3 border-b text-sm font-semibold text-gray-700 bg-gray-50"
+          >
             {{ t('blogPostsPage.calendar') }}
           </div>
           <div class="p-4">
@@ -22,7 +24,9 @@
 
       <AppCard variant="elevated" class="overflow-hidden">
         <v-card-text class="p-0">
-          <div class="px-4 py-3 border-b text-sm font-semibold text-gray-700 bg-gray-50">
+          <div
+            class="px-4 py-3 border-b text-sm font-semibold text-gray-700 bg-gray-50"
+          >
             {{ t('blogPostsPage.search') }}
           </div>
           <div class="p-4 space-y-3">
@@ -46,7 +50,9 @@
 
       <AppCard variant="elevated" class="overflow-hidden">
         <v-card-text class="p-0">
-          <div class="px-4 py-3 border-b text-sm font-semibold text-gray-700 bg-gray-50">
+          <div
+            class="px-4 py-3 border-b text-sm font-semibold text-gray-700 bg-gray-50"
+          >
             {{ t('blogPostsPage.myTasks') }}
           </div>
           <div class="p-4">
@@ -67,15 +73,19 @@
               <h3 class="font-semibold text-lg m-0">
                 {{
                   blogTitle ||
-                  t(viewMode === 'posts' ? 'blogPostsPage.posts' : 'blogPostsPage.tasks')
+                  t(
+                    viewMode === 'posts'
+                      ? 'blogPostsPage.posts'
+                      : 'blogPostsPage.tasks',
+                  )
                 }}
               </h3>
               <p class="m-0 text-xs uppercase tracking-wide text-gray-500">
                 {{
                   blogSubtitle ||
-                    (viewMode === 'posts'
-                      ? t('blogPostsPage.browseAndPublish')
-                      : t('blogPostsPage.createAndAssignTasks'))
+                  (viewMode === 'posts'
+                    ? t('blogPostsPage.browseAndPublish')
+                    : t('blogPostsPage.createAndAssignTasks'))
                 }}
               </p>
             </div>
@@ -136,7 +146,9 @@
             class="px-4 py-3 border-b flex flex-wrap items-center justify-between gap-3 text-sm text-gray-600"
           >
             <div>
-              <template v-if="loading">{{ t('blogPostsPage.loading') }}</template>
+              <template v-if="loading">{{
+                t('blogPostsPage.loading')
+              }}</template>
               <template v-else>
                 <span v-if="viewMode === 'posts'">
                   {{ t('blogPostsPage.showingPosts', { n: total }) }}
@@ -145,7 +157,9 @@
                   </span>
                 </span>
                 <span v-else>
-                  {{ t('blogPostsPage.showingTasks', { n: tasksFiltered.length }) }}
+                  {{
+                    t('blogPostsPage.showingTasks', { n: tasksFiltered.length })
+                  }}
                 </span>
               </template>
             </div>
@@ -181,22 +195,30 @@
               >
                 <div class="flex items-start justify-between gap-4">
                   <div class="space-y-2">
-                    <div class="text-base font-semibold text-primary hover:underline">
+                    <div
+                      class="text-base font-semibold text-primary hover:underline"
+                    >
                       {{ row.title }}
                     </div>
                     <div
                       class="text-sm text-gray-500 mt-0.5 flex items-center gap-3 flex-wrap"
                     >
                       <span>
-                        {{ t('blogPostsPage.by') }} {{ row.author }} · {{ row.date }}
+                        {{ t('blogPostsPage.by') }} {{ row.author }} ·
+                        {{ row.date }}
                       </span>
-                      <span v-if="row.tags?.length" class="text-xs text-gray-400">
+                      <span
+                        v-if="row.tags?.length"
+                        class="text-xs text-gray-400"
+                      >
                         — {{ row.tags.join(', ') }}
                       </span>
 
                       <!-- Attachments indicator -->
                       <span
-                        v-if="(attachCount[row.id] ?? row.attachmentsCount ?? 0) > 0"
+                        v-if="
+                          (attachCount[row.id] ?? row.attachmentsCount ?? 0) > 0
+                        "
                         class="text-xs text-gray-500 flex items-center gap-1"
                       >
                         <i class="mdi mdi-paperclip" />
@@ -211,14 +233,18 @@
                     <div>{{ t('blogPostsPage.comments', [row.comments]) }}</div>
                     <div class="mt-1 flex items-center gap-1 justify-end">
                       <i class="mdi mdi-star text-amber-500" />
-                      <span>{{ (ratings[row.id]?.average ?? 0).toFixed(1) }}</span>
+                      <span>{{
+                        (ratings[row.id]?.average ?? 0).toFixed(1)
+                      }}</span>
                     </div>
                   </div>
                 </div>
               </li>
             </ul>
 
-            <div class="px-4 py-3 border-t flex items-center justify-between bg-gray-50">
+            <div
+              class="px-4 py-3 border-t flex items-center justify-between bg-gray-50"
+            >
               <div class="text-xs text-gray-500">
                 {{ t('blogPostsPage.pageOf', { p: page, pages }) }}
               </div>
@@ -257,7 +283,9 @@
               >
                 <div class="space-y-1">
                   <div class="font-semibold">{{ task.title }}</div>
-                  <div class="text-sm text-gray-600">{{ task.description }}</div>
+                  <div class="text-sm text-gray-600">
+                    {{ task.description }}
+                  </div>
                 </div>
                 <span
                   class="px-2 py-1 text-white text-xs rounded"
