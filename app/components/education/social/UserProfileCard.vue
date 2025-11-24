@@ -3,18 +3,18 @@
     <div class="flex flex-col items-center p-4 user-profile-card">
       <BaseUserAvatar
         :alt="t('Picture')"
-        :image-url="user.illustrationUrl"
+        :image-url="user?.illustrationUrl"
         size="xlarge"
       />
       <div
-        v-if="visibility.firstname && visibility.lastname"
+        v-if="visibility?.firstname && visibility?.lastname"
         class="text-xl font-bold"
       >
-        {{ user.fullName }}
+        {{ user?.fullName }}
       </div>
 
       <div
-        v-if="visibility.language && languageInfo"
+        v-if="visibility?.language && languageInfo"
         class="flex items-center gap-2"
       >
         <i v-if="countryFlag" :class="`flag-icon flag-icon-${countryFlag}`" />
@@ -24,11 +24,11 @@
       <div class="mt-4">
         <p v-if="showFullProfile" class="flex items-center justify-center mb-2">
           <a
-            v-if="visibility.email && user.email"
+            v-if="visibility?.email && user?.email"
             :href="'/resources/messages/new'"
             class="flex items-center justify-center mb-2"
           >
-            <i class="mdi mdi-email-outline mr-2" /> {{ user.email }}
+            <i class="mdi mdi-email-outline mr-2" /> {{ user?.email }}
           </a>
         </p>
         <p v-if="vCardUserLink" class="flex items-center justify-center mb-2">
@@ -41,17 +41,17 @@
             {{ t('Business card') }}
           </a>
         </p>
-        <p v-if="user.skype" class="flex items-center justify-center mb-2">
-          <i class="mdi mdi-skype mr-2" /> Skype: {{ user.skype }}
+        <p v-if="user?.skype" class="flex items-center justify-center mb-2">
+          <i class="mdi mdi-skype mr-2" /> Skype: {{ user?.skype }}
         </p>
-        <p v-if="user.linkedin" class="flex items-center justify-center">
-          <i class="mdi mdi-linkedin mr-2" /> LinkedIn: {{ user.linkedin }}
+        <p v-if="user?.linkedin" class="flex items-center justify-center">
+          <i class="mdi mdi-linkedin mr-2" /> LinkedIn: {{ user?.linkedin }}
         </p>
       </div>
 
       <hr />
       <div
-        v-if="extraInfo && extraInfo.length > 0"
+        v-if="extraInfo && extraInfo?.length > 0"
         class="extra-info-container"
       >
         <dl class="extra-info-list">
@@ -82,10 +82,10 @@
         <button
           @click="
             chatWith(
-              user.id,
-              user.fullName,
-              user.isOnline,
-              user.illustrationUrl,
+              user?.id,
+              user?.fullName,
+              user?.isOnline,
+              user?.illustrationUrl,
             )
           "
         >
@@ -153,7 +153,7 @@
       </div>
 
       <BaseButton
-        v-if="isCurrentUser || securityStore.isAdmin"
+        v-if="isCurrentUser || securityStore?.isAdmin"
         :label="t('Edit profile')"
         class="mt-4"
         icon="edit"
@@ -161,7 +161,7 @@
         @click="editProfile"
       />
       <BaseButton
-        v-if="isCurrentUser || securityStore.isAdmin"
+        v-if="isCurrentUser || securityStore?.isAdmin"
         :label="t('Change Password')"
         class="mt-2"
         icon="lock"
