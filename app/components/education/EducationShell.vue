@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { NuxtLink } from '#components'
 import AppNavigationList from '~/components/AppNavigationList.vue'
 import { useEducationNavigation } from '~/composables/useEducationNavigation'
 

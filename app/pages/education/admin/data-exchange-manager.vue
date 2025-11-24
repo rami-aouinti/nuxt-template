@@ -157,7 +157,7 @@ import { useNotification } from '~/composables/education/notification'
 import adminService from '../../../services/adminService'
 
 definePageMeta({
-  title: 'Admin Data Exchange Manager',
+  title: 'Data exchanges (GDPR)',
 })
 
 const { t } = useI18n()
