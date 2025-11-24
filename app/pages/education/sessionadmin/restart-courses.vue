@@ -45,7 +45,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
-import { useToast } from 'primevue/usetoast'
+import { useSafeToast } from '~/composables/useSafeToast'
 import Button from 'primevue/button'
 import courseService from '../../../services/courseService'
 
@@ -54,7 +54,7 @@ definePageMeta({
 })
 
 const { t } = useI18n()
-const toast = useToast()
+const toast = useSafeToast()
 const list = ref([])
 const offset = ref(0)
 const limit = 10

@@ -14,7 +14,7 @@ import PageForm from '../../../components/education/page/Form.vue'
 import Loading from '../../../components/education/Loading.vue'
 
 import { useDatatableCreate } from '~/composables/education/datatableCreate'
-import { useToast } from 'primevue/usetoast'
+import { useSafeToast } from '~/composables/useSafeToast'
 
 definePageMeta({
   title: 'Page Create',
@@ -25,7 +25,7 @@ const securityStore = useSecurityStore()
 
 const { createItem, onCreated } = useDatatableCreate('Page')
 
-const toast = useToast()
+const toast = useSafeToast()
 
 const error = computed(() => store.state['page'].error)
 const isLoading = computed(() => store.state['page'].isLoading)

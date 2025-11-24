@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { useToast } from 'primevue/usetoast'
+import { useSafeToast } from '~/composables/useSafeToast'
 
 export function useDatatableCreate(servicePrefix) {
   const moduleName = servicePrefix.toLowerCase()
@@ -12,7 +12,7 @@ export function useDatatableCreate(servicePrefix) {
   const route = useRoute()
   const { t } = useI18n()
 
-  const toast = useToast()
+  const toast = useSafeToast()
 
   function onCreated(item) {
     toast.add({

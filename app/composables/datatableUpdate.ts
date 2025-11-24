@@ -4,7 +4,7 @@ import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { isEmpty } from 'lodash'
 import { useI18n } from 'vue-i18n'
-import { useToast } from 'primevue/usetoast'
+import { useSafeToast } from '~/composables/useSafeToast'
 
 export function useDatatableUpdate(servicePrefix) {
   const moduleName = servicePrefix.toLowerCase()
@@ -13,7 +13,7 @@ export function useDatatableUpdate(servicePrefix) {
   const route = useRoute()
   const { t } = useI18n()
 
-  const toast = useToast()
+  const toast = useSafeToast()
 
   const isLoading = computed(() => store.getters[`${moduleName}/isLoading`])
 

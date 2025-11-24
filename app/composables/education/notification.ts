@@ -1,7 +1,7 @@
-import { useToast } from 'primevue/usetoast'
+import { useSafeToast } from '~/composables/useSafeToast'
 
 export function useNotification() {
-  const toast = import.meta.client ? useToast() : null
+  const toast = useSafeToast()
 
   const showSuccessNotification = (message) => {
     showMessage(message, 'success')

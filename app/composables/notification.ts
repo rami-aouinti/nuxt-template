@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { useToast } from 'primevue/usetoast'
+import { useSafeToast } from '~/composables/useSafeToast'
 
 export function useNotification() {
-  const toast = useToast()
+  const toast = useSafeToast()
 
   const showSuccessNotification = (message) => {
     showMessage(message, 'success')
