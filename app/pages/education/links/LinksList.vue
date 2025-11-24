@@ -200,6 +200,11 @@ import { usePlatformConfig } from '~/stores/platformConfig'
 import SectionHeader from '../../../components/education/layout/SectionHeader.vue'
 import StudentViewButton from '../../../components/education/StudentViewButton.vue'
 
+definePageMeta({
+  title: 'Links List',
+  middleware: 'auth',
+})
+
 const route = useRoute()
 const router = useRouter()
 const securityStore = useSecurityStore()
