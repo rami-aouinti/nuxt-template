@@ -271,6 +271,11 @@ import { useI18n } from 'vue-i18n'
 import themeLogoService from '../../../services/themeLogoService'
 import { usePlatformConfig } from '~/stores/platformConfig'
 
+definePageMeta({
+  title: 'Admin Admin Branding',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const platformConfigStore = usePlatformConfig()
 const { visualTheme } = storeToRefs(platformConfigStore)

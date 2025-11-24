@@ -133,6 +133,11 @@ import prettyBytes from 'pretty-bytes'
 import { useCidReq } from '~/composables/education/cidReq'
 import { useSecurityStore } from '~/stores/securityStore'
 
+definePageMeta({
+  title: 'Documents Add Variation',
+  middleware: 'auth',
+})
+
 const securityStore = useSecurityStore()
 const route = useRoute()
 const router = useRouter()

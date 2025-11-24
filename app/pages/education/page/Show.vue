@@ -48,6 +48,11 @@ import pageService from '../../../services/page'
 import { useNotification } from '~/composables/education/notification'
 import { useLocale } from '~/composables/education/locale'
 
+definePageMeta({
+  title: 'Page Show',
+  middleware: 'auth',
+})
+
 const { relativeDatetime } = useFormatDate()
 
 const securityStore = useSecurityStore()

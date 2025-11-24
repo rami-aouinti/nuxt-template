@@ -38,6 +38,11 @@ import userService from '../../../services/userService'
 import userRelUserService from '../../../services/userRelUserService'
 import { useSecurityStore } from '~/stores/securityStore'
 
+definePageMeta({
+  title: 'Userreluser User Rel User Add',
+  middleware: 'auth',
+})
+
 const emit = defineEmits(['friend-request-sent'])
 
 const securityStore = useSecurityStore()

@@ -16,6 +16,11 @@ import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
 
 import LayoutFormGeneric from '../../../components/education/layout/LayoutFormGeneric.vue'
 
+definePageMeta({
+  title: 'Glossary Glossary Term Create',
+  middleware: 'auth',
+})
+
 const router = useRouter()
 const route = useRoute()
 const { t } = useI18n()

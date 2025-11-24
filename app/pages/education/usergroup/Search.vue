@@ -51,6 +51,11 @@ import BaseButton from '../../../components/education/basecomponents/BaseButton.
 import axios from 'axios'
 import { useRoute } from 'vue-router'
 
+definePageMeta({
+  title: 'Usergroup Search',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const route = useRoute()
 const searchTerm = ref('')

@@ -71,6 +71,11 @@ import BaseButton from '../../../components/education/basecomponents/BaseButton.
 import BaseToolbar from '../../../components/education/basecomponents/BaseToolbar.vue'
 import { useStore } from 'vuex'
 
+definePageMeta({
+  title: 'Documents Documents Upload',
+  middleware: 'auth',
+})
+
 const store = useStore()
 const route = useRoute()
 const router = useRouter()

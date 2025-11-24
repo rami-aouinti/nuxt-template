@@ -34,6 +34,11 @@ import { useSocialInfo } from '~/composables/education/useSocialInfo'
 import { useSecurityStore } from '~/stores/securityStore'
 import { usePlatformConfig } from '~/stores/platformConfig'
 
+definePageMeta({
+  title: 'Social Social Layout',
+  middleware: 'auth',
+})
+
 const platformConfigStore = usePlatformConfig()
 const hideSocialGroupBlock =
   'true' === platformConfigStore.getSetting('social.hide_social_groups_block')

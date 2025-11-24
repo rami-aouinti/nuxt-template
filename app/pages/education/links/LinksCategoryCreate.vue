@@ -14,6 +14,11 @@ import { useRoute, useRouter } from 'vue-router'
 import LinkCategoryForm from '../../../components/education/links/LinkCategoryForm.vue'
 import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
 
+definePageMeta({
+  title: 'Links Links Category Create',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()

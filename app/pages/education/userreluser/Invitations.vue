@@ -30,6 +30,11 @@ import BaseButton from '../../../components/education/basecomponents/BaseButton.
 
 import socialService from '../../../services/socialService'
 
+definePageMeta({
+  title: 'Userreluser Invitations',
+  middleware: 'auth',
+})
+
 const receivedInvitations = ref([])
 const sentInvitations = ref([])
 const pendingInvitations = ref([])

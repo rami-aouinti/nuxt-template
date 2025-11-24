@@ -116,6 +116,11 @@ import BaseTinyEditor from '../../../components/education/basecomponents/BaseTin
 import { chamiloIconToClass } from '../../../components/education/basecomponents/ChamiloIcons'
 import service from '../../../services/dropbox'
 
+definePageMeta({
+  title: 'Dropbox Dropbox Feedback Dialog',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 
 const props = defineProps({

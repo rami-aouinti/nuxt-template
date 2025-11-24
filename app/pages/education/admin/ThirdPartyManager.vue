@@ -154,6 +154,11 @@ import BaseTable from '../../../components/education/basecomponents/BaseTable.vu
 import adminService from '../../../services/adminService'
 import { useNotification } from '~/composables/education/notification'
 
+definePageMeta({
+  title: 'Admin Third Party Manager',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const router = useRouter()
 const { showErrorNotification, showSuccessNotification } = useNotification()

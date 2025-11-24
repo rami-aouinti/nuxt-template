@@ -24,6 +24,11 @@ import { useNotification } from '~/composables/education/notification'
 import { useFormatDate } from '~/composables/education/formatDate'
 import userService from '../../../services/userService'
 
+definePageMeta({
+  title: 'Message Message Reply',
+  middleware: 'auth',
+})
+
 const store = useStore()
 const securityStore = useSecurityStore()
 const route = useRoute()

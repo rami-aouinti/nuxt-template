@@ -55,6 +55,11 @@ import BaseButton from '../../../components/education/basecomponents/BaseButton.
 import BaseSelect from '../../../components/education/basecomponents/BaseSelect.vue'
 import service from '../../../services/dropbox'
 
+definePageMeta({
+  title: 'Dropbox Dropbox Move Dialog',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 
 const props = defineProps({

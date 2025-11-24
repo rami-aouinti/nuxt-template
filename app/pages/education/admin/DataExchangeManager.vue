@@ -156,6 +156,11 @@ import BaseTable from '../../../components/education/basecomponents/BaseTable.vu
 import { useNotification } from '~/composables/education/notification'
 import adminService from '../../../services/adminService'
 
+definePageMeta({
+  title: 'Admin Data Exchange Manager',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()

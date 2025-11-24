@@ -101,6 +101,11 @@ import { useSocialInfo } from '~/composables/education/useSocialInfo'
 import BaseButton from '../../../components/education/basecomponents/BaseButton.vue'
 import socialService from '../../../services/socialService'
 
+definePageMeta({
+  title: 'Usergroup Show',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()

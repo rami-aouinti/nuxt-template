@@ -15,6 +15,11 @@
 import { ref } from 'vue'
 import BaseTinyEditor from '../../../components/education/basecomponents/BaseTinyEditor.vue'
 
+definePageMeta({
+  title: 'Page Editor Demo',
+  middleware: 'auth',
+})
+
 const editorContent = ref('')
 // Here you decide the mode, 'personal_files' or 'documents'
 // Decide if you want to use the file manager or not

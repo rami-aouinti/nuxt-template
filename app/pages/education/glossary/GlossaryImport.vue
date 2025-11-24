@@ -15,6 +15,11 @@ import { useRoute, useRouter } from 'vue-router'
 import LayoutFormGeneric from '../../../components/education/layout/LayoutFormGeneric.vue'
 import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
 
+definePageMeta({
+  title: 'Glossary Glossary Import',
+  middleware: 'auth',
+})
+
 const router = useRouter()
 const route = useRoute()
 const { t } = useI18n()

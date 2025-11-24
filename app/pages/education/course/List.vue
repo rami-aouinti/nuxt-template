@@ -49,6 +49,11 @@ import Toolbar from '../../../components/education/Toolbar.vue'
 import courseService from '~/services/courseService'
 import api from '~/config/api'
 
+definePageMeta({
+  title: 'Course List',
+  middleware: 'auth',
+})
+
 const route = useRoute()
 const router = useRouter()
 

@@ -256,6 +256,11 @@ import { useSecurityStore } from '~/stores/securityStore'
 import { useCourseSettings } from '~/stores/courseSettingStore'
 import NextCourseSequence from '../../../components/education/course/NextCourseSequence.vue'
 
+definePageMeta({
+  title: 'Course Course Home',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const cidReqStore = useCidReqStore()
 const platformConfigStore = usePlatformConfig()

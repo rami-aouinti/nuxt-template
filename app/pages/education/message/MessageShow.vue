@@ -131,6 +131,11 @@ import { useNotification } from '~/composables/education/notification'
 import { useMessageReceiverFormatter } from '~/composables/education/message/messageFormatter'
 import { MESSAGE_TYPE_INBOX } from '../../../constants/entity/message'
 
+definePageMeta({
+  title: 'Message Message Show',
+  middleware: 'auth',
+})
+
 const confirm = useConfirm()
 const { t } = useI18n()
 

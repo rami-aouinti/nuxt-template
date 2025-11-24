@@ -49,6 +49,11 @@ import { useToast } from 'primevue/usetoast'
 import Button from 'primevue/button'
 import courseService from '../../../services/courseService'
 
+definePageMeta({
+  title: 'Sessionadmin Restart Courses',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const toast = useToast()
 const list = ref([])

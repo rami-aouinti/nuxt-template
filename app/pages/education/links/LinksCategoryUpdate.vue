@@ -13,6 +13,11 @@ import LinkCategoryForm from '../../../components/education/links/LinkCategoryFo
 import { useRoute, useRouter } from 'vue-router'
 import { computed } from 'vue'
 
+definePageMeta({
+  title: 'Links Links Category Update',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()

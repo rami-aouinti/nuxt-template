@@ -221,6 +221,11 @@ import sessionService from '../../../services/sessionService'
 import { useNotification } from '~/composables/education/notification'
 import { usePlatformConfig } from '~/stores/platformConfig'
 
+definePageMeta({
+  title: 'Sessionadmin Register Student',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const { showErrorNotification, showSuccessNotification } = useNotification()
 const route = useRoute()

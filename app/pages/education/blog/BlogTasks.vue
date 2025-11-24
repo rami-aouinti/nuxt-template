@@ -161,6 +161,11 @@ import TaskCreateDialog from '../../../components/education/blog/TaskCreateDialo
 import AssignTaskDialog from '../../../components/education/blog/AssignTaskDialog.vue'
 import { useSecurityStore } from '~/stores/securityStore'
 
+definePageMeta({
+  title: 'Blog Blog Tasks',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const securityStore = useSecurityStore()
 const currentUserId = computed(() => securityStore.user?.id || null)

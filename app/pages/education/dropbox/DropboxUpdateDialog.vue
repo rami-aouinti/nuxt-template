@@ -96,6 +96,11 @@ import BaseSelect from '../../../components/education/basecomponents/BaseSelect.
 import UppyModalUploader from '../../../components/education/dropbox/UppyModalUploader.vue'
 import service from '../../../services/dropbox'
 
+definePageMeta({
+  title: 'Dropbox Dropbox Update Dialog',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 
 const props = defineProps({

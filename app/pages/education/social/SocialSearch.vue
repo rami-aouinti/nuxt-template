@@ -191,6 +191,11 @@ import { useNotification } from '~/composables/education/notification'
 import { useSocialInfo } from '~/composables/education/useSocialInfo'
 import { useRoute } from 'vue-router'
 
+definePageMeta({
+  title: 'Social Social Search',
+  middleware: 'auth',
+})
+
 const route = useRoute()
 const query = ref('')
 const searchType = ref('user')

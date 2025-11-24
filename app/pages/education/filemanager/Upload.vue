@@ -31,6 +31,11 @@ import BaseButton from '../../../components/education/basecomponents/BaseButton.
 import BaseToolbar from '../../../components/education/basecomponents/BaseToolbar.vue'
 import { RESOURCE_LINK_PUBLISHED } from '~/constants/entity/resourcelink'
 
+definePageMeta({
+  title: 'Filemanager Upload',
+  middleware: 'auth',
+})
+
 const Webcam = require('@uppy/webcam').default
 const XHRUpload = require('@uppy/xhr-upload').default
 const ImageEditor = require('@uppy/image-editor').default

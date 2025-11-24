@@ -152,6 +152,11 @@ import { usePlatformConfig } from '~/stores/platformConfig'
 import courseService from '../../../services/courseService'
 import AdvancedCourseFilters from '../../../components/education/course/AdvancedCourseFilters.vue'
 
+definePageMeta({
+  title: 'Course Catalogue Courses',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const sortField = ref('title')
 

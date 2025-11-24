@@ -20,6 +20,11 @@ import { useNotification } from '~/composables/education/notification'
 
 import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
 
+definePageMeta({
+  title: 'Assignments Assignments Create',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const { cid, sid, gid } = useCidReq()
 const router = useRouter()

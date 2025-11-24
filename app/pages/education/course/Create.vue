@@ -88,6 +88,11 @@ import CourseForm from '../../../components/education/course/Form.vue'
 import courseService from '../../../services/courseService'
 import { useNotification } from '~/composables/education/notification'
 
+definePageMeta({
+  title: 'Course Create',
+  middleware: 'auth',
+})
+
 const item = ref<Record<string, any>>({})
 const router = useRouter()
 const { t } = useI18n()
