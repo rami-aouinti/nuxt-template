@@ -10,6 +10,7 @@ import { findAll as listAccessUrl } from '../../../services/accessurlService'
 import { useNotification } from '~/composables/education/notification.js'
 import BaseAvatarList from '../../../components/education/basecomponents/BaseAvatarList.vue'
 import BaseUserFinder from '../../../components/education/basecomponents/BaseUserFinder.vue'
+import AppCard from '~/components/App/AppCard.vue'
 
 definePageMeta({
   title: 'Accessurl Access Url Auth Sources Assign',
@@ -79,63 +80,79 @@ listAccessUrl().then((items) => (accessUrlList.value = items))
 <template>
   <SectionHeader :title="t('Assign auth sources to users')" />
 
-  <BaseToolbar>
-    <template #start>
-      <BaseButton
-        :title="t('Back to user assignment page')"
-        icon="back"
-        only-icon
-        type="black"
-        @click="router.back()"
-      />
-    </template>
-  </BaseToolbar>
-
-  <div class="grid grid-flow-row-dense md:grid-cols-5 gap-4">
-    <div class="md:col-span-3">
-      <BaseUserFinder ref="userFinder" />
-    </div>
-
-    <div class="md:col-span-2">
-      <BaseSelect
-        id="access_url"
-        v-model="accessUrl"
-        :disabled="0 === accessUrlList.length"
-        :label="t('Access URL')"
-        :options="accessUrlList"
-        option-label="url"
-        option-value="@id"
-        @change="listAuthSourcesByAccessUrl"
-      />
-
-      <BaseSelect
-        id="auth_source"
-        v-model="authSource"
-        :disabled="0 === authSourceList.length"
-        :label="t('Auth source')"
-        :options="authSourceList"
-      />
-
-      <div class="field">
-        <BaseAvatarList
-          :count-several="userFinder.selectedUsers.length || 0"
-          :users="userFinder.selectedUsers || []"
+  <div class="space-y-6">
+    <BaseToolbar>
+      <template #start>
+        <BaseButton
+          :title="t('Back to user assignment page')"
+          icon="back"
+          only-icon
+          type="black"
+          @click="router.back()"
         />
-      </div>
+        <div class="text-sm text-gray-500">
+          {{ t('Assign auth sources to users') }}
+        </div>
+      </template>
+    </BaseToolbar>
 
-      <BaseButton
-        :disabled="
-          !accessUrl ||
-          !authSource ||
-          0 === userFinder.selectedUsers.length ||
-          isLoadingAssign
-        "
-        :is-loading="isLoadingAssign"
-        :label="t('Assign')"
-        icon="save"
-        type="primary"
-        @click="assignAuthSources"
-      />
+    <div class="grid gap-6 xl:grid-cols-[1.2fr,0.8fr]">
+      <AppCard class="h-full" variant="elevated" elevation="2">
+        <v-card-text class="space-y-4">
+          <div class="text-body-2 text-medium-emphasis">
+            {{ t('Assign auth sources to users') }}
+          </div>
+          <BaseUserFinder ref="userFinder" />
+        </v-card-text>
+      </AppCard>
+
+      <AppCard class="h-full" variant="elevated" elevation="2">
+        <v-card-text class="space-y-4">
+          <BaseSelect
+            id="access_url"
+            v-model="accessUrl"
+            :disabled="0 === accessUrlList.length"
+            :label="t('Access URL')"
+            :options="accessUrlList"
+            option-label="url"
+            option-value="@id"
+            @change="listAuthSourcesByAccessUrl"
+          />
+
+          <BaseSelect
+            id="auth_source"
+            v-model="authSource"
+            :disabled="0 === authSourceList.length"
+            :label="t('Auth source')"
+            :options="authSourceList"
+          />
+
+          <div class="rounded-lg border border-gray-200 bg-gray-50 p-3">
+            <div class="text-sm font-medium mb-2">
+              {{ t('Users') }}
+            </div>
+            <BaseAvatarList
+              :count-several="userFinder.selectedUsers.length || 0"
+              :users="userFinder.selectedUsers || []"
+            />
+          </div>
+
+          <BaseButton
+            class="w-full justify-center"
+            :disabled="
+              !accessUrl ||
+              !authSource ||
+              0 === userFinder.selectedUsers.length ||
+              isLoadingAssign
+            "
+            :is-loading="isLoadingAssign"
+            :label="t('Assign')"
+            icon="save"
+            type="primary"
+            @click="assignAuthSources"
+          />
+        </v-card-text>
+      </AppCard>
     </div>
   </div>
 </template>

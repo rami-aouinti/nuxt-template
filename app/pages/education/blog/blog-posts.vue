@@ -1,270 +1,275 @@
 <template>
-  <div class="grid gap-4 md:grid-cols-[280px,1fr] blog-posts">
+  <div class="grid gap-6 xl:grid-cols-[320px,1fr] blog-posts">
     <!-- LEFT SIDEBAR -->
     <aside class="space-y-4">
-      <div class="rounded-lg border bg-white shadow-sm">
-        <div class="p-3 border-b text-sm font-semibold">
-          {{ t('blogPostsPage.calendar') }}
-        </div>
-        <div class="p-3">
-          <CalendarMini
-            :year="calendarYear"
-            :month="calendarMonth"
-            :selected="selectedDate"
-            @select="onSelectDate"
-            @prev="prevMonth"
-            @next="nextMonth"
-          />
-        </div>
-      </div>
+      <AppCard variant="elevated" class="overflow-hidden">
+        <v-card-text class="p-0">
+          <div class="px-4 py-3 border-b text-sm font-semibold text-gray-700 bg-gray-50">
+            {{ t('blogPostsPage.calendar') }}
+          </div>
+          <div class="p-4">
+            <CalendarMini
+              :year="calendarYear"
+              :month="calendarMonth"
+              :selected="selectedDate"
+              @select="onSelectDate"
+              @prev="prevMonth"
+              @next="nextMonth"
+            />
+          </div>
+        </v-card-text>
+      </AppCard>
 
-      <div class="rounded-lg border bg-white shadow-sm">
-        <div class="p-3 border-b text-sm font-semibold">
-          {{ t('blogPostsPage.search') }}
-        </div>
-        <div class="p-3 space-y-2">
-          <BaseInputText
-            id="blog-q"
-            v-model="q"
-            :placeholder="t('blogPostsPage.search')"
-            class="w-full"
-            label=""
-          />
-          <BaseButton
-            type="black"
-            icon="search"
-            :label="t('blogPostsPage.search')"
-            class="w-full"
-            @click="reload()"
-          />
-        </div>
-      </div>
+      <AppCard variant="elevated" class="overflow-hidden">
+        <v-card-text class="p-0">
+          <div class="px-4 py-3 border-b text-sm font-semibold text-gray-700 bg-gray-50">
+            {{ t('blogPostsPage.search') }}
+          </div>
+          <div class="p-4 space-y-3">
+            <BaseInputText
+              id="blog-q"
+              v-model="q"
+              :placeholder="t('blogPostsPage.search')"
+              class="w-full"
+              label=""
+            />
+            <BaseButton
+              type="black"
+              icon="search"
+              :label="t('blogPostsPage.search')"
+              class="w-full justify-center"
+              @click="reload()"
+            />
+          </div>
+        </v-card-text>
+      </AppCard>
 
-      <div class="rounded-lg border bg-white shadow-sm">
-        <div class="p-3 border-b text-sm font-semibold">
-          {{ t('blogPostsPage.myTasks') }}
-        </div>
-        <div class="p-3">
-          <MyTasksPanel :assignments="assignments" :tasks="tasks" />
-        </div>
-      </div>
+      <AppCard variant="elevated" class="overflow-hidden">
+        <v-card-text class="p-0">
+          <div class="px-4 py-3 border-b text-sm font-semibold text-gray-700 bg-gray-50">
+            {{ t('blogPostsPage.myTasks') }}
+          </div>
+          <div class="p-4">
+            <MyTasksPanel :assignments="assignments" :tasks="tasks" />
+          </div>
+        </v-card-text>
+      </AppCard>
     </aside>
 
     <!-- MAIN PANEL -->
     <section class="space-y-4">
-      <BaseToolbar :show-top-border="true">
-        <template #start>
-          <div class="flex items-center gap-3">
-            <h3 class="font-semibold text-lg m-0">
-              {{
-                t(viewMode === 'posts' ? 'blogPostsPage.posts' : 'blogPostsPage.tasks')
-              }}
-            </h3>
-            <span class="text-gray-400">·</span>
-            <span v-if="viewMode === 'posts'" class="text-sm text-gray-500">
-              {{ t('blogPostsPage.browseAndPublish') }}
-            </span>
-            <span v-else class="text-sm text-gray-500">
-              {{ t('blogPostsPage.createAndAssignTasks') }}
-            </span>
-          </div>
-        </template>
-        <template #end>
-          <div class="flex items-center gap-2">
-            <div class="segmented">
-              <button
-                :class="['seg-btn', viewMode === 'posts' && 'active']"
-                :title="t('blogPostsPage.posts')"
-                @click="setMode('posts')"
-              >
-                {{ t('blogPostsPage.posts') }}
-              </button>
-              <button
-                :class="['seg-btn', viewMode === 'tasks' && 'active']"
-                :title="t('blogPostsPage.tasks')"
-                @click="setMode('tasks')"
-              >
-                {{ t('blogPostsPage.tasks') }}
-              </button>
-            </div>
-
-            <BaseSelect
-              v-if="viewMode === 'posts'"
-              v-model="sort"
-              :options="sortOptions"
-              option-label="label"
-              option-value="value"
-              label=""
-            />
-            <BaseSelect
-              v-else
-              v-model="taskSort"
-              :options="taskSortOptions"
-              option-label="label"
-              option-value="value"
-              label=""
-            />
-
-            <BaseButton
-              v-if="viewMode === 'posts'"
-              type="primary"
-              icon="plus"
-              :label="t('blogPostsPage.newPost')"
-              @click="openCreate"
-            />
-            <BaseButton
-              v-else
-              type="primary"
-              icon="plus"
-              :label="t('blogPostsPage.newTask')"
-              @click="showCreateTask = true"
-            />
-          </div>
-        </template>
-      </BaseToolbar>
-
-      <div class="rounded-lg border bg-white shadow-sm">
-        <div class="p-3 border-b flex items-center justify-between">
-          <div class="text-sm text-gray-600">
-            <template v-if="loading">{{ t('blogPostsPage.loading') }}</template>
-            <template v-else>
-              <span v-if="viewMode === 'posts'">
-                {{ t('blogPostsPage.showingPosts', { n: total }) }}
-                <span v-if="selectedDate" class="text-gray-400">
-                  — {{ t('blogPostsPage.filteredBy') }} {{ selectedDate }}
-                </span>
-              </span>
-              <span v-else>
-                {{ t('blogPostsPage.showingTasks', { n: tasksFiltered.length }) }}
-              </span>
-            </template>
-          </div>
-          <BaseSelect
-            v-if="viewMode === 'posts'"
-            v-model="pageSize"
-            :options="pageSizeOptions"
-            option-label="label"
-            option-value="value"
-            label=""
-          />
-        </div>
-
-        <!-- POSTS MODE -->
-        <template v-if="viewMode === 'posts'">
-          <div v-if="loading" class="p-4 space-y-3">
-            <div v-for="i in 3" :key="i" class="animate-pulse space-y-2">
-              <div class="h-4 w-56 bg-gray-20 rounded" />
-              <div class="h-3 w-80 bg-gray-10 rounded" />
-            </div>
-          </div>
-
-          <div v-else-if="!rows.length" class="p-6 text-center text-gray-500">
-            {{ t('blogPostsPage.noPostsYet') }}
-          </div>
-
-          <ul v-else class="divide-y">
-            <li
-              v-for="row in rows"
-              :key="row.id"
-              class="p-4 hover:bg-gray-20 cursor-pointer"
-              @click="go(row)"
-            >
-              <div class="flex items-start justify-between">
-                <div>
-                  <div
-                    class="text-base font-semibold text-blue-700 hover:underline"
-                  >
-                    {{ row.title }}
-                  </div>
-                  <div
-                    class="text-sm text-gray-500 mt-0.5 flex items-center gap-3"
-                  >
-                    <span>
-                      {{ t('blogPostsPage.by') }} {{ row.author }} · {{ row.date }}
-                    </span>
-                    <span v-if="row.tags?.length" class="text-xs text-gray-400">
-                      — {{ row.tags.join(', ') }}
-                    </span>
-
-                    <!-- Attachments indicator -->
-                    <span
-                      v-if="
-                        (attachCount[row.id] ?? row.attachmentsCount ?? 0) > 0
-                      "
-                      class="text-xs text-gray-500 flex items-center gap-1"
-                    >
-                      <i class="mdi mdi-paperclip" />
-                      {{ attachCount[row.id] ?? row.attachmentsCount }}
-                    </span>
-                  </div>
-                  <div class="text-sm mt-2 text-gray-700">
-                    {{ row.excerpt }}
-                  </div>
-                </div>
-                <div class="text-xs text-gray-500 text-right">
-                  <div>{{ t('blogPostsPage.comments', [row.comments]) }}</div>
-                  <div class="mt-1 flex items-center gap-1 justify-end">
-                    <i class="mdi mdi-star text-amber-500" />
-                    <span>{{
-                      (ratings[row.id]?.average ?? 0).toFixed(1)
-                    }}</span>
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-
-          <div class="p-3 border-t flex items-center justify-between">
-            <div class="text-xs text-gray-500">
-              {{ t('blogPostsPage.pageOf', { p: page, pages }) }}
-            </div>
-            <div class="flex gap-2">
-              <BaseButton
-                type="black"
-                icon="arrow-left"
-                :label="t('blogPostsPage.prev')"
-                :disabled="page <= 1"
-                @click="page--"
-              />
-              <BaseButton
-                type="black"
-                icon="arrow-right"
-                :label="t('blogPostsPage.next')"
-                :disabled="page >= pages"
-                @click="page++"
-              />
-            </div>
-          </div>
-        </template>
-
-        <!-- TASKS MODE -->
-        <template v-else>
+      <AppCard variant="elevated" class="overflow-hidden">
+        <v-card-text class="p-0">
           <div
-            v-if="!tasksFiltered.length"
-            class="p-6 text-center text-gray-500"
+            class="px-4 py-4 bg-gray-50 border-b flex flex-wrap items-center justify-between gap-4"
           >
-            {{ t('blogPostsPage.noTasksYet') }}
-          </div>
-          <div v-else class="p-4 space-y-3">
-            <div
-              v-for="task in tasksFiltered"
-              :key="task.id"
-              class="p-4 border rounded-lg bg-gray-20 flex items-start justify-between"
-            >
-              <div>
-                <div class="font-semibold">{{ task.title }}</div>
-                <div class="text-sm text-gray-600">{{ task.description }}</div>
+            <div class="space-y-1">
+              <h3 class="font-semibold text-lg m-0">
+                {{
+                  blogTitle ||
+                  t(viewMode === 'posts' ? 'blogPostsPage.posts' : 'blogPostsPage.tasks')
+                }}
+              </h3>
+              <p class="m-0 text-xs uppercase tracking-wide text-gray-500">
+                {{
+                  blogSubtitle ||
+                    (viewMode === 'posts'
+                      ? t('blogPostsPage.browseAndPublish')
+                      : t('blogPostsPage.createAndAssignTasks'))
+                }}
+              </p>
+            </div>
+
+            <div class="flex items-center gap-3 flex-wrap justify-end">
+              <div class="segmented">
+                <button
+                  :class="['seg-btn', viewMode === 'posts' && 'active']"
+                  :title="t('blogPostsPage.posts')"
+                  @click="setMode('posts')"
+                >
+                  {{ t('blogPostsPage.posts') }}
+                </button>
+                <button
+                  :class="['seg-btn', viewMode === 'tasks' && 'active']"
+                  :title="t('blogPostsPage.tasks')"
+                  @click="setMode('tasks')"
+                >
+                  {{ t('blogPostsPage.tasks') }}
+                </button>
               </div>
-              <span
-                class="px-2 py-1 text-white text-xs rounded"
-                :style="{ background: task.color }"
-              >
-                {{ task.status }}
-              </span>
+
+              <BaseSelect
+                v-if="viewMode === 'posts'"
+                v-model="sort"
+                :options="sortOptions"
+                option-label="label"
+                option-value="value"
+                label=""
+              />
+              <BaseSelect
+                v-else
+                v-model="taskSort"
+                :options="taskSortOptions"
+                option-label="label"
+                option-value="value"
+                label=""
+              />
+
+              <BaseButton
+                v-if="viewMode === 'posts'"
+                type="primary"
+                icon="plus"
+                :label="t('blogPostsPage.newPost')"
+                @click="openCreate"
+              />
+              <BaseButton
+                v-else
+                type="primary"
+                icon="plus"
+                :label="t('blogPostsPage.newTask')"
+                @click="showCreateTask = true"
+              />
             </div>
           </div>
-        </template>
-      </div>
+
+          <div
+            class="px-4 py-3 border-b flex flex-wrap items-center justify-between gap-3 text-sm text-gray-600"
+          >
+            <div>
+              <template v-if="loading">{{ t('blogPostsPage.loading') }}</template>
+              <template v-else>
+                <span v-if="viewMode === 'posts'">
+                  {{ t('blogPostsPage.showingPosts', { n: total }) }}
+                  <span v-if="selectedDate" class="text-gray-400">
+                    — {{ t('blogPostsPage.filteredBy') }} {{ selectedDate }}
+                  </span>
+                </span>
+                <span v-else>
+                  {{ t('blogPostsPage.showingTasks', { n: tasksFiltered.length }) }}
+                </span>
+              </template>
+            </div>
+            <BaseSelect
+              v-if="viewMode === 'posts'"
+              v-model="pageSize"
+              :options="pageSizeOptions"
+              option-label="label"
+              option-value="value"
+              label=""
+            />
+          </div>
+
+          <!-- POSTS MODE -->
+          <template v-if="viewMode === 'posts'">
+            <div v-if="loading" class="p-4 space-y-3 bg-white">
+              <div v-for="i in 3" :key="i" class="animate-pulse space-y-2">
+                <div class="h-4 w-56 bg-gray-200 rounded" />
+                <div class="h-3 w-80 bg-gray-100 rounded" />
+              </div>
+            </div>
+
+            <div v-else-if="!rows.length" class="p-8 text-center text-gray-500">
+              {{ t('blogPostsPage.noPostsYet') }}
+            </div>
+
+            <ul v-else class="divide-y divide-gray-100">
+              <li
+                v-for="row in rows"
+                :key="row.id"
+                class="px-4 py-4 hover:bg-gray-50 cursor-pointer transition"
+                @click="go(row)"
+              >
+                <div class="flex items-start justify-between gap-4">
+                  <div class="space-y-2">
+                    <div class="text-base font-semibold text-primary hover:underline">
+                      {{ row.title }}
+                    </div>
+                    <div
+                      class="text-sm text-gray-500 mt-0.5 flex items-center gap-3 flex-wrap"
+                    >
+                      <span>
+                        {{ t('blogPostsPage.by') }} {{ row.author }} · {{ row.date }}
+                      </span>
+                      <span v-if="row.tags?.length" class="text-xs text-gray-400">
+                        — {{ row.tags.join(', ') }}
+                      </span>
+
+                      <!-- Attachments indicator -->
+                      <span
+                        v-if="(attachCount[row.id] ?? row.attachmentsCount ?? 0) > 0"
+                        class="text-xs text-gray-500 flex items-center gap-1"
+                      >
+                        <i class="mdi mdi-paperclip" />
+                        {{ attachCount[row.id] ?? row.attachmentsCount }}
+                      </span>
+                    </div>
+                    <div class="text-sm text-gray-700">
+                      {{ row.excerpt }}
+                    </div>
+                  </div>
+                  <div class="text-xs text-gray-500 text-right min-w-[80px]">
+                    <div>{{ t('blogPostsPage.comments', [row.comments]) }}</div>
+                    <div class="mt-1 flex items-center gap-1 justify-end">
+                      <i class="mdi mdi-star text-amber-500" />
+                      <span>{{ (ratings[row.id]?.average ?? 0).toFixed(1) }}</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+
+            <div class="px-4 py-3 border-t flex items-center justify-between bg-gray-50">
+              <div class="text-xs text-gray-500">
+                {{ t('blogPostsPage.pageOf', { p: page, pages }) }}
+              </div>
+              <div class="flex gap-2">
+                <BaseButton
+                  type="black"
+                  icon="arrow-left"
+                  :label="t('blogPostsPage.prev')"
+                  :disabled="page <= 1"
+                  @click="page--"
+                />
+                <BaseButton
+                  type="black"
+                  icon="arrow-right"
+                  :label="t('blogPostsPage.next')"
+                  :disabled="page >= pages"
+                  @click="page++"
+                />
+              </div>
+            </div>
+          </template>
+
+          <!-- TASKS MODE -->
+          <template v-else>
+            <div
+              v-if="!tasksFiltered.length"
+              class="p-8 text-center text-gray-500"
+            >
+              {{ t('blogPostsPage.noTasksYet') }}
+            </div>
+            <div v-else class="p-4 space-y-3 bg-white">
+              <div
+                v-for="task in tasksFiltered"
+                :key="task.id"
+                class="p-4 border rounded-lg bg-gray-50 flex items-start justify-between"
+              >
+                <div class="space-y-1">
+                  <div class="font-semibold">{{ task.title }}</div>
+                  <div class="text-sm text-gray-600">{{ task.description }}</div>
+                </div>
+                <span
+                  class="px-2 py-1 text-white text-xs rounded"
+                  :style="{ background: task.color }"
+                >
+                  {{ task.status }}
+                </span>
+              </div>
+            </div>
+          </template>
+        </v-card-text>
+      </AppCard>
     </section>
 
     <!-- DIALOGS -->
@@ -287,7 +292,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 
-import BaseToolbar from '../../../components/education/basecomponents/BaseToolbar.vue'
+import AppCard from '~/components/App/AppCard.vue'
 import BaseButton from '../../../components/education/basecomponents/BaseButton.vue'
 import BaseSelect from '../../../components/education/basecomponents/BaseSelect.vue'
 import BaseInputText from '../../../components/education/basecomponents/BaseInputText.vue'
