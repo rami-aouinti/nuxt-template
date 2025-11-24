@@ -18,7 +18,6 @@ import LayoutFormGeneric from '../../../components/education/layout/LayoutFormGe
 
 definePageMeta({
   title: 'Links Links Create',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

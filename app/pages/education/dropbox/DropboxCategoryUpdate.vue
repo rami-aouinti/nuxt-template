@@ -32,7 +32,6 @@ import BaseButton from '../../../components/education/basecomponents/BaseButton.
 
 definePageMeta({
   title: 'Dropbox Dropbox Category Update',
-  middleware: 'auth',
 })
 
 const route = useRoute()

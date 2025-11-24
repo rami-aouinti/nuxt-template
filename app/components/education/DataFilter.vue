@@ -36,7 +36,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const props = defineProps<{ handleReset: () => void; handleFilter: () => void }>()
+const props = defineProps<{
+  handleReset: () => void
+  handleFilter: () => void
+}>()
 
 const filtersExpanded = ref(false)
 

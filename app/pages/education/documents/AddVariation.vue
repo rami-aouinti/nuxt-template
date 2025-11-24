@@ -135,7 +135,6 @@ import { useSecurityStore } from '~/stores/securityStore'
 
 definePageMeta({
   title: 'Documents Add Variation',
-  middleware: 'auth',
 })
 
 const securityStore = useSecurityStore()

@@ -24,7 +24,7 @@ export function useDatatableCreate(servicePrefix) {
       life: 3500,
     })
 
-    let folderParams = route.query
+    const folderParams = route.query
 
     router.push({
       name: `${servicePrefix}List`,

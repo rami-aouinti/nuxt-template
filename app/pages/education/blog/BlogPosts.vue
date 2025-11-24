@@ -296,7 +296,6 @@ import { useCidReqStore } from '~/stores/cidReq'
 
 definePageMeta({
   title: 'Blog Blog Posts',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

@@ -24,7 +24,6 @@ import { checkIsAllowedToEdit } from '~/composables/education/userPermissions'
 
 definePageMeta({
   title: 'Documents Update',
-  middleware: 'auth',
 })
 
 const securityStore = useSecurityStore()

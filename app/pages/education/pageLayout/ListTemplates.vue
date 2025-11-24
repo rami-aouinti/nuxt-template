@@ -108,7 +108,6 @@ import pageService from '../../../services/pageService.js'
 
 definePageMeta({
   title: 'Page Layout List Templates',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

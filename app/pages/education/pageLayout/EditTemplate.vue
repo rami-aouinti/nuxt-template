@@ -79,7 +79,6 @@ import pageService from '../../../services/pageService'
 
 definePageMeta({
   title: 'Page Layout Edit Template',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

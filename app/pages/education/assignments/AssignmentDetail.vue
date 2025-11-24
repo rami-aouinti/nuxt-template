@@ -186,7 +186,6 @@ import TeacherSubmissionList from '../../../components/education/assignments/Tea
 
 definePageMeta({
   title: 'Assignments Assignment Detail',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

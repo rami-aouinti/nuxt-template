@@ -40,7 +40,6 @@ import { useSecurityStore } from '~/stores/securityStore'
 
 definePageMeta({
   title: 'Userreluser User Rel User Add',
-  middleware: 'auth',
 })
 
 const emit = defineEmits(['friend-request-sent'])

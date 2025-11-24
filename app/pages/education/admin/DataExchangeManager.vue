@@ -158,7 +158,6 @@ import adminService from '../../../services/adminService'
 
 definePageMeta({
   title: 'Admin Data Exchange Manager',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

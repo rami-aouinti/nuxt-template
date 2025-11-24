@@ -56,7 +56,7 @@ export function useDatatableList(servicePrefix) {
       params[`order[${sortBy}]`] = sortDesc ? 'desc' : 'asc'
     }
 
-    let type = route.query.type
+    const type = route.query.type
 
     params = { ...params, cid, sid, gid, type, page }
 
@@ -68,7 +68,7 @@ export function useDatatableList(servicePrefix) {
   function goToAddItem() {
     console.log('addHandler')
 
-    let folderParams = route.query
+    const folderParams = route.query
 
     router.push({
       name: `${servicePrefix}Create`,
@@ -109,7 +109,7 @@ export function useDatatableList(servicePrefix) {
   function onShowItem(item) {
     console.log('listmixin showHandler', item)
 
-    let folderParams = route.query
+    const folderParams = route.query
 
     if (item) {
       folderParams['id'] = item['@id']

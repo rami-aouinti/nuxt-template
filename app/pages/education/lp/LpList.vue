@@ -199,7 +199,6 @@ import ExportPdfDialog from '../../../components/education/lp/ExportPdfDialog.vu
 
 definePageMeta({
   title: 'Lp Lp List',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

@@ -47,7 +47,6 @@ import Loading from '../../../../components/education/Loading.vue'
 
 definePageMeta({
   title: 'Courses List',
-  middleware: 'auth',
 })
 
 const securityStore = useSecurityStore()

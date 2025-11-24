@@ -5,7 +5,7 @@ import { useEducationNavigation } from '~/composables/useEducationNavigation'
 
 definePageMeta({
   title: 'Index',
-  middleware: 'auth',
+
   appCardLayout: false,
 })
 
@@ -53,7 +53,7 @@ const discoveryItems = computed(() => [
     icon: 'mdi-account-group-outline',
     title: t('pages.education.discovery.community.title'),
     description: t('pages.education.discovery.community.description'),
-      to: localePath('/education/blog/blog-posts'),
+    to: localePath('/education/blog/blog-posts'),
   },
 ])
 </script>
@@ -64,7 +64,9 @@ const discoveryItems = computed(() => [
       <v-row>
         <v-col cols="12">
           <AppCard class="pa-6 hero" elevation="3" hover>
-            <div class="d-flex flex-column flex-md-row align-center justify-space-between gap-6">
+            <div
+              class="d-flex flex-column flex-md-row align-center justify-space-between gap-6"
+            >
               <div class="d-flex flex-column gap-2">
                 <div class="animated-badge">
                   <span class="animated-badge__pulse" />
@@ -80,7 +82,7 @@ const discoveryItems = computed(() => [
                   <v-btn
                     color="primary"
                     variant="flat"
-                  :to="localePath('/education/course/catalogue-courses')"
+                    :to="localePath('/education/course/catalogue-courses')"
                   >
                     <v-icon icon="mdi-open-in-new" start />
                     {{ t('pages.education.hero.cta') }}
@@ -88,7 +90,7 @@ const discoveryItems = computed(() => [
                   <v-btn
                     color="secondary"
                     variant="text"
-                  :to="localePath('/education/course/list')"
+                    :to="localePath('/education/course/list')"
                   >
                     <v-icon icon="mdi-compass-rose" start />
                     {{ t('pages.education.hero.secondaryCta') }}
@@ -113,7 +115,12 @@ const discoveryItems = computed(() => [
       </v-row>
 
       <v-row class="mt-4" dense>
-        <v-col v-for="route in featuredRoutes" :key="route.title" cols="12" md="4">
+        <v-col
+          v-for="route in featuredRoutes"
+          :key="route.title"
+          cols="12"
+          md="4"
+        >
           <AppCard class="pa-5 h-100 glass-card" elevation="2" hover>
             <div class="d-flex align-center justify-space-between mb-4">
               <div class="d-flex align-center gap-3">
@@ -129,12 +136,7 @@ const discoveryItems = computed(() => [
                   </div>
                 </div>
               </div>
-              <v-btn
-                icon
-                variant="tonal"
-                color="primary"
-                :to="route.to"
-              >
+              <v-btn icon variant="tonal" color="primary" :to="route.to">
                 <v-icon icon="mdi-open-in-new" />
               </v-btn>
             </div>
@@ -166,15 +168,12 @@ const discoveryItems = computed(() => [
                     <div class="text-subtitle-2 font-weight-semibold">
                       {{ route.label }}
                     </div>
-                    <div class="text-caption text-medium-emphasis">{{ route.to }}</div>
+                    <div class="text-caption text-medium-emphasis">
+                      {{ route.to }}
+                    </div>
                   </div>
                 </div>
-                <v-btn
-                  icon
-                  variant="text"
-                  color="primary"
-                  :to="route.to"
-                >
+                <v-btn icon variant="text" color="primary" :to="route.to">
                   <v-icon icon="mdi-open-in-new" />
                 </v-btn>
               </div>
@@ -208,12 +207,7 @@ const discoveryItems = computed(() => [
                     </div>
                   </div>
                 </div>
-                <v-btn
-                  icon
-                  variant="text"
-                  color="secondary"
-                  :to="item.to"
-                >
+                <v-btn icon variant="text" color="secondary" :to="item.to">
                   <v-icon icon="mdi-open-in-new" />
                 </v-btn>
               </div>

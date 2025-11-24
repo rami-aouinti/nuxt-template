@@ -32,7 +32,6 @@ import socialService from '../../../services/socialService'
 
 definePageMeta({
   title: 'Userreluser Invitations',
-  middleware: 'auth',
 })
 
 const receivedInvitations = ref([])

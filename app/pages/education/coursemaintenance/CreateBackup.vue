@@ -3,11 +3,11 @@
 </template>
 
 <script setup lang="ts">
+import EducationPlaceholder from '~/components/education/EducationPlaceholder.vue'
+
 definePageMeta({
   title: 'Coursemaintenance Create Backup',
-  middleware: 'auth',
+
   appCardLayout: false,
 })
-
-import EducationPlaceholder from '~/components/education/EducationPlaceholder.vue'
 </script>

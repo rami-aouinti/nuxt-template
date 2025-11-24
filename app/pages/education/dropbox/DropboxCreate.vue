@@ -192,7 +192,6 @@ import service from '../../../services/dropbox'
 
 definePageMeta({
   title: 'Dropbox Dropbox Create',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

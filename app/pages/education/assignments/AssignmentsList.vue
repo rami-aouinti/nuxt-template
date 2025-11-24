@@ -96,7 +96,6 @@ import cstudentpublicationService from '../../../services/cstudentpublication'
 
 definePageMeta({
   title: 'Assignments Assignments List',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

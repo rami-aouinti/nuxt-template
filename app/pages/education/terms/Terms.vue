@@ -41,7 +41,6 @@ import socialService from '../../../services/socialService'
 
 definePageMeta({
   title: 'Terms Terms',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

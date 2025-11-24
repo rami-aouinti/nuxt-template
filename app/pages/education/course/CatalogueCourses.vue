@@ -2,18 +2,30 @@
   <v-container class="py-8">
     <AppCard class="mb-6" elevation="2">
       <v-card-text>
-        <div class="d-flex flex-wrap align-start justify-space-between gap-4 mb-4">
+        <div
+          class="d-flex flex-wrap align-start justify-space-between gap-4 mb-4"
+        >
           <div>
-            <div class="text-h5 font-weight-bold mb-1">{{ $t('Course catalogue') }}</div>
+            <div class="text-h5 font-weight-bold mb-1">
+              {{ $t('Course catalogue') }}
+            </div>
             <div class="text-body-2 text-medium-emphasis">
               {{ $t('Browse, filter, and subscribe to available courses.') }}
             </div>
           </div>
           <div class="d-flex flex-column flex-sm-row gap-3 align-end">
-            <v-chip color="primary" variant="tonal" prepend-icon="mdi-format-list-numbered">
+            <v-chip
+              color="primary"
+              variant="tonal"
+              prepend-icon="mdi-format-list-numbered"
+            >
               {{ $t('Total number of courses') }}: {{ courses.length }}
             </v-chip>
-            <v-chip color="secondary" variant="tonal" prepend-icon="mdi-filter-check">
+            <v-chip
+              color="secondary"
+              variant="tonal"
+              prepend-icon="mdi-filter-check"
+            >
               {{ $t('Matching courses') }}: {{ totalVisibleCourses }}
             </v-chip>
           </div>
@@ -28,7 +40,11 @@
               block
               @click="showAdvancedSearch = !showAdvancedSearch"
             >
-              {{ showAdvancedSearch ? $t('Hide advanced search') : $t('Advanced search') }}
+              {{
+                showAdvancedSearch
+                  ? $t('Hide advanced search')
+                  : $t('Advanced search')
+              }}
             </v-btn>
           </v-col>
           <v-col cols="12" md="3">
@@ -154,7 +170,6 @@ import AdvancedCourseFilters from '../../../components/education/course/Advanced
 
 definePageMeta({
   title: 'Course Catalogue Courses',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

@@ -258,7 +258,6 @@ import NextCourseSequence from '../../../components/education/course/NextCourseS
 
 definePageMeta({
   title: 'Course Course Home',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

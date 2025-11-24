@@ -471,14 +471,10 @@
 <script setup lang="ts">
 import { useStore } from 'vuex'
 import {
-definePageMeta({
-  title: 'Documents Documents List',
-  middleware: 'auth',
-})
-
   RESOURCE_LINK_DRAFT,
   RESOURCE_LINK_PUBLISHED,
 } from '~/constants/entity/resourcelink'
+
 import { isEmpty } from 'lodash'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -506,6 +502,10 @@ import SectionHeader from '../../../components/education/layout/SectionHeader.vu
 import { checkIsAllowedToEdit } from '~/composables/education/userPermissions'
 import { usePlatformConfig } from '~/stores/platformConfig'
 import BaseTable from '../../../components/education/basecomponents/BaseTable.vue'
+
+definePageMeta({
+  title: 'Documents Documents List',
+})
 
 const store = useStore()
 const route = useRoute()

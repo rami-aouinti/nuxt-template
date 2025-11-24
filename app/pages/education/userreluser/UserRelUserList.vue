@@ -92,7 +92,6 @@ import { useSocialInfo } from '~/composables/education/useSocialInfo'
 
 definePageMeta({
   title: 'Userreluser User Rel User List',
-  middleware: 'auth',
 })
 
 const { user, isCurrentUser } = useSocialInfo()

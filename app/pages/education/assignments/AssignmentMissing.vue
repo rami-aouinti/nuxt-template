@@ -67,7 +67,6 @@ import { useNotification } from '~/composables/education/notification'
 
 definePageMeta({
   title: 'Assignments Assignment Missing',
-  middleware: 'auth',
 })
 
 const props = defineProps({

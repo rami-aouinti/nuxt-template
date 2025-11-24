@@ -136,7 +136,6 @@ import BaseTinyEditor from '../../../components/education/basecomponents/BaseTin
 
 definePageMeta({
   title: 'Terms Terms Edit',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

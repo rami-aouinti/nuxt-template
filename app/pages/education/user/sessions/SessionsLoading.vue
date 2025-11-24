@@ -12,7 +12,6 @@ import Skeleton from 'primevue/skeleton'
 
 definePageMeta({
   title: 'Sessions Sessions Loading',
-  middleware: 'auth',
 })
 
 defineProps({

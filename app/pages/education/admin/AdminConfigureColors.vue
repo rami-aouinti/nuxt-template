@@ -83,7 +83,6 @@ import { usePlatformConfig } from '~/stores/platformConfig'
 
 definePageMeta({
   title: 'Admin Admin Configure Colors',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

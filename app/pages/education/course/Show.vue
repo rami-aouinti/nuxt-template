@@ -16,9 +16,15 @@
               <div class="text-caption text-uppercase text-primary mb-1">
                 {{ t('Course overview') }}
               </div>
-              <div class="text-h5 font-weight-bold">{{ item?.title || '-' }}</div>
+              <div class="text-h5 font-weight-bold">
+                {{ item?.title || '-' }}
+              </div>
               <div class="text-body-2 text-medium-emphasis">
-                {{ t('Key identifiers and visibility information for this course.') }}
+                {{
+                  t(
+                    'Key identifiers and visibility information for this course.',
+                  )
+                }}
               </div>
             </div>
             <v-avatar color="primary" size="64" variant="tonal">
@@ -32,7 +38,9 @@
                 <div class="text-subtitle-2 text-medium-emphasis mb-1">
                   {{ t('Code') }}
                 </div>
-                <div class="text-body-1 font-weight-medium">{{ item?.code || '-' }}</div>
+                <div class="text-body-1 font-weight-medium">
+                  {{ item?.code || '-' }}
+                </div>
               </v-sheet>
             </v-col>
             <v-col cols="12" md="6">
@@ -137,7 +145,11 @@
       </v-col>
     </v-row>
 
-    <v-overlay :model-value="isLoading" class="align-center justify-center" persistent>
+    <v-overlay
+      :model-value="isLoading"
+      class="align-center justify-center"
+      persistent
+    >
       <v-progress-circular color="primary" indeterminate size="64" />
     </v-overlay>
   </v-container>
@@ -151,7 +163,6 @@ import { useShowResource } from '~/composables/education/useShowResource'
 
 definePageMeta({
   title: 'Course Show',
-  middleware: 'auth',
 })
 
 const servicePrefix = 'Course'

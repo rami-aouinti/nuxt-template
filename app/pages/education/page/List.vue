@@ -77,15 +77,20 @@ import { useLocale } from '~/composables/education/locale'
 
 definePageMeta({
   title: 'Page List',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()
 const store = useStore()
 const route = useRoute()
 
-const { onUpdateOptions, goToAddItem, goToEditItem, onShowItem, deleteItem, options } =
-  useDatatableList('Page')
+const {
+  onUpdateOptions,
+  goToAddItem,
+  goToEditItem,
+  onShowItem,
+  deleteItem,
+  options,
+} = useDatatableList('Page')
 const { getLanguageName, fetchLanguageNameFromApi } = useLocale()
 
 const headers = [
@@ -134,10 +139,16 @@ const tableItems = computed(() =>
 
 const handleUpdateOptions = (payload: Record<string, any> = {}) => {
   const { page, itemsPerPage, sortBy } = payload
-  const primarySort = Array.isArray(sortBy) && sortBy.length > 0 ? sortBy[0] : null
-  const sortKey = primarySort && typeof primarySort === 'object' ? primarySort.key : primarySort
+  const primarySort =
+    Array.isArray(sortBy) && sortBy.length > 0 ? sortBy[0] : null
+  const sortKey =
+    primarySort && typeof primarySort === 'object'
+      ? primarySort.key
+      : primarySort
   const sortDesc =
-    primarySort && typeof primarySort === 'object' ? primarySort.order === 'desc' : false
+    primarySort && typeof primarySort === 'object'
+      ? primarySort.order === 'desc'
+      : false
 
   onUpdateOptions({
     page,

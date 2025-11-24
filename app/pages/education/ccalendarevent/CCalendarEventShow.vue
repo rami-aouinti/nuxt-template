@@ -19,11 +19,11 @@ import { useShowResource } from '~/composables/education/useShowResource'
 
 definePageMeta({
   title: 'Ccalendarevent C Calendar Event Show',
-  middleware: 'auth',
 })
 
 const securityStore = useSecurityStore()
-const { isAuthenticated, isAdmin, isCurrentTeacher } = storeToRefs(securityStore)
+const { isAuthenticated, isAdmin, isCurrentTeacher } =
+  storeToRefs(securityStore)
 
 const { item, isLoading, del, editHandler } = useShowResource({
   namespace: 'ccalendarevent',

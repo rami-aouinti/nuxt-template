@@ -19,7 +19,6 @@ import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
 
 definePageMeta({
   title: 'Links Links Update',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

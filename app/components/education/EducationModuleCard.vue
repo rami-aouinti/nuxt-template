@@ -21,7 +21,12 @@
       <div class="text-caption text-medium-emphasis">
         {{ module.relatedViews.length }} vues migrées
       </div>
-      <AppButton :to="moduleTarget" color="primary" size="small" variant="tonal">
+      <AppButton
+        :to="moduleTarget"
+        color="primary"
+        size="small"
+        variant="tonal"
+      >
         Ouvrir
       </AppButton>
     </footer>

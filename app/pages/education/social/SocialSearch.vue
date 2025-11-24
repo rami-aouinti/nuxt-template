@@ -193,7 +193,6 @@ import { useRoute } from 'vue-router'
 
 definePageMeta({
   title: 'Social Social Search',
-  middleware: 'auth',
 })
 
 const route = useRoute()

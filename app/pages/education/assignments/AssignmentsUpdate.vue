@@ -24,7 +24,6 @@ import { useCidReq } from '~/composables/education/cidReq'
 
 definePageMeta({
   title: 'Assignments Assignments Update',
-  middleware: 'auth',
 })
 
 const route = useRoute()

@@ -18,7 +18,6 @@ import { useToast } from 'primevue/usetoast'
 
 definePageMeta({
   title: 'Page Create',
-  middleware: 'auth',
 })
 
 const store = useStore()

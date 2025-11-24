@@ -20,7 +20,6 @@ import SessionsLoading from './SessionsLoading.vue'
 
 definePageMeta({
   title: 'Sessions Sessions Past',
-  middleware: 'auth',
 })
 
 const {

@@ -18,7 +18,6 @@ import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
 
 definePageMeta({
   title: 'Attendance Attendance Create',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

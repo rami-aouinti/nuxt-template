@@ -70,7 +70,6 @@ import { useSecurityStore } from '~/stores/securityStore'
 
 definePageMeta({
   title: 'Userreluser User Rel User Search',
-  middleware: 'auth',
 })
 
 const securityStore = useSecurityStore()

@@ -59,7 +59,6 @@ import { usePlatformConfig } from '~/stores/platformConfig'
 
 definePageMeta({
   title: 'Attendance Attendance List',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

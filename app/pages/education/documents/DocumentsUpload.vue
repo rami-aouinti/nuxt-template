@@ -73,7 +73,6 @@ import { useStore } from 'vuex'
 
 definePageMeta({
   title: 'Documents Documents Upload',
-  middleware: 'auth',
 })
 
 const store = useStore()

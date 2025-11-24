@@ -13,7 +13,6 @@ import BaseUserFinder from '../../../components/education/basecomponents/BaseUse
 
 definePageMeta({
   title: 'Accessurl Access Url Auth Sources Assign',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

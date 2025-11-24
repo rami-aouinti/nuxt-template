@@ -2,7 +2,9 @@
   <div>
     <Toolbar :handle-delete="del" :handle-edit="editHandler">
       <template #left>
-        <v-toolbar-title v-if="item">{{ `${servicePrefix} ${item['@id']}` }}</v-toolbar-title>
+        <v-toolbar-title v-if="item">{{
+          `${servicePrefix} ${item['@id']}`
+        }}</v-toolbar-title>
       </template>
     </Toolbar>
 
@@ -63,7 +65,6 @@ import { useShowResource } from '~/composables/education/useShowResource'
 
 definePageMeta({
   title: 'Coursecategory Show',
-  middleware: 'auth',
 })
 
 const servicePrefix = 'CourseCategory'

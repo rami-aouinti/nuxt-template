@@ -89,7 +89,6 @@ import svc from '../../../services/courseMaintenance'
 
 definePageMeta({
   title: 'Coursemaintenance Delete Course',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

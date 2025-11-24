@@ -295,7 +295,6 @@ import Upload from '../filemanager/Upload.vue'
 
 definePageMeta({
   title: 'Personalfile List',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

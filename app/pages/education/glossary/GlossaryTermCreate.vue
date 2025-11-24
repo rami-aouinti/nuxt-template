@@ -18,7 +18,6 @@ import LayoutFormGeneric from '../../../components/education/layout/LayoutFormGe
 
 definePageMeta({
   title: 'Glossary Glossary Term Create',
-  middleware: 'auth',
 })
 
 const router = useRouter()

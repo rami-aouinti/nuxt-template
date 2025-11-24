@@ -22,7 +22,6 @@ import { messageService } from '../../../services/message'
 
 definePageMeta({
   title: 'Message Message Create',
-  middleware: 'auth',
 })
 
 const securityStore = useSecurityStore()

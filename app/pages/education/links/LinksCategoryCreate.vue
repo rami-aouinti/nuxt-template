@@ -16,7 +16,6 @@ import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
 
 definePageMeta({
   title: 'Links Links Category Create',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

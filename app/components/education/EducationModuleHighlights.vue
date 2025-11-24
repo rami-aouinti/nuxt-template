@@ -11,7 +11,11 @@
 
     <ul class="module-highlights__list">
       <li v-for="highlight in highlights" :key="highlight">
-        <v-icon icon="mdi-check-circle-outline" size="18" class="text-primary" />
+        <v-icon
+          icon="mdi-check-circle-outline"
+          size="18"
+          class="text-primary"
+        />
         <span class="text-body-2">{{ highlight }}</span>
       </li>
     </ul>

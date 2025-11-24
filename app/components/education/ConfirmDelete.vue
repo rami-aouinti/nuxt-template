@@ -16,7 +16,11 @@
 
     <template #subtitle>
       <div class="text-body-2 text-medium-emphasis">
-        {{ $t('This action cannot be undone and will remove the record permanently.') }}
+        {{
+          $t(
+            'This action cannot be undone and will remove the record permanently.',
+          )
+        }}
       </div>
     </template>
 

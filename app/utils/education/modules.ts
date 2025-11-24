@@ -22,12 +22,12 @@ export const educationSections: EducationSection[] = [
     title: 'Learning experience',
     description:
       'Cours, ressources et évaluations convertis pour l’interface Vuetify 3.',
-      modules: [
-        {
-          slug: 'course-catalog',
-          path: '/education/course/catalogue-courses',
-          title: 'Catalogue des cours',
-          category: 'Cours',
+    modules: [
+      {
+        slug: 'course-catalog',
+        path: '/education/course/catalogue-courses',
+        title: 'Catalogue des cours',
+        category: 'Cours',
         summary:
           'Navigation dans les catégories, mise en avant des sessions et recherche guidée des cours.',
         description:
@@ -42,12 +42,12 @@ export const educationSections: EducationSection[] = [
           'course/CatalogueSessions.vue',
           'coursecategory/List.vue',
         ],
-        },
-        {
-          slug: 'course-workspace',
-          path: '/education/course/course-home',
-          title: 'Espace cours',
-          category: 'Cours',
+      },
+      {
+        slug: 'course-workspace',
+        path: '/education/course/course-home',
+        title: 'Espace cours',
+        category: 'Cours',
         summary:
           'Accueil de cours, documents, liens et ressources collaboratives.',
         description:
@@ -64,12 +64,12 @@ export const educationSections: EducationSection[] = [
           'blog/List.vue',
           'glossary/List.vue',
         ],
-        },
-        {
-          slug: 'assignments-evaluations',
-          path: '/education/assignments/assignments-list',
-          title: 'Devoirs et évaluations',
-          category: 'Evaluation',
+      },
+      {
+        slug: 'assignments-evaluations',
+        path: '/education/assignments/assignments-list',
+        title: 'Devoirs et évaluations',
+        category: 'Evaluation',
         summary:
           'Suivi des devoirs, questionnaires, scorecards et progression des apprenants.',
         description:
@@ -94,11 +94,11 @@ export const educationSections: EducationSection[] = [
     description:
       'Outils communautaires, interactions sociales et notifications intégrés.',
     modules: [
-        {
-          slug: 'messaging-notifications',
-          path: '/education/message/message-list',
-          title: 'Messagerie & notifications',
-          category: 'Communication',
+      {
+        slug: 'messaging-notifications',
+        path: '/education/message/message-list',
+        title: 'Messagerie & notifications',
+        category: 'Communication',
         summary: 'Messagerie directe, hub de notifications et files d’alertes.',
         description:
           'Centralise les vues message et notification pour garder les utilisateurs informés des activités clés.',
@@ -108,12 +108,12 @@ export const educationSections: EducationSection[] = [
           'Préférences de suivi et abonnements',
         ],
         relatedViews: ['message/List.vue', 'userreluser/NotificationList.vue'],
-        },
-        {
-          slug: 'social-learning',
-          path: '/education/social/social-wall',
-          title: 'Apprentissage social',
-          category: 'Communauté',
+      },
+      {
+        slug: 'social-learning',
+        path: '/education/social/social-wall',
+        title: 'Apprentissage social',
+        category: 'Communauté',
         summary:
           'Forums, groupes d’utilisateurs et interactions sociales depuis les vues existantes.',
         description:
@@ -128,12 +128,12 @@ export const educationSections: EducationSection[] = [
           'usergroup/List.vue',
           'userreluser/List.vue',
         ],
-        },
-        {
-          slug: 'personal-workspace',
-          path: '/education/personalfile/home',
-          title: 'Espace personnel',
-          category: 'Profil',
+      },
+      {
+        slug: 'personal-workspace',
+        path: '/education/personalfile/home',
+        title: 'Espace personnel',
+        category: 'Profil',
         summary: 'Fichiers personnels, préférences et suivi d’activité.',
         description:
           'Associe les vues personalfile, pageLayout et profile pour offrir un cockpit individuel moderne.',
@@ -175,11 +175,11 @@ export const educationSections: EducationSection[] = [
     title: 'Administration & conformité',
     description: 'Supervision des utilisateurs, sessions et contrôles qualité.',
     modules: [
-        {
-          slug: 'user-and-session-admin',
-          path: '/education/admin/admin-index',
-          title: 'Administration des utilisateurs & sessions',
-          category: 'Administration',
+      {
+        slug: 'user-and-session-admin',
+        path: '/education/admin/admin-index',
+        title: 'Administration des utilisateurs & sessions',
+        category: 'Administration',
         summary:
           'Pilotage des utilisateurs, des sessions de formation et des inscriptions.',
         description:
@@ -210,12 +210,12 @@ export const educationSections: EducationSection[] = [
           'Passerelle vers les écrans d’assignation legacy',
         ],
         relatedViews: ['accessurl/AccessUrlAuthSourcesAssign.vue'],
-        },
-        {
-          slug: 'content-governance',
-          path: '/education/documents/documents-list',
-          title: 'Gouvernance contenu',
-          category: 'Conformité',
+      },
+      {
+        slug: 'content-governance',
+        path: '/education/documents/documents-list',
+        title: 'Gouvernance contenu',
+        category: 'Conformité',
         summary:
           'Gestion des termes, liens, pages institutionnelles et documents partagés.',
         description:
@@ -251,12 +251,12 @@ export const educationSections: EducationSection[] = [
           'glossary/GlossaryTermCreate.vue',
           'glossary/GlossaryExport.vue',
         ],
-        },
-        {
-          slug: 'platform-settings',
-          path: '/education/ccalendarevent/c-calendar-event-list',
-          title: 'Paramétrage plateforme',
-          category: 'Système',
+      },
+      {
+        slug: 'platform-settings',
+        path: '/education/ccalendarevent/c-calendar-event-list',
+        title: 'Paramétrage plateforme',
+        category: 'Système',
         summary:
           'Réglages transverses : calendrier, catégories, fichiers publics.',
         description:

@@ -18,7 +18,6 @@ import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
 
 definePageMeta({
   title: 'Glossary Glossary Term Update',
-  middleware: 'auth',
 })
 
 const router = useRouter()

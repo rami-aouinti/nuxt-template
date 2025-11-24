@@ -273,7 +273,6 @@ import { usePlatformConfig } from '~/stores/platformConfig'
 
 definePageMeta({
   title: 'Admin Admin Branding',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

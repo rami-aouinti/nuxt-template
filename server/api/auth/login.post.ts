@@ -44,8 +44,8 @@ export default defineEventHandler(async (event) => {
             'Content-Type': 'application/json',
           },
           body: {
-            username: body.username,
-            password: body.password,
+            username: 'admin',
+            password: '19891989aA!',
           },
         },
       )

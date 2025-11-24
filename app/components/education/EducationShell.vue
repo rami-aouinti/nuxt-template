@@ -40,7 +40,12 @@ const quickAccessItems = computed(() =>
                     {{ item.label }}
                   </span>
                 </div>
-                <v-chip v-if="item.external" color="primary" size="x-small" variant="tonal">
+                <v-chip
+                  v-if="item.external"
+                  color="primary"
+                  size="x-small"
+                  variant="tonal"
+                >
                   {{ t('pages.education.hero.badge') }}
                 </v-chip>
               </div>

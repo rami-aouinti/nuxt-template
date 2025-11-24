@@ -17,7 +17,6 @@ import SkillProfileMatches from '../../../components/education/skill/SkillProfil
 
 definePageMeta({
   title: 'Skill Skill Wheel',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

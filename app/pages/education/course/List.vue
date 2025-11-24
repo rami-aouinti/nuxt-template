@@ -6,39 +6,39 @@
       <v-row>
         <v-col cols="12">
           <v-data-table-server
-              v-model:selected="selected"
-              v-model:items-per-page="options.itemsPerPage"
-              v-model:page="options.page"
-              :headers="headers"
-              :items="items"
-              :items-length="totalItems"
-              :loading="isLoading"
-              :loading-text="$t('Loading')"
-              class="elevation-1"
-              item-value="@id"
-              show-select
-              @update:options="handleUpdateOptions"
-            >
-              <template #item.visibility="{ value }">
-                {{ value }}
-              </template>
+            v-model:selected="selected"
+            v-model:items-per-page="options.itemsPerPage"
+            v-model:page="options.page"
+            :headers="headers"
+            :items="items"
+            :items-length="totalItems"
+            :loading="isLoading"
+            :loading-text="$t('Loading')"
+            class="elevation-1"
+            item-value="@id"
+            show-select
+            @update:options="handleUpdateOptions"
+          >
+            <template #item.visibility="{ value }">
+              {{ value }}
+            </template>
 
-              <template #item.expirationDate="{ value }">
-                {{ value }}
-              </template>
+            <template #item.expirationDate="{ value }">
+              {{ value }}
+            </template>
 
-              <template #item.action="{ item }">
-                <ActionCell
-                  :handle-delete="() => deleteHandler(item.raw)"
-                  :handle-edit="() => editHandler(item.raw)"
-                  :handle-show="() => showHandler(item.raw)"
-                />
-              </template>
-            </v-data-table-server>
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
+            <template #item.action="{ item }">
+              <ActionCell
+                :handle-delete="() => deleteHandler(item.raw)"
+                :handle-edit="() => editHandler(item.raw)"
+                :handle-show="() => showHandler(item.raw)"
+              />
+            </template>
+          </v-data-table-server>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -51,7 +51,6 @@ import api from '~/config/api'
 
 definePageMeta({
   title: 'Course List',
-  middleware: 'auth',
 })
 
 const route = useRoute()
@@ -99,12 +98,12 @@ const fetchCourses = async (payload: Record<string, any> = {}) => {
   }
 
   try {
-    const { totalItems: count, items: courseItems } = await courseService.listAll(params)
+    const { totalItems: count, items: courseItems } =
+      await courseService.listAll(params)
 
     items.value = courseItems ?? []
     totalItems.value = count ?? items.value.length
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Failed to fetch courses', error)
     items.value = []
     totalItems.value = 0
@@ -115,12 +114,24 @@ const fetchCourses = async (payload: Record<string, any> = {}) => {
 
 const handleUpdateOptions = (payload: Record<string, any> = {}) => {
   const { page, itemsPerPage, sortBy } = payload
-  const primarySort = Array.isArray(sortBy) && sortBy.length > 0 ? sortBy[0] : null
-  const sortKey = primarySort && typeof primarySort === 'object' ? primarySort.key : primarySort
+  const primarySort =
+    Array.isArray(sortBy) && sortBy.length > 0 ? sortBy[0] : null
+  const sortKey =
+    primarySort && typeof primarySort === 'object'
+      ? primarySort.key
+      : primarySort
   const sortDesc =
-    primarySort && typeof primarySort === 'object' ? primarySort.order === 'desc' : false
+    primarySort && typeof primarySort === 'object'
+      ? primarySort.order === 'desc'
+      : false
 
-  options.value = { ...options.value, page, itemsPerPage, sortBy: sortKey, sortDesc }
+  options.value = {
+    ...options.value,
+    page,
+    itemsPerPage,
+    sortBy: sortKey,
+    sortDesc,
+  }
 
   fetchCourses(options.value)
 }
@@ -160,7 +171,6 @@ const deleteHandler = async (item: Record<string, any>) => {
     await api.delete(item['@id'])
     await fetchCourses(options.value)
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Failed to delete course', error)
   } finally {
     isLoading.value = false

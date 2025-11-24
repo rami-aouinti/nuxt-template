@@ -296,15 +296,11 @@ import Column from 'primevue/column'
 import { useConfirm } from 'primevue/useconfirm'
 import { useQuery } from '@vue/apollo-composable'
 import {
-definePageMeta({
-  title: 'Message Message List',
-  middleware: 'auth',
-})
-
   MESSAGE_TYPE_INBOX,
   MESSAGE_TYPE_SENDER,
-} from '../../../constants/entity/message'
-import { GET_USER_MESSAGE_TAGS } from '../../../graphql/queries/MessageTag'
+} from '~/constants/entity/message'
+
+import { GET_USER_MESSAGE_TAGS } from '~/graphql/queries/MessageTag'
 import { useNotification } from '~/composables/education/notification'
 import { useMessageRelUserStore } from '~/stores/messageRelUserStore'
 import { useSecurityStore } from '~/stores/securityStore'
@@ -314,6 +310,10 @@ import InputText from 'primevue/inputtext'
 import messageRelUserService from '../../../services/messagereluser'
 import { useMessageReceiverFormatter } from '~/composables/education/message/messageFormatter'
 import { usePlatformConfig } from '~/stores/platformConfig'
+
+definePageMeta({
+  title: 'Message Message List',
+})
 
 const route = useRoute()
 const router = useRouter()

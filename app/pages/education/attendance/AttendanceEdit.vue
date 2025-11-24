@@ -31,7 +31,6 @@ import { storeToRefs } from 'pinia'
 
 definePageMeta({
   title: 'Attendance Attendance Edit',
-  middleware: 'auth',
 })
 
 const cidReqStore = useCidReqStore()

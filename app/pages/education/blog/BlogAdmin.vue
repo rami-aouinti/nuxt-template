@@ -200,7 +200,6 @@ import { useCidReq } from '~/composables/education/cidReq'
 
 definePageMeta({
   title: 'Blog Blog Admin',
-  middleware: 'auth',
 })
 
 const { cid, sid } = useCidReq()

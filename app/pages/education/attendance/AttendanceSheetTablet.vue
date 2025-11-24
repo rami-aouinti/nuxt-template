@@ -199,17 +199,16 @@ import SectionHeader from '../../../components/education/layout/SectionHeader.vu
 import BaseButton from '../../../components/education/basecomponents/BaseButton.vue'
 import BaseDialog from '../../../components/education/basecomponents/BaseDialog.vue'
 import attendanceService, {
-definePageMeta({
-  title: 'Attendance Attendance Sheet Tablet',
-  middleware: 'auth',
-})
-
   ATTENDANCE_STATES,
 } from '../../../services/attendanceService'
+
 import SignaturePad from 'signature_pad'
 import { useSecurityStore } from '~/stores/securityStore'
 import { usePlatformConfig } from '~/stores/platformConfig'
 import { useCidReq } from '~/composables/education/cidReq'
+definePageMeta({
+  title: 'Attendance Attendance Sheet Tablet',
+})
 
 const { t } = useI18n()
 const route = useRoute()

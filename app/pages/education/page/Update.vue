@@ -23,7 +23,6 @@ import { useDatatableUpdate } from '~/composables/education/datatableUpdate'
 
 definePageMeta({
   title: 'Page Update',
-  middleware: 'auth',
 })
 
 const { item, isLoading, retrieve, updateItem } = useDatatableUpdate('Page')

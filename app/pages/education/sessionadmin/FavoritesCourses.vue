@@ -30,7 +30,6 @@ import { useSecurityStore } from '~/stores/securityStore'
 
 definePageMeta({
   title: 'Sessionadmin Favorites Courses',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

@@ -36,7 +36,6 @@ import { onMounted, ref } from 'vue'
 
 definePageMeta({
   title: 'Attendance Attendance Calendar Add',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

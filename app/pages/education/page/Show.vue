@@ -50,7 +50,6 @@ import { useLocale } from '~/composables/education/locale'
 
 definePageMeta({
   title: 'Page Show',
-  middleware: 'auth',
 })
 
 const { relativeDatetime } = useFormatDate()

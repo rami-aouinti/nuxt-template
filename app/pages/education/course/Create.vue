@@ -2,7 +2,9 @@
   <v-container class="py-10">
     <v-row class="mb-6" align="center" justify="space-between">
       <v-col cols="12" md="8">
-        <div class="text-caption text-uppercase text-primary mb-1">{{ t('Courses') }}</div>
+        <div class="text-caption text-uppercase text-primary mb-1">
+          {{ t('Courses') }}
+        </div>
         <div class="text-h4 font-weight-bold">{{ t('Add a new course') }}</div>
         <div class="text-body-1 text-medium-emphasis">
           {{
@@ -58,9 +60,15 @@
               <v-icon icon="mdi-school-outline" />
             </v-avatar>
             <div>
-              <div class="text-subtitle-1 font-weight-semibold">{{ t('Course details') }}</div>
+              <div class="text-subtitle-1 font-weight-semibold">
+                {{ t('Course details') }}
+              </div>
               <div class="text-body-2 text-medium-emphasis">
-                {{ t('Fill in the essentials, then adjust advanced options if needed.') }}
+                {{
+                  t(
+                    'Fill in the essentials, then adjust advanced options if needed.',
+                  )
+                }}
               </div>
             </div>
           </div>
@@ -75,7 +83,11 @@
       </v-col>
     </v-row>
 
-    <v-overlay :model-value="isLoading" class="align-center justify-center" persistent>
+    <v-overlay
+      :model-value="isLoading"
+      class="align-center justify-center"
+      persistent
+    >
       <v-progress-circular color="primary" indeterminate size="64" />
     </v-overlay>
   </v-container>
@@ -90,7 +102,6 @@ import { useNotification } from '~/composables/education/notification'
 
 definePageMeta({
   title: 'Course Create',
-  middleware: 'auth',
 })
 
 const item = ref<Record<string, any>>({})

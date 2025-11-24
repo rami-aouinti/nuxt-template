@@ -198,7 +198,6 @@ import StudentViewButton from '../../../components/education/StudentViewButton.v
 
 definePageMeta({
   title: 'Links List',
-  middleware: 'auth',
 })
 
 const route = useRoute()

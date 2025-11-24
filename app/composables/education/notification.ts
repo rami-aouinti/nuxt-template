@@ -1,7 +1,7 @@
 import { useToast } from 'primevue/usetoast'
 
 export function useNotification() {
-  const toast = process.client ? useToast() : null
+  const toast = import.meta.client ? useToast() : null
 
   const showSuccessNotification = (message) => {
     showMessage(message, 'success')

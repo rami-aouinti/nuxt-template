@@ -13,7 +13,7 @@ export function useAvatarList(props) {
   )
 
   const plusText = computed(() => {
-    let diff = props.users.length - props.countSeveral
+    const diff = props.users.length - props.countSeveral
 
     if (diff) {
       return t('+%d', [diff])

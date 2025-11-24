@@ -33,7 +33,6 @@ import { RESOURCE_LINK_PUBLISHED } from '~/constants/entity/resourcelink'
 
 definePageMeta({
   title: 'Filemanager Upload',
-  middleware: 'auth',
 })
 
 const Webcam = require('@uppy/webcam').default

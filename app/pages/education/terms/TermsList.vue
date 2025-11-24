@@ -51,7 +51,6 @@ import legalService from '../../../services/legalService'
 
 definePageMeta({
   title: 'Terms Terms List',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

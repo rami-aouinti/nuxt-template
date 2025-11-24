@@ -35,7 +35,6 @@ import { useSecurityStore } from '~/stores/securityStore'
 
 definePageMeta({
   title: 'Sessionadmin Admin Dashboard',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

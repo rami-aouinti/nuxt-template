@@ -25,7 +25,6 @@ function newVideosCallback(newVideo) {
     return
   }
 
-  // eslint-disable-next-line no-undef
   new MediaElementPlayer(newVideo, mejsOptions)
 }
 

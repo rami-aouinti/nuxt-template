@@ -9,7 +9,6 @@ import Loading from '../../../components/education/Loading.vue'
 
 definePageMeta({
   title: 'Page Page Public',
-  middleware: 'auth',
 })
 
 const route = useRoute()

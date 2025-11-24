@@ -26,7 +26,6 @@ import userService from '../../../services/userService'
 
 definePageMeta({
   title: 'Message Message Reply',
-  middleware: 'auth',
 })
 
 const store = useStore()

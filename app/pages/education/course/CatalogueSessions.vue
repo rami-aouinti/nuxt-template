@@ -2,18 +2,30 @@
   <v-container class="py-8">
     <AppCard class="mb-6" elevation="2">
       <v-card-text>
-        <div class="d-flex flex-wrap justify-space-between align-start gap-4 mb-4">
+        <div
+          class="d-flex flex-wrap justify-space-between align-start gap-4 mb-4"
+        >
           <div>
-            <div class="text-h5 font-weight-bold mb-1">{{ $t('Session catalogue') }}</div>
+            <div class="text-h5 font-weight-bold mb-1">
+              {{ $t('Session catalogue') }}
+            </div>
             <div class="text-body-2 text-medium-emphasis">
               {{ $t('Discover and join upcoming sessions.') }}
             </div>
           </div>
           <div class="d-flex flex-column flex-sm-row gap-3 align-end">
-            <v-chip color="primary" variant="tonal" prepend-icon="mdi-format-list-numbered">
+            <v-chip
+              color="primary"
+              variant="tonal"
+              prepend-icon="mdi-format-list-numbered"
+            >
               {{ $t('Total number of sessions') }}: {{ sessions?.length || 0 }}
             </v-chip>
-            <v-chip color="secondary" variant="tonal" prepend-icon="mdi-filter-check">
+            <v-chip
+              color="secondary"
+              variant="tonal"
+              prepend-icon="mdi-filter-check"
+            >
               {{ $t('Matching sessions') }}: {{ filteredSessions.length }}
             </v-chip>
           </div>
@@ -43,7 +55,10 @@
             />
           </v-col>
           <v-col cols="12" md="3" class="text-sm-end">
-            <div class="text-caption text-medium-emphasis" v-if="filters.global.value">
+            <div
+              v-if="filters.global.value"
+              class="text-caption text-medium-emphasis"
+            >
               {{ $t('Searching by') }}: {{ activeSearchFields.join(', ') }}
             </div>
           </v-col>
@@ -109,7 +124,6 @@ import { usePlatformConfig } from '~/stores/platformConfig'
 
 definePageMeta({
   title: 'Course Catalogue Sessions',
-  middleware: 'auth',
 })
 
 const router = useRouter()

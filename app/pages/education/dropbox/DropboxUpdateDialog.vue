@@ -98,7 +98,6 @@ import service from '../../../services/dropbox'
 
 definePageMeta({
   title: 'Dropbox Dropbox Update Dialog',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

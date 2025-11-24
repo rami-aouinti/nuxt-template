@@ -25,7 +25,7 @@ export function useShowResource({
   const deleteError = computed(() => store.state[namespace]?.deleteError)
 
   const rawId = computed(() => {
-    let id = route.params.id || route.query.id || ''
+    const id = route.params.id || route.query.id || ''
     return decodeURIComponent(String(id))
   })
 
@@ -56,7 +56,8 @@ export function useShowResource({
 
   const reset = () => store.dispatch(`${namespace}/resetShow`)
 
-  const deleteItem = (payload: any) => store.dispatch(`${namespace}/del`, payload)
+  const deleteItem = (payload: any) =>
+    store.dispatch(`${namespace}/del`, payload)
 
   const del = async () => {
     await deleteItem(item.value)
@@ -87,9 +88,7 @@ export function useShowResource({
   const goBack = () => router.go(-1)
 
   const list = () => {
-    router
-      .push({ name: `${servicePrefix}List` })
-      .catch(() => {})
+    router.push({ name: `${servicePrefix}List` }).catch(() => {})
   }
 
   const loadItem = () => {

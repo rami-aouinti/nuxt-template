@@ -19,7 +19,6 @@ import { usePlatformConfig } from '~/stores/platformConfig'
 
 definePageMeta({
   title: 'Account Home',
-  middleware: 'auth',
 })
 
 const platformConfigStore = usePlatformConfig()

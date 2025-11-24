@@ -29,7 +29,9 @@
 
       <div class="p-6 space-y-4">
         <div>
-          <h2 class="text-2xl font-semibold text-gray-90">{{ course.title }}</h2>
+          <h2 class="text-2xl font-semibold text-gray-90">
+            {{ course.title }}
+          </h2>
           <p class="text-sm text-gray-50">{{ course.code }}</p>
         </div>
         <hr class="border-gray-20" />
@@ -223,7 +225,6 @@ import { usePlatformConfig } from '~/stores/platformConfig'
 
 definePageMeta({
   title: 'Sessionadmin Register Student',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

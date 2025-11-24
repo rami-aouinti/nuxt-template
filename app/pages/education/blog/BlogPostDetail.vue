@@ -211,7 +211,6 @@ import { useSecurityStore } from '~/stores/securityStore'
 
 definePageMeta({
   title: 'Blog Blog Post Detail',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

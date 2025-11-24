@@ -156,7 +156,6 @@ import { useNotification } from '~/composables/education/notification'
 
 definePageMeta({
   title: 'Admin Third Party Manager',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

@@ -3,11 +3,11 @@
 </template>
 
 <script setup lang="ts">
+import EducationPlaceholder from '~/components/education/EducationPlaceholder.vue'
+
 definePageMeta({
   title: 'Documents Create File',
-  middleware: 'auth',
+
   appCardLayout: false,
 })
-
-import EducationPlaceholder from '~/components/education/EducationPlaceholder.vue'
 </script>

@@ -17,7 +17,6 @@ import BaseTinyEditor from '../../../components/education/basecomponents/BaseTin
 
 definePageMeta({
   title: 'Page Editor Demo',
-  middleware: 'auth',
 })
 
 const editorContent = ref('')

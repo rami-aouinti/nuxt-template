@@ -156,7 +156,6 @@ import BaseCalendar from '../../../components/education/basecomponents/BaseCalen
 
 definePageMeta({
   title: 'Attendance Attendance Calendar List',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

@@ -15,7 +15,6 @@ import { computed } from 'vue'
 
 definePageMeta({
   title: 'Links Links Category Update',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

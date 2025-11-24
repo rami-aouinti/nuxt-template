@@ -343,7 +343,6 @@ import DropboxMoveDialog from './DropboxMoveDialog.vue'
 
 definePageMeta({
   title: 'Dropbox Dropbox List Sent',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

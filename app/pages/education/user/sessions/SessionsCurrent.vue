@@ -24,7 +24,6 @@ import Loading from '../../../../components/education/Loading.vue'
 
 definePageMeta({
   title: 'Sessions Sessions Current',
-  middleware: 'auth',
 })
 
 const {

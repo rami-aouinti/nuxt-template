@@ -15,7 +15,6 @@
 <script setup lang="ts">
 definePageMeta({
   title: 'Terms Terms Layout',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

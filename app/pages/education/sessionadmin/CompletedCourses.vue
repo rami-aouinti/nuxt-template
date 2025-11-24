@@ -61,7 +61,6 @@ import courseService from '../../../services/courseService'
 
 definePageMeta({
   title: 'Sessionadmin Completed Courses',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

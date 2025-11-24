@@ -42,7 +42,6 @@ import courseService from '../../../services/courseService'
 
 definePageMeta({
   title: 'Sessionadmin Incomplete Courses',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

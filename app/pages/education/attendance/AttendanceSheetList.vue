@@ -581,18 +581,18 @@ import BaseDialog from '../../../components/education/basecomponents/BaseDialog.
 import SectionHeader from '../../../components/education/layout/SectionHeader.vue'
 import StudentViewButton from '../../../components/education/StudentViewButton.vue'
 import attendanceService, {
-definePageMeta({
-  title: 'Attendance Attendance Sheet List',
-  middleware: 'auth',
-})
-
   ATTENDANCE_STATES,
 } from '../../../services/attendanceService'
+
 import { useCidReq } from '~/composables/education/cidReq'
 import { useSecurityStore } from '~/stores/securityStore'
 import { usePlatformConfig } from '~/stores/platformConfig'
 import { storeToRefs } from 'pinia'
 import { useCidReqStore } from '~/stores/cidReq'
+
+definePageMeta({
+  title: 'Attendance Attendance Sheet List',
+})
 
 const { t } = useI18n()
 const router = useRouter()

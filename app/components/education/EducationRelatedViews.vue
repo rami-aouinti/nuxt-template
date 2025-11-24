@@ -3,7 +3,8 @@
     <header class="d-flex flex-column gap-1">
       <div class="text-subtitle-1 font-weight-bold">Vues source</div>
       <p class="text-body-2 text-medium-emphasis mb-0">
-        Provenant du dossier <code>education/views</code> pour guider la migration.
+        Provenant du dossier <code>education/views</code> pour guider la
+        migration.
       </p>
     </header>
 

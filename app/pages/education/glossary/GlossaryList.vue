@@ -133,7 +133,6 @@ import StudentViewButton from '../../../components/education/StudentViewButton.v
 
 definePageMeta({
   title: 'Glossary Glossary List',
-  middleware: 'auth',
 })
 
 const route = useRoute()

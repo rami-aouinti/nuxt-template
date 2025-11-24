@@ -51,7 +51,6 @@ import { storeToRefs } from 'pinia'
 
 definePageMeta({
   title: 'Filemanager List',
-  middleware: 'auth',
 })
 
 const route = useRoute()

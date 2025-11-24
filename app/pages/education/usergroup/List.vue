@@ -220,7 +220,6 @@ import GroupSearch from '../../../components/education/usergroup/GroupSearch.vue
 
 definePageMeta({
   title: 'Usergroup List',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

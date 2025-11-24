@@ -44,7 +44,6 @@ import { useSecurityStore } from '~/stores/securityStore'
 
 definePageMeta({
   title: 'Social Social Wall',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

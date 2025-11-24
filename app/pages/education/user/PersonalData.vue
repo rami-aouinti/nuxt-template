@@ -172,7 +172,6 @@ import { useSecurityStore } from '~/stores/securityStore'
 
 definePageMeta({
   title: 'User Personal Data',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

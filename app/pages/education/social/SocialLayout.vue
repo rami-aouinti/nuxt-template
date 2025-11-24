@@ -36,7 +36,6 @@ import { usePlatformConfig } from '~/stores/platformConfig'
 
 definePageMeta({
   title: 'Social Social Layout',
-  middleware: 'auth',
 })
 
 const platformConfigStore = usePlatformConfig()

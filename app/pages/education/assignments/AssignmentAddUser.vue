@@ -101,7 +101,6 @@ import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
 
 definePageMeta({
   title: 'Assignments Assignment Add User',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

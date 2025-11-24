@@ -149,7 +149,6 @@ import { useCourseSettings } from '~/stores/courseSettingStore'
 
 definePageMeta({
   title: 'Ccalendarevent C Calendar Event List',
-  middleware: 'auth',
 })
 
 const store = useStore()

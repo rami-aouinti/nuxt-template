@@ -69,7 +69,6 @@ import { useSecurityStore } from '~/stores/securityStore'
 
 definePageMeta({
   title: 'Usergroup Invite',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

@@ -89,7 +89,6 @@ import BaseInputText from '../../../components/education/basecomponents/BaseInpu
 
 definePageMeta({
   title: 'Assignments Assignment Submit',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

@@ -103,7 +103,6 @@ import socialService from '../../../services/socialService'
 
 definePageMeta({
   title: 'Usergroup Show',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

@@ -264,7 +264,6 @@ import { useIndexBlocks } from '~/composables/education/admin/indexBlocks'
 
 definePageMeta({
   title: 'Admin Admin Index',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()

@@ -133,7 +133,6 @@ import { MESSAGE_TYPE_INBOX } from '../../../constants/entity/message'
 
 definePageMeta({
   title: 'Message Message Show',
-  middleware: 'auth',
 })
 
 const confirm = useConfirm()

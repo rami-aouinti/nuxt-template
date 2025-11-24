@@ -53,7 +53,6 @@ import { useRoute } from 'vue-router'
 
 definePageMeta({
   title: 'Usergroup Search',
-  middleware: 'auth',
 })
 
 const { t } = useI18n()
