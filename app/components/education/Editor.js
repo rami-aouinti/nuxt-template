@@ -1,7 +1,7 @@
 import Editor from '@tinymce/tinymce-vue'
 
+const coreImport = () => import('tinymce/tinymce')
 const clientOnlyImports = [
-  () => import('tinymce/tinymce'),
   () => import('tinymce/icons/default'),
   () => import('tinymce/themes/silver'),
   () => import('tinymce/plugins/advlist'),
@@ -35,6 +35,7 @@ const clientOnlyImports = [
 ]
 
 if (typeof window !== 'undefined') {
+  await coreImport()
   await Promise.all(clientOnlyImports.map((load) => load()))
 }
 
