@@ -137,7 +137,7 @@ function exportGlossary() {
 
       <v-data-table :items="filteredTerms" :headers="headers" density="comfortable" class="elevation-0">
         <template #item.definition="{ item }">
-          <span class="text-body-2">{{ item.raw.definition }}</span>
+          <span class="text-body-2">{{ item?.raw?.definition ?? '—' }}</span>
         </template>
 
         <template #item.actions="{ item }">

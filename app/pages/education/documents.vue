@@ -171,7 +171,13 @@ function addVariation() {
         <v-data-table :items="documents" :headers="headers" density="comfortable" class="elevation-0">
           <template #item.tags="{ item }">
             <div class="d-flex flex-wrap gap-1">
-              <v-chip v-for="tag in item.raw.tags" :key="tag" size="x-small" color="primary" variant="tonal">
+              <v-chip
+                v-for="tag in item?.raw?.tags ?? []"
+                :key="tag"
+                size="x-small"
+                color="primary"
+                variant="tonal"
+              >
                 {{ tag }}
               </v-chip>
             </div>
@@ -214,7 +220,13 @@ function addVariation() {
         >
           <template #item.tags="{ item }">
             <div class="d-flex flex-wrap gap-1">
-              <v-chip v-for="tag in item.raw.tags" :key="tag" size="x-small" color="primary" variant="tonal">
+              <v-chip
+                v-for="tag in item?.raw?.tags ?? []"
+                :key="tag"
+                size="x-small"
+                color="primary"
+                variant="tonal"
+              >
                 {{ tag }}
               </v-chip>
             </div>
