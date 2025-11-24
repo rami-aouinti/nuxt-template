@@ -12,7 +12,8 @@ export const useEducationNavigation = () => {
     {
       icon: 'mdi-home-analytics',
       label: t('pages.education.navigation.home'),
-      to: localePath('education'),
+      to: `${EDUCATION_BASE_URL}/`,
+      external: true,
     },
     {
       icon: 'mdi-compass-rose',
