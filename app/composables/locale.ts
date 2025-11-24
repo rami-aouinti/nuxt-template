@@ -7,6 +7,8 @@ import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 export function useLocale() {
+  const isClient = typeof window !== 'undefined' && typeof document !== 'undefined'
+
   const router = useRouter()
   const route = useRoute()
 
@@ -15,7 +17,9 @@ export function useLocale() {
   const cidReqStore = useCidReqStore()
   const courseSettingsStore = useCourseSettings()
 
-  const appLocale = ref(document.querySelector('html').lang)
+  const appLocale = ref(
+    isClient ? document.querySelector('html')?.lang || 'en' : 'en',
+  )
 
   const localeList = computed(() => {
     const list = {}
@@ -72,20 +76,24 @@ export function useLocale() {
   /**
    * @type {{originalName: string, isocode: string}[]}
    */
-  const languageList = window.languages || [defaultLanguage]
+  const languageList = (isClient ? window.languages : null) || [defaultLanguage]
 
   /**
    * @type {{originalName: string, isocode: string}}
    */
   const currentLanguageFromList =
     languageList.find(
-      (language) => document.querySelector('html').lang === language.isocode,
+      (language) =>
+        (isClient ? document.querySelector('html')?.lang : null) ===
+        language.isocode,
     ) || defaultLanguage
 
   /**
    * @param {string} isoCode
    */
   function reloadWithLocale(isoCode) {
+    if (!isClient) return
+
     const newUrl = router.resolve({
       path: route.path,
       query: {
@@ -125,12 +133,17 @@ export function useLocale() {
     if (!iso) return '-'
     const tag = String(iso).replace('_', '-')
     const ui =
-      displayLocale || appLocale.value || document.documentElement.lang || 'en'
+      displayLocale ||
+      appLocale.value ||
+      (isClient ? document.documentElement.lang : null) ||
+      'en'
     try {
       const dn = new Intl.DisplayNames([ui], { type: 'language' })
       return dn.of(tag) || iso.toUpperCase()
     } catch {
-      const hit = (window.languages || []).find((l) => l.isocode === iso)
+      const hit = (isClient ? window.languages || [] : []).find(
+        (l) => l.isocode === iso,
+      )
       return (
         hit?.originalName ||
         hit?.original_name ||
