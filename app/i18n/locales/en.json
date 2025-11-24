@@ -2151,9 +2151,38 @@
         "home": "Education home",
         "myCourses": "My courses",
         "exploreCourses": "Explore courses",
-        "administration": "Administration",
+        "events": "Events",
         "accessUrls": "Access URLs",
         "blog": "Blog",
+        "reporting": {
+          "title": "Reporting",
+          "overview": "Reporting"
+        },
+        "social": {
+          "title": "Social network",
+          "home": "Home",
+          "messages": "Messages",
+          "friends": "My friends",
+          "groups": "Social groups",
+          "files": "My files",
+          "personalData": "Personal data"
+        },
+        "sessionAdmin": {
+          "title": "Session administrator",
+          "dashboard": "Dashboard",
+          "favorites": "Favorite courses",
+          "completed": "Completed courses",
+          "incomplete": "Incomplete courses",
+          "restartable": "Restartable courses"
+        },
+        "administration": {
+          "title": "Administration",
+          "overview": "Administration",
+          "users": "Users",
+          "courses": "Courses",
+          "sessions": "Sessions",
+          "settings": "Settings"
+        },
         "quickAccess": {
           "title": "Learning shortcuts",
           "description": "Frequent destinations inside the education workspace"

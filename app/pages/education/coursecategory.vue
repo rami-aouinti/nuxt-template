@@ -248,7 +248,7 @@ function addDocumentToCategory() {
       max-width="680"
       scrollable
     >
-      <div class="py-4 px-2" v-if="activeCategory">
+      <div v-if="activeCategory" class="py-4 px-2">
         <div class="mb-2 text-body-2 text-medium-emphasis">ID: {{ activeCategory.id }}</div>
         <div class="text-subtitle-1 font-weight-bold mb-1">{{ activeCategory.name }}</div>
         <div class="text-body-2 mb-3">{{ t('Code') }}: {{ activeCategory.code }}</div>
@@ -288,7 +288,7 @@ function addDocumentToCategory() {
       max-width="640"
       scrollable
     >
-      <div class="pa-2" v-if="activeCategory">
+      <div v-if="activeCategory" class="pa-2">
         <div class="text-body-2 text-medium-emphasis mb-3">
           {{ t('Ajouter un cours à la catégorie') }}: {{ activeCategory.name }}
         </div>
@@ -311,7 +311,7 @@ function addDocumentToCategory() {
       max-width="640"
       scrollable
     >
-      <div class="pa-2" v-if="activeCategory">
+      <div v-if="activeCategory" class="pa-2">
         <div class="text-body-2 text-medium-emphasis mb-3">
           {{ t('Attacher un document à la catégorie') }}: {{ activeCategory.name }}
         </div>

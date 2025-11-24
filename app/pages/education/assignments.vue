@@ -250,7 +250,7 @@ function addDocumentToAssignment() {
       max-width="680"
       scrollable
     >
-      <div class="py-4 px-2" v-if="activeAssignment">
+      <div v-if="activeAssignment" class="py-4 px-2">
         <div class="mb-2 text-body-2 text-medium-emphasis">ID: {{ activeAssignment.id }}</div>
         <div class="text-subtitle-1 font-weight-bold mb-1">{{ activeAssignment.title }}</div>
         <div class="text-body-2 mb-3">{{ t('Statut') }}: {{ activeAssignment.status }}</div>
@@ -293,7 +293,7 @@ function addDocumentToAssignment() {
       max-width="640"
       scrollable
     >
-      <div class="pa-2" v-if="activeAssignment">
+      <div v-if="activeAssignment" class="pa-2">
         <div class="text-body-2 text-medium-emphasis mb-3">
           {{ t('Associer un apprenant au devoir') }}: {{ activeAssignment.title }}
         </div>
@@ -316,7 +316,7 @@ function addDocumentToAssignment() {
       max-width="640"
       scrollable
     >
-      <div class="pa-2" v-if="activeAssignment">
+      <div v-if="activeAssignment" class="pa-2">
         <div class="text-body-2 text-medium-emphasis mb-3">
           {{ t('Attacher un document au devoir') }}: {{ activeAssignment.title }}
         </div>
