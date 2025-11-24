@@ -16,7 +16,7 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import SessionCategoryView from '../../../../components/education/session/SessionCategoryView'
 import SessionTabs from '../../../../components/education/session/SessionTabs.vue'
 import { useSession } from './session'
-import SessionsLoading from './SessionsLoading.vue'
+import SessionsLoading from './sessions-loading.vue'
 
 definePageMeta({
   title: 'Sessions Sessions Upcoming',

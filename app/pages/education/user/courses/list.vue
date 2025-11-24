@@ -39,7 +39,7 @@ import { useQuery } from '@vue/apollo-composable'
 
 import { GET_COURSE_REL_USER } from '~/graphql/queries/CourseRelUser.js'
 import Skeleton from 'primevue/skeleton'
-import StickyCourses from '~/pages/education/user/courses/StickyCourses.vue'
+import StickyCourses from '~/pages/education/user/courses/sticky-courses.vue'
 import CourseCardList from '../../../../components/education/course/CourseCardList.vue'
 import EmptyState from '../../../../components/education/EmptyState'
 import { useSecurityStore } from '~/stores/securityStore'

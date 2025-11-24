@@ -1,29 +1,25 @@
 <template>
-  <StickyCourses />
   <SessionTabs class="mb-4" />
-
-  <div class="relative grow">
-    <Loading :visible="!isFullyLoaded" />
-
-    <SessionCategoryView
-      :categories="categories"
-      :categories-with-sessions="categoriesWithSessions"
-      :uncategorized-sessions="uncategorizedSessions"
-    />
-  </div>
+  <SessionsLoading :is-loading="isLoading" />
+  <!--  <SessionListWrapper :sessions="sessions"/>-->
+  <SessionCategoryView
+    v-if="!isLoading"
+    :categories="categories"
+    :categories-with-sessions="categoriesWithSessions"
+    :uncategorized-sessions="uncategorizedSessions"
+  />
   <div ref="sentinel" />
 </template>
 
 <script setup lang="ts">
-import { ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
-import SessionTabs from '../../../../components/education/session/SessionTabs.vue'
-import StickyCourses from '~/pages/education/user/courses/StickyCourses.vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import SessionCategoryView from '../../../../components/education/session/SessionCategoryView'
+import SessionTabs from '../../../../components/education/session/SessionTabs.vue'
 import { useSession } from './session'
-import Loading from '../../../../components/education/Loading.vue'
+import SessionsLoading from './sessions-loading.vue'
 
 definePageMeta({
-  title: 'Sessions Sessions Current',
+  title: 'Sessions Sessions Past',
 })
 
 const {
@@ -32,16 +28,7 @@ const {
   categories,
   categoriesWithSessions,
   reload,
-} = useSession('current')
-const isFullyLoaded = ref(false)
-
-watch(isLoading, async (newVal) => {
-  if (!newVal) {
-    await new Promise((resolve) => setTimeout(resolve, 500))
-    await nextTick()
-    isFullyLoaded.value = true
-  }
-})
+} = useSession('past')
 
 let observer = null
 const sentinel = ref(null)
