@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import AppCard from '~/components/App/AppCard.vue'
-import AppNavigationList from '~/components/AppNavigationList.vue'
+import EducationShell from '~/components/education/EducationShell.vue'
 import { useEducationNavigation } from '~/composables/useEducationNavigation'
 
 definePageMeta({
@@ -9,42 +9,7 @@ definePageMeta({
 })
 
 const { t } = useI18n()
-const localePath = useLocalePath()
 const { platformRoutes, baseUrl } = useEducationNavigation()
-
-const drawerNavigation = computed(() => [
-  {
-    icon: 'mdi-home-analytics',
-    label: t('pages.education.navigation.home'),
-    to: localePath('education'),
-  },
-  {
-    icon: 'mdi-book-account-outline',
-    label: t('pages.education.navigation.myCourses'),
-    to: `${baseUrl}/my-courses`,
-    external: true,
-  },
-  {
-    icon: 'mdi-compass-rose',
-    label: t('pages.education.navigation.exploreCourses'),
-    to: `${baseUrl}/courses`,
-    external: true,
-  },
-  {
-    icon: 'mdi-shield-crown-outline',
-    label: t('pages.education.navigation.administration'),
-    to: `${baseUrl}/admin`,
-    external: true,
-  },
-])
-
-const quickAccessItems = computed(() =>
-  platformRoutes.value.map((route) => ({
-    ...route,
-    to: route.href,
-    external: true,
-  })),
-)
 
 const featuredRoutes = computed(() => [
   {
@@ -90,78 +55,7 @@ const discoveryItems = computed(() => [
 </script>
 
 <template>
-  <div class="education-page">
-    <client-only>
-      <teleport to="#app-drawer">
-        <AppNavigationList
-          :items="drawerNavigation"
-          :title="t('pages.education.navigation.title')"
-          :description="t('pages.education.navigation.description')"
-        >
-          <template #item="{ item }">
-            <component
-              :is="item.external ? 'a' : NuxtLink"
-              class="nav-pill text-decoration-none"
-              :href="item.external ? item.to : undefined"
-              :to="item.external ? undefined : item.to"
-              style="color: inherit"
-              :target="item.external ? '_blank' : undefined"
-              :rel="item.external ? 'noopener noreferrer' : undefined"
-            >
-              <div class="d-flex align-center justify-space-between w-100">
-                <div class="d-flex align-center gap-3">
-                  <v-icon v-if="item.icon" :icon="item.icon" size="22" />
-                  <span class="text-subtitle-2 font-weight-medium">
-                    {{ item.label }}
-                  </span>
-                </div>
-                <v-chip
-                  v-if="item.external"
-                  color="primary"
-                  size="x-small"
-                  variant="tonal"
-                >
-                  External
-                </v-chip>
-              </div>
-            </component>
-          </template>
-        </AppNavigationList>
-      </teleport>
-    </client-only>
-
-    <client-only>
-      <teleport to="#app-drawer-right">
-        <AppNavigationList
-          :items="quickAccessItems"
-          :title="t('pages.education.navigation.quickAccess.title')"
-          :description="t('pages.education.navigation.quickAccess.description')"
-        >
-          <template #item="{ item }">
-            <a
-              class="nav-pill text-decoration-none"
-              :href="item.to"
-              target="_blank"
-              rel="noopener noreferrer"
-              style="color: inherit"
-            >
-              <div class="d-flex align-center justify-space-between w-100">
-                <div class="d-flex align-center gap-3">
-                  <v-icon v-if="item.icon" :icon="item.icon" size="22" />
-                  <span class="text-subtitle-2 font-weight-medium">
-                    {{ item.label }}
-                  </span>
-                </div>
-                <v-chip color="primary" size="x-small" variant="tonal">
-                  {{ t('pages.education.hero.badge') }}
-                </v-chip>
-              </div>
-            </a>
-          </template>
-        </AppNavigationList>
-      </teleport>
-    </client-only>
-
+  <EducationShell>
     <v-container fluid class="py-8">
       <v-row>
         <v-col cols="12">
@@ -334,7 +228,7 @@ const discoveryItems = computed(() => [
         </v-col>
       </v-row>
     </v-container>
-  </div>
+  </EducationShell>
 </template>
 
 <style scoped>

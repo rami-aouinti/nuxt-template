@@ -10,22 +10,31 @@ export const useEducationNavigation = () => {
     {
       icon: 'mdi-home-analytics',
       label: t('pages.education.navigation.home'),
-      to: localePath('education'),
+      to: `${EDUCATION_BASE_URL}/`,
+      external: true,
     },
     {
       icon: 'mdi-book-account-outline',
       label: t('pages.education.navigation.myCourses'),
-      to: localePath('education-my-courses'),
+      to: `${EDUCATION_BASE_URL}/my-courses`,
+      external: true,
     },
     {
       icon: 'mdi-compass-rose',
       label: t('pages.education.navigation.exploreCourses'),
-      to: localePath('education-explore-courses'),
+      to: `${EDUCATION_BASE_URL}/courses`,
+      external: true,
     },
     {
       icon: 'mdi-shield-crown-outline',
       label: t('pages.education.navigation.administration'),
-      to: localePath('education-administration'),
+      to: `${EDUCATION_BASE_URL}/admin`,
+      external: true,
+    },
+    {
+      icon: 'mdi-forum-outline',
+      label: t('pages.education.navigation.support'),
+      to: localePath('education'),
     },
   ])
 

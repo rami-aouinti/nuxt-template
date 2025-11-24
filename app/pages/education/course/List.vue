@@ -1,49 +1,52 @@
 <template>
-  <div class="course-list">
-    <Toolbar :handle-add="addHandler" />
+  <EducationShell>
+    <div class="course-list">
+      <Toolbar :handle-add="addHandler" />
 
-    <v-container fluid>
-      <v-row>
-        <v-col cols="12">
-          <v-data-table-server
-            v-model:selected="selected"
-            v-model:items-per-page="options.itemsPerPage"
-            v-model:page="options.page"
-            :headers="headers"
-            :items="items"
-            :items-length="totalItems"
-            :loading="isLoading"
-            :loading-text="$t('Loading')"
-            class="elevation-1"
-            item-value="@id"
-            show-select
-            @update:options="handleUpdateOptions"
-          >
-            <template #item.visibility="{ value }">
-              {{ value }}
-            </template>
+      <v-container fluid>
+        <v-row>
+          <v-col cols="12">
+            <v-data-table-server
+              v-model:selected="selected"
+              v-model:items-per-page="options.itemsPerPage"
+              v-model:page="options.page"
+              :headers="headers"
+              :items="items"
+              :items-length="totalItems"
+              :loading="isLoading"
+              :loading-text="$t('Loading')"
+              class="elevation-1"
+              item-value="@id"
+              show-select
+              @update:options="handleUpdateOptions"
+            >
+              <template #item.visibility="{ value }">
+                {{ value }}
+              </template>
 
-            <template #item.expirationDate="{ value }">
-              {{ value }}
-            </template>
+              <template #item.expirationDate="{ value }">
+                {{ value }}
+              </template>
 
-            <template #item.action="{ item }">
-              <ActionCell
-                :handle-delete="() => deleteHandler(item.raw)"
-                :handle-edit="() => editHandler(item.raw)"
-                :handle-show="() => showHandler(item.raw)"
-              />
-            </template>
-          </v-data-table-server>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+              <template #item.action="{ item }">
+                <ActionCell
+                  :handle-delete="() => deleteHandler(item.raw)"
+                  :handle-edit="() => editHandler(item.raw)"
+                  :handle-show="() => showHandler(item.raw)"
+                />
+              </template>
+            </v-data-table-server>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
+  </EducationShell>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import EducationShell from '~/components/education/EducationShell.vue'
 import ActionCell from '../../../components/education/ActionCell.vue'
 import Toolbar from '../../../components/education/Toolbar.vue'
 import courseService from '~/services/courseService'
