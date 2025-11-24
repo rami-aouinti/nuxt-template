@@ -63,7 +63,7 @@ const onToggleReply = () => emit('toggle-reply')
 
 <template>
   <div class="blog-comment-card">
-    <AppCard variant="outlined" elevation="0" class="blog-comment-card__card">
+    <AppCard variant="text" class="blog-comment-card__card">
       <div class="blog-comment-card__layout">
         <NuxtLink
           v-if="resolvedProfileLink"
