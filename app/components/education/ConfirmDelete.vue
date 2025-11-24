@@ -1,41 +1,45 @@
 <template>
-  <v-dialog
+  <AppModal
     :model-value="show"
     class="education-confirm-dialog"
-    max-width="480"
+    icon="mdi-alert-circle-outline"
+    :max-width="520"
     persistent
+    :close-disabled="true"
     @update:model-value="handleCancel"
   >
-    <v-card rounded="xl">
-      <v-card-title class="d-flex align-center gap-3 py-5">
+    <template #title>
+      <div class="text-subtitle-1 font-weight-semibold">
+        {{ $t('Are you sure you want to delete this item?') }}
+      </div>
+    </template>
+
+    <template #subtitle>
+      <div class="text-body-2 text-medium-emphasis">
+        {{ $t('This action cannot be undone and will remove the record permanently.') }}
+      </div>
+    </template>
+
+    <template #default>
+      <div class="d-flex align-center gap-3 py-2">
         <v-avatar color="error" size="44" variant="tonal">
           <v-icon icon="mdi-alert-circle-outline" />
         </v-avatar>
-        <div>
-          <div class="text-subtitle-1 font-weight-semibold">
-            {{ $t('Are you sure you want to delete this item?') }}
-          </div>
-          <div class="text-body-2 text-medium-emphasis">
-            {{ $t('This action cannot be undone and will remove the record permanently.') }}
-          </div>
+        <div class="text-body-2 text-medium-emphasis">
+          {{ $t('Please confirm to continue.') }}
         </div>
-      </v-card-title>
+      </div>
+    </template>
 
-      <v-card-actions class="px-6 pb-5">
-        <v-spacer />
-        <v-btn
-          color="secondary"
-          variant="tonal"
-          @click="handleCancel"
-        >
-          {{ $t('Cancel') }}
-        </v-btn>
-        <v-btn color="error" variant="elevated" @click="handleDelete">
-          {{ $t('Delete') }}
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+    <template #actions>
+      <AppButton color="secondary" variant="tonal" @click="handleCancel">
+        {{ $t('Cancel') }}
+      </AppButton>
+      <AppButton color="error" variant="elevated" @click="handleDelete">
+        {{ $t('Delete') }}
+      </AppButton>
+    </template>
+  </AppModal>
 </template>
 
 <script setup lang="ts">

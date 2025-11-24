@@ -54,13 +54,16 @@ const onError = () => {
     <BaseAppLink
       :to="securityStore.user ? { name: 'Home' } : { name: 'Index' }"
     >
-      <img
+      <NuxtImg
         v-if="currentSrc"
         :alt="siteName"
         :src="currentSrc"
         :title="siteName"
         decoding="async"
         fetchpriority="high"
+        format="webp"
+        width="180"
+        height="48"
         @error="onError"
       />
       <span v-else class="font-semibold text-primary" aria-label="logo">

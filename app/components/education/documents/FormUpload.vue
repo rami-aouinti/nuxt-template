@@ -18,7 +18,7 @@
 
     <v-row class="g-4">
       <v-col cols="12" md="8">
-        <v-card class="pa-6 glass-card" rounded="xl" elevation="4">
+        <AppCard class="pa-6 glass-card" rounded="xl" elevation="4">
           <div class="d-flex align-center mb-4 gap-3">
             <v-avatar color="primary" variant="tonal">
               <v-icon icon="mdi-school-outline" />
@@ -33,20 +33,20 @@
 
           <v-row>
             <v-col v-for="action in quickActions" :key="action.label" cols="12" md="6">
-              <v-card variant="tonal" :color="action.color" class="pa-4" rounded="lg">
+              <AppCard variant="tonal" :color="action.color" class="pa-4" rounded="lg">
                 <div class="d-flex align-center justify-space-between mb-2">
                   <div class="text-subtitle-2 font-weight-semibold">{{ action.label }}</div>
                   <v-icon :icon="action.icon" :color="action.color" />
                 </div>
                 <div class="text-body-2 text-medium-emphasis">{{ action.description }}</div>
-              </v-card>
+              </AppCard>
             </v-col>
           </v-row>
-        </v-card>
+        </AppCard>
       </v-col>
 
       <v-col cols="12" md="4">
-        <v-card class="pa-5" rounded="xl" elevation="2">
+        <AppCard class="pa-5" rounded="xl" elevation="2">
           <div class="text-subtitle-1 font-weight-semibold mb-3">Points clés</div>
           <v-timeline density="compact" side="end" truncate-line="both">
             <v-timeline-item v-for="item in highlights" :key="item.title" dot-color="primary">
@@ -54,7 +54,7 @@
               <div class="text-body-2 text-medium-emphasis">{{ item.description }}</div>
             </v-timeline-item>
           </v-timeline>
-        </v-card>
+        </AppCard>
       </v-col>
     </v-row>
   </v-container>
