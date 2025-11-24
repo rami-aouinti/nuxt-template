@@ -9,8 +9,7 @@ const { navLinks, platformRoutes } = useEducationNavigation()
 const quickAccessItems = computed(() =>
   platformRoutes.value.map((route) => ({
     ...route,
-    to: route.href,
-    external: true,
+    external: route.external ?? false,
   })),
 )
 </script>
@@ -59,11 +58,13 @@ const quickAccessItems = computed(() =>
           :description="t('pages.education.navigation.quickAccess.description')"
         >
           <template #item="{ item }">
-            <a
+            <component
+              :is="item.external ? 'a' : NuxtLink"
               class="nav-pill text-decoration-none"
-              :href="item.to"
-              target="_blank"
-              rel="noopener noreferrer"
+              :href="item.external ? item.to : undefined"
+              :to="item.external ? undefined : item.to"
+              :target="item.external ? '_blank' : undefined"
+              :rel="item.external ? 'noopener noreferrer' : undefined"
               style="color: inherit"
             >
               <div class="d-flex align-center justify-space-between w-100">
@@ -77,7 +78,7 @@ const quickAccessItems = computed(() =>
                   {{ t('pages.education.hero.badge') }}
                 </v-chip>
               </div>
-            </a>
+            </component>
           </template>
         </AppNavigationList>
       </teleport>

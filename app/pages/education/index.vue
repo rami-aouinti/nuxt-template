@@ -9,26 +9,29 @@ definePageMeta({
 })
 
 const { t } = useI18n()
-const { platformRoutes, baseUrl } = useEducationNavigation()
+const localePath = useLocalePath()
+const { platformRoutes } = useEducationNavigation()
+
+const quickAccessItems = platformRoutes
 
 const featuredRoutes = computed(() => [
   {
     icon: 'mdi-home-variant-outline',
     title: t('pages.education.sections.gettingStarted.title'),
     description: t('pages.education.sections.gettingStarted.description'),
-    to: `${baseUrl}/`,
+    to: localePath({ name: 'education-course-catalogue-courses' }),
   },
   {
     icon: 'mdi-progress-check',
     title: t('pages.education.sections.progress.title'),
     description: t('pages.education.sections.progress.description'),
-    to: `${baseUrl}/progress`,
+    to: localePath({ name: 'education-user-courses-list' }),
   },
   {
     icon: 'mdi-flask-outline',
     title: t('pages.education.sections.labs.title'),
     description: t('pages.education.sections.labs.description'),
-    to: `${baseUrl}/labs`,
+    to: localePath({ name: 'education-course-course-home' }),
   },
 ])
 
@@ -37,19 +40,19 @@ const discoveryItems = computed(() => [
     icon: 'mdi-playlist-check',
     title: t('pages.education.discovery.collections.title'),
     description: t('pages.education.discovery.collections.description'),
-    to: `${baseUrl}/collections`,
+    to: localePath({ name: 'education-links-list' }),
   },
   {
     icon: 'mdi-map-marker-path',
     title: t('pages.education.discovery.paths.title'),
     description: t('pages.education.discovery.paths.description'),
-    to: `${baseUrl}/learning-paths`,
+    to: localePath({ name: 'education-terms-list' }),
   },
   {
     icon: 'mdi-account-group-outline',
     title: t('pages.education.discovery.community.title'),
     description: t('pages.education.discovery.community.description'),
-    to: `${baseUrl}/community`,
+    to: localePath({ name: 'education-blog-blog-posts' }),
   },
 ])
 </script>
@@ -76,9 +79,7 @@ const discoveryItems = computed(() => [
                   <v-btn
                     color="primary"
                     variant="flat"
-                    :href="baseUrl"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    :to="localePath({ name: 'education-course-catalogue-courses' })"
                   >
                     <v-icon icon="mdi-open-in-new" start />
                     {{ t('pages.education.hero.cta') }}
@@ -86,9 +87,7 @@ const discoveryItems = computed(() => [
                   <v-btn
                     color="secondary"
                     variant="text"
-                    :href="`${baseUrl}/courses`"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    :to="localePath({ name: 'education-course-list' })"
                   >
                     <v-icon icon="mdi-compass-rose" start />
                     {{ t('pages.education.hero.secondaryCta') }}
@@ -101,9 +100,9 @@ const discoveryItems = computed(() => [
                 </div>
                 <ul class="ps-4">
                   <li v-for="route in quickAccessItems" :key="route.to">
-                    <a :href="route.to" target="_blank" rel="noopener noreferrer">
+                    <NuxtLink :to="route.to">
                       {{ route.label }}
-                    </a>
+                    </NuxtLink>
                   </li>
                 </ul>
               </div>
@@ -133,9 +132,7 @@ const discoveryItems = computed(() => [
                 icon
                 variant="tonal"
                 color="primary"
-                :href="route.to"
-                target="_blank"
-                rel="noopener noreferrer"
+                :to="route.to"
               >
                 <v-icon icon="mdi-open-in-new" />
               </v-btn>
@@ -175,9 +172,7 @@ const discoveryItems = computed(() => [
                   icon
                   variant="text"
                   color="primary"
-                  :href="route.to"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  :to="route.to"
                 >
                   <v-icon icon="mdi-open-in-new" />
                 </v-btn>
@@ -216,9 +211,7 @@ const discoveryItems = computed(() => [
                   icon
                   variant="text"
                   color="secondary"
-                  :href="item.to"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  :to="item.to"
                 >
                   <v-icon icon="mdi-open-in-new" />
                 </v-btn>

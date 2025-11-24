@@ -3238,16 +3238,18 @@
         "myCourses": "Mes cours",
         "exploreCourses": "Explorer les cours",
         "administration": "Administration",
+        "accessUrls": "Access URLs",
+        "blog": "Blog",
         "quickAccess": {
           "title": "Raccourcis d'apprentissage",
-          "description": "Destinations fréquentes sur education.bro-world.org"
+          "description": "Destinations fréquentes dans l'espace éducation"
         }
       },
       "hero": {
-        "badge": "education.bro-world.org",
+        "badge": "Espace éducation",
         "title": "Un espace dédié à chaque parcours d'apprentissage",
         "subtitle": "Consultez vos cours, découvrez de nouveaux modules et gérez la plateforme sans quitter l'écosystème Bro World.",
-        "cta": "Ouvrir le portail éducation",
+        "cta": "Ouvrir l'espace éducation",
         "secondaryCta": "Découvrir les cours"
       },
       "sections": {

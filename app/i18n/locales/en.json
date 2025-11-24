@@ -2126,16 +2126,18 @@
         "myCourses": "My courses",
         "exploreCourses": "Explore courses",
         "administration": "Administration",
+        "accessUrls": "Access URLs",
+        "blog": "Blog",
         "quickAccess": {
           "title": "Learning shortcuts",
-          "description": "Frequent destinations on education.bro-world.org"
+          "description": "Frequent destinations inside the education workspace"
         }
       },
       "hero": {
-        "badge": "education.bro-world.org",
+        "badge": "Education workspace",
         "title": "A dedicated space for every learner journey",
         "subtitle": "Review your courses, browse new modules, and administer the platform without leaving the Bro World ecosystem.",
-        "cta": "Open education portal",
+        "cta": "Open education workspace",
         "secondaryCta": "Discover courses"
       },
       "sections": {
