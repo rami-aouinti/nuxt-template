@@ -1,41 +1,39 @@
 <template>
   <div class="p-6 space-y-6">
-    <Card>
-      <template #header>
-        <div class="relative w-full rounded-t-xl bg-gray-100 overflow-hidden">
-          <div
-            v-if="isFetching"
-            class="w-full h-36 sm:h-44 md:h-52 lg:h-60 animate-pulse bg-gray-200"
-            aria-hidden="true"
-          />
-          <div
-            v-else-if="hasRealBanner && !imgLoaded"
-            class="w-full h-36 sm:h-44 md:h-52 lg:h-60 animate-pulse bg-gray-200"
-            aria-hidden="true"
-          />
-          <img
-            v-else-if="hasRealBanner && imgLoaded"
-            :src="displaySrc"
-            :alt="course.title || 'Course illustration'"
-            class="block w-full h-36 sm:h-44 md:h-52 lg:h-60 object-cover object-center"
-            referrerpolicy="no-referrer"
-          />
-          <img
-            v-else
-            :src="PLACEHOLDER"
-            :alt="course.title || 'Course illustration'"
-            class="block w-full h-36 sm:h-44 md:h-52 lg:h-60 object-cover object-center"
-          />
+    <AppCard class="overflow-hidden" elevation="3" hover>
+      <div class="relative w-full bg-gray-100 overflow-hidden">
+        <div
+          v-if="isFetching"
+          class="w-full h-36 sm:h-44 md:h-52 lg:h-60 animate-pulse bg-gray-200"
+          aria-hidden="true"
+        />
+        <div
+          v-else-if="hasRealBanner && !imgLoaded"
+          class="w-full h-36 sm:h-44 md:h-52 lg:h-60 animate-pulse bg-gray-200"
+          aria-hidden="true"
+        />
+        <img
+          v-else-if="hasRealBanner && imgLoaded"
+          :src="displaySrc"
+          :alt="course.title || 'Course illustration'"
+          class="block w-full h-36 sm:h-44 md:h-52 lg:h-60 object-cover object-center"
+          referrerpolicy="no-referrer"
+        />
+        <img
+          v-else
+          :src="PLACEHOLDER"
+          :alt="course.title || 'Course illustration'"
+          class="block w-full h-36 sm:h-44 md:h-52 lg:h-60 object-cover object-center"
+        />
+      </div>
+
+      <div class="p-6 space-y-4">
+        <div>
+          <h2 class="text-2xl font-semibold text-gray-90">{{ course.title }}</h2>
+          <p class="text-sm text-gray-50">{{ course.code }}</p>
         </div>
-      </template>
+        <hr class="border-gray-20" />
 
-      <template #title>
-        <h2 class="text-2xl font-semibold text-gray-90">{{ course.title }}</h2>
-        <p class="text-sm text-gray-50">{{ course.code }}</p>
-        <hr class="mt-4 border-gray-20" />
-      </template>
-
-      <template #content>
         <div v-if="course.descriptions?.length" class="space-y-4">
           <div
             v-for="(item, idx) in course.descriptions"
@@ -46,10 +44,10 @@
             <div class="text-gray-50" v-html="item.content" />
           </div>
         </div>
-      </template>
-    </Card>
+      </div>
+    </AppCard>
 
-    <div class="bg-white p-4 rounded-xl shadow space-y-4">
+    <AppCard class="p-4 space-y-4" elevation="2" hover>
       <h3 class="text-lg font-medium">{{ t('Search student') }}</h3>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -88,7 +86,7 @@
       <p v-if="platformSessionAdminAccessAllUrls" class="text-gray-600 text-sm">
         {{
           t(
-            'This list displays users from all access URLs because the setting \"session_admin_access_to_all_users_on_all_urls\" is enabled.',
+            'This list displays users from all access URLs because the setting "session_admin_access_to_all_users_on_all_urls" is enabled.',
           )
         }}
       </p>
@@ -153,7 +151,7 @@
       <Message v-else-if="searchAttempted" severity="error">
         {{ t('User not found.') }}
       </Message>
-    </div>
+    </AppCard>
 
     <Dialog
       v-model:visible="showCreateModal"
@@ -211,7 +209,7 @@
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
-import Card from 'primevue/card'
+import AppCard from '~/components/App/AppCard.vue'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'

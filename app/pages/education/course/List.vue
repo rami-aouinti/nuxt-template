@@ -1,12 +1,11 @@
 <template>
-  <EducationShell>
-    <div class="course-list">
-      <Toolbar :handle-add="addHandler" />
+  <div class="course-list">
+    <Toolbar :handle-add="addHandler" />
 
-      <v-container fluid>
-        <v-row>
-          <v-col cols="12">
-            <v-data-table-server
+    <v-container fluid>
+      <v-row>
+        <v-col cols="12">
+          <v-data-table-server
               v-model:selected="selected"
               v-model:items-per-page="options.itemsPerPage"
               v-model:page="options.page"
@@ -40,13 +39,11 @@
         </v-row>
       </v-container>
     </div>
-  </EducationShell>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import EducationShell from '~/components/education/EducationShell.vue'
 import ActionCell from '../../../components/education/ActionCell.vue'
 import Toolbar from '../../../components/education/Toolbar.vue'
 import courseService from '~/services/courseService'

@@ -10,7 +10,7 @@
 
     <v-row class="mt-4" align="stretch" dense>
       <v-col cols="12" md="8">
-        <v-card class="pa-6" rounded="xl" elevation="3">
+        <AppCard class="pa-6" elevation="3" hover>
           <div class="d-flex align-center justify-space-between mb-4">
             <div>
               <div class="text-caption text-uppercase text-primary mb-1">
@@ -96,11 +96,11 @@
               </v-sheet>
             </v-col>
           </v-row>
-        </v-card>
+        </AppCard>
       </v-col>
 
       <v-col cols="12" md="4">
-        <v-card class="pa-5" rounded="xl" elevation="2">
+        <AppCard class="pa-5" elevation="2" hover>
           <div class="text-subtitle-1 font-weight-semibold mb-3">
             {{ t('Quick actions') }}
           </div>
@@ -133,7 +133,7 @@
               {{ t('Back to list') }}
             </v-btn>
           </div>
-        </v-card>
+        </AppCard>
       </v-col>
     </v-row>
 
@@ -145,6 +145,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import AppCard from '~/components/App/AppCard.vue'
 import Toolbar from '../../../components/education/Toolbar.vue'
 import { useShowResource } from '~/composables/education/useShowResource'
 

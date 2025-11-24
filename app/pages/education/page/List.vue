@@ -5,7 +5,7 @@
     <v-container fluid>
       <v-row>
         <v-col cols="12">
-          <v-card class="pa-4" elevation="1">
+          <AppCard class="pa-4" elevation="1">
             <v-data-table-server
               v-model:selected="selected"
               v-model:items-per-page="options.itemsPerPage"
@@ -49,7 +49,7 @@
                 />
               </template>
             </v-data-table-server>
-          </v-card>
+          </AppCard>
         </v-col>
       </v-row>
     </v-container>
@@ -68,6 +68,7 @@ import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 
+import AppCard from '~/components/App/AppCard.vue'
 import ConfirmDelete from '../../../components/education/ConfirmDelete.vue'
 import ActionCell from '../../../components/education/ActionCell.vue'
 import Toolbar from '../../../components/education/Toolbar.vue'

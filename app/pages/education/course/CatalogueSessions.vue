@@ -1,6 +1,6 @@
 <template>
   <v-container class="py-8">
-    <v-card class="mb-6" elevation="2" rounded="xl">
+    <AppCard class="mb-6" elevation="2">
       <v-card-text>
         <div class="d-flex flex-wrap justify-space-between align-start gap-4 mb-4">
           <div>
@@ -49,7 +49,7 @@
           </v-col>
         </v-row>
       </v-card-text>
-    </v-card>
+    </AppCard>
 
     <v-alert
       v-if="status"
@@ -80,7 +80,7 @@
         lg="4"
         xl="3"
       >
-        <v-card class="h-100" variant="outlined" rounded="lg">
+        <AppCard class="h-100" variant="outlined" rounded="lg" hover>
           <v-card-text class="pa-0">
             <CatalogueSessionCard
               :session="session"
@@ -88,7 +88,7 @@
               @subscribed="onSessionSubscribed"
             />
           </v-card-text>
-        </v-card>
+        </AppCard>
       </v-col>
     </v-row>
 
@@ -100,6 +100,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import axios from 'axios'
+import AppCard from '~/components/App/AppCard.vue'
 import CatalogueSessionCard from '../../../components/education/session/CatalogueSessionCard.vue'
 import { useSecurityStore } from '~/stores/securityStore'
 import * as userRelCourseVoteService from '../../../services/userRelCourseVoteService'

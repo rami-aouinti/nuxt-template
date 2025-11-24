@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import AppCard from '~/components/App/AppCard.vue'
-import EducationShell from '~/components/education/EducationShell.vue'
 import { useEducationNavigation } from '~/composables/useEducationNavigation'
 
 definePageMeta({
   title: 'Education',
+  appCardLayout: false,
 })
 
 const { t } = useI18n()
@@ -58,7 +58,7 @@ const discoveryItems = computed(() => [
 </script>
 
 <template>
-  <EducationShell>
+  <div class="education-home">
     <v-container fluid class="py-8">
       <v-row>
         <v-col cols="12">
@@ -221,7 +221,7 @@ const discoveryItems = computed(() => [
         </v-col>
       </v-row>
     </v-container>
-  </EducationShell>
+  </div>
 </template>
 
 <style scoped>

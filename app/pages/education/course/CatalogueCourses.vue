@@ -1,6 +1,6 @@
 <template>
   <v-container class="py-8">
-    <v-card class="mb-6" elevation="2" rounded="xl">
+    <AppCard class="mb-6" elevation="2">
       <v-card-text>
         <div class="d-flex flex-wrap align-start justify-space-between gap-4 mb-4">
           <div>
@@ -66,12 +66,13 @@
         </v-row>
 
         <v-expand-transition>
-          <v-card
+          <AppCard
             v-if="showAdvancedSearch"
             class="mt-4"
             variant="tonal"
             color="primary"
             rounded="lg"
+            shadow
           >
             <v-card-text>
               <AdvancedCourseFilters
@@ -82,10 +83,10 @@
                 @clear="onAdvancedClear"
               />
             </v-card-text>
-          </v-card>
+          </AppCard>
         </v-expand-transition>
       </v-card-text>
-    </v-card>
+    </AppCard>
 
     <v-alert
       v-if="status"
@@ -116,7 +117,7 @@
         lg="4"
         xl="3"
       >
-        <v-card class="h-100" variant="outlined" rounded="lg">
+        <AppCard class="h-100" variant="outlined" rounded="lg" hover>
           <v-card-text class="pa-0">
             <CatalogueCourseCard
               :card-extra-fields="cardExtraFields"
@@ -127,7 +128,7 @@
               @subscribed="onUserSubscribed"
             />
           </v-card-text>
-        </v-card>
+        </AppCard>
       </v-col>
     </v-row>
 
@@ -139,6 +140,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
+import AppCard from '~/components/App/AppCard.vue'
 import { useNotification } from '~/composables/education/notification'
 import { useLanguage } from '~/composables/education/language'
 import { useSecurityStore } from '~/stores/securityStore'
