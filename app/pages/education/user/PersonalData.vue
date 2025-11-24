@@ -170,6 +170,11 @@ import { useNotification } from '~/composables/education/notification'
 import socialService from '../../../services/socialService'
 import { useSecurityStore } from '~/stores/securityStore'
 
+definePageMeta({
+  title: 'User Personal Data',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const securityStore = useSecurityStore()
 

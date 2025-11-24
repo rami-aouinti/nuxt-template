@@ -87,6 +87,11 @@ import { storeToRefs } from 'pinia'
 import { useCidReqStore } from '~/stores/cidReq'
 import svc from '../../../services/courseMaintenance'
 
+definePageMeta({
+  title: 'Coursemaintenance Delete Course',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const route = useRoute()
 const node = ref(Number(route.params.node || 0))

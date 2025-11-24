@@ -15,6 +15,11 @@ import { useNotification } from '~/composables/education/notification'
 import * as skillService from '../../../services/skillService'
 import SkillProfileMatches from '../../../components/education/skill/SkillProfileMatches.vue'
 
+definePageMeta({
+  title: 'Skill Skill Wheel',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 
 const { showErrorNotification } = useNotification()

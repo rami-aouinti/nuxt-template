@@ -99,6 +99,11 @@ import { useCidReq } from '~/composables/education/cidReq'
 import debounce from 'lodash/debounce'
 import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
 
+definePageMeta({
+  title: 'Assignments Assignment Add User',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const route = useRoute()
 const { cid, sid } = useCidReq()

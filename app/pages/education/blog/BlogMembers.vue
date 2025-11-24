@@ -166,6 +166,11 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  title: 'Blog Blog Members',
+  middleware: 'auth',
+})
+
 /**
  * Blog members manager:
  * - Lists current blog members (from c_blog_rel_user)

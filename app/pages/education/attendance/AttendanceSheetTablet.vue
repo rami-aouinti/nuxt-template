@@ -199,6 +199,11 @@ import SectionHeader from '../../../components/education/layout/SectionHeader.vu
 import BaseButton from '../../../components/education/basecomponents/BaseButton.vue'
 import BaseDialog from '../../../components/education/basecomponents/BaseDialog.vue'
 import attendanceService, {
+definePageMeta({
+  title: 'Attendance Attendance Sheet Tablet',
+  middleware: 'auth',
+})
+
   ATTENDANCE_STATES,
 } from '../../../services/attendanceService'
 import SignaturePad from 'signature_pad'

@@ -90,6 +90,11 @@ import { useFormatDate } from '~/composables/education/formatDate'
 import { useNotification } from '~/composables/education/notification'
 import { useSocialInfo } from '~/composables/education/useSocialInfo'
 
+definePageMeta({
+  title: 'Userreluser User Rel User List',
+  middleware: 'auth',
+})
+
 const { user, isCurrentUser } = useSocialInfo()
 const { t } = useI18n()
 const items = ref([])

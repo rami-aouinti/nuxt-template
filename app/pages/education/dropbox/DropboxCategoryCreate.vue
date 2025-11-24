@@ -41,6 +41,11 @@ import BaseToolbar from '../../../components/education/basecomponents/BaseToolba
 import BaseInputText from '../../../components/education/basecomponents/BaseInputText.vue'
 import BaseButton from '../../../components/education/basecomponents/BaseButton.vue'
 
+definePageMeta({
+  title: 'Dropbox Dropbox Category Create',
+  middleware: 'auth',
+})
+
 const route = useRoute()
 const router = useRouter()
 const area = route.query.area === 'received' ? 'received' : 'sent'

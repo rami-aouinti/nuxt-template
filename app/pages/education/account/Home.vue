@@ -17,6 +17,11 @@ import { useSocialInfo } from '~/composables/education/useSocialInfo.js'
 import SocialWall from '../social/SocialWall.vue'
 import { usePlatformConfig } from '~/stores/platformConfig'
 
+definePageMeta({
+  title: 'Account Home',
+  middleware: 'auth',
+})
+
 const platformConfigStore = usePlatformConfig()
 const allowSocialTool = computed(
   () => platformConfigStore.getSetting('social.allow_social_tool') !== 'false',

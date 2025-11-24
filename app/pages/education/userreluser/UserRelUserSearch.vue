@@ -68,6 +68,11 @@ import userRelUserService from '../../../services/userRelUserService'
 import userService from '../../../services/userService'
 import { useSecurityStore } from '~/stores/securityStore'
 
+definePageMeta({
+  title: 'Userreluser User Rel User Search',
+  middleware: 'auth',
+})
+
 const securityStore = useSecurityStore()
 const router = useRouter()
 const { t } = useI18n()

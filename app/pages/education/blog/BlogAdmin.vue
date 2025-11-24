@@ -198,6 +198,11 @@ import { useSecurityStore } from '~/stores/securityStore'
 import { RESOURCE_LINK_DRAFT } from '~/constants/entity/resourcelink'
 import { useCidReq } from '~/composables/education/cidReq'
 
+definePageMeta({
+  title: 'Blog Blog Admin',
+  middleware: 'auth',
+})
+
 const { cid, sid } = useCidReq()
 const { t } = useI18n()
 const route = useRoute()

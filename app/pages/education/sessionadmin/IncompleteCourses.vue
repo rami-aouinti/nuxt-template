@@ -40,6 +40,11 @@ import { onMounted, ref } from 'vue'
 
 import courseService from '../../../services/courseService'
 
+definePageMeta({
+  title: 'Sessionadmin Incomplete Courses',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const incomplete = ref([])
 const loading = ref(false)

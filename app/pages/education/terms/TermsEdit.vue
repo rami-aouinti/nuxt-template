@@ -134,6 +134,11 @@ import languageService from '../../../services/languageService'
 import legalService from '../../../services/legalService'
 import BaseTinyEditor from '../../../components/education/basecomponents/BaseTinyEditor.vue'
 
+definePageMeta({
+  title: 'Terms Terms Edit',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 
 const router = useRouter()

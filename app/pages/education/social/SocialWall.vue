@@ -42,6 +42,11 @@ import SocialWallPostForm from '../../../components/education/social/SocialWallP
 import SocialWallPostList from '../../../components/education/social/SocialWallPostList.vue'
 import { useSecurityStore } from '~/stores/securityStore'
 
+definePageMeta({
+  title: 'Social Social Wall',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 
 const props = defineProps({

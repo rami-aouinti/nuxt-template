@@ -209,6 +209,11 @@ import PostCreateDialog from '../../../components/education/blog/PostCreateDialo
 import service from '../../../services/blogs'
 import { useSecurityStore } from '~/stores/securityStore'
 
+definePageMeta({
+  title: 'Blog Blog Post Detail',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()

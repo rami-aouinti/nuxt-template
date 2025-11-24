@@ -61,6 +61,11 @@ import Loading from '../../../components/education/Loading.vue'
 import Toolbar from '../../../components/education/Toolbar.vue'
 import { useShowResource } from '~/composables/education/useShowResource'
 
+definePageMeta({
+  title: 'Coursecategory Show',
+  middleware: 'auth',
+})
+
 const servicePrefix = 'CourseCategory'
 
 const { item, isLoading, del, editHandler } = useShowResource({

@@ -59,6 +59,11 @@ import { ref, onMounted } from 'vue'
 
 import courseService from '../../../services/courseService'
 
+definePageMeta({
+  title: 'Sessionadmin Completed Courses',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 
 const certificates = ref([])

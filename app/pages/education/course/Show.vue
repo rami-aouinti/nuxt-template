@@ -149,6 +149,11 @@ import AppCard from '~/components/App/AppCard.vue'
 import Toolbar from '../../../components/education/Toolbar.vue'
 import { useShowResource } from '~/composables/education/useShowResource'
 
+definePageMeta({
+  title: 'Course Show',
+  middleware: 'auth',
+})
+
 const servicePrefix = 'Course'
 const { t } = useI18n()
 

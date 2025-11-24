@@ -124,6 +124,11 @@ import { useSecurityStore } from '~/stores/securityStore'
 import { storeToRefs } from 'pinia'
 import { useShowResource } from '~/composables/education/useShowResource'
 
+definePageMeta({
+  title: 'Personalfile Show',
+  middleware: 'auth',
+})
+
 const securityStore = useSecurityStore()
 const { isAuthenticated, isAdmin, isCurrentTeacher } = storeToRefs(securityStore)
 const { relativeDatetime } = useFormatDate()

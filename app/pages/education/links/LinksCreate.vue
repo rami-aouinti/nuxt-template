@@ -16,6 +16,11 @@ import { useRoute, useRouter } from 'vue-router'
 import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
 import LayoutFormGeneric from '../../../components/education/layout/LayoutFormGeneric.vue'
 
+definePageMeta({
+  title: 'Links Links Create',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()

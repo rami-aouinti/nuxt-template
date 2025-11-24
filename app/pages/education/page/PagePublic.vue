@@ -7,6 +7,11 @@ import pageService from '../../../services/pageService'
 import { useNotification } from '~/composables/education/notification'
 import Loading from '../../../components/education/Loading.vue'
 
+definePageMeta({
+  title: 'Page Page Public',
+  middleware: 'auth',
+})
+
 const route = useRoute()
 const { t } = useI18n()
 const { showWarningNotification } = useNotification()

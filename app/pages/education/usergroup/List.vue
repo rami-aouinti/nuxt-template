@@ -218,6 +218,11 @@ import BaseCheckbox from '../../../components/education/basecomponents/BaseCheck
 import usergroupService from '../../../services/usergroupService'
 import GroupSearch from '../../../components/education/usergroup/GroupSearch.vue'
 
+definePageMeta({
+  title: 'Usergroup List',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const newestGroups = ref([])
 const popularGroups = ref([])

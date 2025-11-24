@@ -24,6 +24,11 @@ import { useSecurityStore } from '~/stores/securityStore'
 
 import { useNotification } from '~/composables/education/notification'
 
+definePageMeta({
+  title: 'Ccalendarevent C Calendar Event Create',
+  middleware: 'auth',
+})
+
 //const { DateTime } = require("luxon");
 
 const item = ref({})

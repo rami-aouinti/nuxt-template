@@ -190,6 +190,11 @@ import BaseToolbar from '../../../components/education/basecomponents/BaseToolba
 
 import service from '../../../services/dropbox'
 
+definePageMeta({
+  title: 'Dropbox Dropbox Create',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()

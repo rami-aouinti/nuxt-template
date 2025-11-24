@@ -25,6 +25,11 @@ import { useQuery } from '@vue/apollo-composable'
 
 import { GET_STICKY_COURSES } from '~/graphql/queries/Course'
 
+definePageMeta({
+  title: 'Courses Sticky Courses',
+  middleware: 'auth',
+})
+
 const securityStore = useSecurityStore()
 
 const queryResponse = ref({})

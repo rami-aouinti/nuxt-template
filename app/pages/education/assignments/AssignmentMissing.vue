@@ -65,6 +65,11 @@ import ProgressSpinner from 'primevue/progressspinner'
 import { useCidReq } from '~/composables/education/cidReq'
 import { useNotification } from '~/composables/education/notification'
 
+definePageMeta({
+  title: 'Assignments Assignment Missing',
+  middleware: 'auth',
+})
+
 const props = defineProps({
   id: [String, Number],
 })

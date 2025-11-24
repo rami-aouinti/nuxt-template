@@ -34,6 +34,11 @@ import AttendanceCalendarForm from '../../../components/education/attendance/Att
 import attendanceService from '../../../services/attendanceService'
 import { onMounted, ref } from 'vue'
 
+definePageMeta({
+  title: 'Attendance Attendance Calendar Add',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()

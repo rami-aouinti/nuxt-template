@@ -294,6 +294,11 @@ import service from '../../../services/blogs'
 import { useSecurityStore } from '~/stores/securityStore'
 import { useCidReqStore } from '~/stores/cidReq'
 
+definePageMeta({
+  title: 'Blog Blog Posts',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()

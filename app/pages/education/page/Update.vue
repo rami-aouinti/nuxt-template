@@ -21,6 +21,11 @@ import Loading from '../../../components/education/Loading.vue'
 import PageForm from '../../../components/education/page/Form.vue'
 import { useDatatableUpdate } from '~/composables/education/datatableUpdate'
 
+definePageMeta({
+  title: 'Page Update',
+  middleware: 'auth',
+})
+
 const { item, isLoading, retrieve, updateItem } = useDatatableUpdate('Page')
 const router = useRouter()
 const route = useRoute()

@@ -57,6 +57,11 @@ import { useCidReq } from '~/composables/education/cidReq'
 import { useSecurityStore } from '~/stores/securityStore'
 import { usePlatformConfig } from '~/stores/platformConfig'
 
+definePageMeta({
+  title: 'Attendance Attendance List',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()

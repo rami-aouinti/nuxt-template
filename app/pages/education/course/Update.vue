@@ -3,7 +3,11 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ appCardLayout: false })
+definePageMeta({
+  title: 'Course Update',
+  middleware: 'auth',
+  appCardLayout: false,
+})
 
 import EducationPlaceholder from '~/components/education/EducationPlaceholder.vue'
 </script>

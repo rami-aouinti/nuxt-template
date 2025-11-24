@@ -261,6 +261,11 @@ import { chamiloIconToClass } from '../../../components/education/basecomponents
 import DropboxFeedbackDialog from './DropboxFeedbackDialog.vue'
 import DropboxMoveDialog from './DropboxMoveDialog.vue'
 
+definePageMeta({
+  title: 'Dropbox Dropbox List Received',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 
 const categoryId = ref(0)

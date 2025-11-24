@@ -97,6 +97,11 @@ import { useSecurityStore } from '~/stores/securityStore'
 import { storeToRefs } from 'pinia'
 import { useShowResource } from '~/composables/education/useShowResource'
 
+definePageMeta({
+  title: 'Documents Document Show',
+  middleware: 'auth',
+})
+
 const securityStore = useSecurityStore()
 const { isAuthenticated, isAdmin, isCurrentTeacher } = storeToRefs(securityStore)
 

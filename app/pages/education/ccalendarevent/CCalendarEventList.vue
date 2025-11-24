@@ -147,6 +147,11 @@ import resourceLinkService from '../../../services/resourceLinkService'
 import { useSecurityStore } from '~/stores/securityStore'
 import { useCourseSettings } from '~/stores/courseSettingStore'
 
+definePageMeta({
+  title: 'Ccalendarevent C Calendar Event List',
+  middleware: 'auth',
+})
+
 const store = useStore()
 const securityStore = useSecurityStore()
 const confirm = useConfirm()

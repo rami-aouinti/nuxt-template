@@ -296,6 +296,11 @@ import Column from 'primevue/column'
 import { useConfirm } from 'primevue/useconfirm'
 import { useQuery } from '@vue/apollo-composable'
 import {
+definePageMeta({
+  title: 'Message Message List',
+  middleware: 'auth',
+})
+
   MESSAGE_TYPE_INBOX,
   MESSAGE_TYPE_SENDER,
 } from '../../../constants/entity/message'

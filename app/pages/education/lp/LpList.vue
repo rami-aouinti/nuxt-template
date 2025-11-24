@@ -197,6 +197,11 @@ import BaseDropdownMenu from '../../../components/education/basecomponents/BaseD
 import { useCourseSettings } from '~/stores/courseSettingStore'
 import ExportPdfDialog from '../../../components/education/lp/ExportPdfDialog.vue'
 
+definePageMeta({
+  title: 'Lp Lp List',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()

@@ -75,6 +75,11 @@ import Toolbar from '../../../components/education/Toolbar.vue'
 import { useDatatableList } from '~/composables/education/datatableList'
 import { useLocale } from '~/composables/education/locale'
 
+definePageMeta({
+  title: 'Page List',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const store = useStore()
 const route = useRoute()

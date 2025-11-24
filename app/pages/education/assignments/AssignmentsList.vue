@@ -94,6 +94,11 @@ import { usePlatformConfig } from '~/stores/platformConfig'
 import { checkIsAllowedToEdit } from '~/composables/education/userPermissions'
 import cstudentpublicationService from '../../../services/cstudentpublication'
 
+definePageMeta({
+  title: 'Assignments Assignments List',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()

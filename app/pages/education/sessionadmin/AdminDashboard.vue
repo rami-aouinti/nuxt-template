@@ -33,6 +33,11 @@ import AdminCourseCard from '../../../components/education/course/AdminCourseCar
 import courseService from '../../../services/courseService'
 import { useSecurityStore } from '~/stores/securityStore'
 
+definePageMeta({
+  title: 'Sessionadmin Admin Dashboard',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const courses = ref([])
 const loading = ref(true)

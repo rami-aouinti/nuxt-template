@@ -10,6 +10,11 @@
 <script setup lang="ts">
 import Skeleton from 'primevue/skeleton'
 
+definePageMeta({
+  title: 'Sessions Sessions Loading',
+  middleware: 'auth',
+})
+
 defineProps({
   isLoading: {
     type: Boolean,
