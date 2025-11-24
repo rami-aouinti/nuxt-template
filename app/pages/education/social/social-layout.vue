@@ -23,8 +23,8 @@
 <script setup lang="ts">
 import { computed, onMounted, provide, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import SocialWall from './SocialWall.vue'
-import SocialSearch from './SocialSearch.vue'
+import SocialWall from './social-wall.vue'
+import SocialSearch from './social-search.vue'
 import UserProfileCard from '../../../components/education/social/UserProfileCard.vue'
 import MyGroupsCard from '../../../components/education/social/MyGroupsCard.vue'
 import MyFriendsCard from '../../../components/education/social/MyFriendsCard.vue'

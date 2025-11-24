@@ -337,9 +337,9 @@ import BaseSelect from '../../../components/education/basecomponents/BaseSelect.
 import BaseDialog from '../../../components/education/basecomponents/BaseDialog.vue'
 import BaseInputText from '../../../components/education/basecomponents/BaseInputText.vue'
 import { chamiloIconToClass } from '../../../components/education/basecomponents/ChamiloIcons'
-import DropboxFeedbackDialog from './DropboxFeedbackDialog.vue'
-import DropboxUpdateDialog from './DropboxUpdateDialog.vue'
-import DropboxMoveDialog from './DropboxMoveDialog.vue'
+import DropboxFeedbackDialog from './dropbox-feedback-dialog.vue'
+import DropboxUpdateDialog from './dropbox-update-dialog.vue'
+import DropboxMoveDialog from './dropbox-move-dialog.vue'
 
 definePageMeta({
   title: 'Dropbox Dropbox List Sent',

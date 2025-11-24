@@ -291,7 +291,7 @@ import { useFormatDate } from '~/composables/education/formatDate'
 import prettyBytes from 'pretty-bytes'
 import ResourceFileLink from '../../../components/education/documents/ResourceFileLink.vue'
 import BaseTable from '../../../components/education/basecomponents/BaseTable.vue'
-import Upload from '../filemanager/Upload.vue'
+import Upload from '../filemanager/upload.vue'
 
 definePageMeta({
   title: 'Personalfile List',
