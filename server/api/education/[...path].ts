@@ -144,14 +144,6 @@ async function resolveAuthorization(
   runtimeConfig: { educationApiAuth?: EducationAuthConfig },
   educationBaseUrl: string,
 ) {
-  const serviceAuthorization = await resolveServiceAuthorization(
-    runtimeConfig,
-    educationBaseUrl,
-  )
-  if (serviceAuthorization) {
-    return serviceAuthorization
-  }
-
   const token = resolveToken(session)
   if (token) {
     return `Bearer ${token}`
@@ -160,6 +152,14 @@ async function resolveAuthorization(
   const headerAuth = getHeader(event, 'authorization')
   if (headerAuth && headerAuth.trim().length > 0) {
     return headerAuth
+  }
+
+  const serviceAuthorization = await resolveServiceAuthorization(
+    runtimeConfig,
+    educationBaseUrl,
+  )
+  if (serviceAuthorization) {
+    return serviceAuthorization
   }
 
   return null
