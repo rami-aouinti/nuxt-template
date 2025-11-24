@@ -2,6 +2,8 @@ import { computed } from 'vue'
 
 export const EDUCATION_BASE_URL = 'https://education.bro-world.org'
 
+const educationRouteName = (name: string) => ({ name: name as string })
+
 export const useEducationNavigation = () => {
   const { t } = useI18n()
   const localePath = useLocalePath()
@@ -13,19 +15,29 @@ export const useEducationNavigation = () => {
       to: localePath('education'),
     },
     {
-      icon: 'mdi-book-account-outline',
-      label: t('pages.education.navigation.myCourses'),
-      to: localePath('education-my-courses'),
-    },
-    {
       icon: 'mdi-compass-rose',
       label: t('pages.education.navigation.exploreCourses'),
-      to: localePath('education-explore-courses'),
+      to: localePath(educationRouteName('education-course-catalogue-courses')),
+    },
+    {
+      icon: 'mdi-book-account-outline',
+      label: t('pages.education.navigation.myCourses'),
+      to: localePath(educationRouteName('education-user-courses-list')),
     },
     {
       icon: 'mdi-shield-crown-outline',
       label: t('pages.education.navigation.administration'),
-      to: localePath('education-administration'),
+      to: localePath(educationRouteName('education-admin-admin-index')),
+    },
+    {
+      icon: 'mdi-lock-check-outline',
+      label: t('pages.education.navigation.accessUrls'),
+      to: localePath(educationRouteName('education-accessurl-access-url-auth-sources-assign')),
+    },
+    {
+      icon: 'mdi-rss',
+      label: t('pages.education.navigation.blog'),
+      to: localePath(educationRouteName('education-blog-blog-posts')),
     },
   ])
 
@@ -33,32 +45,32 @@ export const useEducationNavigation = () => {
     {
       icon: 'mdi-home-variant-outline',
       label: t('pages.education.routes.platformHome'),
-      href: `${EDUCATION_BASE_URL}/`,
+      to: localePath('education'),
     },
     {
       icon: 'mdi-book-open-page-variant',
       label: t('pages.education.routes.library'),
-      href: `${EDUCATION_BASE_URL}/library`,
+      to: localePath(educationRouteName('education-course-catalogue-courses')),
     },
     {
       icon: 'mdi-playlist-star',
       label: t('pages.education.routes.recommendations'),
-      href: `${EDUCATION_BASE_URL}/courses/recommended`,
+      to: localePath(educationRouteName('education-user-courses-sticky-courses')),
     },
     {
       icon: 'mdi-certificate-outline',
       label: t('pages.education.routes.certificates'),
-      href: `${EDUCATION_BASE_URL}/certificates`,
+      to: localePath(educationRouteName('education-user-courses-list')),
     },
     {
       icon: 'mdi-account-school-outline',
       label: t('pages.education.routes.instructors'),
-      href: `${EDUCATION_BASE_URL}/instructors`,
+      to: localePath(educationRouteName('education-admin-admin-index')),
     },
     {
       icon: 'mdi-chart-areaspline',
       label: t('pages.education.routes.analytics'),
-      href: `${EDUCATION_BASE_URL}/analytics`,
+      to: localePath(educationRouteName('education-sessionadmin-admin-dashboard')),
     },
   ])
 
