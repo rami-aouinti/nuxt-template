@@ -28,6 +28,11 @@ import courseService from '../../../services/courseService'
 import AdminCourseCard from '../../../components/education/course/AdminCourseCard.vue'
 import { useSecurityStore } from '~/stores/securityStore'
 
+definePageMeta({
+  title: 'Sessionadmin Favorites Courses',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const favorites = ref([])
 const loading = ref(true)

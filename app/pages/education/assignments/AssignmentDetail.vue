@@ -184,6 +184,11 @@ import StudentViewButton from '../../../components/education/StudentViewButton.v
 import StudentSubmissionList from '../../../components/education/assignments/StudentSubmissionList.vue'
 import TeacherSubmissionList from '../../../components/education/assignments/TeacherSubmissionList.vue'
 
+definePageMeta({
+  title: 'Assignments Assignment Detail',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const { cid, sid, gid } = useCidReq()
 const route = useRoute()

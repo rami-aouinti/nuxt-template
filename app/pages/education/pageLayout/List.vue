@@ -87,6 +87,11 @@ import BaseTable from '../../../components/education/basecomponents/BaseTable.vu
 
 import pageService from '../../../services/pageService.js'
 
+definePageMeta({
+  title: 'Page Layout List',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const router = useRouter()
 

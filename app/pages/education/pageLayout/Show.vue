@@ -36,6 +36,11 @@ import PageLayoutRenderer from '../../../components/education/pageLayout/PageLay
 
 import pageService from '../../../services/pageService.js'
 
+definePageMeta({
+  title: 'Page Layout Show',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()

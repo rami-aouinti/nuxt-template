@@ -154,6 +154,11 @@ import BaseButton from '../../../components/education/basecomponents/BaseButton.
 import Dialog from 'primevue/dialog'
 import BaseCalendar from '../../../components/education/basecomponents/BaseCalendar.vue'
 
+definePageMeta({
+  title: 'Attendance Attendance Calendar List',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()

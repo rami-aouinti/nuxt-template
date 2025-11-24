@@ -45,6 +45,11 @@ import EmptyState from '../../../../components/education/EmptyState'
 import { useSecurityStore } from '~/stores/securityStore'
 import Loading from '../../../../components/education/Loading.vue'
 
+definePageMeta({
+  title: 'Courses List',
+  middleware: 'auth',
+})
+
 const securityStore = useSecurityStore()
 const { t } = useI18n()
 

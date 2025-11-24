@@ -30,6 +30,11 @@ import BaseToolbar from '../../../components/education/basecomponents/BaseToolba
 import BaseInputText from '../../../components/education/basecomponents/BaseInputText.vue'
 import BaseButton from '../../../components/education/basecomponents/BaseButton.vue'
 
+definePageMeta({
+  title: 'Dropbox Dropbox Category Update',
+  middleware: 'auth',
+})
+
 const route = useRoute()
 const router = useRouter()
 const cat = ref(null)

@@ -293,6 +293,11 @@ import ResourceFileLink from '../../../components/education/documents/ResourceFi
 import BaseTable from '../../../components/education/basecomponents/BaseTable.vue'
 import Upload from '../filemanager/Upload.vue'
 
+definePageMeta({
+  title: 'Personalfile List',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const { relativeDatetime } = useFormatDate()
 

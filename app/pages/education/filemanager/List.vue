@@ -49,6 +49,11 @@ import { checkIsAllowedToEdit } from '~/composables/education/userPermissions'
 import { useCidReqStore } from '~/stores/cidReq'
 import { storeToRefs } from 'pinia'
 
+definePageMeta({
+  title: 'Filemanager List',
+  middleware: 'auth',
+})
+
 const route = useRoute()
 const router = useRouter()
 

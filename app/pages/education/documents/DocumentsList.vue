@@ -471,6 +471,11 @@
 <script setup lang="ts">
 import { useStore } from 'vuex'
 import {
+definePageMeta({
+  title: 'Documents Documents List',
+  middleware: 'auth',
+})
+
   RESOURCE_LINK_DRAFT,
   RESOURCE_LINK_PUBLISHED,
 } from '~/constants/entity/resourcelink'

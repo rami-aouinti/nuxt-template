@@ -87,6 +87,11 @@ import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
 import BaseButton from '../../../components/education/basecomponents/BaseButton.vue'
 import BaseInputText from '../../../components/education/basecomponents/BaseInputText.vue'
 
+definePageMeta({
+  title: 'Assignments Assignment Submit',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()

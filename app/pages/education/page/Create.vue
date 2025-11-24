@@ -16,6 +16,11 @@ import Loading from '../../../components/education/Loading.vue'
 import { useDatatableCreate } from '~/composables/education/datatableCreate'
 import { useToast } from 'primevue/usetoast'
 
+definePageMeta({
+  title: 'Page Create',
+  middleware: 'auth',
+})
+
 const store = useStore()
 const securityStore = useSecurityStore()
 

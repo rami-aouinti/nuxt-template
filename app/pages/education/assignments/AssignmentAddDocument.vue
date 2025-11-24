@@ -66,6 +66,11 @@ import { ENTRYPOINT } from '~/config/entrypoint'
 import { useCidReq } from '~/composables/education/cidReq'
 import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
 
+definePageMeta({
+  title: 'Assignments Assignment Add Document',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()

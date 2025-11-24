@@ -106,6 +106,11 @@ import Column from 'primevue/column'
 
 import pageService from '../../../services/pageService.js'
 
+definePageMeta({
+  title: 'Page Layout List Templates',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const router = useRouter()
 

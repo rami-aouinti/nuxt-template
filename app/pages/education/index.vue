@@ -4,7 +4,8 @@ import AppCard from '~/components/App/AppCard.vue'
 import { useEducationNavigation } from '~/composables/useEducationNavigation'
 
 definePageMeta({
-  title: 'Education',
+  title: 'Index',
+  middleware: 'auth',
   appCardLayout: false,
 })
 
@@ -19,19 +20,19 @@ const featuredRoutes = computed(() => [
     icon: 'mdi-home-variant-outline',
     title: t('pages.education.sections.gettingStarted.title'),
     description: t('pages.education.sections.gettingStarted.description'),
-      to: localePath('/education/course/catalogue-courses'),
+    to: localePath('/education/course/catalogue-courses'),
   },
   {
     icon: 'mdi-progress-check',
     title: t('pages.education.sections.progress.title'),
     description: t('pages.education.sections.progress.description'),
-      to: localePath('/education/user/courses/list'),
+    to: localePath('/education/course/list'),
   },
   {
     icon: 'mdi-flask-outline',
     title: t('pages.education.sections.labs.title'),
     description: t('pages.education.sections.labs.description'),
-      to: localePath('/education/course/course-home'),
+    to: localePath('/education/course/course-home'),
   },
 ])
 
@@ -40,13 +41,13 @@ const discoveryItems = computed(() => [
     icon: 'mdi-playlist-check',
     title: t('pages.education.discovery.collections.title'),
     description: t('pages.education.discovery.collections.description'),
-      to: localePath('/education/links/list'),
+    to: localePath('/education/links/links-list'),
   },
   {
     icon: 'mdi-map-marker-path',
     title: t('pages.education.discovery.paths.title'),
     description: t('pages.education.discovery.paths.description'),
-      to: localePath('/education/terms/list'),
+    to: localePath('/education/terms/terms-list'),
   },
   {
     icon: 'mdi-account-group-outline',

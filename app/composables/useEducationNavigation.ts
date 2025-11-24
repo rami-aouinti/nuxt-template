@@ -22,7 +22,7 @@ export const useEducationNavigation = () => {
     {
       icon: 'mdi-book-account-outline',
       label: t('pages.education.navigation.myCourses'),
-      to: localePath('/education/user/courses/list'),
+      to: localePath('/education/course/list'),
     },
     {
       icon: 'mdi-shield-crown-outline',
@@ -60,7 +60,7 @@ export const useEducationNavigation = () => {
     {
       icon: 'mdi-certificate-outline',
       label: t('pages.education.routes.certificates'),
-      to: localePath('/education/user/courses/list'),
+      to: localePath('/education/course/list'),
     },
     {
       icon: 'mdi-account-school-outline',

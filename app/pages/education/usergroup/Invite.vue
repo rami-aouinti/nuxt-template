@@ -67,6 +67,11 @@ import { useRoute } from 'vue-router'
 import axios from 'axios'
 import { useSecurityStore } from '~/stores/securityStore'
 
+definePageMeta({
+  title: 'Usergroup Invite',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const route = useRoute()
 const securityStore = useSecurityStore()

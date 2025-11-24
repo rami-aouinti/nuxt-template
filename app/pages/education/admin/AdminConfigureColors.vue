@@ -81,6 +81,11 @@ import ColorThemeForm from '../../../components/education/admin/ColorThemeForm.v
 import BrandingSection from '../../../components/education/admin/BrandingSection.vue'
 import { usePlatformConfig } from '~/stores/platformConfig'
 
+definePageMeta({
+  title: 'Admin Admin Configure Colors',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const platformConfigStore = usePlatformConfig()
 const { visualTheme } = storeToRefs(platformConfigStore)

@@ -29,6 +29,11 @@ import DOMPurify from 'dompurify'
 import { useCidReqStore } from '~/stores/cidReq'
 import { storeToRefs } from 'pinia'
 
+definePageMeta({
+  title: 'Attendance Attendance Edit',
+  middleware: 'auth',
+})
+
 const cidReqStore = useCidReqStore()
 const { course } = storeToRefs(cidReqStore)
 const { t } = useI18n()

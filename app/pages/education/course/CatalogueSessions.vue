@@ -107,6 +107,11 @@ import * as userRelCourseVoteService from '../../../services/userRelCourseVoteSe
 
 import { usePlatformConfig } from '~/stores/platformConfig'
 
+definePageMeta({
+  title: 'Course Catalogue Sessions',
+  middleware: 'auth',
+})
+
 const router = useRouter()
 const securityStore = useSecurityStore()
 

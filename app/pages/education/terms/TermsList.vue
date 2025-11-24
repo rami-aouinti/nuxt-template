@@ -49,6 +49,11 @@ import Message from 'primevue/message'
 import languageService from '../../../services/languageService'
 import legalService from '../../../services/legalService'
 
+definePageMeta({
+  title: 'Terms Terms List',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const router = useRouter()
 const terms = ref([])

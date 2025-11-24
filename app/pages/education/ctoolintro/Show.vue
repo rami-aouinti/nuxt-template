@@ -99,6 +99,11 @@ import Loading from '../../../components/education/Loading.vue'
 import Toolbar from '../../../components/education/Toolbar.vue'
 import { useShowResource } from '~/composables/education/useShowResource'
 
+definePageMeta({
+  title: 'Ctoolintro Show',
+  middleware: 'auth',
+})
+
 const servicePrefix = 'ctoolintro'
 
 const { item, isLoading, del, editHandler, list } = useShowResource({

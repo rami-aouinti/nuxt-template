@@ -581,6 +581,11 @@ import BaseDialog from '../../../components/education/basecomponents/BaseDialog.
 import SectionHeader from '../../../components/education/layout/SectionHeader.vue'
 import StudentViewButton from '../../../components/education/StudentViewButton.vue'
 import attendanceService, {
+definePageMeta({
+  title: 'Attendance Attendance Sheet List',
+  middleware: 'auth',
+})
+
   ATTENDANCE_STATES,
 } from '../../../services/attendanceService'
 import { useCidReq } from '~/composables/education/cidReq'

@@ -22,6 +22,11 @@ import SessionCategoryView from '../../../../components/education/session/Sessio
 import { useSession } from './session'
 import Loading from '../../../../components/education/Loading.vue'
 
+definePageMeta({
+  title: 'Sessions Sessions Current',
+  middleware: 'auth',
+})
+
 const {
   isLoading,
   uncategorizedSessions,

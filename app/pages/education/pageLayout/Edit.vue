@@ -94,6 +94,11 @@ import PageLayoutEditor from '../../../components/education/pageLayout/PageLayou
 
 import pageService from '../../../services/pageService.js'
 
+definePageMeta({
+  title: 'Page Layout Edit',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()

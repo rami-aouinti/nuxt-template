@@ -22,6 +22,11 @@ import { useSecurityStore } from '~/stores/securityStore'
 import { useRoute } from 'vue-router'
 import { checkIsAllowedToEdit } from '~/composables/education/userPermissions'
 
+definePageMeta({
+  title: 'Documents Update',
+  middleware: 'auth',
+})
+
 const securityStore = useSecurityStore()
 const route = useRoute()
 const isAllowedToEdit = ref(false)

@@ -184,6 +184,11 @@ import linkService from '../../../services/linkService'
 import BaseDialogDelete from '../../../components/education/basecomponents/BaseDialogDelete.vue'
 import Skeleton from 'primevue/skeleton'
 import {
+definePageMeta({
+  title: 'Links Links List',
+  middleware: 'auth',
+})
+
   isVisible,
   toggleVisibilityProperty,
   visibilityFromBoolean,

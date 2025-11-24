@@ -11,6 +11,11 @@ import { useNotification } from '~/composables/education/notification.js'
 import BaseAvatarList from '../../../components/education/basecomponents/BaseAvatarList.vue'
 import BaseUserFinder from '../../../components/education/basecomponents/BaseUserFinder.vue'
 
+definePageMeta({
+  title: 'Accessurl Access Url Auth Sources Assign',
+  middleware: 'auth',
+})
+
 const { t } = useI18n()
 const router = useRouter()
 
