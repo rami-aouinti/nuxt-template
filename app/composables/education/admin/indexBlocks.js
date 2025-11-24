@@ -1,14 +1,14 @@
 import { onMounted, ref } from 'vue'
 import { usePlatformConfig } from '~/stores/platformConfig'
 import adminService from '~/services/adminService'
-import { useToast } from 'primevue/usetoast'
+import { useSafeToast } from '~/composables/useSafeToast'
 import { useSecurityStore } from '~/stores/securityStore'
 import { useI18n } from 'vue-i18n'
 
 export function useIndexBlocks() {
   const { t } = useI18n()
 
-  const toast = useToast()
+  const toast = useSafeToast()
 
   const platformConfigStore = usePlatformConfig()
   const securityStore = useSecurityStore()

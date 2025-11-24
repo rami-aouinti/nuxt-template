@@ -135,7 +135,7 @@ import CCalendarEventForm from '../../../components/education/ccalendarevent/CCa
 import CCalendarEventInfo from '../../../components/education/ccalendarevent/CCalendarEventInfo'
 import allLocales from '@fullcalendar/core/locales-all'
 import BaseButton from '../../../components/education/basecomponents/BaseButton.vue'
-import { useToast } from 'primevue/usetoast'
+import { useSafeToast } from '~/composables/useSafeToast'
 import { useCidReqStore } from '~/stores/cidReq'
 import { RESOURCE_LINK_PUBLISHED } from '~/constants/entity/resourcelink'
 import { useLocale, useParentLocale } from '~/composables/education/locale'
@@ -563,7 +563,7 @@ async function onCreateEventForm() {
   }
 }
 
-const toast = useToast()
+const toast = useSafeToast()
 
 watch(
   () => route.query.type,
