@@ -24,6 +24,14 @@ const DEFAULT_ECOMMERCE_ADMIN_EMAIL = 'rami.aouinti@gmail.com'
 const DEFAULT_ECOMMERCE_ADMIN_PASSWORD = '19891989aA!'
 const DEFAULT_ECOMMERCE_SHOP_EMAIL = 'rami.aouiti@gmail.com'
 const DEFAULT_ECOMMERCE_SHOP_PASSWORD = '19891989aA!'
+const DEFAULT_EDUCATION_API_BASE_URL = 'https://education.bro-world.org'
+const DEFAULT_EDUCATION_API_USERNAME = 'admin'
+const DEFAULT_EDUCATION_API_PASSWORD = '19891989aA!'
+
+const educationApiBaseUrl =
+  process.env.NUXT_EDUCATION_API_BASE_URL ||
+  process.env.EDUCATION_API_BASE_URL ||
+  DEFAULT_EDUCATION_API_BASE_URL
 
 const mercureUrl = process.env.MERCURE_URL || DEFAULT_MERCURE_URL
 const mercurePublicUrl =
@@ -208,6 +216,18 @@ export default defineNuxtConfig({
     vueI18n: './app/i18n/i18n.config.ts',
   },
   runtimeConfig: {
+    educationApiBaseUrl,
+    educationApiAuth: {
+      token: process.env.EDUCATION_API_AUTH_TOKEN || '',
+      username:
+        process.env.NUXT_EDUCATION_API_USERNAME ||
+        process.env.EDUCATION_API_USERNAME ||
+        DEFAULT_EDUCATION_API_USERNAME,
+      password:
+        process.env.NUXT_EDUCATION_API_PASSWORD ||
+        process.env.EDUCATION_API_PASSWORD ||
+        DEFAULT_EDUCATION_API_PASSWORD,
+    },
     mercure: {
       url: mercureUrl,
       publicUrl: mercurePublicUrl,
@@ -279,6 +299,11 @@ export default defineNuxtConfig({
       ),
     },
     public: {
+      educationApiBaseUrl:
+        process.env.NUXT_PUBLIC_EDUCATION_API_BASE_URL || educationApiBaseUrl,
+      educationApiProxyBaseUrl:
+        process.env.NUXT_PUBLIC_EDUCATION_API_PROXY_BASE_URL ||
+        '/api/education',
       mercure: {
         hubUrl: mercurePublicUrl,
       },

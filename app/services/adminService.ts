@@ -1,9 +1,6 @@
 // @ts-nocheck
 import baseService from './baseService'
 
-const adminBlocksEnabled =
-  process.env.NUXT_PUBLIC_EDUCATION_ADMIN_BLOCKS !== 'false'
-
 export default {
   registerCampus: async (doNotListCampus) => {
     await baseService.post('/admin/register-campus', {
@@ -16,22 +13,7 @@ export default {
   findVersion: () => baseService.get('/main/inc/ajax/admin.ajax.php?a=version'),
   findSupport: () =>
     baseService.get('/main/inc/ajax/admin.ajax.php?a=get_support'),
-  findBlocks: async () => {
-    if (!adminBlocksEnabled) {
-      return {}
-    }
-
-    try {
-      return await baseService.get('/admin/index')
-    } catch (error) {
-      console.warn(
-        'Admin index endpoint unavailable, returning empty blocks',
-        error,
-      )
-
-      return {}
-    }
-  },
+  findBlocks: async () => ({}),
 
   fetchThirdParties: async () => {
     const data = await baseService.get('/api/third_parties')
