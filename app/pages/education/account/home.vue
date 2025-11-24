@@ -14,7 +14,7 @@
 import { onMounted, provide, computed } from 'vue'
 import UserProfileCard from '../../../components/education/social/UserProfileCard.vue'
 import { useSocialInfo } from '~/composables/education/useSocialInfo.js'
-import SocialWall from '../social/SocialWall.vue'
+import SocialWall from '../social/social-wall.vue'
 import { usePlatformConfig } from '~/stores/platformConfig'
 
 definePageMeta({
