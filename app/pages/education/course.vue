@@ -262,7 +262,7 @@ function addDocumentToCourse() {
       max-width="680"
       scrollable
     >
-        <div v-if="activeCourse" class="py-4 px-2">
+      <div v-if="activeCourse" class="py-4 px-2">
         <div class="mb-2 text-body-2 text-medium-emphasis">ID: {{ activeCourse.id }}</div>
         <div class="text-subtitle-1 font-weight-bold mb-1">{{ activeCourse.title }}</div>
         <div class="text-body-2 mb-3">{{ t('Code') }}: {{ activeCourse.code }}</div>
@@ -307,7 +307,7 @@ function addDocumentToCourse() {
       max-width="640"
       scrollable
     >
-        <div v-if="activeCourse" class="pa-2">
+      <div v-if="activeCourse" class="pa-2">
         <div class="text-body-2 text-medium-emphasis mb-3">
           {{ t('Associer un participant au cours') }}: {{ activeCourse.title }}
         </div>
@@ -330,7 +330,7 @@ function addDocumentToCourse() {
       max-width="640"
       scrollable
     >
-        <div v-if="activeCourse" class="pa-2">
+      <div v-if="activeCourse" class="pa-2">
         <div class="text-body-2 text-medium-emphasis mb-3">
           {{ t('Attacher un document au cours') }}: {{ activeCourse.title }}
         </div>
