@@ -1,6 +1,5 @@
 <template>
-  <EducationShell>
-    <v-container class="py-10">
+  <v-container class="py-10">
     <v-row class="mb-6" align="center" justify="space-between">
       <v-col cols="12" md="8">
         <div class="text-caption text-uppercase text-primary mb-1">{{ t('Courses') }}</div>
@@ -53,7 +52,7 @@
 
     <v-row>
       <v-col cols="12">
-        <v-card class="pa-6" rounded="xl" elevation="4">
+        <AppCard class="pa-6" elevation="4" hover>
           <div class="d-flex align-center mb-4 gap-3">
             <v-avatar color="primary" variant="tonal">
               <v-icon icon="mdi-school-outline" />
@@ -72,20 +71,19 @@
             :values="item"
             @submit="submitCourse"
           />
-        </v-card>
+        </AppCard>
       </v-col>
     </v-row>
 
     <v-overlay :model-value="isLoading" class="align-center justify-center" persistent>
       <v-progress-circular color="primary" indeterminate size="64" />
     </v-overlay>
-    </v-container>
-  </EducationShell>
+  </v-container>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import EducationShell from '~/components/education/EducationShell.vue'
+import AppCard from '~/components/App/AppCard.vue'
 import CourseForm from '../../../components/education/course/Form.vue'
 import courseService from '../../../services/courseService'
 import { useNotification } from '~/composables/education/notification'

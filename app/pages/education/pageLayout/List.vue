@@ -1,5 +1,5 @@
 <template>
-  <EducationShell>
+  <div class="page-layouts">
     <SectionHeader :title="t('Page layouts')">
       <div class="flex gap-4">
         <BaseButton
@@ -73,13 +73,12 @@
     >
       <span>{{ t('Are you sure you want to delete this layout?') }}</span>
     </BaseDialogConfirmCancel>
-  </EducationShell>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
-import EducationShell from '~/components/education/EducationShell.vue'
 import BaseButton from '../../../components/education/basecomponents/BaseButton.vue'
 import SectionHeader from '../../../components/education/layout/SectionHeader.vue'
 import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
