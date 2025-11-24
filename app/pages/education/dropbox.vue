@@ -1,25 +1,67 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { useI18n } from '#imports'
 import AppCard from '~/components/App/AppCard.vue'
 import AppModal from '~/components/App/AppModal.vue'
+import dropboxService from '~/services/dropbox'
 
 const { t } = useI18n()
 
-const receivedItems = ref([
-  { id: 1, title: 'Rapport équipe', status: 'À revoir', dueDate: '2024-05-22' },
-  { id: 2, title: 'Livrable sprint', status: 'Validé', dueDate: '2024-05-18' },
-])
+const receivedItems = ref<any[]>([])
+const sentItems = ref<any[]>([])
+const categories = ref<any[]>([])
+const loadingDropbox = ref(false)
+const loadingCategories = ref(false)
 
-const sentItems = ref([
-  { id: 3, title: 'Devoir 2', status: 'En attente', dueDate: '2024-05-25' },
-  { id: 4, title: 'Projet final', status: 'Envoyé', dueDate: '2024-06-01' },
-])
+async function loadDropbox() {
+  loadingDropbox.value = true
+  try {
+    const [received, sent] = await Promise.all([
+      dropboxService.listFiles({ area: 'received' }),
+      dropboxService.listFiles({ area: 'sent' }),
+    ])
 
-const categories = ref([
-  { id: 1, name: 'Devoirs', visibility: 'Public' },
-  { id: 2, name: 'Feedback', visibility: 'Privé' },
-])
+    receivedItems.value = (received?.items ?? received ?? []).map((item) => ({
+      ...item,
+      id: item.id,
+      title: item.title || item.name,
+      status: item.status || item.state,
+      dueDate: item.dueDate || item.deadline,
+    }))
+
+    sentItems.value = (sent?.items ?? sent ?? []).map((item) => ({
+      ...item,
+      id: item.id,
+      title: item.title || item.name,
+      status: item.status || item.state,
+      dueDate: item.dueDate || item.deadline,
+    }))
+  } catch (error) {
+    console.warn('[Dropbox] Failed to load files', error)
+    receivedItems.value = []
+    sentItems.value = []
+  } finally {
+    loadingDropbox.value = false
+  }
+}
+
+async function loadDropboxCategories() {
+  loadingCategories.value = true
+  try {
+    const data = await dropboxService.listCategories({ area: 'sent' })
+    categories.value = (data?.items ?? data ?? []).map((category) => ({
+      ...category,
+      id: category.id,
+      name: category.title || category.name,
+      visibility: category.visibility || category.access,
+    }))
+  } catch (error) {
+    console.warn('[Dropbox] Failed to load categories', error)
+    categories.value = []
+  } finally {
+    loadingCategories.value = false
+  }
+}
 
 const modalState = reactive({
   create: false,
@@ -49,6 +91,11 @@ const categoryHeaders = [
   { title: t('Visibilité'), key: 'visibility', width: 140 },
   { title: t('Actions'), key: 'actions', sortable: false, width: 160 },
 ]
+
+onMounted(() => {
+  loadDropbox()
+  loadDropboxCategories()
+})
 
 function openCreateModal() {
   modalState.create = true

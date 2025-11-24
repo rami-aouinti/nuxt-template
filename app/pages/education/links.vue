@@ -1,20 +1,58 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { useI18n } from '#imports'
 import AppCard from '~/components/App/AppCard.vue'
 import AppModal from '~/components/App/AppModal.vue'
+import linkService from '~/services/linkService'
 
 const { t } = useI18n()
 
-const linkCategories = ref([
-  { id: 1, name: 'Ressources', visibility: 'Public' },
-  { id: 2, name: 'Révisions', visibility: 'Privé' },
-])
+const linkCategories = ref<any[]>([])
+const links = ref<any[]>([])
+const loadingLinks = ref(false)
+const loadingCategories = ref(false)
 
-const links = ref([
-  { id: 1, title: 'Documentation Vuetify', url: 'https://vuetifyjs.com', category: 'Ressources' },
-  { id: 2, title: 'Portail campus', url: 'https://campus.local', category: 'Révisions' },
-])
+async function loadCategories() {
+  loadingCategories.value = true
+  try {
+    const data = await linkService.getCategories(0)
+    linkCategories.value = Array.isArray(data)
+      ? data.map((category) => ({
+          ...category,
+          id: category.id,
+          name: category.title || category.name,
+          visibility: category.visibility || category.access || t('Inconnu'),
+        }))
+      : []
+  } catch (error) {
+    console.warn('[Links] Failed to load categories', error)
+    linkCategories.value = []
+  } finally {
+    loadingCategories.value = false
+  }
+}
+
+async function loadLinks() {
+  loadingLinks.value = true
+  try {
+    const data = await linkService.getLinks()
+    const items = data?.items ?? data?.['hydra:member'] ?? data ?? []
+    links.value = Array.isArray(items)
+      ? items.map((link) => ({
+          ...link,
+          id: link.id,
+          title: link.title || link.name,
+          url: link.url,
+          category: link.category?.title || link.category?.name,
+        }))
+      : []
+  } catch (error) {
+    console.warn('[Links] Failed to load links', error)
+    links.value = []
+  } finally {
+    loadingLinks.value = false
+  }
+}
 
 const modalState = reactive({
   createLink: false,
@@ -41,6 +79,11 @@ const categoryHeaders = [
   { title: t('Actions'), key: 'actions', sortable: false, width: 160 },
 ]
 
+onMounted(() => {
+  loadCategories()
+  loadLinks()
+})
+
 function openCreateLink() {
   linkPayload.title = ''
   linkPayload.url = ''
@@ -64,40 +107,79 @@ function openUpdateCategory(item) {
   modalState.updateCategory = true
 }
 
-function saveLink() {
+async function saveLink() {
   if (!linkPayload.title || !linkPayload.url) return
-  const nextId = Math.max(...links.value.map((link) => link.id)) + 1
-  links.value.push({ id: nextId, ...linkPayload })
-  modalState.createLink = false
+  try {
+    await linkService.createLink({
+      title: linkPayload.title,
+      url: linkPayload.url,
+      category: linkPayload.category,
+    })
+    await loadLinks()
+  } catch (error) {
+    console.warn('[Links] Failed to create link', error)
+  } finally {
+    modalState.createLink = false
+  }
 }
 
-function saveLinkUpdate() {
+async function saveLinkUpdate() {
   if (!activeLink.value) return
-  links.value = links.value.map((link) => (link.id === activeLink.value?.id ? { ...activeLink.value } : link))
-  modalState.updateLink = false
+  try {
+    await linkService.updateLink(activeLink.value.id, { ...activeLink.value })
+    await loadLinks()
+  } catch (error) {
+    console.warn('[Links] Failed to update link', error)
+  } finally {
+    modalState.updateLink = false
+  }
 }
 
-function removeLink(item) {
-  links.value = links.value.filter((link) => link.id !== item.id)
+async function removeLink(item) {
+  try {
+    await linkService.deleteLink(item.id)
+    await loadLinks()
+  } catch (error) {
+    console.warn('[Links] Failed to delete link', error)
+  }
 }
 
-function saveCategory() {
+async function saveCategory() {
   if (!categoryPayload.name) return
-  const nextId = Math.max(...linkCategories.value.map((cat) => cat.id)) + 1
-  linkCategories.value.push({ id: nextId, ...categoryPayload })
-  modalState.createCategory = false
+  try {
+    await linkService.createCategory({
+      title: categoryPayload.name,
+      visibility: categoryPayload.visibility,
+    })
+    await loadCategories()
+  } catch (error) {
+    console.warn('[Links] Failed to create category', error)
+  } finally {
+    modalState.createCategory = false
+  }
 }
 
-function saveCategoryUpdate() {
+async function saveCategoryUpdate() {
   if (!activeCategory.value) return
-  linkCategories.value = linkCategories.value.map((cat) =>
-    cat.id === activeCategory.value?.id ? { ...activeCategory.value } : cat,
-  )
-  modalState.updateCategory = false
+  try {
+    await linkService.updateCategory(activeCategory.value.id, {
+      ...activeCategory.value,
+    })
+    await loadCategories()
+  } catch (error) {
+    console.warn('[Links] Failed to update category', error)
+  } finally {
+    modalState.updateCategory = false
+  }
 }
 
-function removeCategory(item) {
-  linkCategories.value = linkCategories.value.filter((cat) => cat.id !== item.id)
+async function removeCategory(item) {
+  try {
+    await linkService.deleteCategory(item.id)
+    await loadCategories()
+  } catch (error) {
+    console.warn('[Links] Failed to delete category', error)
+  }
 }
 </script>
 

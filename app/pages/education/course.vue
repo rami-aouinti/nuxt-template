@@ -1,29 +1,42 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useI18n } from '#imports'
 import AppCard from '~/components/App/AppCard.vue'
 import AppModal from '~/components/App/AppModal.vue'
+import baseService from '~/services/baseService'
+import courseService from '~/services/courseService'
 
 const { t } = useI18n()
 
-const courses = ref([
-  {
-    id: 101,
-    title: 'Marketing Digital',
-    code: 'MKT-201',
-    visibility: 'Public',
-    startDate: '2024-06-10',
-    seats: 24,
-  },
-  {
-    id: 102,
-    title: 'Gestion de Projet',
-    code: 'PRJ-101',
-    visibility: 'Privé',
-    startDate: '2024-07-01',
-    seats: 18,
-  },
-])
+const courses = ref<any[]>([])
+const loadingCourses = ref(false)
+
+async function loadCourses() {
+  loadingCourses.value = true
+  try {
+    const response = await courseService.listAll({ page: 1, itemsPerPage: 50 })
+    const items = response?.items ?? response?.['hydra:member'] ?? []
+
+    courses.value = items.map((course) => ({
+      ...course,
+      id: course.id,
+      title: course.title || course.name || t('Sans titre'),
+      code: course.code || course.visualCode || course.codeNumber,
+      visibility: course.visibility || (course.isPublic ? t('Public') : t('Privé')),
+      startDate: course.startDate || course.creationDate,
+      seats:
+        course.registeredStudents ||
+        course.users?.length ||
+        course.maxStudents ||
+        course.subscription?.users,
+    }))
+  } catch (error) {
+    console.warn('[Course] Failed to load courses', error)
+    courses.value = []
+  } finally {
+    loadingCourses.value = false
+  }
+}
 
 const learnerCourses = computed(() =>
   courses.value.map((course) => ({
@@ -61,6 +74,8 @@ const headers = [
   { title: t('Actions'), key: 'actions', sortable: false, align: 'end' },
 ]
 
+onMounted(loadCourses)
+
 function openCreateModal() {
   modalState.create = true
 }
@@ -85,36 +100,44 @@ function openAddDocument(item) {
   modalState.addDocument = true
 }
 
-function saveCreatedCourse() {
+async function saveCreatedCourse() {
   if (!newCourse.title || !newCourse.code) return
-  const nextId = Math.max(...courses.value.map((c) => c.id)) + 1
-  courses.value.push({
-    id: nextId,
-    title: newCourse.title,
-    code: newCourse.code,
-    visibility: newCourse.visibility,
-    startDate: newCourse.startDate,
-    seats: 0,
-  })
-  modalState.create = false
-  newCourse.title = ''
-  newCourse.code = ''
-  newCourse.startDate = ''
-  newCourse.visibility = 'Public'
-  newCourse.description = ''
-}
-
-function saveEditedCourse() {
-  if (!activeCourse.value) return
-  const index = courses.value.findIndex((item) => item.id === activeCourse.value?.id)
-  if (index >= 0) {
-    courses.value[index] = { ...activeCourse.value }
+  try {
+    await courseService.createCourse({ ...newCourse })
+    await loadCourses()
+  } catch (error) {
+    console.warn('[Course] Failed to create course', error)
+  } finally {
+    modalState.create = false
+    newCourse.title = ''
+    newCourse.code = ''
+    newCourse.startDate = ''
+    newCourse.visibility = 'Public'
+    newCourse.description = ''
   }
-  modalState.edit = false
 }
 
-function removeCourse(item) {
-  courses.value = courses.value.filter((row) => row.id !== item.id)
+async function saveEditedCourse() {
+  if (!activeCourse.value) return
+  try {
+    await baseService.put(`/api/courses/${activeCourse.value.id}`, {
+      ...activeCourse.value,
+    })
+    await loadCourses()
+  } catch (error) {
+    console.warn('[Course] Failed to update course', error)
+  } finally {
+    modalState.edit = false
+  }
+}
+
+async function removeCourse(item) {
+  try {
+    await baseService.delete(`/api/courses/${item.id}`)
+    await loadCourses()
+  } catch (error) {
+    console.warn('[Course] Failed to delete course', error)
+  }
 }
 
 function addUserToCourse() {
@@ -262,7 +285,7 @@ function addDocumentToCourse() {
       max-width="680"
       scrollable
     >
-      <div v-if="activeCourse" class="py-4 px-2">
+        <div v-if="activeCourse" class="py-4 px-2">
         <div class="mb-2 text-body-2 text-medium-emphasis">ID: {{ activeCourse.id }}</div>
         <div class="text-subtitle-1 font-weight-bold mb-1">{{ activeCourse.title }}</div>
         <div class="text-body-2 mb-3">{{ t('Code') }}: {{ activeCourse.code }}</div>
@@ -307,7 +330,7 @@ function addDocumentToCourse() {
       max-width="640"
       scrollable
     >
-      <div v-if="activeCourse" class="pa-2">
+        <div v-if="activeCourse" class="pa-2">
         <div class="text-body-2 text-medium-emphasis mb-3">
           {{ t('Associer un participant au cours') }}: {{ activeCourse.title }}
         </div>
@@ -330,7 +353,7 @@ function addDocumentToCourse() {
       max-width="640"
       scrollable
     >
-      <div v-if="activeCourse" class="pa-2">
+        <div v-if="activeCourse" class="pa-2">
         <div class="text-body-2 text-medium-emphasis mb-3">
           {{ t('Attacher un document au cours') }}: {{ activeCourse.title }}
         </div>

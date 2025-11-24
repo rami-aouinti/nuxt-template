@@ -1,27 +1,37 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useI18n } from '#imports'
 import AppCard from '~/components/App/AppCard.vue'
 import AppModal from '~/components/App/AppModal.vue'
+import documentsService from '~/services/documents'
 
 const { t } = useI18n()
 
-const documents = ref([
-  {
-    id: 1,
-    title: 'Guide enseignant',
-    type: 'PDF',
-    owner: 'Admin',
-    tags: ['pédagogie', 'référence'],
-  },
-  {
-    id: 2,
-    title: 'Livret étudiant',
-    type: 'DOCX',
-    owner: 'Éducation',
-    tags: ['accueil'],
-  },
-])
+const documents = ref<any[]>([])
+const loadingDocuments = ref(false)
+
+async function loadDocuments() {
+  loadingDocuments.value = true
+  try {
+    const response = await documentsService.findAll()
+    const items = response?.['hydra:member'] ?? response?.items ?? response ?? []
+    documents.value = Array.isArray(items)
+      ? items.map((doc) => ({
+          ...doc,
+          id: doc.id,
+          title: doc.title || doc.name,
+          type: doc.type || doc.filetype,
+          owner: doc.owner?.username || doc.owner || doc.uploader,
+          tags: doc.tags || doc.keywords,
+        }))
+      : []
+  } catch (error) {
+    console.warn('[Documents] Failed to load documents', error)
+    documents.value = []
+  } finally {
+    loadingDocuments.value = false
+  }
+}
 
 const libraryDocuments = computed(() =>
   documents.value.map((doc) => ({
@@ -51,6 +61,8 @@ const headers = [
   { title: t('Actions'), key: 'actions', sortable: false, width: 200 },
 ]
 
+onMounted(loadDocuments)
+
 function openCreateModal() {
   modalState.create = true
 }
@@ -74,37 +86,46 @@ function openVariation(item) {
   modalState.variation = true
 }
 
-function saveCreatedDocument() {
+async function saveCreatedDocument() {
   if (!newDocument.title) return
-  const nextId = Math.max(...documents.value.map((d) => d.id)) + 1
-  documents.value.push({
-    id: nextId,
-    title: newDocument.title,
-    type: newDocument.type,
-    owner: newDocument.owner,
-    tags: newDocument.tags.split(',').map((tag) => tag.trim()).filter(Boolean),
-  })
-  modalState.create = false
-  newDocument.title = ''
-  newDocument.type = 'PDF'
-  newDocument.tags = ''
-  newDocument.owner = 'Admin'
-}
-
-function saveEditedDocument() {
-  if (!activeDocument.value) return
-  const index = documents.value.findIndex((doc) => doc.id === activeDocument.value?.id)
-  if (index >= 0) {
-    documents.value[index] = {
-      ...activeDocument.value,
-      tags: activeDocument.value.tags?.map?.((tag) => tag) || [],
-    }
+  try {
+    await documentsService.create({
+      ...newDocument,
+      tags: newDocument.tags,
+    })
+    await loadDocuments()
+  } catch (error) {
+    console.warn('[Documents] Failed to create document', error)
+  } finally {
+    modalState.create = false
+    newDocument.title = ''
+    newDocument.type = 'PDF'
+    newDocument.tags = ''
+    newDocument.owner = 'Admin'
   }
-  modalState.edit = false
 }
 
-function removeDocument(item) {
-  documents.value = documents.value.filter((doc) => doc.id !== item.id)
+async function saveEditedDocument() {
+  if (!activeDocument.value) return
+  const iri = activeDocument.value['@id'] || `/api/documents/${activeDocument.value.id}`
+  try {
+    await documentsService.update({ ...activeDocument.value, '@id': iri })
+    await loadDocuments()
+  } catch (error) {
+    console.warn('[Documents] Failed to update document', error)
+  } finally {
+    modalState.edit = false
+  }
+}
+
+async function removeDocument(item) {
+  const iri = item?.['@id'] || `/api/documents/${item?.id}`
+  try {
+    await documentsService.del({ '@id': iri })
+    await loadDocuments()
+  } catch (error) {
+    console.warn('[Documents] Failed to delete document', error)
+  }
 }
 
 function uploadDocument() {

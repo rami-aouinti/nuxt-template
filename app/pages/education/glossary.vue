@@ -1,15 +1,36 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useI18n } from '#imports'
 import AppCard from '~/components/App/AppCard.vue'
 import AppModal from '~/components/App/AppModal.vue'
+import glossaryService from '~/services/glossaryService'
 
 const { t } = useI18n()
 
-const terms = ref([
-  { id: 1, term: 'LMS', definition: 'Learning Management System', language: 'Français' },
-  { id: 2, term: 'CTA', definition: 'Call To Action', language: 'Anglais' },
-])
+const terms = ref<any[]>([])
+const loadingTerms = ref(false)
+
+async function loadGlossary() {
+  loadingTerms.value = true
+  try {
+    const response = await glossaryService.getGlossaryTerms()
+    const items = response?.['hydra:member'] ?? response?.items ?? response ?? []
+    terms.value = Array.isArray(items)
+      ? items.map((term) => ({
+          ...term,
+          id: term.id,
+          term: term.name || term.term,
+          definition: term.definition || term.description,
+          language: term.language || term.lang,
+        }))
+      : []
+  } catch (error) {
+    console.warn('[Glossary] Failed to load terms', error)
+    terms.value = []
+  } finally {
+    loadingTerms.value = false
+  }
+}
 
 const filters = reactive({ query: '', language: 'Tous' })
 
@@ -30,6 +51,8 @@ const headers = [
   { title: t('Langue'), key: 'language', width: 140 },
   { title: t('Actions'), key: 'actions', sortable: false, width: 180 },
 ]
+
+onMounted(loadGlossary)
 
 const filteredTerms = computed(() =>
   terms.value.filter((item) => {
@@ -62,29 +85,51 @@ function openExport() {
   modalState.export = true
 }
 
-function saveTerm() {
+async function saveTerm() {
   if (!termPayload.term || !termPayload.definition) return
-  const nextId = Math.max(...terms.value.map((t) => t.id)) + 1
-  terms.value.push({ id: nextId, ...termPayload })
-  modalState.create = false
+  try {
+    await glossaryService.createGlossaryTerm({
+      name: termPayload.term,
+      definition: termPayload.definition,
+      language: termPayload.language,
+    })
+    await loadGlossary()
+  } catch (error) {
+    console.warn('[Glossary] Failed to create term', error)
+  } finally {
+    modalState.create = false
+  }
 }
 
-function saveUpdate() {
+async function saveUpdate() {
   if (!activeTerm.value) return
-  terms.value = terms.value.map((term) => (term.id === activeTerm.value?.id ? { ...activeTerm.value } : term))
-  modalState.update = false
+  try {
+    await glossaryService.updateGlossaryTerm(activeTerm.value.id, {
+      ...activeTerm.value,
+    })
+    await loadGlossary()
+  } catch (error) {
+    console.warn('[Glossary] Failed to update term', error)
+  } finally {
+    modalState.update = false
+  }
 }
 
-function removeTerm(item) {
-  terms.value = terms.value.filter((term) => term.id !== item.id)
+async function removeTerm(item) {
+  try {
+    await glossaryService.deleteTerm(item.id)
+    await loadGlossary()
+  } catch (error) {
+    console.warn('[Glossary] Failed to delete term', error)
+  }
 }
 
-function importGlossary() {
+async function importGlossary() {
   modalState.import = false
   importPayload.file = ''
 }
 
-function exportGlossary() {
+async function exportGlossary() {
   modalState.export = false
 }
 </script>

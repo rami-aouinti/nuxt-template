@@ -1,27 +1,50 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useI18n } from '#imports'
 import AppCard from '~/components/App/AppCard.vue'
 import AppModal from '~/components/App/AppModal.vue'
+import { useCidReq } from '~/composables/cidReq'
+import cstudentpublicationService from '~/services/cstudentpublication'
 
 const { t } = useI18n()
 
-const adminAssignments = ref([
-  {
-    id: 1,
-    title: 'Devoir 1',
-    status: 'Publié',
-    deadline: '2024-05-20',
-    submissions: 12,
-  },
-  {
-    id: 2,
-    title: 'Projet final',
-    status: 'Brouillon',
-    deadline: '2024-06-15',
-    submissions: 3,
-  },
-])
+const adminAssignments = ref<any[]>([])
+const loadingAssignments = ref(false)
+const { cid, sid, gid } = useCidReq()
+
+async function loadAssignments() {
+  loadingAssignments.value = true
+  try {
+    const response = await cstudentpublicationService.findAll({ cid, sid, gid })
+    const items = response?.['hydra:member'] ?? response?.items ?? response ?? []
+    adminAssignments.value = Array.isArray(items)
+      ? items.map((assignment) => ({
+          ...assignment,
+          id:
+            assignment.id ||
+            assignment.resourceNode?.id ||
+            assignment['@id'] ||
+            assignment.publicationId,
+          title: assignment.title || assignment.name || t('Sans titre'),
+          status: assignment.status || assignment.visibility || t('Inconnu'),
+          deadline:
+            assignment.endDate ||
+            assignment['end-date'] ||
+            assignment.deadline ||
+            assignment.expirationDate,
+          submissions:
+            assignment.submissionsCount ||
+            assignment.submissions?.length ||
+            assignment.submissions,
+        }))
+      : []
+  } catch (error) {
+    console.warn('[Assignments] Failed to load assignments', error)
+    adminAssignments.value = []
+  } finally {
+    loadingAssignments.value = false
+  }
+}
 
 const educationAssignments = computed(() =>
   adminAssignments.value.map((assignment) => ({
@@ -50,6 +73,8 @@ const headers = [
   { title: t('Actions'), key: 'actions', sortable: false, align: 'end' },
 ]
 
+onMounted(loadAssignments)
+
 function openCreateModal() {
   modalState.create = true
 }
@@ -74,35 +99,54 @@ function openAddDocument(item) {
   modalState.addDocument = true
 }
 
-function saveCreatedAssignment() {
+async function saveCreatedAssignment() {
   if (!newAssignment.title) return
-  const nextId = Math.max(...adminAssignments.value.map((a) => a.id)) + 1
-  adminAssignments.value.push({
-    id: nextId,
-    title: newAssignment.title,
-    status: 'Brouillon',
-    deadline: newAssignment.deadline,
-    submissions: 0,
-  })
-  modalState.create = false
-  newAssignment.title = ''
-  newAssignment.deadline = ''
-  newAssignment.description = ''
-}
-
-function saveEditedAssignment() {
-  if (!activeAssignment.value) return
-  const index = adminAssignments.value.findIndex(
-    (item) => item.id === activeAssignment.value?.id,
-  )
-  if (index >= 0) {
-    adminAssignments.value[index] = { ...activeAssignment.value }
+  try {
+    await cstudentpublicationService.create({
+      ...newAssignment,
+      cid,
+      sid,
+      gid,
+    })
+    await loadAssignments()
+  } catch (error) {
+    console.warn('[Assignments] Failed to create assignment', error)
+  } finally {
+    modalState.create = false
+    newAssignment.title = ''
+    newAssignment.deadline = ''
+    newAssignment.description = ''
   }
-  modalState.edit = false
 }
 
-function removeAssignment(item) {
-  adminAssignments.value = adminAssignments.value.filter((row) => row.id !== item.id)
+async function saveEditedAssignment() {
+  if (!activeAssignment.value) return
+
+  const iri =
+    activeAssignment.value['@id'] ||
+    `/api/c_student_publications/${activeAssignment.value.id}`
+
+  try {
+    await cstudentpublicationService.update({
+      ...activeAssignment.value,
+      '@id': iri,
+    })
+    await loadAssignments()
+  } catch (error) {
+    console.warn('[Assignments] Failed to update assignment', error)
+  } finally {
+    modalState.edit = false
+  }
+}
+
+async function removeAssignment(item) {
+  const iri = item?.['@id'] || `/api/c_student_publications/${item?.id}`
+  try {
+    await cstudentpublicationService.del({ '@id': iri })
+    await loadAssignments()
+  } catch (error) {
+    console.warn('[Assignments] Failed to delete assignment', error)
+  }
 }
 
 function addUserToAssignment() {
@@ -250,7 +294,7 @@ function addDocumentToAssignment() {
       max-width="680"
       scrollable
     >
-      <div v-if="activeAssignment" class="py-4 px-2">
+        <div v-if="activeAssignment" class="py-4 px-2">
         <div class="mb-2 text-body-2 text-medium-emphasis">ID: {{ activeAssignment.id }}</div>
         <div class="text-subtitle-1 font-weight-bold mb-1">{{ activeAssignment.title }}</div>
         <div class="text-body-2 mb-3">{{ t('Statut') }}: {{ activeAssignment.status }}</div>
@@ -293,7 +337,7 @@ function addDocumentToAssignment() {
       max-width="640"
       scrollable
     >
-      <div v-if="activeAssignment" class="pa-2">
+        <div v-if="activeAssignment" class="pa-2">
         <div class="text-body-2 text-medium-emphasis mb-3">
           {{ t('Associer un apprenant au devoir') }}: {{ activeAssignment.title }}
         </div>
@@ -316,7 +360,7 @@ function addDocumentToAssignment() {
       max-width="640"
       scrollable
     >
-      <div v-if="activeAssignment" class="pa-2">
+        <div v-if="activeAssignment" class="pa-2">
         <div class="text-body-2 text-medium-emphasis mb-3">
           {{ t('Attacher un document au devoir') }}: {{ activeAssignment.title }}
         </div>

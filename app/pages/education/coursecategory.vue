@@ -1,27 +1,41 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useI18n } from '#imports'
 import AppCard from '~/components/App/AppCard.vue'
 import AppModal from '~/components/App/AppModal.vue'
+import coursecategoryService from '~/services/coursecategory'
 
 const { t } = useI18n()
 
-const categories = ref([
-  {
-    id: 201,
-    name: 'Technologie',
-    code: 'TECH',
-    courses: 12,
-    visibility: 'Public',
-  },
-  {
-    id: 202,
-    name: 'Gestion',
-    code: 'BUS',
-    courses: 8,
-    visibility: 'Privé',
-  },
-])
+const categories = ref<any[]>([])
+const loadingCategories = ref(false)
+
+async function loadCategories() {
+  loadingCategories.value = true
+  try {
+    const response = await coursecategoryService.findAll()
+    const items = response?.['hydra:member'] ?? response?.items ?? response ?? []
+
+    categories.value = Array.isArray(items)
+      ? items.map((category) => ({
+          ...category,
+          id: category.id,
+          name: category.name || category.title || t('Sans nom'),
+          code: category.code || category.slug,
+          courses:
+            category.courses?.length ||
+            category.courseCount ||
+            category.course?.length,
+          visibility: category.visibility || category.access || t('Inconnu'),
+        }))
+      : []
+  } catch (error) {
+    console.warn('[CourseCategory] Failed to load categories', error)
+    categories.value = []
+  } finally {
+    loadingCategories.value = false
+  }
+}
 
 const learnerCategories = computed(() =>
   categories.value.map((category) => ({
@@ -52,6 +66,8 @@ const headers = [
   { title: t('Actions'), key: 'actions', sortable: false, align: 'end' },
 ]
 
+onMounted(loadCategories)
+
 function openCreateModal() {
   modalState.create = true
 }
@@ -76,34 +92,48 @@ function openAddDocument(item) {
   modalState.addDocument = true
 }
 
-function saveCreatedCategory() {
+async function saveCreatedCategory() {
   if (!newCategory.name || !newCategory.code) return
-  const nextId = Math.max(...categories.value.map((c) => c.id)) + 1
-  categories.value.push({
-    id: nextId,
-    name: newCategory.name,
-    code: newCategory.code,
-    courses: 0,
-    visibility: newCategory.visibility,
-  })
-  modalState.create = false
-  newCategory.name = ''
-  newCategory.code = ''
-  newCategory.description = ''
-  newCategory.visibility = 'Public'
-}
-
-function saveEditedCategory() {
-  if (!activeCategory.value) return
-  const index = categories.value.findIndex((item) => item.id === activeCategory.value?.id)
-  if (index >= 0) {
-    categories.value[index] = { ...activeCategory.value }
+  try {
+    await coursecategoryService.create({
+      name: newCategory.name,
+      code: newCategory.code,
+      description: newCategory.description,
+    })
+    await loadCategories()
+  } catch (error) {
+    console.warn('[CourseCategory] Failed to create category', error)
+  } finally {
+    modalState.create = false
+    newCategory.name = ''
+    newCategory.code = ''
+    newCategory.description = ''
+    newCategory.visibility = 'Public'
   }
-  modalState.edit = false
 }
 
-function removeCategory(item) {
-  categories.value = categories.value.filter((row) => row.id !== item.id)
+async function saveEditedCategory() {
+  if (!activeCategory.value) return
+  const iri = activeCategory.value['@id'] || `/api/course_categories/${activeCategory.value.id}`
+
+  try {
+    await coursecategoryService.update({ ...activeCategory.value, '@id': iri })
+    await loadCategories()
+  } catch (error) {
+    console.warn('[CourseCategory] Failed to update category', error)
+  } finally {
+    modalState.edit = false
+  }
+}
+
+async function removeCategory(item) {
+  const iri = item?.['@id'] || `/api/course_categories/${item?.id}`
+  try {
+    await coursecategoryService.del({ '@id': iri })
+    await loadCategories()
+  } catch (error) {
+    console.warn('[CourseCategory] Failed to delete category', error)
+  }
 }
 
 function addCourseToCategory() {
@@ -248,7 +278,7 @@ function addDocumentToCategory() {
       max-width="680"
       scrollable
     >
-      <div v-if="activeCategory" class="py-4 px-2">
+      <div class="py-4 px-2" v-if="activeCategory">
         <div class="mb-2 text-body-2 text-medium-emphasis">ID: {{ activeCategory.id }}</div>
         <div class="text-subtitle-1 font-weight-bold mb-1">{{ activeCategory.name }}</div>
         <div class="text-body-2 mb-3">{{ t('Code') }}: {{ activeCategory.code }}</div>
@@ -288,7 +318,7 @@ function addDocumentToCategory() {
       max-width="640"
       scrollable
     >
-      <div v-if="activeCategory" class="pa-2">
+      <div class="pa-2" v-if="activeCategory">
         <div class="text-body-2 text-medium-emphasis mb-3">
           {{ t('Ajouter un cours à la catégorie') }}: {{ activeCategory.name }}
         </div>
@@ -311,7 +341,7 @@ function addDocumentToCategory() {
       max-width="640"
       scrollable
     >
-      <div v-if="activeCategory" class="pa-2">
+      <div class="pa-2" v-if="activeCategory">
         <div class="text-body-2 text-medium-emphasis mb-3">
           {{ t('Attacher un document à la catégorie') }}: {{ activeCategory.name }}
         </div>
