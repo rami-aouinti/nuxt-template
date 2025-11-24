@@ -1,11 +1,15 @@
 <template>
   <div class="calendar">
     <div class="cal-head">
-      <button class="nav" :title="t('Previous')" @click="$emit('prev')">
+      <button
+        class="nav"
+        :title="t('blogPostsPage.previous')"
+        @click="$emit('prev')"
+      >
         <i class="mdi mdi-chevron-left" />
       </button>
       <div class="month">{{ monthLabel }} {{ year }}</div>
-      <button class="nav" :title="t('Next')" @click="$emit('next')">
+      <button class="nav" :title="t('blogPostsPage.next')" @click="$emit('next')">
         <i class="mdi mdi-chevron-right" />
       </button>
     </div>

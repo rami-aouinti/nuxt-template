@@ -4,7 +4,7 @@
     <aside class="space-y-4">
       <div class="rounded-lg border bg-white shadow-sm">
         <div class="p-3 border-b text-sm font-semibold">
-          {{ t('Calendar') }}
+          {{ t('blogPostsPage.calendar') }}
         </div>
         <div class="p-3">
           <CalendarMini
@@ -19,19 +19,21 @@
       </div>
 
       <div class="rounded-lg border bg-white shadow-sm">
-        <div class="p-3 border-b text-sm font-semibold">{{ t('Search') }}</div>
+        <div class="p-3 border-b text-sm font-semibold">
+          {{ t('blogPostsPage.search') }}
+        </div>
         <div class="p-3 space-y-2">
           <BaseInputText
             id="blog-q"
             v-model="q"
-            :placeholder="t('Search')"
+            :placeholder="t('blogPostsPage.search')"
             class="w-full"
             label=""
           />
           <BaseButton
             type="black"
             icon="search"
-            :label="t('Search')"
+            :label="t('blogPostsPage.search')"
             class="w-full"
             @click="reload()"
           />
@@ -40,7 +42,7 @@
 
       <div class="rounded-lg border bg-white shadow-sm">
         <div class="p-3 border-b text-sm font-semibold">
-          {{ t('My tasks') }}
+          {{ t('blogPostsPage.myTasks') }}
         </div>
         <div class="p-3">
           <MyTasksPanel :assignments="assignments" :tasks="tasks" />
@@ -54,14 +56,16 @@
         <template #start>
           <div class="flex items-center gap-3">
             <h3 class="font-semibold text-lg m-0">
-              {{ t(viewMode === 'posts' ? 'Posts' : 'Tasks') }}
+              {{
+                t(viewMode === 'posts' ? 'blogPostsPage.posts' : 'blogPostsPage.tasks')
+              }}
             </h3>
             <span class="text-gray-400">·</span>
             <span v-if="viewMode === 'posts'" class="text-sm text-gray-500">
-              {{ t('Browse and publish new posts') }}
+              {{ t('blogPostsPage.browseAndPublish') }}
             </span>
             <span v-else class="text-sm text-gray-500">
-              {{ t('Create and assign tasks') }}
+              {{ t('blogPostsPage.createAndAssignTasks') }}
             </span>
           </div>
         </template>
@@ -70,17 +74,17 @@
             <div class="segmented">
               <button
                 :class="['seg-btn', viewMode === 'posts' && 'active']"
-                :title="t('Posts')"
+                :title="t('blogPostsPage.posts')"
                 @click="setMode('posts')"
               >
-                {{ t('Posts') }}
+                {{ t('blogPostsPage.posts') }}
               </button>
               <button
                 :class="['seg-btn', viewMode === 'tasks' && 'active']"
-                :title="t('Tasks')"
+                :title="t('blogPostsPage.tasks')"
                 @click="setMode('tasks')"
               >
-                {{ t('Tasks') }}
+                {{ t('blogPostsPage.tasks') }}
               </button>
             </div>
 
@@ -105,14 +109,14 @@
               v-if="viewMode === 'posts'"
               type="primary"
               icon="plus"
-              :label="t('New Post')"
+              :label="t('blogPostsPage.newPost')"
               @click="openCreate"
             />
             <BaseButton
               v-else
               type="primary"
               icon="plus"
-              :label="t('New Task')"
+              :label="t('blogPostsPage.newTask')"
               @click="showCreateTask = true"
             />
           </div>
@@ -122,16 +126,16 @@
       <div class="rounded-lg border bg-white shadow-sm">
         <div class="p-3 border-b flex items-center justify-between">
           <div class="text-sm text-gray-600">
-            <template v-if="loading">{{ t('Loading...') }}</template>
+            <template v-if="loading">{{ t('blogPostsPage.loading') }}</template>
             <template v-else>
               <span v-if="viewMode === 'posts'">
-                {{ t('Showing {n} posts', { n: total }) }}
+                {{ t('blogPostsPage.showingPosts', { n: total }) }}
                 <span v-if="selectedDate" class="text-gray-400">
-                  — {{ t('Filtered by') }} {{ selectedDate }}
+                  — {{ t('blogPostsPage.filteredBy') }} {{ selectedDate }}
                 </span>
               </span>
               <span v-else>
-                {{ t('Showing {n} tasks', { n: tasksFiltered.length }) }}
+                {{ t('blogPostsPage.showingTasks', { n: tasksFiltered.length }) }}
               </span>
             </template>
           </div>
@@ -155,7 +159,7 @@
           </div>
 
           <div v-else-if="!rows.length" class="p-6 text-center text-gray-500">
-            {{ t('No posts yet.') }}
+            {{ t('blogPostsPage.noPostsYet') }}
           </div>
 
           <ul v-else class="divide-y">
@@ -175,7 +179,9 @@
                   <div
                     class="text-sm text-gray-500 mt-0.5 flex items-center gap-3"
                   >
-                    <span>{{ t('By') }} {{ row.author }} · {{ row.date }}</span>
+                    <span>
+                      {{ t('blogPostsPage.by') }} {{ row.author }} · {{ row.date }}
+                    </span>
                     <span v-if="row.tags?.length" class="text-xs text-gray-400">
                       — {{ row.tags.join(', ') }}
                     </span>
@@ -196,7 +202,7 @@
                   </div>
                 </div>
                 <div class="text-xs text-gray-500 text-right">
-                  <div>{{ t('{0} comments', [row.comments]) }}</div>
+                  <div>{{ t('blogPostsPage.comments', [row.comments]) }}</div>
                   <div class="mt-1 flex items-center gap-1 justify-end">
                     <i class="mdi mdi-star text-amber-500" />
                     <span>{{
@@ -210,20 +216,20 @@
 
           <div class="p-3 border-t flex items-center justify-between">
             <div class="text-xs text-gray-500">
-              {{ t('Page {p} of {pages}', { p: page, pages }) }}
+              {{ t('blogPostsPage.pageOf', { p: page, pages }) }}
             </div>
             <div class="flex gap-2">
               <BaseButton
                 type="black"
                 icon="arrow-left"
-                :label="t('Prev')"
+                :label="t('blogPostsPage.prev')"
                 :disabled="page <= 1"
                 @click="page--"
               />
               <BaseButton
                 type="black"
                 icon="arrow-right"
-                :label="t('Next')"
+                :label="t('blogPostsPage.next')"
                 :disabled="page >= pages"
                 @click="page++"
               />
@@ -237,7 +243,7 @@
             v-if="!tasksFiltered.length"
             class="p-6 text-center text-gray-500"
           >
-            {{ t('No tasks yet.') }}
+            {{ t('blogPostsPage.noTasksYet') }}
           </div>
           <div v-else class="p-4 space-y-3">
             <div
@@ -295,7 +301,7 @@ import { useSecurityStore } from '~/stores/securityStore'
 import { useCidReqStore } from '~/stores/cidReq'
 
 definePageMeta({
-  title: 'Blog Blog Posts',
+  title: 'blogPostsPage.title',
 })
 
 const { t } = useI18n()
@@ -472,6 +478,7 @@ function go(row) {
 
 // Create post dialog
 const showCreate = ref(false)
+const showCreateTask = ref(false)
 function openCreate() {
   showCreate.value = true
 }
