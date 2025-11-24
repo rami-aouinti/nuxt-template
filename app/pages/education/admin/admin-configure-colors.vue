@@ -82,7 +82,7 @@ import BrandingSection from '../../../components/education/admin/BrandingSection
 import { usePlatformConfig } from '~/stores/platformConfig'
 
 definePageMeta({
-  title: 'Admin Admin Configure Colors',
+  title: 'Configure Chamilo colors',
 })
 
 const { t } = useI18n()

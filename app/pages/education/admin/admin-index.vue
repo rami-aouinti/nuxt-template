@@ -263,7 +263,7 @@ import { useSecurityStore } from '~/stores/securityStore'
 import { useIndexBlocks } from '~/composables/education/admin/indexBlocks'
 
 definePageMeta({
-  title: 'Admin Admin Index',
+  title: 'navigation.educationAdministration',
 })
 
 const { t } = useI18n()

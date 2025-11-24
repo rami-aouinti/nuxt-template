@@ -155,7 +155,7 @@ import adminService from '../../../services/adminService'
 import { useNotification } from '~/composables/education/notification'
 
 definePageMeta({
-  title: 'Admin Third Party Manager',
+  title: 'Third parties (GDPR)',
 })
 
 const { t } = useI18n()

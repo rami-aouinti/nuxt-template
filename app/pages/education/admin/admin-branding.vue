@@ -272,7 +272,7 @@ import themeLogoService from '../../../services/themeLogoService'
 import { usePlatformConfig } from '~/stores/platformConfig'
 
 definePageMeta({
-  title: 'Admin Admin Branding',
+  title: 'Branding (logos)',
 })
 
 const { t } = useI18n()
