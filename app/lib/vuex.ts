@@ -1,5 +1,5 @@
 import type { App } from 'vue'
-import { computed, inject, reactive } from 'vue'
+import { inject, reactive } from 'vue'
 
 type GetterTree<S = any> = Record<
   string,

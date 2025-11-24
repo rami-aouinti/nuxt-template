@@ -1,10 +1,8 @@
 <template>
   <Toolbar :class="toolbarClass">
-    <template v-if="!hasStartSlot && !hasEndSlot" #start>
-      <slot />
-    </template>
-    <template v-if="hasStartSlot" #start>
-      <slot name="start" />
+    <template #start>
+      <slot v-if="hasStartSlot" name="start" />
+      <slot v-else-if="!hasEndSlot" />
     </template>
     <template v-if="hasEndSlot" #end>
       <slot name="end" />

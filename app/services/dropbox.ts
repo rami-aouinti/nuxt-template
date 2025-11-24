@@ -1,4 +1,3 @@
-// @ts-nocheck
 import axios from 'axios'
 import { useCidReq } from '../composables/cidReq'
 
@@ -16,7 +15,9 @@ function buildQuery(extra = {}, overrideCtx = {}) {
   if (typeof useCidReq === 'function') {
     try {
       fromComp = useCidReq() || {}
-    } catch {}
+    } catch (error) {
+      console.warn('Unable to resolve cid/sid/gid from composable', error)
+    }
   }
   const cid = overrideCtx.cid ?? qCid ?? fromComp.cid
   const sid = overrideCtx.sid ?? qSid ?? fromComp.sid ?? 0
@@ -154,7 +155,6 @@ export async function uploadFile({
   description,
   overwrite,
   recipients,
-  area,
   context,
   parentResourceNodeId,
 }) {

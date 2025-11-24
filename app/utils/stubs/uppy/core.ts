@@ -1,5 +1,5 @@
 export default class UppyStub {
-  constructor(_options: Record<string, unknown> = {}) {}
+  constructor(private options: Record<string, unknown> = {}) {}
   use() {
     return this
   }

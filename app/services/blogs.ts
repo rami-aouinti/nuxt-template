@@ -1,4 +1,3 @@
-// @ts-nocheck
 import axios from 'axios'
 import { ENTRYPOINT } from '~/config/entrypoint'
 
@@ -22,12 +21,16 @@ function courseContextParams() {
     }
     return null
   }
-  const cid =
-    pickNum('cid', 'cidReq') ?? Number(window?.chamilo?.course?.id) ?? null
-  const sid =
-    pickNum('sid', 'id_session') ?? Number(window?.chamilo?.session?.id) ?? null
-  const gid =
-    pickNum('gid', 'gidReq') ?? Number(window?.chamilo?.group?.id) ?? null
+  const courseIdRaw = Number(window?.chamilo?.course?.id)
+  const courseId = Number.isFinite(courseIdRaw) ? courseIdRaw : null
+  const sessionIdRaw = Number(window?.chamilo?.session?.id)
+  const sessionId = Number.isFinite(sessionIdRaw) ? sessionIdRaw : null
+  const groupIdRaw = Number(window?.chamilo?.group?.id)
+  const groupId = Number.isFinite(groupIdRaw) ? groupIdRaw : null
+
+  const cid = pickNum('cid', 'cidReq') ?? courseId
+  const sid = pickNum('sid', 'id_session') ?? sessionId
+  const gid = pickNum('gid', 'gidReq') ?? groupId
   const out = {}
   if (cid) out.cid = cid
   if (sid) out.sid = sid

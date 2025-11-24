@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useSecurityStore } from '~/stores/securityStore'
@@ -11,7 +10,8 @@ function isValidHttpUrl(string) {
   try {
     const url = new URL(string)
     return url.protocol === 'http:' || url.protocol === 'https:'
-  } catch (_) {
+  } catch (error) {
+    console.warn('[login] Invalid url', string, error)
     return false
   }
 }

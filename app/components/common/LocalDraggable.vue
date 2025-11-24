@@ -41,10 +41,9 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', value: unknown[]): void
+  (event: 'update:modelValue' | 'change', value: unknown[]): void
   (event: 'start', value: DragEvent): void
   (event: 'end', value: DragEvent | undefined): void
-  (event: 'change', value: unknown[]): void
 }>()
 
 const items = ref([...props.modelValue])

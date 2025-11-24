@@ -231,7 +231,9 @@ function resolveSettingsSectionLabel(nsRaw) {
     if (domText) {
       return domText
     }
-  } catch (e) {}
+  } catch {
+    // Ignore DOM lookup errors and fall back to translation paths below.
+  }
 
   // i18n candidates
   const candidates = [

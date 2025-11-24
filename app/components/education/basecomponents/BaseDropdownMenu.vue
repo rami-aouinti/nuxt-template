@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 const props = defineProps({
   dropdownId: { type: [String, Number], required: true },

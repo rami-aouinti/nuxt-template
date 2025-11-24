@@ -25,7 +25,7 @@ import Textarea from 'primevue/textarea'
 
 const { t } = useI18n()
 
-const props = defineProps({
+defineProps({
   id: {
     type: String,
     required: true,

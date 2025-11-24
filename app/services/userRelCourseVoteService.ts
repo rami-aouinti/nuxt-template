@@ -1,4 +1,3 @@
-// @ts-nocheck
 import baseService from './baseService'
 
 /**
@@ -90,6 +89,7 @@ export async function getUserVote({
 
     return null
   } catch (error) {
+    console.error('Error retrieving user vote:', error)
     return null
   }
 }
