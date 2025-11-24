@@ -175,6 +175,7 @@ import BaseButton from '../../../components/education/basecomponents/BaseButton.
 import BaseToolbar from '../../../components/education/basecomponents/BaseToolbar.vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 import BaseIcon from '../../../components/education/basecomponents/BaseIcon.vue'
 import LinkItem from '../../../components/education/links/LinkItem.vue'
@@ -184,11 +185,6 @@ import linkService from '../../../services/linkService'
 import BaseDialogDelete from '../../../components/education/basecomponents/BaseDialogDelete.vue'
 import Skeleton from 'primevue/skeleton'
 import {
-definePageMeta({
-  title: 'Links Links List',
-  middleware: 'auth',
-})
-
   isVisible,
   toggleVisibilityProperty,
   visibilityFromBoolean,
