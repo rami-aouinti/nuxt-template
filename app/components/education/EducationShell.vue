@@ -21,9 +21,14 @@ const quickAccessItems = computed(() =>
       <teleport to="#app-drawer">
         <AppNavigationList
           :items="navLinks"
-          :title="t('pages.education.navigation.title')"
-          :description="t('pages.education.navigation.description')"
         >
+          <template #title>
+            <span class="animated-badge__pulse" />
+            {{ t('pages.education.navigation.title') }}
+          </template>
+          <template #description>
+            {{ t('pages.education.navigation.description') }}
+          </template>
           <template #item="{ item }">
             <component
               :is="item.external ? 'a' : NuxtLink"
@@ -60,9 +65,14 @@ const quickAccessItems = computed(() =>
       <teleport to="#app-drawer-right">
         <AppNavigationList
           :items="quickAccessItems"
-          :title="t('pages.education.navigation.quickAccess.title')"
-          :description="t('pages.education.navigation.quickAccess.description')"
         >
+          <template #title>
+            <span class="animated-badge__pulse" />
+            {{ t('pages.education.navigation.quickAccess.title') }}
+          </template>
+          <template #description>
+            {{ t('pages.education.navigation.quickAccess.description') }}
+          </template>
           <template #item="{ item }">
             <component
               :is="item.external ? 'a' : NuxtLink"
