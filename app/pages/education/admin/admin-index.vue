@@ -251,16 +251,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import {ref} from 'vue'
 
 import Button from 'primevue/button'
 import Checkbox from 'primevue/checkbox'
 import Skeleton from 'primevue/skeleton'
 import AdminBlock from '../../../components/education/admin/AdminBlock'
 
-import { useSecurityStore } from '~/stores/securityStore'
+import {useSecurityStore} from '~/stores/securityStore'
 
-import { useIndexBlocks } from '~/composables/education/admin/indexBlocks'
+import {useIndexBlocks} from '~/composables/education/admin/indexBlocks'
 
 definePageMeta({
   title: 'navigation.educationAdministration',

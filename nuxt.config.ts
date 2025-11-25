@@ -77,6 +77,7 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/eslint',
     '@nuxt/test-utils/module',
+    '@nuxtjs/apollo'
   ],
   css: ['~/assets/styles/index.css'],
   experimental: { typedPages: true, inlineSSRStyles: true },
@@ -139,6 +140,18 @@ export default defineNuxtConfig({
         projectRoot,
         'app/utils/apolloErrorShim.js',
       ),
+    },
+  },
+  apollo: {
+    authType: 'Bearer',
+    authHeader: 'Authorization',
+    clients: {
+      default: {
+        httpEndpoint: `${educationApiBaseUrl}/api/graphql`,
+        httpLinkOptions: {
+          credentials: 'include',
+        },
+      },
     },
   },
   i18n: {

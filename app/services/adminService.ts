@@ -13,7 +13,19 @@ export default {
   findVersion: () => baseService.get('/main/inc/ajax/admin.ajax.php?a=version'),
   findSupport: () =>
     baseService.get('/main/inc/ajax/admin.ajax.php?a=get_support'),
-  findBlocks: async () => ({}),
+  findBlocks: async () => {
+    const buildHeaders = () => {
+      return {
+        accept: 'application/json',
+      }
+    }
+    const headers = buildHeaders()
+    const data = await $fetch<any>(`https://education.bro-world.org/admin/index`, {
+        method: 'GET',
+      headers,
+      })
+    return data || []
+  },
 
   fetchThirdParties: async () => {
     const data = await baseService.get('/api/third_parties')
