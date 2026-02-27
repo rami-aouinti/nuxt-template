@@ -36,7 +36,8 @@ interface SprintTaskRequest {
 
 interface SprintTaskGroup {
   task: SprintTask
-  taskRequests: SprintTaskRequest[]
+  taskRequests?: SprintTaskRequest[] | null
+  task_requests?: SprintTaskRequest[] | null
 }
 
 interface SprintGroupedResponse {
@@ -68,8 +69,10 @@ function normalizeStatus(status?: TaskStatus | null): 'todo' | 'in_progress' | '
 }
 
 function getEntryStatus(entry: SprintTaskGroup): 'todo' | 'in_progress' | 'done' {
-  if (entry.taskRequests.length > 0) {
-    const sortedRequests = [...entry.taskRequests].sort((left, right) => {
+  const taskRequests = getTaskRequests(entry)
+
+  if (taskRequests.length > 0) {
+    const sortedRequests = [...taskRequests].sort((left, right) => {
       const leftDate = left.time ? Date.parse(left.time) : 0
       const rightDate = right.time ? Date.parse(right.time) : 0
       return rightDate - leftDate
@@ -78,6 +81,11 @@ function getEntryStatus(entry: SprintTaskGroup): 'todo' | 'in_progress' | 'done'
   }
 
   return normalizeStatus(entry.task.status)
+}
+
+function getTaskRequests(entry: SprintTaskGroup): SprintTaskRequest[] {
+  const requests = entry.taskRequests ?? entry.task_requests ?? []
+  return Array.isArray(requests) ? requests : []
 }
 
 const columns = computed(() => {
@@ -155,6 +163,10 @@ function formatDate(value?: string) {
   if (!value) return '—'
   return new Date(value).toLocaleString()
 }
+
+function getRequestedStatus(request: SprintTaskRequest): string {
+  return request.requestedStatus || '—'
+}
 </script>
 
 <template>
@@ -208,11 +220,11 @@ function formatDate(value?: string) {
                 <v-divider class="my-2" />
 
                 <div class="text-caption font-weight-bold mb-1">
-                  {{ translate('crm.sprint.kanban.requests', 'Demandes') }} ({{ entry.taskRequests.length }})
+                  {{ translate('crm.sprint.kanban.requests', 'Demandes') }} ({{ getTaskRequests(entry).length }})
                 </div>
                 <v-list density="compact" lines="two" class="pa-0 bg-transparent">
-                  <v-list-item v-for="request in entry.taskRequests" :key="request.id" class="px-0">
-                    <v-list-item-title>{{ request.requestedStatus || '—' }}</v-list-item-title>
+                  <v-list-item v-for="request in getTaskRequests(entry)" :key="request.id" class="px-0">
+                    <v-list-item-title>{{ getRequestedStatus(request) }}</v-list-item-title>
                     <v-list-item-subtitle>
                       {{ formatDate(request.time) }} · {{ fullName(request.requester) }}
                     </v-list-item-subtitle>
