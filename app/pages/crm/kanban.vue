@@ -23,7 +23,6 @@ interface SprintTask {
   title: string
   description?: string
   status: TaskStatus
-  priority?: string
   dueDate?: string | null
   owner?: SprintUser | null
 }
@@ -31,7 +30,6 @@ interface SprintTask {
 interface SprintTaskRequest {
   id: string
   requestedStatus?: TaskStatus
-  note?: string | null
   time?: string
   requester?: SprintUser | null
 }
@@ -47,6 +45,7 @@ interface SprintGroupedResponse {
 }
 
 const route = useRoute()
+const router = useRouter()
 const translate = useTranslateWithFallback()
 const { headers: crmHeaders, withBase } = useCrmApi()
 
@@ -54,76 +53,62 @@ const loading = ref(false)
 const sprint = ref<SprintGroupedResponse | null>(null)
 
 const sprintId = computed(() => {
-  const param = route.params.id
-  if (Array.isArray(param)) return param[0] ?? ''
-  return typeof param === 'string' ? param : ''
+  const value = route.query.sprintId
+  if (Array.isArray(value)) return value[0] ?? ''
+  if (typeof value === 'string' && value.trim().length > 0) return value
+  return '73000000-0000-1000-8000-000000000001'
 })
 
+const sprintIdInput = ref(sprintId.value)
+
 function normalizeStatus(status?: TaskStatus | null): 'todo' | 'in_progress' | 'done' {
-  if (!status) return 'todo'
   if (status === 'done') return 'done'
   if (status === 'in_progress') return 'in_progress'
   return 'todo'
 }
 
-function getLastRequestStatus(entry: SprintTaskGroup): TaskStatus | undefined {
-  if (!entry.taskRequests.length) return undefined
-
-  const sorted = [...entry.taskRequests].sort((left, right) => {
-    const leftTime = left.time ? Date.parse(left.time) : 0
-    const rightTime = right.time ? Date.parse(right.time) : 0
-    return rightTime - leftTime
-  })
-
-  return sorted[0]?.requestedStatus
-}
-
 function getEntryStatus(entry: SprintTaskGroup): 'todo' | 'in_progress' | 'done' {
-  const requestedStatus = getLastRequestStatus(entry)
-  return normalizeStatus(requestedStatus ?? entry.task.status)
+  if (entry.taskRequests.length > 0) {
+    const sortedRequests = [...entry.taskRequests].sort((left, right) => {
+      const leftDate = left.time ? Date.parse(left.time) : 0
+      const rightDate = right.time ? Date.parse(right.time) : 0
+      return rightDate - leftDate
+    })
+    return normalizeStatus(sortedRequests[0]?.requestedStatus)
+  }
+
+  return normalizeStatus(entry.task.status)
 }
 
 const columns = computed(() => {
-  const items = sprint.value?.groupedByTask ?? []
-
-  const byStatus = {
-    todo: items.filter((item) => getEntryStatus(item) === 'todo'),
-    in_progress: items.filter((item) => getEntryStatus(item) === 'in_progress'),
-    done: items.filter((item) => getEntryStatus(item) === 'done'),
-  }
-
+  const entries = sprint.value?.groupedByTask ?? []
   return [
     {
       key: 'todo',
       title: translate('crm.sprint.kanban.todo', 'À faire'),
-      items: byStatus.todo,
+      items: entries.filter((entry) => getEntryStatus(entry) === 'todo'),
     },
     {
       key: 'in_progress',
       title: translate('crm.sprint.kanban.inProgress', 'En cours'),
-      items: byStatus.in_progress,
+      items: entries.filter((entry) => getEntryStatus(entry) === 'in_progress'),
     },
     {
       key: 'done',
       title: translate('crm.sprint.kanban.done', 'Terminé'),
-      items: byStatus.done,
+      items: entries.filter((entry) => getEntryStatus(entry) === 'done'),
     },
   ]
 })
 
 const pageTitle = computed(() => {
   const base = translate('crm.sprint.kanban.title', 'Kanban du sprint')
-  return sprintId.value ? `${base} • ${sprintId.value}` : base
+  return `${base} • ${sprintId.value}`
 })
 
 useHead(() => ({ title: pageTitle.value }))
 
 async function loadSprint() {
-  if (!sprintId.value) {
-    sprint.value = null
-    return
-  }
-
   loading.value = true
   try {
     sprint.value = await $fetch<SprintGroupedResponse>(
@@ -147,70 +132,77 @@ async function loadSprint() {
 
 await loadSprint()
 watch(sprintId, async () => {
+  sprintIdInput.value = sprintId.value
   await loadSprint()
 })
 
-function formatDate(value?: string | null) {
-  if (!value) return '—'
-  return new Date(value).toLocaleString()
+function applySprintId() {
+  router.replace({
+    query: {
+      ...route.query,
+      sprintId: sprintIdInput.value.trim() || undefined,
+    },
+  })
 }
 
 function fullName(user?: SprintUser | null) {
   if (!user) return '—'
-  const name = `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim()
-  return name || user.username
+  const value = `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim()
+  return value || user.username
+}
+
+function formatDate(value?: string) {
+  if (!value) return '—'
+  return new Date(value).toLocaleString()
 }
 </script>
 
 <template>
   <v-container class="py-6">
-    <div class="d-flex align-center justify-space-between mb-4">
+    <div class="d-flex align-center justify-space-between mb-4 gap-3 flex-wrap">
       <h1 class="text-h5 font-weight-bold">{{ pageTitle }}</h1>
-      <v-chip color="primary" variant="tonal">
-        {{ sprint?.groupedByTask.length ?? 0 }} tâches
-      </v-chip>
+      <v-chip color="primary" variant="tonal">{{ sprint?.groupedByTask.length ?? 0 }} tâches</v-chip>
     </div>
+
+    <v-card variant="outlined" class="mb-4">
+      <v-card-text class="d-flex ga-3 align-center flex-wrap">
+        <v-text-field
+          v-model="sprintIdInput"
+          hide-details
+          density="compact"
+          variant="outlined"
+          :label="translate('crm.sprint.kanban.sprintId', 'Sprint ID')"
+          class="flex-grow-1"
+        />
+        <v-btn color="primary" @click="applySprintId">
+          {{ translate('crm.sprint.kanban.load', 'Charger') }}
+        </v-btn>
+      </v-card-text>
+    </v-card>
 
     <v-progress-linear v-if="loading" indeterminate color="primary" class="mb-4" />
 
     <v-row>
       <v-col v-for="column in columns" :key="column.key" cols="12" md="4">
         <v-card variant="outlined" class="h-100">
-          <v-card-title class="d-flex align-center justify-space-between">
+          <v-card-title class="d-flex justify-space-between align-center">
             <span>{{ column.title }}</span>
-            <v-chip size="small" color="primary" variant="flat">
-              {{ column.items.length }}
-            </v-chip>
+            <v-chip size="small" color="primary" variant="flat">{{ column.items.length }}</v-chip>
           </v-card-title>
-
           <v-card-text class="d-flex flex-column ga-3">
             <v-alert v-if="!column.items.length" type="info" variant="tonal" density="comfortable">
               {{ translate('crm.sprint.kanban.empty', 'Aucune tâche dans cette colonne.') }}
             </v-alert>
 
-            <v-card
-              v-for="entry in column.items"
-              :key="entry.task.id"
-              variant="tonal"
-              color="surface"
-            >
+            <v-card v-for="entry in column.items" :key="entry.task.id" variant="tonal">
               <v-card-text>
-                <div class="text-subtitle-1 font-weight-medium">{{ entry.task.title }}</div>
-                <div class="text-body-2 text-medium-emphasis mb-2">
-                  {{ entry.task.description || '—' }}
+                <div class="font-weight-medium">{{ entry.task.title }}</div>
+                <div class="text-body-2 text-medium-emphasis mb-2">{{ entry.task.description || '—' }}</div>
+                <div class="text-caption">
+                  {{ translate('crm.sprint.kanban.owner', 'Owner') }}: {{ fullName(entry.task.owner) }}
                 </div>
-
-                <div class="text-caption mb-1">
-                  <strong>{{ translate('crm.sprint.kanban.owner', 'Owner') }}:</strong>
-                  {{ fullName(entry.task.owner) }}
-                </div>
-                <div class="text-caption mb-1">
-                  <strong>{{ translate('crm.sprint.kanban.due', 'Due') }}:</strong>
-                  {{ formatDate(entry.task.dueDate) }}
-                </div>
-                <div class="text-caption mb-1">
-                  <strong>{{ translate('crm.sprint.kanban.status', 'Status') }}:</strong>
-                  {{ getEntryStatus(entry) }}
+                <div class="text-caption mb-2">
+                  {{ translate('crm.sprint.kanban.due', 'Due') }}: {{ formatDate(entry.task.dueDate || undefined) }}
                 </div>
 
                 <v-divider class="my-2" />
@@ -219,14 +211,8 @@ function fullName(user?: SprintUser | null) {
                   {{ translate('crm.sprint.kanban.requests', 'Demandes') }} ({{ entry.taskRequests.length }})
                 </div>
                 <v-list density="compact" lines="two" class="pa-0 bg-transparent">
-                  <v-list-item
-                    v-for="request in entry.taskRequests"
-                    :key="request.id"
-                    class="px-0"
-                  >
-                    <v-list-item-title>
-                      {{ request.requestedStatus || '—' }}
-                    </v-list-item-title>
+                  <v-list-item v-for="request in entry.taskRequests" :key="request.id" class="px-0">
+                    <v-list-item-title>{{ request.requestedStatus || '—' }}</v-list-item-title>
                     <v-list-item-subtitle>
                       {{ formatDate(request.time) }} · {{ fullName(request.requester) }}
                     </v-list-item-subtitle>
