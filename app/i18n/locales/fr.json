@@ -464,7 +464,9 @@
     "crmLanguages": "CRM - Langues",
     "crmClient": "CRM - Client",
     "crmProject": "CRM - Projet",
-    "crmTask": "CRM - Tâche"
+    "crmTask": "CRM - Tâche",
+    "calendar": "Calendrier",
+    "quiz": "Quiz"
   },
   "messenger": {
     "title": "Messagerie",
