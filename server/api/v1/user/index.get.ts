@@ -1,9 +1,10 @@
 import type { User } from '~/types/user'
-import { broWorldRequest } from '~~/server/utils/broWorldApi'
-import { fetchAdminList } from '~~/server/utils/cache/admin'
+import { createAdminCrudHandlers } from '~~/server/utils/routeFactory'
 
-export default defineEventHandler(async (event) => {
-  return await fetchAdminList(event, 'user', () =>
-    broWorldRequest<User[]>(event, '/user'),
-  )
+const { getList } = createAdminCrudHandlers<User>({
+  resource: 'user',
+  path: '/user',
+  entityLabel: "de l'utilisateur",
 })
+
+export default getList

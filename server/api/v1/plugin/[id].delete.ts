@@ -1,21 +1,10 @@
-import { broWorldRequest } from '~~/server/utils/broWorldApi'
-import {
-  invalidateAdminCollection,
-  invalidateAdminDetail,
-} from '~~/server/utils/cache/admin'
-import { requireEntityId } from '~~/server/utils/crud'
+import { createAdminCrudHandlers } from '~~/server/utils/routeFactory'
 
-export default defineEventHandler(async (event) => {
-  const id = requireEntityId(event, 'du plugin')
-
-  const response = await broWorldRequest<unknown>(event, `/plugin/${id}`, {
-    method: 'DELETE',
-  })
-
-  await Promise.all([
-    invalidateAdminDetail('plugin', id),
-    invalidateAdminCollection('plugin'),
-  ])
-
-  return response
+const { del } = createAdminCrudHandlers({
+  resource: 'plugin',
+  path: '/plugin',
+  entityLabel: 'du plugin',
+  deleteReturnsResponse: true,
 })
+
+export default del

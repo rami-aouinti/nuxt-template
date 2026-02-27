@@ -1,12 +1,10 @@
 import type { AdminPlugin } from '~/types/plugin'
-import { broWorldRequest } from '~~/server/utils/broWorldApi'
-import { fetchAdminDetail } from '~~/server/utils/cache/admin'
-import { requireEntityId } from '~~/server/utils/crud'
+import { createAdminCrudHandlers } from '~~/server/utils/routeFactory'
 
-export default defineEventHandler(async (event) => {
-  const id = requireEntityId(event, 'du plugin')
-
-  return await fetchAdminDetail(event, 'plugin', id, () =>
-    broWorldRequest<AdminPlugin>(event, `/plugin/${id}`),
-  )
+const { getDetail } = createAdminCrudHandlers<AdminPlugin>({
+  resource: 'plugin',
+  path: '/plugin',
+  entityLabel: 'du plugin',
 })
+
+export default getDetail

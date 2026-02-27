@@ -1,18 +1,10 @@
 import type { Role, RolePayload } from '~/types/role'
-import { requestWithJsonBody } from '~~/server/utils/crud'
-import { invalidateAdminCollection } from '~~/server/utils/cache/admin'
+import { createAdminCrudHandlers } from '~~/server/utils/routeFactory'
 
-export default defineEventHandler(async (event) => {
-  const body = await readBody<RolePayload>(event)
-
-  const response = await requestWithJsonBody<Role, RolePayload>(
-    event,
-    '/role',
-    'POST',
-    body,
-  )
-
-  await invalidateAdminCollection('role')
-
-  return response
+const { post } = createAdminCrudHandlers<Role, RolePayload>({
+  resource: 'role',
+  path: '/role',
+  entityLabel: 'du rôle',
 })
+
+export default post
