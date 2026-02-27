@@ -2,7 +2,7 @@ import { getHeader, parseCookies, type H3Event } from 'h3'
 import type { FetchOptions } from 'ofetch'
 import { useRuntimeConfig } from '#imports'
 
-import { createBroWorldRequest } from './broWorldApi'
+import { createServiceClient } from './httpClient'
 import { fetchEcommerceResponse } from './cache/ecommerce'
 import { hydrateEcommercePayload } from './ecommerce/hydrator'
 
@@ -61,8 +61,11 @@ function resolveEcommerceBaseUrl(event: H3Event) {
 
 function createEcommerceRequest(event: H3Event, path: string) {
   const baseUrl = resolveEcommerceBaseUrl(event)
-  const request = createBroWorldRequest(baseUrl, ECOMMERCE_ERROR_MESSAGE, {
-    resolveToken: resolveEcommerceToken,
+  const request = createServiceClient({
+    baseUrl,
+    defaultErrorMessage: ECOMMERCE_ERROR_MESSAGE,
+    tokenResolver: resolveEcommerceToken,
+    fallbackAuthorizationHeader: event => getHeader(event, 'authorization'),
   })
   return { baseUrl, request }
 }
