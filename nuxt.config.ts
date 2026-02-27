@@ -1,4 +1,3 @@
-import { aliases } from 'vuetify/iconsets/mdi'
 import { defineNuxtConfig } from 'nuxt/config'
 import { createHash } from 'node:crypto'
 import { fileURLToPath } from 'node:url'
@@ -90,8 +89,35 @@ function toPositiveInteger(value: string | undefined, fallback: number) {
 }
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
+const ICON_BUNDLE_ALLOWLIST = [
+  'mdi:alert-circle',
+  'mdi:arrow-down',
+  'mdi:arrow-left',
+  'mdi:arrow-right',
+  'mdi:arrow-up',
+  'mdi:calendar',
+  'mdi:check',
+  'mdi:check-circle',
+  'mdi:chevron-down',
+  'mdi:chevron-left',
+  'mdi:chevron-right',
+  'mdi:chevron-up',
+  'mdi:circle',
+  'mdi:close',
+  'mdi:close-circle',
+  'mdi:cloud-upload',
+  'mdi:information',
+  'mdi:menu-down',
+  'mdi:minus',
+  'mdi:paperclip',
+  'mdi:pencil',
+  'mdi:plus',
+  'mdi:star',
+  'mdi:star-outline',
+]
+
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  devtools: { enabled: process.env.NODE_ENV === 'development' },
   modules: [
     '@pinia/nuxt',
     '@vueuse/nuxt',
@@ -130,9 +156,7 @@ export default defineNuxtConfig({
   },
   icon: {
     clientBundle: {
-      icons: Object.values(aliases).map((v) =>
-        (v as string).replace(/^mdi-/, 'mdi:'),
-      ),
+      icons: ICON_BUNDLE_ALLOWLIST,
       scan: true,
     },
     customCollections: [
@@ -154,7 +178,7 @@ export default defineNuxtConfig({
     },
     build: {
       sourcemap: false,
-      cssCodeSplit: false,
+      cssCodeSplit: process.env.NUXT_CSS_CODE_SPLIT !== 'false',
     },
   },
   nitro: {
