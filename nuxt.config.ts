@@ -3,6 +3,7 @@ import { defineNuxtConfig } from 'nuxt/config'
 import { createHash } from 'node:crypto'
 import { fileURLToPath } from 'node:url'
 import { resolve } from 'node:path'
+import { assertRequiredEnv } from './server/utils/assertRequiredEnv'
 
 const projectRoot = fileURLToPath(new URL('./', import.meta.url))
 const localeDirectory = resolve(projectRoot, 'app/i18n/locales')
@@ -20,18 +21,41 @@ const DEFAULT_MESSENGER_NOTIFICATION_TOPICS = [
 const DEFAULT_MESSENGER_SUBSCRIPTION_TOPIC =
   '/messages/{userId}/{conversationId}'
 
-const DEFAULT_ECOMMERCE_ADMIN_EMAIL = 'rami.aouinti@gmail.com'
-const DEFAULT_ECOMMERCE_ADMIN_PASSWORD = '19891989aA!'
-const DEFAULT_ECOMMERCE_SHOP_EMAIL = 'rami.aouiti@gmail.com'
-const DEFAULT_ECOMMERCE_SHOP_PASSWORD = '19891989aA!'
-const DEFAULT_EDUCATION_API_BASE_URL = 'https://education.bro-world.org'
-const DEFAULT_EDUCATION_API_USERNAME = 'admin'
-const DEFAULT_EDUCATION_API_PASSWORD = '19891989aA!'
+assertRequiredEnv([
+  {
+    key: 'EDUCATION_API_BASE_URL',
+    aliases: ['NUXT_EDUCATION_API_BASE_URL'],
+  },
+  {
+    key: 'EDUCATION_API_USERNAME',
+    aliases: ['NUXT_EDUCATION_API_USERNAME'],
+  },
+  {
+    key: 'EDUCATION_API_PASSWORD',
+    aliases: ['NUXT_EDUCATION_API_PASSWORD'],
+  },
+  {
+    key: 'ECOMMERCE_ADMIN_EMAIL',
+    aliases: ['NUXT_ECOMMERCE_ADMIN_EMAIL'],
+  },
+  {
+    key: 'ECOMMERCE_ADMIN_PASSWORD',
+    aliases: ['NUXT_ECOMMERCE_ADMIN_PASSWORD'],
+  },
+  {
+    key: 'ECOMMERCE_SHOP_EMAIL',
+    aliases: ['NUXT_ECOMMERCE_SHOP_EMAIL'],
+  },
+  {
+    key: 'ECOMMERCE_SHOP_PASSWORD',
+    aliases: ['NUXT_ECOMMERCE_SHOP_PASSWORD'],
+  },
+])
 
 const educationApiBaseUrl =
   process.env.NUXT_EDUCATION_API_BASE_URL ||
   process.env.EDUCATION_API_BASE_URL ||
-  DEFAULT_EDUCATION_API_BASE_URL
+  ''
 
 const mercureUrl = process.env.MERCURE_URL || DEFAULT_MERCURE_URL
 const mercurePublicUrl =
@@ -235,11 +259,11 @@ export default defineNuxtConfig({
       username:
         process.env.NUXT_EDUCATION_API_USERNAME ||
         process.env.EDUCATION_API_USERNAME ||
-        DEFAULT_EDUCATION_API_USERNAME,
+        '',
       password:
         process.env.NUXT_EDUCATION_API_PASSWORD ||
         process.env.EDUCATION_API_PASSWORD ||
-        DEFAULT_EDUCATION_API_PASSWORD,
+        '',
     },
     mercure: {
       url: mercureUrl,
@@ -252,21 +276,21 @@ export default defineNuxtConfig({
           email:
             process.env.NUXT_ECOMMERCE_ADMIN_EMAIL ||
             process.env.ECOMMERCE_ADMIN_EMAIL ||
-            DEFAULT_ECOMMERCE_ADMIN_EMAIL,
+            '',
           password:
             process.env.NUXT_ECOMMERCE_ADMIN_PASSWORD ||
             process.env.ECOMMERCE_ADMIN_PASSWORD ||
-            DEFAULT_ECOMMERCE_ADMIN_PASSWORD,
+            '',
         },
         shop: {
           email:
             process.env.NUXT_ECOMMERCE_SHOP_EMAIL ||
             process.env.ECOMMERCE_SHOP_EMAIL ||
-            DEFAULT_ECOMMERCE_SHOP_EMAIL,
+            '',
           password:
             process.env.NUXT_ECOMMERCE_SHOP_PASSWORD ||
             process.env.ECOMMERCE_SHOP_PASSWORD ||
-            DEFAULT_ECOMMERCE_SHOP_PASSWORD,
+            '',
         },
       },
     },
@@ -313,7 +337,7 @@ export default defineNuxtConfig({
     },
     public: {
       educationApiBaseUrl:
-        process.env.NUXT_PUBLIC_EDUCATION_API_BASE_URL || educationApiBaseUrl,
+        process.env.NUXT_PUBLIC_EDUCATION_API_BASE_URL || '',
       educationApiProxyBaseUrl:
         process.env.NUXT_PUBLIC_EDUCATION_API_PROXY_BASE_URL ||
         '/api/education',
