@@ -368,10 +368,28 @@ watch(loggedIn, (value) => {
             :to="localePath('profile')"
           />
           <v-list-item
+            v-if="loggedIn"
+            :title="t('navigation.crm')"
+            prepend-icon="mdi-domain"
+            :to="localePath('crm')"
+          />
+          <v-list-item
             v-if="hasAdminAccess"
             :title="t('navigation.admin')"
             prepend-icon="mdi-shield-account"
             :to="localePath('admin')"
+          />
+          <v-list-item
+            v-if="loggedIn"
+            :title="t('navigation.calendar')"
+            prepend-icon="mdi-calendar-month-outline"
+            :to="localePath('calendar')"
+          />
+          <v-list-item
+            v-if="loggedIn"
+            :title="t('navigation.quiz')"
+            prepend-icon="mdi-help-circle-outline"
+            :to="localePath('quiz')"
           />
           <v-list-item
             :title="t('navigation.help')"
